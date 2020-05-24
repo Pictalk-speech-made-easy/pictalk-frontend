@@ -5,22 +5,29 @@ export const state = () => ({
 })
 
 export const mutations = {
-    setPictoViews(state, pictos) {
-        state.pictoviews.push(pictos);
+    setPictoViews(state, pictoViews) {
+        state.pictoviews = pictoViews;
+    },
+    addPictoView(state, pictoView) {
+        state.pictoviews.push(pictoView);
     },
 
     addPicto(state, picto) {
-        const fatherPictoIndex = state.pictoviews.findIndex(view => view === editedPicto.fatherId);
+        const fatherPictoIndex = state.pictoviews.findIndex(view => view.id === editedPicto.fatherId);
         state.pictoviews[fatherPictoIndex].push(picto);
     },
     editPicto(state, editedPicto) {
-        const fatherPictoIndex = state.pictoviews.findIndex(view => view === editedPicto.fatherId);
+        const fatherPictoIndex = state.pictoviews.findIndex(view => view.id === editedPicto.fatherId);
         const pictoIndex = state.pictoviews[fatherPictoIndex].findIndex(picto => picto.id === editedPicto.id);
         state.pictoviews[fatherPictoIndex].pictos[pictoIndex] = picto;
     },
     removePicto(state, removedPicto) {
-        const fatherPictoIndex = state.pictoviews.findIndex(view => view === removedPicto.fatherId);
+        const fatherPictoIndex = state.pictoviews.findIndex(view => view.id === removedPicto.fatherId);
         const pictoIndex = state.pictoviews[fatherPictoIndex].findIndex(picto => picto.id === removedPicto.id);
+        const viewIndex = state.pictoviews.findIndex(view => view.id === removedPicto.id);
+        if (viewIndex) {
+            delete state.pictoviews[viewIndex];
+        }
         delete state.pictoviews[fatherPictoIndex].pictos[pictoIndex];
     },
 
@@ -45,4 +52,10 @@ export const mutations = {
     clearToken(state) {
         state.token = null;
     }
+}
+export const actions = {
+
+}
+export const getters = {
+
 }
