@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import navbar from "@/components/navbar";
-import footerPictalk from "@/components/footer";
+import navbar from "@/components/navigation/navbar";
+import footerPictalk from "@/components/navigation/footer";
 export default {
   components: {
     navbar,
