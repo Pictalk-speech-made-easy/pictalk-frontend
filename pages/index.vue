@@ -20,16 +20,15 @@
       <div class="notification is-size-5">
         Pic'Talk is all about
         <strong>pictograms</strong>
-        . It's purpose is to make the life of <strong>speech-disabled</strong> persons
+        . It's purpose is to make the life of
+        <strong>speech-disabled</strong> persons
         <strong>easier</strong>.
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {
-  layout: "home"
-};
+export default {};
 </script>
 <style scoped>
 .signup-button {
