@@ -21,8 +21,8 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons">
-          <b-button @click="signUp()" type="is-primary">Sign Up</b-button>
-          <b-button @click="signIn()" type="is-light">Log In</b-button>
+          <b-button @click="openSignInModal()" type="is-primary">Log In</b-button>
+          <b-button @click="openSignUpModal()" type="is-light">Sign Up</b-button>
         </div>
       </b-navbar-item>
     </template>
@@ -38,7 +38,7 @@ export default {
     signup
   },
   methods: {
-    signIn() {
+    openSignInModal() {
       this.$buefy.modal.open({
         parent: this,
         component: signin,
@@ -47,7 +47,7 @@ export default {
         trapFocus: true
       });
     },
-    signUp() {
+    openSignUpModal() {
       this.$buefy.modal.open({
         parent: this,
         component: signup,
