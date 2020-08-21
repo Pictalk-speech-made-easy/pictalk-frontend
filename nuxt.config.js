@@ -1,4 +1,3 @@
-
 export default {
   mode: 'universal',
   /*
@@ -35,6 +34,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    '@nuxtjs/fontawesome',
   ],
   /*
   ** Nuxt.js modules
@@ -42,7 +42,9 @@ export default {
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy',
+
   ],
+
   /*
   ** Build configuration
   */
