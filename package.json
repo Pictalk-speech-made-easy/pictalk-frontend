@@ -11,12 +11,12 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^5.13.1",
-    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/free-brands-svg-icons": "^5.14.0",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@nuxtjs/fontawesome": "^1.1.2",
     "core-js": "^2",
     "node-sass": "^4.14.1",
-    "nuxt": "^2.13.3",
+    "nuxt": "^2.14.4",
     "nuxt-buefy": "^0.3.31",
     "sass-loader": "^8.0.2"
   },
