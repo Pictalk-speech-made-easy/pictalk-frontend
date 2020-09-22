@@ -1,5 +1,8 @@
 <template>
-	<div class="notification columns is-multiline is-centered is-mobile">
+	<div class="notification columns is-multiline is-centered is-mobile is-size-5">
+		<div class="atTheLeft column">
+			<b-button type="is-danger" icon-right="delete" @click="eraseSpeech()" />
+		</div>
 		<div class="atTheLeft column">
 			<b-button type="is-danger" icon-right="backspace" @click="removeSpeech()" />
 		</div>
@@ -7,7 +10,7 @@
 			class="column is-centered"
 			v-for="picto in pictos"
 			:key="picto.speech"
-			:image="picto.image"
+			:path="picto.path"
 			:speech="picto.speech"
 		/>
 		<div class="atTheRight column">
@@ -38,6 +41,9 @@ export default {
 		},
 		removeSpeech() {
 			this.$store.commit("removeSpeech");
+		},
+		eraseSpeech() {
+			this.$store.commit("eraseSpeech");
 		}
 	},
 	computed: {},

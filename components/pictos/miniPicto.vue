@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<img :src="image" width="20%" class="centered" />
+		<img :src="path" width="20%" class="centered" />
 		<div class="is-size-6">{{speech}}</div>
 	</div>
 </template>
@@ -13,7 +13,7 @@ export default {
 			type: String,
 			required: true
 		},
-		image: {
+		path: {
 			type: String,
 			required: true
 		}
