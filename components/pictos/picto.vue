@@ -1,25 +1,27 @@
 <template>
 	<div>
-		<div v-if="picto.folder">
-			<nuxt-link :to="pictoLink">
+		<div class="containing">
+			<div v-if="picto.folder">
+				<nuxt-link :to="pictoLink">
+					<img
+						class="image"
+						:src="picto.path"
+						@click="addToSpeech(picto.path, picto.speech, picto.fatherId)"
+						width="60%"
+					/>
+				</nuxt-link>
+			</div>
+			<div v-else>
 				<img
+					class="image"
 					:src="picto.path"
-					@click="addToSpeech(picto.path,picto.speech)"
-					width="50%"
-					class="is-centered"
+					@click="addToSpeech(picto.path, picto.speech, picto.fatherId)"
+					width="60%"
 				/>
-			</nuxt-link>
+			</div>
 		</div>
-		<div v-else>
-			<img
-				:src="picto.path"
-				@click="addToSpeech(picto.path,picto.speech)"
-				width="50%"
-				class="is-centered"
-			/>
-		</div>
-		<div v-if="adminMode">
-			<div class="notification is-size-6">{{picto.meaning}}</div>
+		<div v-if="adminMode" class="adminMenu">
+			<div class="notification is-size-6">{{ picto.meaning }}</div>
 			<div>
 				<b-button type="is-danger" icon-right="delete" @click="deletePicto(picto)" />
 				<b-button type="is-info" @click="editPicto(picto)">Edit</b-button>
@@ -46,19 +48,20 @@ export default {
 		}
 	},
 	methods: {
-		addToSpeech(path, speech) {
+		addToSpeech(path, speech, fatherId) {
 			this.$store.commit("addSpeech", {
 				path: path,
-				speech: speech
+				speech: speech,
+				fatherId: fatherId
 			});
 		},
-		deletePicto() {
-			this.$store.commit("deletePicto", picto);
+		async deletePicto(picto) {
+			const res = await this.$store.dispatch("removePicto", picto);
 		},
 		editPicto(picto) {
 			this.$buefy.modal.open({
 				parent: this,
-				picto: picto,
+				props: { picto: { ...picto } },
 				component: editPicto,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
@@ -79,8 +82,21 @@ export default {
 };
 </script>
 <style scoped>
-.centered {
-	margin-left: auto;
-	margin-right: auto;
+.has-background {
+	background-color: rgb(168, 168, 168);
+}
+.containing {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.image {
+	margin: auto;
+}
+.adminMenu {
+	align-self: flex-end;
+	margin: 0 auto;
+	margin-top: auto;
 }
 </style>

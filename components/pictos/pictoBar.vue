@@ -40,10 +40,21 @@ export default {
 			}
 		},
 		removeSpeech() {
+			const pictoSpeech = this.$store.getters.getSpeech;
+			console.log(pictoSpeech);
+			if (pictoSpeech.length > 1) {
+				this.$router.push(
+					"/pictalk/" +
+						this.$route.params.collectionId +
+						"/" +
+						pictoSpeech[pictoSpeech.length - 1].fatherId
+				);
+			}
 			this.$store.commit("removeSpeech");
 		},
 		eraseSpeech() {
 			this.$store.commit("eraseSpeech");
+			this.$router.push("/pictalk");
 		}
 	},
 	computed: {},

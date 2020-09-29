@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div class="container is-widescreen">
     <pictoList :isPicto="isPicto" :pictos="loadedPictos" :adminMode="isAdmin" />
     <pictoBar :pictos="loadSpeech" />
   </div>
 </template>
 <script>
+import axios from "axios";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 export default {
@@ -24,65 +25,55 @@ export default {
       } else {
         return false;
       }
+    },
+    loadedPictos() {
+      const view = this.$store.getters.getPictoViews.filter(
+        view => view.id == this.$route.params.fatherId
+      );
+      if (view.length !== 0) {
+        return view[0].pictos;
+      } else {
+        return {};
+      }
     }
   },
-  async asyncData({ store, route }) {
-    const views = await store.getters.getPictoViews;
-    const fatherPictoIndex = views.findIndex(
-      view => view.id === route.params.fatherId
-    );
-    const view = views[fatherPictoIndex];
-    if (view) {
-      return { loadedPictos: view };
+  async asyncData(context) {
+    const views = await context.store.getters.getPictoViews;
+    if (views.length !== 0) {
+      const fatherPictoIndex = views.findIndex(
+        view => view.id === context.route.params.fatherId
+      );
+      const view = views[fatherPictoIndex];
+      if (view) {
+        return;
+      }
     } else {
-      const ret = "";
       try {
-        res = await axios.get(
+        console.log(context.route.params.collectionId);
+        var res = await axios.get(
           "http://localhost:3001/pictalk/picto/" +
-            route.params.fatherId +
+            context.route.params.fatherId +
             "/" +
-            route.params.collectionId
+            context.route.params.collectionId
         );
-        store.commit("addView", res.data);
-        ret = res.data;
+        res.data.map(picto => {
+          if (picto.path) {
+            picto.path = "http://localhost:3001/pictalk/" + picto.path;
+          }
+        });
+        context.store.commit("addView", {
+          id: parseInt(context.route.params.fatherId, 10),
+          pictos: res.data
+        });
+        return;
       } catch (error) {
         console.log("error ", error);
       }
-      return { loadedPictos: ret };
     }
   },
   data() {
     return {
-      isPicto: true,
-      loadedPictos: [
-        {
-          id: "1",
-          meaning: "Je",
-          folder: false,
-          speech: "Je",
-          fatherId: "0",
-          path:
-            "https://www.superprof.fr/ressources/wp-content/uploads/2006/10/pictogramme-travailler-dur-1200x998.png"
-        },
-        {
-          id: "2",
-          meaning: "suis",
-          folder: true,
-          speech: "suis",
-          fatherId: "0",
-          path:
-            "https://www.superprof.fr/ressources/wp-content/uploads/2006/10/pictogramme-travailler-dur-1200x998.png"
-        },
-        {
-          id: "3",
-          meaning: "fort",
-          folder: false,
-          speech: "fort",
-          fatherId: "0",
-          path:
-            "https://www.superprof.fr/ressources/wp-content/uploads/2006/10/pictogramme-travailler-dur-1200x998.png"
-        }
-      ]
+      isPicto: true
     };
   },
   methods: {
