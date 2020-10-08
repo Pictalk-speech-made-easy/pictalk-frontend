@@ -4,12 +4,11 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    baseURL: process.env.BASE_URL || "http://api.pictalk.xyz:3987"
+    baseURL: process.env.BASE_URL || "https://api.pictalk.xyz:3987"
   },
   head: {
     title: process.env.npm_package_name || "",
-    meta: [
-      {
+    meta: [{
         charset: "utf-8"
       },
       {
@@ -22,13 +21,11 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [
-      {
-        rel: "icon",
-        type: "image/x-icon",
-        href: "/favicon.ico"
-      }
-    ]
+    link: [{
+      rel: "icon",
+      type: "image/x-icon",
+      href: "/favicon.ico"
+    }]
   },
   /*
    ** Customize the progress-bar color
