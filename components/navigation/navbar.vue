@@ -6,23 +6,49 @@
 					<img
 						src="~/assets/logo.png"
 						alt="A web app that help speach-disabled people"
-						style="height: 100px;"
+						style="height: 100px"
 					/>
 				</b-navbar-item>
 			</template>
 			<template slot="start">
 				<b-navbar-item tag="nuxt-link" to="/">Home</b-navbar-item>
-				<b-navbar-item tag="nuxt-link" to="/getstarted">Get Started !</b-navbar-item>
+				<b-navbar-item tag="nuxt-link" to="/getstarted"
+					>Get Started !</b-navbar-item
+				>
 				<b-navbar-dropdown label="Info">
-					<b-navbar-item tag="nuxt-link" to="/about">About</b-navbar-item>
-					<b-navbar-item tag="nuxt-link" to="/contact">Contact</b-navbar-item>
+					<b-navbar-item tag="nuxt-link" to="/about"
+						>About</b-navbar-item
+					>
+					<b-navbar-item tag="nuxt-link" to="/contact"
+						>Contact</b-navbar-item
+					>
 				</b-navbar-dropdown>
 			</template>
 			<template slot="end">
 				<b-navbar-item tag="div">
 					<div class="buttons">
-						<b-button @click="openSignInModal()" type="is-primary">Log In</b-button>
-						<b-button @click="openSignUpModal()" type="is-light">Sign Up</b-button>
+						<b-button
+							v-if="!isLogged"
+							@click="openSignInModal()"
+							type="is-primary"
+							>Log In</b-button
+						>
+						<b-button v-else type="is-light" @click="onLogout"
+							>Log Out</b-button
+						>
+						<b-button
+							v-if="!isLogged"
+							@click="openSignUpModal()"
+							type="is-light"
+							>Sign Up</b-button
+						>
+						<b-button
+							v-else
+							tag="nuxt-link"
+							to="/pictalk"
+							type="primary"
+							>Go to Pic'Talk</b-button
+						>
 					</div>
 				</b-navbar-item>
 			</template>
@@ -36,14 +62,18 @@ import signup from "@/components/auth/signupModal";
 export default {
 	components: {
 		signin,
-		signup
+		signup,
 	},
-	data() {
-		return {
-			authenticated: true
-		};
+	computed: {
+		isLogged() {
+			return this.$store.getters.isAuthenticated;
+		},
 	},
 	methods: {
+		onLogout() {
+			this.$store.dispatch("logout");
+			this.$router.push("/");
+		},
 		async onSubmit() {
 			console.log(
 				"onSubmit launched with params: " +
@@ -54,7 +84,7 @@ export default {
 			try {
 				const res = await this.$store.dispatch("authenticateUser", {
 					username: this.email,
-					password: this.password
+					password: this.password,
 				});
 			} catch (error) {
 				console.log("error: ", error);
@@ -67,7 +97,7 @@ export default {
 				component: signin,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
-				trapFocus: true
+				trapFocus: true,
 			});
 		},
 		openSignUpModal() {
@@ -76,10 +106,10 @@ export default {
 				component: signup,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
-				trapFocus: true
+				trapFocus: true,
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 

@@ -8,7 +8,6 @@ export default function (context) {
         let token = localStorage.getItem('token');
 
         if (token) {
-          console.log("We change the headers to have Auth Bearer");
           config.headers['Authorization'] = `Bearer ${ token }`;
         }
 

@@ -5,10 +5,18 @@ export const state = () => ({
   pictoviews: [],
   collections: [],
   token: null,
-  pictoSpeech: []
+  pictoSpeech: [],
+  user: {}
 });
-const URL = "http://localhost:3001";
+const URL = "";
+
 export const mutations = {
+  resetStore(state) {
+    state.pictoviews = [];
+    state.collections = [],
+      state.pictoSpeech = [],
+      state.user = {}
+  },
   addSpeech(state, picto) {
     state.pictoSpeech.push(picto);
   },
@@ -25,29 +33,33 @@ export const mutations = {
 
   addPicto(state, picto) {
     const fatherPictoIndex = state.pictoviews.findIndex(
-      view => view.id === picto.fatherId
+      view => view.fatherId === picto.picto.fatherId &&
+      view.collectionId === picto.collectionId
     );
-    state.pictoviews[fatherPictoIndex].pictos.push(picto);
+    state.pictoviews[fatherPictoIndex].pictos.push(picto.picto);
   },
   editPicto(state, editedPicto) {
     const fatherPictoIndex = state.pictoviews.findIndex(
-      view => view.id === editedPicto.fatherId
+      view => view.fatherId === editedPicto.editedPicto.fatherId &&
+      view.collectionId === editedPicto.collectionId
     );
     const pictoIndex = state.pictoviews[fatherPictoIndex].pictos.findIndex(
-      picto => picto.id === editedPicto.id
+      picto => picto.id === editedPicto.editedPicto.id
     );
     state.pictoviews[fatherPictoIndex].pictos.splice(pictoIndex, 1);
-    state.pictoviews[fatherPictoIndex].pictos.push(editedPicto);
+    state.pictoviews[fatherPictoIndex].pictos.push(editedPicto.editedPicto);
   },
   removePicto(state, removedPicto) {
     const fatherPictoIndex = state.pictoviews.findIndex(
-      view => view.id === removedPicto.fatherId
+      view => view.fatherId === removedPicto.picto.fatherId &&
+      view.collectionId === removedPicto.collectionId
     );
     const pictoIndex = state.pictoviews[fatherPictoIndex].pictos.findIndex(
-      picto => picto.id === removedPicto.id
+      picto => picto.id === removedPicto.picto.id
     );
     const viewIndex = state.pictoviews.findIndex(
-      view => view.id === removedPicto.id
+      view => view.fatherId === removedPicto.picto.id &&
+      view.collectionId === removedPicto.collectionId
     );
     if (viewIndex !== -1) {
       state.pictoviews.splice(viewIndex, 1);
@@ -80,14 +92,23 @@ export const mutations = {
   },
   clearToken(state) {
     state.token = null;
-  }
+  },
+  editUser(state, user) {
+    state.user = user;
+  },
+
 };
 export const actions = {
 
-  addView(vuexContext, pictos, fatherId) {
+  addView(vuexContext, {
+    pictos,
+    fatherId,
+    collectionId
+  }) {
     const view = {
-      id: fatherId,
-      pictos: pictos
+      fatherId: fatherId,
+      pictos: pictos,
+      collectionId: collectionId
     };
     vuexContext.commit("addView", view);
   },
@@ -109,17 +130,21 @@ export const actions = {
         }
       });
     vuexContext.commit("addPicto", {
-      speech: picto.speech,
-      meaning: picto.meaning,
-      path: URL + "/pictalk/" + res.data.path,
-      folder: picto.folder,
-      fatherId: picto.fatherId,
-      id: res.data.id
+      picto: {
+        speech: picto.speech,
+        meaning: picto.meaning,
+        path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
+        folder: picto.folder,
+        fatherId: picto.fatherId,
+        id: res.data.id
+      },
+      collectionId: collectionId
     });
     if (picto.folder == 1) {
       vuexContext.commit("addView", {
-        id: picto.id,
-        pictos: []
+        fatherId: res.data.id,
+        pictos: [],
+        collectionId: collectionId
       });
     }
     return res;
@@ -145,18 +170,21 @@ export const actions = {
       });
 
     vuexContext.commit("editPicto", {
-      speech: editedPicto.speech,
-      meaning: editedPicto.meaning,
-      path: URL + "/pictalk/" + res.data.path,
-      folder: editedPicto.folder,
-      fatherId: editedPicto.fatherId,
-      id: editedPicto.id
+      editedPicto: {
+        speech: editedPicto.speech,
+        meaning: editedPicto.meaning,
+        path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
+        folder: editedPicto.folder,
+        fatherId: editedPicto.fatherId,
+        id: editedPicto.id
+      },
+      collectionId: collectionId
     });
     return res;
   },
   async removePicto(vuexContext, removedPicto) {
     const res = await axios
-      .delete(URL + "/pictalk/picto/" + removedPicto.id);
+      .delete(URL + "/pictalk/picto/" + removedPicto.picto.id);
     vuexContext.commit("removePicto", removedPicto);
     return res;
   },
@@ -177,8 +205,8 @@ export const actions = {
       });
     vuexContext.commit("addCollection", {
       name: collection.name,
-      color: collection.name,
-      path: URL + "/pictalk/" + res.data.path,
+      color: collection.color,
+      path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
       id: res.data.id
     });
     return res;
@@ -200,7 +228,7 @@ export const actions = {
     vuexContext.commit("editCollection", {
       name: editedCollection.name,
       color: editedCollection.color,
-      path: URL + "/pictalk/" + res.data.path,
+      path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
       id: editedCollection.id
     });
     return res;
@@ -211,9 +239,6 @@ export const actions = {
   },
   authenticateUser(vuexContext, authData) {
     let authUrl = URL + "/auth/signin";
-    if (!authData.isLogin) {
-      authUrl = URL + "/auth/signup";
-    }
     return axios
       .post(authUrl, {
         username: authData.username,
@@ -261,7 +286,6 @@ export const actions = {
       expirationDate = null;
     }
     if (new Date().getTime() > +expirationDate || !token) {
-      console.log("No token or invalid token");
       vuexContext.dispatch("logout");
       return;
     }
@@ -275,6 +299,18 @@ export const actions = {
       localStorage.removeItem("token");
       localStorage.removeItem("tokenExpiration");
     }
+    vuexContext.commit("resetStore");
+  },
+  async editUser(vuexContext, user) {
+    const res = await axios
+      .put(URL + "/auth/details/", user);
+    vuexContext.commit("editUser", {
+      name: user.name,
+      username: user.username,
+      surname: user.surname,
+      language: user.language
+    });
+    return res;
   }
 };
 export const getters = {
@@ -289,5 +325,8 @@ export const getters = {
   },
   getSpeech(state) {
     return state.pictoSpeech;
+  },
+  getUser(state) {
+    return state.user;
   }
 };

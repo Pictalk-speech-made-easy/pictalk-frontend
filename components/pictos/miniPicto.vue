@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<img :src="path" width="20%" class="centered" />
+	<div class="containing">
+		<img class="image" style :src="path" />
 		<div class="is-size-6">{{speech}}</div>
 	</div>
 </template>
@@ -21,8 +21,17 @@ export default {
 };
 </script>
 <style scoped>
-.centered {
-	margin-left: auto;
-	margin-right: auto;
+.containing {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.image {
+	margin-top: 0;
+	min-width: 0;
+	max-height: 4rem;
+	min-height: 0;
 }
 </style>

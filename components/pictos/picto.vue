@@ -1,25 +1,14 @@
 <template>
-	<div>
-		<div class="containing">
-			<div v-if="picto.folder">
-				<nuxt-link :to="pictoLink">
-					<img
-						class="image"
-						:src="picto.path"
-						@click="addToSpeech(picto.path, picto.speech, picto.fatherId)"
-						width="60%"
-					/>
-				</nuxt-link>
-			</div>
-			<div v-else>
-				<img
-					class="image"
-					:src="picto.path"
-					@click="addToSpeech(picto.path, picto.speech, picto.fatherId)"
-					width="60%"
-				/>
-			</div>
+	<div :class="[ !picto.folder ? 'containing' : 'containing has-background' ]">
+		<div>
+			<img
+				class="image"
+				:src="picto.path"
+				@click="addToSpeech(picto.path, picto.speech, picto.fatherId,picto.folder)"
+				width="60%"
+			/>
 		</div>
+
 		<div v-if="adminMode" class="adminMenu">
 			<div class="notification is-size-6">{{ picto.meaning }}</div>
 			<div>
@@ -48,15 +37,22 @@ export default {
 		}
 	},
 	methods: {
-		addToSpeech(path, speech, fatherId) {
+		addToSpeech(path, speech, fatherId, folder) {
 			this.$store.commit("addSpeech", {
 				path: path,
 				speech: speech,
 				fatherId: fatherId
 			});
+
+			if (folder == 1) {
+				this.$router.push(this.pictoLink);
+			}
 		},
 		async deletePicto(picto) {
-			const res = await this.$store.dispatch("removePicto", picto);
+			const res = await this.$store.dispatch("removePicto", {
+				picto: picto,
+				collectionId: parseInt(this.$route.params.collectionId, 10)
+			});
 		},
 		editPicto(picto) {
 			this.$buefy.modal.open({
@@ -83,7 +79,10 @@ export default {
 </script>
 <style scoped>
 .has-background {
-	background-color: rgb(168, 168, 168);
+	border-radius: 5px;
+	-webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+	-moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
+	box-shadow: 3px 3px 5px 6px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .containing {
 	display: flex;

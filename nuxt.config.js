@@ -1,11 +1,11 @@
-const axios = require("axios");
-
 export default {
   ssr: false,
   /*
    ** Headers of the page
    */
-
+  publicRuntimeConfig: {
+    baseURL: process.env.BASE_URL || 'http://localhost:3001'
+  },
   head: {
     title: process.env.npm_package_name || "",
     meta: [{
@@ -40,7 +40,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['@/plugins/baseURL'],
   /*
    ** Nuxt.js dev-modules
    */

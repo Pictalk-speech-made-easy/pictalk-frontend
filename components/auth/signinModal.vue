@@ -23,8 +23,6 @@
             required
           ></b-input>
         </b-field>
-
-        <b-checkbox>Remember me</b-checkbox>
       </section>
       <footer class="modal-card-foot">
         <b-button class="is-primary" @click="onSubmit">Login</b-button>
@@ -43,12 +41,6 @@ export default {
   },
   methods: {
     async onSubmit() {
-      console.log(
-        "onSubmit launched with params: " +
-          this.username +
-          " AND " +
-          this.password
-      );
       try {
         const res = await this.$store.dispatch("authenticateUser", {
           username: this.username,

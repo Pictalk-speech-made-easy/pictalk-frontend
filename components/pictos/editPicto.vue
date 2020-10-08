@@ -13,6 +13,13 @@
             required
           ></b-input>
         </b-field>
+        <b-button
+          type="is-success"
+          icon-right="message"
+          @click="pronounce(picto.speech)"
+        />
+        <br />
+        <br />
         <b-field label="Meaning">
           <b-input
             type="text"
@@ -22,32 +29,12 @@
           ></b-input>
         </b-field>
         <b-field label="Folder">
-          <b-checkbox v-model="picto.folder" true-value="1" false-value="0">
-            is it a folder ?
-          </b-checkbox>
-        </b-field>
-        <b-field label="Image">
-          <b-select
-            v-model="selectedOption"
-            placeholder="Select a image uploader option"
-            icon="image"
+          <b-checkbox v-model="picto.folder" true-value="1" false-value="0"
+            >is it a folder ?</b-checkbox
           >
-            <option value="1">URL of the image</option>
-            <option value="2">Upload the image</option>
-          </b-select>
         </b-field>
         <br />
-        <div v-if="selectedOption == 1">
-          <b-field>
-            <b-input
-              placeholder="URL of the pictogram"
-              type="link"
-              v-model="collectionURL"
-              icon="link"
-            ></b-input>
-          </b-field>
-        </div>
-        <div v-else>
+        <div>
           <section>
             <b-field class="file">
               <b-upload
@@ -124,6 +111,37 @@ export default {
     };
   },
   methods: {
+    delay(delayInms) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(2);
+        }, delayInms);
+      });
+    },
+    async pronounce(speech) {
+      if ("speechSynthesis" in window) {
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = speech;
+        let voices = window.speechSynthesis.getVoices();
+        let voice = voices.filter(voice => voice.lang == "fr-FR");
+        let increment;
+        while (voice.length == 0 && increment != 10) {
+          voices = window.speechSynthesis.getVoices();
+          voice = voices.filter(voice => voice.lang == "fr-FR");
+          increment++;
+          await this.delay(10);
+        }
+        voice = voices.filter(voice => voice.lang == "fr-FR");
+        if (voice.length !== 0) {
+          msg.voice = voice[0];
+        } else {
+          console.log("No voices found !");
+        }
+        window.speechSynthesis.speak(msg);
+      } else {
+        console.log("Your browser doesn't support speechSynthesis :(");
+      }
+    },
     async onSubmitted(speech, meaning, isfolder, file) {
       if (speech != "" && meaning != "") {
         try {
@@ -142,7 +160,7 @@ export default {
                 image: cfile,
                 fatherId: parseInt(this.$route.params.fatherId, 10)
               },
-              collectionId: this.$route.params.collectionId
+              collectionId: parseInt(this.$route.params.collectionId, 10)
             });
           } else {
             const res = await this.$store.dispatch("editPicto", {
@@ -153,7 +171,7 @@ export default {
                 folder: isfolder,
                 fatherId: parseInt(this.$route.params.fatherId, 10)
               },
-              collectionId: this.$route.params.collectionId
+              collectionId: parseInt(this.$route.params.collectionId, 10)
             });
           }
           this.$buefy.notification.open({

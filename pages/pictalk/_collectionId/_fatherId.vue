@@ -1,7 +1,20 @@
 <template>
-  <div class="container is-widescreen">
-    <pictoList :isPicto="isPicto" :pictos="loadedPictos" :adminMode="isAdmin" />
-    <pictoBar :pictos="loadSpeech" />
+  <div>
+    <div class="container is-widescreen">
+      <pictoList
+        :isPicto="isPicto"
+        :pictos="loadedPictos"
+        :adminMode="isAdmin"
+      />
+    </div>
+    <div class="contenant">
+      <pictoBar
+        class="pictobar"
+        :pictos="loadSpeech"
+        :collectionColor="collectionColor"
+      />
+    </div>
+    <div class="filler"></div>
   </div>
 </template>
 <script>
@@ -28,43 +41,87 @@ export default {
     },
     loadedPictos() {
       const view = this.$store.getters.getPictoViews.filter(
-        view => view.id == this.$route.params.fatherId
+        view =>
+          view.fatherId === parseInt(this.$route.params.fatherId, 10) &&
+          view.collectionId === parseInt(this.$route.params.collectionId, 10)
       );
       if (view.length !== 0) {
         return view[0].pictos;
       } else {
         return {};
       }
+    },
+    collectionColor() {
+      const collection = this.$store.getters.getCollections.filter(
+        collection =>
+          collection.id === parseInt(this.$route.params.collectionId, 10)
+      );
+      if (collection.length !== 0) {
+        if (collection[0].color) {
+          return collection[0].color;
+        } else {
+          return "#f5f5f5";
+        }
+      }
     }
   },
   async asyncData(context) {
     const views = await context.store.getters.getPictoViews;
-    if (views.length !== 0) {
+    let view;
+    if (views.length != 0) {
       const fatherPictoIndex = views.findIndex(
-        view => view.id === context.route.params.fatherId
+        view =>
+          view.fatherId === parseInt(context.route.params.fatherId, 10) &&
+          view.collectionId === parseInt(context.route.params.collectionId, 10)
       );
-      const view = views[fatherPictoIndex];
-      if (view) {
-        return;
-      }
-    } else {
+      view = views[fatherPictoIndex];
+    }
+    if (!view || views.length == 0) {
       try {
-        console.log(context.route.params.collectionId);
         var res = await axios.get(
-          "http://localhost:3001/pictalk/picto/" +
+          "/pictalk/picto/" +
             context.route.params.fatherId +
             "/" +
             context.route.params.collectionId
         );
         res.data.map(picto => {
           if (picto.path) {
-            picto.path = "http://localhost:3001/pictalk/" + picto.path;
+            picto.path = context.$config.baseURL + "/pictalk/" + picto.path;
           }
         });
-        context.store.commit("addView", {
-          id: parseInt(context.route.params.fatherId, 10),
-          pictos: res.data
+        await context.store.dispatch("addView", {
+          pictos: res.data,
+          fatherId: parseInt(context.route.params.fatherId, 10),
+          collectionId: parseInt(context.route.params.collectionId, 10)
         });
+      } catch (error) {
+        console.log("error ", error);
+      }
+    }
+    const user = context.store.getters.getUser;
+    if (user.name) {
+    } else {
+      try {
+        var res = await axios.get("/auth/details/");
+        context.store.commit("editUser", res.data);
+      } catch (error) {
+        console.log("error ", error);
+      }
+    }
+    const collections = await context.store.getters.getCollections;
+    if (collections.length !== 0) {
+      return;
+    } else {
+      try {
+        console.log(axios.defaults.baseURL);
+        const res = await axios.get("/pictalk/collection");
+        res.data.map(collection => {
+          if (collection.path) {
+            collection.path =
+              context.$config.baseURL + "/pictalk/" + collection.path;
+          }
+        });
+        context.store.commit("setCollections", res.data);
         return;
       } catch (error) {
         console.log("error ", error);
@@ -83,3 +140,19 @@ export default {
   }
 };
 </script>
+<style scoped>
+.pictobar {
+  bottom: 3%;
+  min-width: 35%;
+  max-width: 100%;
+  max-height: 20%;
+  position: fixed;
+}
+.filler {
+  padding-bottom: 35%;
+}
+.contenant {
+  display: flex;
+  justify-content: center;
+}
+</style>

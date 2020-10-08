@@ -5,52 +5,133 @@
         <p class="modal-card-title">Sign Up</p>
       </header>
       <section class="modal-card-body">
-        <b-steps v-model="activeStep" animated rounded has-navigation mobile-mode>
-          <b-step-item step="1" label="Basics" clickable>
-            <h1 class="title has-text-centered">Basic Information</h1>
-            <b-field label="Name">
-              <b-input maxlength="30" placeholder="Dupont"></b-input>
-            </b-field>
-            <b-field label="Surname">
-              <b-input placeholder="Pierre" maxlength="30"></b-input>
-            </b-field>
-            <b-field label="Email" type="is-danger" message="This email is invalid">
-              <b-input placeholder="exemple@mail.com" loading type="email" maxlength="30"></b-input>
-            </b-field>
-            <b-field
-              label="Password"
-              type="is-warning"
-              :message="['Password is too short', 'Password must have at least 8 characters']"
+        <b-field label="Email">
+          <b-input
+            type="email"
+            v-model="username"
+            placeholder="alex@pictalk.com"
+            required
+          ></b-input>
+        </b-field>
+
+        <b-field label="Password">
+          <b-input
+            type="password"
+            v-model="password"
+            password-reveal
+            placeholder="Ch00s3 a Stro!g Passw0Rd"
+            required
+          ></b-input>
+        </b-field>
+        <b-field label="Name">
+          <b-input
+            type="name"
+            v-model="name"
+            placeholder="Delafryte"
+            required
+          ></b-input>
+        </b-field>
+        <b-field label="Surname">
+          <b-input
+            type="name"
+            v-model="surname"
+            placeholder="Pablo"
+            required
+          ></b-input>
+        </b-field>
+        <b-field label="Language">
+          <b-select v-model="language" placeholder="Select language" rounded>
+            <option
+              v-for="language in languages"
+              :value="language.lang"
+              :key="language.voiceURI"
             >
-              <b-input placeholder="S0meExample!" type="password" maxlength="30"></b-input>
-            </b-field>
-          </b-step-item>
-
-          <b-step-item step="2" label="Additionnal" clickable>
-            <h1 class="title has-text-centered">Additionnal information</h1>
-            <b-message type="is-info">
-              This additionnal information is optionnal.
-              In case you want to benefit from additional features, please fill them.
-            </b-message>
-            <b-field label="Address">
-              <b-input placeholder="Potato St, NewYork"></b-input>
-            </b-field>
-            <b-field label="Date of Birth">
-              <b-datepicker inline></b-datepicker>
-            </b-field>
-            <b-field label="Gender">
-              <b-select placeholder="Select gender" rounded>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </b-select>
-            </b-field>
-          </b-step-item>
-
-          <b-step-item step="3" label="Finish" clickable>
-            <h1 class="title has-text-centered">Finish</h1>Lorem ipsum dolor sit amet.
-          </b-step-item>
-        </b-steps>
+              {{ language.lang }}
+            </option>
+          </b-select>
+        </b-field>
+        <br />
+        <b-message
+          title="Informations légales"
+          type="is-danger"
+          aria-close-label="Close message"
+        >
+          Les données personnelles ne seront en aucun cas utilisées à des fins
+          commerciales ni autres que dans le cadre de Pic'Talk. Les données,
+          tels que les pictos sont stockés dans un serveur sécurisé par
+          Pic'Talk. Pic'Talk est toutefois susceptible d'être hacké. De ce fait
+          nous vous conseillons de ne pas mettre de photos à caractère privé et
+          dont vous ne souhaiteriez en aucun cas les voir sur internet.
+          Concernant le nom, nom de famille, ils ne sont pour le moment peu
+          nécessités. Vous n'êtes pas obligés d'y rentrer votre identité. Ce
+          projet étant à ses débuts, je n'ai pas encore pu m'occuper des termes
+          légaux. Je souhaite donc me dédouaner de toute image présente sur mon
+          serveur Pic'Talk, je n'en ai pas le contrôle. Si vous vous inscrivez
+          ou fermez ce message, vous vous portez garant de tout le contenu
+          choquant ou images illégalement acquises présent sur votre compte
+          Pic'Talk.
+        </b-message>
       </section>
+      <footer class="modal-card-foot">
+        <b-button class="is-primary" @click="onSubmit">Sign Up</b-button>
+      </footer>
     </div>
   </form>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  data() {
+    return {
+      username: "",
+      password: "",
+      surname: "",
+      name: "",
+      language: "",
+      languages: []
+    };
+  },
+  async created() {
+    if ("speechSynthesis" in window) {
+      let voices = window.speechSynthesis.getVoices();
+      let increment = 0;
+      while (voices.length == 0 && increment != 10) {
+        voices = window.speechSynthesis.getVoices();
+        increment++;
+        await this.delay(10);
+      }
+      this.languages = voices;
+    }
+  },
+  methods: {
+    delay(delayInms) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(2);
+        }, delayInms);
+      });
+    },
+    async onSubmit() {
+      try {
+        await axios.post("/auth/signup", {
+          username: this.username,
+          password: this.password,
+          surname: this.surname,
+          language: this.language,
+          name: this.name
+        });
+        await this.$store.dispatch("authenticateUser", {
+          username: this.username,
+          password: this.password,
+          isLogin: true
+        });
+      } catch (error) {
+        console.log("error: ", error);
+      }
+      this.$parent.close();
+      this.$router.push("/pictalk");
+    }
+  }
+};
+</script>
