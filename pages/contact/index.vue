@@ -2,20 +2,21 @@
   <div>
     <section class="section">
       <div class="container">
-        <img class="bug" src="~assets/Contact.png" />
+        <img class="bug" src="~assets/Contact_compressed.png" />
         <br />
         <h1 class="title is-size-3-mobile">Contact us</h1>
         <h2 class="subtitle is-size-5-mobile has-text-justified">
           If you have any
-          <strong>suggestions</strong> for the website you can contact us at the following email adresse :
-          <strong>pictalk.mail@gmail.com</strong>. We are open to any of your ideas, so as to deliver the best experience :)
+          <strong>suggestions</strong> for the website you can contact us at the
+          following email adresse : <strong>pictalk.mail@gmail.com</strong>. We
+          are open to any of your ideas, so as to deliver the best experience :)
         </h2>
         <br />
         <h1 class="title is-size-3-mobile">Bug repport & Questions</h1>
         <h2 class="subtitle is-size-5-mobile has-text-justified">
           If you encounter any
-          <strong>bugs</strong> or have
-          <strong>propositions</strong> to improve the code of the website you can submit those to this github page :
+          <strong>bugs</strong> or have <strong>propositions</strong> to improve
+          the code of the website you can submit those to this github page :
           <strong>AlexgithubMDR_LOL</strong>
         </h2>
       </div>
