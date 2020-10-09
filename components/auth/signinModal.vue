@@ -47,11 +47,37 @@ export default {
           password: this.password,
           isLogin: true
         });
+        if (res.status == 201) {
+          this.$parent.close();
+          this.$router.push("/pictalk");
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Welcome !`,
+            position: "is-top-right",
+            type: "is-info",
+            hasIcon: true
+          });
+        } else {
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Invalid credentials`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "account"
+          });
+        }
       } catch (error) {
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: `A problem occurred`,
+          position: "is-top-right",
+          type: "is-danger",
+          hasIcon: true,
+          icon: "account"
+        });
         console.log("error: ", error);
       }
-      this.$parent.close();
-      this.$router.push("/pictalk");
     }
   }
 };

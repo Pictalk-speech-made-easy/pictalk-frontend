@@ -4,7 +4,7 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    baseURL: process.env.BASE_URL || "https://api.pictalk.xyz"
+    baseURL: process.env.BASE_URL || "http://localhost:3001"
   },
   head: {
     title: process.env.npm_package_name || "",

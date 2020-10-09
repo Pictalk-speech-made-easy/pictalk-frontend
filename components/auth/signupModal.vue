@@ -114,20 +114,46 @@ export default {
     },
     async onSubmit() {
       try {
-        await axios.post("/auth/signup", {
+        const res = await axios.post("/auth/signup", {
           username: this.username,
           password: this.password,
           surname: this.surname,
           language: this.language,
           name: this.name
         });
-        await this.$store.dispatch("authenticateUser", {
-          username: this.username,
-          password: this.password,
-          isLogin: true
-        });
+        if (res.status == 201) {
+          await this.$store.dispatch("authenticateUser", {
+            username: this.username,
+            password: this.password,
+            isLogin: true
+          });
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Your account has been successfully created !`,
+            position: "is-top-right",
+            type: "is-success",
+            hasIcon: true
+          });
+        } else {
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Some parameters are invalid...`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "account"
+          });
+        }
       } catch (error) {
         console.log("error: ", error);
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: `An error has occurred`,
+          position: "is-top-right",
+          type: "is-danger",
+          hasIcon: true,
+          icon: "account"
+        });
       }
       this.$parent.close();
       this.$router.push("/pictalk");
