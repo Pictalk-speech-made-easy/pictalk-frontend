@@ -237,23 +237,22 @@ export const actions = {
   removeCollection(vuexContext, removedCollectionId) {
     return axios.delete(URL + "/pictalk/collection/" + removedCollectionId).then(() => vuexContext.commit("removeCollection", removedCollectionId)).catch(e => console.log(e));
   },
-  authenticateUser(vuexContext, authData) {
+  async authenticateUser(vuexContext, authData) {
     let authUrl = URL + "/auth/signin";
-    return axios
+    const res = await axios
       .post(authUrl, {
         username: authData.username,
         password: authData.password
       })
-      .then(result => {
-        const expDate =
-          new Date().getTime() + Number.parseInt(result.data.expiresIn) * 1000;
-        vuexContext.commit("setToken", result.data.accessToken);
-        localStorage.setItem("token", result.data.accessToken);
-        localStorage.setItem("tokenExpiration", expDate);
-        Cookie.set("jwt", result.data.accessToken);
-        Cookie.set("expirationDate", expDate);
-      })
-      .catch(e => console.log(e));
+
+    const expDate =
+      new Date().getTime() + Number.parseInt(res.data.expiresIn) * 1000;
+    vuexContext.commit("setToken", res.data.accessToken);
+    localStorage.setItem("token", res.data.accessToken);
+    localStorage.setItem("tokenExpiration", expDate);
+    Cookie.set("jwt", res.data.accessToken);
+    Cookie.set("expirationDate", expDate);
+    return res;
   },
   initAuth(vuexContext, req) {
     let token;
