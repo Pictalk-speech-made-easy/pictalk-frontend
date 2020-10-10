@@ -1,7 +1,7 @@
 {
   "name": "Pictalk",
   "version": "1.0.0",
-  "description": "My incredible Nuxt.js project",
+  "description": "Pictalk is an app which aims to make speech easier for non-verbal people",
   "author": "Alexandros SIDIRAS GALANTE",
   "private": true,
   "scripts": {
