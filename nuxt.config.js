@@ -44,7 +44,7 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ["@nuxtjs/fontawesome"],
+  buildModules: ["@nuxtjs/fontawesome", "nuxt-purgecss"],
   /*
    ** Nuxt.js modules
    */
@@ -54,11 +54,19 @@ export default {
     "@nuxtjs/pwa"
   ],
 
-
   /*
    ** Build configuration
    */
   build: {
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        automaticNameDelimiter: '.',
+        name: 'test',
+        maxSize: 256000
+      }
+    },
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
     }
