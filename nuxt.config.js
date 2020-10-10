@@ -53,7 +53,15 @@ export default {
     "nuxt-buefy",
     "@nuxtjs/pwa"
   ],
-
+  pwa: {
+    manifest: {
+      name: 'Pictalk',
+      lang: 'en',
+      short_name: 'Pictalk',
+      description: 'Pictalk is an app which aims to make speech easier for non-verbal people',
+      theme_color: '#ff5758',
+    }
+  },
   /*
    ** Build configuration
    */
