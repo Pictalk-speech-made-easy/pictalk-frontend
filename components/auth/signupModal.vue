@@ -103,6 +103,7 @@ export default {
       }
       console.log("On created signup modal");
       this.languages = voices;
+      console.log(voices);
       console.log(this.languages);
     }
   },
