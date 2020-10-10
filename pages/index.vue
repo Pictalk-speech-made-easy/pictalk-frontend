@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container">
-			<figure class="image image is-2by1">
+			<figure class="image is-2by1">
 				<img
 					src="~assets/pictalk_compressed.png"
 					alt="A little boy talking thanks to Pictalk"

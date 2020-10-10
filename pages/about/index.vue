@@ -21,7 +21,17 @@
 					</h2>
 					<br />
 					<h1 class="title is-size-3-mobile">About Pic'Talk</h1>
-					<h2>Pic'Talk</h2>
+					<h2 class="subtitle is-size-5-mobile has-text-justified">
+						Pic'Talk isn't registered as a company as I don't make
+						money with it. As I'm am not a lawyer, I don't know what
+						I have to do in order to be 100% legal (I thing I am
+						though). That's why I covered my a** so hard on SignUp.
+						Pictalk is an I wanted to do since 2-3 years. During the
+						LockDown I took classes of web dev and 6 months later...
+						voila ! PicTalk is free and I don't want to make someone
+						pay for it's basic features... I ask you to use this app
+						in order to make good and not bad.
+					</h2>
 				</div>
 			</section>
 		</body>
