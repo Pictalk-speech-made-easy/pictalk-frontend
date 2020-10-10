@@ -22,7 +22,5 @@
     "nuxt-buefy": "^0.3.31",
     "sass-loader": "^8.0.2"
   },
-  "devDependencies": {
-    "nuxt-purgecss": "^1.0.0"
-  }
+  "devDependencies": {}
 }
