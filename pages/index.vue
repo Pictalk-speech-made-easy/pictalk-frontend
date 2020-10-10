@@ -44,6 +44,21 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
+					<h1 class="title">Main features</h1>
+					<p class="is-size-5 notification">
+            <ol type="1">
+              <li>All your images/pictogramms are saved in the <b>cloud</b> ! You can use this accross <b>multiple devices</b>.</li>
+						<li>You can use you <b>phone</b> and <b>install</b> the app !</li>
+            <li> It works with <b>all</b> platforms, as simple as that.</li>
+            <li>It can speak virtually <b>any language</b>. </li>
+            </ol>
+					</p>
+				</div>
+			</div>
+		</section>
+		<section class="hero">
+			<div class="hero-body">
+				<div class="container">
 					<h1 class="title">Open Source and Free</h1>
 					<p class="is-size-5 notification">
 						All of the code is open sourced on github. You can of
