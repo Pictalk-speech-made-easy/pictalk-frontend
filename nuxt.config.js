@@ -42,7 +42,7 @@ export default {
    */
   plugins: ["@/plugins/baseURL"],
   /*
-   ** Nuxt.js dev-modules
+   ** Nuxt.js dev-modules 
    */
   buildModules: ["@nuxtjs/fontawesome"],
   /*
