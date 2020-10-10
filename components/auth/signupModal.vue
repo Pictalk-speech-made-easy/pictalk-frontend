@@ -101,6 +101,8 @@ export default {
         increment++;
         await this.delay(10);
       }
+      console.log("On created signup modal");
+      console.log(this.languages);
       this.languages = voices;
     }
   },
