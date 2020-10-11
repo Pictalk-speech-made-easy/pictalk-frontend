@@ -3,7 +3,7 @@
 		<template slot="brand">
 			<b-navbar-item tag="nuxt-link" to="/">
 				<img
-					src="~/assets/logo.png"
+					src="~/assets/logo_compressed.png"
 					alt="A web app that help speach-disabled people"
 					style="height: 100px"
 				/>

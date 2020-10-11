@@ -42,7 +42,7 @@ export default {
    */
   plugins: ["@/plugins/baseURL"],
   /*
-   ** Nuxt.js dev-modules
+   ** Nuxt.js dev-modules 
    */
   buildModules: ["@nuxtjs/fontawesome"],
   /*
@@ -50,13 +50,23 @@ export default {
    */
   modules: [
     // Doc: https://buefy.github.io/#/documentation
-    "nuxt-buefy"
+    "nuxt-buefy",
+    "@nuxtjs/pwa"
   ],
-
+  pwa: {
+    manifest: {
+      name: 'Pictalk',
+      lang: 'en',
+      short_name: 'Pictalk',
+      description: 'Pictalk is an app which aims to make speech easier for non-verbal people',
+      theme_color: '#ff5758',
+    }
+  },
   /*
    ** Build configuration
    */
   build: {
+    analyze: true,
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
     }

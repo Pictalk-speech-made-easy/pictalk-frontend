@@ -4,7 +4,7 @@
 			<template slot="brand">
 				<b-navbar-item tag="nuxt-link" to="/">
 					<img
-						src="~/assets/logo.png"
+						src="~/assets/logo_compressed.png"
 						alt="A web app that help speach-disabled people"
 						style="height: 100px"
 					/>
@@ -74,23 +74,7 @@ export default {
 			this.$store.dispatch("logout");
 			this.$router.push("/");
 		},
-		async onSubmit() {
-			console.log(
-				"onSubmit launched with params: " +
-					this.email +
-					" AND " +
-					this.password
-			);
-			try {
-				const res = await this.$store.dispatch("authenticateUser", {
-					username: this.email,
-					password: this.password,
-				});
-			} catch (error) {
-				console.log("error: ", error);
-			}
-			console.log("END of submit");
-		},
+
 		openSignInModal() {
 			this.$buefy.modal.open({
 				parent: this,
@@ -112,7 +96,3 @@ export default {
 	},
 };
 </script>
-
-
-
-
