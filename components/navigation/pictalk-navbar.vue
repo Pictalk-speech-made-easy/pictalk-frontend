@@ -27,8 +27,8 @@
 				<div class="buttons">
 					<b-button
 						type="is-primary"
-						tag="nuxt-link"
-						to="/pictalk"
+						
+						@click="eraseSpeech()"
 						icon-right="home"
 					/>
 					<b-button
@@ -70,6 +70,10 @@ export default {
 		},
 	},
 	methods: {
+		eraseSpeech() {
+			this.$store.commit("eraseSpeech");
+			this.$router.push("/pictalk");
+		},
 		toAdmin() {
 			const a = Math.floor(Math.random() * 10 + 1);
 			const b = Math.floor(Math.random() * 10 + 1);

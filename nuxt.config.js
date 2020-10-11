@@ -7,7 +7,7 @@ export default {
     baseURL: process.env.BASE_URL || "http://localhost:3001"
   },
   head: {
-    title: process.env.npm_package_name || "",
+    title: process.env.npm_package_name || "Pictalk",
     meta: [{
         charset: "utf-8"
       },
@@ -18,7 +18,7 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
+        content: process.env.npm_package_description || "Pictalk is a web app that aims to facilitate non-verbal poeople's communications"
       }
     ],
     link: [{
@@ -36,7 +36,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["~assets/styles/main.scss"],
+  css: ["~assets/styles/main.scss","~assets/styles/main.css"],
   /*
    ** Plugins to load before mounting the App
    */
@@ -48,6 +48,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
+
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     "nuxt-buefy",
@@ -66,7 +67,6 @@ export default {
    ** Build configuration
    */
   build: {
-    analyze: true,
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
     }
