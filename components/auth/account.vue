@@ -1,21 +1,5 @@
 <template>
   <div>
-    <b-field label="Name">
-      <b-input
-        v-model="user.name"
-        maxlength="30"
-        type="name"
-        placeholder="Dupont"
-      ></b-input>
-    </b-field>
-    <b-field label="Surname">
-      <b-input
-        v-model="user.surname"
-        placeholder="Pierre"
-        type="name"
-        maxlength="30"
-      ></b-input>
-    </b-field>
     <b-field label="Email">
       <b-input
         v-model="user.username"
@@ -50,8 +34,6 @@
       type="is-info"
       @click="
         onSave(
-          user.name,
-          user.surname,
           user.username,
           user.password,
           user.language
@@ -95,13 +77,11 @@ export default {
         }, delayInms);
       });
     },
-    async onSave(name, surname, username, password, language) {
+    async onSave(username, password, language) {
       try {
         const res = await this.$store.dispatch("editUser", {
           username: username,
           password: password,
-          name: name,
-          surname: surname,
           password: password,
           language: language
         });

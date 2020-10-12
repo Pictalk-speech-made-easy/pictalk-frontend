@@ -27,7 +27,7 @@ export default {
   async asyncData(context) {
     const user = context.store.getters.getUser;
     const collections = context.store.getters.getCollections;
-    if (user.name) {
+    if (user.username) {
       return;
     } else {
       try {

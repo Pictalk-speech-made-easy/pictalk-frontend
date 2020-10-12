@@ -23,22 +23,6 @@
             required
           ></b-input>
         </b-field>
-        <b-field label="Name">
-          <b-input
-            type="name"
-            v-model="name"
-            placeholder="Delafryte"
-            required
-          ></b-input>
-        </b-field>
-        <b-field label="Surname">
-          <b-input
-            type="name"
-            v-model="surname"
-            placeholder="Pablo"
-            required
-          ></b-input>
-        </b-field>
         <b-field label="Language">
           <b-select v-model="language" placeholder="Select language" rounded>
             <option
@@ -86,8 +70,6 @@ export default {
     return {
       username: "",
       password: "",
-      surname: "",
-      name: "",
       language: "",
       languages: []
     };
@@ -101,10 +83,8 @@ export default {
         increment++;
         await this.delay(10);
       }
-      console.log("On created signup modal");
       this.languages = voices;
-      console.log(voices);
-      console.log(this.languages);
+      
     }
   },
   methods: {
@@ -120,9 +100,7 @@ export default {
         const res = await axios.post("/auth/signup", {
           username: this.username,
           password: this.password,
-          surname: this.surname,
           language: this.language,
-          name: this.name
         });
         if (res.status == 201) {
           await this.$store.dispatch("authenticateUser", {

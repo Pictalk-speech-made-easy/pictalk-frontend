@@ -303,10 +303,8 @@ export const actions = {
   async editUser(vuexContext, user) {
     const res = await axios
       .put(URL + "/auth/details/", user);
-    vuexContext.commit("editUser", {
-      name: user.name,
+    vuexContext.commit("editUser", {     
       username: user.username,
-      surname: user.surname,
       language: user.language
     });
     return res;

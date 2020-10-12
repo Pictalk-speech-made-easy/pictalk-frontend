@@ -99,7 +99,7 @@ export default {
       }
     }
     const user = context.store.getters.getUser;
-    if (user.name) {
+    if (user.username) {
     } else {
       try {
         var res = await axios.get("/auth/details/");
