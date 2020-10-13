@@ -9,7 +9,7 @@
 					<b-input
 						type="text"
 						v-model="pictoSpeech"
-						placeholder="The text to be displayed..."
+						placeholder="The text to be spoken"
 						required
 					></b-input>
 				</b-field>
@@ -24,7 +24,7 @@
 					<b-input
 						type="text"
 						v-model="pictoMeaning"
-						placeholder="The text to be spoken"
+						placeholder="The text to be displayed"
 						required
 					></b-input>
 				</b-field>
