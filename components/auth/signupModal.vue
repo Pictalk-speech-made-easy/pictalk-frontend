@@ -21,10 +21,13 @@
             password-reveal
             placeholder="Ch00s3 a Stro!g Passw0Rd"
             required
+            minlength="8"
+            pattern="((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+            validation-message="At least one captial letter, one digit and a password minimum length of 8"
           ></b-input>
         </b-field>
         <b-field label="Language">
-          <b-select v-model="language" placeholder="Select language" rounded>
+          <b-select v-model="language" placeholder="Select language" rounded required>
             <option
               v-for="language in languages"
               :value="language.lang"
@@ -35,29 +38,19 @@
           </b-select>
         </b-field>
         <br />
-        <b-message
-          title="Informations légales"
-          type="is-danger"
-          aria-close-label="Close message"
-        >
-          Les données personnelles ne seront en aucun cas utilisées à des fins
-          commerciales ni autres que dans le cadre de Pic'Talk. Les données,
-          tels que les pictos sont stockés dans un serveur sécurisé par
-          Pic'Talk. Pic'Talk est toutefois susceptible d'être hacké. De ce fait
-          nous vous conseillons de ne pas mettre de photos à caractère privé et
-          dont vous ne souhaiteriez en aucun cas les voir sur internet.
-          Concernant le nom, nom de famille, ils ne sont pour le moment peu
-          nécessités. Vous n'êtes pas obligés d'y rentrer votre identité. Ce
-          projet étant à ses débuts, je n'ai pas encore pu m'occuper des termes
-          légaux. Je souhaite donc me dédouaner de toute image présente sur mon
-          serveur Pic'Talk, je n'en ai pas le contrôle. Si vous vous inscrivez
-          ou fermez ce message, vous vous portez garant de tout le contenu
-          choquant ou images illégalement acquises présent sur votre compte
-          Pic'Talk.
-        </b-message>
+        <div class="field">
+            <b-checkbox v-model="majority" required>
+                I have the legal majority
+            </b-checkbox>
+        </div>
+        <div class="field">
+            <b-checkbox v-model="terms" required>
+                I have read and I accept the <nuxt-link to="/legal-infos/terms-of-use">terms of use</nuxt-link> and <nuxt-link to="/legal-infos/privacy-policy">the privacy policy</nuxt-link>.
+            </b-checkbox>
+        </div>
       </section>
       <footer class="modal-card-foot">
-        <b-button class="is-primary" @click="onSubmit">Sign Up</b-button>
+        <b-button class="is-primary" @click="onSubmit(username, password, language, major, terms)">Sign Up</b-button>
       </footer>
     </div>
   </form>
@@ -71,7 +64,9 @@ export default {
       username: "",
       password: "",
       language: "",
-      languages: []
+      languages: [],
+      terms: false,
+      majority: false
     };
   },
   async created() {
@@ -95,12 +90,23 @@ export default {
         }, delayInms);
       });
     },
-    async onSubmit() {
+    async onSubmit(username, password, language, major, terms) {
+      if(username == "" || password == "" || major == false || terms == false){
+        const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Please complete the form...`,
+            position: "is-top-right",
+            type: "is-info",
+            hasIcon: true,
+            icon: "account"
+          });
+        return;
+      }
       try {
         const res = await axios.post("/auth/signup", {
-          username: this.username,
-          password: this.password,
-          language: this.language,
+          username: username,
+          password: password,
+          language: language,
         });
         if (res.status == 201) {
           await this.$store.dispatch("authenticateUser", {
@@ -115,6 +121,8 @@ export default {
             type: "is-success",
             hasIcon: true
           });
+          this.$parent.close();
+      this.$router.push("/pictalk");
         } else {
           const notif = this.$buefy.notification.open({
             duration: 5000,
@@ -136,8 +144,7 @@ export default {
           icon: "account"
         });
       }
-      this.$parent.close();
-      this.$router.push("/pictalk");
+      
     }
   }
 };
