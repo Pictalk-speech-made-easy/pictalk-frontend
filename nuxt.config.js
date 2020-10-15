@@ -132,16 +132,14 @@ export default {
           en:
             "Google Analytics is a web analytics service offered by Google that tracks and reports website traffic."
         },
-        src: "https://www.googletagmanager.com/gtag/js?id=UA-138616567-1",
+        src: "https://www.googletagmanager.com/gtag/js?id=G-SRSYDD3GJD",
         async: true,
         cookies: ["_ga", "_gat_gtag_G_SRSYDD3GJD", "_gid"],
         accepted: () => {
           window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag("js", new Date());
-          gtag("config", "G-SRSYDD3GJD");
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-SRSYDD3GJD');
         }
       }
     ]
