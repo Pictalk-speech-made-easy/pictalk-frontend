@@ -4,6 +4,7 @@
     <hr />
     <nuxt />
     <hr />
+    <CookieControl/>
     <footerPictalk />
   </div>
 </template>
