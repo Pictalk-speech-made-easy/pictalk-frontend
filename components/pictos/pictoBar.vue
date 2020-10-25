@@ -53,7 +53,6 @@ export default {
 					(acc, curr_val) => acc + " " + curr_val.speech,
 					""
 				);
-				console.log(this.getUserLang);
 				msg.text = message;
 				let voices = window.speechSynthesis.getVoices();
 				let voice = voices.filter(
@@ -68,9 +67,16 @@ export default {
 					);
 					
 					increment++;
-					await this.delay(10);
+					await this.delay(20);
 				}
 				console.log(voices);
+				await this.delay(10);
+				voices = window.speechSynthesis.getVoices();
+				voice = voices.filter(
+					(voice) => voice.lang == this.getUserLang
+				);
+				console.log(voices);
+
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
 					console.log(msg.voice);
