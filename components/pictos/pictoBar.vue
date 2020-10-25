@@ -70,7 +70,7 @@ export default {
 					await this.delay(20);
 				}
 				console.log(voices);
-				await this.delay(10);
+				await this.delay(200);
 				voices = window.speechSynthesis.getVoices();
 				voice = voices.filter(
 					(voice) => voice.lang == this.getUserLang
