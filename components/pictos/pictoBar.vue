@@ -32,12 +32,40 @@
 				@click="pictalk(pictos)"
 			/>
 		</div>
+		<div class="column is-narrow">
+			<b-button
+				type="is-info"
+				icon-right="content-copy"
+				@click="copyPictosToClipboard(pictos)"
+			/>
+		</div>
 	</div>
 </template>
 <script>
 import miniPicto from "@/components/pictos/miniPicto";
 export default {
 	methods: {
+		async copyPictosToClipboard(pictos) {
+			const message = pictos.reduce((acc, curr_val) => acc + ' ' + curr_val.speech,'');
+      		try {
+				await this.$copyText(message);
+				const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Successfully copied the pictos !`,
+            position: "is-top-right",
+            type: "is-success",
+            hasIcon: true
+          });
+      		} catch (e) {
+        		const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Could not copy the pictos`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true
+          });
+      		}
+    	},
 		delay(delayInms) {
 			return new Promise((resolve) => {
 				setTimeout(() => {

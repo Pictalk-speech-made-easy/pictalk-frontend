@@ -53,6 +53,7 @@ export default {
     // Doc: https://buefy.github.io/#/documentation
     "nuxt-buefy",
     "@nuxtjs/pwa",
+    "nuxt-clipboard2",
     [
       "nuxt-cookie-control",
       {
