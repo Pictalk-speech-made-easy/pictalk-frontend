@@ -50,7 +50,7 @@ export default {
         const res = await axios.post("/auth/changePassword/"+this.$route.params.token, {
           password: password,
         });
-        if (res.status == 200) {
+        if (res.status == 201) {
           const notif = this.$buefy.notification.open({
             duration: 5000,
             message: `Password change demand successfully transmitted`,

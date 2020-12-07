@@ -1,3 +1,4 @@
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 export default {
   ssr: false,
   /*
@@ -94,12 +95,15 @@ export default {
       short_name: 'Pictalk',
       description: 'Pictalk is an app which aims to make speech easier for non-verbal people',
       theme_color: '#ff5758',
-    }
+    },
+    icon: true
   },
   /*
    ** Build configuration
    */
   build: {
+    minimize: true,
+    minimizer: [new OptimizeCssAssetsPlugin],
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
     }

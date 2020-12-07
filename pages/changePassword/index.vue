@@ -46,7 +46,7 @@ export default {
         const res = await axios.post("/auth/resetPassword", {
           username: username,
         });
-        if (res.status == 200) {
+        if (res.status == 201) {
           const notif = this.$buefy.notification.open({
             duration: 5000,
             message: `Password reset demand successfully transmitted, please look at your emails.`,
