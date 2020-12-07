@@ -98,7 +98,6 @@ export default {
       theme_color: '#ff5758',
       display: 'standalone',
       useWebmanifestExtension: 'false'
-      
     },
     icon: true
   },
