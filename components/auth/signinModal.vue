@@ -23,9 +23,11 @@
             required
           ></b-input>
         </b-field>
+        <a href="/changePassword">Forgot password ?</a>
       </section>
       <footer class="modal-card-foot">
         <b-button class="is-primary" @click="onSubmit">Login</b-button>
+        
       </footer>
     </div>
   </form>

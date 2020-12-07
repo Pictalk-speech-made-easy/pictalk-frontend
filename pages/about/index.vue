@@ -13,24 +13,19 @@
 					<br />
 					<h1 class="title is-size-3-mobile">About Me</h1>
 					<h2 class="subtitle is-size-5-mobile has-text-justified">
-						Hello, I'm Alex. My little brother has the down syndrom
-						and isn't able to talk. Hopefully I study
-						Telecommunications and Computer Science at INSA Lyon !
-						And with some motivation and lots of time I built
-						PicTalk.
+						Hi, I'm Alex. I'm a 23 years old student at INSA Lyon. I study Telecommunications and Computer Science. I'm a fan of self-hosting, development and networking ! I also like making 
+<a href="https://www.youtube.com/watch?v=aL7PR2x7UlU">videos</a>
+ or taking photos during my vacations. 
 					</h2>
 					<br />
 					<h1 class="title is-size-3-mobile">About Pic'Talk</h1>
 					<h2 class="subtitle is-size-5-mobile has-text-justified">
 						Pic'Talk isn't registered as a company as I don't make
-						money with it. As I'm am not a lawyer, I don't know what
-						I have to do in order to be 100% legal (I thing I am
-						though). That's why I covered my a** so hard on SignUp.
-						Pictalk is an I wanted to do since 2-3 years. During the
-						LockDown I took classes of web dev and 6 months later...
-						voila ! PicTalk is free and I don't want to make someone
-						pay for it's basic features... I ask you to use this app
-						in order to make good and not bad.
+						money with it. 
+						Pic'Talk is an app I wanted to do since 2-3 years. During the
+						global lockdown, I took classes of web dev and 6 months later...
+						voila ! Speaking is a fundamental right, that's why I want Pic'Talk to be accessible to everybody... All I ask you is to use this app
+						in order to make good and not bad. If you have ideas or needs just send me an email at : <a href="mailto:alexandros.sidiras@laposte.net">alexandros.sidiras@laposte.net</a>.
 					</h2>
 				</div>
 			</section>

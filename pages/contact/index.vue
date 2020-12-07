@@ -9,7 +9,7 @@
 					If you have any
 					<strong>suggestions</strong> for the website you can contact
 					me at the following email adress :
-					<strong>alexandros.sidiras@laposte.net</strong>. We are open
+					<a href="mailto:alexandros.sidiras@laposte.net">alexandros.sidiras@laposte.net</a>. We are open
 					to any of your ideas, so as to deliver the best experience
 					:)
 				</h2>
@@ -20,9 +20,7 @@
 					<strong>bugs</strong> or have
 					<strong>propositions</strong> to improve the code of the
 					website you can submit those to this github page :
-					<strong
-						>https://github.com/Ratatinator97/PicTalk-Frontend</strong
-					>
+					<a href="https://github.com/Ratatinator97/PicTalk-Frontend">https://github.com/Ratatinator97/PicTalk-Frontend</a>
 				</h2>
 			</div>
 		</section>

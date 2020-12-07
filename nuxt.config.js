@@ -44,14 +44,16 @@ export default {
   /*
    ** Nuxt.js dev-modules 
    */
-  buildModules: ["@nuxtjs/fontawesome"],
+  buildModules: [
+  //  "@nuxtjs/fontawesome"
+  ],
   /*
    ** Nuxt.js modules
    */
 
   modules: [
     // Doc: https://buefy.github.io/#/documentation
-    "nuxt-buefy",
+    ["nuxt-buefy",{materialDesignIcons: true}],
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     [
