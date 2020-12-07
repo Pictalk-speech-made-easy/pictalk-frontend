@@ -1,4 +1,3 @@
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 export default {
   ssr: false,
   /*
@@ -103,7 +102,6 @@ export default {
    */
   build: {
     minimize: true,
-    minimizer: [new OptimizeCssAssetsPlugin],
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
     }
