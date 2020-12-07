@@ -21,6 +21,7 @@ export default {
         content: process.env.npm_package_description || "Pictalk is a web app that aims to facilitate non-verbal poeople's communications"
       }
     ],
+    noscript: [{ innerHTML: 'This website requires JavaScript.' }],
     link: [{
       rel: "icon",
       type: "image/x-icon",
@@ -96,7 +97,7 @@ export default {
       description: 'Pictalk is an app which aims to make speech easier for non-verbal people',
       theme_color: '#ff5758',
       display: 'standalone',
-      useWebmanifestExtension: 'true'
+      useWebmanifestExtension: 'false'
       
     },
     icon: true

@@ -5,7 +5,7 @@
 				<img
 					src="~/assets/logo_compressed.png"
 					alt="A web app that help speach-disabled people"
-					style="height: 100px"
+					height="100px"
 				/>
 			</b-navbar-item>
 		</template>
