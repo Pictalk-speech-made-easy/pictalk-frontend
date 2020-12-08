@@ -1,5 +1,5 @@
 [{
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target" : { "namespace": "android_app", "package_name": "xyz.pictalk.www.twa",
-                 "sha256_cert_fingerprints": ["66:1E:94:44:35:AE:7D:02:13:35:0E:E7:19:12:14:41:39:E9:F4:8D:EB:4B:0B:CB:FE:13:57:5B:24:D1:23:CC"] }
+                 "sha256_cert_fingerprints": ["66:1E:94:44:35:AE:7D:02:13:35:0E:E7:19:12:14:41:39:E9:F4:8D:EB:4B:0B:CB:FE:13:57:5B:24:D1:23:CC","66:1E:94:44:35:AE:7D:02:13:35:0E:E7:19:12:14:41:39:E9:F4:8D:EB:4B:0B:CB:FE:13:57:5B:24:D1:23:CC"] }
   }]
