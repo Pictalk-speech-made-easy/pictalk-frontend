@@ -25,7 +25,7 @@ export default {
     link: [{
       rel: "icon",
       type: "image/x-icon",
-      href: "/favicon.ico"
+      href: "favicon.ico?v2"
     }]
   },
   /*
@@ -99,7 +99,6 @@ export default {
       display: 'standalone',
       useWebmanifestExtension: 'false'
     },
-    icon: true
   },
   
   /*
