@@ -22,8 +22,13 @@
       }
     },
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "src": "/favicon.ico"
+    },
+    {
+      "src": "/icon.png"
+    },
+    {
+      "src": "/.well-known/assetlinks.json"
     }
   ]
 }
