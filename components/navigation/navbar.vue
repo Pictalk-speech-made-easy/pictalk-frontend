@@ -47,7 +47,7 @@
 							tag="nuxt-link"
 							to="/pictalk"
 							type="primary"
-							>Go to Pic'Talk</b-button
+							>Go to PicTalk</b-button
 						>
 					</div>
 				</b-navbar-item>

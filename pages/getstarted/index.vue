@@ -3,7 +3,7 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">Get Started to Pic'Talk now !</h1>
+					<h1 class="title">Get Started to PicTalk now !</h1>
 				</div>
 			</div>
 		</section>
@@ -16,7 +16,7 @@
 			<section class="section">
 				<h2 class="subtitle">
 					In this short tutorial, we will go through the major
-					features of Pic'Talk. Let's <b>go : </b>
+					features of PicTalk. Let's <b>go : </b>
 				</h2>
 				<img
 					src="~assets/1-min.png"
@@ -26,7 +26,7 @@
 				<h2 class="subtitle">
 					This is the first screen you will see. At the top you can
 					see the navbar. The navbar helps you navigate through the
-					app. As you can see, there are many tabs in Pic'Talk. To
+					app. As you can see, there are many tabs in PicTalk. To
 					begin your journey, please click on the "Sign Up" button.
 				</h2>
 				<img
@@ -60,7 +60,7 @@
 				<h2 class="subtitle">
 					Congrats ! You can now see the PicTalk homescreen. As you
 					can see it is full blank for now. But don't panic, we will
-					fill it up soon ! But before diving deep into Pic'Talk,
+					fill it up soon ! But before diving deep into PicTalk,
 					let's see how it works.
 				</h2>
 				<img

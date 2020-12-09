@@ -11,7 +11,7 @@
 					@click="openSignUpModal()"
 					type="is-primary"
 					inverted
-					>Sign Up to Pic'Talk !</b-button
+					>Sign Up to PicTalk !</b-button
 				>
 			</figure>
 		</div>
@@ -23,9 +23,9 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">What is Pic'Talk ? Why ?</h1>
+					<h1 class="title">What is PicTalk ? Why ?</h1>
 					<p class="is-size-5 notification">
-						Pic'Talk is all about
+						PicTalk is all about
 						<strong>pictograms</strong>
 						. It's purpose is to make the life of
 						<strong>speech-disabled</strong> persons
@@ -70,18 +70,18 @@
 						All of the code is <b>open sourced</b> on 
 						<a href="https://github.com/Ratatinator97/PicTalk-Frontend">github</a>. You can of
 						course contribute or share ideas and upgrades. Because I
-						want everyone to have a chance to communicate, Pic'Talk
+						want everyone to have a chance to communicate, PicTalk
 						will ever be free and I will try to let users as much
 						storage as they need. Unfortunately, I'm not rich. I
-						can't spend too much money on servers if Pic'Talk
-						userbase grows. That's why, if you are using Pic'Talk
+						can't spend too much money on servers if PicTalk
+						userbase grows. That's why, if you are using PicTalk
 						and like it, feel free to donate. <b>Thanks</b>
 					</p>
 				</div>
 			</div>
 		</section>
 		<div class="container">
-				<b-button class="is-primary" tag="nuxt-link" to="/getstarted">Get started with Pic'Talk !</b-button>
+				<b-button class="is-primary" tag="nuxt-link" to="/getstarted">Get started with PicTalk !</b-button>
 		</div>
 	</div>
 </template>
