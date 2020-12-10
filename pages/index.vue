@@ -1,11 +1,7 @@
 <template>
 	<div>
 		<div class="container">
-			<figure class="image is-2by1">
-				<img
-					src="~assets/pictalk_compressed.png"
-					alt="A little boy talking thanks to Pictalk"
-				/>
+				<b-image lazy alt="A little boy talking thanks to Pictalk" :src="require('@/assets/pictalk_compressed.png')" ratio="2by1" placeholder="icon.png"></b-image>
 				<b-button
 					class="signup-button"
 					@click="openSignUpModal()"
@@ -13,7 +9,6 @@
 					inverted
 					>Sign Up to PicTalk !</b-button
 				>
-			</figure>
 		</div>
 		<br />
 		<div class="container">
