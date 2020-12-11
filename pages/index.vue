@@ -1,7 +1,10 @@
 <template>
 	<div>
 		<div class="container">
-				<b-image lazy alt="A little boy talking thanks to Pictalk" :src="require('@/assets/pictalk_compressed.png')" ratio="2by1" placeholder="icon.png"></b-image>
+				<b-image lazy alt="A little boy talking thanks to Pictalk" 
+				:srcset="require('@/assets/pictalk_compressed.png').srcSet"
+				ratio="2by1"
+				></b-image>
 				<b-button
 					class="signup-button"
 					@click="openSignUpModal()"

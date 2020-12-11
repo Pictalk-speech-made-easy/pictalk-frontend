@@ -9,17 +9,17 @@ export default {
   head: {
     title: process.env.npm_package_name || "Pictalk",
     meta: [{
-        charset: "utf-8"
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1"
-      },
-      {
-        hid: "description",
-        name: "description",
-        content: process.env.npm_package_description || "Pictalk is a web app that aims to facilitate non-verbal poeople's communications"
-      }
+      charset: "utf-8"
+    },
+    {
+      name: "viewport",
+      content: "width=device-width, initial-scale=1"
+    },
+    {
+      hid: "description",
+      name: "description",
+      content: process.env.npm_package_description || "Pictalk is a web app that aims to facilitate non-verbal poeople's communications"
+    }
     ],
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
     link: [{
@@ -37,7 +37,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["~assets/styles/main.scss","~assets/styles/main.css"],
+  css: ["~assets/styles/main.scss", "~assets/styles/main.css"],
   /*
    ** Plugins to load before mounting the App
    */
@@ -46,17 +46,26 @@ export default {
    ** Nuxt.js dev-modules 
    */
   buildModules: [
-  //  "@nuxtjs/fontawesome"
+    //  "@nuxtjs/fontawesome"
   ],
   /*
    ** Nuxt.js modules
    */
-
+  responsiveLoader: {
+    name: 'img/[hash:7]-[width].[ext]',
+    min: 240, // minimum image width generated
+    max: 1080, // maximum image width generated
+    steps: 4, // five sizes per image will be generated
+    placeholder: false, // no placeholder will be generated
+    quality: 1, // images are compressed with medium quality
+    //format: 'png',
+  },
   modules: [
     // Doc: https://buefy.github.io/#/documentation
-    ["nuxt-buefy",{materialDesignIcons: true}],
+    ["nuxt-buefy", { materialDesignIcons: true }],
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
+    'nuxt-responsive-loader',
     [
       "nuxt-cookie-control",
       {
@@ -100,7 +109,7 @@ export default {
       useWebmanifestExtension: 'false'
     },
   },
-  
+
   /*
    ** Build configuration
    */
@@ -129,7 +138,7 @@ export default {
         description: {
           en: "Used to automatically sign you in. With these, you don't neeed to login every minute."
         },
-        cookies: ["expirationDate","jwt"]
+        cookies: ["expirationDate", "jwt"]
       }
     ],
     optional: [
@@ -146,12 +155,12 @@ export default {
         cookies: ["_ga", "_gat_gtag_G_SRSYDD3GJD", "_gid"],
         accepted: () => {
           window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
+          function gtag() { dataLayer.push(arguments); }
           gtag('js', new Date());
           gtag('config', 'G-SRSYDD3GJD');
         }
       }
     ]
   },
-  
+
 };
