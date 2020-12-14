@@ -14,12 +14,17 @@
       <template slot="start">
         <b-navbar-item tag="nuxt-link" to="/">Home</b-navbar-item>
         <b-navbar-item tag="nuxt-link" to="/getstarted"
-          >Get Started !</b-navbar-item
+          >Get Started ! 🚀</b-navbar-item
         >
         <b-navbar-dropdown label="Info">
           <b-navbar-item tag="nuxt-link" to="/about">About</b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/contact">Contact</b-navbar-item>
+          <b-navbar-item tag="nuxt-link" to="/contact"
+            >Contact 👨‍💻</b-navbar-item
+          >
         </b-navbar-dropdown>
+        <b-navbar-item tag="nuxt-link" to="/news"
+          >News & Updates &#127881;</b-navbar-item
+        >
       </template>
       <template slot="end">
         <b-navbar-item tag="div">

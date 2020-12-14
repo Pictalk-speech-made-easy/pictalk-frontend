@@ -250,7 +250,8 @@
         <h2 class="subtitle">
           Here is the pictogramm I'm making inside of the "I want" folder. As we
           will not put any word after "some french fries" our pictogramm isn't a
-          folder.
+          folder. <b>Edit:</b> Now the pictobar will show the MEANING of
+          pictogramms and not the SPEECH as shown in the picture.
         </h2>
         <b-image
           lazy
