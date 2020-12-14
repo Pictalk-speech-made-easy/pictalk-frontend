@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/pwa": "^3.3.2",
+    "@nuxtjs/sitemap": "^2.4.0",
     "axios": "^0.20.0",
     "core-js": "^3.8.1",
     "jpegasus": "^1.16.1",

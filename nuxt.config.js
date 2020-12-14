@@ -60,12 +60,22 @@ export default {
     quality: 1, // images are compressed with medium quality
     //format: 'png',
   },
+  sitemap: {
+    hostname: 'https://www.pictalk.xyz',
+    gzip: true,
+    exclude: [
+      '/changePassword',
+      '/account',
+      '/resetPassword/**'
+    ],
+  },
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     ["nuxt-buefy", { materialDesignIcons: true }],
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
+    '@nuxtjs/sitemap',
     [
       "nuxt-cookie-control",
       {
