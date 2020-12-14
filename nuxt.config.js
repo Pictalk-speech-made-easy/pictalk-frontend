@@ -62,7 +62,7 @@ export default {
   },
   sitemap: {
     hostname: 'https://www.pictalk.xyz',
-    gzip: true,
+    gzip: false,
     exclude: [
       '/changePassword',
       '/account',
