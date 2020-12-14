@@ -1,101 +1,111 @@
 <template>
-	<div :class="[ !picto.folder ? 'containing' : 'containing has-background' ]">
-		<div>
-			<img
-				class="image"
-				:src="picto.path"
-				@click="addToSpeech(picto.path, picto.speech, picto.fatherId,picto.folder)"
-				width="60%"
-			/>
-		</div>
+  <div :class="[!picto.folder ? 'containing' : 'containing has-background']">
+    <div>
+      <img
+        class="image"
+        :src="picto.path"
+        @click="
+          addToSpeech(
+            picto.path,
+            picto.speech,
+            picto.fatherId,
+            picto.folder,
+            picto.meaning
+          )
+        "
+        width="60%"
+      />
+    </div>
 
-		<div v-if="adminMode" class="adminMenu">
-			<div class="notification is-size-6">{{ picto.meaning }}</div>
-			<div>
-				<b-button type="is-danger" icon-right="delete" @click="deletePicto(picto)" />
-				<b-button type="is-info" @click="editPicto(picto)">Edit</b-button>
-			</div>
-		</div>
-	</div>
+    <div v-if="adminMode" class="adminMenu">
+      <div class="notification is-size-6">{{ picto.meaning }}</div>
+      <div>
+        <b-button
+          type="is-danger"
+          icon-right="delete"
+          @click="deletePicto(picto)"
+        />
+        <b-button type="is-info" @click="editPicto(picto)">Edit</b-button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import editPicto from "@/components/pictos/editPicto";
 export default {
-	name: "picto",
-	components: {
-		editPicto
-	},
-	props: {
-		adminMode: {
-			type: Boolean,
-			required: true
-		},
-		picto: {
-			type: Object,
-			required: true
-		}
-	},
-	methods: {
-		addToSpeech(path, speech, fatherId, folder) {
-			this.$store.commit("addSpeech", {
-				path: path,
-				speech: speech,
-				fatherId: fatherId
-			});
+  name: "picto",
+  components: {
+    editPicto
+  },
+  props: {
+    adminMode: {
+      type: Boolean,
+      required: true
+    },
+    picto: {
+      type: Object,
+      required: true
+    }
+  },
+  methods: {
+    addToSpeech(path, speech, fatherId, folder, meaning) {
+      this.$store.commit("addSpeech", {
+        path: path,
+        speech: speech,
+        fatherId: fatherId,
+        meaning: meaning
+      });
 
-			if (folder == 1) {
-				this.$router.push(this.pictoLink);
-			}
-		},
-		async deletePicto(picto) {
-			const res = await this.$store.dispatch("removePicto", {
-				picto: picto,
-				collectionId: parseInt(this.$route.params.collectionId, 10)
-			});
-		},
-		editPicto(picto) {
-			this.$buefy.modal.open({
-				parent: this,
-				props: { picto: { ...picto } },
-				component: editPicto,
-				hasModalCard: true,
-				customClass: "custom-class custom-class-2",
-				trapFocus: true
-			});
-		}
-	},
-	computed: {
-		pictoLink() {
-			return String(
-				"/pictalk/" +
-					this.$route.params.collectionId +
-					"/" +
-					this.picto.id
-			);
-		}
-	}
+      if (folder == 1) {
+        this.$router.push(this.pictoLink);
+      }
+    },
+    async deletePicto(picto) {
+      const res = await this.$store.dispatch("removePicto", {
+        picto: picto,
+        collectionId: parseInt(this.$route.params.collectionId, 10)
+      });
+    },
+    editPicto(picto) {
+      this.$buefy.modal.open({
+        parent: this,
+        props: { picto: { ...picto } },
+        component: editPicto,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true
+      });
+    }
+  },
+  computed: {
+    pictoLink() {
+      return String(
+        "/pictalk/" + this.$route.params.collectionId + "/" + this.picto.id
+      );
+    }
+  }
 };
 </script>
 <style scoped>
 .has-background {
-	border-radius: 5px;
-	-webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-	-moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
-	box-shadow: 3px 3px 5px 6px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border-radius: 5px;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 3px 3px 5px 6px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .containing {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .image {
-	margin: auto;
+  margin: auto;
 }
 .adminMenu {
-	align-self: flex-end;
-	margin: 0 auto;
-	margin-top: auto;
+  align-self: flex-end;
+  margin: 0 auto;
+  margin-top: auto;
 }
 </style>
