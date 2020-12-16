@@ -112,11 +112,10 @@ export default {
       name: 'Pictalk',
       short_name: 'Pictalk',
       lang: 'en',
-      short_name: 'Pictalk',
       description: 'Pictalk is an app which aims to make speech easier for non-verbal people',
       theme_color: '#ff5758',
       display: 'standalone',
-      useWebmanifestExtension: 'false'
+      useWebmanifestExtension: 'true'
     },
   },
 
