@@ -16,7 +16,15 @@
       <section class="section">
         <h2 class="subtitle">
           In this short tutorial, we will go through the major features of
-          PicTalk. Let's <b>go : </b>
+          PicTalk. It can be installed from the :
+        </h2>
+        <ul style="list-style-type: inherit;margin-left: 5%;" class="subtitle">
+            <li> <b>Play Store</b> for the Android users out there </li>
+            <li> Microsoft Store for the <b>Windows</b> users </li>
+            <li> And <b>directly</b> from the website (Click install in your browser menu) </li>
+        </ul>
+        <h2 class="subtitle">
+        Let's <b>go : </b>
         </h2>
         <b-image
           lazy

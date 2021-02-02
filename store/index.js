@@ -34,14 +34,14 @@ export const mutations = {
   addPicto(state, picto) {
     const fatherPictoIndex = state.pictoviews.findIndex(
       view => view.fatherId === picto.picto.fatherId &&
-      view.collectionId === picto.collectionId
+        view.collectionId === picto.collectionId
     );
     state.pictoviews[fatherPictoIndex].pictos.push(picto.picto);
   },
   editPicto(state, editedPicto) {
     const fatherPictoIndex = state.pictoviews.findIndex(
       view => view.fatherId === editedPicto.editedPicto.fatherId &&
-      view.collectionId === editedPicto.collectionId
+        view.collectionId === editedPicto.collectionId
     );
     const pictoIndex = state.pictoviews[fatherPictoIndex].pictos.findIndex(
       picto => picto.id === editedPicto.editedPicto.id
@@ -52,14 +52,14 @@ export const mutations = {
   removePicto(state, removedPicto) {
     const fatherPictoIndex = state.pictoviews.findIndex(
       view => view.fatherId === removedPicto.picto.fatherId &&
-      view.collectionId === removedPicto.collectionId
+        view.collectionId === removedPicto.collectionId
     );
     const pictoIndex = state.pictoviews[fatherPictoIndex].pictos.findIndex(
       picto => picto.id === removedPicto.picto.id
     );
     const viewIndex = state.pictoviews.findIndex(
       view => view.fatherId === removedPicto.picto.id &&
-      view.collectionId === removedPicto.collectionId
+        view.collectionId === removedPicto.collectionId
     );
     if (viewIndex !== -1) {
       state.pictoviews.splice(viewIndex, 1);
@@ -303,12 +303,12 @@ export const actions = {
   async editUser(vuexContext, user) {
     const res = await axios
       .put(URL + "/auth/details/", user);
-    vuexContext.commit("editUser", {     
+    vuexContext.commit("editUser", {
       username: user.username,
       language: user.language
     });
     return res;
-  }
+  },
 };
 export const getters = {
   getPictoViews(state) {

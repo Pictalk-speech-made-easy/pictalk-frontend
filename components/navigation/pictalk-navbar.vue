@@ -21,6 +21,7 @@
       <b-navbar-item tag="nuxt-link" to="/news"
         >News & Updates &#127881;</b-navbar-item
       >
+
     </template>
 
     <template slot="end">
@@ -44,14 +45,14 @@
             "
             type="is-link"
             @click="toAdmin"
-            icon-right="cog"
+            icon-right="pencil"
           />
           <b-button
             v-else-if="this.$route.path.includes('pictalk')"
             type="is-light"
             tag="nuxt-link"
             :to="homeLink"
-            icon-right="cog"
+            icon-right="pencil"
           />
           <b-button type="is-light" @click="onLogout">Log Out</b-button>
         </div>

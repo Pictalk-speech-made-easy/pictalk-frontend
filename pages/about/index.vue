@@ -18,14 +18,27 @@
  or taking photos during my vacations. 
 					</h2>
 					<br />
-					<h1 class="title is-size-3-mobile">About PicTalk</h1>
+					<h1 class="title is-size-3-mobile">Backers</h1>
+					<div class="columns is-centered ">
+						<div class="column is-one-fifth ">
+							<b-image
+      					lazy
+      					:srcset="require('@/assets/CPPLogo.jpg').srcSet"
+      					alt="Coups de Pouce Passions logo"
+    				></b-image>
+						</div>
+						<div class="column is-one-fifth">
+						<b-image
+      					lazy
+      					:srcset="require('@/assets/FondationLogo.png').srcSet"
+      					alt="Fondation INSA Lyon logo"
+						style="width: 80%"
+    				></b-image>
+						</div>
+					</div>
 					<h2 class="subtitle is-size-5-mobile has-text-justified">
-						PicTalk isn't registered as a company as I don't make
-						money with it. 
-						PicTalk is an app I wanted to do since 2-3 years. During the
-						global lockdown, I took classes of web dev and 6 months later...
-						voila ! Speaking is a fundamental right, that's why I want PicTalk to be accessible to everybody... All I ask you is to use this app
-						in order to make good and not bad. If you have ideas or needs just send me an email at : <a href="mailto:alexandros.sidiras@laposte.net">alexandros.sidiras@laposte.net</a>.
+						Many thanks to <b>La fondation INSA Lyon</b> that rewarded PicTalk with <b>1000€</b>. Their program <b> Coups de Pouce Passion </b> helps INSA students fund their projects. 
+						You can also watch this <a href="https://youtu.be/VTbszl_xmN4">video</a> (in French) that helped me win the contest !
 					</h2>
 				</div>
 			</section>

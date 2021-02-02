@@ -4,7 +4,7 @@
     <hr />
     <nuxt />
     <br />
-    <CookieControl/>
+    <!-- <CookieControl/> -->
   </div>
 </template>
 

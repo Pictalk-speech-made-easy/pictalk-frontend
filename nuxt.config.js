@@ -55,7 +55,7 @@ export default {
     name: 'img/[hash:7]-[width].[ext]',
     min: 240, // minimum image width generated
     max: 1080, // maximum image width generated
-    steps: 4, // five sizes per image will be generated
+    steps: 3, // five sizes per image will be generated
     placeholder: false, // no placeholder will be generated
     quality: 1, // images are compressed with medium quality
     //format: 'png',
@@ -76,7 +76,7 @@ export default {
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
-    [
+    /*[
       "nuxt-cookie-control",
       {
         barPosition: "bottom-right",
@@ -105,7 +105,7 @@ export default {
           barDescription: 'We use our own cookies and third-party cookies so that we can show you this website and better understand how you use it, with a view to improving the services we offer. If you continue browsing, we consider that you have accepted the cookies and the cookie policy. You can find the cookie policy at: https://www.pictalk.xyz/legal-infos/cookie-policy',
         }
       }
-    ]
+    ]*/
   ],
   pwa: {
     manifest: {

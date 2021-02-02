@@ -41,6 +41,9 @@
       "
       >Save</b-button
     >
+    <b-button
+      type="is-info"
+      @click="downloadAll()">Download all pictos (Enable Offline)</b-button>
   </div>
 </template>
 <script>
@@ -76,6 +79,31 @@ export default {
           resolve(2);
         }, delayInms);
       });
+    },
+    async downloadAll(){
+      const res = await axios.get("/pictalk/allPictos");
+        var views = [];
+        res.data.map(picto => {
+          if (picto.path) {
+            picto.path =
+              context.$config.baseURL + "/pictalk/" + picto.path;
+          }
+          const isAView = views.findIndex(
+            view => view.fatherId === picto.fatherId &&
+            view.collectionId === picto.collectionId
+            );
+          if(picto.folder == 1){
+            views.push({collectionId: picto.collectionId, fatherId: picto.id, pictos: Array()}); //View of folder
+          }
+          if(isAView == -1){
+            views.push({collectionId: picto.collectionId, fatherId: picto.fatherId, pictos: Array()}); //Add view if not here
+          }
+          views[isAView].pictos.push({...picto});
+        });
+        views.forEach((view) => {
+          this.$store.dispatch('addView', view);
+        });
+        return;
     },
     async onSave(username, password, language) {
       try {

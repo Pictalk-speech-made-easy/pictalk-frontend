@@ -16,7 +16,7 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">What is PicTalk ? Why ?</h1>
+					<h1 class="title">What is PicTalk ?</h1>
 					<p class="is-size-5 notification">
 						PicTalk is all about
 						<strong>pictograms</strong>
@@ -50,6 +50,7 @@
 			<li> <b>Unlimited</b> number of pictograms and collections</li>
 			<li> <b>No ads</b></li>
 			<li> <b> Easy to use </b> </li>
+			<li> <b> Zero </b> third-party cookies </li>
             </ol>
 					</p>
 				</div>
@@ -61,7 +62,7 @@
 					<h1 class="title">Open Source and Free</h1>
 					<p class="is-size-5 notification">
 						All of the code is <b>open sourced</b> on 
-						<a href="https://github.com/Ratatinator97/PicTalk-Frontend">github</a>. You can of
+						<a href="https://github.com/Pictalk-speech-made-easy">github</a>. You can of
 						course contribute or share ideas and upgrades. Because I
 						want everyone to have a chance to communicate, PicTalk
 						will ever be free and I will try to let users as much
@@ -74,6 +75,14 @@
 			</div>
 		</section>
 		<div class="container">
+			<a href="https://play.google.com/store/apps/details?id=xyz.pictalk.www.twa">
+				<b-image
+      					lazy
+      					:srcset="require('@/assets/Playstore.png').srcSet"
+      					alt="Logo du Play store"
+						style="width: 20%;"
+    		></b-image>
+			</a>
 				<b-button class="is-primary" tag="nuxt-link" to="/getstarted">Get started with PicTalk !</b-button>
 		</div>
 	</div>

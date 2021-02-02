@@ -1,28 +1,52 @@
 <template>
   <div>
     <div class="container">
+      <h1 class="title">Recent news !</h1>
 <b-image lazy alt="A little boy talking thanks to Pictalk" 
 				:srcset="require('@/assets/UpdatesandNews.png').srcSet"
                 style="width: 60%;margin-left: 10%"
 				></b-image>
         <br>
-      <h1 class="title">Recent news !</h1>
+        <b-message type="is-success">
+          <div class="subtitle">
+            &#127881;&#127881;&#127881; <b>PicTalk</b> was awarded 1000€ at the <b> Coups de pouce passion</b> contest ! &#127881;&#127881;&#127881;
+          </div>
+        </b-message>
+      
       <p class="is-size-5 notification">
-        <ol style="list-style-type: inherit;margin-left: 5%;">
-            <li>Now the MEANING is showed instead of the SPEECH in the Picto bar. Same for the <b>copy</b> button</li>
-            <li>Website should load faster </li>
-            <li>Once the pictograms have been loaded at least one time, you can use them <b>offline</b> !  </li>
-            <li><b>Install</b> the application via Chrome and Firefox (Tap Install on the options menu) </li>
-        </ol>
+        <b-field>
+            <b-checkbox :value="true" type="is-success">Now the MEANING is showed instead of the SPEECH in the Picto bar. Same for the <b>copy</b> button</b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="true" type="is-success">PicTalk is in the playstore !</b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="true" type="is-success">Once the pictograms have been loaded at least one time, you can use them <b>offline</b> !</b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="true" type="is-success"><b>Install</b> the application via Chrome and Firefox (Tap Install on the options menu) </b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="true" type="is-success">No more third-party <b>Cookies</b> </b-checkbox>
+        </b-field>
     </p> 
       <h1 class="title">Roadmap</h1>
       <p class="is-size-5 notification">
-          <ol style="list-style-type: inherit;margin-left: 5%;">
-            <li>Pictalk in the <b>Play store</b> (very soon) </li>
-            <li>Make the website run <b>faster</b> and faster </li>
-            <li>Provide some <b>pictogramms</b> and <b>bundles</b> at the start of an account  </li>
-            <li>Make a <b>video</b> tutorial </li>
-        </ol>
+         <b-field>
+            <b-checkbox :value="false" type="is-primary">Pictalk in the <b>Microsoft store</b></b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="false" type="is-primary">Provide some <b>pictogramms</b> and <b>bundles</b> at the start of an account (Makathon)</b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="false" type="is-primary">Make a <b>video</b> tutorial</b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="false" type="is-primary"><b>Translate</b> the website in French, Spanish and German</b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="false" type="is-primary"><b>Download</b> all your pictogramms with one button </b-checkbox>
+        </b-field>  
       </p>
     </div>
   </div>
