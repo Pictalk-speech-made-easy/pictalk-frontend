@@ -33,7 +33,6 @@ export default {
       try {
         var res = await axios.get("/auth/details/");
         context.store.commit("editUser", res.data);
-        console.log(res.data);
         return res;
       } catch (error) {
         console.log("error ", error);

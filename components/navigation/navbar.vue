@@ -16,10 +16,10 @@
         <b-navbar-item tag="nuxt-link" to="/getstarted"
           >Get Started ! 🚀</b-navbar-item
         >
-        <b-navbar-dropdown label="Info">
-          <b-navbar-item tag="nuxt-link" to="/about">About</b-navbar-item>
+        <b-navbar-dropdown label="More">
+          <b-navbar-item tag="nuxt-link" to="/about">Infos</b-navbar-item>
           <b-navbar-item tag="nuxt-link" to="/contact"
-            >Contact 👨‍💻</b-navbar-item
+            >Bugs & Suggestions 👨‍💻</b-navbar-item
           >
         </b-navbar-dropdown>
         <b-navbar-item tag="nuxt-link" to="/news"

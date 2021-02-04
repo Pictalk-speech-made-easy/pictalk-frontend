@@ -20,13 +20,6 @@
 					<br />
 					<h1 class="title is-size-3-mobile">Backers</h1>
 					<div class="columns is-centered ">
-						<div class="column is-one-fifth ">
-							<b-image
-      					lazy
-      					:srcset="require('@/assets/CPPLogo.jpg').srcSet"
-      					alt="Coups de Pouce Passions logo"
-    				></b-image>
-						</div>
 						<div class="column is-one-fifth">
 						<b-image
       					lazy

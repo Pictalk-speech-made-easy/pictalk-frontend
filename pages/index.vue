@@ -78,12 +78,11 @@
 			<a href="https://play.google.com/store/apps/details?id=xyz.pictalk.www.twa">
 				<b-image
       					lazy
-      					:srcset="require('@/assets/Playstore.png').srcSet"
+      					:srcset="require('@/assets/Pictalkplaystore.png').srcSet"
       					alt="Logo du Play store"
-						style="width: 20%;"
+						style="width: 80%;"
     		></b-image>
 			</a>
-				<b-button class="is-primary" tag="nuxt-link" to="/getstarted">Get started with PicTalk !</b-button>
 		</div>
 	</div>
 </template>

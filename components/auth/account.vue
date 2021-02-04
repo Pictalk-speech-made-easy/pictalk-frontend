@@ -41,13 +41,31 @@
       "
       >Save</b-button
     >
+    <br>
+    <br>
+    <br>
+    <b-progress type="is-success" :value="requestsPercentage" show-value format="percent"></b-progress>
     <b-button
       type="is-info"
-      @click="downloadAll()">Download all pictos (Enable Offline)</b-button>
+      @click="downloadAll()">Download all pictos (Offline Ready)</b-button>
   </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
+  computed: {
+    requestsPercentage(){
+      if(this.nb_requests == 0 && this.dl_launched == false){
+        return 0;
+      } else {
+        if(this.dl_launched == true && this.nb_requests == 0){
+          return 100;
+        } else {
+        return (this.done_requests/this.nb_requests)*100;
+        }
+      }
+    }
+  },
   props: {
     user: {
       type: Object,
@@ -56,7 +74,10 @@ export default {
   },
   data() {
     return {
-      languages: []
+      languages: [],
+      nb_requests: 0,
+      done_requests: 0,
+      dl_launched: false
     };
   },
   async created() {
@@ -81,29 +102,55 @@ export default {
       });
     },
     async downloadAll(){
+      this.dl_launched = true;
       const res = await axios.get("/pictalk/allPictos");
-        var views = [];
-        res.data.map(picto => {
+      var views = this.$store.getters.getPictoViews;
+      var already_saved_pictos=[];
+      await this.$store.dispatch("resetViews");
+      await views.forEach((view) => {
+        view.pictos.forEach((picto) => {
+          already_saved_pictos.push(picto.id);
+        });
+      });
+      this.nb_requests = res.data.length - already_saved_pictos.length;
+      res.data.map(picto => {
+        if(!already_saved_pictos.find((elem) => elem == picto.id)){
+          axios.get("/pictalk/"+picto.path.split("/").pop())
+          .then(()=> {this.done_requests+=1;})
+          .catch((err)=> {console.log(err)});
           if (picto.path) {
             picto.path =
-              context.$config.baseURL + "/pictalk/" + picto.path;
+              axios.defaults.baseURL + "/pictalk/" + picto.path;
           }
-          const isAView = views.findIndex(
+          // View existante pour le picto ?
+          const viewExists = views.findIndex(
             view => view.fatherId === picto.fatherId &&
             view.collectionId === picto.collectionId
+          );
+          if(picto.folder == 1) {
+            const folderExists = views.findIndex(
+            view => view.fatherId === picto.id &&
+            view.collectionId === picto.collectionId
             );
-          if(picto.folder == 1){
-            views.push({collectionId: picto.collectionId, fatherId: picto.id, pictos: Array()}); //View of folder
+            if(folderExists != -1){
+              views.push({collectionId: picto.collectionId, fatherId: picto.id, pictos: Array()}); //View of folder
+            }
           }
-          if(isAView == -1){
+          if(viewExists == -1){
             views.push({collectionId: picto.collectionId, fatherId: picto.fatherId, pictos: Array()}); //Add view if not here
+            views[views.length -1].pictos.push({...picto});
+          } else {
+            views[viewExists].pictos.push({...picto});
+            already_saved_pictos.push(picto.id);
           }
-          views[isAView].pictos.push({...picto});
-        });
-        views.forEach((view) => {
-          this.$store.dispatch('addView', view);
-        });
-        return;
+        } 
+      });
+        
+      views.forEach((view) => {
+        this.$store.dispatch('addView', view);
+      });
+
+      return;
     },
     async onSave(username, password, language) {
       try {

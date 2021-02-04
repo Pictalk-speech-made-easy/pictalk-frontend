@@ -86,7 +86,9 @@ export const mutations = {
     );
     state.collections.splice(collectionIndex, 1);
   },
-
+  resetViews(state) {
+    state.pictoviews = [];
+  },
   setToken(state, token) {
     state.token = token;
   },
@@ -99,7 +101,9 @@ export const mutations = {
 
 };
 export const actions = {
-
+  resetViews(vuexContext) {
+    vuexContext.commit("resetViews");
+  },
   addView(vuexContext, {
     pictos,
     fatherId,

@@ -35,13 +35,11 @@ export default {
       return;
     } else {
       try {
-        console.log(axios.defaults.baseURL);
         const res = await axios.get("/pictalk/collection");
         res.data.map(collection => {
           if (collection.path) {
             collection.path =
               context.$config.baseURL + "/pictalk/" + collection.path;
-            console.log(collection.path);
           }
         });
         context.store.commit("setCollections", res.data);

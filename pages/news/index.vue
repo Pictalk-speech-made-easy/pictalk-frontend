@@ -1,5 +1,6 @@
 <template>
   <div>
+    <section class="section">
     <div class="container">
       <h1 class="title">Recent news !</h1>
 <b-image lazy alt="A little boy talking thanks to Pictalk" 
@@ -49,5 +50,6 @@
         </b-field>  
       </p>
     </div>
+  </section>
   </div>
 </template>

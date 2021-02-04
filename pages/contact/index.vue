@@ -25,8 +25,8 @@
           If you encounter any
           <strong>bugs</strong> or have <strong>propositions</strong> to improve
           the code of the website you can submit those to this github page :
-          <a href="https://github.com/Ratatinator97/PicTalk-Frontend"
-            >https://github.com/Ratatinator97/PicTalk-Frontend</a
+          <a href="https://github.com/Pictalk-speech-made-easy"
+            >https://github.com/Pictalk-speech-made-easy</a
           >
         </h2>
       </div>
