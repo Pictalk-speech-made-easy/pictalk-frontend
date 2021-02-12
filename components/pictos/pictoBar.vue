@@ -110,18 +110,26 @@ export default {
     removeSpeech() {
       const pictoSpeech = this.$store.getters.getSpeech;
       if (pictoSpeech.length >= 1) {
+        let adminMode=""
+        if(this.$route.query.isAdmin){
+          adminMode="?isAdmin=true";
+        }
         this.$router.push(
           "/pictalk/" +
             this.$route.params.collectionId +
             "/" +
-            pictoSpeech[pictoSpeech.length - 1].fatherId
+            pictoSpeech[pictoSpeech.length - 1].fatherId+adminMode
         );
       }
       this.$store.commit("removeSpeech");
     },
     eraseSpeech() {
       this.$store.commit("eraseSpeech");
-      this.$router.push("/pictalk");
+      let adminMode=""
+        if(this.$route.query.isAdmin){
+          adminMode="?isAdmin=true";
+        }
+      this.$router.push("/pictalk"+adminMode);
     }
   },
   computed: {
