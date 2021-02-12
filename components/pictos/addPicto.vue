@@ -10,7 +10,6 @@
 						type="text"
 						v-model="pictoSpeech"
 						placeholder="The text to be spoken"
-						required
 					></b-input>
 				</b-field>
 				<b-button
@@ -166,7 +165,10 @@ export default {
 			}
 		},
 		async onSubmitted(speech, meaning, isfolder, file) {
-			if (speech != "" && meaning != "" && file.name) {
+			if (meaning != "" && file.name) {
+				if(speech == ""){
+					speech = " ";
+				}
 				try {
 					const cfile = await jpegasus.compress(file, {
 						maxHeight: 500,

@@ -49,6 +49,7 @@ export default {
           password: this.password,
           isLogin: true
         });
+        console.log(res);
         if (res.status == 201) {
           this.$parent.close();
           this.$router.push("/pictalk");
@@ -59,25 +60,29 @@ export default {
             type: "is-info",
             hasIcon: true
           });
-        } else {
+        }
+      } catch (error) {
+        console.log(error.response);
+        if((error.response.status == 400) || (error.response.status == 401)){
           const notif = this.$buefy.notification.open({
             duration: 5000,
-            message: `Invalid credentials`,
+            message: `Wrong email or password`,
             position: "is-top-right",
             type: "is-danger",
             hasIcon: true,
             icon: "account"
           });
-        }
-      } catch (error) {
-        const notif = this.$buefy.notification.open({
+        } else {
+          const notif = this.$buefy.notification.open({
           duration: 5000,
-          message: `A problem occurred`,
+          message: `Server cannot be reached`,
           position: "is-top-right",
-          type: "is-danger",
+          type: "is-warning",
           hasIcon: true,
           icon: "account"
-        });
+          });
+        }
+        
         console.log("error: ", error);
       }
     }

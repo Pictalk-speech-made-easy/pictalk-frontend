@@ -44,7 +44,7 @@
               type="is-light"
               >Sign Up</b-button
             >
-            <b-button v-else tag="nuxt-link" to="/pictalk" type="primary"
+            <b-button v-else tag="nuxt-link" to="/pictalk" type="is-primary"
               >Go to PicTalk</b-button
             >
           </div>

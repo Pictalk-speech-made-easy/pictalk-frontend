@@ -56,9 +56,12 @@ export default {
         fatherId: fatherId,
         meaning: meaning
       });
-
       if (folder == 1) {
-        this.$router.push(this.pictoLink);
+        let adminMode=""
+        if(this.$route.query.isAdmin){
+          adminMode="?isAdmin=true";
+        }
+        this.$router.push(this.pictoLink+adminMode);
       }
     },
     async deletePicto(picto) {

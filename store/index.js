@@ -247,10 +247,8 @@ export const actions = {
       .post(authUrl, {
         username: authData.username,
         password: authData.password
-      })
-
-    const expDate =
-      new Date().getTime() + Number.parseInt(res.data.expiresIn) * 1000;
+      });
+    const expDate = new Date().getTime() + Number.parseInt(res.data.expiresIn) * 1000;
     vuexContext.commit("setToken", res.data.accessToken);
     localStorage.setItem("token", res.data.accessToken);
     localStorage.setItem("tokenExpiration", expDate);
