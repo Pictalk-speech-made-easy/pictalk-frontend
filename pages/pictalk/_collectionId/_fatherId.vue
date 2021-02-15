@@ -46,7 +46,15 @@ export default {
           view.collectionId === parseInt(this.$route.params.collectionId, 10)
       );
       if (view.length !== 0) {
-        return view[0].pictos;
+        let rankedPictos = [];
+        view[0].pictos.forEach(picto => {
+          if(picto.starred == true){
+            rankedPictos.unshift(picto);
+          } else {
+            rankedPictos.push(picto);
+          }
+        });
+        return rankedPictos;
       } else {
         return {};
       }
@@ -113,7 +121,6 @@ export default {
       return;
     } else {
       try {
-        console.log(axios.defaults.baseURL);
         const res = await axios.get("/pictalk/collection");
         res.data.map(collection => {
           if (collection.path) {

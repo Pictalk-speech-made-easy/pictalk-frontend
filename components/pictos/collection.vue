@@ -52,7 +52,11 @@ export default {
   },
   computed: {
     collectionLink() {
-      return "/pictalk/" + this.collection.id + "/0";
+      let adminMode=""
+        if(this.$route.query.isAdmin){
+          adminMode="?isAdmin=true";
+        }
+      return "/pictalk/" + this.collection.id + "/0"+adminMode;
     }
   }
 };

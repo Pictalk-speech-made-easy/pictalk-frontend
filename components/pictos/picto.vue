@@ -26,12 +26,19 @@
           @click="deletePicto(picto)"
         />
         <b-button type="is-info" @click="editPicto(picto)">Edit</b-button>
+        <div v-if="picto.starred">
+          <b-button type="is-warning" icon-right="star" @click="alternateStar(picto)" />
+        </div>
+        <div v-else>
+          <b-button type="is-light" icon-right="star" @click="alternateStar(picto)" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import editPicto from "@/components/pictos/editPicto";
 export default {
   name: "picto",
@@ -79,6 +86,22 @@ export default {
         customClass: "custom-class custom-class-2",
         trapFocus: true
       });
+    },
+    async alternateStar(picto){
+      const star = picto.starred ? false : true;
+      try {
+        this.$store.commit("editPicto", {editedPicto: {...picto, starred: star}, collectionId: parseInt(this.$route.params.collectionId,10)});
+      } catch(error){
+        console.log(error);
+        const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `An error ocurred`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "account"
+          });
+      }
     }
   },
   computed: {

@@ -5,7 +5,7 @@
       <h1 class="title">Recent news !</h1>
 <b-image lazy alt="A little boy talking thanks to Pictalk" 
 				:srcset="require('@/assets/UpdatesandNews.png').srcSet"
-                style="width: 60%;margin-left: 10%"
+                style="width: 80%;margin-left: 10%"
 				></b-image>
         <br>
         <b-message type="is-success">
@@ -29,6 +29,12 @@
         </b-field>
         <b-field>
             <b-checkbox :value="true" type="is-success">No more third-party <b>Cookies</b> </b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="true" type="is-success">You can put a <b>star</b> in a picto so it shows at the beginning of a view </b-checkbox>
+        </b-field>
+        <b-field>
+            <b-checkbox :value="true" type="is-success"><b>Admin mode</b> is now more consistent through the different menus </b-checkbox>
         </b-field>
     </p> 
       <h1 class="title">Roadmap</h1>

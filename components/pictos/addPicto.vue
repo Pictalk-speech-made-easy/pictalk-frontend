@@ -175,7 +175,7 @@ export default {
 						maxWidth: 500,
 						quality: 0.01,
 					});
-					await this.$store.dispatch("addPicto", {
+					this.$store.dispatch("addPicto", {
 						picto: {
 							speech: speech,
 							meaning: meaning,

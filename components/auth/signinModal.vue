@@ -49,7 +49,6 @@ export default {
           password: this.password,
           isLogin: true
         });
-        console.log(res);
         if (res.status == 201) {
           this.$parent.close();
           this.$router.push("/pictalk");
@@ -62,7 +61,6 @@ export default {
           });
         }
       } catch (error) {
-        console.log(error.response);
         if((error.response.status == 400) || (error.response.status == 401)){
           const notif = this.$buefy.notification.open({
             duration: 5000,

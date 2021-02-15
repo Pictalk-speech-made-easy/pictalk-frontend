@@ -92,15 +92,12 @@ export default {
           increment++;
           await this.delay(20);
         }
-        console.log(voices);
         await this.delay(200);
         voices = window.speechSynthesis.getVoices();
         voice = voices.filter(voice => voice.lang == this.getUserLang);
-        console.log(voices);
 
         if (voice.length !== 0) {
           msg.voice = voice[0];
-          console.log(msg.voice);
         }
         window.speechSynthesis.speak(msg);
       } else {
