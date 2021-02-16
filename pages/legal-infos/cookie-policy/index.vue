@@ -1,77 +1,27 @@
 <template>
     <div class="container">
-        <h1 class="title">Cookie Policy for Pictalk</h1>
-
-<p>This is the Cookie Policy for Pictalk, accessible from http://www.pictalk.xyz</p>
-
-<p><strong>What Are Cookies</strong></p>
-
-<p>As is common practice with almost all professional websites this site uses cookies, which are tiny files that are downloaded to your computer, to improve your experience. This page describes what information they gather, how we use it and why we sometimes need to store these cookies. We will also share how you can prevent these cookies from being stored however this may downgrade or 'break' certain elements of the sites functionality.</p>
-
-<p>For more general information on cookies, please read <a href="https://www.cookieconsent.com/what-are-cookies/">"What Are Cookies"</a>. Information regarding cookies from this Cookies Policy are from <a href="https://www.generateprivacypolicy.com/">the Privacy Policy Generator</a>.</p>
-
-<p><strong>How We Use Cookies</strong></p>
-
-<p>We use cookies for a variety of reasons detailed below. Unfortunately in most cases there are no industry standard options for disabling cookies without completely disabling the functionality and features they add to this site. It is recommended that you leave on all cookies if you are not sure whether you need them or not in case they are used to provide a service that you use.</p>
-
-<p><strong>Disabling Cookies</strong></p>
-
-<p>You can prevent the setting of cookies by adjusting the settings on your browser (see your browser Help for how to do this). Be aware that disabling cookies will affect the functionality of this and many other websites that you visit. Disabling cookies will usually result in also disabling certain functionality and features of the this site. Therefore it is recommended that you do not disable cookies. This Cookies Policy was created with the help of the <a href="https://www.cookiepolicygenerator.com/cookie-policy-generator/">Cookies Policy Generator from CookiePolicyGenerator.com</a>.</p>
-<p><strong>The Cookies We Set</strong></p>
-
-<ul>
-
-
-<li>
-    <p>Login related cookies</p>
-    <p>We use cookies when you are logged in so that we can remember this fact. This prevents you from having to log in every single time you visit a new page. These cookies are typically removed or cleared when you log out to ensure that you can only access restricted features and areas when logged in.</p>
-</li>
-
-
-
-
-
-<li>
-    <p>Site preferences cookies</p>
-    <p>In order to provide you with a great experience on this site we provide the functionality to set your preferences for how this site runs when you use it. In order to remember your preferences we need to set cookies so that this information can be called whenever you interact with a page is affected by your preferences.</p>
-</li>
-
-</ul>
-
-<p><strong>Third Party Cookies</strong></p>
-
-<p>In some special cases we also use cookies provided by trusted third parties. The following section details which third party cookies you might encounter through this site.</p>
-
-<ul>
-
-<li>
-    <p>This site uses Google Analytics which is one of the most widespread and trusted analytics solution on the web for helping us to understand how you use the site and ways that we can improve your experience. These cookies may track things such as how long you spend on the site and the pages that you visit so we can continue to produce engaging content.</p>
-    <p>For more information on Google Analytics cookies, see the official Google Analytics page.</p>
-</li>
-
-
-<li>
-    <p>From time to time we test new features and make subtle changes to the way that the site is delivered. When we are still testing new features these cookies may be used to ensure that you receive a consistent experience whilst on the site whilst ensuring we understand which optimisations our users appreciate the most.</p>
-</li>
-
-
-
-
-
-
-
-</ul>
-
-<p><strong>More Information</strong></p>
-
-<p>Hopefully that has clarified things for you and as was previously mentioned if there is something that you aren't sure whether you need or not it's usually safer to leave cookies enabled in case it does interact with one of the features you use on our site.</p>
-
-<p>However if you are still looking for more information then you can contact us through one of our preferred contact methods:</p>
-
-<ul>
-<li>Email: alexandros.sidiras@laposte.net</li>
-
-</ul>
+        <h2 class="title is-1">Cookie Policy</h2>
+<p>We use cookies to help improve your experience of our website at <a href="https://www.pictalk.xyz">https://www.pictalk.xyz</a>. This cookie policy is part of Pictalk&#39;s privacy policy. It covers the use of cookies between your device and our site. </p>
+<p>We also provide basic information on third-party services we may use, who may also use cookies as part of their service. This policy does not cover their cookies. </p>
+<p>If you don’t wish to accept cookies from us, you should instruct your browser to refuse cookies from <a href="https://www.pictalk.xyz">https://www.pictalk.xyz</a>. In such a case, we may be unable to provide you with some of your desired content and services. </p>
+<br><h3 class="title is-3">What is a cookie?</h3>
+<p>A cookie is a small piece of data that a website stores on your device when you visit. It typically contains information about the website itself, a unique identifier that allows the site to recognize your web browser when you return, additional data that serves the cookie’s purpose, and the lifespan of the cookie itself. </p>
+<p>Cookies are used to enable certain features (e.g. logging in), track site usage (e.g. analytics), store your user settings (e.g. time zone, notification preferences), and to personalize your content (e.g. advertising, language). </p>
+<p>Cookies set by the website you are visiting are usually referred to as first-party cookies. They typically only track your activity on that particular site. </p>
+<p>Cookies set by other sites and companies (i.e. third parties) are called third-party cookies They can be used to track you on other websites that use the same third-party service. </p>
+<br><h3 class="title is-3">Types of cookies and how we use them</h3>
+<br><h4 class="title is-4">Essential cookies</h4>
+<p>Essential cookies are crucial to your experience of a website, enabling core features like user logins, account management, shopping carts, and payment processing. </p>
+<p>We use essential cookies to enable certain functions on our website. </p>
+<br><h4 class="title is-4">Performance cookies</h4>
+<p>Performance cookies track how you use a website during your visit. Typically, this information is anonymous and aggregated, with information tracked across all site users. They help companies understand visitor usage patterns, identify and diagnose problems or errors their users may encounter, and make better strategic decisions in improving their audience’s overall website experience. These cookies may be set by the website you’re visiting (first-party) or by third-party services. They do not collect personal information about you. </p>
+<p>We do not use this type of cookie on our site. </p>
+<br><h4 class="title is-4">Functionality cookies</h4>
+<p>Functionality cookies are used to collect information about your device and any settings you may configure on the website you’re visiting (like language and time zone settings). With this information, websites can provide you with customized, enhanced, or optimized content and services. These cookies may be set by the website you’re visiting (first-party) or by third-party services. </p>
+<p>We use functionality cookies for selected features on our site. </p>
+<br><h4 class="title is-4">Targeting/advertising cookies</h4>
+<p>Targeting/advertising cookies help determine what promotional content is most relevant and appropriate to you and your interests. Websites may use them to deliver targeted advertising or limit the number of times you see an advertisement. This helps companies improve the effectiveness of their campaigns and the quality of content presented to you. These cookies may be set by the website you’re visiting (first-party) or by third-party services. Targeting/advertising cookies set by third-parties may be used to track you on other websites that use the same third-party service. </p>
+<p>We do not use this type of cookie on our site. </p>
 
     </div>
 </template>

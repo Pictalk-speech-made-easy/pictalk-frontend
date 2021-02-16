@@ -76,7 +76,7 @@ export default {
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
-    /*[
+    [
       "nuxt-cookie-control",
       {
         barPosition: "bottom-right",
@@ -86,15 +86,15 @@ export default {
           barButtonColor: "#fff",
           barButtonBackground: "#ff5758",
           barButtonHoverColor: "#fff",
-          barButtonHoverBackground: "#2e495e",
+          barButtonHoverBackground: "#e85050",
           modalButtonBackground: "#ff5758",
           modalButtonHoverColor: "#fff",
           controlButtonBackground: "#ff5758",
-          controlButtonHoverBackground: "#2e495e",
+          controlButtonHoverBackground: "#e85050",
           controlButtonIconHoverColor: "#fff",
           controlButtonIconColor: "#fff",
-          modalButtonHoverBackground: "#2e495e",
-          checkboxActiveBackground: "#2e495e",
+          modalButtonHoverBackground: "#e85050",
+          checkboxActiveBackground: "#e85050",
           checkboxInactiveBackground: "#ede1e1",
           checkboxActiveCircleBackground: "#448cce",
           checkboxInactiveCircleBackground: "#f44336",
@@ -102,10 +102,10 @@ export default {
           checkboxDisabledCircleBackground: "#fff"
         },
         text: {
-          barDescription: 'We use our own cookies and third-party cookies so that we can show you this website and better understand how you use it, with a view to improving the services we offer. If you continue browsing, we consider that you have accepted the cookies and the cookie policy. You can find the cookie policy at: https://www.pictalk.xyz/legal-infos/cookie-policy',
+          barDescription: 'We use our own cookies so that we can show you this website. If you continue browsing, we consider that you have accepted the cookies and the cookie policy. You can find the cookie policy at: https://www.pictalk.xyz/legal-infos/cookie-policy',
         }
       }
-    ]*/
+    ]
   ],
   pwa: {
     manifest: {
@@ -118,7 +118,6 @@ export default {
       useWebmanifestExtension: 'true'
     },
   },
-
   /*
    ** Build configuration
    */
@@ -150,26 +149,6 @@ export default {
         cookies: ["expirationDate", "jwt"]
       }
     ],
-    optional: [
-      {
-        name: {
-          en: "Google Analytics",
-        },
-        description: {
-          en:
-            "Google Analytics is a web analytics service offered by Google that tracks and reports website traffic."
-        },
-        src: "https://www.googletagmanager.com/gtag/js?id=G-SRSYDD3GJD",
-        async: true,
-        cookies: ["_ga", "_gat_gtag_G_SRSYDD3GJD", "_gid"],
-        accepted: () => {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', 'G-SRSYDD3GJD');
-        }
-      }
-    ]
   },
 
 };

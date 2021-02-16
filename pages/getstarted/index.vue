@@ -10,6 +10,7 @@
     <b-image
       lazy
       :srcset="require('@/assets/Getting_Started.png').srcSet"
+      style="width: 80%;margin-left: 10%"
       alt="Rocket carrying non-verbal people"
     ></b-image>
     <body>
