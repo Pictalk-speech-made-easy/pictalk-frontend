@@ -39,7 +39,13 @@
 								</section>
 							</b-upload>
 						</b-field>
-
+						<b-field>
+							<b-switch v-model="highQuality"
+								false-value="Standard quality (for pictograms)"
+								true-value="High quality (for pictures)">
+								{{ highQuality }}
+							</b-switch>
+        				</b-field>
 						<div class="tags">
 							<span class="tag is-primary">
 								{{ file.name }}
@@ -54,7 +60,7 @@
 				<b-button
 					class="button is-primary"
 					@click="
-            onSubmitted(collection.name, collection.color, file, collection.id)
+            onSubmitted(collection.name, collection.color, file, collection.id, highQuality)
           "
 				>Create</b-button>
 			</footer>
@@ -73,18 +79,21 @@ export default {
 	data() {
 		return {
 			selectedOption: "",
-			file: {}
+			file: {},
+			highQuality: "Standard quality (for pictograms)"
 		};
 	},
 	methods: {
-		async onSubmitted(name, color, file, id) {
+		async onSubmitted(name, color, file, id, highQuality) {
 			if (name != "" && color != "") {
 				try {
 					if (file.name) {
+						let quality
+						quality = highQuality=="High quality (for pictures)" ? quality=0.1 : quality=0.01;
 						const cfile = await jpegasus.compress(file, {
 							maxHeight: 500,
 							maxWidth: 500,
-							quality: 0.01
+							quality: quality,
 						});
 						const res = await this.$store.dispatch(
 							"editCollection",

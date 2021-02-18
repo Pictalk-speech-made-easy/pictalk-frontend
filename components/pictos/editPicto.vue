@@ -79,7 +79,13 @@
 								</section>
 							</b-upload>
 						</b-field>
-
+						<b-field>
+							<b-switch v-model="highQuality"
+								false-value="Standard quality (for pictograms)"
+								true-value="High quality (for pictures)">
+								{{ highQuality }}
+							</b-switch>
+        				</b-field>
 						<div class="tags">
 							<span class="tag is-primary">
 								{{ file.name }}
@@ -104,7 +110,8 @@
 							picto.speech,
 							picto.meaning,
 							picto.folder,
-							file
+							file,
+							highQuality
 						)
 					"
 					>Create</b-button
@@ -126,6 +133,8 @@ export default {
 		return {
 			selectedOption: "",
 			file: {},
+			highQuality: "Standard quality (for pictograms)"
+
 		};
 	},
 	computed: {
@@ -173,14 +182,16 @@ export default {
 				console.log("Your browser doesn't support speechSynthesis :(");
 			}
 		},
-		async onSubmitted(speech, meaning, isfolder, file) {
+		async onSubmitted(speech, meaning, isfolder, file,highQuality) {
 			if (speech != "" && meaning != "") {
 				try {
 					if (file.name) {
+						let quality
+						quality = highQuality=="High quality (for pictures)" ? quality=0.1 : quality=0.01;
 						const cfile = await jpegasus.compress(file, {
 							maxHeight: 500,
 							maxWidth: 500,
-							quality: 0.01,
+							quality: quality,
 						});
 						const res = await this.$store.dispatch("editPicto", {
 							editedPicto: {
