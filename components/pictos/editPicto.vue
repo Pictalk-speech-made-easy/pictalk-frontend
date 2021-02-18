@@ -10,7 +10,6 @@
 						type="text"
 						v-model="picto.speech"
 						placeholder="The text to be displayed..."
-						required
 					></b-input>
 				</b-field>
 				<b-button
@@ -183,7 +182,10 @@ export default {
 			}
 		},
 		async onSubmitted(speech, meaning, isfolder, file,highQuality) {
-			if (speech != "" && meaning != "") {
+			if ( meaning != "") {
+				if(speech == ""){
+						speech = " ";
+				}
 				try {
 					if (file.name) {
 						let quality
