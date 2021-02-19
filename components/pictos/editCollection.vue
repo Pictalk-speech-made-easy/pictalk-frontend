@@ -116,7 +116,7 @@ export default {
 					}
 
 					this.$buefy.notification.open({
-						message: "The collection was uploaded flawlessly !",
+						message: "The collection was edited flawlessly !",
 						type: "is-success"
 					});
 					this.$parent.close();

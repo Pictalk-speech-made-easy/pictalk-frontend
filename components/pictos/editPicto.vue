@@ -231,7 +231,7 @@ export default {
 						});
 					}
 					this.$buefy.notification.open({
-						message: "The picto was uploaded flawlessly !",
+						message: "The pictogram was edited flawlessly !",
 						type: "is-success",
 					});
 					this.$parent.close();

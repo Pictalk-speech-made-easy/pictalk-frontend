@@ -199,7 +199,7 @@ export default {
 						),
 					});
 					this.$buefy.notification.open({
-						message: "The collection was uploaded flawlessly !",
+						message: "The pictogram was uploaded flawlessly !",
 						type: "is-success",
 					});
 					this.$parent.close();
