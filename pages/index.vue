@@ -13,6 +13,27 @@
 					>Sign Up to PicTalk !</b-button
 				>
 		</div>
+		<br>
+		<div class="container">
+		<div class="columns">
+			<div class="column">
+				<div class="box">
+					<a href="https://www.youtube.com/watch?v=vv2ktwpAijI">
+					<b-image lazy alt="Yotube video link for the installation process" 
+				:srcset="require('@/assets/Install.png').srcSet"
+				></b-image>
+					</a>
+				</div>
+			</div>
+			<div class="column">
+				<div class="box soontobe">
+					<b-image lazy alt="Youtube video link for the pictalk tutorial. Tutorial is accessible through Get Started page" 
+				:srcset="require('@/assets/Pictalktutorialsoon.png').srcSet"
+				></b-image>
+				</div>
+			</div>
+		</div>
+		</div>
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
@@ -113,5 +134,12 @@ export default {
 	top: 90%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+.soontobe {
+	background: repeating-linear-gradient(60deg, white, white 35px, #ff5758 35px, #ff5758 70px);
+	min-height: 100%;
+}
+.box {
+	padding: 0px;
 }
 </style>
