@@ -40,7 +40,7 @@
         <br />
         <div class="field">
             <b-checkbox v-model="majority" required>
-                I have the legal majority
+                I have more than 13 years old
             </b-checkbox>
         </div>
         <div class="field">
