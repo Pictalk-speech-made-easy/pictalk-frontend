@@ -16,6 +16,9 @@
             required
           ></b-input>
         </b-field>
+        <b-message type="is-danger" has-icon>
+            Please check your <b>SPAM</b> folder ! If you don't receive any email please contact me at : <b>alexandros.sidiras@laposte.net</b>
+        </b-message>
         <b-button class="is-primary" @click="onSubmit(username)">Reset Password</b-button>
         </div>
     </div>
