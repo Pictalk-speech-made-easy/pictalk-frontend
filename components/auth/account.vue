@@ -44,12 +44,10 @@
     <br>
     <br>
     <br>
-    <!--
     <b-progress type="is-success" :value="requestsPercentage" show-value format="percent"></b-progress>
     <b-button
       type="is-info"
-      @click="downloadAll()">Download all pictos (Offline Ready)</b-button>
-    -->
+      @click="downloadAll()">Download all pictos (Experimental)</b-button>
   </div>
 </template>
 <script>
