@@ -61,27 +61,37 @@ export default {
           });
         }
       } catch (error) {
-        if((error.response.status == 400) || (error.response.status == 401)){
-          const notif = this.$buefy.notification.open({
+        if(error.response){
+          if((error.response.status == 400) || (error.response.status == 401)){
+            const notif = this.$buefy.notification.open({
+                      duration: 5000,
+                      message: `Wrong email or password`,
+                      position: "is-top-right",
+                      type: "is-danger",
+                      hasIcon: true,
+                      icon: "account"
+            });
+          } else {
+            const notif = this.$buefy.notification.open({
             duration: 5000,
-            message: `Wrong email or password`,
+            message: `Server cannot be reached`,
             position: "is-top-right",
             type: "is-danger",
             hasIcon: true,
             icon: "account"
-          });
+            });
+          }
         } else {
           const notif = this.$buefy.notification.open({
-          duration: 5000,
-          message: `Server cannot be reached`,
-          position: "is-top-right",
-          type: "is-warning",
-          hasIcon: true,
-          icon: "account"
-          });
+            duration: 5000,
+            message: `Server cannot be reached`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "account"
+            });
         }
         
-        console.log("error: ", error);
       }
     }
   }

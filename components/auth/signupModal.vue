@@ -122,27 +122,39 @@ export default {
             hasIcon: true
           });
           this.$parent.close();
-      this.$router.push("/pictalk");
-        } else {
-          const notif = this.$buefy.notification.open({
+          this.$router.push("/pictalk");
+        }
+      } catch (error) {
+        if(error.response){
+          if((error.response.status == 400) || (error.response.status == 401)){
+            const notif = this.$buefy.notification.open({
+                      duration: 5000,
+                      message: `Some parameters are invalid`,
+                      position: "is-top-right",
+                      type: "is-danger",
+                      hasIcon: true,
+                      icon: "account"
+            });
+          } else {
+            const notif = this.$buefy.notification.open({
             duration: 5000,
-            message: `Some parameters are invalid...`,
+            message: `Server cannot be reached`,
             position: "is-top-right",
             type: "is-danger",
             hasIcon: true,
             icon: "account"
-          });
+            });
+          }
+        } else {
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Server cannot be reached`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "account"
+            });
         }
-      } catch (error) {
-        console.log("error: ", error);
-        const notif = this.$buefy.notification.open({
-          duration: 5000,
-          message: `An error has occurred`,
-          position: "is-top-right",
-          type: "is-danger",
-          hasIcon: true,
-          icon: "account"
-        });
       }
       
     }
