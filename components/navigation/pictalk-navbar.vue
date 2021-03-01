@@ -21,7 +21,9 @@
       <b-navbar-item tag="nuxt-link" to="/news"
         >News & Updates &#127881;</b-navbar-item
       >
-
+      <b-navbar-item tag="nuxt-link" to="/makaton"
+          >Makaton 👐</b-navbar-item
+        >
     </template>
 
     <template slot="end">
