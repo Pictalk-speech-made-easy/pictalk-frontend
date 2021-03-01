@@ -13,12 +13,15 @@
       					lazy
       					:srcset="require('@/assets/FondationLogo.png').srcSet"
       					alt="Fondation INSA Lyon logo"
-						style="width: 6%; "
+						class="changeOnViewport"
     		></b-image>
+        Want to be a <b>backer</b> too ? Feel free to email <a href="mailto:alexandros.sidiras@laposte.net">me</a> !
       </div>
     </footer>
   </div>
 </template>
 <style scoped>
-
+.changeOnViewport {
+  width: 15vmin;
+}
 </style>

@@ -63,16 +63,17 @@
 				<div class="container">
 					<h1 class="title">Main features</h1>
 					<p class="is-size-5 notification">
-            <ol style="list-style-type: inherit;margin-left: 5%;">
-            <li>All your images/pictograms are saved in the <b>cloud</b></li>
-			<li>You can <b> install </b> the app from you <b>computer</b> or <b>phone</b> </li>
-            <li> It works with <b>all</b> platforms, as simple as that</li>
-            <li>It can speak virtually <b>any language</b> </li>
-			<li> <b>Unlimited</b> number of pictograms and collections</li>
-			<li> <b>No ads</b></li>
-			<li> <b> Easy to use </b> </li>
-			<li> <b> Zero </b> third-party cookies </li>
-            </ol>
+						<ol style="list-style-type: inherit;margin-left: 5%;">
+						<li>All your images/pictograms are saved in the <b>cloud</b></li>
+						<li>You can <b> install </b> the app from you <b>computer</b> or <b>phone</b> </li>
+						<li> It works with <b>all</b> platforms, as simple as that</li>
+						<li>It can speak virtually <b>any language</b> </li>
+						<li> <b>Unlimited</b> number of pictograms and collections</li>
+						<li> <b>No ads</b></li>
+						<li> Forever <b>free</b></li>
+						<li> <b> Easy</b> to use  </li>
+						<li> <b> Zero </b> third-party cookies </li>
+						</ol>
 					</p>
 				</div>
 			</div>

@@ -13,6 +13,11 @@
             &#127881;&#127881;&#127881; <b>PicTalk</b> was awarded 1000€ at the <b> Coups de pouce passion</b> contest ! &#127881;&#127881;&#127881;
           </div>
         </b-message>
+        <b-message type="is-success">
+          <div class="subtitle">
+            <b>Pictalk</b> in the news ! (FR) : <a href="https://www.insa-lyon.fr/fr/actualites/je-voulais-lui-permettre-s-exprimer-pleinement">https://www.insa-lyon.fr/fr/actualites/je-voulais-lui-permettre-s-exprimer-pleinement</a>
+          </div>
+        </b-message>
       
       <p class="is-size-5 notification">
         <b-field>
