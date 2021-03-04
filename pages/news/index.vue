@@ -41,6 +41,9 @@
         <b-field>
             <b-checkbox :value="true" type="is-success"><b>Admin mode</b> is now more consistent through the different menus </b-checkbox>
         </b-field>
+        <b-field>
+            <b-checkbox :value="true" type="is-primary">Make a <b>video</b> tutorial</b-checkbox>
+        </b-field>
     </p> 
       <h1 class="title">Roadmap</h1>
       <p class="is-size-5 notification">
@@ -50,9 +53,7 @@
         <b-field>
             <b-checkbox :value="false" type="is-primary">Provide some <b>pictogramms</b> and <b>bundles</b> at the start of an account (Makathon)</b-checkbox>
         </b-field>
-        <b-field>
-            <b-checkbox :value="false" type="is-primary">Make a <b>video</b> tutorial</b-checkbox>
-        </b-field>
+
         <b-field>
             <b-checkbox :value="false" type="is-primary"><b>Translate</b> the website in French, Spanish and German</b-checkbox>
         </b-field>

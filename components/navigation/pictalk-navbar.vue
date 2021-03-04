@@ -70,7 +70,11 @@ export default {
   methods: {
     eraseSpeech() {
       this.$store.commit("eraseSpeech");
-      this.$router.push("/pictalk");
+      let adminMode=""
+        if(this.$route.query.isAdmin){
+          adminMode="?isAdmin=true";
+        }
+      this.$router.push("/pictalk"+adminMode);
     },
     toAdmin() {
       const a = Math.floor(Math.random() * 10 + 1);

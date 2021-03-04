@@ -18,18 +18,27 @@
 		<div class="columns">
 			<div class="column">
 				<div class="box">
-					<a href="https://www.youtube.com/watch?v=vv2ktwpAijI">
-					<b-image lazy alt="Yotube video link for the installation process" 
+					<a href="https://youtu.be/vv2ktwpAijI">
+					<b-image lazy alt="Yotube video link for the installation process." 
 				:srcset="require('@/assets/Install.png').srcSet"
 				></b-image>
 					</a>
 				</div>
 			</div>
 			<div class="column">
-				<div class="box soontobe">
+				<div class="box">
+					<a href="https://youtu.be/I0PBvxS7rSE">
 					<b-image lazy alt="Youtube video link for the pictalk tutorial. Tutorial is accessible through Get Started page" 
-				:srcset="require('@/assets/Pictalktutorialsoon.png').srcSet"
-				></b-image>
+				:srcset="require('@/assets/Pictalktutorial.png').srcSet"
+				></b-image></a>
+				</div>
+			</div>
+			<div class="column">
+				<div class="box">
+					<a href="https://youtu.be/pKQJUBcRrQg">
+					<b-image lazy alt="Youtube video link for the how to fill your pictalk tutorial." 
+				:srcset="require('@/assets/fillpictalk.png').srcSet"
+				></b-image></a>
 				</div>
 			</div>
 		</div>
