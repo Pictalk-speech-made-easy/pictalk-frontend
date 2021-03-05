@@ -47,7 +47,7 @@
     <b-progress type="is-success" :value="requestsPercentage" show-value format="percent"></b-progress>
     <b-button
       type="is-info"
-      @click="downloadAll()">Download all pictos (Experimental)</b-button>
+      @click="downloadAll()">Precharge all pictos</b-button>
       
   </div>
 </template>
@@ -129,7 +129,7 @@ export default {
               axios.defaults.baseURL + "/pictalk/" + picto.path;
           }
           caches.open('picto'+picto.id).then((cache) => {
-            cache.add("/pictalk/"+picto.path)
+            cache.add(picto.path)
             .then(() => {this.done_requests+=1;})
             .catch((err)=> {console.log(err)})
           });

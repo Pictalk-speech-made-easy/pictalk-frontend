@@ -61,7 +61,7 @@ export default {
   methods: {
     fetchImage(){
       caches.open('picto'+this.picto.id).then((cache) => {
-            cache.add("/pictalk/"+this.picto.path)
+            cache.add(this.picto.path)
             .then(() => {})
             .catch((err)=> {console.log(err)})
           });
