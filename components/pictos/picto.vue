@@ -41,6 +41,9 @@
 import axios from 'axios';
 import editPicto from "@/components/pictos/editPicto";
 export default {
+  created() {
+    this.fetchImage();
+  },
   name: "picto",
   components: {
     editPicto
@@ -53,9 +56,16 @@ export default {
     picto: {
       type: Object,
       required: true
-    }
+    },
   },
   methods: {
+    fetchImage(){
+      caches.open('picto'+this.picto.id).then((cache) => {
+            cache.add("/pictalk/"+this.picto.path)
+            .then(() => {})
+            .catch((err)=> {console.log(err)})
+          });
+    },
     addToSpeech(path, speech, fatherId, folder, meaning) {
       this.$store.commit("addSpeech", {
         path: path,

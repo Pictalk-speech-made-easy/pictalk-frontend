@@ -44,20 +44,17 @@
     <br>
     <br>
     <br>
-    <b-button type="is-info" @click="openSavePictosModal()">Prepare offline</b-button>
-    <!--
     <b-progress type="is-success" :value="requestsPercentage" show-value format="percent"></b-progress>
     <b-button
       type="is-info"
       @click="downloadAll()">Download all pictos (Experimental)</b-button>
-      -->
+      
   </div>
 </template>
 <script>
-import savePictos from "@/components/pictos/savePictosModal";
 import axios from 'axios';
 export default {
-  /*
+  
   computed: {
     requestsPercentage(){
       if(this.nb_requests == 0 && this.dl_launched == false){
@@ -71,7 +68,6 @@ export default {
       }
     }
   },
-  */
   props: {
     user: {
       type: Object,
@@ -107,16 +103,7 @@ export default {
         }, delayInms);
       });
     },
-    openSavePictosModal() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: savePictos,
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2",
-        trapFocus: true
-      });
-    },
-    /*
+    
     async downloadAll(){
       this.dl_launched = true;
       const res = await axios.get("/pictalk/allPictos");
@@ -131,13 +118,21 @@ export default {
       this.nb_requests = res.data.length - already_saved_pictos.length;
       res.data.map(picto => {
         if(!already_saved_pictos.find((elem) => elem == picto.id)){
-          axios.get("/pictalk/"+picto.path.split("/").pop())
+          /**/
+          /*
+          axios.get("/pictalk/"+picto.path)
           .then(()=> {this.done_requests+=1;})
           .catch((err)=> {console.log(err)});
+          */
           if (picto.path) {
             picto.path =
               axios.defaults.baseURL + "/pictalk/" + picto.path;
           }
+          caches.open('picto'+picto.id).then((cache) => {
+            cache.add("/pictalk/"+picto.path)
+            .then(() => {this.done_requests+=1;})
+            .catch((err)=> {console.log(err)})
+          });
           // View existante pour le picto ?
           const viewExists = views.findIndex(
             view => view.fatherId === picto.fatherId &&
@@ -168,7 +163,7 @@ export default {
 
       return;
     },
-    */
+    
     async onSave(username, password, language) {
       try {
         const res = await this.$store.dispatch("editUser", {
