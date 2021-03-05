@@ -21,10 +21,10 @@
     "nuxt-buefy": "^0.4.4",
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-cookie-control": "^1.9.6",
-    "secure-ls": "^1.2.6"
+    "secure-ls": "^1.2.6",
+    "nuxt": "^2.15.2"
   },
   "devDependencies": {
-    "nuxt": "^2.15.2",
     "sass-loader": "^10.1.1",
     "node-sass": "^4.14.1",
     "nuxt-responsive-loader": "^2.0.1",
