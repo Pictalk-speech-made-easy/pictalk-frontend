@@ -46,9 +46,17 @@
     <br>
     <b-progress type="is-success" :value="requestsPercentage" show-value format="percent"></b-progress>
     <b-button
+      icon-left="download"
       type="is-info"
-      @click="downloadAll()">Precharge all pictos</b-button>
-      
+      @click="downloadAll()">Precharge all pictos
+    </b-button>
+    <br>
+    <br>
+      <b-message type="is-success">
+          <div class="subtitle">
+            This will download all of your pictograms so you don't need internet anymore... Use it when you leave home or go to vacations !
+          </div>
+        </b-message>
   </div>
 </template>
 <script>
@@ -105,63 +113,66 @@ export default {
     },
     
     async downloadAll(){
-      this.dl_launched = true;
-      const res = await axios.get("/pictalk/allPictos");
-      var views = this.$store.getters.getPictoViews;
-      var already_saved_pictos=[];
-      await this.$store.dispatch("resetViews");
-      await views.forEach((view) => {
-        view.pictos.forEach((picto) => {
-          already_saved_pictos.push(picto.id);
-        });
-      });
-      this.nb_requests = res.data.length - already_saved_pictos.length;
-      res.data.map(picto => {
-        if(!already_saved_pictos.find((elem) => elem == picto.id)){
-          /**/
-          /*
-          axios.get("/pictalk/"+picto.path)
-          .then(()=> {this.done_requests+=1;})
-          .catch((err)=> {console.log(err)});
-          */
-          if (picto.path) {
-            picto.path =
-              axios.defaults.baseURL + "/pictalk/" + picto.path;
-          }
-          caches.open('picto'+picto.id).then((cache) => {
-            cache.add(picto.path)
-            .then(() => {this.done_requests+=1;})
-            .catch((err)=> {console.log(err)})
-          });
-          // View existante pour le picto ?
-          const viewExists = views.findIndex(
-            view => view.fatherId === picto.fatherId &&
-            view.collectionId === picto.collectionId
-          );
-          if(picto.folder == 1) {
-            const folderExists = views.findIndex(
-            view => view.fatherId === picto.id &&
-            view.collectionId === picto.collectionId
-            );
-            if(folderExists != -1){
-              views.push({collectionId: picto.collectionId, fatherId: picto.id, pictos: Array()}); //View of folder
+      //TODO integrate this within the store
+      try {
+        this.dl_launched = true;
+        const res = await axios.get("/pictalk/allPictos");
+        var views = [];
+        var already_saved_pictos=[];
+        await this.$store.dispatch("resetViews");
+        this.nb_requests = res.data.length - already_saved_pictos.length;
+        res.data.map(picto => {
+          if(!already_saved_pictos.find((elem) => elem == picto.id)){
+            if (picto.path) {
+              picto.path =
+                axios.defaults.baseURL + "/pictalk/" + picto.path;
             }
-          }
-          if(viewExists == -1){
-            views.push({collectionId: picto.collectionId, fatherId: picto.fatherId, pictos: Array()}); //Add view if not here
-            views[views.length -1].pictos.push({...picto});
-          } else {
-            views[viewExists].pictos.push({...picto});
-            already_saved_pictos.push(picto.id);
-          }
-        } 
-      });
-        
-      views.forEach((view) => {
-        this.$store.dispatch('addView', view);
-      });
-
-      return;
+            caches.open('picto'+picto.id).then((cache) => {
+              cache.add(picto.path)
+              .then(() => {this.done_requests+=1;})
+              .catch((err)=> {console.log(err)})
+            });
+            // View existante pour le picto ?
+            const viewExists = views.findIndex(
+              view => view.fatherId === picto.fatherId &&
+              view.collectionId === picto.collectionId
+            );
+            if(picto.folder == 1) {
+              const folderExists = views.findIndex(
+              view => view.fatherId === picto.id &&
+              view.collectionId === picto.collectionId
+              );
+              if(folderExists != -1){
+                views.push({collectionId: picto.collectionId, fatherId: picto.id, pictos: Array()}); //View of folder
+              }
+            }
+            if(viewExists == -1){
+              views.push({collectionId: picto.collectionId, fatherId: picto.fatherId, pictos: Array()}); //Add view if not here
+              views[views.length -1].pictos.push({...picto});
+            } else {
+              views[viewExists].pictos.push({...picto});
+              already_saved_pictos.push(picto.id);
+            }
+          } 
+        });
+          
+        views.forEach((view) => {
+          this.$store.dispatch('addView', view);
+        });
+        return;
+      } catch(e) {
+        this.nb_requests = 0;
+        this.done_requests = 0;
+            const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Server cannot be reached, check your internet connection`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "danger"
+            });
+        }
+      },
     },
     
     async onSave(username, password, language) {
@@ -178,6 +189,5 @@ export default {
 
       this.$router.push("/pictalk");
     }
-  }
 };
 </script>

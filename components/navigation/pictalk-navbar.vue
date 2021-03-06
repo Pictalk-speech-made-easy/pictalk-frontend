@@ -36,6 +36,12 @@
           />
           <b-button
             v-if="this.$route.path.includes('pictalk')"
+            type="is-success"
+            icon-right="refresh-circle"
+            @click="refreshPictos"
+          />
+          <b-button
+            v-if="this.$route.path.includes('pictalk')"
             type="is-info"
             icon-right="account-circle"
             tag="nuxt-link"
@@ -56,6 +62,12 @@
             :to="homeLink"
             icon-right="pencil"
           />
+          <b-button
+            type="is-light"
+            tag="nuxt-link"
+            to="/help"
+            icon-right="help-circle"
+          />
           <b-button type="is-light" @click="onLogout">Log Out</b-button>
         </div>
       </b-navbar-item>
@@ -70,6 +82,23 @@ export default {
     }
   },
   methods: {
+    refreshPictos(){
+      this.$store.dispatch('downloadAll').then(() => {const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Latest pictogramms downloaded successfully`,
+            position: "is-top-right",
+            type: "is-success",
+            hasIcon: true,
+            icon: "refresh"
+            });}).catch((error) => {const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: `Server cannot be reached, check your internet connection`,
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "danger"
+            });})
+    },
     eraseSpeech() {
       this.$store.commit("eraseSpeech");
       let adminMode=""
@@ -96,7 +125,7 @@ export default {
         onConfirm: value => {
           if (value == res) {
             if (!this.$route.query.isAdmin) {
-              this.$buefy.toast.open(`You are now in admin mode, congrats :D`);
+              this.$buefy.toast.open(`You are now in supervisor mode, congrats :D`);
             }
             this.$router.push(this.$route.path + "?isAdmin=true");
           }
