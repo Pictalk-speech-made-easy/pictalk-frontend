@@ -128,7 +128,7 @@ export default {
               picto.path =
                 axios.defaults.baseURL + "/pictalk/" + picto.path;
             }
-            caches.open('picto'+picto.id).then((cache) => {
+            caches.open('pictos').then((cache) => {
               cache.add(picto.path)
               .then(() => {this.done_requests+=1;})
               .catch((err)=> {console.log(err)})

@@ -60,11 +60,14 @@ export default {
   },
   methods: {
     fetchImage(){
-      caches.open('picto'+this.picto.id).then((cache) => {
-            cache.add(this.picto.path)
-            .then(() => {})
-            .catch((err)=> {console.log(err)})
-          });
+      if(navigator.onLine){
+        caches.open('pictos').then((cache) => {
+          cache.add(this.picto.path)
+          .then(() => {})
+          .catch((err)=> {console.log(err)})
+        });
+      }
+      
     },
     addToSpeech(path, speech, fatherId, folder, meaning) {
       this.$store.commit("addSpeech", {
