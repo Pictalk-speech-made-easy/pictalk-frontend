@@ -3,7 +3,7 @@
     <section class="section">
     <div class="container">
       <h1 class="title">Recent news !</h1>
-<b-image lazy alt="A little boy talking thanks to Pictalk" 
+        <b-image lazy alt="A little boy talking thanks to Pictalk" 
 				:srcset="require('@/assets/UpdatesandNews.png').srcSet"
                 style="width: 80%;margin-left: 10%"
 				></b-image>
