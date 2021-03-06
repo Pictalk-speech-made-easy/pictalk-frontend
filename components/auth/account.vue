@@ -54,6 +54,7 @@
     <br>
       <b-message type="is-success">
           <div class="subtitle">
+            ⚠️⚠️ ONLY WORKS WITH GOOGLE CHROME ⚠️⚠️
             This will download all of your pictograms so you don't need internet anymore... Use it when you leave home or go to vacations !
           </div>
         </b-message>
