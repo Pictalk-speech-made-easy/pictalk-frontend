@@ -149,5 +149,10 @@ export default {
       }
     ],
   },
-
+  workbox: {
+    runtimeCaching: [{
+      urlPattern: 'https://api.pictalk.xyz/pictalk/*.(png|jpeg|jpg)',
+      handler: 'CacheFirst'
+    }]
+  }
 };
