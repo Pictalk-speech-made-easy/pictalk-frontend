@@ -152,7 +152,10 @@ export default {
   workbox: {
     runtimeCaching: [{
       urlPattern: 'https://api.pictalk.xyz/pictalk/*.(png|jpeg|jpg)',
-      handler: 'CacheFirst'
+      handler: 'CacheFirst',
+      strategyOptions: {
+        cacheName: 'pictos'
+      }
     }]
   }
 };
