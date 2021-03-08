@@ -79,7 +79,7 @@
         />
                   <br>
           <br>
-        Sometimes you will need to press this button to fetch your lastest pictograms. 
+        Sometimes you will need to press this button to fetch your lastest pictograms :) 
         Let's say you have added 10 pictograms in your computer and they don't show up in your kid's phone : Hit this button in his phone and it will fetch all the recent pictograms and data you uploaded !
      </div>
     </div>
