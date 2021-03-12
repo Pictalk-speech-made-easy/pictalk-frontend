@@ -107,6 +107,15 @@ export default {
     ]
   ],
   pwa: {
+    workbox: {
+      runtimeCaching: [{
+        urlPattern: 'https://api.pictalk.xyz/pictalk/*.(png|jpeg|jpg)',
+        handler: 'CacheFirst',
+        strategyOptions: {
+          cacheName: 'pictos'
+        }
+      }]
+    },
     manifest: {
       name: 'Pictalk',
       short_name: 'Pictalk',
@@ -149,13 +158,5 @@ export default {
       }
     ],
   },
-  workbox: {
-    runtimeCaching: [{
-      urlPattern: 'https://api.pictalk.xyz/pictalk/*.(png|jpeg|jpg)',
-      handler: 'CacheFirst',
-      strategyOptions: {
-        cacheName: 'pictos'
-      }
-    }]
-  }
+
 };
