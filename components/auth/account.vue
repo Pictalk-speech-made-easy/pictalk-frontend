@@ -155,7 +155,7 @@ export default {
               already_saved_pictos.push(picto.id);
             }
           }
-          await delayInms(50); 
+          await this.delay(10);
         });
           
         views.forEach((view) => {
