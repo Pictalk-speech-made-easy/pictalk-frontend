@@ -39,7 +39,7 @@ export default {
         res.data.map(collection => {
           if (collection.path) {
             collection.path =
-              context.$config.baseURL + "/pictalk/" + collection.path;
+              context.$config.baseURL + "/pictalk/image/" + collection.path;
           }
         });
         context.store.commit("setCollections", res.data);

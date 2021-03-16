@@ -14,6 +14,7 @@
           )
         "
         width="60%"
+        crossorigin="anonymous"
       />
     </div>
 

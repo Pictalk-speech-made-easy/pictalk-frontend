@@ -137,7 +137,7 @@ export const actions = {
       picto: {
         speech: picto.speech,
         meaning: picto.meaning,
-        path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
+        path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
         folder: picto.folder,
         fatherId: picto.fatherId,
         id: res.data.id
@@ -177,7 +177,7 @@ export const actions = {
       editedPicto: {
         speech: editedPicto.speech,
         meaning: editedPicto.meaning,
-        path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
+        path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
         folder: editedPicto.folder,
         fatherId: editedPicto.fatherId,
         id: editedPicto.id
@@ -210,7 +210,7 @@ export const actions = {
     vuexContext.commit("addCollection", {
       name: collection.name,
       color: collection.color,
-      path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
+      path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
       id: res.data.id
     });
     return res;
@@ -232,7 +232,7 @@ export const actions = {
     vuexContext.commit("editCollection", {
       name: editedCollection.name,
       color: editedCollection.color,
-      path: axios.defaults.baseURL + "/pictalk/" + res.data.path,
+      path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
       id: editedCollection.id
     });
     return res;
@@ -327,7 +327,7 @@ export const actions = {
       if (!already_saved_pictos.find((elem) => elem == picto.id)) {
         if (picto.path) {
           picto.path =
-            axios.defaults.baseURL + "/pictalk/" + picto.path;
+            axios.defaults.baseURL + "/pictalk/image/" + picto.path;
         }
         // View existante pour le picto ?
         const viewExists = views.findIndex(

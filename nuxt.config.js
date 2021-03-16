@@ -109,7 +109,7 @@ export default {
   pwa: {
     workbox: {
       runtimeCaching: [{
-        urlPattern: 'https://api.pictalk.xyz/pictalk/*.(png|jpeg|jpg)',
+        urlPattern: (process.env.BASE_URL || "http://localhost:3001") + '/pictalk/image/.*',
         handler: 'CacheFirst',
         strategyOptions: {
           cacheName: 'pictos'

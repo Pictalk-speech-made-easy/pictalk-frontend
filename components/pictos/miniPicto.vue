@@ -1,6 +1,6 @@
 <template>
   <div class="containing">
-    <img class="image" style :src="path" />
+    <img class="image" style :src="path" crossorigin="anonymous"/>
     <div class="is-size-6">{{ meaning }}</div>
   </div>
 </template>

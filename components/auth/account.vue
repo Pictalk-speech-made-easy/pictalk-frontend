@@ -126,7 +126,7 @@ export default {
           if(!already_saved_pictos.find((elem) => elem == picto.id)){
             if (picto.path) {
               picto.path =
-                axios.defaults.baseURL + "/pictalk/" + picto.path;
+                axios.defaults.baseURL + "/pictalk/image/" + picto.path;
             }
             caches.open('pictos').then((cache) => {
               cache.add(picto.path)

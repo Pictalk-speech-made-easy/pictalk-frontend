@@ -1,7 +1,7 @@
 <template>
   <div class="containing">
     <nuxt-link :to="collectionLink">
-      <img :src="collection.path" class="image" width="60%" />
+      <img :src="collection.path" class="image" width="60%" crossorigin="anonymous" />
     </nuxt-link>
     <div v-if="adminMode" class="adminMenu">
       <div class="notification is-size-6">{{ collection.name }}</div>
