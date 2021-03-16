@@ -154,7 +154,8 @@ export default {
               views[viewExists].pictos.push({...picto});
               already_saved_pictos.push(picto.id);
             }
-          } 
+          }
+          await delayInms(10); 
         });
           
         views.forEach((view) => {

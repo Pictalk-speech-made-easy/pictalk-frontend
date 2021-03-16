@@ -107,6 +107,10 @@ export default {
     ]
   ],
   pwa: {
+    dev: true,
+    config: {
+      debug: true
+    },
     workbox: {
       runtimeCaching: [{
         urlPattern: (process.env.BASE_URL || "http://localhost:3001") + '/pictalk/image/.*',
