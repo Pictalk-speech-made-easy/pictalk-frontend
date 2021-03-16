@@ -122,7 +122,7 @@ export default {
         var already_saved_pictos=[];
         await this.$store.dispatch("resetViews");
         this.nb_requests = res.data.length - already_saved_pictos.length;
-        res.data.map(picto => {
+        res.data.map(async picto => {
           if(!already_saved_pictos.find((elem) => elem == picto.id)){
             if (picto.path) {
               picto.path =
