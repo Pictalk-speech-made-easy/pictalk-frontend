@@ -128,23 +128,21 @@ export default {
 					if (
 						!already_saved_pictos.find((elem) => elem == picto.id)
 					) {
-						axios
-							.get("/pictalk/image/" + picto.path)
-							.then((res) => {
-								if (res.status == 200) {
-									this.done_requests++;
-								}
-							})
-							.catch((err) => {
-								throw new Error("Could not get image");
-							});
-
 						if (picto.path) {
 							picto.path =
 								axios.defaults.baseURL +
 								"/pictalk/image/" +
 								picto.path;
 						}
+						caches.open("pictos").then((cache) => {
+							fetch(picto.path).then(function (response) {
+								if (!response.ok) {
+									throw new TypeError("bad response status");
+								}
+								return cache.put(picto.path, response);
+							});
+						});
+
 						/*
             caches.open('pictos').then((cache) => {
               cache.add(picto.path)
