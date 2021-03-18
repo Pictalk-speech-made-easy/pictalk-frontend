@@ -135,21 +135,14 @@ export default {
 								picto.path;
 						}
 						caches.open("pictos").then((cache) => {
-							fetch(picto.path).then(function (response) {
-								if (!response.ok) {
-									throw new TypeError("bad response status");
-								}
-								return cache.put(picto.path, response);
-							});
+							cache
+								.add(picto.path)
+								.then(() => {})
+								.catch((err) => {
+									console.log(err);
+								});
 						});
 
-						/*
-            caches.open('pictos').then((cache) => {
-              cache.add(picto.path)
-              .then(() => {})
-              .catch((err)=> {console.log(err)})
-            });
-            */
 						// View existante pour le picto ?
 						const viewExists = views.findIndex(
 							(view) =>

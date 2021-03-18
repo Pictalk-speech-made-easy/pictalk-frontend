@@ -112,13 +112,26 @@ export default {
       config: {
         debug: true
       },
-      runtimeCaching: [{
-        urlPattern: (process.env.BASE_URL || "http://localhost:3001") + '/pictalk/image/.*',
-        handler: 'CacheFirst',
-        strategyOptions: {
-          cacheName: 'pictos'
-        }
-      }]
+      cachingExtensions: '@/plugins/workboxConfig.js'
+      /*
+      runtimeCaching: [
+        {
+          urlPattern: (process.env.BASE_URL || "http://localhost:3001") + '/pictalk/image/.*',
+          handler: 'CacheFirst',
+          strategyOptions: {
+            cacheName: 'pictos'
+          }
+        },
+        strategyPlugins: [
+          {
+            use: 'Expiration',
+            config: {
+              maxEntries: 10,
+              maxAgeSeconds: 300
+            }
+          }
+        ]
+      ]*/
     },
     manifest: {
       name: 'Pictalk',
