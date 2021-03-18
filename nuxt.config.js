@@ -108,12 +108,12 @@ export default {
   ],
   pwa: {
     workbox: {
+      /*
       dev: true,
       config: {
         debug: true
-      },
-      cachingExtensions: '@/plugins/workboxConfig.js'
-      /*
+      },*/
+      //cachingExtensions: '@/plugins/workboxConfig.js'
       runtimeCaching: [
         {
           urlPattern: (process.env.BASE_URL || "http://localhost:3001") + '/pictalk/image/.*',
@@ -122,16 +122,7 @@ export default {
             cacheName: 'pictos'
           }
         },
-        strategyPlugins: [
-          {
-            use: 'Expiration',
-            config: {
-              maxEntries: 10,
-              maxAgeSeconds: 300
-            }
-          }
-        ]
-      ]*/
+      ]
     },
     manifest: {
       name: 'Pictalk',

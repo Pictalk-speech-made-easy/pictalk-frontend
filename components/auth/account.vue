@@ -48,6 +48,7 @@
 			show-value
 			format="percent"
 		></b-progress>
+		<!--
 		<b-button icon-left="download" type="is-info" @click="downloadAll()"
 			>Precharge all pictos
 		</b-button>
@@ -60,6 +61,7 @@
 				when you leave home or go to vacations !
 			</div>
 		</b-message>
+		-->
 	</div>
 </template>
 <script>
