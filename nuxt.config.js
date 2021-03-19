@@ -108,11 +108,11 @@ export default {
   ],
   pwa: {
     workbox: {
-      /*
+
       dev: true,
       config: {
         debug: true
-      },*/
+      },
       //cachingExtensions: '@/plugins/workboxConfig.js'
       runtimeCaching: [
         {

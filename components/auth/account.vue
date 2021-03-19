@@ -39,6 +39,7 @@
 			@click="onSave(user.username, user.password, user.language)"
 			>Save</b-button
 		>
+
 		<br />
 		<br />
 		<br />
@@ -48,7 +49,7 @@
 			show-value
 			format="percent"
 		></b-progress>
-		<!--
+
 		<b-button icon-left="download" type="is-info" @click="downloadAll()"
 			>Precharge all pictos
 		</b-button>
@@ -61,7 +62,6 @@
 				when you leave home or go to vacations !
 			</div>
 		</b-message>
-		-->
 	</div>
 </template>
 <script>
@@ -126,7 +126,7 @@ export default {
 				await this.$store.dispatch("resetViews");
 				this.nb_requests =
 					res.data.length - already_saved_pictos.length;
-				res.data.map(async (picto) => {
+				res.data.forEach(async (picto) => {
 					if (
 						!already_saved_pictos.find((elem) => elem == picto.id)
 					) {
@@ -139,12 +139,13 @@ export default {
 						caches.open("pictos").then((cache) => {
 							cache
 								.add(picto.path)
-								.then(() => {})
+								.then(() => {
+									this.done_requests++;
+								})
 								.catch((err) => {
 									console.log(err);
 								});
 						});
-
 						// View existante pour le picto ?
 						const viewExists = views.findIndex(
 							(view) =>
@@ -171,16 +172,16 @@ export default {
 								fatherId: picto.fatherId,
 								pictos: Array(),
 							}); //Add view if not here
-							views[views.length - 1].pictos.push({ ...picto });
+							views[views.length - 1].pictos.push({
+								...picto,
+							});
 						} else {
 							views[viewExists].pictos.push({ ...picto });
 							already_saved_pictos.push(picto.id);
 						}
 					}
-					await this.delay(10);
 				});
 				views.forEach((view) => {
-					console.log("view added");
 					this.$store.dispatch("addView", view);
 				});
 				return;
