@@ -126,17 +126,21 @@ export default {
 				await this.$store.dispatch("resetViews");
 				this.nb_requests =
 					res.data.length - already_saved_pictos.length;
-				res.data.forEach(async (picto) => {
-					if (
-						!already_saved_pictos.find((elem) => elem == picto.id)
-					) {
-						if (picto.path) {
-							picto.path =
-								axios.defaults.baseURL +
-								"/pictalk/image/" +
-								picto.path;
-						}
-						caches.open("pictos").then((cache) => {
+				const cache = await caches.open("pictos");
+				new Promise((resolve, reject) =>
+					res.data.forEach(async (picto, index, array) => {
+						if (
+							!already_saved_pictos.find(
+								(elem) => elem == picto.id
+							)
+						) {
+							if (picto.path) {
+								picto.path =
+									axios.defaults.baseURL +
+									"/pictalk/image/" +
+									picto.path;
+							}
+
 							cache
 								.add(picto.path)
 								.then(() => {
@@ -145,46 +149,50 @@ export default {
 								.catch((err) => {
 									console.log(err);
 								});
-						});
-						// View existante pour le picto ?
-						const viewExists = views.findIndex(
-							(view) =>
-								view.fatherId === picto.fatherId &&
-								view.collectionId === picto.collectionId
-						);
-						if (picto.folder == 1) {
-							const folderExists = views.findIndex(
+							// View existante pour le picto ?
+							const viewExists = views.findIndex(
 								(view) =>
-									view.fatherId === picto.id &&
+									view.fatherId === picto.fatherId &&
 									view.collectionId === picto.collectionId
 							);
-							if (folderExists != -1) {
+							if (picto.folder == 1) {
+								const folderExists = views.findIndex(
+									(view) =>
+										view.fatherId === picto.id &&
+										view.collectionId === picto.collectionId
+								);
+								if (folderExists != -1) {
+									views.push({
+										collectionId: picto.collectionId,
+										fatherId: picto.id,
+										pictos: Array(),
+									}); //View of folder
+								}
+							}
+							if (viewExists == -1) {
 								views.push({
 									collectionId: picto.collectionId,
-									fatherId: picto.id,
+									fatherId: picto.fatherId,
 									pictos: Array(),
-								}); //View of folder
+								}); //Add view if not here
+								views[views.length - 1].pictos.push({
+									...picto,
+								});
+							} else {
+								views[viewExists].pictos.push({ ...picto });
+								already_saved_pictos.push(picto.id);
 							}
 						}
-						if (viewExists == -1) {
-							views.push({
-								collectionId: picto.collectionId,
-								fatherId: picto.fatherId,
-								pictos: Array(),
-							}); //Add view if not here
-							views[views.length - 1].pictos.push({
-								...picto,
-							});
-						} else {
-							views[viewExists].pictos.push({ ...picto });
-							already_saved_pictos.push(picto.id);
+						console.log(index === array.length - 1);
+						if (index === array.length - 1) {
+							resolve();
 						}
-					}
+					})
+				).then(() => {
+					views.forEach((view) => {
+						this.$store.dispatch("addView", view);
+					});
 				});
-				views.forEach((view) => {
-					this.$store.dispatch("addView", view);
-				});
-				return;
 			} catch (e) {
 				this.nb_requests = 0;
 				this.done_requests = 0;

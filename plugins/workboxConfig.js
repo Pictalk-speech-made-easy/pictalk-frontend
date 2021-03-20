@@ -6,6 +6,9 @@ workbox.routing.registerRoute(
       new workbox.cacheableResponse.CacheableResponsePlugin({ statuses: [200] }),
       new workbox.rangeRequests.RangeRequestsPlugin(),
     ],
+    matchOptions: {
+      ignoreSearch: true,
+      ignoreVary: true
+    }
   }),
-  'GET'
 );
