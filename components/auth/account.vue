@@ -51,15 +51,14 @@
 		></b-progress>
 
 		<b-button icon-left="download" type="is-info" @click="downloadAll()"
-			>Precharge all pictos
+			>Download all pictograms
 		</b-button>
 		<br />
 		<br />
 		<b-message type="is-success">
 			<div class="subtitle">
-				⚠️⚠️ ONLY WORKS WITH GOOGLE CHROME ⚠️⚠️ This will download all
-				of your pictograms so you don't need internet anymore... Use it
-				when you leave home or go to vacations !
+				Pressing this button will download all your pictograms so you
+				can safely use Pictalk in offline mode !
 			</div>
 		</b-message>
 	</div>
@@ -185,7 +184,6 @@ export default {
 								already_saved_pictos.push(picto.id);
 							}
 						}
-						console.log(index === array.length - 1);
 						if (index === array.length - 1) {
 							resolve();
 						}
