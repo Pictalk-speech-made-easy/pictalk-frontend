@@ -14,6 +14,7 @@
           )
         "
         width="60%"
+        crossorigin="anonymous"
       />
     </div>
 
@@ -41,9 +42,6 @@
 import axios from 'axios';
 import editPicto from "@/components/pictos/editPicto";
 export default {
-  created() {
-    this.fetchImage();
-  },
   name: "picto",
   components: {
     editPicto
@@ -59,16 +57,8 @@ export default {
     },
   },
   methods: {
-    fetchImage(){
-      if(navigator.onLine){
-        caches.open('pictos').then((cache) => {
-          cache.add(this.picto.path)
-          .then(() => {})
-          .catch((err)=> {console.log(err)})
-        });
-      }
-      
-    },
+
+
     addToSpeech(path, speech, fatherId, folder, meaning) {
       this.$store.commit("addSpeech", {
         path: path,

@@ -43,6 +43,16 @@
 			</div>
 		</div>
 		</div>
+		<br>
+		<br>
+		<div class="container">
+			<b-message type="is-success">
+				<div class="subtitle">
+					Pictalk is now <b>offline-ready</b> ✈️ ! 
+					Are you going somewhere without any <b>internet</b> connection ? Not a problem now, just <b>download all</b> your pictograms in <b>one click</b> (Go to the account page)
+					</div>
+			</b-message>
+		</div>
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
@@ -82,6 +92,7 @@
 						<li> Forever <b>free</b></li>
 						<li> <b> Easy</b> to use  </li>
 						<li> <b> Zero </b> third-party cookies </li>
+						<li> <b> Offline-ready </b> </li>
 						</ol>
 					</p>
 				</div>
@@ -146,7 +157,13 @@ export default {
 	transform: translate(-50%, -50%);
 }
 .soontobe {
-	background: repeating-linear-gradient(60deg, white, white 35px, #ff5758 35px, #ff5758 70px);
+	background: repeating-linear-gradient(
+		60deg,
+		white,
+		white 35px,
+		#ff5758 35px,
+		#ff5758 70px
+	);
 	min-height: 100%;
 }
 .box {

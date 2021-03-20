@@ -94,7 +94,7 @@ export default {
         );
         res.data.map(picto => {
           if (picto.path) {
-            picto.path = context.$config.baseURL + "/pictalk/" + picto.path;
+            picto.path = context.$config.baseURL + "/pictalk/image/" + picto.path;
           }
         });
         await context.store.dispatch("addView", {
@@ -125,7 +125,7 @@ export default {
         res.data.map(collection => {
           if (collection.path) {
             collection.path =
-              context.$config.baseURL + "/pictalk/" + collection.path;
+              context.$config.baseURL + "/pictalk/image/" + collection.path;
           }
         });
         context.store.commit("setCollections", res.data);

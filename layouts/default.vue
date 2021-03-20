@@ -1,22 +1,28 @@
 <template>
-  <div>
-    <navbar />
-    <hr />
-    <nuxt />
-    <hr />
-    <CookieControl/>
-    <footerPictalk />
-  </div>
+	<div class="wrapper">
+		<navbar />
+		<hr />
+		<nuxt />
+		<hr />
+		<CookieControl />
+		<footerPictalk />
+	</div>
 </template>
 
 <script>
 import navbar from "@/components/navigation/navbar";
 import footerPictalk from "@/components/navigation/footer";
 export default {
-  components: {
-    navbar,
-    footerPictalk
-  }
+	components: {
+		navbar,
+		footerPictalk,
+	},
 };
 </script>
+<style scoped>
+.wrapper {
+	overflow-x: hidden;
+	position: relative;
+}
+</style>
 

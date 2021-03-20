@@ -1,7 +1,7 @@
 <template>
   <div class="containing">
     <nuxt-link :to="collectionLink">
-      <img :src="collection.path" class="image" width="60%" />
+      <img :src="collection.path" class="image" width="60%" crossorigin="anonymous" />
     </nuxt-link>
     <div v-if="adminMode" class="adminMenu">
       <div class="notification is-size-6">{{ collection.name }}</div>
@@ -22,9 +22,6 @@
 <script>
 import editCollection from "@/components/pictos/editCollection";
 export default {
-  created(){
-    this.fetchImage();
-  },
   components: {
     editCollection
   },
@@ -39,15 +36,6 @@ export default {
     }
   },
   methods: {
-    fetchImage(){
-      if(navigator.onLine){
-          caches.open('collections').then((cache) => {
-            cache.add(this.collection.path)
-            .then(() => {})
-            .catch((err)=> {console.log(err)})
-          });
-      }
-    },
     async removeCollection(collectionId) {
       const res = await this.$store.dispatch("removeCollection", collectionId);
     },
