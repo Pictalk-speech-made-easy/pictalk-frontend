@@ -52,6 +52,11 @@
 					Are you going somewhere without any <b>internet</b> connection ? Not a problem now, just <b>download all</b> your pictograms in <b>one click</b> (Go to the account page)
 					</div>
 			</b-message>
+			<b-message type="is-danger">
+				<div class="subtitle">
+					After the latest update, you'll need to <b>Log out</b> and Log in in order to make the app work properly, sorry for the inconvinience.
+					</div>
+			</b-message>
 		</div>
 		<section class="hero">
 			<div class="hero-body">
@@ -132,6 +137,15 @@
 import signup from "@/components/auth/signupModal";
 
 export default {
+	created() {
+		this.$buefy.notification.open({
+			duration: 10000,
+			message: `After the recent update, you will need to <b>Log out</b> and Log In in order to make the app work properly`,
+			position: "is-top-right",
+			type: "is-danger",
+			hasIcon: true,
+		});
+	},
 	components: {
 		signup,
 	},
