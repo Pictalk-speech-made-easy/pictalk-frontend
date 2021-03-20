@@ -126,7 +126,7 @@ export default {
 				await this.$store.dispatch("resetViews");
 				this.nb_requests =
 					res.data.length - already_saved_pictos.length;
-				//const cache = await caches.open("pictos"); IT MAKES CRASH CHROME
+				const cache = await caches.open("pictos");
 				new Promise((resolve, reject) =>
 					res.data.forEach(async (picto, index, array) => {
 						if (
@@ -140,16 +140,16 @@ export default {
 									"/pictalk/image/" +
 									picto.path;
 							}
-							caches.open("pictos").then((cache) => {
-								cache
-									.add(picto.path)
-									.then(() => {
-										this.done_requests++;
-									})
-									.catch((err) => {
-										console.log(err);
-									});
-							});
+							//caches.open("pictos").then((cache) => {
+							cache
+								.add(picto.path)
+								.then(() => {
+									this.done_requests++;
+								})
+								.catch((err) => {
+									console.log(err);
+								});
+							//});
 
 							// View existante pour le picto ?
 							const viewExists = views.findIndex(
