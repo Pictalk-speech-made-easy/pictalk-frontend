@@ -89,6 +89,9 @@ export const mutations = {
   resetViews(state) {
     state.pictoviews = [];
   },
+  resetCollections(state) {
+    state.collections = [];
+  },
   setToken(state, token) {
     state.token = token;
   },
@@ -357,6 +360,17 @@ export const actions = {
     });
 
     return;
+  },
+  async downloadCollections(vuexContext) {
+    const res = await axios.get("/pictalk/collection");
+    res.data.map(collection => {
+      if (collection.path) {
+        collection.path =
+          axios.defaults.baseURL + "/pictalk/image/" + collection.path;
+      }
+    });
+    vuexContext.commit("resetCollections");
+    vuexContext.commit("setCollections", res.data);
   }
 }
 export const getters = {
