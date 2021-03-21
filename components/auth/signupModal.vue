@@ -191,7 +191,7 @@ export default {
 					) {
 						const notif = this.$buefy.notification.open({
 							duration: 5000,
-							message: `Some parameters are invalid`,
+							message: `Some parameters are invalid (like the email address or the password)`,
 							position: "is-top-right",
 							type: "is-danger",
 							hasIcon: true,
