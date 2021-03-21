@@ -100,7 +100,6 @@ export default {
 					icon: "refresh",
 				});
 			} catch (err) {
-				console.log(err);
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: `Server cannot be reached, check your internet connection`,
