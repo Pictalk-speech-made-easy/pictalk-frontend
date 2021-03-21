@@ -58,7 +58,8 @@
 		<b-message type="is-success">
 			<div class="subtitle">
 				Pressing this button will download all your pictograms so you
-				can safely use Pictalk in offline mode !
+				can safely use Pictalk in offline mode ! Please be patient and
+				wait at least for a minute.
 			</div>
 		</b-message>
 	</div>
@@ -125,7 +126,7 @@ export default {
 				await this.$store.dispatch("resetViews");
 				this.nb_requests =
 					res.data.length - already_saved_pictos.length;
-				//const cache = await caches.open("pictos");
+				//const cache = await caches.open("pictos"); //TODO only dirty way works
 				new Promise((resolve, reject) =>
 					res.data.forEach(async (picto, index, array) => {
 						if (

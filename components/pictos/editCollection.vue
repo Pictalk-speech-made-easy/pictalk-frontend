@@ -14,55 +14,94 @@
 					></b-input>
 				</b-field>
 				<b-field label="Color">
-					<b-input type="color" v-model="collection.color" required></b-input>
+					<b-input
+						type="color"
+						v-model="collection.color"
+						required
+					></b-input>
 				</b-field>
 				<br />
 				<div>
 					<section>
 						<b-field class="file">
-							<b-upload v-model="file" accept="image/*" native expanded required>
+							<b-upload
+								v-model="file"
+								accept="image/*"
+								native
+								expanded
+								required
+							>
 								<a class="button is-primary is-fullwidth">
 									<b-icon icon="upload"></b-icon>
-									<span>{{ file.name || "Click to upload" }}</span>
+									<span>{{
+										file.name || "Click to upload"
+									}}</span>
 								</a>
 							</b-upload>
 						</b-field>
 						<b-field>
-							<b-upload v-model="file" accept="image/*" native drag-drop expanded>
+							<b-upload
+								v-model="file"
+								accept="image/*"
+								native
+								drag-drop
+								expanded
+							>
 								<section class="section">
 									<div class="content has-text-centered">
 										<p>
-											<b-icon icon="upload" size="is-large"></b-icon>
+											<b-icon
+												icon="upload"
+												size="is-large"
+											></b-icon>
 										</p>
-										<p>Drop your files here or click to upload</p>
+										<p>
+											Drop your files here or click to
+											upload
+										</p>
 									</div>
 								</section>
 							</b-upload>
 						</b-field>
 						<b-field>
-							<b-switch v-model="highQuality"
+							<b-switch
+								v-model="highQuality"
 								false-value="Standard quality (for pictograms)"
-								true-value="High quality (for pictures)">
+								true-value="High quality (for pictures)"
+							>
 								{{ highQuality }}
 							</b-switch>
-        				</b-field>
+						</b-field>
 						<div class="tags">
 							<span class="tag is-primary">
 								{{ file.name }}
-								<button class="delete is-small" type="button" @click="file = {}"></button>
+								<button
+									class="delete is-small"
+									type="button"
+									@click="file = {}"
+								></button>
 							</span>
 						</div>
 					</section>
 				</div>
 			</section>
 			<footer class="modal-card-foot">
-				<b-button class="button" type="button" @click="$parent.close()">Close</b-button>
+				<b-button class="button" type="button" @click="$parent.close()"
+					>Close</b-button
+				>
 				<b-button
 					class="button is-primary"
 					@click="
-            onSubmitted(collection.name, collection.color, file, collection.id, highQuality)
-          "
-				>Create</b-button>
+						onSubmitted(
+							collection.name,
+							collection.color,
+							file,
+							collection.id,
+							highQuality
+						)
+					"
+					>Create</b-button
+				>
 			</footer>
 		</div>
 	</form>
@@ -73,14 +112,14 @@ export default {
 	props: {
 		collection: {
 			type: Object,
-			required: true
-		}
+			required: true,
+		},
 	},
 	data() {
 		return {
 			selectedOption: "",
 			file: {},
-			highQuality: "Standard quality (for pictograms)"
+			highQuality: "Standard quality (for pictograms)",
 		};
 	},
 	methods: {
@@ -88,8 +127,19 @@ export default {
 			if (name != "" && color != "") {
 				try {
 					if (file.name) {
-						let quality
-						quality = highQuality=="High quality (for pictures)" ? quality=0.1 : quality=0.01;
+						if (!file.name.match(/\.(jpeg|png|gif)$/)) {
+							this.$buefy.notification.open({
+								message:
+									"Only <b>gif png</b> or <b>jpeg</b> images are allowed",
+								type: "is-warning",
+							});
+							return;
+						}
+						let quality;
+						quality =
+							highQuality == "High quality (for pictures)"
+								? (quality = 0.1)
+								: (quality = 0.01);
 						const cfile = await jpegasus.compress(file, {
 							maxHeight: 500,
 							maxWidth: 500,
@@ -101,7 +151,7 @@ export default {
 								id: id,
 								name: name,
 								color: color,
-								image: cfile
+								image: cfile,
 							}
 						);
 					} else {
@@ -110,25 +160,31 @@ export default {
 							{
 								id: id,
 								name: name,
-								color: color
+								color: color,
 							}
 						);
 					}
 
 					this.$buefy.notification.open({
 						message: "The collection was edited flawlessly !",
-						type: "is-success"
+						type: "is-success",
 					});
 					this.$parent.close();
 				} catch (ex) {
 					console.log(ex);
 					this.$buefy.notification.open({
 						message: "Something bad happened...",
-						type: "is-danger"
+						type: "is-danger",
 					});
 				}
+			} else {
+				this.$buefy.notification.open({
+					message:
+						"Please input a Color or a Name or a File... Color and Name can't be empty",
+					type: "is-danger",
+				});
 			}
-		}
-	}
+		},
+	},
 };
 </script>
