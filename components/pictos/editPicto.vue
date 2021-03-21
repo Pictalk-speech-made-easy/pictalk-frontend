@@ -79,12 +79,14 @@
 							</b-upload>
 						</b-field>
 						<b-field>
-							<b-switch v-model="highQuality"
+							<b-switch
+								v-model="highQuality"
 								false-value="Standard quality (for pictograms)"
-								true-value="High quality (for pictures)">
+								true-value="High quality (for pictures)"
+							>
 								{{ highQuality }}
 							</b-switch>
-        				</b-field>
+						</b-field>
 						<div class="tags">
 							<span class="tag is-primary">
 								{{ file.name }}
@@ -132,8 +134,7 @@ export default {
 		return {
 			selectedOption: "",
 			file: {},
-			highQuality: "Standard quality (for pictograms)"
-
+			highQuality: "Standard quality (for pictograms)",
 		};
 	},
 	computed: {
@@ -181,15 +182,26 @@ export default {
 				console.log("Your browser doesn't support speechSynthesis :(");
 			}
 		},
-		async onSubmitted(speech, meaning, isfolder, file,highQuality) {
-			if ( meaning != "") {
-				if(speech == ""){
-						speech = " ";
+		async onSubmitted(speech, meaning, isfolder, file, highQuality) {
+			if (meaning != "") {
+				if (speech == "") {
+					speech = " ";
 				}
 				try {
 					if (file.name) {
-						let quality
-						quality = highQuality=="High quality (for pictures)" ? quality=0.1 : quality=0.01;
+						if (!file.name.match(/\.(jpeg|png|gif)$/)) {
+							this.$buefy.notification.open({
+								message:
+									"Only <b>gif png</b> or <b>jpeg</b> images are allowed",
+								type: "is-warning",
+							});
+							return;
+						}
+						let quality;
+						quality =
+							highQuality == "High quality (for pictures)"
+								? (quality = 0.1)
+								: (quality = 0.01);
 						const cfile = await jpegasus.compress(file, {
 							maxHeight: 500,
 							maxWidth: 500,
@@ -242,6 +254,11 @@ export default {
 						type: "is-danger",
 					});
 				}
+			} else {
+				this.$buefy.notification.open({
+					message: "Meaning can't be empty",
+					type: "is-danger",
+				});
 			}
 		},
 	},

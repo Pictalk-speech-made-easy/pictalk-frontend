@@ -79,12 +79,14 @@
 							</b-upload>
 						</b-field>
 						<b-field>
-							<b-switch v-model="highQuality"
+							<b-switch
+								v-model="highQuality"
 								false-value="Standard quality (for pictograms)"
-								true-value="High quality (for pictures)">
+								true-value="High quality (for pictures)"
+							>
 								{{ highQuality }}
 							</b-switch>
-        				</b-field>
+						</b-field>
 						<div class="tags">
 							<span class="tag is-primary">
 								{{ file.name }}
@@ -95,7 +97,6 @@
 								></button>
 							</span>
 						</div>
-						
 					</section>
 				</div>
 			</section>
@@ -107,7 +108,13 @@
 				<b-button
 					class="button is-primary"
 					@click="
-						onSubmitted(pictoSpeech, pictoMeaning, isFolder, file, highQuality)
+						onSubmitted(
+							pictoSpeech,
+							pictoMeaning,
+							isFolder,
+							file,
+							highQuality
+						)
 					"
 					>Create</b-button
 				>
@@ -125,7 +132,7 @@ export default {
 			pictoMeaning: "",
 			isFolder: "0",
 			file: {},
-			highQuality: "Standard quality (for pictograms)"
+			highQuality: "Standard quality (for pictograms)",
 		};
 	},
 	computed: {
@@ -174,12 +181,23 @@ export default {
 		},
 		async onSubmitted(speech, meaning, isfolder, file, highQuality) {
 			if (meaning != "" && file.name) {
-				if(speech == ""){
+				if (!file.name.match(/\.(jpeg|png|gif)$/)) {
+					this.$buefy.notification.open({
+						message:
+							"Only <b>gif png</b> or <b>jpeg</b> images are allowed",
+						type: "is-warning",
+					});
+					return;
+				}
+				if (speech == "") {
 					speech = " ";
 				}
 				try {
 					let quality;
-					quality = highQuality=="High quality (for pictures)" ? quality=0.1 : quality=0.01;
+					quality =
+						highQuality == "High quality (for pictures)"
+							? (quality = 0.1)
+							: (quality = 0.01);
 					const cfile = await jpegasus.compress(file, {
 						maxHeight: 500,
 						maxWidth: 500,
@@ -210,6 +228,12 @@ export default {
 						type: "is-danger",
 					});
 				}
+			} else {
+				this.$buefy.notification.open({
+					message:
+						"Please input a speech, a meaning, a isFolder and a File...",
+					type: "is-danger",
+				});
 			}
 		},
 	},
