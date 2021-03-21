@@ -26,6 +26,16 @@
 						validation-message="At least one captial letter, one digit and a password minimum length of 8"
 					></b-input>
 				</b-field>
+				<b-field label="Confirm Password">
+					<b-input
+						type="password"
+						password-reveal
+						placeholder="C0nf1rm y0ur Stro!g Passw0Rd"
+						required
+						minlength="8"
+						v-model="passwordConfirmation"
+					></b-input>
+				</b-field>
 				<b-field label="Language">
 					<b-select
 						v-model="language"
@@ -65,7 +75,14 @@
 				<b-button
 					class="is-primary"
 					@click="
-						onSubmit(username, password, language, majority, terms)
+						onSubmit(
+							username,
+							password,
+							language,
+							majority,
+							terms,
+							passwordConfirmation
+						)
 					"
 					>Sign Up</b-button
 				>
@@ -85,6 +102,7 @@ export default {
 			languages: [],
 			terms: false,
 			majority: false,
+			passwordConfirmation: "",
 		};
 	},
 	async created() {
@@ -107,10 +125,18 @@ export default {
 				}, delayInms);
 			});
 		},
-		async onSubmit(username, password, language, major, terms) {
+		async onSubmit(
+			username,
+			password,
+			language,
+			major,
+			terms,
+			passwordConfirmation
+		) {
 			if (
 				username == "" ||
 				password == "" ||
+				passwordConfirmation == "" ||
 				major == false ||
 				terms == false
 			) {
@@ -121,6 +147,17 @@ export default {
 					type: "is-info",
 					hasIcon: true,
 					icon: "account",
+				});
+				return;
+			}
+			if (passwordConfirmation != password) {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: `Passwords do not correspond...`,
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+					icon: "key",
 				});
 				return;
 			}
@@ -161,14 +198,25 @@ export default {
 							icon: "account",
 						});
 					} else {
-						const notif = this.$buefy.notification.open({
-							duration: 5000,
-							message: `Server cannot be reached`,
-							position: "is-top-right",
-							type: "is-danger",
-							hasIcon: true,
-							icon: "account",
-						});
+						if (error.response.status == 500) {
+							const notif = this.$buefy.notification.open({
+								duration: 5000,
+								message: `This email is already used`,
+								position: "is-top-right",
+								type: "is-danger",
+								hasIcon: true,
+								icon: "mail",
+							});
+						} else {
+							const notif = this.$buefy.notification.open({
+								duration: 5000,
+								message: `Server cannot be reached`,
+								position: "is-top-right",
+								type: "is-danger",
+								hasIcon: true,
+								icon: "account",
+							});
+						}
 					}
 				} else {
 					const notif = this.$buefy.notification.open({
