@@ -137,15 +137,6 @@
 import signup from "@/components/auth/signupModal";
 
 export default {
-	created() {
-		this.$buefy.notification.open({
-			duration: 10000,
-			message: `After the recent update, you will need to <b>Log out</b> and Log In in order to make the app work properly`,
-			position: "is-top-right",
-			type: "is-danger",
-			hasIcon: true,
-		});
-	},
 	components: {
 		signup,
 	},
