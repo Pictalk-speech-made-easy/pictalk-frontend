@@ -2,14 +2,14 @@
 	<form action>
 		<div class="modal-card" style="width: auto">
 			<header class="modal-card-head">
-				<p class="modal-card-title">Edit Pictogram</p>
+				<p class="modal-card-title">{{ $t("EditPictogram") }}</p>
 			</header>
 			<section class="modal-card-body">
-				<b-field label="Speech">
+				<b-field :label="$t('Speech')">
 					<b-input
 						type="text"
 						v-model="picto.speech"
-						placeholder="The text to be displayed..."
+						:placeholder="$t('SpeechNotice')"
 					></b-input>
 				</b-field>
 				<b-button
@@ -19,20 +19,20 @@
 				/>
 				<br />
 				<br />
-				<b-field label="Meaning">
+				<b-field :label="$t('Meaning')">
 					<b-input
 						type="text"
 						v-model="picto.meaning"
-						placeholder="The text to be spoken"
+						:placeholder="$t('MeaningNotice')"
 						required
 					></b-input>
 				</b-field>
-				<b-field label="Folder">
+				<b-field :label="$t('Folder')">
 					<b-checkbox
 						v-model="picto.folder"
 						true-value="1"
 						false-value="0"
-						>is it a folder ?</b-checkbox
+						>{{ $t("FolderNotice") }}</b-checkbox
 					>
 				</b-field>
 				<br />
@@ -41,7 +41,7 @@
 						<b-field class="file">
 							<b-upload
 								v-model="file"
-								accept="image/*"
+								accept="image/png, image/jpeg, image/gif"
 								native
 								expanded
 								required
@@ -49,7 +49,7 @@
 								<a class="button is-primary is-fullwidth">
 									<b-icon icon="upload"></b-icon>
 									<span>{{
-										file.name || "Click to upload"
+										file.name || $t("ClickToUpload")
 									}}</span>
 								</a>
 							</b-upload>
@@ -57,7 +57,7 @@
 						<b-field>
 							<b-upload
 								v-model="file"
-								accept="image/*"
+								accept="image/png, image/jpeg, image/gif"
 								native
 								drag-drop
 								expanded
@@ -71,8 +71,7 @@
 											></b-icon>
 										</p>
 										<p>
-											Drop your files here or click to
-											upload
+											{{ $t("DropFiles") }}
 										</p>
 									</div>
 								</section>
@@ -81,8 +80,8 @@
 						<b-field>
 							<b-switch
 								v-model="highQuality"
-								false-value="Standard quality (for pictograms)"
-								true-value="High quality (for pictures)"
+								:false-value="$t('StandardQuality')"
+								:true-value="$t('HighQuality')"
 							>
 								{{ highQuality }}
 							</b-switch>
@@ -101,8 +100,11 @@
 				</div>
 			</section>
 			<footer class="modal-card-foot">
-				<b-button class="button" type="button" @click="$parent.close()"
-					>Close</b-button
+				<b-button
+					class="button"
+					type="button"
+					@click="$parent.close()"
+					>{{ $t("Close") }}</b-button
 				>
 				<b-button
 					class="button is-primary"
@@ -115,7 +117,7 @@
 							highQuality
 						)
 					"
-					>Create</b-button
+					>{{ $t("Create") }}</b-button
 				>
 			</footer>
 		</div>
@@ -134,7 +136,7 @@ export default {
 		return {
 			selectedOption: "",
 			file: {},
-			highQuality: "Standard quality (for pictograms)",
+			highQuality: this.$t("StandardQuality"),
 		};
 	},
 	computed: {
@@ -191,15 +193,14 @@ export default {
 					if (file.name) {
 						if (!file.name.match(/\.(jpeg|png|gif)$/)) {
 							this.$buefy.notification.open({
-								message:
-									"Only <b>gif png</b> or <b>jpeg</b> images are allowed",
+								message: this.$t("ImageFiles"),
 								type: "is-warning",
 							});
 							return;
 						}
 						let quality;
 						quality =
-							highQuality == "High quality (for pictures)"
+							highQuality == this.$t("HighQuality")
 								? (quality = 0.1)
 								: (quality = 0.01);
 						const cfile = await jpegasus.compress(file, {
@@ -243,20 +244,20 @@ export default {
 						});
 					}
 					this.$buefy.notification.open({
-						message: "The pictogram was edited flawlessly !",
+						message: this.$t("EditedPictogram"),
 						type: "is-success",
 					});
 					this.$parent.close();
 				} catch (ex) {
 					console.log(ex);
 					this.$buefy.notification.open({
-						message: "Something bad happened...",
+						message: this.$t("SomeThingBadHappened"),
 						type: "is-danger",
 					});
 				}
 			} else {
 				this.$buefy.notification.open({
-					message: "Meaning can't be empty",
+					message: this.$t("MeaningEmpty"),
 					type: "is-danger",
 				});
 			}

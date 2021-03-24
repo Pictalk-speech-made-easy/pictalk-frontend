@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-field label="Email">
+		<b-field :label="$t('Email')">
 			<b-input
 				v-model="user.username"
 				placeholder="exemple@mail.com"
@@ -8,7 +8,7 @@
 				maxlength="30"
 			></b-input>
 		</b-field>
-		<b-field label="Password">
+		<b-field :label="$t('Password')">
 			<b-input
 				v-model="user.password"
 				placeholder="S0meExample!"
@@ -17,7 +17,7 @@
 				password-reveal
 			></b-input>
 		</b-field>
-		<b-field label="Language">
+		<b-field :label="$t('Language')">
 			<b-select
 				v-model="user.language"
 				placeholder="Select language"
@@ -33,11 +33,11 @@
 			</b-select>
 		</b-field>
 		<hr />
-		<b-button tag="nuxt-link" to="/pictalk">Cancel</b-button>
+		<b-button tag="nuxt-link" to="/pictalk">{{ $t("Cancel") }}</b-button>
 		<b-button
 			type="is-info"
 			@click="onSave(user.username, user.password, user.language)"
-			>Save</b-button
+			>{{ $t("Save") }}</b-button
 		>
 
 		<br />
@@ -51,15 +51,13 @@
 		></b-progress>
 
 		<b-button icon-left="download" type="is-info" @click="downloadAll()"
-			>Download all pictograms
+			>{{ $t("DownloadAllPictos") }}
 		</b-button>
 		<br />
 		<br />
 		<b-message type="is-success">
 			<div class="subtitle">
-				Pressing this button will download all your pictograms so you
-				can safely use Pictalk in offline mode ! Please be patient and
-				wait at least for a minute.
+				{{ $t("DownloadAllPictosNotice") }}
 			</div>
 		</b-message>
 	</div>
@@ -199,7 +197,7 @@ export default {
 				this.done_requests = 0;
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
-					message: `Server cannot be reached, check your internet connection`,
+					message: $t("ServerOffline"),
 					position: "is-top-right",
 					type: "is-danger",
 					hasIcon: true,

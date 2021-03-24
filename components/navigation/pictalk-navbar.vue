@@ -10,25 +10,38 @@
 			</b-navbar-item>
 		</template>
 		<template slot="start">
-			<b-navbar-item tag="nuxt-link" to="/">Home</b-navbar-item>
+			<b-navbar-item tag="nuxt-link" to="/">{{
+				$t("Home")
+			}}</b-navbar-item>
 			<b-navbar-item tag="nuxt-link" to="/getstarted"
-				>Get Started ! 🚀</b-navbar-item
+				>{{ $t("GetStarted") }} 🚀</b-navbar-item
 			>
 			<b-navbar-dropdown label="Info">
-				<b-navbar-item tag="nuxt-link" to="/about">About</b-navbar-item>
+				<b-navbar-item tag="nuxt-link" to="/about">{{
+					$t("Infos")
+				}}</b-navbar-item>
 				<b-navbar-item tag="nuxt-link" to="/contact"
-					>Contact 👨‍💻</b-navbar-item
+					>{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
 				>
 			</b-navbar-dropdown>
 			<b-navbar-item tag="nuxt-link" to="/news"
-				>News & Updates &#127881;</b-navbar-item
+				>{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
 			>
 			<b-navbar-item tag="nuxt-link" to="/makaton"
-				>Makaton 👐</b-navbar-item
+				>{{ $t("Makaton") }} 👐</b-navbar-item
 			>
 		</template>
 
 		<template slot="end">
+			<b-navbar-dropdown label="Languages">
+				<b-navbar-item
+					tag="nuxt-link"
+					v-for="locale in availableLocales"
+					:key="locale.code"
+					:to="switchLocalePath(locale.code)"
+					>{{ locale.name }}</b-navbar-item
+				>
+			</b-navbar-dropdown>
 			<b-navbar-item tag="div">
 				<div class="buttons">
 					<b-button
@@ -71,9 +84,9 @@
 						to="/help"
 						icon-right="help-circle"
 					/>
-					<b-button type="is-light" @click="onLogout"
-						>Log Out</b-button
-					>
+					<b-button type="is-light" @click="onLogout">{{
+						$t("SignUp")
+					}}</b-button>
 				</div>
 			</b-navbar-item>
 		</template>

@@ -68,6 +68,38 @@ export default {
       '/resetPassword/**'
     ],
   },
+  i18n: {
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      onlyOnRoot: true,
+      alwaysRedirect: true
+    },
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+        file: 'en-US.js'
+      },
+      {
+        code: 'es',
+        name: 'Espanol',
+        file: 'es-ES.js'
+      },
+      {
+        code: 'fr',
+        name: 'Français',
+        file: 'fr-FR.js'
+      }
+    ],
+    lazy: true,
+    langDir: 'lang/',
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en',
+    },
+    vueI18nLoader: true,
+  },
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css" }],
@@ -75,6 +107,7 @@ export default {
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
+    'nuxt-i18n',
     [
       "nuxt-cookie-control",
       {

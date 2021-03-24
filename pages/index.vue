@@ -10,7 +10,7 @@
 					@click="openSignUpModal()"
 					type="is-primary"
 					inverted
-					>Sign Up to PicTalk !</b-button
+					>{{ $t('SignUp')}}</b-button
 				>
 		</div>
 		<br>
@@ -48,36 +48,21 @@
 		<div class="container">
 			<b-message type="is-success">
 				<div class="subtitle">
-					Pictalk is now <b>offline-ready</b> ✈️ ! 
-					Are you going somewhere without any <b>internet</b> connection ? Not a problem now, just <b>download all</b> your pictograms in <b>one click</b> (Go to the account page)
+					{{ $t('OfflinePictalk')}}
 					</div>
 			</b-message>
 			<b-message type="is-danger">
 				<div class="subtitle">
-					After the latest update, you'll need to <b>Log out</b> and Log in in order to make the app work properly, sorry for the inconvinience.
+					{{ $t('LatestUpdateWarning')}}
 					</div>
 			</b-message>
 		</div>
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">What is PicTalk ?</h1>
+					<h1 class="title">{{ $t('WaitIsPictalk')}}</h1>
 					<p class="is-size-5 notification">
-						PicTalk is all about
-						<strong>pictograms</strong>
-						. It's purpose is to make the life of
-						<strong>speech-disabled</strong> persons
-						<strong>easier</strong>. My little brother, Pablo, has
-						the down syndrom. He <b>isn't able to speak</b> nor to
-						write. Luckily Pablo is into tablet and phones. Most
-						of the communication Pablo does comes from his device.
-						The greater part of the time he uses pictures of places
-						or <b>pictograms to express himself</b>. Currently there are
-						very limited apps that use pictograms to produce a
-						sentence out loud. These apps were rather <b>expensive or
-						not compatible</b> with almost all devices. So I decided,
-						with my limited knowledge of Web development to make an
-						app.
+						{{ $t('HomeText1')}}
 					</p>
 				</div>
 			</div>
@@ -85,19 +70,19 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">Main features</h1>
+					<h1 class="title">{{ $t('MainFeatures')}}</h1>
 					<p class="is-size-5 notification">
 						<ol style="list-style-type: inherit;margin-left: 5%;">
-						<li>All your images/pictograms are saved in the <b>cloud</b></li>
-						<li>You can <b> install </b> the app from you <b>computer</b> or <b>phone</b> </li>
-						<li> It works with <b>all</b> platforms, as simple as that</li>
-						<li>It can speak virtually <b>any language</b> </li>
-						<li> <b>Unlimited</b> number of pictograms and collections</li>
-						<li> <b>No ads</b></li>
-						<li> Forever <b>free</b></li>
-						<li> <b> Easy</b> to use  </li>
-						<li> <b> Zero </b> third-party cookies </li>
-						<li> <b> Offline-ready </b> </li>
+						<li>{{ $t('HomeFeature1')}}</li>
+						<li>{{ $t('HomeFeature2')}}</li>
+						<li>{{ $t('HomeFeature3')}}</li>
+						<li>{{ $t('HomeFeature4')}}</li>
+						<li>{{ $t('HomeFeature5')}}</li>
+						<li>{{ $t('HomeFeature6')}}</li>
+						<li>{{ $t('HomeFeature7')}}</li>
+						<li>{{ $t('HomeFeature8')}}</li>
+						<li>{{ $t('HomeFeature9')}}</li>
+						<li>{{ $t('HomeFeature10')}}</li>
 						</ol>
 					</p>
 				</div>
@@ -106,17 +91,11 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">Open Source and Free</h1>
+					<h1 class="title">{{ $t('OpenSourceAndFree')}}</h1>
 					<p class="is-size-5 notification">
-						All of the code is <b>open sourced</b> on 
-						<a href="https://github.com/Pictalk-speech-made-easy">github</a>. You can of
-						course contribute or share ideas and upgrades. Because I
-						want everyone to have a chance to communicate, PicTalk
-						will ever be free and I will try to let users as much
-						storage as they need. Unfortunately, I'm not rich. I
-						can't spend too much money on servers if PicTalk
-						userbase grows. That's why, if you are using PicTalk
-						and like it, feel free to donate. <b>Thanks</b>
+						 {{ $t('OpenSourceAndFreeText1')}}
+						<a href="https://github.com/Pictalk-speech-made-easy">github</a>
+						 {{ $t('OpenSourceAndFreeText2')}}
 					</p>
 				</div>
 			</div>
@@ -135,17 +114,7 @@
 </template>
 <script>
 import signup from "@/components/auth/signupModal";
-
 export default {
-	created() {
-		this.$buefy.notification.open({
-			duration: 10000,
-			message: `After the recent update, you will need to <b>Log out</b> and Log In in order to make the app work properly`,
-			position: "is-top-right",
-			type: "is-danger",
-			hasIcon: true,
-		});
-	},
 	components: {
 		signup,
 	},

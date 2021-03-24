@@ -2,20 +2,21 @@
 	<form action>
 		<div class="modal-card" style="width: auto">
 			<header class="modal-card-head">
-				<p class="modal-card-title">Edit Collection</p>
+				<p class="modal-card-title">{{ $t("EditCollection") }}</p>
 			</header>
 			<section class="modal-card-body">
-				<b-field label="Name">
+				<b-field :label="$t('Name')">
 					<b-input
 						v-model="collection.name"
 						type="name"
-						placeholder="The name of the collection"
+						:placeholder="$t('NameNotice')"
 						required
 					></b-input>
 				</b-field>
-				<b-field label="Color">
+				<b-field :label="$t('Color')">
 					<b-input
 						type="color"
+						:placeholder="$t('ColorNotice')"
 						v-model="collection.color"
 						required
 					></b-input>
@@ -26,7 +27,7 @@
 						<b-field class="file">
 							<b-upload
 								v-model="file"
-								accept="image/*"
+								accept="image/png, image/jpeg, image/gif"
 								native
 								expanded
 								required
@@ -34,7 +35,7 @@
 								<a class="button is-primary is-fullwidth">
 									<b-icon icon="upload"></b-icon>
 									<span>{{
-										file.name || "Click to upload"
+										file.name || $t("ClickToUpload")
 									}}</span>
 								</a>
 							</b-upload>
@@ -42,7 +43,7 @@
 						<b-field>
 							<b-upload
 								v-model="file"
-								accept="image/*"
+								accept="image/png, image/jpeg, image/gif"
 								native
 								drag-drop
 								expanded
@@ -56,8 +57,7 @@
 											></b-icon>
 										</p>
 										<p>
-											Drop your files here or click to
-											upload
+											{{ $t("DropFiles") }}
 										</p>
 									</div>
 								</section>
@@ -66,8 +66,8 @@
 						<b-field>
 							<b-switch
 								v-model="highQuality"
-								false-value="Standard quality (for pictograms)"
-								true-value="High quality (for pictures)"
+								:false-value="$t('StandardQuality')"
+								:true-value="$t('HighQuality')"
 							>
 								{{ highQuality }}
 							</b-switch>
@@ -86,8 +86,11 @@
 				</div>
 			</section>
 			<footer class="modal-card-foot">
-				<b-button class="button" type="button" @click="$parent.close()"
-					>Close</b-button
+				<b-button
+					class="button"
+					type="button"
+					@click="$parent.close()"
+					>{{ $t("Close") }}</b-button
 				>
 				<b-button
 					class="button is-primary"
@@ -100,7 +103,7 @@
 							highQuality
 						)
 					"
-					>Create</b-button
+					>{{ $t("Create") }}</b-button
 				>
 			</footer>
 		</div>
@@ -119,7 +122,7 @@ export default {
 		return {
 			selectedOption: "",
 			file: {},
-			highQuality: "Standard quality (for pictograms)",
+			highQuality: this.$t("StandardQuality"),
 		};
 	},
 	methods: {
@@ -129,15 +132,14 @@ export default {
 					if (file.name) {
 						if (!file.name.match(/\.(jpeg|png|gif)$/)) {
 							this.$buefy.notification.open({
-								message:
-									"Only <b>gif png</b> or <b>jpeg</b> images are allowed",
+								message: this.$t("ImageFiles"),
 								type: "is-warning",
 							});
 							return;
 						}
 						let quality;
 						quality =
-							highQuality == "High quality (for pictures)"
+							highQuality == this.$t("HighQuality")
 								? (quality = 0.1)
 								: (quality = 0.01);
 						const cfile = await jpegasus.compress(file, {
@@ -166,21 +168,20 @@ export default {
 					}
 
 					this.$buefy.notification.open({
-						message: "The collection was edited flawlessly !",
+						message: this.$t("EditedCollection"),
 						type: "is-success",
 					});
 					this.$parent.close();
 				} catch (ex) {
 					console.log(ex);
 					this.$buefy.notification.open({
-						message: "Something bad happened...",
+						message: this.$t("SomeThingBadHappened"),
 						type: "is-danger",
 					});
 				}
 			} else {
 				this.$buefy.notification.open({
-					message:
-						"Please input a Color or a Name or a File... Color and Name can't be empty",
+					message: this.$t("UpdatedCollection"),
 					type: "is-danger",
 				});
 			}
