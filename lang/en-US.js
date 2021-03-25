@@ -10,6 +10,7 @@ export default async (context, locale) => {
         LogOut: 'Log Out',
         SignUp: 'Sign Up',
         GoToPictalk: 'Go to Pictalk',
+        More: 'More',
         Email: 'Email',
         PlaceHolderEmail: 'alex@pictalk.xyz',
         Password: 'Password',
@@ -61,7 +62,7 @@ export default async (context, locale) => {
         SomeThingBadHappened: 'Something bad happened...',
         CreatedPictogram: 'The pictogram was uploaded flawlessly !',
         EditCollection: 'Edit Collection',
-        ImageFiles: 'Only gif png or jpeg images are allowed',
+        ImageFiles: 'Only gif png, jpeg or jpg images are allowed',
         EditedCollection: 'The collection was edited flawlessly !',
         UpdatedCollection: 'Please input a Color or a Name or a File... Color and Name can\'t be empty',
         EditPictogram: 'Edit Pictogram',
@@ -124,6 +125,7 @@ export default async (context, locale) => {
         RoadmapTodo2: 'Provide some pictogramms and bundles at the start of an account',
         RoadmapTodo3: 'Translate the website in French, Spanish and German',
         Roadmap: 'Roadmap',
+        PictosFetched: 'Latest pictos were fetched correctly',
         OfflinePictalk: 'Pictalk is now offline-ready ✈️ ! Are you going somewhere without any internet connection ? Not a problem now, just download all your pictograms in one click (Go to the account page)',
         LatestUpdateWarning: 'After the latest update, you\'ll need to Log out and Log in in order to make the app work properly, sorry for the inconvinience.',
         WaitIsPictalk: 'What is PicTalk ?',
@@ -142,5 +144,8 @@ export default async (context, locale) => {
         OpenSourceAndFree: 'Open Source and Free',
         OpenSourceAndFreeText1: 'All of the code is open sourced on',
         OpenSourceAndFreeText2: '. You can of course contribute or share ideas and upgrades. Because I want everyone to have a chance to communicate, PicTalk will ever be free and I will try to let users as much storage as they need. Unfortunately, I\'m not rich. I can\'t spend too much money on servers if PicTalk userbase grows. That\'s why, if you are using PicTalk and like it, feel free to donate.',
+        SupervisorModeQuestion: 'How much is  ',
+        SupervisorModeInput: 'Type the response here',
+        SupervisorModeSuccess: 'You are now in supervisor mode, congrats :D'
     });
 }

@@ -69,6 +69,7 @@ export default {
     ],
   },
   i18n: {
+    seo: false,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
@@ -78,16 +79,13 @@ export default {
     locales: [
       {
         code: 'en',
+        iso: 'en-US',
         name: 'English',
         file: 'en-US.js'
       },
       {
-        code: 'es',
-        name: 'Espanol',
-        file: 'es-ES.js'
-      },
-      {
         code: 'fr',
+        iso: 'fr-FR',
         name: 'Français',
         file: 'fr-FR.js'
       }
@@ -95,6 +93,7 @@ export default {
     lazy: true,
     langDir: 'lang/',
     defaultLocale: 'en',
+    strategy: 'no_prefix',
     vueI18n: {
       fallbackLocale: 'en',
     },

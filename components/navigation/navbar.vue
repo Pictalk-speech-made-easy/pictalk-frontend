@@ -36,10 +36,9 @@
 			<template slot="end">
 				<b-navbar-dropdown label="Languages">
 					<b-navbar-item
-						tag="nuxt-link"
 						v-for="locale in availableLocales"
 						:key="locale.code"
-						:to="switchLocalePath(locale.code)"
+						@click.prevent.stop="$i18n.setLocale(locale.code)"
 						>{{ locale.name }}</b-navbar-item
 					>
 				</b-navbar-dropdown>

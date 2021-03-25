@@ -27,7 +27,7 @@
 						<b-field class="file">
 							<b-upload
 								v-model="file"
-								accept="image/png, image/jpeg, image/gif"
+								accept="image/png, image/jpeg, image/gif, image/jpg"
 								native
 								expanded
 								required
@@ -43,7 +43,7 @@
 						<b-field>
 							<b-upload
 								v-model="file"
-								accept="image/png, image/jpeg, image/gif"
+								accept="image/png, image/jpeg, image/gif, image/jpg"
 								native
 								drag-drop
 								expanded
@@ -123,10 +123,9 @@ export default {
 	methods: {
 		async onSubmitted(name, color, file, highQuality) {
 			if (name != "" && color != "" && file.name) {
-				if (!file.name.match(/\.(jpeg|png|gif)$/)) {
+				if (!file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
 					this.$buefy.notification.open({
-						message:
-							"Only <b>gif png</b> or <b>jpeg</b> images are allowed",
+						message: this.$t("ImageFiles"),
 						type: "is-warning",
 					});
 					return;
@@ -160,7 +159,7 @@ export default {
 				}
 			} else {
 				this.$buefy.notification.open({
-					message: this.$t("ServerOffline"),
+					message: this.$t("PleaseCompleteForm"),
 					type: "is-danger",
 				});
 			}

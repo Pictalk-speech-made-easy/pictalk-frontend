@@ -55,7 +55,7 @@ export default {
 					this.$router.push("/pictalk");
 					const notif = this.$buefy.notification.open({
 						duration: 5000,
-						message: $t("Welcome"),
+						message: this.$t("Welcome"),
 						position: "is-top-right",
 						type: "is-info",
 						hasIcon: true,

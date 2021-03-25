@@ -41,7 +41,7 @@
 						<b-field class="file">
 							<b-upload
 								v-model="file"
-								accept="image/png, image/jpeg, image/gif"
+								accept="image/png, image/jpeg, image/gif, image/jpg"
 								native
 								expanded
 								required
@@ -57,7 +57,7 @@
 						<b-field>
 							<b-upload
 								v-model="file"
-								accept="image/png, image/jpeg, image/gif"
+								accept="image/png, image/jpeg, image/gif, image/jpg"
 								native
 								drag-drop
 								expanded
@@ -183,7 +183,7 @@ export default {
 		},
 		async onSubmitted(speech, meaning, isfolder, file, highQuality) {
 			if (meaning != "" && file.name) {
-				if (!file.name.match(/\.(jpeg|png|gif)$/)) {
+				if (!file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
 					this.$buefy.notification.open({
 						message: this.$t("ImageFiles"),
 						type: "is-warning",

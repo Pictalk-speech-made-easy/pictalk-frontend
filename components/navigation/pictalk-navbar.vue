@@ -35,10 +35,9 @@
 		<template slot="end">
 			<b-navbar-dropdown label="Languages">
 				<b-navbar-item
-					tag="nuxt-link"
 					v-for="locale in availableLocales"
 					:key="locale.code"
-					:to="switchLocalePath(locale.code)"
+					@click.prevent.stop="$i18n.setLocale(locale.code)"
 					>{{ locale.name }}</b-navbar-item
 				>
 			</b-navbar-dropdown>
@@ -85,7 +84,7 @@
 						icon-right="help-circle"
 					/>
 					<b-button type="is-light" @click="onLogout">{{
-						$t("SignUp")
+						$t("LogOut")
 					}}</b-button>
 				</div>
 			</b-navbar-item>
@@ -98,6 +97,11 @@ export default {
 		homeLink() {
 			return this.$route.path;
 		},
+		availableLocales() {
+			return this.$i18n.locales.filter(
+				(i) => i.code !== this.$i18n.locale
+			);
+		},
 	},
 	methods: {
 		async refreshPictos() {
@@ -106,7 +110,7 @@ export default {
 				await this.$store.dispatch("downloadCollections");
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
-					message: `Latest pictogramms fetched successfully`,
+					message: this.$t("PictosFetched"),
 					position: "is-top-right",
 					type: "is-success",
 					hasIcon: true,
@@ -115,7 +119,7 @@ export default {
 			} catch (err) {
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
-					message: `Server cannot be reached, check your internet connection`,
+					message: this.$t("ServerOffline"),
 					position: "is-top-right",
 					type: "is-danger",
 					hasIcon: true,
@@ -136,10 +140,10 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: `How much is ${a} + ${b} ?`,
+				message: this.$t("SupervisorModeQuestion") + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
-					placeholder: "Type the response",
+					placeholder: this.$t("SupervisorModeInput"),
 					value: "0",
 					maxlength: 2,
 					min: 0,
@@ -150,7 +154,7 @@ export default {
 					if (value == res) {
 						if (!this.$route.query.isAdmin) {
 							this.$buefy.toast.open(
-								`You are now in supervisor mode, congrats :D`
+								this.$t("SupervisorModeSuccess")
 							);
 						}
 						this.$router.push(this.$route.path + "?isAdmin=true");
