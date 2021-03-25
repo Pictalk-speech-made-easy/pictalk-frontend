@@ -10,25 +10,37 @@
 			</b-navbar-item>
 		</template>
 		<template slot="start">
-			<b-navbar-item tag="nuxt-link" to="/">Home</b-navbar-item>
+			<b-navbar-item tag="nuxt-link" to="/">{{
+				$t("Home")
+			}}</b-navbar-item>
 			<b-navbar-item tag="nuxt-link" to="/getstarted"
-				>Get Started ! 🚀</b-navbar-item
+				>{{ $t("GetStarted") }} 🚀</b-navbar-item
 			>
 			<b-navbar-dropdown label="Info">
-				<b-navbar-item tag="nuxt-link" to="/about">About</b-navbar-item>
+				<b-navbar-item tag="nuxt-link" to="/about">{{
+					$t("Infos")
+				}}</b-navbar-item>
 				<b-navbar-item tag="nuxt-link" to="/contact"
-					>Contact 👨‍💻</b-navbar-item
+					>{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
 				>
 			</b-navbar-dropdown>
 			<b-navbar-item tag="nuxt-link" to="/news"
-				>News & Updates &#127881;</b-navbar-item
+				>{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
 			>
 			<b-navbar-item tag="nuxt-link" to="/makaton"
-				>Makaton 👐</b-navbar-item
+				>{{ $t("Makaton") }} 👐</b-navbar-item
 			>
 		</template>
 
 		<template slot="end">
+			<b-navbar-dropdown label="Languages">
+				<b-navbar-item
+					v-for="locale in availableLocales"
+					:key="locale.code"
+					@click.prevent.stop="$i18n.setLocale(locale.code)"
+					>{{ locale.name }}</b-navbar-item
+				>
+			</b-navbar-dropdown>
 			<b-navbar-item tag="div">
 				<div class="buttons">
 					<b-button
@@ -71,9 +83,9 @@
 						to="/help"
 						icon-right="help-circle"
 					/>
-					<b-button type="is-light" @click="onLogout"
-						>Log Out</b-button
-					>
+					<b-button type="is-light" @click="onLogout">{{
+						$t("LogOut")
+					}}</b-button>
 				</div>
 			</b-navbar-item>
 		</template>
@@ -85,6 +97,11 @@ export default {
 		homeLink() {
 			return this.$route.path;
 		},
+		availableLocales() {
+			return this.$i18n.locales.filter(
+				(i) => i.code !== this.$i18n.locale
+			);
+		},
 	},
 	methods: {
 		async refreshPictos() {
@@ -93,7 +110,7 @@ export default {
 				await this.$store.dispatch("downloadCollections");
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
-					message: `Latest pictogramms fetched successfully`,
+					message: this.$t("PictosFetched"),
 					position: "is-top-right",
 					type: "is-success",
 					hasIcon: true,
@@ -102,7 +119,7 @@ export default {
 			} catch (err) {
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
-					message: `Server cannot be reached, check your internet connection`,
+					message: this.$t("ServerOffline"),
 					position: "is-top-right",
 					type: "is-danger",
 					hasIcon: true,
@@ -123,10 +140,10 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: `How much is ${a} + ${b} ?`,
+				message: this.$t("SupervisorModeQuestion") + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
-					placeholder: "Type the response",
+					placeholder: this.$t("SupervisorModeInput"),
 					value: "0",
 					maxlength: 2,
 					min: 0,
@@ -137,7 +154,7 @@ export default {
 					if (value == res) {
 						if (!this.$route.query.isAdmin) {
 							this.$buefy.toast.open(
-								`You are now in supervisor mode, congrats :D`
+								this.$t("SupervisorModeSuccess")
 							);
 						}
 						this.$router.push(this.$route.path + "?isAdmin=true");

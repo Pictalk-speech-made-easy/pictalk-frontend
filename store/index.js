@@ -255,8 +255,8 @@ export const actions = {
     vuexContext.commit("setToken", res.data.accessToken);
     localStorage.setItem("token", res.data.accessToken);
     localStorage.setItem("tokenExpiration", expDate);
-    Cookie.set("jwt", res.data.accessToken);
-    Cookie.set("expirationDate", expDate);
+    Cookie.set("jwt", res.data.accessToken, { sameSite: 'none', secure: true });
+    Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true });
     return res;
   },
   initAuth(vuexContext, req) {

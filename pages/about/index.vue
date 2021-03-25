@@ -11,46 +11,35 @@
 					</figure>
 
 					<br />
-					<h1 class="title is-size-3-mobile">About Me</h1>
+					<h1 class="title is-size-3-mobile">{{ $t("AboutMe") }}</h1>
 					<h2 class="subtitle is-size-5-mobile has-text-justified">
-						Hi, I'm Alex. I'm a 23 years old student at INSA Lyon. I study Telecommunications and Computer Science. I'm a fan of self-hosting, development and networking ! I also like making 
-<a href="https://www.youtube.com/watch?v=aL7PR2x7UlU">videos</a>
- or taking photos during my vacations. 
+						{{ $t("AboutText1") }}
+						<a href="https://www.youtube.com/watch?v=aL7PR2x7UlU"
+							>videos</a
+						>
+						{{ $t("AboutText2") }}
 					</h2>
 					<br />
-					<h1 class="title is-size-3-mobile">Backers</h1>
-					<div class="columns is-centered ">
+					<h1 class="title is-size-3-mobile">{{ $t("Backers") }}</h1>
+					<div class="columns is-centered">
 						<div class="column is-one-fifth">
-						<b-image
-      					lazy
-      					:srcset="require('@/assets/FondationLogo.png').srcSet"
-      					alt="Fondation INSA Lyon logo"
-						style="width: 80%"
-    				></b-image>
+							<b-image
+								lazy
+								:srcset="
+									require('@/assets/FondationLogo.png').srcSet
+								"
+								alt="Fondation INSA Lyon logo"
+								style="width: 80%"
+							></b-image>
 						</div>
 					</div>
 					<h2 class="subtitle is-size-5-mobile has-text-justified">
-						Many thanks to <b>La fondation INSA Lyon</b> that rewarded PicTalk with <b>1000€</b>. Their program <b> Coups de Pouce Passion </b> helps INSA students fund their projects. 
-						You can also watch this <a href="https://youtu.be/VTbszl_xmN4">video</a> (in French) that helped me win the contest !
+						{{ $t("AboutText3") }}
+						<a href="https://youtu.be/VTbszl_xmN4">video</a>
+						{{ $t("AboutText4") }}
 					</h2>
 				</div>
 			</section>
 		</body>
 	</div>
 </template>
-
-<script>
-export default {
-	data() {
-		return {
-			carousels: [
-				{ text: "Slide 1", color: "primary" },
-				{ text: "Slide 2", color: "info" },
-				{ text: "Slide 3", color: "success" },
-				{ text: "Slide 4", color: "warning" },
-				{ text: "Slide 5", color: "danger" },
-			],
-		};
-	},
-};
-</script>

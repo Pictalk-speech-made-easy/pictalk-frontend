@@ -13,6 +13,9 @@
 import navbar from "@/components/navigation/navbar";
 import footerPictalk from "@/components/navigation/footer";
 export default {
+	head() {
+		return this.$nuxtI18nHead({ addSeoAttributes: true });
+	},
 	components: {
 		navbar,
 		footerPictalk,

@@ -2,7 +2,7 @@
 	<div>
 		<section class="section">
 			<div class="container">
-				<h1 class="title">Recent news !</h1>
+				<h1 class="title">{{ $t("RecentNews") }}</h1>
 				<b-image
 					lazy
 					alt="A little boy talking thanks to Pictalk"
@@ -12,14 +12,14 @@
 				<br />
 				<b-message type="is-success">
 					<div class="subtitle">
-						&#127881;&#127881;&#127881; <b>PicTalk</b> was awarded
-						1000€ at the <b> Coups de pouce passion</b> contest !
-						&#127881;&#127881;&#127881;
+						&#127881;&#127881;&#127881;{{
+							$t("AwardPictalk")
+						}}&#127881;&#127881;&#127881;
 					</div>
 				</b-message>
 				<b-message type="is-success">
 					<div class="subtitle">
-						<b>Pictalk</b> in the news ! (FR) :
+						{{ $t("PictalkNewsSTitle") }}
 						<a
 							href="https://www.insa-lyon.fr/fr/actualites/je-voulais-lui-permettre-s-exprimer-pleinement"
 							>https://www.insa-lyon.fr/fr/actualites/je-voulais-lui-permettre-s-exprimer-pleinement</a
@@ -29,78 +29,63 @@
 
 				<p class="is-size-5 notification">
 					<b-field>
-						<b-checkbox :value="true" type="is-success"
-							>Now the MEANING is showed instead of the SPEECH in
-							the Picto bar. Same for the
-							<b>copy</b> button</b-checkbox
-						>
+						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapDone1")
+						}}</b-checkbox>
+					</b-field>
+					<b-field>
+						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapDone2")
+						}}</b-checkbox>
+					</b-field>
+					<b-field>
+						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapDone3")
+						}}</b-checkbox>
 					</b-field>
 					<b-field>
 						<b-checkbox :value="true" type="is-success"
-							>PicTalk is in the playstore !</b-checkbox
-						>
-					</b-field>
-					<b-field>
-						<b-checkbox :value="true" type="is-success"
-							>Once the pictograms have been loaded at least one
-							time, you can use them <b>offline</b> !</b-checkbox
-						>
-					</b-field>
-					<b-field>
-						<b-checkbox :value="true" type="is-success"
-							><b>Install</b> the application via Chrome and
-							Firefox (Tap Install on the options menu)
+							>{{ $t("RoadmapDone4") }}
 						</b-checkbox>
 					</b-field>
 					<b-field>
 						<b-checkbox :value="true" type="is-success"
-							>No more third-party <b>Cookies</b>
+							>{{ $t("RoadmapDone5") }}
 						</b-checkbox>
 					</b-field>
 					<b-field>
 						<b-checkbox :value="true" type="is-success"
-							>You can put a <b>star</b> in a picto so it shows at
-							the beginning of a view
+							>{{ $t("RoadmapDone6") }}
 						</b-checkbox>
 					</b-field>
 					<b-field>
 						<b-checkbox :value="true" type="is-success"
-							><b>Admin mode</b> is now more consistent through
-							the different menus
+							>{{ $t("RoadmapDone7") }}
 						</b-checkbox>
 					</b-field>
 					<b-field>
-						<b-checkbox :value="true" type="is-success"
-							>Make a <b>video</b> tutorial</b-checkbox
-						>
-					</b-field>
-					<b-field>
-						<b-checkbox :value="true" type="is-success"
-							><b>Download</b> all your pictogramms with one
-							button
-						</b-checkbox>
+						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapDone8")
+						}}</b-checkbox>
 					</b-field>
 				</p>
-				<h1 class="title">Roadmap</h1>
+				<h1 class="title">{{ $t("Roadmap") }}</h1>
 				<p class="is-size-5 notification">
 					<b-field>
-						<b-checkbox :value="false" type="is-primary"
-							>Pictalk in the <b>Microsoft store</b></b-checkbox
-						>
+						<b-checkbox :value="false" type="is-primary">{{
+							$t("RoadmapTodo1")
+						}}</b-checkbox>
 					</b-field>
 					<b-field>
-						<b-checkbox :value="false" type="is-primary"
-							>Provide some <b>pictogramms</b> and
-							<b>bundles</b> at the start of an account
-							(Makathon)</b-checkbox
-						>
+						<b-checkbox :value="false" type="is-primary">{{
+							$t("RoadmapTodo2")
+						}}</b-checkbox>
 					</b-field>
 
 					<b-field>
-						<b-checkbox :value="false" type="is-primary"
-							><b>Translate</b> the website in French, Spanish and
-							German</b-checkbox
-						>
+						<b-checkbox :value="false" type="is-primary">{{
+							$t("RoadmapTodo3")
+						}}</b-checkbox>
 					</b-field>
 				</p>
 			</div>

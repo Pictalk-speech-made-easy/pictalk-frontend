@@ -2,41 +2,40 @@
 	<form action>
 		<div class="modal-card" style="width: auto">
 			<header class="modal-card-head">
-				<p class="modal-card-title">Sign Up</p>
+				<p class="modal-card-title">{{ $t("SignUp") }}</p>
 			</header>
 			<section class="modal-card-body">
-				<b-field label="Email">
+				<b-field :label="$t('Email')">
 					<b-input
 						type="email"
 						v-model="username"
-						placeholder="alex@pictalk.com"
+						:placeholder="$t('PlaceHolderEmail')"
 						required
 					></b-input>
 				</b-field>
-
-				<b-field label="Password">
+				<b-field :label="$t('Password')">
 					<b-input
 						type="password"
 						v-model="password"
 						password-reveal
-						placeholder="Ch00s3 a Stro!g Passw0Rd"
+						:placeholder="$t('PlaceHolderPassword')"
 						required
 						minlength="8"
 						pattern="((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
 						validation-message="At least one captial letter, one digit and a password minimum length of 8"
 					></b-input>
 				</b-field>
-				<b-field label="Confirm Password">
+				<b-field :label="$t('ConfirmPassword')">
 					<b-input
 						type="password"
 						password-reveal
-						placeholder="C0nf1rm y0ur Stro!g Passw0Rd"
+						:placeholder="$t('PlaceHolderPassword')"
 						required
 						minlength="8"
 						v-model="passwordConfirmation"
 					></b-input>
 				</b-field>
-				<b-field label="Language">
+				<b-field :label="$t('Language')">
 					<b-select
 						v-model="language"
 						placeholder="Select language"
@@ -55,18 +54,19 @@
 				<br />
 				<div class="field">
 					<b-checkbox v-model="majority" required type="is-success">
-						I have more than 13 years old
+						{{ $t("Majority") }}
 					</b-checkbox>
 				</div>
 				<div class="field">
 					<b-checkbox v-model="terms" required type="is-success">
-						I have read and I accept the
-						<nuxt-link to="/legal-infos/terms-of-use"
-							>terms of use</nuxt-link
-						>
-						and
-						<nuxt-link to="/legal-infos/privacy-policy"
-							>the privacy policy</nuxt-link
+						{{ $t("IHaveRead") }}
+						<nuxt-link to="/legal-infos/terms-of-use">{{
+							$t("TermsOfUse")
+						}}</nuxt-link>
+						{{ $t("And") }}
+						<nuxt-link to="/legal-infos/privacy-policy">{{
+							$t("PrivacyPolicy")
+						}}</nuxt-link
 						>.
 					</b-checkbox>
 				</div>
@@ -84,7 +84,7 @@
 							passwordConfirmation
 						)
 					"
-					>Sign Up</b-button
+					>{{ $t("SignUp") }}</b-button
 				>
 			</footer>
 		</div>
@@ -142,7 +142,7 @@ export default {
 			) {
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
-					message: `Please complete the form...`,
+					message: this.$t("PleaseCompleteForm"),
 					position: "is-top-right",
 					type: "is-info",
 					hasIcon: true,
@@ -153,7 +153,7 @@ export default {
 			if (passwordConfirmation != password) {
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
-					message: `Passwords do not correspond...`,
+					message: this.$t("PasswordNotCorrespond"),
 					position: "is-top-right",
 					type: "is-warning",
 					hasIcon: true,
@@ -175,7 +175,7 @@ export default {
 					});
 					const notif = this.$buefy.notification.open({
 						duration: 5000,
-						message: `Your account has been successfully created !`,
+						message: this.$t("AccountCreated"),
 						position: "is-top-right",
 						type: "is-success",
 						hasIcon: true,
@@ -191,7 +191,7 @@ export default {
 					) {
 						const notif = this.$buefy.notification.open({
 							duration: 5000,
-							message: `Some parameters are invalid (like the email address or the password)`,
+							message: this.$t("ParametersInvalid"),
 							position: "is-top-right",
 							type: "is-danger",
 							hasIcon: true,
@@ -201,7 +201,7 @@ export default {
 						if (error.response.status == 500) {
 							const notif = this.$buefy.notification.open({
 								duration: 5000,
-								message: `This email is already used`,
+								message: this.$t("EmailAlreadyInUse"),
 								position: "is-top-right",
 								type: "is-danger",
 								hasIcon: true,
@@ -210,7 +210,7 @@ export default {
 						} else {
 							const notif = this.$buefy.notification.open({
 								duration: 5000,
-								message: `Server cannot be reached`,
+								message: this.$t("ServerOffline"),
 								position: "is-top-right",
 								type: "is-danger",
 								hasIcon: true,
@@ -221,7 +221,7 @@ export default {
 				} else {
 					const notif = this.$buefy.notification.open({
 						duration: 5000,
-						message: `Server cannot be reached`,
+						message: this.$t("ServerOffline"),
 						position: "is-top-right",
 						type: "is-danger",
 						hasIcon: true,
