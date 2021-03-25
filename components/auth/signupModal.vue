@@ -112,7 +112,7 @@ export default {
 			while (voices.length == 0 && increment != 10) {
 				voices = window.speechSynthesis.getVoices();
 				increment++;
-				await this.delay(10);
+				await this.delay(20);
 			}
 			this.languages = voices;
 		}

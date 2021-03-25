@@ -205,21 +205,20 @@ export default {
 				});
 			}
 		},
-	},
+		async onSave(username, password, language) {
+			try {
+				const res = await this.$store.dispatch("editUser", {
+					username: username,
+					password: password,
+					password: password,
+					language: language,
+				});
+			} catch (error) {
+				console.log("error: ", error);
+			}
 
-	async onSave(username, password, language) {
-		try {
-			const res = await this.$store.dispatch("editUser", {
-				username: username,
-				password: password,
-				password: password,
-				language: language,
-			});
-		} catch (error) {
-			console.log("error: ", error);
-		}
-
-		this.$router.push("/pictalk");
+			this.$router.push("/pictalk");
+		},
 	},
 };
 </script>
