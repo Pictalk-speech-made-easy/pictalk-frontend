@@ -106,16 +106,21 @@ export default {
 		};
 	},
 	async created() {
-		if ("speechSynthesis" in window) {
+		const allVoicesObtained = new Promise(function (resolve, reject) {
 			let voices = window.speechSynthesis.getVoices();
-			let increment = 0;
-			while (voices.length == 0 && increment != 10) {
-				voices = window.speechSynthesis.getVoices();
-				increment++;
-				await this.delay(20);
+			if (voices.length !== 0) {
+				resolve(voices);
+			} else {
+				window.speechSynthesis.addEventListener(
+					"voiceschanged",
+					function () {
+						voices = window.speechSynthesis.getVoices();
+						resolve(voices);
+					}
+				);
 			}
-			this.languages = voices;
-		}
+		});
+		allVoicesObtained.then((voices) => (this.languages = voices));
 	},
 	methods: {
 		delay(delayInms) {
