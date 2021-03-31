@@ -44,6 +44,23 @@
 <script>
 import miniPicto from "@/components/pictos/miniPicto";
 export default {
+	created() {
+		const allVoicesObtained = new Promise(function (resolve, reject) {
+			let voices = window.speechSynthesis.getVoices();
+			if (voices.length !== 0) {
+				resolve(voices);
+			} else {
+				window.speechSynthesis.addEventListener(
+					"voiceschanged",
+					function () {
+						voices = window.speechSynthesis.getVoices();
+						resolve(voices);
+					}
+				);
+			}
+		});
+		allVoicesObtained.then((voices) => (this.languages = voices));
+	},
 	methods: {
 		async copyPictosToClipboard(pictos) {
 			const message = pictos.reduce(
@@ -85,27 +102,9 @@ export default {
 					""
 				);
 				msg.text = message;
-				let voices = window.speechSynthesis.getVoices();
-				let voice = voices.filter(
+				let voice = this.languages.filter(
 					(voice) => voice.lang == this.getUserLang
 				);
-
-				let increment = 0;
-				while (voice.length == 0 && increment != 10) {
-					voices = window.speechSynthesis.getVoices();
-					voice = voices.filter(
-						(voice) => voice.lang == this.getUserLang
-					);
-
-					increment++;
-					await this.delay(20);
-				}
-				await this.delay(200);
-				voices = window.speechSynthesis.getVoices();
-				voice = voices.filter(
-					(voice) => voice.lang == this.getUserLang
-				);
-
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
 				}
@@ -167,6 +166,7 @@ export default {
 	data() {
 		return {
 			adminMode: false,
+			languages: [],
 		};
 	},
 };
