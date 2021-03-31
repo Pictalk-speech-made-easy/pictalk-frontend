@@ -111,6 +111,28 @@ export default {
 	},
 
 	methods: {
+		addRetry(cache, url, retries = 3, backoff = 300) {
+			return cache
+				.add(url)
+				.then(() => {
+					this.done_requests++;
+					return;
+				})
+				.catch(() => {
+					if (retries > 0) {
+						setTimeout(() => {
+							return this.addRetry(
+								cache,
+								url,
+								retries - 1,
+								backoff * 2
+							);
+						}, backoff);
+					} else {
+						throw new Error(res);
+					}
+				});
+		},
 		delay(delayInms) {
 			return new Promise((resolve) => {
 				setTimeout(() => {
@@ -129,72 +151,65 @@ export default {
 				await this.$store.dispatch("resetViews");
 				this.nb_requests =
 					res.data.length - already_saved_pictos.length;
-				//const cache = await caches.open("pictos"); //TODO only dirty way works
-				new Promise((resolve, reject) =>
-					res.data.forEach(async (picto, index, array) => {
-						if (
-							!already_saved_pictos.find(
-								(elem) => elem == picto.id
-							)
-						) {
-							if (picto.path) {
-								picto.path =
-									axios.defaults.baseURL +
-									"/pictalk/image/" +
-									picto.path;
-							}
-							caches.open("pictos").then((cache) => {
-								cache
-									.add(picto.path)
-									.then(() => {
-										this.done_requests++;
-									})
-									.catch((err) => {
-										console.log(err);
-									});
-							});
+				caches.open("pictos").then((cache) => {
+					new Promise((resolve, reject) =>
+						res.data.forEach(async (picto, index, array) => {
+							if (
+								!already_saved_pictos.find(
+									(elem) => elem == picto.id
+								)
+							) {
+								if (picto.path) {
+									picto.path =
+										axios.defaults.baseURL +
+										"/pictalk/image/" +
+										picto.path;
+								}
+								this.addRetry(cache, picto.path);
 
-							// View existante pour le picto ?
-							const viewExists = views.findIndex(
-								(view) =>
-									view.fatherId === picto.fatherId &&
-									view.collectionId === picto.collectionId
-							);
-							if (picto.folder == 1) {
-								const folderExists = views.findIndex(
+								// View existante pour le picto ?
+								const viewExists = views.findIndex(
 									(view) =>
-										view.fatherId === picto.id &&
+										view.fatherId === picto.fatherId &&
 										view.collectionId === picto.collectionId
 								);
-								if (folderExists != -1) {
+								if (picto.folder == 1) {
+									const folderExists = views.findIndex(
+										(view) =>
+											view.fatherId === picto.id &&
+											view.collectionId ===
+												picto.collectionId
+									);
+									if (folderExists != -1) {
+										views.push({
+											collectionId: picto.collectionId,
+											fatherId: picto.id,
+											pictos: Array(),
+										}); //View of folder
+									}
+								}
+								if (viewExists == -1) {
 									views.push({
 										collectionId: picto.collectionId,
-										fatherId: picto.id,
+										fatherId: picto.fatherId,
 										pictos: Array(),
-									}); //View of folder
+									}); //Add view if not here
+									views[views.length - 1].pictos.push({
+										...picto,
+									});
+								} else {
+									views[viewExists].pictos.push({ ...picto });
+									already_saved_pictos.push(picto.id);
 								}
 							}
-							if (viewExists == -1) {
-								views.push({
-									collectionId: picto.collectionId,
-									fatherId: picto.fatherId,
-									pictos: Array(),
-								}); //Add view if not here
-								views[views.length - 1].pictos.push({
-									...picto,
-								});
-							} else {
-								views[viewExists].pictos.push({ ...picto });
-								already_saved_pictos.push(picto.id);
+							if (index === array.length - 1) {
+								resolve();
 							}
-						}
-						if (index === array.length - 1) {
-							resolve();
-						}
-					})
-				).then(() => {
-					views.forEach((view) => {
-						this.$store.dispatch("addView", view);
+						})
+					).then(() => {
+						views.forEach((view) => {
+							this.$store.dispatch("addView", view);
+						});
 					});
 				});
 			} catch (e) {

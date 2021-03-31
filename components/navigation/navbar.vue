@@ -25,13 +25,13 @@
 					<b-navbar-item tag="nuxt-link" to="/contact"
 						>{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
 					>
+					<b-navbar-item tag="nuxt-link" to="/makaton"
+						>{{ $t("Makaton") }} 👐</b-navbar-item
+					>
+					<b-navbar-item tag="nuxt-link" to="/news"
+						>{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
+					>
 				</b-navbar-dropdown>
-				<b-navbar-item tag="nuxt-link" to="/news"
-					>{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
-				>
-				<b-navbar-item tag="nuxt-link" to="/makaton"
-					>{{ $t("Makaton") }} 👐</b-navbar-item
-				>
 			</template>
 			<template slot="end">
 				<b-navbar-dropdown label="Languages">
