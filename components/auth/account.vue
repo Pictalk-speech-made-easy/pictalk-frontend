@@ -129,7 +129,7 @@ export default {
 							);
 						}, backoff);
 					} else {
-						throw new Error(res);
+						console.log("Network disconnected !");
 					}
 				});
 		},
@@ -165,7 +165,9 @@ export default {
 										"/pictalk/image/" +
 										picto.path;
 								}
-								this.addRetry(cache, picto.path);
+								setTimeout(() => {
+									return this.addRetry(cache, picto.path);
+								}, Math.floor(Math.random() * 1000));
 
 								// View existante pour le picto ?
 								const viewExists = views.findIndex(
