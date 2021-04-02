@@ -1,3 +1,4 @@
+var hasQuery = event.request.url.indexOf('?') != -1;
 workbox.routing.registerRoute(
   new RegExp('https://apidev\\.pictalk\\.xyz/pictalk/image/.*\\.(png|jpg|jpeg|gif)'),
   new workbox.strategies.CacheFirst({
@@ -7,7 +8,7 @@ workbox.routing.registerRoute(
       new workbox.rangeRequests.RangeRequestsPlugin(),
     ],
     matchOptions: {
-      ignoreSearch: false,
+      ignoreSearch: hasQuery,
       ignoreVary: true
     }
   }),
