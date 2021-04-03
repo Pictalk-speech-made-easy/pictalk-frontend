@@ -146,6 +146,7 @@ export default async (context, locale) => {
         OpenSourceAndFreeText2: '. Vous pouvez bien-sûr partager vos idées et contribuer à ce projet. Parce-que j\'estime que parler est un droit fondamental, Pictalk restera toujours gratuit et open source. Cependant je suis ouvert aux dons car n\'étant moi-même pas bien riche les serveurs risquent de me coûter cher si le nombre d\'utilsiateurs grandit. Alors si vous aimez Pictalk n\'héistez pas faire un don',
         SupervisorModeQuestion: 'Combien valent ',
         SupervisorModeInput: 'Entrez la réponse ici',
-        SupervisorModeSuccess: 'Vous êtes maintenant en mode superviseur, félicitations :D'
+        SupervisorModeSuccess: 'Vous êtes maintenant en mode superviseur, félicitations :D',
+        NoVoicesFound: 'Aucune voix trouvée sur l\'appareil...',
     })
 }

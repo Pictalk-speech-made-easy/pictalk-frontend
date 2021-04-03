@@ -110,7 +110,13 @@ export default {
 				}
 				window.speechSynthesis.speak(msg);
 			} else {
-				alert("Sorry, your browser doesn't support text to speech!");
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("NoVoicesFound"),
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+				});
 			}
 		},
 		removeSpeech() {
