@@ -43,7 +43,7 @@
 						required
 					>
 						<option
-							v-for="language in languages"
+							v-for="language in loadedVoices"
 							:value="language.lang"
 							:key="language.voiceURI"
 						>
@@ -94,6 +94,11 @@
 <script>
 import axios from "axios";
 export default {
+	computed: {
+		loadedVoices() {
+			return this.languages;
+		},
+	},
 	data() {
 		return {
 			username: "",
