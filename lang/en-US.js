@@ -148,5 +148,11 @@ export default async (context, locale) => {
         SupervisorModeInput: 'Type the response here',
         SupervisorModeSuccess: 'You are now in supervisor mode, congrats :D',
         NoVoicesFound: 'No voices found on the device...',
+        DeleteItem: 'Are you sure you want to delete: ',
+        Delete: 'Delete item',
+        PleaseType1: 'Please type: ',
+        PleaseType2: 'in order to delete the item.',
+        DeleteNotCorrespond: 'Input does not correspond',
+        DeletedSuccess: 'Deleted with success',
     });
 }

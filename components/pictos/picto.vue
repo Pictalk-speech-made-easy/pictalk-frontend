@@ -51,6 +51,7 @@
 <script>
 import axios from "axios";
 import editPicto from "@/components/pictos/editPicto";
+import deleteItem from "@/components/pictos/deleteItem";
 export default {
 	name: "picto",
 	components: {
@@ -82,10 +83,17 @@ export default {
 				this.$router.push(this.pictoLink + adminMode);
 			}
 		},
-		async deletePicto(picto) {
-			const res = await this.$store.dispatch("removePicto", {
-				picto: picto,
-				collectionId: parseInt(this.$route.params.collectionId, 10),
+		deletePicto(picto) {
+			this.$buefy.modal.open({
+				parent: this,
+				props: {
+					object: { ...picto },
+					collectionId: parseInt(this.$route.params.collectionId, 10),
+				},
+				component: deleteItem,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
 			});
 		},
 		editPicto(picto) {

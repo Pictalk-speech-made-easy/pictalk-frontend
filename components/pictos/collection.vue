@@ -14,7 +14,7 @@
 				<b-button
 					type="is-danger"
 					icon-right="delete"
-					@click="removeCollection(collection.id)"
+					@click="removeCollection(collection)"
 				/>
 				<b-button type="is-info" @click="editCollection(collection)"
 					>Edit</b-button
@@ -40,6 +40,7 @@
 
 <script>
 import editCollection from "@/components/pictos/editCollection";
+import deleteItem from "@/components/pictos/deleteItem";
 export default {
 	components: {
 		editCollection,
@@ -74,11 +75,15 @@ export default {
 				});
 			}
 		},
-		async removeCollection(collectionId) {
-			const res = await this.$store.dispatch(
-				"removeCollection",
-				collectionId
-			);
+		async removeCollection(collection) {
+			this.$buefy.modal.open({
+				parent: this,
+				props: { object: { ...collection } },
+				component: deleteItem,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+			});
 		},
 		editCollection(collection) {
 			this.$buefy.modal.open({

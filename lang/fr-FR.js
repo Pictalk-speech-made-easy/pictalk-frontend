@@ -148,5 +148,11 @@ export default async (context, locale) => {
         SupervisorModeInput: 'Entrez la réponse ici',
         SupervisorModeSuccess: 'Vous êtes maintenant en mode superviseur, félicitations :D',
         NoVoicesFound: 'Aucune voix trouvée sur l\'appareil...',
+        DeleteItem: 'Êtes-vous sûr de vouloir supprimer: ',
+        Delete: 'Suppression d\'élément',
+        PleaseType1: 'Veuillez tapper: ',
+        PleaseType2: 'afin de supprimer l\'élément.',
+        DeleteNotCorrespond: 'Cela ne correspond pas',
+        DeletedSuccess: 'Supprimé avec success'
     })
 }
