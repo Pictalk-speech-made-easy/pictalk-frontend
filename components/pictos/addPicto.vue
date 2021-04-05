@@ -194,16 +194,24 @@ export default {
 					speech = " ";
 				}
 				try {
+					const myNewFile = new File(
+						[file],
+						file.name.substr(0, file.name.lastIndexOf(".")) +
+							".jpeg",
+						{ type: file.type }
+					);
 					let quality;
 					quality =
 						highQuality == this.$t("HighQuality")
 							? (quality = 0.1)
 							: (quality = 0.01);
-					const cfile = await jpegasus.compress(file, {
+					const cfile = await jpegasus.compress(myNewFile, {
 						maxHeight: 500,
 						maxWidth: 500,
 						quality: quality,
 					});
+					cfile.name =
+						file.name.substr(0, file.lastIndexOf(".")) + ".jpeg";
 					this.$store.dispatch("addPicto", {
 						picto: {
 							speech: speech,

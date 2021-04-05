@@ -24,7 +24,7 @@
 				rounded
 			>
 				<option
-					v-for="language in languages"
+					v-for="language in loadedVoices"
 					:value="language.lang"
 					:key="language.voiceURI"
 				>
@@ -76,6 +76,9 @@ export default {
 					return (this.done_requests / this.nb_requests) * 100;
 				}
 			}
+		},
+		loadedVoices() {
+			return this.languages;
 		},
 	},
 	props: {

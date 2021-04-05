@@ -146,6 +146,13 @@ export default async (context, locale) => {
         OpenSourceAndFreeText2: '. You can of course contribute or share ideas and upgrades. Because I want everyone to have a chance to communicate, PicTalk will ever be free and I will try to let users as much storage as they need. Unfortunately, I\'m not rich. I can\'t spend too much money on servers if PicTalk userbase grows. That\'s why, if you are using PicTalk and like it, feel free to donate.',
         SupervisorModeQuestion: 'How much is  ',
         SupervisorModeInput: 'Type the response here',
-        SupervisorModeSuccess: 'You are now in supervisor mode, congrats :D'
+        SupervisorModeSuccess: 'You are now in supervisor mode, congrats :D',
+        NoVoicesFound: 'No voices found on the device...',
+        DeleteItem: 'Are you sure you want to delete: ',
+        Delete: 'Delete item',
+        PleaseType1: 'Please type: ',
+        PleaseType2: 'in order to delete the item.',
+        DeleteNotCorrespond: 'Input does not correspond',
+        DeletedSuccess: 'Deleted with success',
     });
 }

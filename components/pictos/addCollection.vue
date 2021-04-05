@@ -131,12 +131,18 @@ export default {
 					return;
 				}
 				try {
+					const myNewFile = new File(
+						[file],
+						file.name.substr(0, file.name.lastIndexOf(".")) +
+							".jpeg",
+						{ type: file.type }
+					);
 					let quality;
 					quality =
 						highQuality == this.$t("HighQuality")
 							? (quality = 0.1)
 							: (quality = 0.01);
-					const cfile = await jpegasus.compress(file, {
+					const cfile = await jpegasus.compress(myNewFile, {
 						maxHeight: 500,
 						maxWidth: 500,
 						quality: quality,
@@ -152,6 +158,7 @@ export default {
 					});
 					this.$parent.close();
 				} catch (ex) {
+					console.log(ex);
 					this.$buefy.notification.open({
 						message: this.$t("SomeThingBadHappened"),
 						type: "is-danger",
