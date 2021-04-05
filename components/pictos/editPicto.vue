@@ -214,9 +214,6 @@ export default {
 							maxWidth: 500,
 							quality: quality,
 						});
-						cfile.name =
-							file.name.substr(0, file.lastIndexOf(".")) +
-							".jpeg";
 						const res = await this.$store.dispatch("editPicto", {
 							editedPicto: {
 								id: this.picto.id,

@@ -210,8 +210,6 @@ export default {
 						maxWidth: 500,
 						quality: quality,
 					});
-					cfile.name =
-						file.name.substr(0, file.lastIndexOf(".")) + ".jpeg";
 					this.$store.dispatch("addPicto", {
 						picto: {
 							speech: speech,
