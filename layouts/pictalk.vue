@@ -1,16 +1,13 @@
 <template>
-	<div class="wrapper noScroll">
+	<div class="wrapper">
 		<pictalkNavbar />
 		<hr />
 		<nuxt />
 		<br />
-		<!-- <CookieControl/> -->
 	</div>
 </template>
-
 <script>
 import pictalkNavbar from "@/components/navigation/pictalk-navbar";
-
 export default {
 	head() {
 		return this.$nuxtI18nHead({ addSeoAttributes: true });
@@ -23,7 +20,7 @@ export default {
 <style scoped>
 html {
 	/* only disable pull-to-refresh but allow swipe navigations */
-	overscroll-behavior-y: contain;
+	overscroll-behavior-y: none;
 }
 .wrapper {
 	overflow-x: hidden;
