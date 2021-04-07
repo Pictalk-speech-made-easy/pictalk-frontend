@@ -18,7 +18,7 @@ export default {
 };
 </script>
 <style scoped>
-html {
+html body .wrapper {
 	/* only disable pull-to-refresh but allow swipe navigations */
 	overscroll-behavior-y: none;
 }
