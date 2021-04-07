@@ -12,3 +12,6 @@
     opacity: 0
   }
   
+html {
+  overscroll-behavior-y: none;
+}
