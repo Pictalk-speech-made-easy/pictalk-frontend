@@ -1,5 +1,5 @@
 <template>
-	<div class="wrapper">
+	<div class="wrapper noScroll">
 		<pictalkNavbar />
 		<hr />
 		<nuxt />
@@ -21,6 +21,10 @@ export default {
 };
 </script>
 <style scoped>
+html {
+	/* only disable pull-to-refresh but allow swipe navigations */
+	overscroll-behavior-y: contain;
+}
 .wrapper {
 	overflow-x: hidden;
 	position: relative;
