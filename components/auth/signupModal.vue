@@ -35,6 +35,7 @@
 						v-model="passwordConfirmation"
 					></b-input>
 				</b-field>
+				{{ loadedVoices }}
 				<b-field :label="$t('Language')">
 					<b-select
 						v-model="language"
@@ -128,13 +129,6 @@ export default {
 		allVoicesObtained.then((voices) => (this.languages = voices));
 	},
 	methods: {
-		delay(delayInms) {
-			return new Promise((resolve) => {
-				setTimeout(() => {
-					resolve(2);
-				}, delayInms);
-			});
-		},
 		async onSubmit(
 			username,
 			password,

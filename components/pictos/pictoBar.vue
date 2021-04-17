@@ -86,13 +86,6 @@ export default {
 				});
 			}
 		},
-		delay(delayInms) {
-			return new Promise((resolve) => {
-				setTimeout(() => {
-					resolve(2);
-				}, delayInms);
-			});
-		},
 		async pictalk(pictos_obs) {
 			var pictos = JSON.parse(JSON.stringify(pictos_obs));
 			if ("speechSynthesis" in window) {

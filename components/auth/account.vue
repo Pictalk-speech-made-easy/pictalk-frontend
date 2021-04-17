@@ -136,14 +136,6 @@ export default {
 					}
 				});
 		},
-		delay(delayInms) {
-			return new Promise((resolve) => {
-				setTimeout(() => {
-					resolve(2);
-				}, delayInms);
-			});
-		},
-
 		async downloadAll() {
 			//TODO integrate this within the store
 			try {
