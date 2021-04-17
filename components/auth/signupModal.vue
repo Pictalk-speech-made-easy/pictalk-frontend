@@ -35,7 +35,6 @@
 						v-model="passwordConfirmation"
 					></b-input>
 				</b-field>
-				{{ loadedVoices }}
 				<b-field :label="$t('Language')">
 					<b-select
 						v-model="language"
