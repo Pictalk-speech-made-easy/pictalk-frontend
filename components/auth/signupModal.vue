@@ -201,7 +201,7 @@ export default {
 							icon: "account",
 						});
 					} else {
-						if (error.response.status == 500) {
+						if (error.response.status == 409) {
 							const notif = this.$buefy.notification.open({
 								duration: 5000,
 								message: this.$t("EmailAlreadyInUse"),
