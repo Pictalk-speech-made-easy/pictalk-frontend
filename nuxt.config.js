@@ -88,6 +88,12 @@ export default {
         iso: 'fr-FR',
         name: 'Français',
         file: 'fr-FR.js'
+      },
+      {
+        code: 'es',
+        iso: 'es-ES',
+        name: 'Español',
+        file: 'es-ES.js'
       }
     ],
     lazy: true,

@@ -127,6 +127,23 @@
 <script>
 const jpegasus = require("jpegasus");
 export default {
+	created() {
+		const allVoicesObtained = new Promise(function (resolve, reject) {
+			let voices = window.speechSynthesis.getVoices();
+			if (voices.length !== 0) {
+				resolve(voices);
+			} else {
+				window.speechSynthesis.addEventListener(
+					"voiceschanged",
+					function () {
+						voices = window.speechSynthesis.getVoices();
+						resolve(voices);
+					}
+				);
+			}
+		});
+		allVoicesObtained.then((voices) => (this.languages = voices));
+	},
 	data() {
 		return {
 			selectedOption: "",
@@ -144,41 +161,25 @@ export default {
 		},
 	},
 	methods: {
-		delay(delayInms) {
-			return new Promise((resolve) => {
-				setTimeout(() => {
-					resolve(2);
-				}, delayInms);
-			});
-		},
 		async pronounce(speech) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
 				msg.text = speech;
-				let voices = window.speechSynthesis.getVoices();
-				let voice = voices.filter(
-					(voice) => voice.lang == this.getUserLang
-				);
-				let increment;
-				while (voice.length == 0 && increment != 10) {
-					voices = window.speechSynthesis.getVoices();
-					voice = voices.filter(
-						(voice) => voice.lang == this.getUserLang
-					);
-					increment++;
-					await this.delay(10);
-				}
-				voice = voices.filter(
+				let voice = this.languages.filter(
 					(voice) => voice.lang == this.getUserLang
 				);
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
-				} else {
-					console.log("No voices found !");
 				}
 				window.speechSynthesis.speak(msg);
 			} else {
-				console.log("Your browser doesn't support speechSynthesis :(");
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("NoVoicesFound"),
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+				});
 			}
 		},
 		async onSubmitted(speech, meaning, isfolder, file, highQuality) {

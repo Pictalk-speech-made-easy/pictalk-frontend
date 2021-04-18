@@ -128,13 +128,6 @@ export default {
 		allVoicesObtained.then((voices) => (this.languages = voices));
 	},
 	methods: {
-		delay(delayInms) {
-			return new Promise((resolve) => {
-				setTimeout(() => {
-					resolve(2);
-				}, delayInms);
-			});
-		},
 		async onSubmit(
 			username,
 			password,
@@ -208,7 +201,7 @@ export default {
 							icon: "account",
 						});
 					} else {
-						if (error.response.status == 500) {
+						if (error.response.status == 409) {
 							const notif = this.$buefy.notification.open({
 								duration: 5000,
 								message: this.$t("EmailAlreadyInUse"),
