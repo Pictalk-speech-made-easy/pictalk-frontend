@@ -5,6 +5,9 @@ export default async (context, locale) => {
         Infos: 'Informaciones',
         BugsAndSuggestions: 'Problemas y sugestiones',
         NewsAndUpdates: 'Noticias y actualizaciones',
+        Pictograms: 'Pictogramas',
+        ARSAAC: 'ARSAAC',
+        ProvidedPictos: 'Cada usuario va a recibir unos cuantos pictogramas. Estos pictogramas vienen de la fabulosa ARSAAC que ha creado y distribuye pictogramas libres de derecho y gratuitos. Han hecho una gran cantidad de pictogramas y es muy fácil de encontrar lo que buscas. Ves a mirar el sitio',
         Makaton: 'Makaton',
         LogIn: 'Conectarse',
         LogOut: 'Desconectarse',
@@ -123,7 +126,7 @@ export default async (context, locale) => {
         RoadmapDone8: 'Descarga todos tus pictogramas en un clic !',
         RoadmapTodo1: 'Pictalk en el microsoft store',
         RoadmapTodo2: 'Dar unos cuantos pictogramas cuando un nuevo usuario crea su cuenta',
-        RoadmapTodo3: 'Traducción del sitio web en español francés y alemán',
+        RoadmapTodo3: 'Traducción del sitio web en alemán y italiano',
         Roadmap: 'Objetivos',
         PictosFetched: 'Los pictogramas se sincronizaron con éxito',
         OfflinePictalk: 'Pictalk funciona sin internet ✈️ ! Vas a un lugar lejos de tu router ? Ya no es un problema, puedes descargar todos tus pictogramas en la cuenta des usuario',
@@ -154,5 +157,7 @@ export default async (context, locale) => {
         PleaseType2: 'para suprimir el pictograma.',
         DeleteNotCorrespond: 'El texto no corresponde',
         DeletedSuccess: 'Suprimido con éxito',
+        Slogan: "\"Porque hablar no debería costar un duro, Pictalk siempre sera gratuito y libre de derecho.\"",
+
     });
 }

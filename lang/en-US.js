@@ -96,6 +96,9 @@ export default async (context, locale) => {
         HelpText6: 'This button will pronounce and speak at loud the sentence you are doing.',
         HelpText7: 'This button will copy your current sentence. You can now paste the sentence everywhere !',
         HelpText8: 'Sometimes you will need to press this button to fetch your lastest pictograms :) Let\'s say you have added 10 pictograms in your computer and they don\'t show up in your kid\'s phone : Hit this button in his phone and it will fetch all the recent pictograms and data you uploaded !',
+        Pictograms: 'Pictograms',
+        ARSAAC: 'ARSAAC',
+        ProvidedPictos: 'Every fresh user is gifted with some basic pictograms. These pictograms come from the great ARSAAC organization wich provides free pictograms. Their collection is huge and it is really easy to find the pictogram you\'re looking for. Check out their website',
         Makaton: 'Makaton',
         WhatIsMakaton: 'What is Makaton ?',
         MakatonText1: 'Makaton is a unique language program that uses symbols, signs and speech to enable people to communicate. It supports the development, of essential communication skills such as attention and listening, comprehension, memory, recall and organisation of language and expression. Being able to communicate is one of the most important skills we need in life. Almost everything we do involves communication; everyday tasks such as learning at school, asking for food and drink, sorting out problems, making friends and having fun. These all rely on our ability to communicate with each other. With Makaton, signs are used, with speech, in spoken word order. This helps provide extra clues about what someone is saying. Using signs can help people who have no speech or whose speech is unclear. Using symbols can help people who have limited speech and those who cannot, or prefer not to sign...Makaton organisation',
@@ -123,7 +126,7 @@ export default async (context, locale) => {
         RoadmapDone8: 'Download all your pictogramms with one button',
         RoadmapTodo1: 'Pictalk in the Microsoft Store',
         RoadmapTodo2: 'Provide some pictogramms and bundles at the start of an account',
-        RoadmapTodo3: 'Translate the website in French, Spanish and German',
+        RoadmapTodo3: 'Translate the website in German and Italian',
         Roadmap: 'Roadmap',
         PictosFetched: 'Latest pictos were fetched correctly',
         OfflinePictalk: 'Pictalk is now offline-ready ✈️ ! Are you going somewhere without any internet connection ? Not a problem now, just download all your pictograms in one click (Go to the account page)',
@@ -154,5 +157,7 @@ export default async (context, locale) => {
         PleaseType2: 'in order to delete the item.',
         DeleteNotCorrespond: 'Input does not correspond',
         DeletedSuccess: 'Deleted with success',
+        Slogan: "\"Because talking is a right and not a service, Pictalk will be free and open-source forever.\"",
+
     });
 }
