@@ -68,6 +68,11 @@
 							$t("RoadmapDone8")
 						}}</b-checkbox>
 					</b-field>
+					<b-field>
+						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapTodo2")
+						}}</b-checkbox>
+					</b-field>
 				</p>
 				<h1 class="title">{{ $t("Roadmap") }}</h1>
 				<p class="is-size-5 notification">
@@ -76,12 +81,6 @@
 							$t("RoadmapTodo1")
 						}}</b-checkbox>
 					</b-field>
-					<b-field>
-						<b-checkbox :value="false" type="is-primary">{{
-							$t("RoadmapTodo2")
-						}}</b-checkbox>
-					</b-field>
-
 					<b-field>
 						<b-checkbox :value="false" type="is-primary">{{
 							$t("RoadmapTodo3")

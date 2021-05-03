@@ -46,14 +46,14 @@
 		<br>
 		<br>
 		<div class="container">
+			<b-message type="is-primary">
+				<div class="title">
+					{{ $t('Slogan')}}
+				</div>
+			</b-message>
 			<b-message type="is-success">
 				<div class="subtitle">
 					{{ $t('OfflinePictalk')}}
-					</div>
-			</b-message>
-			<b-message type="is-danger">
-				<div class="subtitle">
-					{{ $t('LatestUpdateWarning')}}
 					</div>
 			</b-message>
 		</div>

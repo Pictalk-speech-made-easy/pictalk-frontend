@@ -23,8 +23,8 @@
 				<b-navbar-item tag="nuxt-link" to="/contact"
 					>{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
 				>
-				<b-navbar-item tag="nuxt-link" to="/makaton"
-					>{{ $t("Makaton") }} 👐</b-navbar-item
+				<b-navbar-item tag="nuxt-link" to="/pictograms"
+					>{{ $t("Pictograms") }} 👐</b-navbar-item
 				>
 				<b-navbar-item tag="nuxt-link" to="/news"
 					>{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
