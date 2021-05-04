@@ -47,7 +47,7 @@
 		<br>
 		<div class="container">
 			<b-message type="is-primary">
-				<div class="title">
+				<div class="subtitle">
 					{{ $t('Slogan')}}
 				</div>
 			</b-message>
