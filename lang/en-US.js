@@ -158,6 +158,7 @@ export default async (context, locale) => {
         DeleteNotCorrespond: 'Input does not correspond',
         DeletedSuccess: 'Deleted with success',
         Slogan: "\"Because talking is a right and not a service, Pictalk will be free and open-source forever.\"",
-
+        HowItWorks1: "Thanks to the ARSAAC association that provides free pictograms, every new user earns a starting pack of about 20 pictograms and some sets of phrases ! Thanks to that you will learn how to use Pictalk and begin to talk very soon. ",
+        HowItWorks2: "Here is an example of a phrase included in the starting pack: This phrase will produce \" I like french fries \""
     });
 }

@@ -64,6 +64,24 @@
 					<p class="is-size-5 notification">
 						{{ $t('HomeText1')}}
 					</p>
+					<b-image
+      					lazy
+      					:srcset="require('@/assets/startingpack.png').srcSet"
+      					alt="Logo du Play store"
+						style="width: 80%;"
+					></b-image>
+					<p class="is-size-5 notification">
+						{{ $t('HowItWorks1')}}
+					</p>
+					<b-image
+      					lazy
+      					:srcset="require('@/assets/pictobar.png').srcSet"
+      					alt="Logo du Play store"
+						style="width: 80%;"
+    				></b-image>
+					<p class="is-size-5 notification">
+						{{ $t('HowItWorks2')}}
+					</p>
 				</div>
 			</div>
 		</section>

@@ -158,6 +158,8 @@ export default async (context, locale) => {
         DeleteNotCorrespond: 'El texto no corresponde',
         DeletedSuccess: 'Suprimido con éxito',
         Slogan: "\"Porque hablar no debería costar un duro, Pictalk siempre sera gratuito y libre de derecho.\"",
+        HowItWorks1: "Gracias a la asociación ARSAAC cada nuevo usuario de Pictalk tendra unos cuantos pictogramas de base. Gracias a eso, podrás aprender a usar Pictalk y usarlo rápidamente.",
+        HowItWorks2: "Este ejemplo de frase incluida en el pack de base va a vocalizar: \" Me gustan las patatas fritas \""
 
     });
 }

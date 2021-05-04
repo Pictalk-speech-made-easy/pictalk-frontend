@@ -132,7 +132,7 @@ export default async (context, locale) => {
         OfflinePictalk: 'Pictalk fonctionne maintenant en mode hors-ligne. Vous partez loin de votre box internet ? Pas de soucis, vos pictogrammes vous accompagnent partout :) Pensez à télécharger au préalable vos pictogrammes depuis les Détails d\'utilisateur',
         LatestUpdateWarning: 'Après la dernière mise à jour, vous devrez vous déconnecter juste une fois au total afin que vos collections apparaissent correctement',
         WaitIsPictalk: 'Qu\'est-ce que Pictalk',
-        HomeText1: 'Pictalk est une application que visant à faciliter la communication des personnes non-verbales. Chaque utilisateur peut entrer ses propre pictogrammes et les ranger de la façon dont il veut. Une fois les pictogrammes dans Pictalk, la magie s\'opère: en cliquant successivement sur les pictogrammes on forme une phrase qui pourra être lue à voix haute ou copiée dans le presse-papiers. Mon petit frère, Pablo, utilisait des classeurs Makaton en papier pour communiquer. La richesse du language Makaton lui permettait de formuler énormément de phrases mais il était impossible d\'apporter tous ses cahiers partout ou il allait ! J\'ai donc entrepris de réaliser un outil informatisé et disponible sur n\'importe quel appareil: Pictalk.',
+        HomeText1: 'Pictalk est une application que visant à faciliter la communication des personnes non-verbales. Chaque utilisateur peut entrer ses propres pictogrammes et les ranger de la façon dont il veut. Une fois les pictogrammes dans Pictalk, la magie s\'opère: en cliquant successivement sur les pictogrammes on forme une phrase qui pourra être lue à voix haute ou copiée dans le presse-papiers. Mon petit frère, Pablo, utilisait des classeurs Makaton en papier pour communiquer. La richesse du language Makaton lui permettait de formuler énormément de phrases mais il était impossible d\'apporter tous ses cahiers partout ou il allait ! J\'ai donc entrepris de réaliser un outil informatisé et disponible sur n\'importe quel appareil: Pictalk. Ce qui est bien avec Pictalk c\'est que chaque utilisateur choisit les pictos dont il veut et le range de la façon qui lui plait ! Il est possible d\'entrer des pictogrammes Makaton mais aussi ARSAAC, images diverses etc.',
         MainFeatures: 'Fonctionnalités principales',
         HomeFeature1: 'Toutes vos images/pictogrammes sont sauvegardées dans le cloud',
         HomeFeature2: 'Vous pouvez installer l\'application depuis n\'importe quelle plateforme',
@@ -157,6 +157,8 @@ export default async (context, locale) => {
         PleaseType1: 'Veuillez tapper: ',
         PleaseType2: 'afin de supprimer l\'élément.',
         DeleteNotCorrespond: 'Cela ne correspond pas',
-        DeletedSuccess: 'Supprimé avec success'
+        DeletedSuccess: 'Supprimé avec success',
+        HowItWorks1: "Grace à la fabuleuse association ARSAAC, chaque nouvel utilisateur gagne un pack de pictogrammes de départ. Rien de mieux pour pouvoir commencer à parler rapidement tout en se familiarisant avec Pictalk !",
+        HowItWorks2: "Cet exemple de phrase comprise dans le pack va produire la phrase suivante : \" J'aime les frites \""
     })
 }
