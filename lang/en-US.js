@@ -97,8 +97,8 @@ export default async (context, locale) => {
         HelpText7: 'This button will copy your current sentence. You can now paste the sentence everywhere !',
         HelpText8: 'Sometimes you will need to press this button to fetch your lastest pictograms :) Let\'s say you have added 10 pictograms in your computer and they don\'t show up in your kid\'s phone : Hit this button in his phone and it will fetch all the recent pictograms and data you uploaded !',
         Pictograms: 'Pictograms',
-        ARSAAC: 'ARSAAC',
-        ProvidedPictos: 'Every fresh user is gifted with some basic pictograms. These pictograms come from the great ARSAAC organization wich provides free pictograms. Their collection is huge and it is really easy to find the pictogram you\'re looking for. Check out their website',
+        ARSAAC: 'ARASAAC',
+        ProvidedPictos: 'Every fresh user is gifted with some basic pictograms. These pictograms come from the great ARASAAC organization wich provides free pictograms. Their collection is huge and it is really easy to find the pictogram you\'re looking for. Check out their website',
         Makaton: 'Makaton',
         WhatIsMakaton: 'What is Makaton ?',
         MakatonText1: 'Makaton is a unique language program that uses symbols, signs and speech to enable people to communicate. It supports the development, of essential communication skills such as attention and listening, comprehension, memory, recall and organisation of language and expression. Being able to communicate is one of the most important skills we need in life. Almost everything we do involves communication; everyday tasks such as learning at school, asking for food and drink, sorting out problems, making friends and having fun. These all rely on our ability to communicate with each other. With Makaton, signs are used, with speech, in spoken word order. This helps provide extra clues about what someone is saying. Using signs can help people who have no speech or whose speech is unclear. Using symbols can help people who have limited speech and those who cannot, or prefer not to sign...Makaton organisation',
@@ -158,7 +158,7 @@ export default async (context, locale) => {
         DeleteNotCorrespond: 'Input does not correspond',
         DeletedSuccess: 'Deleted with success',
         Slogan: "\"Because talking is a right and not a service, Pictalk will be free and open-source forever.\"",
-        HowItWorks1: "Thanks to the ARSAAC association that provides free pictograms, every new user earns a starting pack of about 20 pictograms and some sets of phrases ! Thanks to that you will learn how to use Pictalk and begin to talk very soon. ",
+        HowItWorks1: "Thanks to the ARASAAC association that provides free pictograms, every new user earns a starting pack of about 20 pictograms and some sets of phrases ! Thanks to that you will learn how to use Pictalk and begin to talk very soon. ",
         HowItWorks2: "Here is an example of a phrase included in the starting pack: This phrase will produce \" I like french fries \""
     });
 }
