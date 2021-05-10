@@ -70,6 +70,28 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
+					<h1 class="title">{{ $t('Communicate')}}</h1>
+					<p class="is-size-5 notification">
+						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking" 
+				:srcset="require('@/assets/IRL.png').srcSet"
+				></b-image>
+				<br>
+				{{ $t('Communicate_IRL')}}
+					</p>
+					<br>
+					<p class="is-size-5 notification">
+						<b-image lazy alt="Sample image of a copied sentence" 
+				:srcset="require('@/assets/Messaging.png').srcSet"
+				></b-image>
+				<br>
+				{{ $t('Communicate_Messages')}}
+					</p>
+				</div>
+			</div>
+		</section>
+		<section class="hero">
+			<div class="hero-body">
+				<div class="container">
 					<h1 class="title">{{ $t('MainFeatures')}}</h1>
 					<p class="is-size-5 notification">
 						<ol style="list-style-type: inherit;margin-left: 5%;">

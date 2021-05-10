@@ -158,6 +158,8 @@ export default async (context, locale) => {
         DeleteNotCorrespond: 'Input does not correspond',
         DeletedSuccess: 'Deleted with success',
         Slogan: "\"Because talking is a right and not a service, Pictalk will be free and open-source forever.\"",
-
+        Communicate: "Communicate",
+        Communicate_IRL: "Pictalk is great at real time applications: It can speak out loud a sentence composed by several pictograms.",
+        Communicate_Messages: "Because messaging is becoming as important as talking, Pictalk allows to copy the pictograms + sentence and send them with your favourite messaging applications.  ",
     });
 }
