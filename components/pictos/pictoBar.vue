@@ -88,6 +88,7 @@ export default {
 			}
 		},
 		async copyPictosToClipboardV2(pictos) {
+			// const canWriteToClipboard = await askWritePermission()
 			const paths = pictos.map((picto) => picto.path);
 			const text = pictos.map((picto) => picto.speech);
 			const b64 = await mergeImages(paths, {
@@ -95,7 +96,7 @@ export default {
 				text: text,
 			});
 			try {
-				await navigator.clipboard.write(b64);
+				await navigator.clipboard.write(b64toBlob(b64));
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: this.$t("CopySucces"),
@@ -165,6 +166,16 @@ export default {
 				adminMode = "?isAdmin=true";
 			}
 			this.$router.push("/pictalk" + adminMode);
+		},
+		b64toBlob(dataURI) {
+			const byteString = atob(dataURI.split(",")[1]);
+			const ab = new ArrayBuffer(byteString.length);
+			let ia = new Uint8Array(ab);
+
+			for (var i = 0; i < byteString.length; i++) {
+				ia[i] = byteString.charCodeAt(i);
+			}
+			return new Blob([ab], { type: "image/png" });
 		},
 	},
 	computed: {
