@@ -96,7 +96,9 @@ export default {
 				text: text,
 			});
 			try {
-				await navigator.clipboard.write(this.b64toBlob(b64));
+				const blob = this.b64toBlob(b64);
+				const data = [new ClipboardItem({ [blob.type]: blob })];
+				await navigator.clipboard.write(data);
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: this.$t("CopySucces"),
