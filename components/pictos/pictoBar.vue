@@ -36,7 +36,7 @@
 			<b-button
 				type="is-info"
 				icon-right="content-copy"
-				@click="copyPictosToClipboardV2(pictos)"
+				@click="copyPictosToClipboardBase(pictos)"
 			/>
 		</div>
 	</div>
@@ -63,7 +63,7 @@ export default {
 		allVoicesObtained.then((voices) => (this.languages = voices));
 	},
 	methods: {
-		async copyPictosToClipboard(pictos) {
+		async copyPictosToClipboardLegacy(pictos) {
 			const message = pictos.reduce(
 				(acc, curr_val) => acc + " " + curr_val.meaning,
 				""
@@ -88,11 +88,11 @@ export default {
 			}
 		},
 		async copyPictosToClipboardBase(pictos) {
-			const canWriteToClipboard = await askWritePermission();
+			const canWriteToClipboard = await this.askWritePermission();
 			if (canWriteToClipboard) {
-				await copyPictosToClipboardV2(pictos);
+				await this.copyPictosToClipboardV2(pictos);
 			} else {
-				await copyPictosToClipboard(pictos);
+				await this.copyPictosToClipboardLegacy(pictos);
 			}
 		},
 		async copyPictosToClipboardV2(pictos) {
@@ -176,6 +176,19 @@ export default {
 				adminMode = "?isAdmin=true";
 			}
 			this.$router.push("/pictalk" + adminMode);
+		},
+		async askWritePermission() {
+			try {
+				// The clipboard-write permission is granted automatically to pages
+				// when they are the active tab. So it's not required, but it's more safe.
+				const { state } = await navigator.permissions.query({
+					name: "clipboard-write",
+				});
+				return state === "granted";
+			} catch (error) {
+				// Browser compatibility / Security error (ONLY HTTPS) ...
+				return false;
+			}
 		},
 		b64toBlob(dataURI) {
 			const byteString = atob(dataURI.split(",")[1]);
