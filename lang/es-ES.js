@@ -158,8 +158,10 @@ export default async (context, locale) => {
         DeleteNotCorrespond: 'El texto no corresponde',
         DeletedSuccess: 'Suprimido con éxito',
         Slogan: "\"Porque hablar no debería costar un duro, Pictalk siempre sera gratuito y libre de derecho.\"",
+        Communicate: "Comunique",
+        Communicate_IRL: "Pictalk funciona muy bien para las situaciones de la vida cotidiana. Puede pronunciar en voz alta cualquier frase compuesta de pictogramas.",
+        Communicate_Messages: "Porque enviar mensages es cada vez mas importante, Pictalk permite copiar la frase de pictogramas actual, con la significación, y enviarla en las redes sociales/aplicaciones que prefieres.",
         HowItWorks1: "Gracias a la asociación ARASAAC cada nuevo usuario de Pictalk tendra unos cuantos pictogramas de base. Gracias a eso, podrás aprender a usar Pictalk y usarlo rápidamente.",
         HowItWorks2: "Este ejemplo de frase incluida en el pack de base va a vocalizar: \" Me gustan las patatas fritas \""
-
     });
 }

@@ -36,13 +36,14 @@
 			<b-button
 				type="is-info"
 				icon-right="content-copy"
-				@click="copyPictosToClipboard(pictos)"
+				@click="copyPictosToClipboardBase(pictos)"
 			/>
 		</div>
 	</div>
 </template>
 <script>
 import miniPicto from "@/components/pictos/miniPicto";
+import mergeImages from "merge-images-horizontally-with-text";
 export default {
 	created() {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -62,7 +63,7 @@ export default {
 		allVoicesObtained.then((voices) => (this.languages = voices));
 	},
 	methods: {
-		async copyPictosToClipboard(pictos) {
+		async copyPictosToClipboardLegacy(pictos) {
 			const message = pictos.reduce(
 				(acc, curr_val) => acc + " " + curr_val.meaning,
 				""
@@ -77,6 +78,45 @@ export default {
 					hasIcon: true,
 				});
 			} catch (e) {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("CopyError"),
+					position: "is-top-right",
+					type: "is-danger",
+					hasIcon: true,
+				});
+			}
+		},
+		async copyPictosToClipboardBase(pictos) {
+			const canWriteToClipboard = await this.askWritePermission();
+			if (canWriteToClipboard) {
+				await this.copyPictosToClipboardV2(pictos);
+			} else {
+				await this.copyPictosToClipboardLegacy(pictos);
+			}
+		},
+		async copyPictosToClipboardV2(pictos) {
+			const paths = pictos.map((picto) => picto.path);
+			const text = pictos.map((picto) => picto.speech);
+			const b64 = await mergeImages(paths, {
+				crossOrigin: "Anonymous",
+				text: text,
+				color: "white",
+			});
+			try {
+				const blob = this.b64toBlob(b64);
+				const data = [new ClipboardItem({ [blob.type]: blob })];
+				await navigator.clipboard.write(data);
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("CopySucces"),
+					position: "is-top-right",
+					type: "is-success",
+					hasIcon: true,
+				});
+			} catch (e) {
+				console.log(e);
+				await this.$copyText(b64);
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: this.$t("CopyError"),
@@ -136,6 +176,29 @@ export default {
 				adminMode = "?isAdmin=true";
 			}
 			this.$router.push("/pictalk" + adminMode);
+		},
+		async askWritePermission() {
+			try {
+				// The clipboard-write permission is granted automatically to pages
+				// when they are the active tab. So it's not required, but it's more safe.
+				const { state } = await navigator.permissions.query({
+					name: "clipboard-write",
+				});
+				return state === "granted";
+			} catch (error) {
+				// Browser compatibility / Security error (ONLY HTTPS) ...
+				return false;
+			}
+		},
+		b64toBlob(dataURI) {
+			const byteString = atob(dataURI.split(",")[1]);
+			const ab = new ArrayBuffer(byteString.length);
+			let ia = new Uint8Array(ab);
+
+			for (var i = 0; i < byteString.length; i++) {
+				ia[i] = byteString.charCodeAt(i);
+			}
+			return new Blob([ab], { type: "image/png" });
 		},
 	},
 	computed: {
