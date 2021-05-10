@@ -8,8 +8,8 @@ export default async (context, locale) => {
         NewsAndUpdates: 'Nouveautés et Mises à jour',
         Makaton: 'Makaton',
         Pictograms: 'Pictogrammes',
-        ARSAAC: 'ARSAAC',
-        ProvidedPictos: 'Chaque utilisateur reçoit au départ un set de pictogrammes. Ces pictogrammes provienent de la superbe association ARSAAC qui les a crée et distribué. Ils sont libres de droits et gratuits ! Ils ont une très grosse quantité de pictogrammes et il est très facile de trouver celui que l\'on veut depuis leur site. Vous trouverez leur site',
+        ARSAAC: 'ARASAAC',
+        ProvidedPictos: 'Chaque utilisateur reçoit au départ un set de pictogrammes. Ces pictogrammes provienent de la superbe association ARASAAC qui les a crée et distribué. Ils sont libres de droits et gratuits ! Ils ont une très grosse quantité de pictogrammes et il est très facile de trouver celui que l\'on veut depuis leur site. Vous trouverez leur site',
         LogIn: 'Se connecter',
         LogOut: 'Se déconnecter',
         SignUp: 'S\'inscrire',
@@ -133,6 +133,8 @@ export default async (context, locale) => {
         LatestUpdateWarning: 'Après la dernière mise à jour, vous devrez vous déconnecter juste une fois au total afin que vos collections apparaissent correctement',
         WaitIsPictalk: 'Qu\'est-ce que Pictalk ?',
         HomeText1: 'Pictalk est une application que visant à faciliter la communication des personnes non-verbales. Chaque utilisateur peut entrer ses propre pictogrammes et les ranger de la façon dont il veut. Une fois les pictogrammes dans Pictalk, la magie s\'opère: en cliquant successivement sur les pictogrammes on forme une phrase qui pourra être lue à voix haute ou copiée dans le presse-papiers. Mon petit frère, Pablo, utilisait des classeurs Makaton en papier pour communiquer. La richesse du language Makaton lui permettait de formuler énormément de phrases mais il était impossible d\'apporter tous ses cahiers partout ou il allait ! J\'ai donc entrepris de réaliser un outil informatisé et disponible sur n\'importe quel appareil: Pictalk.',
+        WaitIsPictalk: 'Qu\'est-ce que Pictalk',
+        HomeText1: 'Pictalk est une application que visant à faciliter la communication des personnes non-verbales. Chaque utilisateur peut entrer ses propres pictogrammes et les ranger de la façon dont il veut. Une fois les pictogrammes dans Pictalk, la magie s\'opère: en cliquant successivement sur les pictogrammes on forme une phrase qui pourra être lue à voix haute ou copiée dans le presse-papiers. Mon petit frère, Pablo, utilisait des classeurs Makaton en papier pour communiquer. La richesse du language Makaton lui permettait de formuler énormément de phrases mais il était impossible d\'apporter tous ses cahiers partout ou il allait ! J\'ai donc entrepris de réaliser un outil informatisé et disponible sur n\'importe quel appareil: Pictalk. Ce qui est bien avec Pictalk c\'est que chaque utilisateur choisit les pictos dont il veut et le range de la façon qui lui plait ! Il est possible d\'entrer des pictogrammes Makaton mais aussi ARASAAC, images diverses etc.',
         MainFeatures: 'Fonctionnalités principales',
         HomeFeature1: 'Toutes vos images/pictogrammes sont sauvegardées dans le cloud',
         HomeFeature2: 'Vous pouvez installer l\'application depuis n\'importe quelle plateforme',
@@ -161,5 +163,7 @@ export default async (context, locale) => {
         Communicate: "Communiquez !",
         Communicate_IRL: "Pictalk est génial quand il s'agit de scènes de la vie quotidienne... Commander deux baguettes de pain, Dire ou est-ce que on a mal ou bien ce que l'on a fait du week-end. Pictalk permet de lire à voix haute une phrase composée de pictogrammes.",
         Communicate_Messages: "Parcequ'envoyer des messages devient de plus en plus primordial, Pictalk offre la possiblité de copier la phrase en cours pour l'envoyer ou vous le  voulez ! Vous avez l'embarras du choix comme ça ! ",
+        HowItWorks1: "Grace à la fabuleuse association ARASAAC, chaque nouvel utilisateur gagne un pack de pictogrammes de départ. Rien de mieux pour pouvoir commencer à parler rapidement tout en se familiarisant avec Pictalk !",
+        HowItWorks2: "Cet exemple de phrase comprise dans le pack va produire la phrase suivante : \" J'aime les frites \""
     })
 }

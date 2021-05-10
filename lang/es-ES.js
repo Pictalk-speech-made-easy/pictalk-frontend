@@ -6,8 +6,8 @@ export default async (context, locale) => {
         BugsAndSuggestions: 'Problemas y sugestiones',
         NewsAndUpdates: 'Noticias y actualizaciones',
         Pictograms: 'Pictogramas',
-        ARSAAC: 'ARSAAC',
-        ProvidedPictos: 'Cada usuario va a recibir unos cuantos pictogramas. Estos pictogramas vienen de la fabulosa ARSAAC que ha creado y distribuye pictogramas libres de derecho y gratuitos. Han hecho una gran cantidad de pictogramas y es muy fácil de encontrar lo que buscas. Ves a mirar el sitio',
+        ARSAAC: 'ARASAAC',
+        ProvidedPictos: 'Cada usuario va a recibir unos cuantos pictogramas. Estos pictogramas vienen de la fabulosa ARASAAC que ha creado y distribuye pictogramas libres de derecho y gratuitos. Han hecho una gran cantidad de pictogramas y es muy fácil de encontrar lo que buscas. Ves a mirar el sitio',
         Makaton: 'Makaton',
         LogIn: 'Conectarse',
         LogOut: 'Desconectarse',
@@ -161,5 +161,7 @@ export default async (context, locale) => {
         Communicate: "Comunique",
         Communicate_IRL: "Pictalk funciona muy bien para las situaciones de la vida cotidiana. Puede pronunciar en voz alta cualquier frase compuesta de pictogramas.",
         Communicate_Messages: "Porque enviar mensages es cada vez mas importante, Pictalk permite copiar la frase de pictogramas actual, con la significación, y enviarla en las redes sociales/aplicaciones que prefieres.",
+        HowItWorks1: "Gracias a la asociación ARASAAC cada nuevo usuario de Pictalk tendra unos cuantos pictogramas de base. Gracias a eso, podrás aprender a usar Pictalk y usarlo rápidamente.",
+        HowItWorks2: "Este ejemplo de frase incluida en el pack de base va a vocalizar: \" Me gustan las patatas fritas \""
     });
 }

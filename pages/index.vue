@@ -47,7 +47,7 @@
 		<br>
 		<div class="container">
 			<b-message type="is-primary">
-				<div class="title">
+				<div class="subtitle">
 					{{ $t('Slogan')}}
 				</div>
 			</b-message>
@@ -63,6 +63,24 @@
 					<h1 class="title">{{ $t('WaitIsPictalk')}}</h1>
 					<p class="is-size-5 notification">
 						{{ $t('HomeText1')}}
+					</p>
+					<b-image
+      					lazy
+      					:srcset="require('@/assets/startingpack.png').srcSet"
+      					alt="Logo du Play store"
+						style="width: 80%;"
+					></b-image>
+					<p class="is-size-5 notification">
+						{{ $t('HowItWorks1')}}
+					</p>
+					<b-image
+      					lazy
+      					:srcset="require('@/assets/pictobar.png').srcSet"
+      					alt="Logo du Play store"
+						style="width: 80%;"
+    				></b-image>
+					<p class="is-size-5 notification">
+						{{ $t('HowItWorks2')}}
 					</p>
 				</div>
 			</div>
