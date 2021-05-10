@@ -89,9 +89,13 @@ export default {
 		},
 		async copyPictosToClipboardV2(pictos) {
 			const paths = pictos.map((picto) => picto.path);
-			const b64 = await mergeImages(paths, { crossOrigin: "Anonymous" });
+			const text = pictos.map((picto) => picto.speech);
+			const b64 = await mergeImages(paths, {
+				crossOrigin: "Anonymous",
+				text: text,
+			});
 			try {
-				navigator.clipboard.write(b64);
+				await navigator.clipboard.write(b64);
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: this.$t("CopySucces"),
@@ -100,6 +104,8 @@ export default {
 					hasIcon: true,
 				});
 			} catch (e) {
+				console.log(e);
+				await this.$copyText(b64);
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: this.$t("CopyError"),
