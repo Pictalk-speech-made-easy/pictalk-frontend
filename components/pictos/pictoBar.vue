@@ -87,13 +87,21 @@ export default {
 				});
 			}
 		},
+		async copyPictosToClipboardBase(pictos) {
+			const canWriteToClipboard = await askWritePermission();
+			if (canWriteToClipboard) {
+				await copyPictosToClipboardV2(pictos);
+			} else {
+				await copyPictosToClipboard(pictos);
+			}
+		},
 		async copyPictosToClipboardV2(pictos) {
-			// const canWriteToClipboard = await askWritePermission()
 			const paths = pictos.map((picto) => picto.path);
 			const text = pictos.map((picto) => picto.speech);
 			const b64 = await mergeImages(paths, {
 				crossOrigin: "Anonymous",
 				text: text,
+				color: "white",
 			});
 			try {
 				const blob = this.b64toBlob(b64);
