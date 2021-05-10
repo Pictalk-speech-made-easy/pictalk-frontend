@@ -36,13 +36,14 @@
 			<b-button
 				type="is-info"
 				icon-right="content-copy"
-				@click="copyPictosToClipboard(pictos)"
+				@click="copyPictosToClipboardV2(pictos)"
 			/>
 		</div>
 	</div>
 </template>
 <script>
 import miniPicto from "@/components/pictos/miniPicto";
+import mergeImages from "merge-images-horizontally-with-text";
 export default {
 	created() {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -69,6 +70,28 @@ export default {
 			);
 			try {
 				await this.$copyText(message);
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("CopySucces"),
+					position: "is-top-right",
+					type: "is-success",
+					hasIcon: true,
+				});
+			} catch (e) {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("CopyError"),
+					position: "is-top-right",
+					type: "is-danger",
+					hasIcon: true,
+				});
+			}
+		},
+		async copyPictosToClipboardV2(pictos) {
+			const paths = pictos.map((picto) => picto.path);
+			const b64 = await mergeImages(paths, { crossOrigin: "Anonymous" });
+			try {
+				navigator.clipboard.write(b64);
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: this.$t("CopySucces"),
