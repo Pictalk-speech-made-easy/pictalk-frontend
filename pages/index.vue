@@ -3,15 +3,7 @@
 		<div class="container">
 				<b-image lazy alt="A little boy talking thanks to Pictalk" 
 				:srcset="require('@/assets/pictalk_compressed.png').srcSet"
-				ratio="2by1"
 				></b-image>
-				<b-button
-					class="signup-button"
-					@click="openSignUpModal()"
-					type="is-primary"
-					inverted
-					>{{ $t('SignUp')}}</b-button
-				>
 		</div>
 		<br>
 		<div class="container">
@@ -46,11 +38,6 @@
 		<br>
 		<br>
 		<div class="container">
-			<b-message type="is-primary">
-				<div class="subtitle">
-					{{ $t('Slogan')}}
-				</div>
-			</b-message>
 			<b-message type="is-success">
 				<div class="subtitle">
 					{{ $t('OfflinePictalk')}}
