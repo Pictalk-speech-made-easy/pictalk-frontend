@@ -62,25 +62,28 @@
 				<div class="container">
 					<h1 class="title">{{ $t('WaitIsPictalk')}}</h1>
 					<p class="is-size-5 notification">
+
 						{{ $t('HomeText1')}}
-					</p>
-					<b-image
+						<br>
+						<br>
+						<b-image
       					lazy
       					:srcset="require('@/assets/startingpack.png').srcSet"
       					alt="Logo du Play store"
 						style="width: 80%;"
 					></b-image>
-					<p class="is-size-5 notification">
-						{{ $t('HowItWorks1')}}
-					</p>
+					<br>
+					{{ $t('HowItWorks1')}}
+					<br>
 					<b-image
       					lazy
       					:srcset="require('@/assets/pictobar.png').srcSet"
       					alt="Logo du Play store"
 						style="width: 80%;"
     				></b-image>
-					<p class="is-size-5 notification">
-						{{ $t('HowItWorks2')}}
+					<br>
+					{{ $t('HowItWorks2')}}
+
 					</p>
 				</div>
 			</div>
