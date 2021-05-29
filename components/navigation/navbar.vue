@@ -93,8 +93,28 @@ export default {
 	},
 	methods: {
 		onLogout() {
-			this.$store.dispatch("logout");
-			this.$router.push("/");
+			const a = Math.floor(Math.random() * 10 + 1);
+			const b = Math.floor(Math.random() * 10 + 1);
+			const res = a + b;
+			this.$buefy.dialog.prompt({
+				message: this.$t("SupervisorModeQuestion") + `${a} + ${b} ?`,
+				inputAttrs: {
+					type: "number",
+					placeholder: this.$t("SupervisorModeInput"),
+					value: "0",
+					maxlength: 2,
+					min: 0,
+					max: 20,
+				},
+				trapFocus: true,
+				onConfirm: (value) => {
+					if (value == res) {
+						this.$store.dispatch("logout");
+						this.$router.push("/");
+					}
+					return;
+				},
+			});
 		},
 
 		openSignInModal() {
