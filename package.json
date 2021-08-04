@@ -14,21 +14,21 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/sitemap": "^2.4.0",
     "axios": "^0.21.1",
-    "core-js": "^3.13.0",
+    "core-js": "^3.16.0",
     "jpegasus": "^1.16.1",
-    "js-cookie": "^2.2.1",
+    "js-cookie": "^3.0.0",
     "merge-images-horizontally-with-text": "^0.1.0",
-    "nuxt": "^2.15.6",
-    "nuxt-buefy": "^0.4.7",
+    "nuxt": "^2.15.7",
+    "nuxt-buefy": "^0.4.8",
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-cookie-control": "^1.9.7",
     "nuxt-i18n": "^6.27.0",
     "nuxt-responsive-loader": "^2.0.1",
     "secure-ls": "^1.2.6",
-    "vuex-persistedstate": "^4.0.0-beta.3"
+    "vuex-persistedstate": "^4.0.0"
   },
   "devDependencies": {
-    "node-sass": "^6.0.0",
+    "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1"
   }
 }
