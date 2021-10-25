@@ -65,7 +65,7 @@ export default {
 	methods: {
 		async copyPictosToClipboardLegacy(pictos) {
 			const message = pictos.reduce(
-				(acc, curr_val) => acc + " " + curr_val.meaning,
+				(acc, curr_val) => acc + " " + curr_val.speech,
 				""
 			);
 			try {
@@ -97,7 +97,10 @@ export default {
 		},
 		async copyPictosToClipboardV2(pictos) {
 			const paths = pictos.map((picto) => picto.path);
-			const text = pictos.map((picto) => picto.speech);
+			const text = pictos.reduce(
+				(acc, curr_val) => acc + " " + curr_val.speech,
+				""
+			);
 			const b64 = await mergeImages(paths, {
 				crossOrigin: "Anonymous",
 				text: text,
