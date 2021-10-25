@@ -10,7 +10,9 @@
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
-  "dependencies": {
+  "devDependencies": {
+    "node-sass": "^6.0.0",
+    "sass-loader": "^10.1.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/sitemap": "^2.4.0",
     "axios": "^0.21.1",
@@ -26,9 +28,5 @@
     "nuxt-responsive-loader": "^2.0.1",
     "secure-ls": "^1.2.6",
     "vuex-persistedstate": "^4.0.0"
-  },
-  "devDependencies": {
-    "node-sass": "^6.0.0",
-    "sass-loader": "^10.1.1"
   }
 }
