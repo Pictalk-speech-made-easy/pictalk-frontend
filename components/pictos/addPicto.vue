@@ -97,53 +97,75 @@
           >
 
           <b-tab-item label="from ARASAAC">
-            <template>
-              <b-field :label="$t('Speech')">
-                <b-input
-                  type="text"
-                  v-model="pictoSpeech"
-                  :placeholder="$t('SpeechNotice')"
-                ></b-input>
-              </b-field>
-              <b-button
-                type="is-success"
-                icon-right="message"
-                @click="pronounce(pictoSpeech)"
-              />
-              <br />
-              <br />
-              <b-field :label="$t('Meaning')">
-                <b-input
-                  type="text"
-                  v-model="pictoMeaning"
-                  :placeholder="$t('MeaningNotice')"
-                  required
-                ></b-input>
-              </b-field>
-              <b-field :label="$t('Folder')">
-                <b-checkbox v-model="isFolder" true-value="1" false-value="0">{{
-                  $t("FolderNotice")
-                }}</b-checkbox>
-              </b-field>
-              <br />
-              <b-field :label="$t('Search')">
-                <b-input
-                  type="text"
-                  v-model="pictoMeaning"
-                  :placeholder="$t('SearchNotice')"
-                ></b-input>
-              </b-field>
+            <template id="app">
+              <div>
+                <b-field :label="$t('Speech')">
+                  <b-input
+                    type="text"
+                    v-model="pictoSpeech"
+                    :placeholder="$t('SpeechNotice')"
+                  ></b-input>
+                </b-field>
+                <b-button
+                  type="is-success"
+                  icon-right="message"
+                  @click="pronounce(pictoSpeech)"
+                />
+                <br />
+                <br />
+                <b-field :label="$t('Meaning')">
+                  <b-input
+                    type="text"
+                    v-model="pictoMeaning"
+                    :placeholder="$t('MeaningNotice')"
+                    required
+                  ></b-input>
+                </b-field>
+                <b-field :label="$t('Folder')">
+                  <b-checkbox
+                    v-model="isFolder"
+                    true-value="1"
+                    false-value="0"
+                    >{{ $t("FolderNotice") }}</b-checkbox
+                  >
+                </b-field>
+                <br />
+                <b-field :label="$t('Search')">
+                  <b-input
+                    type="text"
+                    v-model="pictoSearch"
+                    :placeholder="$t('SearchNotice')"
+                  ></b-input>
+                </b-field>
+                <b-button
+                  type="is-success"
+                  icon-right="magnify"
+                  @click="pictoExtractImg('voiture')"
+                />
 
-              <div class="columns is-multiline">
-                <div class="column is-one-quarter-desktop is-half-tablet">
-                  <figure class="image is-128x128">
-                    <img
-                      src="https://unsplash.it/300/200/?random&pic=1"
-                      alt=""
-                    />
-                  </figure>
-                </div>
-                <div class="column is-one-quarter-desktop is-half-tablet">
+                <br />
+                <br />
+
+                <div class="columns is-multiline is-mobile">
+                  <div
+                    class="
+                      column
+                      is-one-third-mobile
+                      is-one-quarter-tablet
+                      is-one-quarter-desktop
+                      is-one-quarter-widescreen
+                      is-one-fifth-fullhd
+                    "
+                    v-for="image in images"
+                    :key="image.src"
+                    :src="image.src"
+                    :alt="image.alt"
+                  >
+                    <figure class="image is-128x128">
+                      <img :src="src" />
+                    </figure>
+                    <b>{{ alt }}</b>
+                  </div>
                 </div>
               </div>
             </template>
@@ -168,6 +190,8 @@
 </template>
 <script>
 const jpegasus = require("jpegasus");
+import axios from "axios";
+
 export default {
   created() {
     const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -188,11 +212,17 @@ export default {
       selectedOption: "",
       pictoSpeech: "",
       pictoMeaning: "",
+      pictoSearch: "",
       isFolder: "0",
       file: {},
       highQuality: this.$t("StandardQuality"),
+      size: 0,
+      src: "",
+      alt: "",
+      images: [],
     };
   },
+
   methods: {
     async pronounce(speech) {
       if ("speechSynthesis" in window) {
@@ -271,6 +301,33 @@ export default {
           type: "is-danger",
         });
       }
+    },
+    getUserLang() {
+      const user = this.$store.getters.getUser;
+      const lang = user.language;
+      const language2char = lang.substring(0, 2);
+      return language2char;
+    },
+    async pictoExtractImg(pictoSearch) {
+      let results = [];
+      this.images = await axios
+        .get(
+          `https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`,
+          { headers: {} }
+        )
+        .then((response) => {
+          this.size = response.data.length;
+          for (let index = 0; index < this.size; index++) {
+            this.src = `https://api.arasaac.org/api/pictograms/${response.data[index]["_id"]}?color=true&resolution=500&download=false`;
+            this.alt = response.data[index]["keywords"][0]["keyword"];
+            results.push({
+              src: this.src,
+              alt: this.alt,
+            });
+            console.log(response.data[index]["keywords"][0]["keyword"]);
+          }
+          return results;
+        });
     },
   },
 };

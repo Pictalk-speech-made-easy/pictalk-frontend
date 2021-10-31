@@ -1,5 +1,5 @@
-<template>
-  <div id="app">
+<template id= "app">
+  <div>
     <b-field :label="$t('Speech')">
       <b-input
         type="text"
@@ -31,15 +31,25 @@
     <b-field :label="$t('Search')">
       <b-input
         type="text"
-        v-model="pictoMeaning"
+        v-model="pictoSearch"
         :placeholder="$t('SearchNotice')"
       ></b-input>
     </b-field>
+    <b-button
+      type="is-success"
+      icon-right="message"
+      @click="searchPictos(pictoSearch)"
+    />
+    <b-button type="is-primary">Primary</b-button>
+    <br />
+    <br />
 
     <div class="columns is-multiline">
-      <div class="column is-one-quarter-desktop is-half-tablet">
+      <div
+        class="column is-one-quarter-desktop is-half-tablet"
+      >
         <figure class="image is-128x128">
-          <img src="https://unsplash.it/300/200/?random&pic=1" alt="" />
+          <img :src="getImgUrl(pic)" v-bind:alt="pic" />
         </figure>
       </div>
       <div
@@ -60,19 +70,41 @@ export default {
   name: "app",
   data: () => ({
     images: [],
+    size: 0,
   }),
+  computed: {
+		getUserLang() {
+			const user = this.$store.getters.getUser;
+      const lang = user.language
+      const language2char = lang.substring(0,2);
+			return language2char;
+		},
+	},
   methods: {
-    searchweb() {
+    pictoExtractImg() {
       this.images = [];
       axios
         .get(
           `https://api.arasaac.org/api/pictograms/2339?color=true&resolution=500&download=false`,
-          {
-            headers: {},
-          }
+          { headers: {} }
         )
         .then((response) => {
-          this.images = response.data.results;
+          this.images.push(response.data.results);
+        })
+        .catch(() => {
+          this.images = [];
+        });
+      this.size = this.images.length;
+    },
+    searchPictos(pictoSearch) {
+
+      axios
+        .get(
+          `https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`,
+          { headers: {} }
+        )
+        .then((response) => {
+          this.images.push(response.data.results);
         })
         .catch(() => {
           this.images = [];

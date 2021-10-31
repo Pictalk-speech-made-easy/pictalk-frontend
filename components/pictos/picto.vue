@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import editPicto from "@/components/pictos/editPicto";
 import deleteItem from "@/components/pictos/deleteItem";
 export default {
