@@ -156,15 +156,12 @@
                       is-one-quarter-widescreen
                       is-one-fifth-fullhd
                     "
-                    v-for="image in images"
-                    :key="image.src"
-                    :src="image.src"
-                    :alt="image.alt"
+                    v-for="(value, index) in this.images"
+                    :key='index'
                   >
                     <figure class="image is-128x128">
-                      <img :src="src" />
+                      <img :src="value" />
                     </figure>
-                    <b>{{ alt }}</b>
                   </div>
                 </div>
               </div>
@@ -217,8 +214,6 @@ export default {
       file: {},
       highQuality: this.$t("StandardQuality"),
       size: 0,
-      src: "",
-      alt: "",
       images: [],
     };
   },
@@ -310,6 +305,8 @@ export default {
     },
     async pictoExtractImg(pictoSearch) {
       let results = [];
+      let src;
+      let alt;
       this.images = await axios
         .get(
           `https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`,
@@ -318,14 +315,14 @@ export default {
         .then((response) => {
           this.size = response.data.length;
           for (let index = 0; index < this.size; index++) {
-            this.src = `https://api.arasaac.org/api/pictograms/${response.data[index]["_id"]}?color=true&resolution=500&download=false`;
-            this.alt = response.data[index]["keywords"][0]["keyword"];
-            results.push({
-              src: this.src,
-              alt: this.alt,
-            });
+            src = `https://api.arasaac.org/api/pictograms/${response.data[index]["_id"]}?color=true&resolution=500&download=false`;
+            alt = response.data[index]["keywords"][0]["keyword"];
+            results.push(
+              src
+            );
             console.log(response.data[index]["keywords"][0]["keyword"]);
           }
+          console.log(results);
           return results;
         });
     },
