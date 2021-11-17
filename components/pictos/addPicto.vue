@@ -6,47 +6,55 @@
       </header>
       <section class="modal-card-body">
         <div class="tags">
-          <span class="tag is-primary">
+          <span class="tag is-primary is-medium">
             {{ file.name }}
             <button
-              class="delete is-small"
+              class="delete is-medium"
               type="button"
-              @click="file = {}"
+              @click="discardfile()"
             ></button>
           </span>
         </div>
-        <b-tabs>
-          <b-tab-item label="Localy">
-            <template>
-              <b-field :label="$t('Speech')">
+        <template>
+          <b-tabs v-model="activeTab" expanded> 
+            <b-tab-item label="Pictos" icon="image">
+              <b-field :label="$t('Search')">
                 <b-input
                   type="text"
-                  v-model="pictoSpeech"
-                  :placeholder="$t('SpeechNotice')"
+                  v-model="pictoSearch"
+                  :placeholder="$t('SearchNotice')"
+                  expanded
+                  :autofocus="true"
+                  @keyup.native.enter="pictoExtractImg(pictoSearch)"
                 ></b-input>
-              </b-field>
-              <b-button
-                type="is-success"
-                icon-right="message"
-                @click="pronounce(pictoSpeech)"
-              />
-              <br />
-              <br />
-              <b-field :label="$t('Meaning')">
-                <b-input
-                  type="text"
-                  v-model="pictoMeaning"
-                  :placeholder="$t('MeaningNotice')"
-                  required
-                ></b-input>
-              </b-field>
-              <b-field :label="$t('Folder')">
-                <b-checkbox v-model="isFolder" true-value="1" false-value="0">{{
-                  $t("FolderNotice")
-                }}</b-checkbox>
+                <b-button
+                  type="is-success"
+                  icon-right="magnify"
+                  @click="pictoExtractImg(pictoSearch)"
+                  
+                />
               </b-field>
               <br />
+              <div class="columns is-multiline is-mobile">
+                <Webpicto
+                  class="
+                    column
+                    is-one-third-mobile
+                    is-one-quarter-tablet
+                    is-one-quarter-desktop
+                    is-one-quarter-widescreen
+                    is-one-fifth-fullhd
+                    containing
+                    has-background
+                  "
+                  v-for="picto in this.images"
+                  :key="picto.src"
+                  :webpicto="picto"
+                  @uploadfile="uploadfile($event)"
+                />
+              </div>
               <div>
+                <b-field label = "Or upload your own">
                 <section>
                   <b-field class="file">
                     <b-upload
@@ -92,25 +100,26 @@
                     </b-switch>
                   </b-field>
                 </section>
+                </b-field>
               </div>
-            </template></b-tab-item
-          >
-
-          <b-tab-item label="from ARASAAC">
-            <template id="app">
+            </b-tab-item>
+            <b-tab-item label="Speech" icon="volume-source">
               <div>
                 <b-field :label="$t('Speech')">
                   <b-input
                     type="text"
                     v-model="pictoSpeech"
                     :placeholder="$t('SpeechNotice')"
+                    expanded
                   ></b-input>
+                  <b-button
+                    type="is-success"
+                    icon-right="message"
+                    @click="pronounce(pictoSpeech)"
+                    >Try</b-button
+                  >
                 </b-field>
-                <b-button
-                  type="is-success"
-                  icon-right="message"
-                  @click="pronounce(pictoSpeech)"
-                />
+
                 <br />
                 <br />
                 <b-field :label="$t('Meaning')">
@@ -119,70 +128,38 @@
                     v-model="pictoMeaning"
                     :placeholder="$t('MeaningNotice')"
                     required
+                    expanded
                   ></b-input>
                 </b-field>
-                <b-field :label="$t('Folder')">
-                  <b-checkbox
-                    v-model="isFolder"
-                    true-value="1"
-                    false-value="0"
-                    >{{ $t("FolderNotice") }}</b-checkbox
-                  >
-                </b-field>
-                <br />
-                <b-field :label="$t('Search')">
-                  <b-input
-                    type="text"
-                    v-model="pictoSearch"
-                    :placeholder="$t('SearchNotice')"
-                  ></b-input>
-                </b-field>
-                <b-button
-                  type="is-success"
-                  icon-right="magnify"
-                  @click="pictoExtractImg(pictoSearch)"
-                />
-
-                <br />
-                <br />
-
-                <div class="columns is-multiline is-mobile">
-                  <div
-                    class="
-                      column
-                      is-one-third-mobile
-                      is-one-quarter-tablet
-                      is-one-quarter-desktop
-                      is-one-quarter-widescreen
-                      is-one-fifth-fullhd
-                      containing has-background
-                      "
-                    v-for="(value, index) in this.images"
-                    :key='index'
-                  >
-                    <figure class="image is-128x128">
-                      <img class="image"
-                      :src="value" />
-                    </figure>
-                  </div>
-                </div>
               </div>
-            </template>
-          </b-tab-item>
-        </b-tabs>
+            </b-tab-item>
+          </b-tabs>
+        </template>
       </section>
 
       <footer class="modal-card-foot">
         <b-button class="button" type="button" @click="$parent.close()">{{
           $t("Close")
         }}</b-button>
+        <div v-if="activeTab"> 
         <b-button
           class="button is-primary"
           @click="
             onSubmitted(pictoSpeech, pictoMeaning, isFolder, file, highQuality)
           "
-          >{{ $t("Create") }}</b-button
+          >{{ $t("Create") }} Picto</b-button
         >
+        <b-button class="button is-success">
+          Collection
+        </b-button>
+        </div>
+        <div v-else>
+          <b-button class="button is-primary"
+          @click="next()">
+          Next
+          </b-button
+        >
+        </div>
       </footer>
     </div>
   </form>
@@ -190,7 +167,7 @@
 <script>
 const jpegasus = require("jpegasus");
 import axios from "axios";
-
+import Webpicto from "@/components/pictos/webpicto";
 export default {
   created() {
     const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -217,9 +194,12 @@ export default {
       highQuality: this.$t("StandardQuality"),
       size: 0,
       images: [],
+      activeTab : 0,
     };
   },
-
+  components: {
+    Webpicto,
+  },
   methods: {
     async pronounce(speech) {
       if ("speechSynthesis" in window) {
@@ -301,56 +281,70 @@ export default {
     },
     getUserLang() {
       const user = this.$store.getters.getUser;
-      const lang = user.language;
-      const language2char = lang.substring(0, 2);
-      return language2char;
+      let lang = user.language;
+      lang = lang.replace(/[^a-z]/g, "");
+      return lang;
     },
     async pictoExtractImg(pictoSearch) {
       let results = [];
       let src;
       let alt;
-      this.images = await axios
-        .get(
-          `https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`,
-          { headers: {} }
-        )
-        .then((response) => {
-          this.size = response.data.length;
-          for (let index = 0; index < this.size; index++) {
-            src = `https://api.arasaac.org/api/pictograms/${response.data[index]["_id"]}?color=true&resolution=500&download=false`;
-            alt = response.data[index]["keywords"][0]["keyword"];
-            results.push(
-              src
-            );
-            console.log(response.data[index]["keywords"][0]["keyword"]);
-          }
-          console.log(results);
-          return results;
-        });
+      try {
+        this.images = await axios
+          .get(
+            `https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`,
+            { headers: {} }
+          )
+          .then((response) => {
+            this.size = response.data.length;
+            for (let index = 0; index < this.size; index++) {
+              src = `https://api.arasaac.org/api/pictograms/${response.data[index]["_id"]}?color=true&resolution=500&download=false`;
+              alt = response.data[index]["keywords"][0]["keyword"];
+              results.push({ alt: alt, src: src });
+            }
+            return results;
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
+    uploadfile(file) {
+      this.activeTab=1;
+      this.pictoSpeech=file.name.replaceAll('-', ' ').replace(/\.[^/.]+$/, "");
+      this.pictoMeaning=file.name.replaceAll('-', ' ').replace(/\.[^/.]+$/, "");
+      this.file = file;
+    },
+
+    discardfile(){
+      this.file={};
+      this.activeTab=0;
+    },
+    next(){
+      this.activeTab=1;
+    }
   },
 };
 </script>
 
 <style scoped>
 .has-background {
-	border-radius: 3px;
-	-webkit-box-shadow: 0px 0px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-	-moz-box-shadow: 0px 0px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
-	box-shadow: 0px 0px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 0px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 0px 0px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 0px 0px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .containing {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .image {
-	margin: auto;
+  margin: auto;
 }
 .adminMenu {
-	align-self: flex-end;
-	margin: 0 auto;
-	margin-top: auto;
+  align-self: flex-end;
+  margin: 0 auto;
+  margin-top: auto;
 }
 </style>
