@@ -34,7 +34,7 @@ export default async (context, locale) => {
         CodeIsLicensed: 'Le code est open-sourcé',
         ProjectBackedBy: 'est un projet aidé par:',
         WantToBeABacker: 'Vous aussi voulez aider ? N\'hésitez pas à m\'envoyer un email',
-        Me: 'moi',
+        Me: 'ici',
         CreateCollection: 'Créer une collection',
         Name: 'Nom',
         Color: 'Couleur',

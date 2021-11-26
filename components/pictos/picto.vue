@@ -17,9 +17,10 @@
 				crossorigin="anonymous"
 			/>
 		</div>
-
+		<div class="notification meaning">
+			{{ picto.meaning }}
+		</div>
 		<div v-if="adminMode" class="adminMenu">
-			<div class="notification is-size-6">{{ picto.meaning }}</div>
 			<div>
 				<b-button
 					type="is-danger"
@@ -158,5 +159,15 @@ export default {
 	align-self: flex-end;
 	margin: 0 auto;
 	margin-top: auto;
+}
+.meaning {
+	margin: 0 auto;
+	margin-top: auto;
+	font-size: 1rem;
+}
+.notification {
+	padding: 0.6rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
 }
 </style>
