@@ -21,7 +21,6 @@
 					v-for="picto in pictos"
 					:key="picto.meaning"
 					:path="picto.path"
-					:meaning="picto.meaning"
 				/>
 			</div>
 		</div>

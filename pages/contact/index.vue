@@ -14,7 +14,7 @@
 					{{ $t("ContactText1") }}
 					<a href="mailto:alexandros.sidiras@laposte.net"
 						>alexandros.sidiras@laposte.net</a
-					>{{ $t("ContactText2") }}
+					>.{{ $t("ContactText2") }}
 				</h2>
 				<br />
 				<h1 class="title is-size-3-mobile">{{ $t("BugReport") }}</h1>
