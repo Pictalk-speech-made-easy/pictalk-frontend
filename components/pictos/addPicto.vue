@@ -149,9 +149,6 @@
           "
           >{{ $t("Create") }} Picto</b-button
         >
-        <b-button class="button is-success">
-          Collection
-        </b-button>
         </div>
         <div v-else>
           <b-button class="button is-primary"
