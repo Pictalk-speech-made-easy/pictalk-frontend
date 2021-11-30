@@ -202,11 +202,9 @@ export default {
         });
       }
     },
-    getUserLang() {
+    getUserLang(){
       const user = this.$store.getters.getUser;
-      let lang = user.language;
-      lang = lang.replace(/[^a-z]/g, "");
-      return lang;
+      return user.language.replace(/[^a-z]/g, "");
     },
     async pictoExtractImg(pictoSearch) {
       let results = [];

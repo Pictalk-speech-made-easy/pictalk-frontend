@@ -57,6 +57,16 @@ export default {
 			} catch (error) {
 				console.log("error ", error);
 			}
+			const user = context.store.getters.getUser;
+			if (user.username) {
+			} else {
+				try {
+					var res = await axios.get("/auth/details/");
+					context.store.commit("editUser", res.data);
+				} catch (error) {
+					console.log("error ", error);
+				}
+			}
 		}
 	},
 	data() {
