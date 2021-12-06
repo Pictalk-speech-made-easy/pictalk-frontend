@@ -94,6 +94,24 @@ export default {
         iso: 'es-ES',
         name: 'Español',
         file: 'es-ES.js'
+      },
+      {
+        code: 'it',
+        iso: 'it-IT',
+        name: 'Italiano',
+        file: 'it-IT.js'
+      },
+      {
+        code: 'de',
+        iso: 'de-DE',
+        name: 'Deutsch',
+        file: 'de-DE.js'
+      },
+      {
+        code: 'ro',
+        iso: 'ro-RO',
+        name: 'Român',
+        file: 'ro-RO.js'
       }
     ],
     lazy: true,
@@ -112,7 +130,7 @@ export default {
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
-    'nuxt-i18n',
+    '@nuxtjs/i18n',
     [
       "nuxt-cookie-control",
       {
