@@ -1,10 +1,14 @@
 export default {
   ssr: false,
+  target: 'static',
   /*
    ** Headers of the page
    */
   publicRuntimeConfig: {
     baseURL: process.env.BASE_URL || "http://localhost:3001"
+  },
+  generate: {
+    fallback: true
   },
   head: {
     title: process.env.npm_package_name || "Pictalk",
@@ -156,9 +160,6 @@ export default {
           checkboxInactiveCircleBackground: "#f44336",
           checkboxDisabledBackground: "#ddd",
           checkboxDisabledCircleBackground: "#fff"
-        },
-        text: {
-          barDescription: 'We use our own cookies so that we can show you this website. If you continue browsing, we consider that you have accepted the cookies and the cookie policy. You can find the cookie policy at: https://www.pictalk.xyz/legal-infos/cookie-policy',
         }
       }
     ]
