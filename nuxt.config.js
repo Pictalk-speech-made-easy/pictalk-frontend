@@ -56,8 +56,8 @@ export default {
     max: 1080, // maximum image width generated
     steps: 3, // five sizes per image will be generated
     placeholder: false, // no placeholder will be generated
-    quality: 1, // images are compressed with medium quality
-    //format: 'png',
+    quality: 40, // images are compressed with medium quality
+    format: 'jpg',
   },
   sitemap: {
     hostname: 'https://www.pictalk.xyz',
