@@ -154,6 +154,14 @@
 										expanded
 									></b-input>
 								</b-field>
+								<b-field :label="$t('Folder')">
+									<b-checkbox
+										v-model="isFolder"
+										true-value="1"
+										false-value="0"
+										>{{ $t("FolderNotice") }}
+									</b-checkbox>
+								</b-field>
 							</div>
 						</b-tab-item>
 					</b-tabs>
