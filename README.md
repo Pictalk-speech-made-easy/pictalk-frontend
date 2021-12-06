@@ -1,5 +1,5 @@
 <!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️-->
-
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#pictalk)
 
 # ➤ Pictalk
