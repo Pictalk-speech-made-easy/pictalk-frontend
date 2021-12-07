@@ -116,6 +116,18 @@ export default {
         iso: 'ro-RO',
         name: 'Român',
         file: 'ro-RO.js'
+      },
+      {
+        code: 'pt',
+        iso: 'pt-PT',
+        name: 'Português',
+        file: 'pt-PT.js'
+      },
+      {
+        code: 'el',
+        iso: 'el-EL',
+        name: 'Eλληνικά',
+        file: 'el-EL.js'
       }
     ],
     lazy: true,
