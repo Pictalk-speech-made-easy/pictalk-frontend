@@ -56,12 +56,10 @@ export default {
    */
   responsiveLoader: {
     adapter: require('responsive-loader/sharp'),
-    name: 'img/[hash:7]-[width].[ext]',
-    min: 240, // minimum image width generated
-    max: 1080, // maximum image width generated
-    steps: 3, // five sizes per image will be generated
+    name: 'img/[name]-[width].[ext]',
+    sizes: [240, 320, 640, 768, 960, 1024, 1280, 1600, 1920],
     placeholder: false, // no placeholder will be generated
-    quality: 40, // images are compressed with medium quality
+    quality: 65, // images are compressed with medium quality
     format: 'webp',
   },
   sitemap: {
@@ -74,7 +72,8 @@ export default {
     ],
   },
   i18n: {
-    seo: false,
+    baseURL: 'https://www.pictalk.xyz',
+    seo: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',

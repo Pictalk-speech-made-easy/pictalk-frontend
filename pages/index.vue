@@ -3,6 +3,7 @@
 		<div class="container">
 				<b-image alt="A little boy talking thanks to Pictalk" 
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
+				lazy="false"
 				></b-image>
 		</div>
 		<br>
