@@ -18,7 +18,7 @@
 				<b-navbar-item tag="nuxt-link" to="/getstarted"
 					>{{ $t("GetStarted") }} 🚀</b-navbar-item
 				>
-				<b-navbar-dropdown collapsible="true" :label="$t('More')">
+				<b-navbar-dropdown collapsible :label="$t('More')">
 					<b-navbar-item tag="nuxt-link" to="/about">{{
 						$t("Infos")
 					}}</b-navbar-item>
@@ -34,7 +34,7 @@
 				</b-navbar-dropdown>
 			</template>
 			<template slot="end">
-				<b-navbar-dropdown collapsible="true" :label="$t('Language')">
+				<b-navbar-dropdown collapsible :label="$t('Language')">
 					<b-navbar-item
 						v-for="locale in availableLocales"
 						:key="locale.code"

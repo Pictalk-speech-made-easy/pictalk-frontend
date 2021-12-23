@@ -187,5 +187,10 @@
     "TutorialEighteenthScreen": "Here is the pictogramm I'm making inside of the \"I want\" folder. As we will not put any word after \"some french fries\" our pictogramm isn't a folder. <b>Edit:</b> Now the pictobar will show the MEANING of pictogramms and not the SPEECH as shown in the picture.",
     "TutorialNineteenthScreen": "Now, click on the \"FRIES\" pictogramm. See how the pictobar adds \"some french fries\" to the \"I want\". Let's Talk (click on the blue button) VOILAAAA A SENTENCE !!! You have all the knowledge to use Pictalk at his best ! I will try to give more examples of pictgramms my brother have. Go on for the last screen I'll present here.",
     "TutorialTwentiethScreen": "This is the user menu. You can access it by clicking on the blue button on the navbar. Here you can change the language, the name and all the stuff you entered during Sign Up.",
-    "TutorialEnd": "Thanks for having read all the tutorial"
+    "TutorialEnd": "Thanks for having read all the tutorial",
+    "Image": "Image",
+    "Speech": "Speech",
+    "OrUploadYourOwn": "Or upload your own",
+    "Try": "Try",
+    "Pictogram": "Pictogram"
 }
