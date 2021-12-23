@@ -71,12 +71,11 @@ export default async (context, locale) => {
         Edit: 'Edit',
         CopySucces: 'Successfully copied the pictos !',
         CopyError: 'Could not copy the pictos',
-        AboutMe: 'About us',
-        AboutText1: 'Hi we are two brothers developping Pictalk for our little brother. We both study Telecommunications and Computer Science and we love developping and sharing usefull apps to help others ! We also have other hobbies such as making ',
-  
-        AboutText2: 'or taking photos during vacations, computer hardware, badminton, beer etc ...',
+        AboutMe: 'About me',
+        AboutText1: 'Hi, I\'m Alex. I\'m a 23 years old student at INSA Lyon. I study Telecommunications and Computer Science. I\'m a fan of self-hosting, development and networking ! I also like making ',
+        AboutText2: 'or taking photos during my vacations.',
         Backers: 'Backers',
-        AboutText3: 'Many thanks to La fondation INSA Lyon that rewarded PicTalk with 1000€. Their program Coups de Pouce Passion  helps INSA students fund their projects. You can also watch this',
+        AboutText3: 'Many thanks to La fondation INSA Lyon thatrewarded PicTalk with 1000€. Their program Coups de Pouce Passion  helps INSA students fund their projects. You can also watch this',
         AboutText4: 'that helped me win the contest !',
         EditUserDetails: 'Edit User Details',
         ResetPassword: 'Reset Pasword',
@@ -163,9 +162,6 @@ export default async (context, locale) => {
         Communicate_IRL: "Pictalk is great at real time applications: It can speak out loud a sentence composed by several pictograms.",
         Communicate_Messages: "Because messaging is becoming as important as talking, Pictalk allows to copy the pictograms + sentence and send them with your favourite messaging applications.  ",
         HowItWorks1: "Thanks to the ARASAAC association that provides free pictograms, every new user earns a starting pack of about 20 pictograms and some sets of phrases ! Thanks to that you will learn how to use Pictalk and begin to talk very soon. ",
-        HowItWorks2: "Here is an example of a phrase included in the starting pack: This phrase will produce \" I like french fries \"",
-        SearchNotice: "What are you searching for ?",
-        Search: "Search",
+        HowItWorks2: "Here is an example of a phrase included in the starting pack: This phrase will produce \" I like french fries \""
     });
-  }
-  
+}
