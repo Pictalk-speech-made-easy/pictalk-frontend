@@ -5,137 +5,7 @@
 				<p class="modal-card-title">{{ $t("CreateCollection") }}</p>
 			</header>
 			<section class="modal-card-body">
-				<template>
-					<b-tabs v-model="activeTab" expanded>
-						<b-tab-item label="Pictos" icon="image">
-							<b-field :label="$t('Search')">
-								<b-input
-									type="text"
-									v-model="pictoSearch"
-									:placeholder="$t('SearchNotice')"
-									expanded
-									:autofocus="true"
-									@keyup.native.enter="
-										pictoExtractImg(pictoSearch)
-									"
-								></b-input>
-								<b-button
-									type="is-success"
-									icon-right="magnify"
-									@click="pictoExtractImg(pictoSearch)"
-								/>
-							</b-field>
-							<br />
-							<div class="columns is-multiline is-mobile">
-								<Webpicto
-									class="
-										column
-										is-one-third-mobile
-										is-one-quarter-tablet
-										is-one-quarter-desktop
-										is-one-quarter-widescreen
-										is-one-fifth-fullhd
-										containing
-										has-background
-									"
-									v-for="picto in this.images"
-									:key="picto.src"
-									:webpicto="picto"
-									@uploadfile="uploadfile($event)"
-								/>
-							</div>
-							<div>
-								<b-field label="Or upload your own">
-									<section>
-										<b-field class="file">
-											<b-upload
-												v-model="file"
-												accept="image/png, image/jpeg, image/gif, image/jpg"
-												native
-												expanded
-												required
-											>
-												<a
-													class="
-														button
-														is-primary is-fullwidth
-													"
-												>
-													<b-icon
-														icon="upload"
-													></b-icon>
-													<span>{{
-														file.name ||
-														$t("ClickToUpload")
-													}}</span>
-												</a>
-											</b-upload>
-										</b-field>
-										<b-field>
-											<b-upload
-												v-model="file"
-												accept="image/png, image/jpeg, image/gif, image/jpg"
-												native
-												drag-drop
-												expanded
-											>
-												<section class="section">
-													<div
-														class="
-															content
-															has-text-centered
-														"
-													>
-														<p>
-															<b-icon
-																icon="upload"
-																size="is-large"
-															></b-icon>
-														</p>
-														<p>
-															{{
-																$t("DropFiles")
-															}}
-														</p>
-													</div>
-												</section>
-											</b-upload>
-										</b-field>
-										<b-field>
-											<b-switch
-												v-model="highQuality"
-												:false-value="
-													$t('StandardQuality')
-												"
-												:true-value="$t('HighQuality')"
-											>
-												{{ highQuality }}
-											</b-switch>
-										</b-field>
-									</section>
-								</b-field>
-							</div>
-						</b-tab-item>
-						<b-tab-item label="Name" icon="comment-text">
-							<b-field :label="$t('Name')">
-								<b-input
-									type="name"
-									v-model="collectionName"
-									:placeholder="$t('NameNotice')"
-									required
-								></b-input>
-							</b-field>
-							<b-field :label="$t('Color')">
-								<b-input
-									type="color"
-									v-model="collectionColor"
-									:placeholder="$t('ColorNotice')"
-									required
-								></b-input>
-							</b-field>
-						</b-tab-item>
-					</b-tabs>
-				</template>
+				<collection-steps create="true" />
 			</section>
 			<footer class="modal-card-foot">
 				<b-button
@@ -143,18 +13,6 @@
 					type="button"
 					@click="$parent.close()"
 					>{{ $t("Close") }}</b-button
-				>
-				<b-button
-					class="button is-primary"
-					@click="
-						onSubmitted(
-							collectionName,
-							collectionColor,
-							file,
-							highQuality
-						)
-					"
-					>{{ $t("Create") }}</b-button
 				>
 			</footer>
 		</div>
@@ -164,6 +22,7 @@
 const jpegasus = require("jpegasus");
 import axios from "axios";
 import Webpicto from "@/components/pictos/webpicto";
+import CollectionSteps from "@/components/pictos//collectionSteps";
 export default {
 	data() {
 		return {
@@ -180,6 +39,7 @@ export default {
 	},
 	components: {
 		Webpicto,
+		CollectionSteps,
 	},
 	methods: {
 		async onSubmitted(name, color, file, highQuality) {

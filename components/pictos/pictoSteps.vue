@@ -395,9 +395,6 @@ export default {
 			this.file = {};
 			this.activeTab = 0;
 		},
-		next() {
-			this.activeTab = 1;
-		},
 	},
 };
 </script>
