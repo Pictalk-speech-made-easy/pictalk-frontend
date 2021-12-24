@@ -2,11 +2,14 @@
 	<form action>
 		<div class="modal-card" style="width: auto">
 			<header class="modal-card-head">
-				<p v-if="create" class="modal-card-title">{{ $t("CreateCollection") }}</p>
-                <p v-else class="modal-card-title">{{ $t("EditCollection") }}</p>
+				<p v-if="create" class="modal-card-title">
+					{{ $t("CreateCollection") }}
+				</p>
+				<p v-else class="modal-card-title">
+					{{ $t("EditCollection") }}
+				</p>
 			</header>
 			<section class="modal-card-body">
-				{{create}}
 				<b-steps
 					v-model="activeStep"
 					rounded

@@ -107,6 +107,7 @@ export default {
 				parent: this,
 				component: PictoSteps,
 				hasModalCard: true,
+				props: { create: true },
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
 				create: true,
@@ -116,10 +117,11 @@ export default {
 			this.$buefy.modal.open({
 				parent: this,
 				component: CollectionSteps,
+				props: { create: true },
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
-				canCancel:['escape', 'x'],
+				canCancel: ["escape", "x"],
 				create: true,
 			});
 		},
