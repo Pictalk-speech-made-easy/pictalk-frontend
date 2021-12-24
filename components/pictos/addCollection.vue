@@ -5,7 +5,10 @@
 				<p class="modal-card-title">{{ $t("CreateCollection") }}</p>
 			</header>
 			<section class="modal-card-body">
-				<CollectionSteps create="true" />
+				<CollectionSteps 
+				create="true"
+				@close="$parent.close()"
+				/>
 			</section>
 			<footer class="modal-card-foot">
 				<b-button

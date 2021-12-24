@@ -7,7 +7,6 @@
 		mobile-mode="compact"
 		label-position="bottom"
 	>
-		{{ collection }}
 		<b-step-item step="1" :label="$t('Image')" clickable>
 			<h1 class="title has-text-centered">{{ $t("Image") }}</h1>
 			<div v-if="collection.path">
@@ -288,6 +287,7 @@ export default {
 					type: "is-danger",
 				});
 			}
+			this.$emit('close');
 		},
 		getUserLang() {
 			const user = this.$store.getters.getUser;
