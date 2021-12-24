@@ -6,11 +6,12 @@
                 <p v-else class="modal-card-title">{{ $t("EditCollection") }}</p>
 			</header>
 			<section class="modal-card-body">
+				{{create}}
 				<b-steps
 					v-model="activeStep"
 					rounded
 					animated
-					has-navigation
+					:has-navigation="false"
 					mobile-mode="compact"
 					label-position="bottom"
 				>
@@ -224,7 +225,6 @@ export default {
 			highQuality: this.$t("StandardQuality"),
 			size: 0,
 			images: [],
-			activeTab: 0,
 		};
 	},
 	methods: {

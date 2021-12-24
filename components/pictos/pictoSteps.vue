@@ -12,7 +12,7 @@
 					v-model="activeStep"
 					rounded
 					animated
-					has-navigation
+					:has-navigation="false"
 					mobile-mode="compact"
 					label-position="bottom"
 				>
