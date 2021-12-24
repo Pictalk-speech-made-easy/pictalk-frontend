@@ -2,7 +2,10 @@
 	<form action>
 		<div class="modal-card" style="width: auto">
 			<header class="modal-card-head">
-				<p class="modal-card-title">{{ $t("CreatePictogram") }}</p>
+				<p v-if="create" class="modal-card-title">
+					{{ $t("CreatePictogram") }}
+				</p>
+				<p v-else class="modal-card-title">{{ $t("EditPictogram") }}</p>
 			</header>
 			<section class="modal-card-body">
 				<b-steps
