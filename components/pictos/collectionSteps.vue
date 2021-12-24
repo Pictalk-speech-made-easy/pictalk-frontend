@@ -7,6 +7,7 @@
 		mobile-mode="compact"
 		label-position="bottom"
 	>
+		{{ collection }}
 		<b-step-item step="1" :label="$t('Image')" clickable>
 			<h1 class="title has-text-centered">{{ $t("Image") }}</h1>
 			<div v-if="collection.path">
@@ -122,7 +123,7 @@
 			<b-field :label="$t('Name')">
 				<b-input
 					type="name"
-					v-model="collection.color"
+					v-model="collection.name"
 					:placeholder="$t('NameNotice')"
 					required
 				></b-input>
@@ -231,6 +232,7 @@ export default {
 				color = "#ff5656";
 			}
 			try {
+				var cfile;
 				if (file.name) {
 					if (!file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
 						this.$buefy.notification.open({
@@ -251,40 +253,33 @@ export default {
 						highQuality == this.$t("HighQuality")
 							? (quality = 0.1)
 							: (quality = 0.01);
-					const cfile = await jpegasus.compress(myNewFile, {
+					cfile = await jpegasus.compress(myNewFile, {
 						maxHeight: 500,
 						maxWidth: 500,
 						quality: quality,
 					});
+				}
+				if (this.create) {
+					const res = await this.$store.dispatch("addCollection", {
+						name: name,
+						color: color,
+						image: cfile,
+					});
+					this.$buefy.notification.open({
+						message: this.$t("CreatedCollection"),
+						type: "is-success",
+					});
 				} else {
-					if (this.create) {
-						const res = await this.$store.dispatch(
-							"addCollection",
-							{
-								name: name,
-								color: color,
-								image: cfile,
-							}
-						);
-						this.$buefy.notification.open({
-							message: this.$t("CreatedCollection"),
-							type: "is-success",
-						});
-					} else {
-						const res = await this.$store.dispatch(
-							"editCollection",
-							{
-								id: id,
-								name: name,
-								color: color,
-								image: file.name ? cfile : undefined,
-							}
-						);
-						this.$buefy.notification.open({
-							message: this.$t("EditedCollection"),
-							type: "is-success",
-						});
-					}
+					const res = await this.$store.dispatch("editCollection", {
+						id: this.collection.id,
+						name: name,
+						color: color,
+						image: file.name ? cfile : undefined,
+					});
+					this.$buefy.notification.open({
+						message: this.$t("EditedCollection"),
+						type: "is-success",
+					});
 				}
 			} catch (err) {
 				console.log(err);
@@ -336,10 +331,6 @@ export default {
 
 		discardfile() {
 			this.file = {};
-			this.activeTab = 0;
-		},
-		next() {
-			this.activeTab = 1;
 		},
 	},
 };
