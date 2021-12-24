@@ -17,9 +17,10 @@
 				crossorigin="anonymous"
 			/>
 		</div>
-
+		<div class="notification meaning">
+			{{ picto.meaning }}
+		</div>
 		<div v-if="adminMode" class="adminMenu">
-			<div class="notification is-size-6">{{ picto.meaning }}</div>
 			<div>
 				<b-button
 					type="is-danger"
@@ -49,13 +50,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import editPicto from "@/components/pictos/editPicto";
 import deleteItem from "@/components/pictos/deleteItem";
+import PictoSteps from "@/components/pictos/pictoSteps";
 export default {
 	name: "picto",
 	components: {
-		editPicto,
+		PictoSteps,
 	},
 	props: {
 		adminMode: {
@@ -100,7 +100,7 @@ export default {
 			this.$buefy.modal.open({
 				parent: this,
 				props: { picto: { ...picto } },
-				component: editPicto,
+				component: PictoSteps,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
@@ -158,5 +158,15 @@ export default {
 	align-self: flex-end;
 	margin: 0 auto;
 	margin-top: auto;
+}
+.meaning {
+	margin: 0 auto;
+	margin-top: auto;
+	font-size: 1rem;
+}
+.notification {
+	padding: 0.6rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
 }
 </style>

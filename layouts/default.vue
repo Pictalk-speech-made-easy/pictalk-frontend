@@ -4,7 +4,7 @@
 		<hr />
 		<nuxt />
 		<hr />
-		<CookieControl />
+		<CookieControl :locale="retrieveLocale" />
 		<footerPictalk />
 	</div>
 </template>
@@ -19,6 +19,11 @@ export default {
 	components: {
 		navbar,
 		footerPictalk,
+	},
+	computed: {
+		retrieveLocale() {
+			return this.$i18n.getLocaleCookie();
+		},
 	},
 };
 </script>

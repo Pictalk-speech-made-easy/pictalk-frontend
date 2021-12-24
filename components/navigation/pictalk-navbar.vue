@@ -16,7 +16,7 @@
 			<b-navbar-item tag="nuxt-link" to="/getstarted"
 				>{{ $t("GetStarted") }} 🚀</b-navbar-item
 			>
-			<b-navbar-dropdown label="Info">
+			<b-navbar-dropdown collapsible label="Info">
 				<b-navbar-item tag="nuxt-link" to="/about">{{
 					$t("Infos")
 				}}</b-navbar-item>
@@ -33,7 +33,7 @@
 		</template>
 
 		<template slot="end">
-			<b-navbar-dropdown label="Languages">
+			<b-navbar-dropdown collapsible :label="$t('Language')">
 				<b-navbar-item
 					v-for="locale in availableLocales"
 					:key="locale.code"
@@ -140,7 +140,8 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: this.$t("SupervisorModeQuestion") + `${a} + ${b} ?`,
+				message:
+					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),
@@ -168,7 +169,8 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: this.$t("SupervisorModeQuestion") + `${a} + ${b} ?`,
+				message:
+					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),

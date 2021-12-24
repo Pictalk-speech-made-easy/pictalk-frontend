@@ -1,4 +1,7 @@
 <!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️-->
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+[![Netlify](https://www.netlify.com/img/global/badges/netlify-color-accent.svg)](https://www.netlify.com)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4714cbe2-afae-4818-8829-478955883e93/deploy-status)](https://app.netlify.com/sites/cranky-keller-81f822/deploys)
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#pictalk)
 

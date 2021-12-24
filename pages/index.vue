@@ -1,8 +1,9 @@
 <template>
 	<div>
 		<div class="container">
-				<b-image lazy alt="A little boy talking thanks to Pictalk" 
+				<b-image alt="A little boy talking thanks to Pictalk" 
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
+				:lazy="false"
 				></b-image>
 		</div>
 		<br>

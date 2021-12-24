@@ -1,10 +1,14 @@
 export default {
   ssr: false,
+  target: 'static',
   /*
    ** Headers of the page
    */
   publicRuntimeConfig: {
     baseURL: process.env.BASE_URL || "http://localhost:3001"
+  },
+  generate: {
+    fallback: true
   },
   head: {
     title: process.env.npm_package_name || "Pictalk",
@@ -51,13 +55,12 @@ export default {
    ** Nuxt.js modules
    */
   responsiveLoader: {
-    name: 'img/[hash:7]-[width].[ext]',
-    min: 240, // minimum image width generated
-    max: 1080, // maximum image width generated
-    steps: 3, // five sizes per image will be generated
+    adapter: require('responsive-loader/sharp'),
+    name: 'img/[name]-[width].[ext]',
+    sizes: [240, 320, 640, 768, 960, 1024, 1280, 1600, 1920],
     placeholder: false, // no placeholder will be generated
-    quality: 1, // images are compressed with medium quality
-    //format: 'png',
+    quality: 65, // images are compressed with medium quality
+    format: 'webp',
   },
   sitemap: {
     hostname: 'https://www.pictalk.xyz',
@@ -69,7 +72,8 @@ export default {
     ],
   },
   i18n: {
-    seo: false,
+    baseURL: 'https://www.pictalk.xyz',
+    seo: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
@@ -94,6 +98,36 @@ export default {
         iso: 'es-ES',
         name: 'Español',
         file: 'es-ES.js'
+      },
+      {
+        code: 'it',
+        iso: 'it-IT',
+        name: 'Italiano',
+        file: 'it-IT.js'
+      },
+      {
+        code: 'de',
+        iso: 'de-DE',
+        name: 'Deutsch',
+        file: 'de-DE.js'
+      },
+      {
+        code: 'ro',
+        iso: 'ro-RO',
+        name: 'Român',
+        file: 'ro-RO.js'
+      },
+      {
+        code: 'pt',
+        iso: 'pt-PT',
+        name: 'Português',
+        file: 'pt-PT.js'
+      },
+      {
+        code: 'el',
+        iso: 'el-EL',
+        name: 'Eλληνικά',
+        file: 'el-EL.js'
       }
     ],
     lazy: true,
@@ -112,7 +146,7 @@ export default {
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
-    'nuxt-i18n',
+    '@nuxtjs/i18n',
     [
       "nuxt-cookie-control",
       {
@@ -137,9 +171,6 @@ export default {
           checkboxInactiveCircleBackground: "#f44336",
           checkboxDisabledBackground: "#ddd",
           checkboxDisabledCircleBackground: "#fff"
-        },
-        text: {
-          barDescription: 'We use our own cookies so that we can show you this website. If you continue browsing, we consider that you have accepted the cookies and the cookie policy. You can find the cookie policy at: https://www.pictalk.xyz/legal-infos/cookie-policy',
         }
       }
     ]

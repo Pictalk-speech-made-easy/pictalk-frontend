@@ -18,7 +18,7 @@
 				<b-navbar-item tag="nuxt-link" to="/getstarted"
 					>{{ $t("GetStarted") }} 🚀</b-navbar-item
 				>
-				<b-navbar-dropdown :label="$t('More')">
+				<b-navbar-dropdown collapsible :label="$t('More')">
 					<b-navbar-item tag="nuxt-link" to="/about">{{
 						$t("Infos")
 					}}</b-navbar-item>
@@ -34,7 +34,7 @@
 				</b-navbar-dropdown>
 			</template>
 			<template slot="end">
-				<b-navbar-dropdown label="Languages">
+				<b-navbar-dropdown collapsible :label="$t('Language')">
 					<b-navbar-item
 						v-for="locale in availableLocales"
 						:key="locale.code"
@@ -77,6 +77,11 @@
 import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
 export default {
+	data() {
+		return {
+			trueValue: true,
+		};
+	},
 	components: {
 		signin,
 		signup,
@@ -97,7 +102,8 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: this.$t("SupervisorModeQuestion") + `${a} + ${b} ?`,
+				message:
+					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),

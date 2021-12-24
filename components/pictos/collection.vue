@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import editCollection from "@/components/pictos/editCollection";
+import CollectionSteps from "@/components/pictos/collectionSteps";
 import deleteItem from "@/components/pictos/deleteItem";
 export default {
 	components: {
-		editCollection,
+		CollectionSteps,
 	},
 	props: {
 		adminMode: {
@@ -89,10 +89,12 @@ export default {
 			this.$buefy.modal.open({
 				parent: this,
 				props: { collection: { ...collection } },
-				component: editCollection,
+				component: CollectionSteps,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
+				canCancel:['escape', 'x'],
+				create: false,
 			});
 		},
 	},
