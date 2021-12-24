@@ -192,5 +192,6 @@
     "Speech": "Speech",
     "OrUploadYourOwn": "Or upload your own",
     "Try": "Try",
-    "Pictogram": "Pictogram"
+    "Pictogram": "Pictogram",
+    "MissingImage": "There is no image to upload"
 }

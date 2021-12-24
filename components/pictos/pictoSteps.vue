@@ -9,6 +9,15 @@
 	>
 		<b-step-item step="1" :label="$t('Image')" clickable>
 			<h1 class="title has-text-centered">{{ $t("Image") }}</h1>
+			<div v-if="picto.path">
+				<img
+					class="mini-image"
+					style
+					:src="picto.path"
+					crossorigin="anonymous"
+				/>
+			</div>
+
 			<b-field :label="$t('Search')">
 				<b-input
 					type="text"
@@ -155,7 +164,11 @@
 						highQuality
 					)
 				"
-				>{{ $t("Create") }} {{ $t("Pictogram") }}
+			>
+				<div v-if="create">
+					{{ $t("CreatePictogram") }}
+				</div>
+				<div v-else>{{ $t("EditPictogram") }}</div>
 			</b-button>
 		</b-step-item>
 	</b-steps>
@@ -178,6 +191,11 @@ export default {
 				meaning: "",
 				folder: "0",
 			}),
+		},
+		create: {
+			type: Boolean,
+			required: false,
+			default: () => false,
 		},
 	},
 	data() {
@@ -217,18 +235,31 @@ export default {
 			}
 		},
 		async onSubmitted(speech, meaning, folder, file, highQuality) {
-			if (meaning != "" && file.name) {
-				if (!file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
-					this.$buefy.notification.open({
-						message: this.$t("ImageFiles"),
-						type: "is-warning",
-					});
-					return;
-				}
-				if (speech == "") {
-					speech = " ";
-				}
-				try {
+			if (meaning == "") {
+				this.$buefy.notification.open({
+					message: this.$t("MeaningEmpty"),
+					type: "is-danger",
+				});
+			}
+			if (this.create && !file.name) {
+				this.$buefy.notification.open({
+					message: this.$t("MissingImage"),
+					type: "is-danger",
+				});
+			}
+			if (speech == "") {
+				speech = " ";
+			}
+			try {
+				if (file.name) {
+					if (!file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
+						this.$buefy.notification.open({
+							message: this.$t("ImageFiles"),
+							type: "is-warning",
+						});
+						return;
+					}
+
 					const myNewFile = new File(
 						[file],
 						file.name.substr(0, file.name.lastIndexOf(".")) +
@@ -245,12 +276,57 @@ export default {
 						maxWidth: 500,
 						quality: quality,
 					});
-					this.$store.dispatch("addPicto", {
-						picto: {
+					if (this.create) {
+						this.$store.dispatch("addPicto", {
+							picto: {
+								speech: speech,
+								meaning: meaning,
+								folder: parseInt(folder, 10),
+								image: cfile,
+								fatherId: parseInt(
+									this.$route.params.fatherId,
+									10
+								),
+							},
+							collectionId: parseInt(
+								this.$route.params.collectionId,
+								10
+							),
+						});
+						this.$buefy.notification.open({
+							message: this.$t("CreatedPictogram"),
+							type: "is-success",
+						});
+					} else {
+						const res = await this.$store.dispatch("editPicto", {
+							editedPicto: {
+								id: this.picto.id,
+								speech: speech,
+								meaning: meaning,
+								folder: folder,
+								image: cfile,
+								fatherId: parseInt(
+									this.$route.params.fatherId,
+									10
+								),
+							},
+							collectionId: parseInt(
+								this.$route.params.collectionId,
+								10
+							),
+						});
+						this.$buefy.notification.open({
+							message: this.$t("EditedPictogram"),
+							type: "is-success",
+						});
+					}
+				} else {
+					const res = await this.$store.dispatch("editPicto", {
+						editedPicto: {
+							id: this.picto.id,
 							speech: speech,
 							meaning: meaning,
-							folder: parseInt(folder, 10),
-							image: cfile,
+							folder: folder,
 							fatherId: parseInt(this.$route.params.fatherId, 10),
 						},
 						collectionId: parseInt(
@@ -258,21 +334,16 @@ export default {
 							10
 						),
 					});
-					this.$buefy.notification.open({
-						message: this.$t("CreatedPictogram"),
-						type: "is-success",
-					});
-					this.$emit("close-modal");
-				} catch (err) {
-					console.log(err);
-					this.$buefy.notification.open({
-						message: this.$t("SomeThingBadHappened"),
-						type: "is-danger",
-					});
 				}
-			} else {
+
 				this.$buefy.notification.open({
-					message: this.$t("ServerOffline"),
+					message: this.$t("EditedPictogram"),
+					type: "is-success",
+				});
+			} catch (err) {
+				console.log(err);
+				this.$buefy.notification.open({
+					message: this.$t("SomeThingBadHappened"),
 					type: "is-danger",
 				});
 			}
@@ -345,6 +416,12 @@ export default {
 }
 .image {
 	margin: auto;
+}
+.mini-image {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	max-height: 15rem;
 }
 .adminMenu {
 	align-self: flex-end;
