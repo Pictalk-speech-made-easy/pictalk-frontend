@@ -163,22 +163,6 @@
 								required
 							></b-input>
 						</b-field>
-						<b-button
-							class="button is-primary"
-							@click="
-								onSubmitted(
-									collection.name,
-									collection.color,
-									file,
-									highQuality
-								)
-							"
-						>
-							<div v-if="create">
-								{{ $t("Create") }}
-							</div>
-							<div v-else>{{ $t("Edit") }}</div>
-						</b-button>
 					</b-step-item>
 				</b-steps>
 			</section>
@@ -189,6 +173,38 @@
 					@click="$parent.close()"
 					>{{ $t("Close") }}</b-button
 				>
+				<div v-if="activeStep < 1">
+					<b-button @click="nextStep()" icon-right="chevron-right" />
+				</div>
+				<div v-if="activeStep == 1">
+					<b-button
+						@click="previousStep()"
+						icon-right="chevron-left"
+					/>
+				</div>
+				<div
+					v-if="
+						!create ||
+						(collection.name && collection.color && file.name)
+					"
+				>
+					<b-button
+						class="button is-primary"
+						@click="
+							onSubmitted(
+								collection.name,
+								collection.color,
+								file,
+								highQuality
+							)
+						"
+					>
+						<div v-if="create">
+							{{ $t("Create") }}
+						</div>
+						<div v-else>{{ $t("Edit") }}</div>
+					</b-button>
+				</div>
 			</footer>
 		</div>
 	</form>
@@ -231,6 +247,12 @@ export default {
 		};
 	},
 	methods: {
+		nextStep() {
+			this.activeStep += 1;
+		},
+		previousStep() {
+			this.activeStep -= 1;
+		},
 		async pronounce(speech) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();

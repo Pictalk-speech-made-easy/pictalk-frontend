@@ -169,7 +169,8 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: this.$t("SupervisorModeQuestion") + `${a} + ${b} ?`,
+				message:
+					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),
