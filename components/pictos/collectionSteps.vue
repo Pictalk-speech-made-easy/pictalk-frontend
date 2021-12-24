@@ -1,158 +1,192 @@
 <template>
-	<b-steps
-		v-model="activeStep"
-		rounded
-		animated
-		has-navigation
-		mobile-mode="compact"
-		label-position="bottom"
-	>
-		<b-step-item step="1" :label="$t('Image')" clickable>
-			<h1 class="title has-text-centered">{{ $t("Image") }}</h1>
-			<div v-if="collection.path">
-				<img
-					class="mini-image"
-					style
-					:src="collection.path"
-					crossorigin="anonymous"
-				/>
-			</div>
+	<form action>
+		<div class="modal-card" style="width: auto">
+			<header class="modal-card-head">
+				<p class="modal-card-title">{{ $t("CreateCollection") }}</p>
+			</header>
+			<section class="modal-card-body">
+				<b-steps
+					v-model="activeStep"
+					rounded
+					animated
+					has-navigation
+					mobile-mode="compact"
+					label-position="bottom"
+				>
+					<b-step-item step="1" :label="$t('Image')" clickable>
+						<h1 class="title has-text-centered">
+							{{ $t("Image") }}
+						</h1>
+						<div v-if="collection.path">
+							<img
+								class="mini-image"
+								style
+								:src="collection.path"
+								crossorigin="anonymous"
+							/>
+						</div>
 
-			<b-field :label="$t('Search')">
-				<b-input
-					type="text"
-					v-model="pictoSearch"
-					:placeholder="$t('SearchNotice')"
-					expanded
-					:autofocus="true"
-					@keyup.native.enter="pictoExtractImg(pictoSearch)"
-				></b-input>
-				<b-button
-					type="is-success"
-					icon-right="magnify"
-					@click="pictoExtractImg(pictoSearch, next)"
-				/>
-			</b-field>
-			<br />
-			<div class="columns is-multiline is-mobile">
-				<Webpicto
-					class="
-						column
-						is-one-third-mobile
-						is-one-quarter-tablet
-						is-one-quarter-desktop
-						is-one-quarter-widescreen
-						is-one-fifth-fullhd
-						containing
-						has-background
-					"
-					v-for="picto in this.images"
-					:key="picto.src"
-					:webpicto="picto"
-					@uploadfile="uploadfile($event)"
-				/>
-			</div>
-			<div>
-				<b-field :label="$t('OrUploadYourOwn')">
-					<section>
-						<b-field class="file">
-							<b-upload
-								v-model="file"
-								accept="image/png, image/jpeg, image/gif, image/jpg"
-								native
+						<b-field :label="$t('Search')">
+							<b-input
+								type="text"
+								v-model="pictoSearch"
+								:placeholder="$t('SearchNotice')"
 								expanded
-								required
-							>
-								<a class="button is-primary is-fullwidth">
-									<b-icon icon="upload"></b-icon>
-									<span>{{
-										file.name || $t("ClickToUpload")
-									}}</span>
-								</a>
-							</b-upload>
+								:autofocus="true"
+								@keyup.native.enter="
+									pictoExtractImg(pictoSearch)
+								"
+							></b-input>
+							<b-button
+								type="is-success"
+								icon-right="magnify"
+								@click="pictoExtractImg(pictoSearch, next)"
+							/>
 						</b-field>
-						<b-field>
-							<b-upload
-								v-model="file"
-								accept="image/png, image/jpeg, image/gif, image/jpg"
-								native
-								drag-drop
-								expanded
-							>
-								<section class="section">
-									<div class="content has-text-centered">
-										<p>
-											<b-icon
-												icon="upload"
-												size="is-large"
-											></b-icon>
-										</p>
-										<p>
-											{{ $t("DropFiles") }}
-										</p>
+						<br />
+						<div class="columns is-multiline is-mobile">
+							<Webpicto
+								class="
+									column
+									is-one-third-mobile
+									is-one-quarter-tablet
+									is-one-quarter-desktop
+									is-one-quarter-widescreen
+									is-one-fifth-fullhd
+									containing
+									has-background
+								"
+								v-for="picto in this.images"
+								:key="picto.src"
+								:webpicto="picto"
+								@uploadfile="uploadfile($event)"
+							/>
+						</div>
+						<div>
+							<b-field :label="$t('OrUploadYourOwn')">
+								<section>
+									<b-field class="file">
+										<b-upload
+											v-model="file"
+											accept="image/png, image/jpeg, image/gif, image/jpg"
+											native
+											expanded
+											required
+										>
+											<a
+												class="
+													button
+													is-primary is-fullwidth
+												"
+											>
+												<b-icon icon="upload"></b-icon>
+												<span>{{
+													file.name ||
+													$t("ClickToUpload")
+												}}</span>
+											</a>
+										</b-upload>
+									</b-field>
+									<b-field>
+										<b-upload
+											v-model="file"
+											accept="image/png, image/jpeg, image/gif, image/jpg"
+											native
+											drag-drop
+											expanded
+										>
+											<section class="section">
+												<div
+													class="
+														content
+														has-text-centered
+													"
+												>
+													<p>
+														<b-icon
+															icon="upload"
+															size="is-large"
+														></b-icon>
+													</p>
+													<p>
+														{{ $t("DropFiles") }}
+													</p>
+												</div>
+											</section>
+										</b-upload>
+									</b-field>
+									<b-field>
+										<b-switch
+											v-model="highQuality"
+											:false-value="$t('StandardQuality')"
+											:true-value="$t('HighQuality')"
+										>
+											{{ highQuality }}
+										</b-switch>
+									</b-field>
+									<div class="tags">
+										<span class="tag is-primary is-medium">
+											{{ file.name }}
+											<button
+												class="delete is-medium"
+												type="button"
+												@click="discardfile()"
+											></button>
+										</span>
 									</div>
 								</section>
-							</b-upload>
-						</b-field>
-						<b-field>
-							<b-switch
-								v-model="highQuality"
-								:false-value="$t('StandardQuality')"
-								:true-value="$t('HighQuality')"
-							>
-								{{ highQuality }}
-							</b-switch>
-						</b-field>
-						<div class="tags">
-							<span class="tag is-primary is-medium">
-								{{ file.name }}
-								<button
-									class="delete is-medium"
-									type="button"
-									@click="discardfile()"
-								></button>
-							</span>
+							</b-field>
 						</div>
-					</section>
-				</b-field>
-			</div>
-		</b-step-item>
-		<b-step-item step="2" :label="$t('Speech')" clickable>
-			<h1 class="title has-text-centered">{{ $t("Speech") }}</h1>
-			<b-field :label="$t('Name')">
-				<b-input
-					type="name"
-					v-model="collection.name"
-					:placeholder="$t('NameNotice')"
-					required
-				></b-input>
-			</b-field>
-			<b-field :label="$t('Color')">
-				<b-input
-					type="color"
-					v-model="collection.color"
-					:placeholder="$t('ColorNotice')"
-					required
-				></b-input>
-			</b-field>
-			<b-button
-				class="button is-primary"
-				@click="
-					onSubmitted(
-						collection.name,
-						collection.color,
-						file,
-						highQuality
-					)
-				"
-			>
-				<div v-if="create">
-					{{ $t("Create") }}
-				</div>
-				<div v-else>{{ $t("Edit") }}</div>
-			</b-button>
-		</b-step-item>
-	</b-steps>
+					</b-step-item>
+					<b-step-item step="2" :label="$t('Speech')" clickable>
+						<h1 class="title has-text-centered">
+							{{ $t("Speech") }}
+						</h1>
+						<b-field :label="$t('Name')">
+							<b-input
+								type="name"
+								v-model="collection.name"
+								:placeholder="$t('NameNotice')"
+								required
+							></b-input>
+						</b-field>
+						<b-field :label="$t('Color')">
+							<b-input
+								type="color"
+								v-model="collection.color"
+								:placeholder="$t('ColorNotice')"
+								required
+							></b-input>
+						</b-field>
+						<b-button
+							class="button is-primary"
+							@click="
+								onSubmitted(
+									collection.name,
+									collection.color,
+									file,
+									highQuality
+								)
+							"
+						>
+							<div v-if="create">
+								{{ $t("Create") }}
+							</div>
+							<div v-else>{{ $t("Edit") }}</div>
+						</b-button>
+					</b-step-item>
+				</b-steps>
+			</section>
+			<footer class="modal-card-foot">
+				<b-button
+					class="button"
+					type="button"
+					@click="$parent.close()"
+					>{{ $t("Close") }}</b-button
+				>
+			</footer>
+		</div>
+	</form>
 </template>
 <script>
 const jpegasus = require("jpegasus");
@@ -287,7 +321,7 @@ export default {
 					type: "is-danger",
 				});
 			}
-			this.$emit('close');
+			this.$parent.close();
 		},
 		getUserLang() {
 			const user = this.$store.getters.getUser;

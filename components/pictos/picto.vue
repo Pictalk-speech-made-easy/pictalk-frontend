@@ -50,12 +50,12 @@
 </template>
 
 <script>
-import editPicto from "@/components/pictos/editPicto";
 import deleteItem from "@/components/pictos/deleteItem";
+import PictoSteps from "@/components/pictos/pictoSteps";
 export default {
 	name: "picto",
 	components: {
-		editPicto,
+		PictoSteps,
 	},
 	props: {
 		adminMode: {
@@ -100,7 +100,7 @@ export default {
 			this.$buefy.modal.open({
 				parent: this,
 				props: { picto: { ...picto } },
-				component: editPicto,
+				component: PictoSteps,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,

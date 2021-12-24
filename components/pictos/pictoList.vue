@@ -3,14 +3,28 @@
 		<div v-if="isPicto">
 			<div class="columns is-multiline is-mobile">
 				<picto
-					class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
+					class="
+						column
+						is-one-third-mobile
+						is-one-quarter-tablet
+						is-one-quarter-desktop
+						is-one-quarter-widescreen
+						is-one-fifth-fullhd
+					"
 					v-for="picto in pictos"
 					:key="picto.id"
 					:picto="picto"
 					:adminMode="adminMode"
 				/>
 				<div
-					class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
+					class="
+						column
+						is-one-third-mobile
+						is-one-quarter-tablet
+						is-one-quarter-desktop
+						is-one-quarter-widescreen
+						is-one-fifth-fullhd
+					"
 					v-if="adminMode"
 				>
 					<img
@@ -25,14 +39,28 @@
 		<div v-else>
 			<div class="columns is-multiline is-mobile">
 				<collection
-					class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
+					class="
+						column
+						is-one-third-mobile
+						is-one-quarter-tablet
+						is-one-quarter-desktop
+						is-one-quarter-widescreen
+						is-one-fifth-fullhd
+					"
 					v-for="collection in pictos"
 					:key="collection.id"
 					:collection="collection"
 					:adminMode="adminMode"
 				/>
 				<div
-					class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
+					class="
+						column
+						is-one-third-mobile
+						is-one-quarter-tablet
+						is-one-quarter-desktop
+						is-one-quarter-widescreen
+						is-one-fifth-fullhd
+					"
 					v-if="adminMode"
 				>
 					<img
@@ -49,49 +77,52 @@
 //is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
 import picto from "@/components/pictos/picto";
 import collection from "@/components/pictos/collection";
-import addPicto from "@/components/pictos/addPicto";
-import addCollection from "@/components/pictos/addCollection";
+import CollectionSteps from "@/components/pictos/collectionSteps";
+import PictoSteps from "@/components/pictos/pictoSteps";
+
 export default {
 	components: {
 		picto,
 		collection,
-		addPicto,
-		addCollection
+		PictoSteps,
+		CollectionSteps,
 	},
 	props: {
 		pictos: {
 			type: Array,
-			required: true
+			required: true,
 		},
 		adminMode: {
 			type: Boolean,
-			required: true
+			required: true,
 		},
 		isPicto: {
 			type: Boolean,
-			required: true
-		}
+			required: true,
+		},
 	},
 	methods: {
 		addPicto() {
 			this.$buefy.modal.open({
 				parent: this,
-				component: addPicto,
+				component: PictoSteps,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
-				trapFocus: true
+				trapFocus: true,
+				create: true,
 			});
 		},
 		addCollection() {
 			this.$buefy.modal.open({
 				parent: this,
-				component: addCollection,
+				create: true,
+				component: CollectionSteps,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
-				trapFocus: true
+				trapFocus: true,
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 
