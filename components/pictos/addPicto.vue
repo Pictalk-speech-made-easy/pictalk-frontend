@@ -5,7 +5,9 @@
 				<p class="modal-card-title">{{ $t("CreatePictogram") }}</p>
 			</header>
 			<section class="modal-card-body">
-				<PictoSteps create="true" />
+				<PictoSteps 
+				@close="$parent.close()"
+				create="true" />
 			</section>
 			<footer class="modal-card-foot">
 				<b-button
@@ -23,12 +25,6 @@ import PictoSteps from "@/components/pictos/pictoSteps";
 export default {
 	components: {
 		PictoSteps,
-	},
-	created() {
-		this.$nuxt.$on("close-modal", () => {
-			console.log("Called close modal");
-			this.$parent.close();
-		});
 	},
 };
 </script>

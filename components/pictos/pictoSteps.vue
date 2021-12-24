@@ -209,7 +209,6 @@ export default {
 			highQuality: this.$t("StandardQuality"),
 			size: 0,
 			images: [],
-			activeTab: 0,
 		};
 	},
 	methods: {
@@ -347,6 +346,7 @@ export default {
 					type: "is-danger",
 				});
 			}
+			this.$emit('close');
 		},
 		getUserLang() {
 			const user = this.$store.getters.getUser;
@@ -393,7 +393,7 @@ export default {
 
 		discardfile() {
 			this.file = {};
-			this.activeTab = 0;
+			this.activeStep = 0;
 		},
 	},
 };
