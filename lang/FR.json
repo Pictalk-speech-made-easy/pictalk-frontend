@@ -64,7 +64,7 @@
     "ImageFiles": "Seules les images gif, png, jpeg ou jpg sont autorisées.",
     "EditedCollection": "La collection a été éditée de manière impeccable !",
     "UpdatedCollection": "Veuillez saisir une couleur, un nom ou un fichier... La couleur et le nom ne peuvent pas être vides",
-    "EditPictogram": "Edit Pictogram",
+    "EditPictogram": "Editer le pictogramme",
     "EditedPictogram": "Le pictogramme a été monté de façon impeccable !",
     "MeaningEmpty": "Le sens ne peut être vide",
     "Edit": "Modifier",
@@ -185,5 +185,10 @@
     "TutorialEighteenthScreen": "Voici le pictogramme que je réalise à l'intérieur du dossier \"Je veux\". Comme nous ne mettrons aucun mot après \"des frites\", notre pictogramme n'est pas une chemise.",
     "TutorialNineteenthScreen": "Maintenant, cliquez sur le pictogramme \"FRIES\". Voyez comment le pictobar ajoute \"des frites\" au \"je veux\". Let's Talk (cliquez sur le bouton bleu) VOILAAAA UNE SENTENCE ! !! Vous avez toutes les connaissances nécessaires pour utiliser Pictalk au mieux ! Je vais essayer de donner plus d'exemples de pictogrammes que mon frère a. Continuez pour le dernier écran que je vais vous présenter ici.",
     "TutorialTwentiethScreen": "Il s'agit du menu utilisateur. Vous pouvez y accéder en cliquant sur le bouton bleu de la barre de navigation. Vous pouvez y modifier la langue, le nom et tous les éléments que vous avez saisis lors de l'inscription.",
-    "TutorialEnd": "Merci d'avoir lu tout le tutoriel"
+    "TutorialEnd": "Merci d'avoir lu tout le tutoriel",
+    "Image": "Image",
+    "OrUploadYourOwn": "Ou téléchargez votre propre",
+    "Try": "Essayez",
+    "Pictogram": "Pictogramme",
+    "MissingImage": "Il n'y a pas d'image à télécharger"
 }
