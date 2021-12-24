@@ -26,12 +26,6 @@ export default {
 	components: {
 		PictoSteps,
 	},
-	created() {
-		this.$nuxt.$on("close-modal", () => {
-			console.log("Called close modal");
-			this.$parent.close();
-		});
-	},
 };
 </script>
 
