@@ -5,7 +5,9 @@
 				<p class="modal-card-title">{{ $t("CreatePictogram") }}</p>
 			</header>
 			<section class="modal-card-body">
-				<PictoSteps create="true" />
+				<PictoSteps 
+				@close="$parent.close()"
+				create="true" />
 			</section>
 			<footer class="modal-card-foot">
 				<b-button
