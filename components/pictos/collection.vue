@@ -8,8 +8,9 @@
 				crossorigin="anonymous"
 			/>
 		</nuxt-link>
+		<div class="notification is-size-6 name">{{ collection.name }}</div>
+
 		<div v-if="adminMode" class="adminMenu">
-			<div class="notification is-size-6">{{ collection.name }}</div>
 			<div>
 				<b-button
 					type="is-danger"
@@ -93,7 +94,7 @@ export default {
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
-				canCancel:['escape', 'x'],
+				canCancel: ["escape", "x"],
 				create: false,
 			});
 		},
@@ -126,5 +127,10 @@ export default {
 	align-self: flex-end;
 	margin: 0 auto;
 	margin-top: auto;
+}
+.name {
+	margin: 0 auto;
+	margin-top: auto;
+	font-size: 1rem;
 }
 </style>
