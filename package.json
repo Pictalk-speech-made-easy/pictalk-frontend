@@ -18,7 +18,7 @@
     "core-js": "^3.19.0",
     "jpegasus": "^1.16.1",
     "js-cookie": "^3.0.1",
-    "merge-images-horizontally-with-text": "^1.0.1",
+    "merge-images-horizontally-with-text": "^1.0.2",
     "node-sass": "^6.0.1",
     "nuxt": "^2.15.8",
     "nuxt-buefy": "^0.4.10",
