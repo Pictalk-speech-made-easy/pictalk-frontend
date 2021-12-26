@@ -21,30 +21,44 @@
 			{{ picto.meaning }}
 		</div>
 		<div v-if="adminMode" class="adminMenu">
-			<div>
-				<b-button
-					type="is-danger"
-					icon-right="delete"
-					@click="deletePicto(picto)"
-				/>
-				<b-button type="is-info" @click="editPicto(picto)">{{
-					$t("Edit")
-				}}</b-button>
-				<div v-if="picto.starred">
+			<b-dropdown aria-role="list">
+				<template #trigger="{ active }">
 					<b-button
-						type="is-warning"
-						icon-right="star"
-						@click="alternateStar(picto)"
+						type="is-primary"
+						:icon-right="active ? 'menu-up' : 'menu-down'"
 					/>
-				</div>
-				<div v-else>
-					<b-button
-						type="is-light"
-						icon-right="star"
-						@click="alternateStar(picto)"
-					/>
-				</div>
-			</div>
+				</template>
+
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						type="is-danger"
+						icon-right="delete"
+						@click="deletePicto(picto)"
+				/></b-dropdown-item>
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						type="is-info"
+						icon-right="pencil"
+						@click="editPicto(picto)"
+					></b-button
+				></b-dropdown-item>
+				<b-dropdown-item aria-role="listitem"
+					><div v-if="picto.starred">
+						<b-button
+							type="is-warning"
+							icon-right="star"
+							@click="alternateStar(picto)"
+						/>
+					</div>
+					<div v-else>
+						<b-button
+							type="is-light"
+							icon-right="star"
+							@click="alternateStar(picto)"
+						/></div
+				></b-dropdown-item>
+			</b-dropdown>
+			<div></div>
 		</div>
 	</div>
 </template>

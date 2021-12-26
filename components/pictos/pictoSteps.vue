@@ -170,14 +170,13 @@
 								expanded
 							></b-input>
 						</b-field>
-						<b-field :label="$t('Folder')">
-							<b-checkbox
-								type="is-success"
-								v-model="picto.folder"
-								true-value="1"
-								false-value="0"
-								>{{ $t("FolderNotice") }}
-							</b-checkbox>
+						<b-field :label="$t('Color')">
+							<b-input
+								type="color"
+								v-model="picto.color"
+								:placeholder="$t('ColorNotice')"
+								required
+							></b-input>
 						</b-field>
 					</b-step-item>
 				</b-steps>
@@ -203,7 +202,7 @@
 						!create ||
 						(picto.speech &&
 							picto.meaning &&
-							picto.folder &&
+							picto.color &&
 							file.name)
 					"
 				>
@@ -213,7 +212,7 @@
 							onSubmitted(
 								picto.speech,
 								picto.meaning,
-								picto.folder,
+								picto.color,
 								file,
 								highQuality
 							)
@@ -223,6 +222,23 @@
 							{{ $t("CreatePictogram") }}
 						</div>
 						<div v-else>{{ $t("EditPictogram") }}</div>
+					</b-button>
+					<b-button
+						class="button is-primary"
+						@click="
+							onSubmitted(
+								picto.speech,
+								picto.meaning,
+								picto.color,
+								file,
+								highQuality
+							)
+						"
+					>
+						<div v-if="create">
+							{{ $t("CreateCollection") }}
+						</div>
+						<div v-else>{{ $t("EditCollection") }}</div>
 					</b-button>
 				</div>
 			</footer>

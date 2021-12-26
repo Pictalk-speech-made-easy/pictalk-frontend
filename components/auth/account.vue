@@ -1,65 +1,72 @@
 <template>
-	<div>
-		<b-field :label="$t('Email')">
-			<b-input
-				v-model="user.username"
-				placeholder="exemple@mail.com"
-				type="email"
-				maxlength="30"
-			></b-input>
-		</b-field>
-		<b-field :label="$t('Password')">
-			<b-input
-				v-model="user.password"
-				placeholder="S0meExample!"
-				type="password"
-				maxlength="30"
-				password-reveal
-			></b-input>
-		</b-field>
-		<b-field :label="$t('Language')">
-			<b-select
-				v-model="user.language"
-				placeholder="Select language"
-				rounded
-			>
-				<option
-					v-for="language in loadedVoices"
-					:value="language.lang"
-					:key="language.voiceURI"
+	<div class="columns container is-fullhd">
+		<div class="column">
+			<b-field :label="$t('Email')">
+				<b-input
+					v-model="user.username"
+					placeholder="exemple@mail.com"
+					type="email"
+					maxlength="30"
+				></b-input>
+			</b-field>
+			<b-field :label="$t('Password')">
+				<b-input
+					v-model="user.password"
+					placeholder="S0meExample!"
+					type="password"
+					maxlength="30"
+					password-reveal
+				></b-input>
+			</b-field>
+			<b-field :label="$t('Language')">
+				<b-select
+					v-model="user.language"
+					placeholder="Select language"
+					rounded
 				>
-					{{ language.lang }}
-				</option>
-			</b-select>
-		</b-field>
-		<hr />
-		<b-button tag="nuxt-link" to="/pictalk">{{ $t("Cancel") }}</b-button>
-		<b-button
-			type="is-info"
-			@click="onSave(user.username, user.password, user.language)"
-			>{{ $t("Save") }}</b-button
-		>
+					<option
+						v-for="language in loadedVoices"
+						:value="language.lang"
+						:key="language.voiceURI"
+					>
+						{{ language.lang }}
+					</option>
+				</b-select>
+			</b-field>
+			<hr />
+			<b-button tag="nuxt-link" to="/pictalk">{{
+				$t("Cancel")
+			}}</b-button>
+			<b-button
+				type="is-info"
+				@click="onSave(user.username, user.password, user.language)"
+				>{{ $t("Save") }}</b-button
+			>
 
-		<br />
-		<br />
-		<br />
-		<b-progress
-			type="is-success"
-			:value="requestsPercentage"
-			show-value
-			format="percent"
-		></b-progress>
+			<br />
+			<br />
+			<br />
+			<b-progress
+				type="is-success"
+				:value="requestsPercentage"
+				show-value
+				format="percent"
+			></b-progress>
 
-		<b-button icon-left="download" type="is-info" @click="downloadAll()"
-			>{{ $t("DownloadAllPictos") }}
-		</b-button>
-		<br />
-		<br />
-		<b-message type="is-success">
-			<div class="subtitle">
-				{{ $t("DownloadAllPictosNotice") }}
-			</div>
-		</b-message>
+			<b-button icon-left="download" type="is-info" @click="downloadAll()"
+				>{{ $t("DownloadAllPictos") }}
+			</b-button>
+			<br />
+			<br />
+			<b-message type="is-success">
+				<div class="subtitle">
+					{{ $t("DownloadAllPictosNotice") }}
+				</div>
+			</b-message>
+		</div>
+		<div class="column">
+			<b-table :data="data" :columns="columns"> </b-table>
+		</div>
 	</div>
 </template>
 <script>
@@ -93,6 +100,71 @@ export default {
 			nb_requests: 0,
 			done_requests: 0,
 			dl_launched: false,
+			data: [
+				{
+					id: 1,
+					first_name: "Jesse",
+					last_name: "Simmons",
+					date: "2016-10-15 13:43:27",
+					gender: "Male",
+				},
+				{
+					id: 2,
+					first_name: "John",
+					last_name: "Jacobs",
+					date: "2016-12-15 06:00:53",
+					gender: "Male",
+				},
+				{
+					id: 3,
+					first_name: "Tina",
+					last_name: "Gilbert",
+					date: "2016-04-26 06:26:28",
+					gender: "Female",
+				},
+				{
+					id: 4,
+					first_name: "Clarence",
+					last_name: "Flores",
+					date: "2016-04-10 10:28:46",
+					gender: "Male",
+				},
+				{
+					id: 5,
+					first_name: "Anne",
+					last_name: "Lee",
+					date: "2016-12-06 14:38:38",
+					gender: "Female",
+				},
+			],
+			columns: [
+				{
+					field: "id",
+					label: "ID",
+					width: "100",
+					numeric: true,
+					searchable: true,
+				},
+				{
+					field: "first_name",
+					label: "First Name",
+					searchable: true,
+				},
+				{
+					field: "last_name",
+					label: "Last Name",
+					searchable: true,
+				},
+				{
+					field: "date",
+					label: "Date",
+					centered: true,
+				},
+				{
+					field: "gender",
+					label: "Gender",
+				},
+			],
 		};
 	},
 	async created() {

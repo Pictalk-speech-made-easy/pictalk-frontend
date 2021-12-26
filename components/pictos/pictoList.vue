@@ -27,6 +27,26 @@
 					"
 					v-if="adminMode"
 				>
+					<div class="contenant">
+						<div class="columns fab-zone">
+							<div class="column">
+								<b-button
+									rounded
+									size="is-medium"
+									type="is-success"
+									icon-right="plus"
+								/>
+							</div>
+							<div class="column">
+								<b-button
+									rounded
+									size="is-medium"
+									type="is-info"
+									icon-right="content-paste"
+								/>
+							</div>
+						</div>
+					</div>
 					<img
 						class="is-centered"
 						width="50%"
@@ -128,4 +148,15 @@ export default {
 	},
 };
 </script>
+<style scoped>
+.contenant {
+	display: flex;
+	justify-content: center;
+}
 
+.fab-zone {
+	bottom: 15%;
+	right: 5%;
+	position: fixed;
+}
+</style>

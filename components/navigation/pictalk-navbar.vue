@@ -68,14 +68,14 @@
 						"
 						type="is-link"
 						@click="toAdmin"
-						icon-right="pencil"
+						icon-right="shield-lock"
 					/>
 					<b-button
 						v-else-if="this.$route.path.includes('pictalk')"
 						type="is-light"
 						tag="nuxt-link"
 						:to="homeLink"
-						icon-right="pencil"
+						icon-right="shield-lock"
 					/>
 					<b-button
 						type="is-light"
