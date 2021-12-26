@@ -43,7 +43,7 @@
 							<b-button
 								type="is-success"
 								icon-right="magnify"
-								@click="pictoExtractImg(pictoSearch, next)"
+								@click="pictoExtractImg(pictoSearch)"
 							/>
 						</b-field>
 						<br />
@@ -265,6 +265,7 @@ export default {
 			highQuality: this.$t("StandardQuality"),
 			size: 0,
 			images: [],
+			flickrImages: [],
 		};
 	},
 	methods: {
@@ -418,28 +419,47 @@ export default {
 				return this.$i18n.getLocaleCookie();
 			}
 		},
-		async pictoExtractImg(pictoSearch) {
-			let results = [];
-			let src;
-			let alt;
+		async flickrExtractImg(pictoSearch) {
+			let responseData;
 			try {
-				this.images = await axios
-					.get(
-						`https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`,
-						{ headers: {} }
+				responseData = (
+					await axios.get(
+						`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d7ff2ac070ce922031b013a31d23e301&text=${pictoSearch}&safe_search=true&per_page=10&format=json&nojsoncallback=1`
 					)
-					.then((response) => {
-						this.size = response.data.length;
-						for (let index = 0; index < this.size; index++) {
-							src = `https://api.arasaac.org/api/pictograms/${response.data[index]["_id"]}?color=true&resolution=500&download=false`;
-							alt =
-								response.data[index]["keywords"][0]["keyword"];
-							results.push({ alt: alt, src: src });
-						}
-						return results;
+				).data.photos.photo;
+				responseData.forEach((photo) => {
+					this.images.push({
+						src: `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`,
+						alt: photo.title,
 					});
+				});
+				return results;
+			} catch (err) {
+				throw new Error("Flickr not available");
+			}
+		},
+		async pictoExtractImg(pictoSearch) {
+			this.images = [];
+			let responseData;
+			try {
+				responseData = (
+					await axios.get(
+						`https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`
+					)
+				).data;
+				for (let i = 0; i < responseData.length; i++) {
+					this.images.push({
+						src: `https://api.arasaac.org/api/pictograms/${responseData[i]["_id"]}?color=true&resolution=500&download=false`,
+						alt: responseData[i]["keywords"][0]["keyword"],
+					});
+				}
+				if (responseData.length < 3) {
+					flickrExtractImg(pictoSearch);
+				}
 			} catch (error) {
-				console.log(error);
+				if (error.response.status == 404) {
+					this.flickrExtractImg(pictoSearch);
+				}
 			}
 		},
 		uploadfile(file) {

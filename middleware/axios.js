@@ -4,7 +4,7 @@ import axios from 'axios';
 export default function (context) {
   axios.interceptors.request.use((config) => {
 
-      if (process.client) {
+      if (process.client && ) {
         let token = localStorage.getItem('token');
 
         if (token) {
