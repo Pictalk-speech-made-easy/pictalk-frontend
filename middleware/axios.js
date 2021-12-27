@@ -3,10 +3,10 @@ import axios from 'axios';
 
 export default function (context) {
   axios.interceptors.request.use((config) => {
-    if (process.client && config.url.includes('pictalk.xyz') || config.baseURL.includes('localhost')) {
+    if (process.client && !config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
       let token = localStorage.getItem('token');
-
       if (token) {
+        console.log("Putting Auth header in request");
         config.headers['Authorization'] = `Bearer ${token}`;
       }
     }
