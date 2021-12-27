@@ -59,12 +59,19 @@
 									containing
 									has-background
 								"
-								v-for="picto in this.images"
+								v-for="picto in paginate"
 								:key="picto.src"
 								:webpicto="picto"
 								@uploadfile="uploadfile($event)"
 							/>
 						</div>
+						<b-pagination
+							:total="images.length"
+							v-model="currentPagination"
+							simple
+							:per-page="50"
+						>
+						</b-pagination>
 						<div>
 							<b-field :label="$t('OrUploadYourOwn')">
 								<section>
@@ -254,8 +261,18 @@ export default {
 			default: () => false,
 		},
 	},
+	computed: {
+		paginate() {
+			console.log(this.currentPagination);
+			return this.images.slice(
+				this.currentPagination * 50,
+				this.currentPagination * 50 + 50
+			);
+		},
+	},
 	data() {
 		return {
+			currentPagination: 0,
 			pictoSearch: "",
 			activeStep: 0,
 			languages: [],
@@ -265,7 +282,6 @@ export default {
 			highQuality: this.$t("StandardQuality"),
 			size: 0,
 			images: [],
-			flickrImages: [],
 		};
 	},
 	methods: {
@@ -420,11 +436,14 @@ export default {
 			}
 		},
 		async flickrExtractImg(pictoSearch) {
+			if (!process.env.flickrAPIKey) {
+				return;
+			}
 			let responseData;
 			try {
 				responseData = (
 					await axios.get(
-						`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=d7ff2ac070ce922031b013a31d23e301&text=${pictoSearch}&safe_search=true&per_page=10&format=json&nojsoncallback=1`
+						`https://www.flickr.com/services/rest/?sort=relevance&lang=${this.$store.getters.getUser.language}&method=flickr.photos.search&api_key=${process.env.flickrAPIKey}&text=${pictoSearch}&safe_search=true&per_page=25&format=json&nojsoncallback=1`
 					)
 				).data.photos.photo;
 				responseData.forEach((photo) => {
@@ -433,8 +452,8 @@ export default {
 						alt: photo.title,
 					});
 				});
-				return results;
 			} catch (err) {
+				console.log(err);
 				throw new Error("Flickr not available");
 			}
 		},
@@ -450,14 +469,17 @@ export default {
 				for (let i = 0; i < responseData.length; i++) {
 					this.images.push({
 						src: `https://api.arasaac.org/api/pictograms/${responseData[i]["_id"]}?color=true&resolution=500&download=false`,
-						alt: responseData[i]["keywords"][0]["keyword"],
+						alt: responseData[i]["keywords"][0]
+							? responseData[i]["keywords"][0]["keyword"]
+							: responseData[i]["categories"][0],
 					});
 				}
 				if (responseData.length < 3) {
 					flickrExtractImg(pictoSearch);
 				}
 			} catch (error) {
-				if (error.response.status == 404) {
+				console.log(error);
+				if (error.response && error.response.status == 404) {
 					this.flickrExtractImg(pictoSearch);
 				}
 			}
