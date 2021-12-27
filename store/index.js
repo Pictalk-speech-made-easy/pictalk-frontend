@@ -119,7 +119,7 @@ export const actions = {
     };
     vuexContext.commit("addView", view);
   },
-
+  // NEEDS CHANGES
   async addPicto(vuexContext, {
     picto,
     collectionId
@@ -156,7 +156,7 @@ export const actions = {
     }
     return res;
   },
-
+  // NEEDS CHANGES
   async editPicto(vuexContext, {
     editedPicto,
     collectionId
@@ -189,6 +189,7 @@ export const actions = {
     });
     return res;
   },
+  // DONT CHANGE
   async removePicto(vuexContext, removedPicto) {
     const res = await axios
       .delete(URL + "/pictalk/picto/" + removedPicto.picto.id);
@@ -218,6 +219,7 @@ export const actions = {
     });
     return res;
   },
+  // NEEDS CHANGES
   async editCollection(vuexContext, editedCollection) {
     let formData = new FormData();
     formData.append("name", editedCollection.name);
@@ -240,7 +242,7 @@ export const actions = {
     });
     return res;
   },
-
+  // DONT CHANGE
   removeCollection(vuexContext, removedCollectionId) {
     return axios.delete(URL + "/pictalk/collection/" + removedCollectionId).then(() => vuexContext.commit("removeCollection", removedCollectionId)).catch(e => console.log(e));
   },
@@ -259,6 +261,7 @@ export const actions = {
     Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true });
     return res;
   },
+  // NEEDS CHANGES
   initAuth(vuexContext, req) {
     let token;
     let expirationDate;
@@ -295,6 +298,7 @@ export const actions = {
     }
     vuexContext.commit("setToken", token);
   },
+  // DONT KNOW
   logout(vuexContext) {
     vuexContext.commit("clearToken");
     Cookie.remove("jwt");
@@ -305,6 +309,7 @@ export const actions = {
     }
     vuexContext.commit("resetStore");
   },
+  // NEEDS CHANGES
   async editUser(vuexContext, user) {
     const res = await axios
       .put(URL + "/auth/details/", user);
@@ -314,6 +319,7 @@ export const actions = {
     });
     return res;
   },
+  // DONT KNOW
   async downloadAll(vuexContext) {
     this.dl_launched = true;
     const res = await axios.get("/pictalk/allPictos");
