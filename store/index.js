@@ -2,7 +2,6 @@ import axios from "axios";
 import Cookie from "js-cookie";
 
 export const state = () => ({
-  pictoviews: [],
   collections: [],
   token: null,
   pictoSpeech: [],
@@ -12,9 +11,8 @@ const URL = "";
 
 export const mutations = {
   resetStore(state) {
-    state.pictoviews = [];
-    state.collections = [],
-      state.pictoSpeech = [],
+    state.collections = [];
+    state.pictoSpeech = [],
       state.user = {}
   },
   addSpeech(state, picto) {
@@ -26,68 +24,39 @@ export const mutations = {
   eraseSpeech(state) {
     state.pictoSpeech = [];
   },
-
-  addView(state, pictoView) {
-    state.pictoviews.push(pictoView);
-  },
-
-  addPicto(state, picto) {
-    const fatherPictoIndex = state.pictoviews.findIndex(
-      view => view.fatherId === picto.picto.fatherId &&
-        view.collectionId === picto.collectionId
-    );
-    state.pictoviews[fatherPictoIndex].pictos.push(picto.picto);
-  },
-  editPicto(state, editedPicto) {
-    const fatherPictoIndex = state.pictoviews.findIndex(
-      view => view.fatherId === editedPicto.editedPicto.fatherId &&
-        view.collectionId === editedPicto.collectionId
-    );
-    const pictoIndex = state.pictoviews[fatherPictoIndex].pictos.findIndex(
-      picto => picto.id === editedPicto.editedPicto.id
-    );
-    state.pictoviews[fatherPictoIndex].pictos.splice(pictoIndex, 1);
-    state.pictoviews[fatherPictoIndex].pictos.push(editedPicto.editedPicto);
-  },
-  removePicto(state, removedPicto) {
-    const fatherPictoIndex = state.pictoviews.findIndex(
-      view => view.fatherId === removedPicto.picto.fatherId &&
-        view.collectionId === removedPicto.collectionId
-    );
-    const pictoIndex = state.pictoviews[fatherPictoIndex].pictos.findIndex(
-      picto => picto.id === removedPicto.picto.id
-    );
-    const viewIndex = state.pictoviews.findIndex(
-      view => view.fatherId === removedPicto.picto.id &&
-        view.collectionId === removedPicto.collectionId
-    );
-    if (viewIndex !== -1) {
-      state.pictoviews.splice(viewIndex, 1);
-    }
-    state.pictoviews[fatherPictoIndex].pictos.splice(pictoIndex, 1);
-  },
-
-  setCollections(state, collections) {
-    state.collections = collections;
-  },
   addCollection(state, collection) {
     state.collections.push(collection);
   },
-  editCollection(state, editedCollection) {
-    const collectionIndex = state.collections.findIndex(
-      collection => collection.id === editedCollection.id
+  addPicto(state, picto) {
+    const fatherPictoIndex = state.collections.findIndex(
+      collection => collection.fatherCollectionId === picto.fatherCollectionId
     );
-    state.collections.splice(collectionIndex, 1);
-    state.collections.push(editedCollection);
+    state.collections[fatherPictoIndex].pictos.push(picto);
   },
-  removeCollection(state, removedCollectionId) {
-    const collectionIndex = state.collections.findIndex(
-      collection => collection.id === removedCollectionId
+  editPicto(state, editedPicto) {
+    const fatherPictoIndex = state.collections.findIndex(
+      collection => collection.fatherCollectionId === editedPicto.editedPicto.fatherCollectionId
     );
-    state.collections.splice(collectionIndex, 1);
+    const pictoIndex = state.collections[fatherPictoIndex].pictos.findIndex(
+      picto => picto.id === editedPicto.editedPicto.id
+    );
+    state.collections[fatherPictoIndex].pictos.splice(pictoIndex, 1);
+    state.collections[fatherPictoIndex].pictos.push(editedPicto.editedPicto);
   },
-  resetViews(state) {
-    state.pictoviews = [];
+  removePicto(state, removedPicto) {
+    const fatherPictoIndex = state.collections.findIndex(
+      collection => collection.fatherCollectionId === removedPicto.fatherCollectionId
+    );
+    const pictoIndex = state.collections[fatherPictoIndex].pictos.findIndex(
+      picto => picto.id === removedPicto.id
+    );
+    const collectionIndex = state.collections.findIndex(
+      collection => collection.fatherCollectionId === removedPicto.id
+    );
+    if (collectionIndex !== -1) {
+      state.collections.splice(collectionIndex, 1);
+    }
+    state.collections[fatherPictoIndex].pictos.splice(pictoIndex, 1);
   },
   resetCollections(state) {
     state.collections = [];
@@ -104,143 +73,151 @@ export const mutations = {
 
 };
 export const actions = {
-  resetViews(vuexContext) {
-    vuexContext.commit("resetViews");
+  resetCollections(vuexContext) {
+    vuexContext.commit("resetCollections");
   },
-  addView(vuexContext, {
+  addCollection(vuexContext, {
     pictos,
-    fatherId,
-    collectionId
+    fatherCollectionId,
   }) {
-    const view = {
-      fatherId: fatherId,
-      pictos: pictos,
-      collectionId: collectionId
+    const collection = {
+      fatherCollectionId: fatherCollectionId,
+      pictos: pictos
     };
-    vuexContext.commit("addView", view);
+    vuexContext.commit("addCollection", collection);
   },
   // NEEDS CHANGES
-  async addPicto(vuexContext, {
+  async addPicto(vuexContext,
     picto,
-    collectionId
-  }) {
+  ) {
     let formData = new FormData();
-    formData.append("speech", picto.speech);
-    formData.append("meaning", picto.meaning);
-    formData.append("folder", picto.folder);
-    formData.append("fatherId", picto.fatherId);
+    formData.append("speech", JSON.stringify(picto.speech));
+    formData.append("meaning", JSON.stringify(picto.meaning));
+    formData.append("language", JSON.stringify(picto.language));
+    formData.append("color", picto.color);
+    formData.append("share", picto.share);
+    formData.append("fatherCollectionId", picto.fatherCollectionId);
+    formData.append("collectionIds", picto.collectionIds);
     formData.append("image", picto.image);
-    const res = await axios
-      .post(URL + "/pictalk/picto/" + collectionId, formData, {
+    const newPicto = (await axios
+      .post(URL + "/pictalk/picto/", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
-      });
+      })).data;
     vuexContext.commit("addPicto", {
-      picto: {
-        speech: picto.speech,
-        meaning: picto.meaning,
-        path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
-        folder: picto.folder,
-        fatherId: picto.fatherId,
-        id: res.data.id
-      },
-      collectionId: collectionId
+      speech: picto.speech,
+      meaning: picto.meaning,
+      language: picto.language,
+      color: picto.color,
+      collections: newPicto.collections,
+      userId: newPicto.userId,
+      path: axios.defaults.baseURL + "/pictalk/image/" + newPicto.path,
+      fatherCollectionId: picto.fatherCollectionId,
+      id: newPicto.id
     });
-    if (picto.folder == 1) {
-      vuexContext.commit("addView", {
-        fatherId: res.data.id,
-        pictos: [],
-        collectionId: collectionId
-      });
-    }
-    return res;
   },
   // NEEDS CHANGES
-  async editPicto(vuexContext, {
-    editedPicto,
-    collectionId
-  }) {
+  async editPicto(vuexContext, picto) {
     let formData = new FormData();
-    formData.append("speech", editedPicto.speech);
-    formData.append("meaning", editedPicto.meaning);
-    formData.append("folder", editedPicto.folder);
-    formData.append("fatherId", editedPicto.fatherId);
-    if (editedPicto.image) {
-      formData.append("image", editedPicto.image);
+    formData.append("speech", JSON.stringify(picto.speech));
+    formData.append("meaning", JSON.stringify(picto.meaning));
+    formData.append("language", JSON.stringify(picto.language));
+    formData.append("color", picto.color);
+    formData.append("share", picto.shared);
+    formData.append("starred", picto.starred);
+    formData.append("collectionIds", picto.collectionIds);
+    if (picto.image) {
+      formData.append("image", picto.image);
     }
-    const res = await axios
-      .put(URL + "/pictalk/picto/" + editedPicto.id + "/" + collectionId, formData, {
+    const editedPicto = (await axios
+      .put(URL + "/pictalk/picto/" + picto.id, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
-      });
+      })).data;
 
     vuexContext.commit("editPicto", {
-      editedPicto: {
-        speech: editedPicto.speech,
-        meaning: editedPicto.meaning,
-        path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
-        folder: editedPicto.folder,
-        fatherId: editedPicto.fatherId,
-        id: editedPicto.id
-      },
-      collectionId: collectionId
+      speech: picto.speech,
+      meaning: picto.meaning,
+      language: picto.language,
+      color: picto.color,
+      collections: editedPicto.collections,
+      userId: editedPicto.userId,
+      shared: editedPicto.shared,
+      path: axios.defaults.baseURL + "/pictalk/image/" + editedPicto.path,
+      fatherCollectionId: editedPicto.fatherCollectionId,
+      id: picto.id
     });
-    return res;
   },
-  // DONT CHANGE
   async removePicto(vuexContext, removedPicto) {
     const res = await axios
-      .delete(URL + "/pictalk/picto/" + removedPicto.picto.id);
+      .delete(URL + "/pictalk/picto/" + removedPicto.id);
     vuexContext.commit("removePicto", removedPicto);
     return res;
   },
-
-  setCollections(vuexContext, collections) {
-    vuexContext.commit("setCollections", collections);
-  },
   async addCollection(vuexContext, collection) {
     let formData = new FormData();
-    formData.append("image", collection.image);
-    formData.append("name", collection.name);
+    formData.append("speech", JSON.stringify(collection.speech));
+    formData.append("meaning", JSON.stringify(collection.meaning));
+    formData.append("language", JSON.stringify(collection.language));
     formData.append("color", collection.color);
-    const res = await axios
+    formData.append("fatherCollectionId", collection.fatherCollectionId);
+    formData.append("collectionIds", collection.collectionIds);
+    formData.append("pictoIds", collection.pictoIds);
+    formData.append("share", collection.share);
+    formData.append("image", collection.image);
+    const newCollection = (await axios
       .post(URL + "/pictalk/collection", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
-      });
+      })).data;
     vuexContext.commit("addCollection", {
-      name: collection.name,
+      speech: collection.speech,
+      meaning: collection.meaning,
+      language: collection.language,
       color: collection.color,
-      path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
-      id: res.data.id
+      collections: newCollection.collections,
+      userId: newCollection.userId,
+      path: axios.defaults.baseURL + "/pictalk/image/" + newCollection.path,
+      fatherCollectionId: collection.fatherCollectionId,
+      pictos: newCollection.pictos,
+      id: newCollection.id
     });
-    return res;
   },
-  // NEEDS CHANGES
-  async editCollection(vuexContext, editedCollection) {
+  async editCollection(vuexContext, collection) {
     let formData = new FormData();
-    formData.append("name", editedCollection.name);
-    formData.append("color", editedCollection.color);
-    if (editedCollection.image) {
-      formData.append("image", editedCollection.image);
+    formData.append("speech", JSON.stringify(collection.speech));
+    formData.append("meaning", JSON.stringify(collection.meaning));
+    formData.append("language", JSON.stringify(collection.language));
+    formData.append("color", collection.color);
+    formData.append("fatherCollectionId", collection.fatherCollectionId);
+    formData.append("collectionIds", collection.collectionIds);
+    formData.append("pictoIds", collection.pictoIds);
+    formData.append("share", collection.share);
+    if (collection.image) {
+      formData.append("image", collection.image);
     }
-    const res = await axios
+    const editedCollection = (await axios
       .put(URL + "/pictalk/collection/" + editedCollection.id, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
-      });
+      })).data;
 
     vuexContext.commit("editCollection", {
-      name: editedCollection.name,
-      color: editedCollection.color,
-      path: axios.defaults.baseURL + "/pictalk/image/" + res.data.path,
-      id: editedCollection.id
+      speech: collection.speech,
+      meaning: collection.meaning,
+      language: collection.language,
+      color: collection.color,
+      collections: editedCollection.collections,
+      pictos: editedCollection.pictos,
+      userId: collection.userId,
+      path: axios.defaults.baseURL + "/pictalk/image/" + editedCollection.path,
+      fatherCollectionId: collection.fatherCollectionId,
+      id: collection.id
     });
-    return res;
   },
   // DONT CHANGE
   removeCollection(vuexContext, removedCollectionId) {
@@ -320,6 +297,7 @@ export const actions = {
     return res;
   },
   // DONT KNOW
+  /*
   async downloadAll(vuexContext) {
     this.dl_launched = true;
     const res = await axios.get("/pictalk/allPictos");
@@ -340,20 +318,20 @@ export const actions = {
         }
         // View existante pour le picto ?
         const viewExists = views.findIndex(
-          view => view.fatherId === picto.fatherId &&
+          view => view.fatherCollectionId === picto.fatherCollectionId &&
             view.collectionId === picto.collectionId
         );
         if (picto.folder == 1) {
           const folderExists = views.findIndex(
-            view => view.fatherId === picto.id &&
+            view => view.fatherCollectionId === picto.id &&
               view.collectionId === picto.collectionId
           );
           if (folderExists != -1) {
-            views.push({ collectionId: picto.collectionId, fatherId: picto.id, pictos: Array() }); //View of folder
+            views.push({ collectionId: picto.collectionId, fatherCollectionId: picto.id, pictos: Array() }); //View of folder
           }
         }
         if (viewExists == -1) {
-          views.push({ collectionId: picto.collectionId, fatherId: picto.fatherId, pictos: Array() }); //Add view if not here
+          views.push({ collectionId: picto.collectionId, fatherCollectionId: picto.fatherCollectionId, pictos: Array() }); //Add view if not here
           views[views.length - 1].pictos.push({ ...picto });
         } else {
           views[viewExists].pictos.push({ ...picto });
@@ -367,6 +345,7 @@ export const actions = {
 
     return;
   },
+  */
   async downloadCollections(vuexContext) {
     const res = await axios.get("/pictalk/collection");
     res.data.map(collection => {
@@ -380,9 +359,6 @@ export const actions = {
   }
 }
 export const getters = {
-  getPictoViews(state) {
-    return state.pictoviews;
-  },
   getCollections(state) {
     return state.collections;
   },
