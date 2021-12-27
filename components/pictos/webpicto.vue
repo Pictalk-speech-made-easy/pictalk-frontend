@@ -1,6 +1,6 @@
 <template>
 	<div @click="downloadImg(webpicto.src)">
-		<img :src="webpicto.src" />
+		<b-image lazy :src="webpicto.src"></b-image>
 		<b>{{ webpicto.alt }}</b>
 	</div>
 </template>
