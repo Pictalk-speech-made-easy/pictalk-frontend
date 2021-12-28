@@ -1,20 +1,22 @@
 <template>
-	<div class="notification columns is-mobile" :style="cssVars">
-		<div class="column is-narrow">
+	<div class="notification columns is-mobile nopadding" :style="cssVars">
+		<div class="column is-narrow nopadding">
 			<b-button
+        inverted
 				type="is-danger"
 				icon-right="delete"
 				@click="eraseSpeech()"
 			/>
 		</div>
-		<div class="column is-narrow">
+		<div class="column is-narrow nopadding">
 			<b-button
+        inverted
 				type="is-danger"
 				icon-right="backspace"
 				@click="removeSpeech()"
 			/>
 		</div>
-		<div class="column" style="padding: 0">
+		<div class="column" style="padding :0%">
 			<div class="scrolling">
 				<miniPicto
 					class
@@ -24,14 +26,14 @@
 				/>
 			</div>
 		</div>
-		<div class="column is-narrow">
+		<div class="column is-narrow nopadding">
 			<b-button
 				type="is-success"
 				icon-right="message"
 				@click="pictalk(pictos)"
 			/>
 		</div>
-		<div class="column is-narrow">
+		<div class="column is-narrow nopadding">
 			<b-button
 				type="is-info"
 				icon-right="content-copy"
@@ -248,7 +250,7 @@ export default {
 	padding: 0.25rem;
 }
 .nopadding {
-	padding: 0.25rem;
+	padding: 1%;
 }
 .scrolling {
 	display: flex;

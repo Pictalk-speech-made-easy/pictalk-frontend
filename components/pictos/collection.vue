@@ -10,48 +10,47 @@
 		</nuxt-link>
 		<div class="notification is-size-6 name">{{ collection.name }}</div>
 
-		<div v-if="adminMode" class="adminMenu">
-			<b-dropdown aria-role="list">
-				<template #trigger="{ active }">
-					<b-button
-						type="is-primary"
-						:icon-right="active ? 'menu-up' : 'menu-down'"
-					/>
-				</template>
+		<div v-if="adminMode" class="adminMenu adminoption columns">
+      <b-dropdown aria-role="list" class="column noMargin is-mobile">
+        <template #trigger="{ active }">
+          <b-button
+            type="is-primary"
+            :icon-right="active ? 'menu-up' : 'menu-down'"
+          />
+        </template>
 
-				<b-dropdown-item aria-role="listitem"
-					><b-button
-						type="is-info"
-						:expanded="true"
-						@click="editCollection(collection)"
-						>Edit</b-button
-					></b-dropdown-item
-				>
-				<b-dropdown-item aria-role="listitem"
-					><b-button
-						:expanded="true"
-						type="is-danger"
-						icon-right="delete"
-						@click="removeCollection(collection)"
-				/></b-dropdown-item>
-			</b-dropdown>
-			<div>
-				<div v-if="collection.starred">
-					<b-button
-						type="is-warning"
-						icon-right="star"
-						@click="alternateStar(collection)"
-					/>
-				</div>
-				<div v-else>
-					<b-button
-						type="is-light"
-						icon-right="star"
-						@click="alternateStar(collection)"
-					/>
-				</div>
-			</div>
-		</div>
+        <b-dropdown-item aria-role="listitem"
+          ><b-button
+            type="is-info"
+            icon-right="pencil"
+            :expanded="true"
+            @click="editCollection(collection)"
+          />
+        </b-dropdown-item>
+        <b-dropdown-item aria-role="listitem"
+          ><b-button
+            :expanded="true"
+            type="is-danger"
+            icon-right="delete"
+            @click="deleteCollection(collection)"
+        /></b-dropdown-item>
+      </b-dropdown>
+
+      <div class="column noMargin is-mobile" v-if="collection.starred">
+        <b-button
+          type="is-success"
+          icon-right="star"
+          @click="alternateStar(collection)"
+        />
+      </div>
+      <div class="column noMargin is-mobile" v-else>
+        <b-button
+          type="is-light"
+          icon-right="star"
+          @click="alternateStar(collection)"
+        />
+      </div>
+    </div>
 	</div>
 </template>
 
@@ -136,17 +135,27 @@ export default {
 	align-items: center;
 	justify-content: center;
 }
+.adminoption {
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
+}
 .image {
 	margin: auto;
 }
 .adminMenu {
-	align-self: flex-end;
-	margin: 0 auto;
-	margin-top: auto;
+  align-self: center;
+  margin-top: auto;
+  margin-left: 0%;
+  margin-right: 0%;
 }
 .name {
 	margin: 0 auto;
 	margin-top: auto;
 	font-size: 1rem;
+}
+.noMargin {
+  padding: 0%;
 }
 </style>
