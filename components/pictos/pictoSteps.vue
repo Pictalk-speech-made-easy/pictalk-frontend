@@ -2,10 +2,19 @@
   <form action>
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head">
-        <p v-if="create" class="modal-card-title">
+        <b-button
+          class="button"
+          type="button"
+          icon-left="arrow-left"
+          @click="$parent.close()"
+        />
+
+        <p v-if="create" align="center" class="modal-card-title">
           {{ $t("CreatePictogram") }}
         </p>
-        <p v-else class="modal-card-title">{{ $t("EditPictogram") }}</p>
+        <p v-else align="center" class="modal-card-title">
+          {{ $t("EditPictogram") }}
+        </p>
       </header>
       <section class="modal-card-body">
         <b-steps
@@ -17,9 +26,6 @@
           label-position="bottom"
         >
           <b-step-item step="1" :label="$t('Image')" clickable>
-            <h1 class="title has-text-centered">
-              {{ $t("Image") }}
-            </h1>
             <div v-if="picto.path">
               <img
                 class="mini-image"
@@ -41,6 +47,7 @@
               <b-button
                 type="is-success"
                 icon-right="magnify"
+                :loading="loading"
                 @click="pictoExtractImg(pictoSearch)"
               />
             </b-field>
@@ -113,16 +120,7 @@
                       </section>
                     </b-upload>
                   </b-field>
-                  <b-field>
-                    <b-switch
-                      v-model="highQuality"
-                      :false-value="$t('StandardQuality')"
-                      :true-value="$t('HighQuality')"
-                    >
-                      {{ highQuality }}
-                    </b-switch>
-                  </b-field>
-                  <div class="tags">
+                  <div v-if="file.name" class="tags">
                     <span class="tag is-primary is-medium">
                       {{ file.name }}
                       <button
@@ -177,39 +175,48 @@
           </b-step-item>
         </b-steps>
       </section>
-      <footer class="modal-card-foot">
-        <b-button class="button" type="button" @click="$parent.close()">{{
-          $t("Close")
-        }}</b-button>
-        <div v-if="activeStep < 1">
-          <b-button @click="nextStep()" icon-right="chevron-right" />
-        </div>
-        <div v-if="activeStep == 1">
-          <b-button @click="previousStep()" icon-right="chevron-left" />
-        </div>
-        <div
-          v-if="
-            !create ||
-            (picto.speech && picto.meaning && picto.folder && file.name)
-          "
-        >
+           <footer class="modal-card-foot">
+        <div class="container">
+        <div class="columns is-mobile is-full">
+          <div class="column">
           <b-button
-            class="button is-primary"
-            @click="
-              onSubmitted(
-                picto.speech,
-                picto.meaning,
-                picto.folder,
-                file,
-                highQuality
-              )
-            "
-          >
-            <div v-if="create">
-              {{ $t("CreatePictogram") }}
-            </div>
-            <div v-else>{{ $t("EditPictogram") }}</div>
-          </b-button>
+            @click="previousStep()"
+            :disabled="activeStep == 0"
+            class="button center"
+            type="button"
+            icon-right="chevron-left"
+          />
+          </div>
+          <div class="column is-half">
+            <b-button
+              class="button center is-primary"
+              :disabled="!(picto.meaning && picto.speech && file.name)"
+              :expanded="true"
+              @click="
+                onSubmitted(
+                  picto.meaning,
+                  picto.speech,
+                  picto.folder,
+                  file,
+                  highQuality
+                )
+              "
+            >
+              <div v-if="create">
+                {{ $t("Create") }}
+              </div>
+              <div v-else>{{ $t("Edit") }}</div>
+            </b-button>
+          </div>
+          <div class="column">
+          <b-button
+            class="center"
+            :disabled="activeStep == 1"
+            @click="nextStep()"
+            icon-right="chevron-right"
+          />
+          </div>
+        </div>
         </div>
       </footer>
     </div>
@@ -242,7 +249,10 @@ export default {
   },
   computed: {
     paginate() {
-	  console.log((this.page - 1) * this.imgLimit, (this.page - 1) * this.imgLimit + this.imgLimit)
+      console.log(
+        (this.page - 1) * this.imgLimit,
+        (this.page - 1) * this.imgLimit + this.imgLimit
+      );
       return this.images.slice(
         (this.page - 1) * this.imgLimit,
         (this.page - 1) * this.imgLimit + this.imgLimit
@@ -262,6 +272,7 @@ export default {
       highQuality: this.$t("StandardQuality"),
       size: 0,
       images: [],
+      loading: false,
     };
   },
   methods: {
@@ -323,15 +334,10 @@ export default {
             file.name.substr(0, file.name.lastIndexOf(".")) + ".jpeg",
             { type: file.type }
           );
-          let quality;
-          quality =
-            highQuality == this.$t("HighQuality")
-              ? (quality = 0.1)
-              : (quality = 0.01);
           const cfile = await jpegasus.compress(myNewFile, {
             maxHeight: 500,
             maxWidth: 500,
-            quality: quality,
+            quality: 0.2,
           });
           if (this.create) {
             this.$store.dispatch("addPicto", {
@@ -420,10 +426,14 @@ export default {
         console.log(err);
         throw new Error("Flickr not available");
       }
+      this.loading = false;
     },
     async pictoExtractImg(pictoSearch) {
+      const regex = new RegExp("[$&+,:;=?@#|'<>.^*()%!-]", "g");
+      pictoSearch = pictoSearch.replaceAll(regex, " ");
       this.images = [];
       let responseData;
+      this.loading = true;
       try {
         responseData = (
           await axios.get(
@@ -440,11 +450,15 @@ export default {
         }
         if (responseData.length < 3) {
           this.flickrExtractImg(pictoSearch);
+        } else {
+          this.loading = false;
         }
       } catch (error) {
         console.log(error);
         if (error.response && error.response.status == 404) {
           this.flickrExtractImg(pictoSearch);
+        } else {
+          this.loading = false;
         }
       }
     },
@@ -492,5 +506,10 @@ export default {
   align-self: flex-end;
   margin: 0 auto;
   margin-top: auto;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

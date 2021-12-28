@@ -150,8 +150,7 @@ export default {
 <style scoped>
 .pictobar {
   bottom: 3%;
-  min-width: 35%;
-  max-width: 100%;
+  width: 98%;
   max-height: 20%;
   position: fixed;
 }

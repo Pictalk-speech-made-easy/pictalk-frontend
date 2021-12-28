@@ -15,7 +15,7 @@
 			/>
 		</div>
 		<div class="column" style="padding: 0">
-			<div class="content">
+			<div class="scrolling">
 				<miniPicto
 					class
 					v-for="picto in pictos"
@@ -244,10 +244,16 @@ export default {
 .notification {
 	background-color: var(--bg-color);
 	position: relative;
-	overflow: auto;
+	align-items:center;
 	padding: 0.25rem;
 }
 .nopadding {
 	padding: 0.25rem;
+}
+.scrolling {
+	display: flex;
+	flex-direction: row;
+	scroll-snap-type: y proximity;
+	overflow-x: auto;
 }
 </style>

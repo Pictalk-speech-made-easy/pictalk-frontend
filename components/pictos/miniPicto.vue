@@ -19,9 +19,7 @@ export default {
 .containing {
 	display: flex;
 	position: relative;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	flex-shrink: 0;
 }
 .image {
 	margin-top: 0;
