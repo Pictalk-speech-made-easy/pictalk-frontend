@@ -185,6 +185,15 @@
 								required
 							></b-input>
 						</b-field>
+						<b-field message="What a beautiful email!!">
+							<b-input placeholder="This is expanded"></b-input>
+							<p class="control">
+								<span class="button is-static">{{
+									getEmoji(getUserLang(true), true).match
+										.emoji.char
+								}}</span>
+							</p>
+						</b-field>
 					</b-step-item>
 				</b-steps>
 			</section>
@@ -256,6 +265,8 @@
 const jpegasus = require("jpegasus");
 import axios from "axios";
 import Webpicto from "@/components/pictos/webpicto";
+import localeCodes from "locale-codes";
+import emojiFromText from "emoji-from-text";
 export default {
 	name: "PictoSteps",
 	components: {
@@ -300,6 +311,9 @@ export default {
 		};
 	},
 	methods: {
+		getEmoji(language) {
+			return emojiFromText(localeCodes.getByTag(language).location, true);
+		},
 		nextStep() {
 			this.activeStep += 1;
 		},
@@ -442,10 +456,12 @@ export default {
 			}
 			this.$emit("close");
 		},
-		getUserLang() {
+		getUserLang(detailled = false) {
 			const user = this.$store.getters.getUser;
-			if (user.language) {
+			if (user.language && !detailled) {
 				return user.language.replace(/[^a-z]/g, "");
+			} else if (user.language && detailled) {
+				return user.language;
 			} else {
 				return this.$i18n.getLocaleCookie();
 			}
