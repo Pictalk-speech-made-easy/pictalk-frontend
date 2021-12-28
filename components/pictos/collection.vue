@@ -11,15 +11,31 @@
 		<div class="notification is-size-6 name">{{ collection.name }}</div>
 
 		<div v-if="adminMode" class="adminMenu">
-			<div>
-				<b-button
-					type="is-danger"
-					icon-right="delete"
-					@click="removeCollection(collection)"
-				/>
-				<b-button type="is-info" @click="editCollection(collection)"
-					>Edit</b-button
+			<b-dropdown aria-role="list">
+				<template #trigger="{ active }">
+					<b-button
+						type="is-primary"
+						:icon-right="active ? 'menu-up' : 'menu-down'"
+					/>
+				</template>
+
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						type="is-info"
+						:expanded="true"
+						@click="editCollection(collection)"
+						>Edit</b-button
+					></b-dropdown-item
 				>
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						:expanded="true"
+						type="is-danger"
+						icon-right="delete"
+						@click="removeCollection(collection)"
+				/></b-dropdown-item>
+			</b-dropdown>
+			<div>
 				<div v-if="collection.starred">
 					<b-button
 						type="is-warning"

@@ -20,30 +20,45 @@
 		<div class="notification meaning">
 			{{ picto.meaning }}
 		</div>
-		<div v-if="adminMode" class="adminMenu">
-			<div>
+		<div v-if="adminMode" class="adminMenu columns">
+			<b-dropdown aria-role="list" class="column noMargin is-mobile">
+				<template #trigger="{ active }">
+					<b-button
+						type="is-primary"
+						:icon-right="active ? 'menu-up' : 'menu-down'"
+					/>
+				</template>
+
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						type="is-info"
+						:expanded="true"
+						@click="editPicto(picto)"
+						>Edit</b-button
+					></b-dropdown-item
+				>
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						:expanded="true"
+						type="is-danger"
+						icon-right="delete"
+						@click="deletePicto(picto)"
+				/></b-dropdown-item>
+			</b-dropdown>
+
+			<div class="column noMargin is-mobile" v-if="picto.starred">
 				<b-button
-					type="is-danger"
-					icon-right="delete"
-					@click="deletePicto(picto)"
+					type="is-warning"
+					icon-right="star"
+					@click="alternateStar(picto)"
 				/>
-				<b-button type="is-info" @click="editPicto(picto)">{{
-					$t("Edit")
-				}}</b-button>
-				<div v-if="picto.starred">
-					<b-button
-						type="is-warning"
-						icon-right="star"
-						@click="alternateStar(picto)"
-					/>
-				</div>
-				<div v-else>
-					<b-button
-						type="is-light"
-						icon-right="star"
-						@click="alternateStar(picto)"
-					/>
-				</div>
+			</div>
+			<div class="column noMargin is-mobile" v-else>
+				<b-button
+					type="is-light"
+					icon-right="star"
+					@click="alternateStar(picto)"
+				/>
 			</div>
 		</div>
 	</div>
@@ -157,8 +172,16 @@ export default {
 }
 .adminMenu {
 	align-self: flex-end;
-	margin: 0 auto;
 	margin-top: auto;
+	margin-left: 0%;
+	margin-right: 0%;
+}
+.noMargin {
+	margin-left: 0%;
+	margin-right: 0%;
+	margin-bottom: 0%;
+	margin-top: 0%;
+	padding: 0%;
 }
 .meaning {
 	margin: 0 auto;
