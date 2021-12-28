@@ -51,13 +51,13 @@
 					<b-button
 						v-if="this.$route.path.includes('pictalk')"
 						type="is-success"
-						icon-right="refresh-circle"
+						icon-right="cloud-sync"
 						@click="refreshPictos"
 					/>
 					<b-button
 						v-if="this.$route.path.includes('pictalk')"
 						type="is-info"
-						icon-right="account-circle"
+						icon-right="account-cog"
 						tag="nuxt-link"
 						to="/account"
 					/>
@@ -66,16 +66,17 @@
 							!this.$route.query.isAdmin &&
 							this.$route.path.includes('pictalk')
 						"
-						type="is-link"
+
+						type="is-warning"
 						@click="toAdmin"
-						icon-right="pencil"
+						icon-right="lock-open-variant"
 					/>
 					<b-button
 						v-else-if="this.$route.path.includes('pictalk')"
-						type="is-light"
+						type="is-warning"
 						tag="nuxt-link"
 						:to="homeLink"
-						icon-right="pencil"
+						icon-right="lock"
 					/>
 					<b-button
 						type="is-light"
@@ -83,9 +84,7 @@
 						to="/help"
 						icon-right="help-circle"
 					/>
-					<b-button type="is-light" @click="onLogout">{{
-						$t("LogOut")
-					}}</b-button>
+					<b-button type="is-light" icon-right="logout" @click="onLogout"/>
 				</div>
 			</b-navbar-item>
 		</template>

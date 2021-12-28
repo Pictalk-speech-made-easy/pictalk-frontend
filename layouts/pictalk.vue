@@ -19,8 +19,10 @@ export default {
 </script>
 <style scoped>
 .wrapper {
-	overflow-x: hidden;
+  overflow-x: hidden ;
 	position: relative;
+      width: 100%;
+    height: 100%;
 }
 </style>
 

@@ -8,10 +8,10 @@
 				crossorigin="anonymous"
 			/>
 		</nuxt-link>
-		<div class="notification is-size-6 name">{{ collection.name }}</div>
+		<div class="notification name">{{ collection.name }}</div>
 
 		<div v-if="adminMode" class="adminMenu adminoption columns">
-      <b-dropdown aria-role="list" class="column noMargin is-mobile">
+      <b-dropdown aria-role="menu" class="column noMargin is-mobile">
         <template #trigger="{ active }">
           <b-button
             type="is-primary"
@@ -32,7 +32,7 @@
             :expanded="true"
             type="is-danger"
             icon-right="delete"
-            @click="deleteCollection(collection)"
+            @click="removeCollection(collection)"
         /></b-dropdown-item>
       </b-dropdown>
 
@@ -130,11 +130,12 @@ export default {
 	background-color: rgb(168, 168, 168);
 }
 .containing {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
 .adminoption {
   display: flex;
   flex-direction: row;
@@ -155,6 +156,12 @@ export default {
 	margin-top: auto;
 	font-size: 1rem;
 }
+.notification {
+  padding: 0.6rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
 .noMargin {
   padding: 0%;
 }

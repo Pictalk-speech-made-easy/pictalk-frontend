@@ -129,11 +129,5 @@ export default {
 	},
 };
 </script>
-<style scoped>
-.fab-zone {
-	bottom: 15%;
-	right: 5%;
-	position: fixed;
-}
-</style>
+
 

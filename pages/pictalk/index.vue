@@ -5,7 +5,9 @@
 			:pictos="loadedCollections"
 			:adminMode="isAdmin"
 		/>
+    <div class="filler"></div>
 	</div>
+
 </template>
 <script>
 import pictoList from "@/components/pictos/pictoList";
@@ -76,3 +78,8 @@ export default {
 	},
 };
 </script>
+<style scoped>
+.filler {
+  padding-bottom: 20%;
+}
+</style>
