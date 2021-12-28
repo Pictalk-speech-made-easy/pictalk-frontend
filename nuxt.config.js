@@ -5,7 +5,8 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    baseURL: process.env.BASE_URL || "http://localhost:3001"
+    baseURL: process.env.BASE_URL || "http://localhost:3001",
+    flickrAPIKey: process.env.FLICKR_API_KEY
   },
   generate: {
     fallback: true

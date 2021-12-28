@@ -125,6 +125,7 @@ export default {
 				props: { create: true },
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
+				canCancel: ["escape", "x"],
 				create: true,
 			});
 		},

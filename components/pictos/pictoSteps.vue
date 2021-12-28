@@ -43,7 +43,7 @@
 							<b-button
 								type="is-success"
 								icon-right="magnify"
-								@click="pictoExtractImg(pictoSearch, next)"
+								@click="pictoExtractImg(pictoSearch)"
 							/>
 						</b-field>
 						<br />
@@ -59,12 +59,19 @@
 									containing
 									has-background
 								"
-								v-for="picto in this.images"
+								v-for="picto in paginate"
 								:key="picto.src"
 								:webpicto="picto"
 								@uploadfile="uploadfile($event)"
 							/>
 						</div>
+						<b-pagination
+							:total="images.length"
+							v-model="currentPagination"
+							simple
+							:per-page="50"
+						>
+						</b-pagination>
 						<div>
 							<b-field :label="$t('OrUploadYourOwn')">
 								<section>
@@ -270,8 +277,17 @@ export default {
 			default: () => false,
 		},
 	},
+	computed: {
+		paginate() {
+			return this.images.slice(
+				this.currentPagination * 50,
+				this.currentPagination * 50 + 50
+			);
+		},
+	},
 	data() {
 		return {
+			currentPagination: 0,
 			pictoSearch: "",
 			activeStep: 0,
 			languages: [],
@@ -434,28 +450,54 @@ export default {
 				return this.$i18n.getLocaleCookie();
 			}
 		},
-		async pictoExtractImg(pictoSearch) {
-			let results = [];
-			let src;
-			let alt;
+		async flickrExtractImg(pictoSearch) {
+			if (!this.$config.flickrAPIKey) {
+				return;
+			}
+			let responseData;
 			try {
-				this.images = await axios
-					.get(
-						`https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`,
-						{ headers: {} }
+				responseData = (
+					await axios.get(
+						`https://www.flickr.com/services/rest/?sort=relevance&lang=${this.$store.getters.getUser.language}&method=flickr.photos.search&api_key=${this.$config.flickrAPIKey}&text=${pictoSearch}&safe_search=true&per_page=25&format=json&nojsoncallback=1`
 					)
-					.then((response) => {
-						this.size = response.data.length;
-						for (let index = 0; index < this.size; index++) {
-							src = `https://api.arasaac.org/api/pictograms/${response.data[index]["_id"]}?color=true&resolution=500&download=false`;
-							alt =
-								response.data[index]["keywords"][0]["keyword"];
-							results.push({ alt: alt, src: src });
-						}
-						return results;
+				).data.photos.photo;
+				responseData.forEach((photo) => {
+					this.images.push({
+						src: `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`,
+						alt: photo.title,
 					});
+				});
+			} catch (err) {
+				console.log(err);
+				throw new Error("Flickr not available");
+			}
+		},
+		async pictoExtractImg(pictoSearch) {
+			this.currentPagination = 0;
+			this.images = [];
+			let responseData;
+			try {
+				responseData = (
+					await axios.get(
+						`https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`
+					)
+				).data;
+				for (let i = 0; i < responseData.length; i++) {
+					this.images.push({
+						src: `https://api.arasaac.org/api/pictograms/${responseData[i]["_id"]}?color=true&resolution=500&download=false`,
+						alt: responseData[i]["keywords"][0]
+							? responseData[i]["keywords"][0]["keyword"]
+							: responseData[i]["categories"][0],
+					});
+				}
+				if (responseData.length < 3) {
+					this.flickrExtractImg(pictoSearch);
+				}
 			} catch (error) {
 				console.log(error);
+				if (error.response && error.response.status == 404) {
+					this.flickrExtractImg(pictoSearch);
+				}
 			}
 		},
 		uploadfile(file) {
