@@ -74,8 +74,8 @@
               v-if="images.length > imgLimit"
               :total="images.length"
               v-model="page"
-              :range-before="1"
-              :range-after="2"
+              :range-before="0"
+              :range-after="0"
               :order="'is-centered'"
               :rounded="true"
               :per-page="imgLimit"
@@ -337,7 +337,7 @@ export default {
           const cfile = await jpegasus.compress(myNewFile, {
             maxHeight: 500,
             maxWidth: 500,
-            quality: 0.2,
+            quality: 0.15,
           });
           if (this.create) {
             this.$store.dispatch("addPicto", {
@@ -418,7 +418,7 @@ export default {
         ).data.photos.photo;
         responseData.forEach((photo) => {
           this.images.push({
-            src: `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_q.jpg`,
+            src: `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
             alt: photo.title,
           });
         });
