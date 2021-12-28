@@ -100,7 +100,7 @@ export const actions = {
     formData.append("collectionIds", picto.collectionIds);
     formData.append("image", picto.image);
     const newPicto = (await axios
-      .post(URL + "/pictalk/picto/", formData, {
+      .post(URL + "/picto/", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -112,7 +112,7 @@ export const actions = {
       color: picto.color,
       collections: newPicto.collections,
       userId: newPicto.userId,
-      path: axios.defaults.baseURL + "/pictalk/image/" + newPicto.path,
+      path: axios.defaults.baseURL + "/image/" + newPicto.path,
       fatherCollectionId: picto.fatherCollectionId,
       id: newPicto.id
     });
@@ -131,7 +131,7 @@ export const actions = {
       formData.append("image", picto.image);
     }
     const editedPicto = (await axios
-      .put(URL + "/pictalk/picto/" + picto.id, formData, {
+      .put(URL + "/picto/" + picto.id, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -145,14 +145,14 @@ export const actions = {
       collections: editedPicto.collections,
       userId: editedPicto.userId,
       shared: editedPicto.shared,
-      path: axios.defaults.baseURL + "/pictalk/image/" + editedPicto.path,
+      path: axios.defaults.baseURL + "/image/" + editedPicto.path,
       fatherCollectionId: editedPicto.fatherCollectionId,
       id: picto.id
     });
   },
   async removePicto(vuexContext, removedPicto) {
     const res = await axios
-      .delete(URL + "/pictalk/picto/" + removedPicto.id);
+      .delete(URL + "/picto/" + removedPicto.id);
     vuexContext.commit("removePicto", removedPicto);
     return res;
   },
@@ -168,7 +168,7 @@ export const actions = {
     formData.append("share", collection.share);
     formData.append("image", collection.image);
     const newCollection = (await axios
-      .post(URL + "/pictalk/collection", formData, {
+      .post(URL + "/collection", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -180,7 +180,7 @@ export const actions = {
       color: collection.color,
       collections: newCollection.collections,
       userId: newCollection.userId,
-      path: axios.defaults.baseURL + "/pictalk/image/" + newCollection.path,
+      path: axios.defaults.baseURL + "/image/" + newCollection.path,
       fatherCollectionId: collection.fatherCollectionId,
       pictos: newCollection.pictos,
       id: newCollection.id
@@ -214,14 +214,14 @@ export const actions = {
       collections: editedCollection.collections,
       pictos: editedCollection.pictos,
       userId: collection.userId,
-      path: axios.defaults.baseURL + "/pictalk/image/" + editedCollection.path,
+      path: axios.defaults.baseURL + "/image/" + editedCollection.path,
       fatherCollectionId: collection.fatherCollectionId,
       id: collection.id
     });
   },
   // DONT CHANGE
   removeCollection(vuexContext, removedCollectionId) {
-    return axios.delete(URL + "/pictalk/collection/" + removedCollectionId).then(() => vuexContext.commit("removeCollection", removedCollectionId)).catch(e => console.log(e));
+    return axios.delete(URL + "/collection/" + removedCollectionId).then(() => vuexContext.commit("removeCollection", removedCollectionId)).catch(e => console.log(e));
   },
   async authenticateUser(vuexContext, authData) {
     let authUrl = URL + "/auth/signin";
@@ -347,11 +347,11 @@ export const actions = {
   },
   */
   async downloadCollections(vuexContext) {
-    const res = await axios.get("/pictalk/collection");
+    const res = await axios.get("/collection");
     res.data.map(collection => {
       if (collection.path) {
         collection.path =
-          axios.defaults.baseURL + "/pictalk/image/" + collection.path;
+          axios.defaults.baseURL + "/image/" + collection.path;
       }
     });
     vuexContext.commit("resetCollections");

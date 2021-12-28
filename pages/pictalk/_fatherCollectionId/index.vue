@@ -9,6 +9,7 @@
 		</div>
 		<div class="contenant">
 			<pictoBar
+				v-if="loadSpeech.length != 0"
 				class="pictobar"
 				:pictos="loadSpeech"
 				:collectionColor="collectionColor"
@@ -40,16 +41,14 @@ export default {
 			}
 		},
 		loadedPictos() {
-			const view = this.$store.getters.getPictoViews.filter(
-				(view) =>
-					view.fatherId ===
-						parseInt(this.$route.params.fatherId, 10) &&
-					view.collectionId ===
-						parseInt(this.$route.params.collectionId, 10)
+			const collection = this.$store.getters.getCollections.filter(
+				(collection) =>
+					collection.fatherCollectionId ===
+					parseInt(this.$route.params.fatherCollectionId, 10)
 			);
-			if (view.length !== 0) {
+			if (collection.length !== 0) {
 				let rankedPictos = [];
-				view[0].pictos.forEach((picto) => {
+				collection[0].pictos.forEach((picto) => {
 					if (picto.starred == true) {
 						rankedPictos.unshift(picto);
 					} else {
@@ -62,42 +61,49 @@ export default {
 			}
 		},
 		collectionColor() {
-			const collection = this.$store.getters.getCollections.filter(
-				(collection) =>
-					collection.id ===
-					parseInt(this.$route.params.collectionId, 10)
-			);
-			if (collection.length !== 0) {
-				if (collection[0].color) {
-					return collection[0].color;
-				} else {
-					return "#f5f5f5";
+			if (parseInt(this.$route.params.fatherCollectionId, 10) == 0) {
+				return;
+			} else {
+				const collection = this.$store.getters.getCollections.filter(
+					(collection) =>
+						collection.id ===
+						parseInt(this.$route.params.fatherCollectionId, 10)
+				);
+				if (collection.length !== 0) {
+					if (collection[0].color) {
+						return collection[0].color;
+					} else {
+						return "#f5f5f5";
+					}
 				}
 			}
 		},
 	},
 	async asyncData(context) {
-		const views = await context.store.getters.getPictoViews;
-		let view;
-		if (views.length != 0) {
-			const fatherPictoIndex = views.findIndex(
-				(view) =>
-					view.fatherId ===
-						parseInt(context.route.params.fatherId, 10) &&
-					view.collectionId ===
-						parseInt(context.route.params.collectionId, 10)
+		const collections = await context.store.getters.getCollections;
+		let collection;
+		if (collections.length != 0) {
+			const fatherCollectionId = collections.findIndex(
+				(collection) =>
+					collection.fatherCollectionId ===
+					parseInt(context.route.params.fatherCollectionId, 10)
 			);
-			view = views[fatherPictoIndex];
+			collection = collections[fatherCollectionId];
 		}
-		if (!view || views.length == 0) {
+		if (!collection || collections.length == 0) {
 			try {
-				var res = await axios.get(
-					"/pictalk/picto/" +
-						context.route.params.fatherId +
-						"/" +
-						context.route.params.collectionId
-				);
-				res.data.map((picto) => {
+				if (
+					parseInt(context.route.params.fatherCollectionId, 10) == 0
+				) {
+					var res = await axios.get("/user/root/");
+				} else {
+					var res = await axios.get(
+						"/pictalk/collection/" +
+							context.route.params.fatherCollectionId
+					);
+				}
+
+				res.data.pictos.map((picto) => {
 					if (picto.path) {
 						picto.path =
 							context.$config.baseURL +
@@ -105,11 +111,19 @@ export default {
 							picto.path;
 					}
 				});
-				await context.store.dispatch("addView", {
-					pictos: res.data,
-					fatherId: parseInt(context.route.params.fatherId, 10),
-					collectionId: parseInt(
-						context.route.params.collectionId,
+				res.data.collections.map((picto) => {
+					if (picto.path) {
+						picto.path =
+							context.$config.baseURL +
+							"/pictalk/image/" +
+							picto.path;
+					}
+				});
+				console.log(res.data);
+				await context.store.commit("addCollection", {
+					pictos: [...res.data.pictos, ...res.data.collections],
+					fatherCollectionId: parseInt(
+						context.route.params.fatherCollectionId,
 						10
 					),
 				});
@@ -118,31 +132,11 @@ export default {
 			}
 		}
 		const user = context.store.getters.getUser;
-		if (user.username) {
-		} else {
+		if (!user.username) {
 			try {
-				var res = await axios.get("/auth/details/");
+				var res = await axios.get("/user/details/");
+				console.log(res.data);
 				context.store.commit("editUser", res.data);
-			} catch (error) {
-				console.log("error ", error);
-			}
-		}
-		const collections = await context.store.getters.getCollections;
-		if (collections.length !== 0) {
-			return;
-		} else {
-			try {
-				const res = await axios.get("/pictalk/collection");
-				res.data.map((collection) => {
-					if (collection.path) {
-						collection.path =
-							context.$config.baseURL +
-							"/pictalk/image/" +
-							collection.path;
-					}
-				});
-				context.store.commit("setCollections", res.data);
-				return;
 			} catch (error) {
 				console.log("error ", error);
 			}
