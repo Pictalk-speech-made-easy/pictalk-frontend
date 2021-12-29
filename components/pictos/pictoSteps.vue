@@ -232,14 +232,7 @@
 					"
 					class="is-success"
 					:icon-right="iconPictoOrEdit"
-					@click="
-						onSubmitted(
-							picto.speech,
-							picto.meaning,
-							picto.color,
-							file
-						)
-					"
+					@click="onSubmitted(false)"
 				>
 				</b-button>
 				<b-button
@@ -253,14 +246,7 @@
 						)
 					"
 					:icon-right="iconCollectionOrEdit"
-					@click="
-						onSubmitted(
-							picto.speech,
-							picto.meaning,
-							picto.color,
-							file
-						)
-					"
+					@click="onSubmitted(true)"
 				>
 				</b-button>
 			</footer>
@@ -362,7 +348,7 @@ export default {
 				});
 			}
 		},
-		async onSubmitted() {
+		async onSubmitted(isCollection = false) {
 			let meaning;
 			let cfile;
 			let speech;
@@ -410,38 +396,51 @@ export default {
 					return { language: key, text: this.picto.speech[key] };
 				});
 				if (this.create) {
-					await this.$store.dispatch("addPicto", {
-						speech: speech,
-						meaning: meaning,
-						color: this.picto.color,
-						share: 1,
-						fatherCollectionId: parseInt(
-							this.$route.params.fatherCollectionId,
-							10
-						),
-						image: cfile,
-					});
+					await this.$store.dispatch(
+						isCollection ? "addCollection" : "addPicto",
+						{
+							speech: speech,
+							meaning: meaning,
+							color: this.picto.color,
+							share: 1,
+							fatherCollectionId: parseInt(
+								this.$route.params.fatherCollectionId,
+								10
+							),
+							image: cfile,
+						}
+					);
 					this.$buefy.notification.open({
-						message: this.$t("CreatedPictogram"),
+						message: isCollection
+							? this.$t("CreatedCollection")
+							: this.$t("CreatedPictogram"),
 						type: "is-success",
 					});
 				} else {
-					const res = await this.$store.dispatch("editPicto", {
-						editedPicto: {
-							id: this.picto.id,
-							speech: speech,
-							meaning: meaning,
-							folder: folder,
-							image: file.name ? cfile : undefined,
-							fatherId: parseInt(this.$route.params.fatherId, 10),
-						},
-						collectionId: parseInt(
-							this.$route.params.collectionId,
-							10
-						),
-					});
+					const res = await this.$store.dispatch(
+						isCollection ? "editCollection" : "editPicto",
+						{
+							editedPicto: {
+								id: this.picto.id,
+								speech: speech,
+								meaning: meaning,
+								folder: folder,
+								image: file.name ? cfile : undefined,
+								fatherId: parseInt(
+									this.$route.params.fatherId,
+									10
+								),
+							},
+							collectionId: parseInt(
+								this.$route.params.collectionId,
+								10
+							),
+						}
+					);
 					this.$buefy.notification.open({
-						message: this.$t("EditedPictogram"),
+						message: isCollection
+							? this.$t("EditedCollection")
+							: this.$t("EditedPictogram"),
 						type: "is-success",
 					});
 				}
@@ -459,7 +458,6 @@ export default {
 			if (user.language && !detailled) {
 				return user.language.replace(/[^a-z]/g, "");
 			} else if (user.language && detailled) {
-				console.log(user.language);
 				return user.language;
 			} else {
 				return this.$i18n.getLocaleCookie();

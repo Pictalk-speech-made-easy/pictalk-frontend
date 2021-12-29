@@ -57,7 +57,7 @@ export default {
 				});
 				return rankedPictos;
 			} else {
-				return {};
+				return [];
 			}
 		},
 		collectionColor() {
@@ -79,34 +79,33 @@ export default {
 			}
 		},
 	},
-	async asyncData(context) {
-		const collections = await context.store.getters.getCollections;
+	async fetch() {
+		const collections = await this.$store.getters.getCollections;
 		let collection;
 		if (collections.length != 0) {
 			const fatherCollectionId = collections.findIndex(
 				(collection) =>
 					collection.fatherCollectionId ===
-					parseInt(context.route.params.fatherCollectionId, 10)
+					parseInt(this.$route.params.fatherCollectionId, 10)
 			);
 			collection = collections[fatherCollectionId];
 		}
 		if (!collection || collections.length == 0) {
 			try {
-				if (
-					parseInt(context.route.params.fatherCollectionId, 10) == 0
-				) {
+				if (!this.$route.params.fatherCollectionId) {
 					var res = await axios.get("/user/root/");
+					this.$router.push(this.$route.path + "/" + res.data.id);
 				} else {
 					var res = await axios.get(
 						"/pictalk/collection/" +
-							context.route.params.fatherCollectionId
+							this.$route.params.fatherCollectionId
 					);
 				}
 
 				res.data.pictos.map((picto) => {
 					if (picto.path) {
 						picto.path =
-							context.$config.baseURL +
+							this.$config.baseURL +
 							"/pictalk/image/" +
 							picto.path;
 					}
@@ -114,16 +113,15 @@ export default {
 				res.data.collections.map((picto) => {
 					if (picto.path) {
 						picto.path =
-							context.$config.baseURL +
+							this.$config.baseURL +
 							"/pictalk/image/" +
 							picto.path;
 					}
 				});
-				console.log(res.data);
-				await context.store.commit("addCollection", {
+				await this.$store.commit("addCollection", {
 					pictos: [...res.data.pictos, ...res.data.collections],
 					fatherCollectionId: parseInt(
-						context.route.params.fatherCollectionId,
+						this.$route.params.fatherCollectionId,
 						10
 					),
 				});
@@ -131,12 +129,12 @@ export default {
 				console.log("error ", error);
 			}
 		}
-		const user = context.store.getters.getUser;
+		const user = this.$store.getters.getUser;
 		if (!user.username) {
 			try {
 				var res = await axios.get("/user/details/");
 				console.log(res.data);
-				context.store.commit("editUser", res.data);
+				this.$store.commit("editUser", res.data);
 			} catch (error) {
 				console.log("error ", error);
 			}
