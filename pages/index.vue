@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container">
-				<b-image alt="A little boy talking thanks to Pictalk" 
+				<b-image alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
 				:lazy="false"
 				></b-image>
@@ -12,7 +12,7 @@
 			<div class="column">
 				<div class="box">
 					<a href="https://youtu.be/vv2ktwpAijI">
-					<b-image lazy alt="Yotube video link for the installation process." 
+					<b-image lazy alt="Yotube video link for the installation process."
 				:srcset="require('@/assets/Install.png').srcSet"
 				></b-image>
 					</a>
@@ -21,7 +21,7 @@
 			<div class="column">
 				<div class="box">
 					<a href="https://youtu.be/I0PBvxS7rSE">
-					<b-image lazy alt="Youtube video link for the pictalk tutorial. Tutorial is accessible through Get Started page" 
+					<b-image lazy alt="Youtube video link for the pictalk tutorial. Tutorial is accessible through Get Started page"
 				:srcset="require('@/assets/Pictalktutorial.png').srcSet"
 				></b-image></a>
 				</div>
@@ -29,7 +29,7 @@
 			<div class="column">
 				<div class="box">
 					<a href="https://youtu.be/pKQJUBcRrQg">
-					<b-image lazy alt="Youtube video link for the how to fill your pictalk tutorial." 
+					<b-image lazy alt="Youtube video link for the how to fill your pictalk tutorial."
 				:srcset="require('@/assets/fillpictalk.png').srcSet"
 				></b-image></a>
 				</div>
@@ -81,7 +81,7 @@
 				<div class="container">
 					<h1 class="title">{{ $t('Communicate')}}</h1>
 					<p class="is-size-5 notification">
-						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking" 
+						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
 				></b-image>
 				<br>
@@ -89,7 +89,7 @@
 					</p>
 					<br>
 					<p class="is-size-5 notification">
-						<b-image lazy alt="Sample image of a copied sentence" 
+						<b-image lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/Messaging.png').srcSet"
 				></b-image>
 				<br>
@@ -146,41 +146,41 @@
 <script>
 import signup from "@/components/auth/signupModal";
 export default {
-	components: {
-		signup,
-	},
-	middleware: ["check-auth"],
-	methods: {
-		openSignUpModal() {
-			this.$buefy.modal.open({
-				parent: this,
-				component: signup,
-				hasModalCard: true,
-				customClass: "custom-class custom-class-2",
-				trapFocus: true,
-			});
-		},
-	},
+  components: {
+    signup,
+  },
+  middleware: ["check-auth"],
+  methods: {
+    openSignUpModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: signup,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+      });
+    },
+  },
 };
 </script>
 <style scoped>
 .signup-button {
-	position: absolute;
-	top: 90%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .soontobe {
-	background: repeating-linear-gradient(
-		60deg,
-		white,
-		white 35px,
-		#ff5758 35px,
-		#ff5758 70px
-	);
-	min-height: 100%;
+  background: repeating-linear-gradient(
+    60deg,
+    white,
+    white 35px,
+    #ff5758 35px,
+    #ff5758 70px
+  );
+  min-height: 100%;
 }
 .box {
-	padding: 0px;
+  padding: 0px;
 }
 </style>

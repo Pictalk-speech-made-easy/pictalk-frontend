@@ -1,30 +1,30 @@
 <template>
-	<div class="containing">
-		<img class="image" style :src="path" crossorigin="anonymous" />
-	</div>
+  <div class="containing">
+    <img class="image" style :src="path" crossorigin="anonymous" />
+  </div>
 </template>
 
 <script>
 export default {
-	name: "miniPicto",
-	props: {
-		path: {
-			type: String,
-			required: true,
-		},
-	},
+  name: "miniPicto",
+  props: {
+    path: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
 <style scoped>
 .containing {
-	display: flex;
-	position: relative;
-	flex-shrink: 0;
+  display: flex;
+  position: relative;
+  flex-shrink: 0;
 }
 .image {
-	margin-top: 0;
-	min-width: 0;
-	max-height: 4rem;
-	min-height: 0;
+  margin-top: 0;
+  min-width: 0;
+  max-height: 4rem;
+  min-height: 0;
 }
 </style>

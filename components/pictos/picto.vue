@@ -168,7 +168,7 @@ export default {
 .adminoption {
   display: flex;
   flex-direction: row;
-  align-items:center;
+  align-items: center;
   justify-content: center;
 }
 

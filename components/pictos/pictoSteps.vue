@@ -175,48 +175,48 @@
           </b-step-item>
         </b-steps>
       </section>
-           <footer class="modal-card-foot">
+      <footer class="modal-card-foot">
         <div class="container">
-        <div class="columns is-mobile is-full">
-          <div class="column">
-          <b-button
-            @click="previousStep()"
-            :disabled="activeStep == 0"
-            class="button center"
-            type="button"
-            icon-right="chevron-left"
-          />
+          <div class="columns is-mobile is-full">
+            <div class="column">
+              <b-button
+                @click="previousStep()"
+                :disabled="activeStep == 0"
+                class="button center"
+                type="button"
+                icon-right="chevron-left"
+              />
+            </div>
+            <div class="column is-half">
+              <b-button
+                class="button center is-primary"
+                :disabled="!(picto.meaning && picto.speech && file.name)"
+                :expanded="true"
+                @click="
+                  onSubmitted(
+                    picto.meaning,
+                    picto.speech,
+                    picto.folder,
+                    file,
+                    highQuality
+                  )
+                "
+              >
+                <div v-if="create">
+                  {{ $t("Create") }}
+                </div>
+                <div v-else>{{ $t("Edit") }}</div>
+              </b-button>
+            </div>
+            <div class="column">
+              <b-button
+                class="center"
+                :disabled="activeStep == 1"
+                @click="nextStep()"
+                icon-right="chevron-right"
+              />
+            </div>
           </div>
-          <div class="column is-half">
-            <b-button
-              class="button center is-primary"
-              :disabled="!(picto.meaning && picto.speech && file.name)"
-              :expanded="true"
-              @click="
-                onSubmitted(
-                  picto.meaning,
-                  picto.speech,
-                  picto.folder,
-                  file,
-                  highQuality
-                )
-              "
-            >
-              <div v-if="create">
-                {{ $t("Create") }}
-              </div>
-              <div v-else>{{ $t("Edit") }}</div>
-            </b-button>
-          </div>
-          <div class="column">
-          <b-button
-            class="center"
-            :disabled="activeStep == 1"
-            @click="nextStep()"
-            icon-right="chevron-right"
-          />
-          </div>
-        </div>
         </div>
       </footer>
     </div>

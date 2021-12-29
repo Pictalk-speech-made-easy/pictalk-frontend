@@ -26,7 +26,7 @@ export default {
   middleware: ["check-auth", "auth", "axios"],
   components: {
     pictoList: pictoList,
-    pictoBar: pictoBar
+    pictoBar: pictoBar,
   },
   computed: {
     loadSpeech() {
@@ -41,14 +41,14 @@ export default {
     },
     loadedPictos() {
       const view = this.$store.getters.getPictoViews.filter(
-        view =>
+        (view) =>
           view.fatherId === parseInt(this.$route.params.fatherId, 10) &&
           view.collectionId === parseInt(this.$route.params.collectionId, 10)
       );
       if (view.length !== 0) {
         let rankedPictos = [];
-        view[0].pictos.forEach(picto => {
-          if(picto.starred == true){
+        view[0].pictos.forEach((picto) => {
+          if (picto.starred == true) {
             rankedPictos.unshift(picto);
           } else {
             rankedPictos.push(picto);
@@ -61,7 +61,7 @@ export default {
     },
     collectionColor() {
       const collection = this.$store.getters.getCollections.filter(
-        collection =>
+        (collection) =>
           collection.id === parseInt(this.$route.params.collectionId, 10)
       );
       if (collection.length !== 0) {
@@ -71,14 +71,14 @@ export default {
           return "#f5f5f5";
         }
       }
-    }
+    },
   },
   async asyncData(context) {
     const views = await context.store.getters.getPictoViews;
     let view;
     if (views.length != 0) {
       const fatherPictoIndex = views.findIndex(
-        view =>
+        (view) =>
           view.fatherId === parseInt(context.route.params.fatherId, 10) &&
           view.collectionId === parseInt(context.route.params.collectionId, 10)
       );
@@ -92,15 +92,16 @@ export default {
             "/" +
             context.route.params.collectionId
         );
-        res.data.map(picto => {
+        res.data.map((picto) => {
           if (picto.path) {
-            picto.path = context.$config.baseURL + "/pictalk/image/" + picto.path;
+            picto.path =
+              context.$config.baseURL + "/pictalk/image/" + picto.path;
           }
         });
         await context.store.dispatch("addView", {
           pictos: res.data,
           fatherId: parseInt(context.route.params.fatherId, 10),
-          collectionId: parseInt(context.route.params.collectionId, 10)
+          collectionId: parseInt(context.route.params.collectionId, 10),
         });
       } catch (error) {
         console.log("error ", error);
@@ -122,7 +123,7 @@ export default {
     } else {
       try {
         const res = await axios.get("/pictalk/collection");
-        res.data.map(collection => {
+        res.data.map((collection) => {
           if (collection.path) {
             collection.path =
               context.$config.baseURL + "/pictalk/image/" + collection.path;
@@ -137,14 +138,14 @@ export default {
   },
   data() {
     return {
-      isPicto: true
+      isPicto: true,
     };
   },
   methods: {
     removeSpeech() {
       this.$store.commit("removeSpeech");
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
