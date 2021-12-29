@@ -55,20 +55,20 @@
 						<br>
 						<br>
 						<b-image
-      					lazy
-      					:srcset="require('@/assets/startingpack.png').srcSet"
-      					alt="Logo du Play store"
+								lazy
+								:srcset="require('@/assets/startingpack.png').srcSet"
+								alt="Logo du Play store"
 						style="width: 80%;"
 					></b-image>
 					<br>
 					{{ $t('HowItWorks1')}}
 					<br>
 					<b-image
-      					lazy
-      					:srcset="require('@/assets/pictobar.png').srcSet"
-      					alt="Logo du Play store"
+								lazy
+								:srcset="require('@/assets/pictobar.png').srcSet"
+								alt="Logo du Play store"
 						style="width: 80%;"
-    				></b-image>
+						></b-image>
 					<br>
 					{{ $t('HowItWorks2')}}
 
@@ -134,11 +134,11 @@
 		<div class="container">
 			<a href="https://play.google.com/store/apps/details?id=xyz.pictalk.www.twa">
 				<b-image
-      					lazy
-      					:srcset="require('@/assets/Pictalkplaystore.png').srcSet"
-      					alt="Logo du Play store"
+								lazy
+								:srcset="require('@/assets/Pictalkplaystore.png').srcSet"
+								alt="Logo du Play store"
 						style="width: 80%;"
-    		></b-image>
+				></b-image>
 			</a>
 		</div>
 	</div>
@@ -146,41 +146,41 @@
 <script>
 import signup from "@/components/auth/signupModal";
 export default {
-  components: {
-    signup,
-  },
-  middleware: ["check-auth"],
-  methods: {
-    openSignUpModal() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: signup,
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2",
-        trapFocus: true,
-      });
-    },
-  },
+	components: {
+		signup,
+	},
+	middleware: ["check-auth"],
+	methods: {
+		openSignUpModal() {
+			this.$buefy.modal.open({
+				parent: this,
+				component: signup,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+			});
+		},
+	},
 };
 </script>
 <style scoped>
 .signup-button {
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+	position: absolute;
+	top: 90%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 .soontobe {
-  background: repeating-linear-gradient(
-    60deg,
-    white,
-    white 35px,
-    #ff5758 35px,
-    #ff5758 70px
-  );
-  min-height: 100%;
+	background: repeating-linear-gradient(
+		60deg,
+		white,
+		white 35px,
+		#ff5758 35px,
+		#ff5758 70px
+	);
+	min-height: 100%;
 }
 .box {
-  padding: 0px;
+	padding: 0px;
 }
 </style>
