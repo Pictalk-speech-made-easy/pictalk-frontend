@@ -151,29 +151,44 @@
 					<b-step-item step="2" :label="$t('Speech')" clickable>
 						<h1 class="title has-text-centered">
 							{{ $t("Speech") }}
+							<b-dropdown aria-role="list">
+								<template #trigger="{ active }">
+									<b-button>{{
+										getEmoji(languageSelectorSpeech)
+									}}</b-button>
+								</template>
+
+								<b-dropdown-item
+									v-for="language in getAllUserLanguages"
+									:key="language"
+									aria-role="listitem"
+									@click="switchSpeechLanguage(language)"
+									>{{ getEmoji(language) }}</b-dropdown-item
+								>
+							</b-dropdown>
 						</h1>
 						<b-field :label="$t('Speech')">
 							<b-input
 								type="text"
-								v-model="picto.speech"
+								v-model="picto.speech[languageSelectorSpeech]"
 								:placeholder="$t('SpeechNotice')"
 								expanded
 							></b-input>
 							<b-button
 								type="is-success"
 								icon-right="message"
-								@click="pronounce(picto.speech)"
-								>{{ $t("Try") }}</b-button
-							>
+								@click="
+									pronounce(
+										picto.speech[languageSelectorSpeech]
+									)
+								"
+							></b-button>
 						</b-field>
-						<br />
-						<br />
 						<b-field :label="$t('Meaning')">
 							<b-input
 								type="text"
-								v-model="picto.meaning"
+								v-model="picto.meaning[languageSelectorSpeech]"
 								:placeholder="$t('MeaningNotice')"
-								required
 								expanded
 							></b-input>
 						</b-field>
@@ -185,15 +200,7 @@
 								required
 							></b-input>
 						</b-field>
-						<b-field message="What a beautiful email!!">
-							<b-input placeholder="This is expanded"></b-input>
-							<p class="control">
-								<span class="button is-static">{{
-									getEmoji(getUserLang(true), true).match
-										.emoji.char
-								}}</span>
-							</p>
-						</b-field>
+						{{ picto }}
 					</b-step-item>
 				</b-steps>
 			</section>
@@ -213,50 +220,49 @@
 						icon-right="chevron-left"
 					/>
 				</div>
-				<div
-					v-if="
-						!create ||
-						(picto.speech &&
+
+				<b-button
+					:disabled="
+						!(
+							picto.speech &&
 							picto.meaning &&
 							picto.color &&
-							file.name)
+							file.name
+						)
+					"
+					class="is-success"
+					:icon-right="iconPictoOrEdit"
+					@click="
+						onSubmitted(
+							picto.speech,
+							picto.meaning,
+							picto.color,
+							file
+						)
 					"
 				>
-					<b-button
-						class="button is-primary"
-						@click="
-							onSubmitted(
-								picto.speech,
-								picto.meaning,
-								picto.color,
-								file,
-								highQuality
-							)
-						"
-					>
-						<div v-if="create">
-							{{ $t("CreatePictogram") }}
-						</div>
-						<div v-else>{{ $t("EditPictogram") }}</div>
-					</b-button>
-					<b-button
-						class="button is-primary"
-						@click="
-							onSubmitted(
-								picto.speech,
-								picto.meaning,
-								picto.color,
-								file,
-								highQuality
-							)
-						"
-					>
-						<div v-if="create">
-							{{ $t("CreateCollection") }}
-						</div>
-						<div v-else>{{ $t("EditCollection") }}</div>
-					</b-button>
-				</div>
+				</b-button>
+				<b-button
+					class="is-success"
+					:disabled="
+						!(
+							picto.speech &&
+							picto.meaning &&
+							picto.color &&
+							file.name
+						)
+					"
+					:icon-right="iconCollectionOrEdit"
+					@click="
+						onSubmitted(
+							picto.speech,
+							picto.meaning,
+							picto.color,
+							file
+						)
+					"
+				>
+				</b-button>
 			</footer>
 		</div>
 	</form>
@@ -265,8 +271,7 @@
 const jpegasus = require("jpegasus");
 import axios from "axios";
 import Webpicto from "@/components/pictos/webpicto";
-import localeCodes from "locale-codes";
-import emojiFromText from "emoji-from-text";
+import { countryCodeEmoji, emojiCountryCode } from "country-code-emoji";
 export default {
 	name: "PictoSteps",
 	components: {
@@ -277,9 +282,9 @@ export default {
 			type: Object,
 			required: false,
 			default: () => ({
-				speech: "",
-				meaning: "",
-				folder: "0",
+				speech: new Object(),
+				meaning: new Object(),
+				color: 0,
 			}),
 		},
 		create: {
@@ -289,11 +294,20 @@ export default {
 		},
 	},
 	computed: {
+		iconPictoOrEdit() {
+			return this.create ? "image" : "image-edit";
+		},
+		iconCollectionOrEdit() {
+			return this.create ? "folder-multiple-image" : "image-edit";
+		},
 		paginate() {
 			return this.images.slice(
 				this.currentPagination * 50,
 				this.currentPagination * 50 + 50
 			);
+		},
+		getAllUserLanguages() {
+			return this.$store.getters.getUser.languages;
 		},
 	},
 	data() {
@@ -302,6 +316,7 @@ export default {
 			pictoSearch: "",
 			activeStep: 0,
 			languages: [],
+			languageSelectorSpeech: "",
 			selectedOption: "",
 			pictoSearch: "",
 			file: {},
@@ -310,9 +325,15 @@ export default {
 			images: [],
 		};
 	},
+	created() {
+		this.languageSelectorSpeech = this.getUserLang(true);
+	},
 	methods: {
+		switchSpeechLanguage(language) {
+			this.languageSelectorSpeech = language;
+		},
 		getEmoji(language) {
-			return emojiFromText(localeCodes.getByTag(language).location, true);
+			return countryCodeEmoji(language.split("-")[1]);
 		},
 		nextStep() {
 			this.activeStep += 1;
@@ -325,7 +346,7 @@ export default {
 				var msg = new SpeechSynthesisUtterance();
 				msg.text = speech;
 				let voice = this.languages.filter(
-					(voice) => voice.lang == this.getUserLang
+					(voice) => voice.lang == this.languageSelectorSpeech
 				);
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
@@ -341,25 +362,26 @@ export default {
 				});
 			}
 		},
-		async onSubmitted(speech, meaning, folder, file, highQuality) {
-			if (meaning == "") {
+		async onSubmitted() {
+			let meaning;
+			let cfile;
+			let speech;
+			if (Object.values(this.picto.meaning).length == 0) {
 				this.$buefy.notification.open({
 					message: this.$t("MeaningEmpty"),
 					type: "is-danger",
 				});
 			}
-			if (this.create && !file.name) {
+			if (this.create && !this.file.name) {
 				this.$buefy.notification.open({
 					message: this.$t("MissingImage"),
 					type: "is-danger",
 				});
-			}
-			if (speech == "") {
-				speech = " ";
+				return;
 			}
 			try {
-				if (file.name) {
-					if (!file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
+				if (this.file.name) {
+					if (!this.file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
 						this.$buefy.notification.open({
 							message: this.$t("ImageFiles"),
 							type: "is-warning",
@@ -368,65 +390,41 @@ export default {
 					}
 
 					const myNewFile = new File(
-						[file],
-						file.name.substr(0, file.name.lastIndexOf(".")) +
-							".jpeg",
-						{ type: file.type }
+						[this.file],
+						this.file.name.substr(
+							0,
+							this.file.name.lastIndexOf(".")
+						) + ".jpeg",
+						{ type: this.file.type }
 					);
-					let quality;
-					quality =
-						highQuality == this.$t("HighQuality")
-							? (quality = 0.1)
-							: (quality = 0.01);
-					const cfile = await jpegasus.compress(myNewFile, {
+					cfile = await jpegasus.compress(myNewFile, {
 						maxHeight: 500,
 						maxWidth: 500,
-						quality: quality,
+						quality: 0.1,
 					});
-					if (this.create) {
-						this.$store.dispatch("addPicto", {
-							picto: {
-								speech: speech,
-								meaning: meaning,
-								folder: parseInt(folder, 10),
-								image: cfile,
-								fatherId: parseInt(
-									this.$route.params.fatherId,
-									10
-								),
-							},
-							collectionId: parseInt(
-								this.$route.params.collectionId,
-								10
-							),
-						});
-						this.$buefy.notification.open({
-							message: this.$t("CreatedPictogram"),
-							type: "is-success",
-						});
-					} else {
-						const res = await this.$store.dispatch("editPicto", {
-							editedPicto: {
-								id: this.picto.id,
-								speech: speech,
-								meaning: meaning,
-								folder: folder,
-								image: cfile,
-								fatherId: parseInt(
-									this.$route.params.fatherId,
-									10
-								),
-							},
-							collectionId: parseInt(
-								this.$route.params.collectionId,
-								10
-							),
-						});
-						this.$buefy.notification.open({
-							message: this.$t("EditedPictogram"),
-							type: "is-success",
-						});
-					}
+				}
+				meaning = Object.keys(this.picto.meaning).map((key) => {
+					return { language: key, text: this.picto.meaning[key] };
+				});
+				speech = Object.keys(this.picto.speech).map((key) => {
+					return { language: key, text: this.picto.speech[key] };
+				});
+				if (this.create) {
+					await this.$store.dispatch("addPicto", {
+						speech: speech,
+						meaning: meaning,
+						color: this.picto.color,
+						share: 1,
+						fatherCollectionId: parseInt(
+							this.$route.params.fatherCollectionId,
+							10
+						),
+						image: cfile,
+					});
+					this.$buefy.notification.open({
+						message: this.$t("CreatedPictogram"),
+						type: "is-success",
+					});
 				} else {
 					const res = await this.$store.dispatch("editPicto", {
 						editedPicto: {
@@ -434,6 +432,7 @@ export default {
 							speech: speech,
 							meaning: meaning,
 							folder: folder,
+							image: file.name ? cfile : undefined,
 							fatherId: parseInt(this.$route.params.fatherId, 10),
 						},
 						collectionId: parseInt(
@@ -441,12 +440,11 @@ export default {
 							10
 						),
 					});
+					this.$buefy.notification.open({
+						message: this.$t("EditedPictogram"),
+						type: "is-success",
+					});
 				}
-
-				this.$buefy.notification.open({
-					message: this.$t("EditedPictogram"),
-					type: "is-success",
-				});
 			} catch (err) {
 				console.log(err);
 				this.$buefy.notification.open({
@@ -461,6 +459,7 @@ export default {
 			if (user.language && !detailled) {
 				return user.language.replace(/[^a-z]/g, "");
 			} else if (user.language && detailled) {
+				console.log(user.language);
 				return user.language;
 			} else {
 				return this.$i18n.getLocaleCookie();
@@ -517,10 +516,10 @@ export default {
 			}
 		},
 		uploadfile(file) {
-			this.picto.speech = file.name
+			this.picto.speech[this.languageSelectorSpeech] = file.name
 				.replaceAll("-", " ")
 				.replace(/\.[^/.]+$/, "");
-			this.picto.meaning = file.name
+			this.picto.meaning[this.languageSelectorSpeech] = file.name
 				.replaceAll("-", " ")
 				.replace(/\.[^/.]+$/, "");
 			this.file = file;

@@ -93,11 +93,10 @@ export const actions = {
     let formData = new FormData();
     formData.append("speech", JSON.stringify(picto.speech));
     formData.append("meaning", JSON.stringify(picto.meaning));
-    formData.append("language", JSON.stringify(picto.language));
     formData.append("color", picto.color);
     formData.append("share", picto.share);
     formData.append("fatherCollectionId", picto.fatherCollectionId);
-    formData.append("collectionIds", picto.collectionIds);
+    //formData.append("collectionIds", picto.collectionIds);
     formData.append("image", picto.image);
     const newPicto = (await axios
       .post(URL + "/picto/", formData, {
