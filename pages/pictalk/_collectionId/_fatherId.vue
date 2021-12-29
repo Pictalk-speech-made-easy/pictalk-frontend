@@ -42,8 +42,10 @@ export default {
 		loadedPictos() {
 			const view = this.$store.getters.getPictoViews.filter(
 				(view) =>
-					view.fatherId === parseInt(this.$route.params.fatherId, 10) &&
-					view.collectionId === parseInt(this.$route.params.collectionId, 10)
+					view.fatherId ===
+						parseInt(this.$route.params.fatherId, 10) &&
+					view.collectionId ===
+						parseInt(this.$route.params.collectionId, 10)
 			);
 			if (view.length !== 0) {
 				let rankedPictos = [];
@@ -62,7 +64,8 @@ export default {
 		collectionColor() {
 			const collection = this.$store.getters.getCollections.filter(
 				(collection) =>
-					collection.id === parseInt(this.$route.params.collectionId, 10)
+					collection.id ===
+					parseInt(this.$route.params.collectionId, 10)
 			);
 			if (collection.length !== 0) {
 				if (collection[0].color) {
@@ -79,8 +82,10 @@ export default {
 		if (views.length != 0) {
 			const fatherPictoIndex = views.findIndex(
 				(view) =>
-					view.fatherId === parseInt(context.route.params.fatherId, 10) &&
-					view.collectionId === parseInt(context.route.params.collectionId, 10)
+					view.fatherId ===
+						parseInt(context.route.params.fatherId, 10) &&
+					view.collectionId ===
+						parseInt(context.route.params.collectionId, 10)
 			);
 			view = views[fatherPictoIndex];
 		}
@@ -95,13 +100,18 @@ export default {
 				res.data.map((picto) => {
 					if (picto.path) {
 						picto.path =
-							context.$config.baseURL + "/pictalk/image/" + picto.path;
+							context.$config.baseURL +
+							"/pictalk/image/" +
+							picto.path;
 					}
 				});
 				await context.store.dispatch("addView", {
 					pictos: res.data,
 					fatherId: parseInt(context.route.params.fatherId, 10),
-					collectionId: parseInt(context.route.params.collectionId, 10),
+					collectionId: parseInt(
+						context.route.params.collectionId,
+						10
+					),
 				});
 			} catch (error) {
 				console.log("error ", error);
@@ -126,7 +136,9 @@ export default {
 				res.data.map((collection) => {
 					if (collection.path) {
 						collection.path =
-							context.$config.baseURL + "/pictalk/image/" + collection.path;
+							context.$config.baseURL +
+							"/pictalk/image/" +
+							collection.path;
 					}
 				});
 				context.store.commit("setCollections", res.data);
