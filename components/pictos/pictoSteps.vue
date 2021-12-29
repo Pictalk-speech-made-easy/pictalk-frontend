@@ -42,7 +42,9 @@
 								:placeholder="$t('SearchNotice')"
 								expanded
 								:autofocus="true"
-								@keyup.native.enter="pictoExtractImg(pictoSearch)"
+								@keyup.native.enter="
+									pictoExtractImg(pictoSearch)
+								"
 							></b-input>
 							<b-button
 								type="is-success"
@@ -94,9 +96,17 @@
 											expanded
 											required
 										>
-											<a class="button is-primary is-fullwidth">
+											<a
+												class="
+													button
+													is-primary is-fullwidth
+												"
+											>
 												<b-icon icon="upload"></b-icon>
-												<span>{{ file.name || $t("ClickToUpload") }}</span>
+												<span>{{
+													file.name ||
+													$t("ClickToUpload")
+												}}</span>
 											</a>
 										</b-upload>
 									</b-field>
@@ -109,9 +119,17 @@
 											expanded
 										>
 											<section class="section">
-												<div class="content has-text-centered">
+												<div
+													class="
+														content
+														has-text-centered
+													"
+												>
 													<p>
-														<b-icon icon="upload" size="is-large"></b-icon>
+														<b-icon
+															icon="upload"
+															size="is-large"
+														></b-icon>
 													</p>
 													<p>
 														{{ $t("DropFiles") }}
@@ -190,7 +208,13 @@
 						<div class="column is-half">
 							<b-button
 								class="button center is-primary"
-								:disabled="!(picto.meaning && picto.speech && file.name)"
+								:disabled="
+									!(
+										picto.meaning &&
+										picto.speech &&
+										file.name
+									)
+								"
 								:expanded="true"
 								@click="
 									onSubmitted(
@@ -331,7 +355,8 @@ export default {
 
 					const myNewFile = new File(
 						[file],
-						file.name.substr(0, file.name.lastIndexOf(".")) + ".jpeg",
+						file.name.substr(0, file.name.lastIndexOf(".")) +
+							".jpeg",
 						{ type: file.type }
 					);
 					const cfile = await jpegasus.compress(myNewFile, {
@@ -346,9 +371,15 @@ export default {
 								meaning: meaning,
 								folder: parseInt(folder, 10),
 								image: cfile,
-								fatherId: parseInt(this.$route.params.fatherId, 10),
+								fatherId: parseInt(
+									this.$route.params.fatherId,
+									10
+								),
 							},
-							collectionId: parseInt(this.$route.params.collectionId, 10),
+							collectionId: parseInt(
+								this.$route.params.collectionId,
+								10
+							),
 						});
 						this.$buefy.notification.open({
 							message: this.$t("CreatedPictogram"),
@@ -362,9 +393,15 @@ export default {
 								meaning: meaning,
 								folder: folder,
 								image: cfile,
-								fatherId: parseInt(this.$route.params.fatherId, 10),
+								fatherId: parseInt(
+									this.$route.params.fatherId,
+									10
+								),
 							},
-							collectionId: parseInt(this.$route.params.collectionId, 10),
+							collectionId: parseInt(
+								this.$route.params.collectionId,
+								10
+							),
 						});
 						this.$buefy.notification.open({
 							message: this.$t("EditedPictogram"),
@@ -380,7 +417,10 @@ export default {
 							folder: folder,
 							fatherId: parseInt(this.$route.params.fatherId, 10),
 						},
-						collectionId: parseInt(this.$route.params.collectionId, 10),
+						collectionId: parseInt(
+							this.$route.params.collectionId,
+							10
+						),
 					});
 				}
 
