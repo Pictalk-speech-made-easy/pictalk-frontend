@@ -298,10 +298,6 @@ export default {
 			return this.create ? "folder-multiple-image" : "image-edit";
 		},
 		paginate() {
-			console.log(
-				(this.page - 1) * this.imgLimit,
-				(this.page - 1) * this.imgLimit + this.imgLimit
-			);
 			return this.images.slice(
 				(this.page - 1) * this.imgLimit,
 				(this.page - 1) * this.imgLimit + this.imgLimit
