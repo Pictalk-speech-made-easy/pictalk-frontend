@@ -74,6 +74,20 @@
 							</option>
 						</b-select>
 					</b-field>
+					<b-field :label="$t('Direct Sharers')">
+						<b-input
+							v-for="index in directSharers.length"
+							:key="index"
+							v-model="directSharers[index - 1]"
+						></b-input>
+						<p class="control">
+							<b-button
+								type="is-primary"
+								icon-right="plus"
+								@click="directSharers.push('')"
+							/>
+						</p>
+					</b-field>
 				</div>
 				<br />
 				<div class="field">
@@ -136,6 +150,7 @@ export default {
 			majority: false,
 			passwordConfirmation: "",
 			loadingVoices: true,
+			directSharers: [],
 		};
 	},
 	async created() {
@@ -158,24 +173,25 @@ export default {
 			this.loadingVoices = false;
 		});
 	},
+	watch: {
+		language(l) {
+			this.languages = [];
+			this.languages.push(l);
+		},
+	},
 	methods: {
 		getEmoji(language) {
 			return countryCodeEmoji(language.split("-")[1]);
 		},
-		async onSubmit(
-			username,
-			password,
-			language,
-			major,
-			terms,
-			passwordConfirmation
-		) {
+		async onSubmit() {
 			if (
-				username == "" ||
-				password == "" ||
-				passwordConfirmation == "" ||
-				major == false ||
-				terms == false
+				this.username == "" ||
+				this.password == "" ||
+				this.passwordConfirmation == "" ||
+				this.major == false ||
+				this.terms == false ||
+				this.language == "" ||
+				this.languages.length == 0
 			) {
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
@@ -187,7 +203,7 @@ export default {
 				});
 				return;
 			}
-			if (passwordConfirmation != password) {
+			if (this.passwordConfirmation != this.password) {
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
 					message: this.$t("PasswordNotCorrespond"),
@@ -200,10 +216,11 @@ export default {
 			}
 			try {
 				const res = await axios.post("/auth/signup", {
-					username: username,
-					password: password,
-					language: language,
-					languages: [language],
+					username: this.username,
+					password: this.password,
+					language: this.language,
+					languages: this.languages,
+					directSharers: this.directSharers,
 				});
 				if (res.status == 201) {
 					await this.$store.dispatch("authenticateUser", {

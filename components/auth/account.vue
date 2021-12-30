@@ -18,21 +18,46 @@
 					password-reveal
 				></b-input>
 			</b-field>
-			<b-field :label="$t('Language')">
-				<b-select
-					v-model="user.language"
-					placeholder="Select language"
-					rounded
-				>
-					<option
-						v-for="language in loadedVoices"
-						:value="language.lang"
-						:key="language.voiceURI"
+			<div class="columns">
+				<b-field class="column" :label="$t('Principal Language')">
+					<b-select
+						v-model="user.language"
+						placeholder="Select language"
+						required
+						expanded
+						:loading="loadingVoices"
+						size="is-small"
 					>
-						{{ language.lang }}
-					</option>
-				</b-select>
-			</b-field>
+						<option
+							v-for="language in loadedVoices"
+							:value="language.lang"
+							:key="language.voiceURI"
+						>
+							{{ getEmoji(language.lang) }}
+						</option>
+					</b-select>
+				</b-field>
+				<b-field class="column" :label="$t('Languages')">
+					<b-select
+						v-model="user.languages"
+						placeholder="Select language"
+						required
+						multiple
+						expanded
+						native-size="8"
+						size="is-small"
+						:loading="loadingVoices"
+					>
+						<option
+							v-for="language in loadedVoices"
+							:value="language.lang"
+							:key="language.voiceURI"
+						>
+							{{ getEmoji(language.lang) }}
+						</option>
+					</b-select>
+				</b-field>
+			</div>
 			<hr />
 			<b-button tag="nuxt-link" to="/pictalk">{{
 				$t("Cancel")
@@ -65,12 +90,28 @@
 			</b-message>
 		</div>
 		<div class="column">
-			<b-table :data="data" :columns="columns"> </b-table>
+			<b-field :label="$t('Trusted Sources')">
+				<b-table
+					:checked-rows.sync="checkedRows"
+					checkable
+					:data="user.directSharers"
+					:columns="columns"
+				>
+				</b-table>
+			</b-field>
+			<b-button
+				label="Delete selected trusted sources"
+				type="is-danger"
+				icon-left="delete"
+				class="field"
+				@click="deleteSelectedTrustedSources()"
+			/>
 		</div>
 	</div>
 </template>
 <script>
 import axios from "axios";
+import { countryCodeEmoji } from "country-code-emoji";
 export default {
 	computed: {
 		requestsPercentage() {
@@ -85,7 +126,7 @@ export default {
 			}
 		},
 		loadedVoices() {
-			return this.languages;
+			return this.voices;
 		},
 	},
 	props: {
@@ -97,75 +138,27 @@ export default {
 	data() {
 		return {
 			languages: [],
+			language: "",
+			voices: [],
 			nb_requests: 0,
+			checkedRows: [],
+			loadingVoices: true,
 			done_requests: 0,
 			dl_launched: false,
-			data: [
-				{
-					id: 1,
-					first_name: "Jesse",
-					last_name: "Simmons",
-					date: "2016-10-15 13:43:27",
-					gender: "Male",
-				},
-				{
-					id: 2,
-					first_name: "John",
-					last_name: "Jacobs",
-					date: "2016-12-15 06:00:53",
-					gender: "Male",
-				},
-				{
-					id: 3,
-					first_name: "Tina",
-					last_name: "Gilbert",
-					date: "2016-04-26 06:26:28",
-					gender: "Female",
-				},
-				{
-					id: 4,
-					first_name: "Clarence",
-					last_name: "Flores",
-					date: "2016-04-10 10:28:46",
-					gender: "Male",
-				},
-				{
-					id: 5,
-					first_name: "Anne",
-					last_name: "Lee",
-					date: "2016-12-06 14:38:38",
-					gender: "Female",
-				},
-			],
 			columns: [
 				{
-					field: "id",
-					label: "ID",
-					width: "100",
-					numeric: true,
-					searchable: true,
-				},
-				{
-					field: "first_name",
-					label: "First Name",
-					searchable: true,
-				},
-				{
-					field: "last_name",
-					label: "Last Name",
-					searchable: true,
-				},
-				{
-					field: "date",
-					label: "Date",
-					centered: true,
-				},
-				{
-					field: "gender",
-					label: "Gender",
+					field: "username",
+					label: "Email",
+					searchable: false,
 				},
 			],
 		};
+	},
+	watch: {
+		language(l) {
+			this.user.languages = [];
+			this.user.languages.push(l);
+		},
 	},
 	async created() {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -182,10 +175,22 @@ export default {
 				);
 			}
 		});
-		allVoicesObtained.then((voices) => (this.languages = voices));
+		allVoicesObtained.then((voices) => {
+			this.voices = voices;
+			this.loadingVoices = false;
+		});
 	},
 
 	methods: {
+		deleteSelectedTrustedSources() {
+			this.checkedRows.forEach((row) => {
+				const index = this.user.directSharers.indexOf(row);
+				this.user.directSharers.splice(index, 1);
+			});
+		},
+		getEmoji(language) {
+			return countryCodeEmoji(language.split("-")[1]);
+		},
 		addRetry(cache, url, retries = 3, backoff = 300) {
 			return cache
 				.add(url)
