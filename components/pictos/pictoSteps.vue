@@ -268,7 +268,7 @@
 const jpegasus = require("jpegasus");
 import axios from "axios";
 import Webpicto from "@/components/pictos/webpicto";
-import { countryCodeEmoji, emojiCountryCode } from "country-code-emoji";
+import { countryCodeEmoji } from "country-code-emoji";
 export default {
 	name: "PictoSteps",
 	components: {

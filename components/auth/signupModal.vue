@@ -35,22 +35,46 @@
 						v-model="passwordConfirmation"
 					></b-input>
 				</b-field>
-				<b-field :label="$t('Language')">
-					<b-select
-						v-model="language"
-						placeholder="Select language"
-						rounded
-						required
-					>
-						<option
-							v-for="language in loadedVoices"
-							:value="language.lang"
-							:key="language.voiceURI"
+				<div class="columns">
+					<b-field class="column" :label="$t('Principal Language')">
+						<b-select
+							v-model="language"
+							placeholder="Select language"
+							required
+							expanded
+							:loading="loadingVoices"
+							size="is-small"
 						>
-							{{ language.lang }}
-						</option>
-					</b-select>
-				</b-field>
+							<option
+								v-for="language in loadedVoices"
+								:value="language.lang"
+								:key="language.voiceURI"
+							>
+								{{ getEmoji(language.lang) }}
+							</option>
+						</b-select>
+					</b-field>
+					<b-field class="column" :label="$t('Languages')">
+						<b-select
+							v-model="languages"
+							placeholder="Select language"
+							required
+							multiple
+							expanded
+							native-size="8"
+							size="is-small"
+							:loading="loadingVoices"
+						>
+							<option
+								v-for="language in loadedVoices"
+								:value="language.lang"
+								:key="language.voiceURI"
+							>
+								{{ getEmoji(language.lang) }}
+							</option>
+						</b-select>
+					</b-field>
+				</div>
 				<br />
 				<div class="field">
 					<b-checkbox v-model="majority" required type="is-success">
@@ -93,10 +117,12 @@
 
 <script>
 import axios from "axios";
+import { countryCodeEmoji } from "country-code-emoji";
+
 export default {
 	computed: {
 		loadedVoices() {
-			return this.languages;
+			return this.voices;
 		},
 	},
 	data() {
@@ -104,10 +130,12 @@ export default {
 			username: "",
 			password: "",
 			language: "",
+			voices: [],
 			languages: [],
 			terms: false,
 			majority: false,
 			passwordConfirmation: "",
+			loadingVoices: true,
 		};
 	},
 	async created() {
@@ -125,9 +153,15 @@ export default {
 				);
 			}
 		});
-		allVoicesObtained.then((voices) => (this.languages = voices));
+		allVoicesObtained.then((voices) => {
+			this.voices = voices;
+			this.loadingVoices = false;
+		});
 	},
 	methods: {
+		getEmoji(language) {
+			return countryCodeEmoji(language.split("-")[1]);
+		},
 		async onSubmit(
 			username,
 			password,
