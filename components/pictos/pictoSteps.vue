@@ -400,7 +400,7 @@ export default {
 						) + ".jpeg",
 						{ type: this.file.type }
 					);
-					const cfile = await jpegasus.compress(myNewFile, {
+					cfile = await jpegasus.compress(myNewFile, {
 						maxHeight: 500,
 						maxWidth: 500,
 						quality: 0.15,
