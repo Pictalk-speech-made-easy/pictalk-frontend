@@ -52,10 +52,13 @@ export default {
 			if (voices.length !== 0) {
 				resolve(voices);
 			} else {
-				window.speechSynthesis.addEventListener("voiceschanged", function () {
-					voices = window.speechSynthesis.getVoices();
-					resolve(voices);
-				});
+				window.speechSynthesis.addEventListener(
+					"voiceschanged",
+					function () {
+						voices = window.speechSynthesis.getVoices();
+						resolve(voices);
+					}
+				);
 			}
 		});
 		allVoicesObtained.then((voices) => (this.languages = voices));
@@ -95,7 +98,10 @@ export default {
 		},
 		async copyPictosToClipboardV2(pictos) {
 			const paths = pictos.map((picto) => picto.path);
-			const text = pictos.reduce(
+			const languagePictos = pictos.filter(
+				(picto) => picto.speech.language == this.getUserLang
+			);
+			const text = languagePictos.reduce(
 				(acc, curr_val) => acc + " " + curr_val.speech,
 				""
 			);
@@ -131,7 +137,10 @@ export default {
 			var pictos = JSON.parse(JSON.stringify(pictos_obs));
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
-				const message = pictos.reduce(
+				const languagePictos = pictos.filter(
+					(picto) => picto.speech.language == this.getUserLang
+				);
+				const message = languagePictos.reduce(
 					(acc, curr_val) => acc + " " + curr_val.speech,
 					""
 				);
@@ -162,9 +171,7 @@ export default {
 				}
 				this.$router.push(
 					"/pictalk/" +
-						this.$route.params.collectionId +
-						"/" +
-						pictoSpeech[pictoSpeech.length - 1].fatherId +
+						pictoSpeech[pictoSpeech.length - 1].fatherCollectionId +
 						adminMode
 				);
 			}
@@ -209,8 +216,7 @@ export default {
 			};
 		},
 		getUserLang() {
-			const user = this.$store.getters.getUser;
-			return user.language;
+			return this.$store.getters.getUser.language;
 		},
 	},
 	components: {

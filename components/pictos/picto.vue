@@ -4,15 +4,7 @@
 			<img
 				class="image"
 				:src="picto.path"
-				@click="
-					addToSpeech(
-						picto.path,
-						picto.speech,
-						picto.fatherId,
-						picto.folder,
-						picto.meaning
-					)
-				"
+				@click="addToSpeech()"
 				width="60%"
 				crossorigin="anonymous"
 			/>
@@ -34,7 +26,7 @@
 						type="is-info"
 						icon-right="pencil"
 						:expanded="true"
-						@click="editPicto(picto)"
+						@click="editPicto()"
 					/>
 				</b-dropdown-item>
 				<b-dropdown-item aria-role="listitem"
@@ -42,7 +34,7 @@
 						:expanded="true"
 						type="is-danger"
 						icon-right="delete"
-						@click="deletePicto(picto)"
+						@click="deletePicto()"
 				/></b-dropdown-item>
 			</b-dropdown>
 
@@ -50,20 +42,19 @@
 				<b-button
 					type="is-success"
 					icon-right="star"
-					@click="alternateStar(picto)"
+					@click="alternateStar()"
 				/>
 			</div>
 			<div class="column noMargin is-mobile" v-else>
 				<b-button
 					type="is-light"
 					icon-right="star"
-					@click="alternateStar(picto)"
+					@click="alternateStar()"
 				/>
 			</div>
 		</div>
 	</div>
 </template>
-
 <script>
 import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
@@ -83,13 +74,8 @@ export default {
 		},
 	},
 	methods: {
-		addToSpeech(path, speech, fatherId, folder, meaning) {
-			this.$store.commit("addSpeech", {
-				path: path,
-				speech: speech,
-				fatherId: fatherId,
-				meaning: meaning,
-			});
+		addToSpeech() {
+			this.$store.commit("addSpeech", this.picto);
 			if (folder == 1) {
 				let adminMode = "";
 				if (this.$route.query.isAdmin) {
@@ -98,12 +84,15 @@ export default {
 				this.$router.push(this.pictoLink + adminMode);
 			}
 		},
-		deletePicto(picto) {
+		deletePicto() {
 			this.$buefy.modal.open({
 				parent: this,
 				props: {
-					object: { ...picto },
-					collectionId: parseInt(this.$route.params.collectionId, 10),
+					object: { ...this.picto },
+					collectionId: parseInt(
+						this.$route.params.fatherCollectionId,
+						10
+					),
 				},
 				component: deleteItem,
 				hasModalCard: true,
@@ -111,10 +100,10 @@ export default {
 				trapFocus: true,
 			});
 		},
-		editPicto(picto) {
+		editPicto() {
 			this.$buefy.modal.open({
 				parent: this,
-				props: { picto: { ...picto } },
+				props: { ...this.picto },
 				component: PictoSteps,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
@@ -122,12 +111,15 @@ export default {
 				canCancel: ["escape", "x"],
 			});
 		},
-		async alternateStar(picto) {
-			const star = picto.starred ? false : true;
+		async alternateStar() {
+			const star = this.picto.starred ? false : true;
 			try {
 				this.$store.commit("editPicto", {
-					editedPicto: { ...picto, starred: star },
-					collectionId: parseInt(this.$route.params.collectionId, 10),
+					editedPicto: { ...this.picto, starred: star },
+					collectionId: parseInt(
+						this.$route.params.fatherCollectionId,
+						10
+					),
 				});
 			} catch (error) {
 				console.log(error);
@@ -145,7 +137,10 @@ export default {
 	computed: {
 		pictoLink() {
 			return String(
-				"/pictalk/" + this.$route.params.collectionId + "/" + this.picto.id
+				"/pictalk/" +
+					this.$route.params.collectionId +
+					"/" +
+					this.picto.id
 			);
 		},
 	},
