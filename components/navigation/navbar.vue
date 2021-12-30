@@ -65,7 +65,7 @@
 						<b-button
 							v-else
 							tag="nuxt-link"
-							to="/pictalk"
+							to="/pictalk/0"
 							type="is-primary"
 							>{{ $t("GoToPictalk") }}</b-button
 						>

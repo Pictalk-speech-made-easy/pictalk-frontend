@@ -169,6 +169,7 @@ export default {
 					username: username,
 					password: password,
 					language: language,
+					languages: [language],
 				});
 				if (res.status == 201) {
 					await this.$store.dispatch("authenticateUser", {

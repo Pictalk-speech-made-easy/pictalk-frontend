@@ -1,6 +1,6 @@
 {
   "name": "Pictalk",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ",
   "author": "Alexandros SIDIRAS GALANTE",
   "private": true,
@@ -15,7 +15,13 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/sitemap": "^2.4.0",
     "axios": "^0.21.1",
+    "babel-eslint": "^10.1.0",
     "core-js": "^3.19.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.2.0",
     "jpegasus": "^1.16.1",
     "js-cookie": "^3.0.1",
     "merge-images-horizontally-with-text": "^1.0.2",
@@ -25,10 +31,12 @@
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-cookie-control": "^1.9.9",
     "nuxt-responsive-loader": "^2.0.1",
+    "prettier": "^2.5.1",
     "responsive-loader": "^2.3.0",
-    "sharp": "^0.29.3",
     "sass-loader": "^10.1.1",
     "secure-ls": "^1.2.6",
-    "vuex-persistedstate": "^4.1.0"
+    "sharp": "^0.29.3",
+    "vuex-persistedstate": "^4.1.0",
+    "country-code-emoji": "^2.3.0"
   }
 }
