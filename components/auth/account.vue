@@ -90,17 +90,17 @@
 			</b-message>
 		</div>
 		<div class="column">
+			{{ user }}
 			<b-field :label="$t('Trusted Sources')">
 				<b-table
 					:checked-rows.sync="checkedRows"
 					checkable
-					:data="user.directSharers"
+					:data="getObjectUserDirectSharers"
 					:columns="columns"
 				>
 				</b-table>
 			</b-field>
 			<b-button
-				label="Delete selected trusted sources"
 				type="is-danger"
 				icon-left="delete"
 				class="field"
@@ -114,6 +114,11 @@ import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
 export default {
 	computed: {
+		getObjectUserDirectSharers() {
+			return this.directSharers.map((val) => {
+				return { username: val };
+			});
+		},
 		requestsPercentage() {
 			if (this.nb_requests == 0 && this.dl_launched == false) {
 				return 0;
@@ -137,11 +142,10 @@ export default {
 	},
 	data() {
 		return {
-			languages: [],
-			language: "",
 			voices: [],
 			nb_requests: 0,
 			checkedRows: [],
+			directSharers: [],
 			loadingVoices: true,
 			done_requests: 0,
 			dl_launched: false,
@@ -179,13 +183,13 @@ export default {
 			this.voices = voices;
 			this.loadingVoices = false;
 		});
+		this.directSharers = [...this.user.directSharers];
 	},
-
 	methods: {
 		deleteSelectedTrustedSources() {
 			this.checkedRows.forEach((row) => {
-				const index = this.user.directSharers.indexOf(row);
-				this.user.directSharers.splice(index, 1);
+				const index = this.directSharers.indexOf(row);
+				this.directSharers.splice(index, 1);
 			});
 		},
 		getEmoji(language) {
@@ -299,13 +303,15 @@ export default {
 				});
 			}
 		},
-		async onSave(username, password, language) {
+		async onSave() {
 			try {
 				const res = await this.$store.dispatch("editUser", {
-					username: username,
-					password: password,
-					password: password,
-					language: language,
+					username: this.user.username,
+					password: this.user.password,
+					password: this.user.password,
+					language: this.user.language,
+					languages: this.user.languages,
+					directSharers: this.directSharers,
 				});
 			} catch (error) {
 				console.log("error: ", error);
