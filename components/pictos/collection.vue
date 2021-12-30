@@ -8,32 +8,47 @@
 				crossorigin="anonymous"
 			/>
 		</nuxt-link>
-		<div class="notification is-size-6 name">{{ collection.name }}</div>
+		<div class="notification name">{{ collection.name }}</div>
 
-		<div v-if="adminMode" class="adminMenu">
-			<div>
+		<div v-if="adminMode" class="adminMenu adminoption columns">
+			<b-dropdown aria-role="menu" class="column noMargin is-mobile">
+				<template #trigger="{ active }">
+					<b-button
+						type="is-primary"
+						:icon-right="active ? 'menu-up' : 'menu-down'"
+					/>
+				</template>
+
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						type="is-info"
+						icon-right="pencil"
+						:expanded="true"
+						@click="editCollection(collection)"
+					/>
+				</b-dropdown-item>
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						:expanded="true"
+						type="is-danger"
+						icon-right="delete"
+						@click="removeCollection(collection)"
+				/></b-dropdown-item>
+			</b-dropdown>
+
+			<div class="column noMargin is-mobile" v-if="collection.starred">
 				<b-button
-					type="is-danger"
-					icon-right="delete"
-					@click="removeCollection(collection)"
+					type="is-success"
+					icon-right="star"
+					@click="alternateStar(collection)"
 				/>
-				<b-button type="is-info" @click="editCollection(collection)"
-					>Edit</b-button
-				>
-				<div v-if="collection.starred">
-					<b-button
-						type="is-warning"
-						icon-right="star"
-						@click="alternateStar(collection)"
-					/>
-				</div>
-				<div v-else>
-					<b-button
-						type="is-light"
-						icon-right="star"
-						@click="alternateStar(collection)"
-					/>
-				</div>
+			</div>
+			<div class="column noMargin is-mobile" v-else>
+				<b-button
+					type="is-light"
+					icon-right="star"
+					@click="alternateStar(collection)"
+				/>
 			</div>
 		</div>
 	</div>
@@ -120,17 +135,34 @@ export default {
 	align-items: center;
 	justify-content: center;
 }
+
+.adminoption {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
 .image {
 	margin: auto;
 }
 .adminMenu {
-	align-self: flex-end;
-	margin: 0 auto;
+	align-self: center;
 	margin-top: auto;
+	margin-left: 0%;
+	margin-right: 0%;
 }
 .name {
 	margin: 0 auto;
 	margin-top: auto;
 	font-size: 1rem;
+}
+.notification {
+	padding: 0.6rem;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
+}
+
+.noMargin {
+	padding: 0%;
 }
 </style>

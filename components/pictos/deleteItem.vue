@@ -36,11 +36,9 @@
 			<b-button class="button" type="button" @click="$parent.close()">{{
 				$t("Close")
 			}}</b-button>
-			<b-button
-				class="button is-primary"
-				@click="onSubmitted(meaningOrName)"
-				>{{ $t("Delete") }}</b-button
-			>
+			<b-button class="button is-primary" @click="onSubmitted(meaningOrName)">{{
+				$t("Delete")
+			}}</b-button>
 		</footer>
 	</div>
 </template>
@@ -88,13 +86,10 @@ export default {
 						);
 					} else {
 						if (typeOfObject == "Picto" && this.collectionId) {
-							const res = await this.$store.dispatch(
-								"removePicto",
-								{
-									picto: this.object,
-									collectionId: this.collectionId,
-								}
-							);
+							const res = await this.$store.dispatch("removePicto", {
+								picto: this.object,
+								collectionId: this.collectionId,
+							});
 						} else {
 							this.$buefy.notification.open({
 								message: this.$t("SomeThingBadHappened"),

@@ -31,6 +31,7 @@ export default {
 .wrapper {
 	overflow-x: hidden;
 	position: relative;
+	height: 100%;
 }
 </style>
 

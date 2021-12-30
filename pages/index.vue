@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container">
-				<b-image alt="A little boy talking thanks to Pictalk" 
+				<b-image alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
 				:lazy="false"
 				></b-image>
@@ -12,7 +12,7 @@
 			<div class="column">
 				<div class="box">
 					<a href="https://youtu.be/vv2ktwpAijI">
-					<b-image lazy alt="Yotube video link for the installation process." 
+					<b-image lazy alt="Yotube video link for the installation process."
 				:srcset="require('@/assets/Install.png').srcSet"
 				></b-image>
 					</a>
@@ -21,7 +21,7 @@
 			<div class="column">
 				<div class="box">
 					<a href="https://youtu.be/I0PBvxS7rSE">
-					<b-image lazy alt="Youtube video link for the pictalk tutorial. Tutorial is accessible through Get Started page" 
+					<b-image lazy alt="Youtube video link for the pictalk tutorial. Tutorial is accessible through Get Started page"
 				:srcset="require('@/assets/Pictalktutorial.png').srcSet"
 				></b-image></a>
 				</div>
@@ -29,7 +29,7 @@
 			<div class="column">
 				<div class="box">
 					<a href="https://youtu.be/pKQJUBcRrQg">
-					<b-image lazy alt="Youtube video link for the how to fill your pictalk tutorial." 
+					<b-image lazy alt="Youtube video link for the how to fill your pictalk tutorial."
 				:srcset="require('@/assets/fillpictalk.png').srcSet"
 				></b-image></a>
 				</div>
@@ -55,20 +55,20 @@
 						<br>
 						<br>
 						<b-image
-      					lazy
-      					:srcset="require('@/assets/startingpack.png').srcSet"
-      					alt="Logo du Play store"
+								lazy
+								:srcset="require('@/assets/startingpack.png').srcSet"
+								alt="Logo du Play store"
 						style="width: 80%;"
 					></b-image>
 					<br>
 					{{ $t('HowItWorks1')}}
 					<br>
 					<b-image
-      					lazy
-      					:srcset="require('@/assets/pictobar.png').srcSet"
-      					alt="Logo du Play store"
+								lazy
+								:srcset="require('@/assets/pictobar.png').srcSet"
+								alt="Logo du Play store"
 						style="width: 80%;"
-    				></b-image>
+						></b-image>
 					<br>
 					{{ $t('HowItWorks2')}}
 
@@ -81,7 +81,7 @@
 				<div class="container">
 					<h1 class="title">{{ $t('Communicate')}}</h1>
 					<p class="is-size-5 notification">
-						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking" 
+						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
 				></b-image>
 				<br>
@@ -89,7 +89,7 @@
 					</p>
 					<br>
 					<p class="is-size-5 notification">
-						<b-image lazy alt="Sample image of a copied sentence" 
+						<b-image lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/Messaging.png').srcSet"
 				></b-image>
 				<br>
@@ -134,11 +134,11 @@
 		<div class="container">
 			<a href="https://play.google.com/store/apps/details?id=xyz.pictalk.www.twa">
 				<b-image
-      					lazy
-      					:srcset="require('@/assets/Pictalkplaystore.png').srcSet"
-      					alt="Logo du Play store"
+								lazy
+								:srcset="require('@/assets/Pictalkplaystore.png').srcSet"
+								alt="Logo du Play store"
 						style="width: 80%;"
-    		></b-image>
+				></b-image>
 			</a>
 		</div>
 	</div>

@@ -50,9 +50,12 @@
 							type="is-primary"
 							>{{ $t("LogIn") }}</b-button
 						>
-						<b-button v-else type="is-light" @click="onLogout">{{
-							$t("LogOut")
-						}}</b-button>
+						<b-button
+							v-else
+							type="is-light"
+							icon-right="logout"
+							@click="onLogout"
+						/>
 						<b-button
 							v-if="!isLogged"
 							@click="openSignUpModal()"

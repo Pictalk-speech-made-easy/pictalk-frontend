@@ -20,8 +20,8 @@
 		<div class="notification meaning">
 			{{ picto.meaning }}
 		</div>
-		<div v-if="adminMode" class="adminMenu">
-			<b-dropdown aria-role="list">
+		<div v-if="adminMode" class="adminMenu adminoption columns">
+			<b-dropdown aria-role="menu" class="column noMargin is-mobile">
 				<template #trigger="{ active }">
 					<b-button
 						type="is-primary"
@@ -31,34 +31,35 @@
 
 				<b-dropdown-item aria-role="listitem"
 					><b-button
+						type="is-info"
+						icon-right="pencil"
+						:expanded="true"
+						@click="editPicto(picto)"
+					/>
+				</b-dropdown-item>
+				<b-dropdown-item aria-role="listitem"
+					><b-button
+						:expanded="true"
 						type="is-danger"
 						icon-right="delete"
 						@click="deletePicto(picto)"
 				/></b-dropdown-item>
-				<b-dropdown-item aria-role="listitem"
-					><b-button
-						type="is-info"
-						icon-right="pencil"
-						@click="editPicto(picto)"
-					></b-button
-				></b-dropdown-item>
-				<b-dropdown-item aria-role="listitem"
-					><div v-if="picto.starred">
-						<b-button
-							type="is-warning"
-							icon-right="star"
-							@click="alternateStar(picto)"
-						/>
-					</div>
-					<div v-else>
-						<b-button
-							type="is-light"
-							icon-right="star"
-							@click="alternateStar(picto)"
-						/></div
-				></b-dropdown-item>
 			</b-dropdown>
-			<div></div>
+
+			<div class="column noMargin is-mobile" v-if="picto.starred">
+				<b-button
+					type="is-success"
+					icon-right="star"
+					@click="alternateStar(picto)"
+				/>
+			</div>
+			<div class="column noMargin is-mobile" v-else>
+				<b-button
+					type="is-light"
+					icon-right="star"
+					@click="alternateStar(picto)"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -144,10 +145,7 @@ export default {
 	computed: {
 		pictoLink() {
 			return String(
-				"/pictalk/" +
-					this.$route.params.collectionId +
-					"/" +
-					this.picto.id
+				"/pictalk/" + this.$route.params.collectionId + "/" + this.picto.id
 			);
 		},
 	},
@@ -166,13 +164,25 @@ export default {
 	align-items: center;
 	justify-content: center;
 }
+
+.adminoption {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
 .image {
 	margin: auto;
 }
 .adminMenu {
-	align-self: flex-end;
-	margin: 0 auto;
+	align-self: center;
 	margin-top: auto;
+	margin-left: 0%;
+	margin-right: 0%;
+}
+.noMargin {
+	padding: 0%;
 }
 .meaning {
 	margin: 0 auto;

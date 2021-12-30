@@ -1,21 +1,23 @@
 <template>
-	<div class="notification columns is-mobile" :style="cssVars">
-		<div class="column is-narrow">
+	<div class="notification columns is-mobile nopadding" :style="cssVars">
+		<div class="column is-narrow nopadding">
 			<b-button
+				inverted
 				type="is-danger"
 				icon-right="delete"
 				@click="eraseSpeech()"
 			/>
 		</div>
-		<div class="column is-narrow">
+		<div class="column is-narrow nopadding">
 			<b-button
+				inverted
 				type="is-danger"
 				icon-right="backspace"
 				@click="removeSpeech()"
 			/>
 		</div>
-		<div class="column" style="padding: 0">
-			<div class="content">
+		<div class="column" style="padding: 0%">
+			<div class="scrolling">
 				<miniPicto
 					class
 					v-for="picto in pictos"
@@ -24,14 +26,14 @@
 				/>
 			</div>
 		</div>
-		<div class="column is-narrow">
+		<div class="column is-narrow nopadding">
 			<b-button
 				type="is-success"
 				icon-right="message"
 				@click="pictalk(pictos)"
 			/>
 		</div>
-		<div class="column is-narrow">
+		<div class="column is-narrow nopadding">
 			<b-button
 				type="is-info"
 				icon-right="content-copy"
@@ -50,13 +52,10 @@ export default {
 			if (voices.length !== 0) {
 				resolve(voices);
 			} else {
-				window.speechSynthesis.addEventListener(
-					"voiceschanged",
-					function () {
-						voices = window.speechSynthesis.getVoices();
-						resolve(voices);
-					}
-				);
+				window.speechSynthesis.addEventListener("voiceschanged", function () {
+					voices = window.speechSynthesis.getVoices();
+					resolve(voices);
+				});
 			}
 		});
 		allVoicesObtained.then((voices) => (this.languages = voices));
@@ -244,10 +243,16 @@ export default {
 .notification {
 	background-color: var(--bg-color);
 	position: relative;
-	overflow: auto;
+	align-items: center;
 	padding: 0.25rem;
 }
 .nopadding {
-	padding: 0.25rem;
+	padding: 1%;
+}
+.scrolling {
+	display: flex;
+	flex-direction: row;
+	scroll-snap-type: y proximity;
+	overflow-x: auto;
 }
 </style>
