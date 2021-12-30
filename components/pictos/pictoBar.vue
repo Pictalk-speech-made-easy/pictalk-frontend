@@ -65,8 +65,13 @@ export default {
 	},
 	methods: {
 		async copyPictosToClipboardLegacy(pictos) {
-			const message = pictos.reduce(
-				(acc, curr_val) => acc + " " + curr_val.speech,
+			const languagePictos = pictos.map((picto) =>
+				picto.speech.filter(
+					(speech) => speech.language == this.getUserLang
+				)
+			);
+			const message = languagePictos.reduce(
+				(acc, curr_val) => acc + " " + curr_val.speech[0].text,
 				""
 			);
 			try {
@@ -98,11 +103,14 @@ export default {
 		},
 		async copyPictosToClipboardV2(pictos) {
 			const paths = pictos.map((picto) => picto.path);
-			const languagePictos = pictos.filter(
-				(picto) => picto.speech.language == this.getUserLang
+			//TODO CHECK VALID
+			const languagePictos = pictos.map((picto) =>
+				picto.speech.filter(
+					(speech) => speech.language == this.getUserLang
+				)
 			);
 			const text = languagePictos.reduce(
-				(acc, curr_val) => acc + " " + curr_val.speech,
+				(acc, curr_val) => acc + " " + curr_val.speech[0].text,
 				""
 			);
 			const b64 = await mergeImages(paths, {
@@ -137,11 +145,13 @@ export default {
 			var pictos = JSON.parse(JSON.stringify(pictos_obs));
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
-				const languagePictos = pictos.filter(
-					(picto) => picto.speech.language == this.getUserLang
+				const languagePictos = pictos.map((picto) =>
+					picto.speech.filter(
+						(speech) => speech.language == this.getUserLang
+					)
 				);
 				const message = languagePictos.reduce(
-					(acc, curr_val) => acc + " " + curr_val.speech,
+					(acc, curr_val) => acc + " " + curr_val.speech[0].text,
 					""
 				);
 				msg.text = message;
