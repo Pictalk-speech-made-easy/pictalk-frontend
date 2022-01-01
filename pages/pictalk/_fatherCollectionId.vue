@@ -97,25 +97,18 @@ export default {
 					this.$router.push(this.$route.path + "/" + res.data.id);
 				} else {
 					var res = await axios.get(
-						"/pictalk/collection/" +
-							this.$route.params.fatherCollectionId
+						"/collection/find/" + this.$route.params.fatherCollectionId
 					);
 				}
 
 				res.data.pictos.map((picto) => {
 					if (picto.path) {
-						picto.path =
-							this.$config.baseURL +
-							"/pictalk/image/" +
-							picto.path;
+						picto.path = this.$config.baseURL + "/pictalk/image/" + picto.path;
 					}
 				});
 				res.data.collections.map((picto) => {
 					if (picto.path) {
-						picto.path =
-							this.$config.baseURL +
-							"/pictalk/image/" +
-							picto.path;
+						picto.path = this.$config.baseURL + "/pictalk/image/" + picto.path;
 					}
 				});
 				await this.$store.commit("addCollection", {

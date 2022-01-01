@@ -7,7 +7,7 @@ export const state = () => ({
 	pictoSpeech: [],
 	user: {}
 });
-const URL = "";
+const URL = "http://localhost:3001";
 
 export const mutations = {
 	resetStore(state) {
@@ -87,33 +87,43 @@ export const actions = {
 		vuexContext.commit("addCollection", collection);
 	},
 	// NEEDS CHANGES
-	async addPicto(vuexContext,
-		picto,
-	) {
+	async addPicto(vuexContext,picto,) {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(picto.speech));
 		formData.append("meaning", JSON.stringify(picto.meaning));
-		formData.append("color", picto.color);
+
+    if(picto.color!=0){
+      formData.append("color", picto.color);
+    }
 		formData.append("share", picto.share);
 		formData.append("fatherCollectionId", picto.fatherCollectionId);
 		//formData.append("collectionIds", picto.collectionIds);
 		formData.append("image", picto.image);
+    console.log(JSON.stringify(picto.speech));
+    console.log(JSON.stringify(picto.meaning));
+    console.log(picto.color);
+    console.log(picto.share);
+    console.log(picto.fatherCollectionId);
+
 		const newPicto = (await axios
 			.post(URL + "/picto/", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
 			})).data;
+      console.log(newPicto);
 		vuexContext.commit("addPicto", {
 			speech: picto.speech,
 			meaning: picto.meaning,
-			language: picto.language,
 			color: picto.color,
-			collections: newPicto.collections,
 			userId: newPicto.userId,
-			path: axios.defaults.baseURL + "/image/" + newPicto.path,
+			path: axios.defaults.baseURL + "/image/pictalk/" + newPicto.image,
 			fatherCollectionId: picto.fatherCollectionId,
-			id: newPicto.id
+			id: newPicto.id?
+      starred: newPicto.starred,
+      editors: newPicto.editors,
+      viewers: newPicto.viewers,
+      public: newPicto.public
 		});
 	},
 	// NEEDS CHANGES
