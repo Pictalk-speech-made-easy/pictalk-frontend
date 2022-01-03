@@ -90,7 +90,7 @@
 			</b-message>
 		</div>
 		<div class="column">
-			<b-field :label="$t('Trusted Sources')">
+			<b-field :label="$t('TrustedSources')">
 				<b-table
 					:checked-rows.sync="checkedRows"
 					checkable
@@ -105,6 +105,31 @@
 				class="field"
 				@click="deleteSelectedTrustedSources()"
 			/>
+			<b-button
+				type="is-success"
+				:icon-left="showDirectSharerInputText ? 'menu-up' : 'plus'"
+				class="field"
+				@click="showDirectSharerInput()"
+			/>
+
+			<b-field
+				v-if="showDirectSharerInputText"
+				:label="$t('AddTrustedSource')"
+			>
+				<b-input
+					v-model="addDirectSharer"
+					placeholder="alex@pictalk.xyz"
+					type="email"
+					maxlength="30"
+				></b-input>
+				<p class="control">
+					<b-button
+						type="is-success"
+						icon-right="plus"
+						@click="directSharers.push(addDirectSharer)"
+					/>
+				</p>
+			</b-field>
 		</div>
 	</div>
 </template>
@@ -141,6 +166,8 @@ export default {
 	},
 	data() {
 		return {
+			showDirectSharerInputText: false,
+			addDirectSharer: "",
 			voices: [],
 			nb_requests: 0,
 			checkedRows: [],
@@ -185,6 +212,9 @@ export default {
 		this.directSharers = [...this.user.directSharers];
 	},
 	methods: {
+		showDirectSharerInput() {
+			this.showDirectSharerInputText = !this.showDirectSharerInputText;
+		},
 		deleteSelectedTrustedSources() {
 			this.checkedRows.forEach((row) => {
 				const index = this.directSharers.indexOf(row);
