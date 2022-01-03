@@ -64,12 +64,15 @@ export default {
 		allVoicesObtained.then((voices) => (this.languages = voices));
 	},
 	methods: {
-		async copyPictosToClipboardLegacy(pictos) {
-			const message = pictos.reduce(
+		getText(pictos) {
+			return pictos.reduce(
 				(acc, curr_val) =>
-					acc + " " + JSON.parse(curr_val.speech)[this.getUserLang],
+					acc + " " + curr_val.speech[this.getUserLang],
 				""
 			);
+		},
+		async copyPictosToClipboardLegacy(pictos) {
+			const message = this.getText(pictos);
 			try {
 				await this.$copyText(message);
 				const notif = this.$buefy.notification.open({
@@ -99,11 +102,7 @@ export default {
 		},
 		async copyPictosToClipboardV2(pictos) {
 			const paths = pictos.map((picto) => picto.image);
-			const text = pictos.reduce(
-				(acc, curr_val) =>
-					acc + " " + JSON.parse(curr_val.speech)[this.getUserLang],
-				""
-			);
+			const text = this.getText(pictos);
 			const b64 = await mergeImages(paths, {
 				crossOrigin: "Anonymous",
 				text: text,
@@ -132,17 +131,10 @@ export default {
 				});
 			}
 		},
-		async pictalk(pictos_obs) {
-			var pictos = JSON.parse(JSON.stringify(pictos_obs));
+		async pictalk(pictos) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
-				const message = pictos.reduce(
-					(acc, curr_val) =>
-						acc +
-						" " +
-						JSON.parse(curr_val.speech)[this.getUserLang],
-					""
-				);
+				const message = this.getText(pictos);
 				msg.text = message;
 				let voice = this.languages.filter(
 					(voice) => voice.lang == this.getUserLang
