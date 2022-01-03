@@ -1,16 +1,20 @@
 <template>
-	<div :class="[!picto.folder ? 'containing' : 'containing has-background']">
+	<div
+		:class="[
+			!picto.collection ? 'containing' : 'containing has-background',
+		]"
+	>
 		<div>
 			<img
 				class="image"
-				:src="picto.path"
+				:src="picto.image"
 				@click="addToSpeech()"
 				width="60%"
 				crossorigin="anonymous"
 			/>
 		</div>
 		<div class="notification meaning">
-			{{ picto.meaning }}
+			{{ JSON.parse(picto.meaning)[$store.getters.getUser.language] }}
 		</div>
 		<div v-if="adminMode" class="adminMenu adminoption columns">
 			<b-dropdown aria-role="menu" class="column noMargin is-mobile">
@@ -76,7 +80,7 @@ export default {
 	methods: {
 		addToSpeech() {
 			this.$store.commit("addSpeech", this.picto);
-			if (folder == 1) {
+			if (this.picto.collection == true) {
 				let adminMode = "";
 				if (this.$route.query.isAdmin) {
 					adminMode = "?isAdmin=true";
@@ -136,12 +140,7 @@ export default {
 	},
 	computed: {
 		pictoLink() {
-			return String(
-				"/pictalk/" +
-					this.$route.params.collectionId +
-					"/" +
-					this.picto.id
-			);
+			return String("/pictalk/" + this.picto.id);
 		},
 	},
 };

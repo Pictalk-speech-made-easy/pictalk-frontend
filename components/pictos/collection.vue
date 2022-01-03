@@ -2,7 +2,7 @@
 	<div class="containing">
 		<nuxt-link :to="collectionLink">
 			<img
-				:src="collection.path"
+				:src="collection.image"
 				class="image"
 				width="60%"
 				crossorigin="anonymous"

@@ -22,7 +22,7 @@
 					class
 					v-for="picto in pictos"
 					:key="picto.meaning"
-					:path="picto.path"
+					:image="picto.image"
 				/>
 			</div>
 		</div>
@@ -65,13 +65,9 @@ export default {
 	},
 	methods: {
 		async copyPictosToClipboardLegacy(pictos) {
-			const languagePictos = pictos.map((picto) =>
-				picto.speech.filter(
-					(speech) => speech.language == this.getUserLang
-				)
-			);
-			const message = languagePictos.reduce(
-				(acc, curr_val) => acc + " " + curr_val.speech[0].text,
+			const message = pictos.reduce(
+				(acc, curr_val) =>
+					acc + " " + JSON.parse(curr_val.speech)[this.getUserLang],
 				""
 			);
 			try {
@@ -102,15 +98,10 @@ export default {
 			}
 		},
 		async copyPictosToClipboardV2(pictos) {
-			const paths = pictos.map((picto) => picto.path);
-			//TODO CHECK VALID
-			const languagePictos = pictos.map((picto) =>
-				picto.speech.filter(
-					(speech) => speech.language == this.getUserLang
-				)
-			);
-			const text = languagePictos.reduce(
-				(acc, curr_val) => acc + " " + curr_val.speech[0].text,
+			const paths = pictos.map((picto) => picto.image);
+			const text = pictos.reduce(
+				(acc, curr_val) =>
+					acc + " " + JSON.parse(curr_val.speech)[this.getUserLang],
 				""
 			);
 			const b64 = await mergeImages(paths, {
@@ -145,13 +136,11 @@ export default {
 			var pictos = JSON.parse(JSON.stringify(pictos_obs));
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
-				const languagePictos = pictos.map((picto) =>
-					picto.speech.filter(
-						(speech) => speech.language == this.getUserLang
-					)
-				);
-				const message = languagePictos.reduce(
-					(acc, curr_val) => acc + " " + curr_val.speech[0].text,
+				const message = pictos.reduce(
+					(acc, curr_val) =>
+						acc +
+						" " +
+						JSON.parse(curr_val.speech)[this.getUserLang],
 					""
 				);
 				msg.text = message;
@@ -179,21 +168,36 @@ export default {
 				if (this.$route.query.isAdmin) {
 					adminMode = "?isAdmin=true";
 				}
-				this.$router.push(
-					"/pictalk/" +
-						pictoSpeech[pictoSpeech.length - 1].fatherCollectionId +
-						adminMode
-				);
+				if (pictoSpeech.length <= 1) {
+					if (this.$store.getters.getRootId) {
+						this.$router.push(
+							"/pictalk/" +
+								this.$store.getters.getRootId +
+								adminMode
+						);
+					} else {
+						this.$router.push("/pictalk" + adminMode);
+					}
+				} else {
+					this.$router.push(
+						"/pictalk/" +
+							pictoSpeech[pictoSpeech.length - 2].id +
+							adminMode
+					);
+				}
 			}
 			this.$store.commit("removeSpeech");
 		},
 		eraseSpeech() {
 			this.$store.commit("eraseSpeech");
-			let adminMode = "";
-			if (this.$route.query.isAdmin) {
-				adminMode = "?isAdmin=true";
+			const adminMode = this.$route.query.isAdmin ? "?isAdmin=true" : "";
+			if (this.$store.getters.getRootId) {
+				this.$router.push(
+					"/pictalk/" + this.$store.getters.getRootId + adminMode
+				);
+			} else {
+				this.$router.push("/pictalk" + adminMode);
 			}
-			this.$router.push("/pictalk" + adminMode);
 		},
 		async askWritePermission() {
 			try {

@@ -135,7 +135,13 @@ export default {
 			if (this.$route.query.isAdmin) {
 				adminMode = "?isAdmin=true";
 			}
-			this.$router.push("/pictalk" + adminMode);
+			if (this.$store.getters.getRootId) {
+				this.$router.push(
+					"/pictalk/" + this.$store.getters.getRootId + adminMode
+				);
+			} else {
+				this.$router.push("/pictalk" + adminMode);
+			}
 		},
 		toAdmin() {
 			const a = Math.floor(Math.random() * 10 + 1);

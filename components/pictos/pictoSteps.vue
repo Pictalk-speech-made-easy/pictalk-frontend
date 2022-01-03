@@ -42,7 +42,9 @@
 								:placeholder="$t('SearchNotice')"
 								expanded
 								:autofocus="true"
-								@keyup.native.enter="pictoExtractImg(pictoSearch)"
+								@keyup.native.enter="
+									pictoExtractImg(pictoSearch)
+								"
 							></b-input>
 							<b-button
 								type="is-success"
@@ -94,9 +96,17 @@
 											expanded
 											required
 										>
-											<a class="button is-primary is-fullwidth">
+											<a
+												class="
+													button
+													is-primary is-fullwidth
+												"
+											>
 												<b-icon icon="upload"></b-icon>
-												<span>{{ file.name || $t("ClickToUpload") }}</span>
+												<span>{{
+													file.name ||
+													$t("ClickToUpload")
+												}}</span>
 											</a>
 										</b-upload>
 									</b-field>
@@ -109,9 +119,17 @@
 											expanded
 										>
 											<section class="section">
-												<div class="content has-text-centered">
+												<div
+													class="
+														content
+														has-text-centered
+													"
+												>
 													<p>
-														<b-icon icon="upload" size="is-large"></b-icon>
+														<b-icon
+															icon="upload"
+															size="is-large"
+														></b-icon>
 													</p>
 													<p>
 														{{ $t("DropFiles") }}
@@ -142,7 +160,9 @@
 								v-if="getAllUserLanguages.length > 1"
 							>
 								<template #trigger="{ active }">
-									<b-button>{{ getEmoji(languageSelectorSpeech) }}</b-button>
+									<b-button>{{
+										getEmoji(languageSelectorSpeech)
+									}}</b-button>
 								</template>
 
 								<b-dropdown-item
@@ -164,7 +184,11 @@
 							<b-button
 								type="is-success"
 								icon-right="message"
-								@click="pronounce(picto.speech[languageSelectorSpeech])"
+								@click="
+									pronounce(
+										picto.speech[languageSelectorSpeech]
+									)
+								"
 							></b-button>
 						</b-field>
 						<b-field :label="$t('Meaning')">
@@ -183,7 +207,6 @@
 								required
 							></b-input>
 						</b-field>
-						{{ picto }}
 					</b-step-item>
 				</b-steps>
 			</section>
@@ -201,7 +224,13 @@
 						</div>
 						<div class="column is-half">
 							<b-button
-								:disabled="!(picto.speech && picto.meaning && file.name)"
+								:disabled="
+									!(
+										picto.speech &&
+										picto.meaning &&
+										file.name
+									)
+								"
 								class="is-success"
 								:icon-right="iconPictoOrEdit"
 								@click="onSubmitted(false)"
@@ -209,7 +238,13 @@
 							</b-button>
 							<b-button
 								class="is-success"
-								:disabled="!(picto.speech && picto.meaning && file.name)"
+								:disabled="
+									!(
+										picto.speech &&
+										picto.meaning &&
+										file.name
+									)
+								"
 								:icon-right="iconCollectionOrEdit"
 								@click="onSubmitted(true)"
 							>
@@ -246,13 +281,18 @@ export default {
 			default: () => ({
 				speech: new Object(),
 				meaning: new Object(),
-				color: 0,
+				color: "#fe5656",
 			}),
 		},
 		create: {
 			type: Boolean,
 			required: false,
 			default: () => false,
+		},
+		isPicto: {
+			type: Boolean,
+			required: false,
+			default: () => true,
 		},
 	},
 	computed: {
@@ -355,7 +395,10 @@ export default {
 
 					const myNewFile = new File(
 						[this.file],
-						this.file.name.substr(0, this.file.name.lastIndexOf(".")) + ".jpeg",
+						this.file.name.substr(
+							0,
+							this.file.name.lastIndexOf(".")
+						) + ".jpeg",
 						{ type: this.file.type }
 					);
 					cfile = await jpegasus.compress(myNewFile, {
@@ -370,6 +413,7 @@ export default {
 					await this.$store.dispatch(
 						isCollection ? "addCollection" : "addPicto",
 						{
+							collection: isCollection,
 							speech: speech,
 							meaning: meaning,
 							color: this.picto.color,
@@ -397,9 +441,15 @@ export default {
 								meaning: meaning,
 								folder: folder,
 								image: file.name ? cfile : undefined,
-								fatherId: parseInt(this.$route.params.fatherId, 10),
+								fatherId: parseInt(
+									this.$route.params.fatherId,
+									10
+								),
 							},
-							collectionId: parseInt(this.$route.params.collectionId, 10),
+							collectionId: parseInt(
+								this.$route.params.collectionId,
+								10
+							),
 						}
 					);
 					this.$buefy.notification.open({

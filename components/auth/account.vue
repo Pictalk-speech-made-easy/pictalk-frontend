@@ -238,7 +238,7 @@ export default {
 								if (picto.path) {
 									picto.path =
 										axios.defaults.baseURL +
-										"/pictalk/image/" +
+										"/image/" +
 										picto.path;
 								}
 								setTimeout(() => {

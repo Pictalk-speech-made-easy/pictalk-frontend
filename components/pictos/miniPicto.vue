@@ -1,6 +1,6 @@
 <template>
 	<div class="containing">
-		<img class="image" style :src="path" crossorigin="anonymous" />
+		<img class="image" style :src="image" crossorigin="anonymous" />
 	</div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
 	name: "miniPicto",
 	props: {
-		path: {
+		image: {
 			type: String,
 			required: true,
 		},

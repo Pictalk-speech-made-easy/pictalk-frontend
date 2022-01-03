@@ -5,7 +5,8 @@ export const state = () => ({
 	collections: [],
 	token: null,
 	pictoSpeech: [],
-	user: {}
+	user: {},
+	rootId: null
 });
 const URL = "http://localhost:3001";
 
@@ -70,60 +71,53 @@ export const mutations = {
 	editUser(state, user) {
 		state.user = user;
 	},
+	setRootId(state, rootId) {
+		state.rootId = rootId;
+	}
 
 };
 export const actions = {
 	resetCollections(vuexContext) {
 		vuexContext.commit("resetCollections");
 	},
-	addCollection(vuexContext, {
-		pictos,
-		fatherCollectionId,
-	}) {
-		const collection = {
-			fatherCollectionId: fatherCollectionId,
-			pictos: pictos
+	addCollection(vuexContext, collection) {
+		const newCollection = {
+			fatherCollectionId: collection.fatherCollectionId,
+			pictos: []
 		};
-		vuexContext.commit("addCollection", collection);
+		vuexContext.commit("addCollection", newCollection);
 	},
 	// NEEDS CHANGES
-	async addPicto(vuexContext,picto,) {
+	async addPicto(vuexContext, picto,) {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(picto.speech));
 		formData.append("meaning", JSON.stringify(picto.meaning));
 
-    if(picto.color!=0){
-      formData.append("color", picto.color);
-    }
+		if (picto.color != 0) {
+			formData.append("color", picto.color);
+		}
 		formData.append("share", picto.share);
 		formData.append("fatherCollectionId", picto.fatherCollectionId);
 		//formData.append("collectionIds", picto.collectionIds);
 		formData.append("image", picto.image);
-    console.log(JSON.stringify(picto.speech));
-    console.log(JSON.stringify(picto.meaning));
-    console.log(picto.color);
-    console.log(picto.share);
-    console.log(picto.fatherCollectionId);
-
 		const newPicto = (await axios
 			.post(URL + "/picto/", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
 			})).data;
-      console.log(newPicto);
 		vuexContext.commit("addPicto", {
 			speech: picto.speech,
 			meaning: picto.meaning,
 			color: picto.color,
 			userId: newPicto.userId,
-			path: axios.defaults.baseURL + "/image/pictalk/" + newPicto.image,
+			image: axios.defaults.baseURL + "/image/pictalk/" + newPicto.image,
 			fatherCollectionId: picto.fatherCollectionId,
-			id: newPicto.id?
-      starred: newPicto.starred,
-      editors: newPicto.editors,
-      viewers: newPicto.viewers,
-      public: newPicto.public
+			id: newPicto.id,
+			starred: newPicto.starred,
+			editors: newPicto.editors,
+			viewers: newPicto.viewers,
+			public: newPicto.public
 		});
 	},
 	// NEEDS CHANGES
@@ -154,7 +148,7 @@ export const actions = {
 			collections: editedPicto.collections,
 			userId: editedPicto.userId,
 			shared: editedPicto.shared,
-			path: axios.defaults.baseURL + "/image/" + editedPicto.path,
+			image: axios.defaults.baseURL + "/image/" + editedPicto.image,
 			fatherCollectionId: editedPicto.fatherCollectionId,
 			id: picto.id
 		});
@@ -172,8 +166,8 @@ export const actions = {
 		formData.append("language", JSON.stringify(collection.language));
 		formData.append("color", collection.color);
 		formData.append("fatherCollectionId", collection.fatherCollectionId);
-		formData.append("collectionIds", collection.collectionIds);
-		formData.append("pictoIds", collection.pictoIds);
+		//formData.append("collectionIds", collection.collectionIds);
+		//formData.append("pictoIds", collection.pictoIds);
 		formData.append("share", collection.share);
 		formData.append("image", collection.image);
 		const newCollection = (await axios
@@ -189,11 +183,23 @@ export const actions = {
 			color: collection.color,
 			collections: newCollection.collections,
 			userId: newCollection.userId,
-			path: axios.defaults.baseURL + "/image/" + newCollection.path,
+			image: axios.defaults.baseURL + "/image/" + newCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
 			pictos: newCollection.pictos,
 			id: newCollection.id
 		});
+		vuexContext.commit("addPicto", {
+			speech: collection.speech,
+			meaning: collection.meaning,
+			language: collection.language,
+			color: collection.color,
+			collections: newCollection.collections,
+			userId: newCollection.userId,
+			image: axios.defaults.baseURL + "/image/" + newCollection.image,
+			fatherCollectionId: collection.fatherCollectionId,
+			pictos: newCollection.pictos,
+			id: newCollection.id
+		})
 	},
 	async editCollection(vuexContext, collection) {
 		let formData = new FormData();
@@ -223,7 +229,7 @@ export const actions = {
 			collections: editedCollection.collections,
 			pictos: editedCollection.pictos,
 			userId: collection.userId,
-			path: axios.defaults.baseURL + "/image/" + editedCollection.path,
+			image: axios.defaults.baseURL + "/image/" + editedCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
 			id: collection.id
 		});
@@ -360,9 +366,9 @@ export const actions = {
 	async downloadCollections(vuexContext) {
 		const res = await axios.get("/collection");
 		res.data.map(collection => {
-			if (collection.path) {
-				collection.path =
-					axios.defaults.baseURL + "/image/" + collection.path;
+			if (collection.image) {
+				collection.image =
+					axios.defaults.baseURL + "/image/" + collection.image;
 			}
 		});
 		vuexContext.commit("resetCollections");
@@ -381,5 +387,8 @@ export const getters = {
 	},
 	getUser(state) {
 		return state.user;
+	},
+	getRootId(state) {
+		return state.rootId;
 	}
 };
