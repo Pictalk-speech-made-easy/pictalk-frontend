@@ -67,7 +67,6 @@
 				@click="onSave(user.username, user.password, user.language)"
 				>{{ $t("Save") }}</b-button
 			>
-
 			<br />
 			<br />
 			<br />
@@ -111,7 +110,6 @@
 				class="field"
 				@click="showDirectSharerInput()"
 			/>
-
 			<b-field
 				v-if="showDirectSharerInputText"
 				:label="$t('AddTrustedSource')"
