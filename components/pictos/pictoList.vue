@@ -37,7 +37,7 @@
 								icon-right="plus"
 							/>
 						</div>
-						<div class="column">
+						<div v-if="checkCopyPictoId" class="column">
 							<b-button
 								rounded
 								size="is-medium"
@@ -53,16 +53,11 @@
 </template>
 <script>
 import picto from "@/components/pictos/picto";
-import collection from "@/components/pictos/collection";
-import CollectionSteps from "@/components/pictos/collectionSteps";
 import PictoSteps from "@/components/pictos/pictoSteps";
-
 export default {
 	components: {
 		picto,
-		collection,
 		PictoSteps,
-		CollectionSteps,
 	},
 	props: {
 		pictos: {
@@ -72,6 +67,11 @@ export default {
 		adminMode: {
 			type: Boolean,
 			required: true,
+		},
+	},
+	computed: {
+		checkCopyPictoId() {
+			return this.$store.getters.getCopyPictoId;
 		},
 	},
 	methods: {

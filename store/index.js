@@ -6,7 +6,8 @@ export const state = () => ({
 	token: null,
 	pictoSpeech: [],
 	user: {},
-	rootId: null
+	rootId: null,
+	copyPictoId: null
 });
 const URL = "http://localhost:3001";
 
@@ -76,6 +77,12 @@ export const mutations = {
 	},
 	setRootId(state, rootId) {
 		state.rootId = rootId;
+	},
+	setCopyPictoId(state, pictoId) {
+		state.copyPictoId = pictoId;
+	},
+	resetCopyPictoId(state) {
+		state.copyPictoId = null;
 	}
 
 };
@@ -84,13 +91,8 @@ export const actions = {
 		vuexContext.commit("resetCollections");
 	},
 	addCollection(vuexContext, collection) {
-		const newCollection = {
-			fatherCollectionId: collection.fatherCollectionId,
-			pictos: []
-		};
-		vuexContext.commit("addCollection", newCollection);
+		vuexContext.commit("addCollection", collection);
 	},
-	// NEEDS CHANGES
 	async addPicto(vuexContext, picto,) {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(picto.speech));
@@ -379,5 +381,8 @@ export const getters = {
 	},
 	getRootId(state) {
 		return state.rootId;
+	},
+	getCopyPictoId(state) {
+		return state.copyPictoId;
 	}
 };

@@ -66,7 +66,6 @@ export default {
 			);
 			if (collection.length !== 0) {
 				if (collection[0].color) {
-					console.log(collection[0].color);
 					return collection[0].color;
 				} else {
 					return "#f5f5f5";
@@ -99,6 +98,7 @@ export default {
 								this.$store.getters.getRootId +
 								adminMode
 						);
+						return;
 					} else {
 						var res = await axios.get("/user/root/");
 						this.$store.commit("setRootId", res.data.id);
@@ -139,9 +139,7 @@ export default {
 					}
 					picto.collection = true;
 				});
-				await this.$store.commit("addCollection", {
-					collection,
-				});
+				await this.$store.commit("addCollection", res.data);
 			} catch (error) {
 				console.log("error ", error);
 			}

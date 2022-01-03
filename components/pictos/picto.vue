@@ -40,6 +40,14 @@
 						icon-right="delete"
 						@click="deletePicto()"
 				/></b-dropdown-item>
+				<b-dropdown-item aria-role="listitem">
+					<b-button
+						:expanded="true"
+						type="is-info"
+						icon-right="content-copy"
+						@click="setCopyPictoId(picto.id)"
+					/>
+				</b-dropdown-item>
 			</b-dropdown>
 
 			<div class="column noMargin is-mobile" v-if="picto.starred">
@@ -78,6 +86,9 @@ export default {
 		},
 	},
 	methods: {
+		setCopyPictoId(id) {
+			this.$store.commit("setCopyPictoId", id);
+		},
 		addToSpeech() {
 			this.$store.commit("addSpeech", this.picto);
 			if (this.picto.collection == true) {

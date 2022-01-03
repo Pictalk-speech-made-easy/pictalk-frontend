@@ -90,7 +90,6 @@
 			</b-message>
 		</div>
 		<div class="column">
-			{{ user }}
 			<b-field :label="$t('Trusted Sources')">
 				<b-table
 					:checked-rows.sync="checkedRows"
@@ -218,13 +217,12 @@ export default {
 				});
 		},
 		async downloadAll() {
-			//TODO integrate this within the store
 			try {
 				this.dl_launched = true;
 				const res = await axios.get("/pictalk/allPictos");
 				var views = [];
 				var already_saved_pictos = [];
-				await this.$store.dispatch("resetViews");
+				await this.$store.dispatch("resetCollections");
 				this.nb_requests =
 					res.data.length - already_saved_pictos.length;
 				caches.open("pictos").then((cache) => {
@@ -235,11 +233,11 @@ export default {
 									(elem) => elem == picto.id
 								)
 							) {
-								if (picto.path) {
-									picto.path =
+								if (picto.image) {
+									picto.image =
 										axios.defaults.baseURL +
-										"/image/" +
-										picto.path;
+										"/image/pictalk/" +
+										picto.image;
 								}
 								setTimeout(() => {
 									return this.addRetry(cache, picto.path);
