@@ -108,7 +108,6 @@ export default {
 	methods: {
 		async refreshPictos() {
 			try {
-				await this.$store.dispatch("downloadAll");
 				await this.$store.dispatch("downloadCollections");
 				const notif = this.$buefy.notification.open({
 					duration: 5000,

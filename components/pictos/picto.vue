@@ -14,7 +14,7 @@
 			/>
 		</div>
 		<div class="notification meaning">
-			{{ JSON.parse(picto.meaning)[$store.getters.getUser.language] }}
+			{{ picto.meaning[$store.getters.getUser.language] }}
 		</div>
 		<div v-if="adminMode" class="adminMenu adminoption columns">
 			<b-dropdown aria-role="menu" class="column noMargin is-mobile">

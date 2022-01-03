@@ -21,7 +21,7 @@
 				<miniPicto
 					class
 					v-for="picto in pictos"
-					:key="picto.meaning"
+					:key="picto.id + Math.random()"
 					:image="picto.image"
 				/>
 			</div>

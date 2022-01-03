@@ -11,7 +11,7 @@
 					is-one-fifth-fullhd
 				"
 				v-for="picto in pictos"
-				:key="picto.id + picto.speech"
+				:key="picto.id + Math.random()"
 				:picto="picto"
 				:adminMode="adminMode"
 			/>

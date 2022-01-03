@@ -39,18 +39,20 @@ export default {
 		loadedPictos() {
 			const collection = this.$store.getters.getCollections.filter(
 				(collection) =>
-					collection.fatherCollectionId ===
+					collection.id ===
 					parseInt(this.$route.params.fatherCollectionId, 10)
 			);
 			if (collection.length !== 0) {
 				let rankedPictos = [];
-				collection[0].pictos.forEach((picto) => {
-					if (picto.starred == true) {
-						rankedPictos.unshift(picto);
-					} else {
-						rankedPictos.push(picto);
-					}
-				});
+				collection[0].collections
+					.concat(collection[0].pictos)
+					.forEach((picto) => {
+						if (picto.starred == true) {
+							rankedPictos.unshift(picto);
+						} else {
+							rankedPictos.push(picto);
+						}
+					});
 				return rankedPictos;
 			} else {
 				return [];
@@ -80,7 +82,7 @@ export default {
 		if (collections.length != 0) {
 			const fatherCollectionId = collections.findIndex(
 				(collection) =>
-					collection.fatherCollectionId ===
+					collection.id ===
 					parseInt(this.$route.params.fatherCollectionId, 10)
 			);
 			collection = collections[fatherCollectionId];
@@ -115,6 +117,12 @@ export default {
 							"/image/pictalk/" +
 							picto.image;
 					}
+					if (picto.meaning) {
+						picto.meaning = JSON.parse(picto.meaning);
+					}
+					if (picto.speech) {
+						picto.speech = JSON.parse(picto.speech);
+					}
 				});
 				res.data.collections.map((picto) => {
 					if (picto.image) {
@@ -123,14 +131,16 @@ export default {
 							"/image/pictalk/" +
 							picto.image;
 					}
+					if (picto.meaning) {
+						picto.meaning = JSON.parse(picto.meaning);
+					}
+					if (picto.speech) {
+						picto.speech = JSON.parse(picto.speech);
+					}
 					picto.collection = true;
 				});
 				await this.$store.commit("addCollection", {
-					pictos: [...res.data.pictos, ...res.data.collections],
-					fatherCollectionId: parseInt(
-						this.$route.params.fatherCollectionId,
-						10
-					),
+					collection,
 				});
 			} catch (error) {
 				console.log("error ", error);

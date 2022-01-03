@@ -62,6 +62,9 @@ export const mutations = {
 	resetCollections(state) {
 		state.collections = [];
 	},
+	setCollections(state, collections) {
+		state.collections = collections;
+	},
 	setToken(state, token) {
 		state.token = token;
 	},
@@ -313,56 +316,6 @@ export const actions = {
 		});
 		return res;
 	},
-	// DONT KNOW
-	/*
-	async downloadAll(vuexContext) {
-		this.dl_launched = true;
-		const res = await axios.get("/pictalk/allPictos");
-		var views = vuexContext.getters.getPictoViews;
-		var already_saved_pictos = [];
-		await vuexContext.dispatch("resetViews");
-		await views.forEach((view) => {
-			view.pictos.forEach((picto) => {
-				already_saved_pictos.push(picto.id);
-			});
-		});
-		this.nb_requests = res.data.length - already_saved_pictos.length;
-		res.data.map(picto => {
-			if (!already_saved_pictos.find((elem) => elem == picto.id)) {
-				if (picto.path) {
-					picto.path =
-						axios.defaults.baseURL + "/pictalk/image/" + picto.path;
-				}
-				// View existante pour le picto ?
-				const viewExists = views.findIndex(
-					view => view.fatherCollectionId === picto.fatherCollectionId &&
-						view.collectionId === picto.collectionId
-				);
-				if (picto.folder == 1) {
-					const folderExists = views.findIndex(
-						view => view.fatherCollectionId === picto.id &&
-							view.collectionId === picto.collectionId
-					);
-					if (folderExists != -1) {
-						views.push({ collectionId: picto.collectionId, fatherCollectionId: picto.id, pictos: Array() }); //View of folder
-					}
-				}
-				if (viewExists == -1) {
-					views.push({ collectionId: picto.collectionId, fatherCollectionId: picto.fatherCollectionId, pictos: Array() }); //Add view if not here
-					views[views.length - 1].pictos.push({ ...picto });
-				} else {
-					views[viewExists].pictos.push({ ...picto });
-					already_saved_pictos.push(picto.id);
-				}
-			}
-		});
-		views.forEach((view) => {
-			vuexContext.dispatch('addView', view);
-		});
-
-		return;
-	},
-	*/
 	async downloadCollections(vuexContext) {
 		const res = await axios.get("/collection");
 		res.data.map(collection => {
@@ -370,6 +323,42 @@ export const actions = {
 				collection.image =
 					axios.defaults.baseURL + "/image/" + collection.image;
 			}
+			if (collection.meaning) {
+				collection.meaning = JSON.parse(collection.meaning);
+			}
+			if (collection.speech) {
+				collection.speech = JSON.parse(collection.speech);
+			}
+			collection.pictos.map((picto) => {
+				if (picto.image) {
+					picto.image =
+						this.$config.baseURL +
+						"/image/pictalk/" +
+						picto.image;
+				}
+				if (picto.meaning) {
+					picto.meaning = JSON.parse(picto.meaning);
+				}
+				if (picto.speech) {
+					picto.speech = JSON.parse(picto.speech);
+				}
+			});
+			collection.collections.map((coll) => {
+				if (coll.image) {
+					coll.image =
+						this.$config.baseURL +
+						"/image/pictalk/" +
+						coll.image;
+				}
+				if (coll.meaning) {
+					coll.meaning = JSON.parse(coll.meaning);
+				}
+				if (coll.speech) {
+					coll.speech = JSON.parse(coll.speech);
+				}
+				coll.collection = true;
+			});
+			collection.collection = true;
 		});
 		vuexContext.commit("resetCollections");
 		vuexContext.commit("setCollections", res.data);
