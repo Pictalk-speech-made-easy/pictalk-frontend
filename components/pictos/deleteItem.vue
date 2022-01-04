@@ -72,7 +72,7 @@ export default {
 					if (this.object.collection) {
 						const res = await this.$store.dispatch(
 							"removeCollection",
-							this.object.id
+							this.object
 						);
 					} else {
 						const res = await this.$store.dispatch(

@@ -224,27 +224,17 @@
 						</div>
 						<div class="column is-half">
 							<b-button
-								:disabled="
-									!(
-										picto.speech &&
-										picto.meaning &&
-										file.name
-									)
-								"
+								v-if="!picto.collection"
+								:disabled="!(picto.speech && picto.meaning)"
 								class="is-success"
 								:icon-right="iconPictoOrEdit"
 								@click="onSubmitted(false)"
 							>
 							</b-button>
 							<b-button
+								v-else
 								class="is-success"
-								:disabled="
-									!(
-										picto.speech &&
-										picto.meaning &&
-										file.name
-									)
-								"
+								:disabled="!(picto.speech && picto.meaning)"
 								:icon-right="iconCollectionOrEdit"
 								@click="onSubmitted(true)"
 							>
@@ -367,9 +357,7 @@ export default {
 			}
 		},
 		async onSubmitted(isCollection = false) {
-			let meaning;
 			let cfile;
-			let speech;
 			if (Object.values(this.picto.meaning).length == 0) {
 				this.$buefy.notification.open({
 					message: this.$t("MeaningEmpty"),
@@ -406,16 +394,14 @@ export default {
 						maxWidth: 500,
 						quality: 0.15,
 					});
-					meaning = this.picto.meaning;
-					speech = this.picto.speech;
 				}
 				if (this.create) {
 					await this.$store.dispatch(
 						isCollection ? "addCollection" : "addPicto",
 						{
 							collection: isCollection,
-							speech: speech,
-							meaning: meaning,
+							speech: this.picto.speech,
+							meaning: this.picto.meaning,
 							color: this.picto.color,
 							share: 1,
 							fatherCollectionId: parseInt(
@@ -432,24 +418,21 @@ export default {
 						type: "is-success",
 					});
 				} else {
-					const res = await this.$store.dispatch(
+					await this.$store.dispatch(
 						isCollection ? "editCollection" : "editPicto",
 						{
-							editedPicto: {
-								id: this.picto.id,
-								speech: speech,
-								meaning: meaning,
-								folder: folder,
-								image: file.name ? cfile : undefined,
-								fatherId: parseInt(
-									this.$route.params.fatherId,
-									10
-								),
-							},
-							collectionId: parseInt(
-								this.$route.params.collectionId,
+							starred: this.picto.starred,
+							id: this.picto.id,
+							collection: isCollection,
+							speech: this.picto.speech,
+							meaning: this.picto.speech,
+							color: this.picto.color,
+							share: 1,
+							fatherCollectionId: parseInt(
+								this.$route.params.fatherCollectionId,
 								10
 							),
+							image: cfile,
 						}
 					);
 					this.$buefy.notification.open({

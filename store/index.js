@@ -35,6 +35,19 @@ export const mutations = {
 			state.collections[collectionIndex].collections.push(newCollection);
 		}
 	},
+	removeCollection(state, removedCollection) {
+		const collectionIndex = state.collections.findIndex(
+			collection => collection.id === removedCollection.id
+		);
+		state.collections.splice(collectionIndex, 1);
+	},
+	editCollection(state, editedCollection) {
+		const collectionIndex = state.collections.findIndex(
+			collection => collection.id === editedCollection.id
+		);
+		state.collections.splice(collectionIndex, 1);
+		state.collections.push(editedCollection);
+	},
 	addPicto(state, picto) {
 		const collectionIndex = state.collections.findIndex(
 			collection => collection.id === picto.fatherCollectionId
@@ -132,7 +145,7 @@ export const actions = {
 		formData.append("meaning", JSON.stringify(picto.meaning));
 		formData.append("color", picto.color);
 		formData.append("share", picto.shared);
-		formData.append("starred", picto.starred);
+		formData.append("starred", JSON.stringify(picto.starred));
 		//formData.append("collectionIds", picto.collectionIds);
 		if (picto.image) {
 			formData.append("image", picto.image);
@@ -170,7 +183,6 @@ export const actions = {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(collection.speech));
 		formData.append("meaning", JSON.stringify(collection.meaning));
-		formData.append("language", JSON.stringify(collection.language));
 		formData.append("color", collection.color);
 		formData.append("fatherCollectionId", collection.fatherCollectionId);
 		//formData.append("collectionIds", collection.collectionIds);
@@ -200,17 +212,17 @@ export const actions = {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(collection.speech));
 		formData.append("meaning", JSON.stringify(collection.meaning));
-		formData.append("language", JSON.stringify(collection.language));
 		formData.append("color", collection.color);
 		formData.append("fatherCollectionId", collection.fatherCollectionId);
 		formData.append("collectionIds", collection.collectionIds);
 		formData.append("pictoIds", collection.pictoIds);
 		formData.append("share", collection.share);
+		formData.append("starred", JSON.stringify(collection.starred));
 		if (collection.image) {
 			formData.append("image", collection.image);
 		}
 		const editedCollection = (await axios
-			.put(URL + "/pictalk/collection/" + editedCollection.id, formData, {
+			.put(URL + "/pictalk/collection/" + collection.id, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
@@ -226,12 +238,15 @@ export const actions = {
 			userId: collection.userId,
 			image: axios.defaults.baseURL + "/image/collection/" + editedCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
+			starred: editedCollection.starred,
 			id: collection.id
 		});
 	},
 	// DONT CHANGE
-	removeCollection(vuexContext, removedCollectionId) {
-		return axios.delete(URL + "/collection/" + removedCollectionId).then(() => vuexContext.commit("removeCollection", removedCollectionId)).catch(e => console.log(e));
+	async removeCollection(vuexContext, collection) {
+		const res = await axios.delete(URL + "/collection/", { params: { collectionId: collection.id, fatherId: collection.fatherCollectionId } })
+		vuexContext.commit("removeCollection", collection.id)
+		return res;
 	},
 	async authenticateUser(vuexContext, authData) {
 		let authUrl = URL + "/auth/signin";

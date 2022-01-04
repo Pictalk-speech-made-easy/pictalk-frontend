@@ -104,10 +104,6 @@ export default {
 				parent: this,
 				props: {
 					object: { ...this.picto },
-					collectionId: parseInt(
-						this.$route.params.fatherCollectionId,
-						10
-					),
 				},
 				component: deleteItem,
 				hasModalCard: true,
@@ -118,7 +114,11 @@ export default {
 		editPicto() {
 			this.$buefy.modal.open({
 				parent: this,
-				props: { ...this.picto },
+				props: {
+					picto: JSON.parse(JSON.stringify(this.picto)),
+					create: false,
+					isPicto: !this.picto.collection,
+				},
 				component: PictoSteps,
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
