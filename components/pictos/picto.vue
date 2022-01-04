@@ -127,14 +127,10 @@ export default {
 			});
 		},
 		async alternateStar() {
-			const star = this.picto.starred ? false : true;
 			try {
 				this.$store.commit("editPicto", {
-					editedPicto: { ...this.picto, starred: star },
-					collectionId: parseInt(
-						this.$route.params.fatherCollectionId,
-						10
-					),
+					...this.picto,
+					starred: !this.picto.starred,
 				});
 			} catch (error) {
 				console.log(error);

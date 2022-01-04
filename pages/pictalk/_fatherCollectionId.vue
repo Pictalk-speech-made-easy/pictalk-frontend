@@ -110,6 +110,7 @@ export default {
 							this.$route.params.fatherCollectionId
 					);
 				}
+				//
 				res.data.pictos.map((picto) => {
 					if (picto.image) {
 						picto.image =
@@ -123,6 +124,7 @@ export default {
 					if (picto.speech) {
 						picto.speech = JSON.parse(picto.speech);
 					}
+					picto.fatherCollectionId = res.data.id;
 				});
 				res.data.collections.map((picto) => {
 					if (picto.image) {
@@ -138,6 +140,7 @@ export default {
 						picto.speech = JSON.parse(picto.speech);
 					}
 					picto.collection = true;
+					picto.fatherCollectionId = res.data.id;
 				});
 				await this.$store.commit("addCollection", res.data);
 			} catch (error) {

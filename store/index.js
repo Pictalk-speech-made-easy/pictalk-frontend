@@ -26,39 +26,39 @@ export const mutations = {
 	eraseSpeech(state) {
 		state.pictoSpeech = [];
 	},
-	addCollection(state, collection) {
-		state.collections.push(collection);
-	},
-	addPicto(state, picto) {
-		const fatherPictoIndex = state.collections.findIndex(
-			collection => collection.fatherCollectionId === picto.fatherCollectionId
-		);
-		state.collections[fatherPictoIndex].pictos.push(picto);
-	},
-	editPicto(state, editedPicto) {
-		const fatherPictoIndex = state.collections.findIndex(
-			collection => collection.fatherCollectionId === editedPicto.editedPicto.fatherCollectionId
-		);
-		const pictoIndex = state.collections[fatherPictoIndex].pictos.findIndex(
-			picto => picto.id === editedPicto.editedPicto.id
-		);
-		state.collections[fatherPictoIndex].pictos.splice(pictoIndex, 1);
-		state.collections[fatherPictoIndex].pictos.push(editedPicto.editedPicto);
-	},
-	removePicto(state, removedPicto) {
-		const fatherPictoIndex = state.collections.findIndex(
-			collection => collection.fatherCollectionId === removedPicto.fatherCollectionId
-		);
-		const pictoIndex = state.collections[fatherPictoIndex].pictos.findIndex(
-			picto => picto.id === removedPicto.id
-		);
+	addCollection(state, newCollection) {
+		state.collections.push(newCollection);
 		const collectionIndex = state.collections.findIndex(
-			collection => collection.fatherCollectionId === removedPicto.id
+			collection => collection.id === newCollection.fatherCollectionId
 		);
 		if (collectionIndex !== -1) {
-			state.collections.splice(collectionIndex, 1);
+			state.collections[collectionIndex].collections.push(newCollection);
 		}
-		state.collections[fatherPictoIndex].pictos.splice(pictoIndex, 1);
+	},
+	addPicto(state, picto) {
+		const collectionIndex = state.collections.findIndex(
+			collection => collection.id === picto.fatherCollectionId
+		);
+		state.collections[collectionIndex].pictos.push(picto);
+	},
+	editPicto(state, editedPicto) {
+		const collectionIndex = state.collections.findIndex(
+			collection => collection.id === editedPicto.fatherCollectionId
+		);
+		const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
+			picto => picto.id === editedPicto.id
+		);
+		state.collections[collectionIndex].pictos.splice(pictoIndex, 1);
+		state.collections[collectionIndex].pictos.push(editedPicto);
+	},
+	removePicto(state, removedPicto) {
+		const collectionIndex = state.collections.findIndex(
+			collection => collection.id === removedPicto.fatherCollectionId
+		);
+		const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
+			picto => picto.id === removedPicto.id
+		);
+		state.collections[collectionIndex].pictos.splice(pictoIndex, 1);
 	},
 	resetCollections(state) {
 		state.collections = [];
@@ -130,11 +130,10 @@ export const actions = {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(picto.speech));
 		formData.append("meaning", JSON.stringify(picto.meaning));
-		formData.append("language", JSON.stringify(picto.language));
 		formData.append("color", picto.color);
 		formData.append("share", picto.shared);
 		formData.append("starred", picto.starred);
-		formData.append("collectionIds", picto.collectionIds);
+		//formData.append("collectionIds", picto.collectionIds);
 		if (picto.image) {
 			formData.append("image", picto.image);
 		}
@@ -148,19 +147,22 @@ export const actions = {
 		vuexContext.commit("editPicto", {
 			speech: picto.speech,
 			meaning: picto.meaning,
-			language: picto.language,
 			color: picto.color,
 			collections: editedPicto.collections,
 			userId: editedPicto.userId,
 			shared: editedPicto.shared,
-			image: axios.defaults.baseURL + "/image/" + editedPicto.image,
-			fatherCollectionId: editedPicto.fatherCollectionId,
-			id: picto.id
+			image: axios.defaults.baseURL + "/image/pictalk/" + editedPicto.image,
+			fatherCollectionId: picto.fatherCollectionId,
+			id: picto.id,
+			starred: editedPicto.starred,
+			editors: editedPicto.editors,
+			viewers: editedPicto.viewers,
+			public: editedPicto.public
 		});
 	},
 	async removePicto(vuexContext, removedPicto) {
 		const res = await axios
-			.delete(URL + "/picto/" + removedPicto.id);
+			.delete(URL + "/picto/", { params: { pictoId: removedPicto.id, fatherId: removedPicto.fatherCollectionId } });
 		vuexContext.commit("removePicto", removedPicto);
 		return res;
 	},
@@ -184,27 +186,15 @@ export const actions = {
 		vuexContext.commit("addCollection", {
 			speech: collection.speech,
 			meaning: collection.meaning,
-			language: collection.language,
 			color: collection.color,
-			collections: newCollection.collections,
+			collection: true,
+			collections: newCollection.collections ? newCollection.collections : [],
 			userId: newCollection.userId,
-			image: axios.defaults.baseURL + "/image/" + newCollection.image,
+			image: axios.defaults.baseURL + "/image/pictalk/" + newCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
-			pictos: newCollection.pictos,
+			pictos: newCollection.pictos ? newCollection.pictos : [],
 			id: newCollection.id
 		});
-		vuexContext.commit("addPicto", {
-			speech: collection.speech,
-			meaning: collection.meaning,
-			language: collection.language,
-			color: collection.color,
-			collections: newCollection.collections,
-			userId: newCollection.userId,
-			image: axios.defaults.baseURL + "/image/" + newCollection.image,
-			fatherCollectionId: collection.fatherCollectionId,
-			pictos: newCollection.pictos,
-			id: newCollection.id
-		})
 	},
 	async editCollection(vuexContext, collection) {
 		let formData = new FormData();
@@ -234,7 +224,7 @@ export const actions = {
 			collections: editedCollection.collections,
 			pictos: editedCollection.pictos,
 			userId: collection.userId,
-			image: axios.defaults.baseURL + "/image/" + editedCollection.image,
+			image: axios.defaults.baseURL + "/image/collection/" + editedCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
 			id: collection.id
 		});
@@ -323,7 +313,7 @@ export const actions = {
 		res.data.map(collection => {
 			if (collection.image) {
 				collection.image =
-					axios.defaults.baseURL + "/image/" + collection.image;
+					axios.defaults.baseURL + "/image/pictalk/" + collection.image;
 			}
 			if (collection.meaning) {
 				collection.meaning = JSON.parse(collection.meaning);

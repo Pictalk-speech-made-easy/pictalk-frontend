@@ -4,12 +4,13 @@
 			<p class="modal-card-title">{{ $t("Delete") }}</p>
 		</header>
 		<section class="modal-card-body">
-			{{ $t("DeleteItem") }}{{ returnMeaningOrName(object) }} ?
+			{{ $t("DeleteItem")
+			}}{{ object.meaning[$store.getters.getUser.language] }} ?
 			<br />
 			<br />
 			<img
 				class="image"
-				:src="object.path"
+				:src="object.image"
 				width="40%"
 				crossorigin="anonymous"
 				style=""
@@ -20,15 +21,19 @@
 				:label="
 					$t('PleaseType1') +
 					' ' +
-					returnMeaningOrName(object) +
+					object.meaning[$store.getters.getUser.language] +
 					' ' +
 					$t('PleaseType2')
 				"
 			>
 				<b-input
 					v-model="meaningOrName"
-					:placeholder="returnMeaningOrName(object)"
-					v-on:keyup.native.enter="onSubmitted(meaningOrName)"
+					:placeholder="
+						object.meaning[$store.getters.getUser.language]
+					"
+					v-on:keyup.native.enter="
+						object.meaning[$store.getters.getUser.language]
+					"
 				></b-input>
 			</b-field>
 		</section>
@@ -36,9 +41,11 @@
 			<b-button class="button" type="button" @click="$parent.close()">{{
 				$t("Close")
 			}}</b-button>
-			<b-button class="button is-primary" @click="onSubmitted(meaningOrName)">{{
-				$t("Delete")
-			}}</b-button>
+			<b-button
+				class="button is-primary"
+				@click="onSubmitted(meaningOrName)"
+				>{{ $t("Delete") }}</b-button
+			>
 		</footer>
 	</div>
 </template>
@@ -49,10 +56,6 @@ export default {
 			type: Object,
 			required: true,
 		},
-		collectionId: {
-			type: Number,
-			required: false,
-		},
 	},
 	data() {
 		return {
@@ -60,50 +63,29 @@ export default {
 		};
 	},
 	methods: {
-		returnMeaningOrName(object) {
-			if (object.name) {
-				return object.name;
-			} else {
-				return object.meaning;
-			}
-		},
-		isPictoOrCollection(object) {
-			if (object.name) {
-				return "Collection";
-			} else {
-				return "Picto";
-			}
-		},
-
 		async onSubmitted(name) {
-			let typeOfObject = this.isPictoOrCollection(this.object);
-			if (name == this.returnMeaningOrName(this.object)) {
+			if (
+				name ==
+				this.object.meaning[this.$store.getters.getUser.language]
+			) {
 				try {
-					if (typeOfObject == "Collection" && !this.collectionId) {
+					if (this.object.collection) {
 						const res = await this.$store.dispatch(
 							"removeCollection",
 							this.object.id
 						);
 					} else {
-						if (typeOfObject == "Picto" && this.collectionId) {
-							const res = await this.$store.dispatch("removePicto", {
-								picto: this.object,
-								collectionId: this.collectionId,
-							});
-						} else {
-							this.$buefy.notification.open({
-								message: this.$t("SomeThingBadHappened"),
-								type: "is-danger",
-							});
-							this.$parent.close();
-							return;
-						}
+						const res = await this.$store.dispatch(
+							"removePicto",
+							this.object
+						);
 					}
 					this.$buefy.notification.open({
 						message: this.$t("DeletedSuccess"),
 						type: "is-success",
 					});
 					this.$parent.close();
+					return;
 				} catch (ex) {
 					console.log(ex);
 					this.$buefy.notification.open({
