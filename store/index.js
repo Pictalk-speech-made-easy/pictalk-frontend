@@ -32,6 +32,9 @@ export const mutations = {
 			collection => collection.id === newCollection.fatherCollectionId
 		);
 		if (collectionIndex !== -1) {
+			if (!state.collections[collectionIndex].collections) {
+				state.collections[collectionIndex].collections = [];
+			}
 			state.collections[collectionIndex].collections.push(newCollection);
 		}
 	},
@@ -45,8 +48,12 @@ export const mutations = {
 		const collectionIndex = state.collections.findIndex(
 			collection => collection.id === editedCollection.id
 		);
+		console.log(state.collections[collectionIndex]);
+		console.log(editedCollection);
+		const mergedCollection = update(state.collections[collectionIndex], editedCollection);
+		console.log(mergedCollection);
 		state.collections.splice(collectionIndex, 1);
-		state.collections.push(editedCollection);
+		state.collections.push(mergedCollection);
 	},
 	addPicto(state, picto) {
 		const collectionIndex = state.collections.findIndex(
@@ -214,15 +221,15 @@ export const actions = {
 		formData.append("meaning", JSON.stringify(collection.meaning));
 		formData.append("color", collection.color);
 		formData.append("fatherCollectionId", collection.fatherCollectionId);
-		formData.append("collectionIds", collection.collectionIds);
-		formData.append("pictoIds", collection.pictoIds);
+		//formData.append("collectionIds", collection.collectionIds);
+		//formData.append("pictoIds", collection.pictoIds);
 		formData.append("share", collection.share);
 		formData.append("starred", JSON.stringify(collection.starred));
 		if (collection.image) {
 			formData.append("image", collection.image);
 		}
 		const editedCollection = (await axios
-			.put(URL + "/pictalk/collection/" + collection.id, formData, {
+			.put(URL + "/collection/" + collection.id, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
@@ -231,12 +238,9 @@ export const actions = {
 		vuexContext.commit("editCollection", {
 			speech: collection.speech,
 			meaning: collection.meaning,
-			language: collection.language,
 			color: collection.color,
-			collections: editedCollection.collections,
-			pictos: editedCollection.pictos,
 			userId: collection.userId,
-			image: axios.defaults.baseURL + "/image/collection/" + editedCollection.image,
+			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
 			starred: editedCollection.starred,
 			id: collection.id
@@ -391,3 +395,10 @@ export const getters = {
 		return state.copyPictoId;
 	}
 };
+
+function update(target, src) {
+	const res = {};
+	Object.keys(target)
+		.forEach(k => res[k] = (src[k] ?? target[k]));
+	return res;
+}
