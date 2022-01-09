@@ -7,7 +7,9 @@ export const state = () => ({
 	pictoSpeech: [],
 	user: {},
 	rootId: null,
-	copyPictoId: null
+	copyCollectionId: null,
+	pictoList: new Object(),
+	collectionList: new Object()
 });
 const URL = "http://localhost:3001";
 
@@ -48,12 +50,7 @@ export const mutations = {
 		const collectionIndex = state.collections.findIndex(
 			collection => collection.id === editedCollection.id
 		);
-		console.log(state.collections[collectionIndex]);
-		console.log(editedCollection);
-		const mergedCollection = update(state.collections[collectionIndex], editedCollection);
-		console.log(mergedCollection);
-		state.collections.splice(collectionIndex, 1);
-		state.collections.push(mergedCollection);
+		Object.assign(state.collections[collectionIndex], editedCollection);
 	},
 	addPicto(state, picto) {
 		const collectionIndex = state.collections.findIndex(
@@ -68,8 +65,7 @@ export const mutations = {
 		const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
 			picto => picto.id === editedPicto.id
 		);
-		state.collections[collectionIndex].pictos.splice(pictoIndex, 1);
-		state.collections[collectionIndex].pictos.push(editedPicto);
+		Object.assign(state.collections[collectionIndex].pictos[pictoIndex], editedPicto);
 	},
 	removePicto(state, removedPicto) {
 		const collectionIndex = state.collections.findIndex(
@@ -98,11 +94,17 @@ export const mutations = {
 	setRootId(state, rootId) {
 		state.rootId = rootId;
 	},
-	setCopyPictoId(state, pictoId) {
-		state.copyPictoId = pictoId;
+	setCopyCollectionId(state, collectionId) {
+		state.copyCollectionId = collectionId;
 	},
-	resetCopyPictoId(state) {
-		state.copyPictoId = null;
+	resetCopyCollectionId(state) {
+		state.copyCollectionId = null;
+	},
+	addPictoList(state, picto) {
+		state.pictoList[picto.id] = picto;
+	},
+	addCollectionList(state, collection) {
+		state.collectionList[collection.id] = collection;
 	}
 
 };
@@ -208,11 +210,12 @@ export const actions = {
 			color: collection.color,
 			collection: true,
 			collections: newCollection.collections ? newCollection.collections : [],
-			userId: newCollection.userId,
+			userId: collection.userId,
 			image: axios.defaults.baseURL + "/image/pictalk/" + newCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
 			pictos: newCollection.pictos ? newCollection.pictos : [],
-			id: newCollection.id
+			id: newCollection.id,
+			starred: newCollection.starred
 		});
 	},
 	async editCollection(vuexContext, collection) {
@@ -373,6 +376,27 @@ export const actions = {
 		});
 		vuexContext.commit("resetCollections");
 		vuexContext.commit("setCollections", res.data);
+	},
+	async copyCollectionById(vuexContext, { collectionId, fatherCollectionId, collection }) {
+		const params = new URLSearchParams();
+		params.append('collectionId', collectionId);
+		params.append('fatherCollectionId', fatherCollectionId);
+		const editedCollection = (await axios
+			.post(URL + "/collection/copy", params, {
+				headers: {
+					"Content-Type": 'application/x-www-form-urlencoded'
+				}
+			})).data;
+		vuexContext.commit("editCollection", {
+			speech: collection.speech,
+			meaning: collection.meaning,
+			color: collection.color,
+			userId: collection.userId,
+			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
+			fatherCollectionId: collection.fatherCollectionId,
+			starred: editedCollection.starred,
+			id: collection.id
+		});
 	}
 }
 export const getters = {
@@ -391,14 +415,13 @@ export const getters = {
 	getRootId(state) {
 		return state.rootId;
 	},
-	getCopyPictoId(state) {
-		return state.copyPictoId;
+	getCopyCollectionId(state) {
+		return state.copyCollectionId;
+	},
+	getPictoList(state) {
+		return state.pictoList;
+	},
+	getCollectionList(state) {
+		return state.collectionList;
 	}
 };
-
-function update(target, src) {
-	const res = {};
-	Object.keys(target)
-		.forEach(k => res[k] = (src[k] ?? target[k]));
-	return res;
-}

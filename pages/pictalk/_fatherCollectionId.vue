@@ -138,36 +138,46 @@ export default {
 					res.data.collection = true;
 				}
 				res.data.pictos.map((picto) => {
-					if (picto.image) {
-						picto.image =
-							this.$config.baseURL +
-							"/image/pictalk/" +
-							picto.image;
+					if (!this.$store.getters.getPictoList[picto.id]) {
+						this.$store.commit("addPictoList",picto);
+						if (picto.image) {
+							picto.image =
+								this.$config.baseURL +
+								"/image/pictalk/" +
+								picto.image;
+						}
+						if (picto.meaning) {
+							picto.meaning = JSON.parse(picto.meaning);
+						}
+						if (picto.speech) {
+							picto.speech = JSON.parse(picto.speech);
+						}
+						picto.fatherCollectionId = res.data.id;
+						this.$store.commit("addPictoList",picto);
+					} else {
+						collection = this.$store.getters.getPictoList[collection.id]
 					}
-					if (picto.meaning) {
-						picto.meaning = JSON.parse(picto.meaning);
-					}
-					if (picto.speech) {
-						picto.speech = JSON.parse(picto.speech);
-					}
-					picto.fatherCollectionId = res.data.id;
 				});
 				res.data.collections.map((collection) => {
-					if (collection.image) {
-						collection.image =
-							this.$config.baseURL +
-							"/image/pictalk/" +
-							collection.image;
+					if (!this.$store.getters.getCollectionList[collection.id]) {
+						if (collection.image) {
+							collection.image =
+								this.$config.baseURL +
+								"/image/pictalk/" +
+								collection.image;
+						}
+						if (collection.meaning) {
+							collection.meaning = JSON.parse(collection.meaning);
+						}
+						if (collection.speech) {
+							collection.speech = JSON.parse(collection.speech);
+						}
+						collection.collection = true;
+						collection.fatherCollectionId = res.data.id;
+						this.$store.commit("addCollectionList",collection);
+					} else {
+						collection = this.$store.getters.getCollectionList[collection.id]
 					}
-					if (collection.meaning) {
-						collection.meaning = JSON.parse(collection.meaning);
-					}
-					if (collection.speech) {
-						collection.speech = JSON.parse(collection.speech);
-					}
-					collection.collection = true;
-					collection.fatherCollectionId = res.data.id;
-
 					existsIndex = this.$store.getters.getCollections.findIndex(
 						(col) => col.id === collection.id
 					);

@@ -37,9 +37,10 @@
 								icon-right="plus"
 							/>
 						</div>
-						<div v-if="checkCopyPictoId" class="column">
+						<div v-if="checkCopyCollectionId" class="column">
 							<b-button
 								rounded
+								@click="copyCollection()"
 								size="is-medium"
 								type="is-info"
 								icon-right="content-paste"
@@ -70,8 +71,8 @@ export default {
 		},
 	},
 	computed: {
-		checkCopyPictoId() {
-			return this.$store.getters.getCopyPictoId;
+		checkCopyCollectionId() {
+			return this.$store.getters.getCopyCollectionId;
 		},
 	},
 	methods: {
@@ -80,13 +81,15 @@ export default {
 				parent: this,
 				component: PictoSteps,
 				hasModalCard: true,
-				props: { create: true, isPicto: true },
+				props: { create: true },
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
 				canCancel: ["escape", "x"],
-				create: true,
 			});
 		},
+		async copyCollection() {
+			await this.$store.dispatch("copyCollectionById", { collectionId: this.$store.getters.getCopyCollectionId, fatherCollectionId: this.$route.params.fatherCollectionId, collection: this.$store.getters.getCollectionList()[this.$route.params.fatherCollectionId]});
+		}
 	},
 };
 </script>

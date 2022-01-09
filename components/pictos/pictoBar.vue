@@ -155,7 +155,6 @@ export default {
 		},
 		removeSpeech() {
 			const pictoSpeech = this.$store.getters.getSpeech;
-			if (pictoSpeech.length >= 1) {
 				let adminMode = "";
 				if (this.$route.query.isAdmin) {
 					adminMode = "?isAdmin=true";
@@ -171,13 +170,15 @@ export default {
 						this.$router.push("/pictalk" + adminMode);
 					}
 				} else {
+					if (pictoSpeech[pictoSpeech.length - 1].collection) {
 					this.$router.push(
 						"/pictalk/" +
-							pictoSpeech[pictoSpeech.length - 2].id +
+							pictoSpeech[pictoSpeech.length - 1].id +
 							adminMode
 					);
+					}
 				}
-			}
+			
 			this.$store.commit("removeSpeech");
 		},
 		eraseSpeech() {

@@ -224,7 +224,7 @@
 						</div>
 						<div class="column is-half">
 							<b-button
-								v-if="!picto.collection"
+								v-if="isPicto || create"
 								:disabled="!(picto.speech && picto.meaning)"
 								class="is-success"
 								:icon-right="iconPictoOrEdit"
@@ -232,7 +232,7 @@
 							>
 							</b-button>
 							<b-button
-								v-else
+								v-if="!isPicto || create"
 								class="is-success"
 								:disabled="!(picto.speech && picto.meaning)"
 								:icon-right="iconCollectionOrEdit"

@@ -42,10 +42,11 @@
 				/></b-dropdown-item>
 				<b-dropdown-item aria-role="listitem">
 					<b-button
+					v-if="picto.collection"
 						:expanded="true"
 						type="is-info"
 						icon-right="content-copy"
-						@click="setCopyPictoId(picto.id)"
+						@click="setCopyCollectionId(picto.id)"
 					/>
 				</b-dropdown-item>
 			</b-dropdown>
@@ -86,8 +87,8 @@ export default {
 		},
 	},
 	methods: {
-		setCopyPictoId(id) {
-			this.$store.commit("setCopyPictoId", id);
+		setCopyCollectionId(collectionId) {
+			this.$store.commit("setCopyCollectionId", collectionId);
 		},
 		addToSpeech() {
 			this.$store.commit("addSpeech", this.picto);
