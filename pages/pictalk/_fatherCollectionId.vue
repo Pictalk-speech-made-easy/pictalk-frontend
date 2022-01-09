@@ -137,61 +137,55 @@ export default {
 					}
 					res.data.collection = true;
 				}
-				res.data.pictos.map((picto) => {
-					if (!this.$store.getters.getPictoList[picto.id]) {
-						this.$store.commit("addPictoList",picto);
-						if (picto.image) {
-							picto.image =
-								this.$config.baseURL +
-								"/image/pictalk/" +
-								picto.image;
-						}
-						if (picto.meaning) {
-							picto.meaning = JSON.parse(picto.meaning);
-						}
-						if (picto.speech) {
-							picto.speech = JSON.parse(picto.speech);
-						}
-						picto.fatherCollectionId = res.data.id;
-						this.$store.commit("addPictoList",picto);
-					} else {
-						collection = this.$store.getters.getPictoList[collection.id]
+				res.data.pictos.map((picto) => {	
+					this.$store.commit("addPictoList",picto);
+					if (picto.image) {
+						picto.image =
+							this.$config.baseURL +
+							"/image/pictalk/" +
+							picto.image;
 					}
+					if (picto.meaning) {
+						picto.meaning = JSON.parse(picto.meaning);
+					}
+					if (picto.speech) {
+						picto.speech = JSON.parse(picto.speech);
+					}
+					picto.fatherCollectionId = res.data.id;
+					if (!this.$store.getters.getPictoList[picto.id]) {
+					this.$store.commit("addPictoList",picto);
+				} else {
+					collection = this.$store.getters.getPictoList[collection.id]
+				}
 				});
 				res.data.collections.map((collection) => {
+					if (collection.image) {
+						collection.image =
+							this.$config.baseURL +
+							"/image/pictalk/" +
+							collection.image;
+					}
+					if (collection.meaning) {
+						collection.meaning = JSON.parse(collection.meaning);
+					}
+					if (collection.speech) {
+						collection.speech = JSON.parse(collection.speech);
+					}
+					collection.collection = true;
+					collection.fatherCollectionId = res.data.id;
 					if (!this.$store.getters.getCollectionList[collection.id]) {
-						if (collection.image) {
-							collection.image =
-								this.$config.baseURL +
-								"/image/pictalk/" +
-								collection.image;
-						}
-						if (collection.meaning) {
-							collection.meaning = JSON.parse(collection.meaning);
-						}
-						if (collection.speech) {
-							collection.speech = JSON.parse(collection.speech);
-						}
-						collection.collection = true;
-						collection.fatherCollectionId = res.data.id;
-						this.$store.commit("addCollectionList",collection);
-					} else {
-						collection = this.$store.getters.getCollectionList[collection.id]
-					}
-					existsIndex = this.$store.getters.getCollections.findIndex(
-						(col) => col.id === collection.id
-					);
-					exists = this.$store.getters.getCollections[existsIndex];
-					if (exists) {
-						this.$store.commit("editCollection", collection);
-					} else {
-						this.$store.commit("addCollection", collection);
-					}
+					this.$store.commit("addCollectionList",collection);
+					this.$store.commit("addCollection", collection);
+				} else {
+					collection = this.$store.getters.getCollectionList[collection.id]
+					this.$store.commit("editCollection", collection);
+				}
 				});
 				existsIndex = this.$store.getters.getCollections.findIndex(
 					(col) => col.id === res.data.id
 				);
 				exists = this.$store.getters.getCollections[existsIndex];
+				// Si existe,
 				if (exists) {
 					this.$store.commit("editCollection", res.data);
 				} else {
