@@ -175,26 +175,18 @@ export default {
 					collection.collection = true;
 					collection.fatherCollectionId = res.data.id;
 					if (!this.$store.getters.getCollectionList[collection.id]) {
-						console.log("Save collection");
 					this.$store.commit("addCollectionList",collection);
 					this.$store.commit("addCollection", collection);
 					} else {
-						console.log("Edit collection");
-						console.log(collection.id);
 						collection = this.$store.getters.getCollectionList[collection.id];
-						console.log(collection);
 						this.$store.commit("editCollection", collection);
 					}
 				});
-				existsIndex = this.$store.getters.getCollections.findIndex(
-					(col) => col.id === res.data.id
-				);
-				exists = this.$store.getters.getCollections[existsIndex];
-				// Si existe,
-				if (exists) {
-					this.$store.commit("editCollection", res.data);
-				} else {
+				if (!this.$store.getters.getCollectionList[res.data.id]) {
 					this.$store.commit("addCollection", res.data);
+					this.$store.commit("addCollectionList",res.data);
+				} else {
+					this.$store.commit("editCollection", res.data);
 				}
 			} catch (error) {
 				console.log("error ", error);
