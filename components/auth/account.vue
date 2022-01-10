@@ -220,7 +220,13 @@ export default {
 			});
 		},
 		getEmoji(language) {
-			return countryCodeEmoji(language.split("-")[1]);
+			if (language) {
+				if (language.match(/[a-z]{2}-[A-Z]{2}/g)) {
+					return countryCodeEmoji(language.split("-")[1]);
+				}
+			}
+			return;
+			
 		},
 		addRetry(cache, url, retries = 3, backoff = 300) {
 			return cache

@@ -104,6 +104,7 @@ export const mutations = {
 		state.pictoList[picto.id] = picto;
 	},
 	addCollectionList(state, collection) {
+		console.log("Added collection list");
 		state.collectionList[collection.id] = collection;
 	}
 
@@ -397,6 +398,7 @@ export const actions = {
 			starred: editedCollection.starred,
 			id: collection.id
 		});
+		vuexContext.commit("resetCopyCollectionId");
 	}
 }
 export const getters = {

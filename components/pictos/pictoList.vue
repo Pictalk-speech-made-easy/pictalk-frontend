@@ -88,7 +88,7 @@ export default {
 			});
 		},
 		async copyCollection() {
-			await this.$store.dispatch("copyCollectionById", { collectionId: this.$store.getters.getCopyCollectionId, fatherCollectionId: this.$route.params.fatherCollectionId, collection: this.$store.getters.getCollectionList()[this.$route.params.fatherCollectionId]});
+			await this.$store.dispatch("copyCollectionById", { collectionId: this.$store.getters.getCopyCollectionId, fatherCollectionId: this.$route.params.fatherCollectionId, collection: this.$store.getters.getCollectionList[this.$route.params.fatherCollectionId]});
 		}
 	},
 };

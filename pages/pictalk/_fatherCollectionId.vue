@@ -138,7 +138,6 @@ export default {
 					res.data.collection = true;
 				}
 				res.data.pictos.map((picto) => {	
-					this.$store.commit("addPictoList",picto);
 					if (picto.image) {
 						picto.image =
 							this.$config.baseURL +
@@ -153,12 +152,14 @@ export default {
 					}
 					picto.fatherCollectionId = res.data.id;
 					if (!this.$store.getters.getPictoList[picto.id]) {
+						console.log("Add picto list");
 					this.$store.commit("addPictoList",picto);
 				} else {
-					collection = this.$store.getters.getPictoList[collection.id]
+					picto = this.$store.getters.getPictoList[picto.id]
 				}
 				});
 				res.data.collections.map((collection) => {
+					console.log(collection);
 					if (collection.image) {
 						collection.image =
 							this.$config.baseURL +
@@ -174,12 +175,16 @@ export default {
 					collection.collection = true;
 					collection.fatherCollectionId = res.data.id;
 					if (!this.$store.getters.getCollectionList[collection.id]) {
+						console.log("Save collection");
 					this.$store.commit("addCollectionList",collection);
 					this.$store.commit("addCollection", collection);
-				} else {
-					collection = this.$store.getters.getCollectionList[collection.id]
-					this.$store.commit("editCollection", collection);
-				}
+					} else {
+						console.log("Edit collection");
+						console.log(collection.id);
+						collection = this.$store.getters.getCollectionList[collection.id];
+						console.log(collection);
+						this.$store.commit("editCollection", collection);
+					}
 				});
 				existsIndex = this.$store.getters.getCollections.findIndex(
 					(col) => col.id === res.data.id
