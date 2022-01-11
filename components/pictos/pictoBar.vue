@@ -170,7 +170,6 @@ export default {
 						this.$router.push("/pictalk" + adminMode);
 					}
 				} else {
-					console.log("Going to : ", pictoSpeech[pictoSpeech.length - 2].id);
 					if (pictoSpeech[pictoSpeech.length - 2].collection) {
 					this.$router.push(
 						"/pictalk/" +

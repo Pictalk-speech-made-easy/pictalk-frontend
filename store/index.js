@@ -16,8 +16,12 @@ const URL = "http://localhost:3001";
 export const mutations = {
 	resetStore(state) {
 		state.collections = [];
-		state.pictoSpeech = [],
-			state.user = {}
+		state.pictoSpeech = [];
+		state.rootId = null;
+		state.copyCollectionId = null;
+		state.pictoList = new Object();
+		state.collectionList = new Object();
+		state.user = {};
 	},
 	addSpeech(state, picto) {
 		state.pictoSpeech.push(picto);
@@ -51,6 +55,8 @@ export const mutations = {
 			collection => collection.id === editedCollection.id
 		);
 		Object.assign(state.collections[collectionIndex], editedCollection);
+		state.collections.push({});
+		state.collections.pop();
 	},
 	addPicto(state, picto) {
 		const collectionIndex = state.collections.findIndex(
@@ -104,7 +110,6 @@ export const mutations = {
 		state.pictoList[picto.id] = picto;
 	},
 	addCollectionList(state, collection) {
-		console.log("Added collection list");
 		state.collectionList[collection.id] = collection;
 	}
 
@@ -347,7 +352,7 @@ export const actions = {
 			collection.pictos.map((picto) => {
 				if (picto.image) {
 					picto.image =
-						this.$config.baseURL +
+						axios.defaults.baseURL +
 						"/image/pictalk/" +
 						picto.image;
 				}
@@ -361,7 +366,7 @@ export const actions = {
 			collection.collections.map((coll) => {
 				if (coll.image) {
 					coll.image =
-						this.$config.baseURL +
+						axios.defaults.baseURL +
 						"/image/pictalk/" +
 						coll.image;
 				}
@@ -388,16 +393,7 @@ export const actions = {
 					"Content-Type": 'application/x-www-form-urlencoded'
 				}
 			})).data;
-		vuexContext.commit("editCollection", {
-			speech: collection.speech,
-			meaning: collection.meaning,
-			color: collection.color,
-			userId: collection.userId,
-			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
-			fatherCollectionId: collection.fatherCollectionId,
-			starred: editedCollection.starred,
-			id: collection.id
-		});
+		parseAndUpdateEntireCollection(vuexContext, editedCollection);
 		vuexContext.commit("resetCopyCollectionId");
 	}
 }
@@ -427,3 +423,70 @@ export const getters = {
 		return state.collectionList;
 	}
 };
+
+function parseAndUpdateEntireCollection(vuexContext, collection) {
+	if (collection.image) {
+		collection.image =
+			axios.defaults.baseURL +
+			"/image/pictalk/" +
+			collection.image;
+	}
+	if (collection.meaning) {
+		collection.meaning = JSON.parse(collection.meaning);
+	}
+	if (collection.speech) {
+		collection.speech = JSON.parse(collection.speech);
+	}
+	collection.collection = true;
+
+	collection.pictos.map((picto) => {
+		if (picto.image) {
+			picto.image =
+				axios.defaults.baseURL +
+				"/image/pictalk/" +
+				picto.image;
+		}
+		if (picto.meaning) {
+			picto.meaning = JSON.parse(picto.meaning);
+		}
+		if (picto.speech) {
+			picto.speech = JSON.parse(picto.speech);
+		}
+		picto.fatherCollectionId = collection.id;
+		if (!vuexContext.getters.getPictoList[picto.id]) {
+			vuexContext.commit("addPictoList", picto);
+		} else {
+			picto = vuexContext.getters.getPictoList[picto.id]
+		}
+	});
+	collection.collections.map((col) => {
+		if (col.image) {
+			col.image =
+				axios.defaults.baseURL +
+				"/image/pictalk/" +
+				col.image;
+		}
+		if (col.meaning) {
+			col.meaning = JSON.parse(col.meaning);
+		}
+		if (col.speech) {
+			col.speech = JSON.parse(col.speech);
+		}
+		col.collection = true;
+		col.fatherCollectionId = collection.id;
+		if (!vuexContext.getters.getCollectionList[col.id]) {
+			vuexContext.commit("addCollectionList", col);
+			vuexContext.commit("addCollection", col);
+		} else {
+			//col = this.$store.getters.getCollectionList[col.id];
+			vuexContext.commit("editCollection", col);
+		}
+	});
+	if (!vuexContext.getters.getCollectionList[collection.id]) {
+		vuexContext.commit("addCollection", collection);
+		vuexContext.commit("addCollectionList", collection);
+	} else {
+		vuexContext.commit("editCollection", collection);
+	}
+	return collection;
+}

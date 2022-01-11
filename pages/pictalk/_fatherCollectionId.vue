@@ -47,6 +47,7 @@ export default {
 				collectionArray[0].pictos &&
 				collectionArray[0].collections
 			) {
+				
 				let rankedPictos = [];
 				collectionArray[0].collections
 					.concat(collectionArray[0].pictos)
@@ -80,7 +81,7 @@ export default {
 		},
 	},
 	async fetch() {
-		const collections = await this.$store.getters.getCollections;
+		const collections = this.$store.getters.getCollections;
 		let collection;
 		if (collections.length != 0) {
 			const fatherCollectionId = collections.findIndex(
@@ -100,8 +101,6 @@ export default {
 			collections.length == 0
 		) {
 			try {
-				let exists;
-				let existsIndex;
 				if (!this.$route.params.fatherCollectionId) {
 					if (this.$store.getters.getRootId) {
 						const adminMode = this.$route.query.isAdmin
@@ -137,56 +136,58 @@ export default {
 					}
 					res.data.collection = true;
 				}
-				res.data.pictos.map((picto) => {	
-					if (picto.image) {
-						picto.image =
-							this.$config.baseURL +
-							"/image/pictalk/" +
-							picto.image;
-					}
-					if (picto.meaning) {
-						picto.meaning = JSON.parse(picto.meaning);
-					}
-					if (picto.speech) {
-						picto.speech = JSON.parse(picto.speech);
-					}
-					picto.fatherCollectionId = res.data.id;
-					if (!this.$store.getters.getPictoList[picto.id]) {
-						console.log("Add picto list");
-					this.$store.commit("addPictoList",picto);
-				} else {
-					picto = this.$store.getters.getPictoList[picto.id]
-				}
-				});
-				res.data.collections.map((collection) => {
-					console.log(collection);
-					if (collection.image) {
-						collection.image =
-							this.$config.baseURL +
-							"/image/pictalk/" +
-							collection.image;
-					}
-					if (collection.meaning) {
-						collection.meaning = JSON.parse(collection.meaning);
-					}
-					if (collection.speech) {
-						collection.speech = JSON.parse(collection.speech);
-					}
-					collection.collection = true;
-					collection.fatherCollectionId = res.data.id;
-					if (!this.$store.getters.getCollectionList[collection.id]) {
-					this.$store.commit("addCollectionList",collection);
-					this.$store.commit("addCollection", collection);
+				if (res.data.pictos && !res.data.pictos.length == 0) {
+					res.data.pictos.map((picto) => {	
+						if (picto.image) {
+							picto.image =
+								this.$config.baseURL +
+								"/image/pictalk/" +
+								picto.image;
+						}
+						if (picto.meaning) {
+							picto.meaning = JSON.parse(picto.meaning);
+						}
+						if (picto.speech) {
+							picto.speech = JSON.parse(picto.speech);
+						}
+						picto.fatherCollectionId = res.data.id;
+						if (!this.$store.getters.getPictoList[picto.id]) {
+						this.$store.commit("addPictoList",picto);
 					} else {
-						collection = this.$store.getters.getCollectionList[collection.id];
-						this.$store.commit("editCollection", collection);
+						picto = this.$store.getters.getPictoList[picto.id]
 					}
-				});
+					});
+				}
+				if (res.data.collections && !res.data.collections.length == 0) {
+					res.data.collections.map((collection) => {
+						if (collection.image) {
+							collection.image =
+								this.$config.baseURL +
+								"/image/pictalk/" +
+								collection.image;
+						}
+						if (collection.meaning) {
+							collection.meaning = JSON.parse(collection.meaning);
+						}
+						if (collection.speech) {
+							collection.speech = JSON.parse(collection.speech);
+						}
+						collection.collection = true;
+						collection.fatherCollectionId = res.data.id;
+						if (!this.$store.getters.getCollectionList[collection.id]) {
+						this.$store.commit("addCollectionList",collection);
+						this.$store.commit("addCollection", collection);
+						} else {
+							//collection = this.$store.getters.getCollectionList[collection.id];
+							this.$store.commit("editCollection", collection);
+						}
+					});
+				}
 				if (!this.$store.getters.getCollectionList[res.data.id]) {
 					this.$store.commit("addCollection", res.data);
 					this.$store.commit("addCollectionList",res.data);
 				} else {
-					this.$store.commit("editCollection", res.data);
+					await this.$store.commit("editCollection", res.data);
 				}
 			} catch (error) {
 				console.log("error ", error);
