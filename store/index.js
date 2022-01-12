@@ -3,24 +3,22 @@ import Cookie from "js-cookie";
 
 export const state = () => ({
 	collections: [],
+	pictos: [],
 	token: null,
 	pictoSpeech: [],
 	user: {},
 	rootId: null,
 	copyCollectionId: null,
-	pictoList: new Object(),
-	collectionList: new Object()
 });
 const URL = "http://localhost:3001";
 
 export const mutations = {
 	resetStore(state) {
 		state.collections = [];
+		state.pictos = [];
 		state.pictoSpeech = [];
 		state.rootId = null;
 		state.copyCollectionId = null;
-		state.pictoList = new Object();
-		state.collectionList = new Object();
 		state.user = {};
 	},
 	addSpeech(state, picto) {
@@ -34,14 +32,16 @@ export const mutations = {
 	},
 	addCollection(state, newCollection) {
 		state.collections.push(newCollection);
-		const collectionIndex = state.collections.findIndex(
+		const fatherCollectionIndex = state.collections.findIndex(
 			collection => collection.id === newCollection.fatherCollectionId
 		);
-		if (collectionIndex !== -1) {
-			if (!state.collections[collectionIndex].collections) {
-				state.collections[collectionIndex].collections = [];
+		if (fatherCollectionIndex !== -1) {
+			const collectionIndex = state.collections[fatherCollectionIndex].collections.findIndex(
+				collection => collection.id === newCollection.fatherCollectionId
+			);
+			if (collectionIndex == -1) {
+				state.collections[fatherCollectionIndex].collections.push(newCollection);
 			}
-			state.collections[collectionIndex].collections.push(newCollection);
 		}
 	},
 	removeCollection(state, removedCollection) {
@@ -62,20 +62,28 @@ export const mutations = {
 		const collectionIndex = state.collections.findIndex(
 			collection => collection.id === picto.fatherCollectionId
 		);
-		state.collections[collectionIndex].pictos.push(picto);
+		if (collectionIndex !== -1) {
+			const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
+				pct => pct.id === picto.id
+			);
+			if (collectionIndex !== -1 && pictoIndex == -1) {
+				state.collections[collectionIndex].pictos.push(picto);
+			}
+		}
+		state.pictos.push(picto);
+
 	},
 	editPicto(state, editedPicto) {
-		const collectionIndex = state.collections.findIndex(
-			collection => collection.id === editedPicto.fatherCollectionId
-		);
-		const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
+		const pictoIndex = state.pictos.findIndex(
 			picto => picto.id === editedPicto.id
 		);
-		Object.assign(state.collections[collectionIndex].pictos[pictoIndex], editedPicto);
+		Object.assign(state.pictos[pictoIndex], editedPicto);
+		state.collections.push({});
+		state.collections.pop();
 	},
-	removePicto(state, removedPicto) {
+	removePicto(state, removedPicto, fatherCollectionId) {
 		const collectionIndex = state.collections.findIndex(
-			collection => collection.id === removedPicto.fatherCollectionId
+			collection => collection.id === fatherCollectionId
 		);
 		const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
 			picto => picto.id === removedPicto.id
@@ -105,23 +113,13 @@ export const mutations = {
 	},
 	resetCopyCollectionId(state) {
 		state.copyCollectionId = null;
-	},
-	addPictoList(state, picto) {
-		state.pictoList[picto.id] = picto;
-	},
-	addCollectionList(state, collection) {
-		state.collectionList[collection.id] = collection;
 	}
-
 };
 export const actions = {
 	resetCollections(vuexContext) {
 		vuexContext.commit("resetCollections");
 	},
-	addCollection(vuexContext, collection) {
-		vuexContext.commit("addCollection", collection);
-	},
-	async addPicto(vuexContext, picto,) {
+	async addPicto(vuexContext, picto) {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(picto.speech));
 		formData.append("meaning", JSON.stringify(picto.meaning));
@@ -188,10 +186,10 @@ export const actions = {
 			public: editedPicto.public
 		});
 	},
-	async removePicto(vuexContext, removedPicto) {
+	async removePicto(vuexContext, removedPicto, fatherCollectionId) {
 		const res = await axios
-			.delete(URL + "/picto/", { params: { pictoId: removedPicto.id, fatherId: removedPicto.fatherCollectionId } });
-		vuexContext.commit("removePicto", removedPicto);
+			.delete(URL + "/picto/", { params: { pictoId: removedPicto.id, fatherId: fatherCollectionId } });
+		vuexContext.commit("removePicto", removedPicto, fatherCollectionId);
 		return res;
 	},
 	async addCollection(vuexContext, collection) {
@@ -416,12 +414,10 @@ export const getters = {
 	getCopyCollectionId(state) {
 		return state.copyCollectionId;
 	},
-	getPictoList(state) {
-		return state.pictoList;
-	},
-	getCollectionList(state) {
-		return state.collectionList;
+	getPictos(state) {
+		return state.pictos;
 	}
+
 };
 
 function parseAndUpdateEntireCollection(vuexContext, collection) {
@@ -453,10 +449,10 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
 			picto.speech = JSON.parse(picto.speech);
 		}
 		picto.fatherCollectionId = collection.id;
-		if (!vuexContext.getters.getPictoList[picto.id]) {
-			vuexContext.commit("addPictoList", picto);
+		if (!getPictoFromId(picto.id)) {
+			vuexContext.commit("addPicto", picto);
 		} else {
-			picto = vuexContext.getters.getPictoList[picto.id]
+			vuexContext.commit("editPicto", picto);
 		}
 	});
 	collection.collections.map((col) => {
@@ -474,19 +470,25 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
 		}
 		col.collection = true;
 		col.fatherCollectionId = collection.id;
-		if (!vuexContext.getters.getCollectionList[col.id]) {
-			vuexContext.commit("addCollectionList", col);
+		if (!getCollectionFromId(col.id)) {
 			vuexContext.commit("addCollection", col);
 		} else {
-			//col = this.$store.getters.getCollectionList[col.id];
 			vuexContext.commit("editCollection", col);
 		}
 	});
-	if (!vuexContext.getters.getCollectionList[collection.id]) {
+	if (!getCollectionFromId(collection.id)) {
 		vuexContext.commit("addCollection", collection);
-		vuexContext.commit("addCollectionList", collection);
 	} else {
 		vuexContext.commit("editCollection", collection);
 	}
 	return collection;
+}
+
+function getCollectionFromId(vuexContext, id) {
+	const index = vuexContext.getCollections.findIndex((collection) => collection.id === id);
+	return vuexContext.getCollections[index];
+}
+function getPictoFromId(vuexContext, id) {
+	const index = vuexContext.getPictos.findIndex((picto) => picto.id === id);
+	return vuexContext.getPictos[index];
 }

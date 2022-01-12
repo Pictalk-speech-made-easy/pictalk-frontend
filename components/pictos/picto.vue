@@ -129,7 +129,7 @@ export default {
 		},
 		async alternateStar() {
 			try {
-				this.$store.commit("editPicto", {
+				this.$store.commit(this.picto.collection ? "editCollection" : "editPicto", {
 					...this.picto,
 					starred: !this.picto.starred,
 				});

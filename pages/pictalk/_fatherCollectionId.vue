@@ -37,41 +37,41 @@ export default {
 			}
 		},
 		loadedPictos() {
-			const collectionArray = this.$store.getters.getCollections.filter(
-				(collection) =>
-					collection.id ===
-					parseInt(this.$route.params.fatherCollectionId, 10)
-			);
-			if (
-				collectionArray.length !== 0 &&
-				collectionArray[0].pictos &&
-				collectionArray[0].collections
-			) {
-				
-				let rankedPictos = [];
-				collectionArray[0].collections
-					.concat(collectionArray[0].pictos)
-					.forEach((picto) => {
-						if (picto.starred == true) {
-							rankedPictos.unshift(picto);
-						} else {
-							rankedPictos.push(picto);
-						}
-					});
-				return rankedPictos;
-			} else {
-				return [];
+			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === parseInt(this.$route.params.fatherCollectionId,10));
+			const collection =  this.$store.getters.getCollections[index];
+			if (collection) {
+				const collectionList = collection.collections.map((col) => {
+					return this.getCollectionFromId(col.id);
+				});
+				const pictos = collection.pictos.map((pict) => {
+					return this.getPictoFromId(pict.id);
+				});
+				if (
+					pictos &&
+					collectionList
+				) {
+					let rankedPictos = [];
+					collectionList
+						.concat(pictos)
+						.forEach((picto) => {
+							if (picto && picto.starred == true) {
+								rankedPictos.unshift(picto);
+							} else {
+								rankedPictos.push(picto);
+							}
+						});
+					return rankedPictos;
+				} else {
+					return [];
+				}
 			}
+			return [];
 		},
 		collectionColor() {
-			const collection = this.$store.getters.getCollections.filter(
-				(collection) =>
-					collection.id ===
-					parseInt(this.$route.params.fatherCollectionId, 10)
-			);
-			if (collection.length !== 0) {
-				if (collection[0].color) {
-					return collection[0].color;
+			const collection = this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId,10));
+			if (collection) {
+				if (collection.color) {
+					return collection.color;
 				} else {
 					return "#f5f5f5";
 				}
@@ -81,24 +81,14 @@ export default {
 		},
 	},
 	async fetch() {
-		const collections = this.$store.getters.getCollections;
-		let collection;
-		if (collections.length != 0) {
-			const fatherCollectionId = collections.findIndex(
-				(collection) =>
-					collection.id ===
-					parseInt(this.$route.params.fatherCollectionId, 10)
-			);
-			collection = collections[fatherCollectionId];
-		}
+		const collection = this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId,10));
 		// TODO Traiter differement !collection et !collection.pictos || !collection.collections
 		if (
 			!collection ||
 			!collection.pictos ||
 			collection.pictos.length == 0 ||
 			!collection.collections ||
-			collection.collections.length == 0 ||
-			collections.length == 0
+			collection.collections.length == 0
 		) {
 			try {
 				if (!this.$route.params.fatherCollectionId) {
@@ -136,28 +126,6 @@ export default {
 					}
 					res.data.collection = true;
 				}
-				if (res.data.pictos && !res.data.pictos.length == 0) {
-					res.data.pictos.map((picto) => {	
-						if (picto.image) {
-							picto.image =
-								this.$config.baseURL +
-								"/image/pictalk/" +
-								picto.image;
-						}
-						if (picto.meaning) {
-							picto.meaning = JSON.parse(picto.meaning);
-						}
-						if (picto.speech) {
-							picto.speech = JSON.parse(picto.speech);
-						}
-						picto.fatherCollectionId = res.data.id;
-						if (!this.$store.getters.getPictoList[picto.id]) {
-						this.$store.commit("addPictoList",picto);
-					} else {
-						picto = this.$store.getters.getPictoList[picto.id]
-					}
-					});
-				}
 				if (res.data.collections && !res.data.collections.length == 0) {
 					res.data.collections.map((collection) => {
 						if (collection.image) {
@@ -174,21 +142,49 @@ export default {
 						}
 						collection.collection = true;
 						collection.fatherCollectionId = res.data.id;
-						if (!this.$store.getters.getCollectionList[collection.id]) {
-						this.$store.commit("addCollectionList",collection);
+						if (!collection.pictos){
+							collection.pictos = [];
+						}
+						if (!collection.collections){
+							collection.collections = [];
+						}
+						// collectionIndex
+						if (!this.getCollectionFromId(collection.id)) {
 						this.$store.commit("addCollection", collection);
 						} else {
-							//collection = this.$store.getters.getCollectionList[collection.id];
 							this.$store.commit("editCollection", collection);
 						}
 					});
+				}				
+				if (res.data.pictos && !res.data.pictos.length == 0) {
+					res.data.pictos.map((picto) => {	
+						if (picto.image) {
+							picto.image =
+								this.$config.baseURL +
+								"/image/pictalk/" +
+								picto.image;
+						}
+						if (picto.meaning) {
+							picto.meaning = JSON.parse(picto.meaning);
+						}
+						if (picto.speech) {
+							picto.speech = JSON.parse(picto.speech);
+						}
+						picto.fatherCollectionId = res.data.id;
+						if (!this.getCollectionFromId(picto.id)) {
+						this.$store.commit("addPicto",picto);
+					} else {
+						this.$store.commit("editPicto",picto);
+					}
+					});
 				}
-				if (!this.$store.getters.getCollectionList[res.data.id]) {
-					this.$store.commit("addCollection", res.data);
-					this.$store.commit("addCollectionList",res.data);
+
+				if (!this.getCollectionFromId(res.data.id)) {
+					this.$store.commit("addCollection", JSON.parse(JSON.stringify(res.data)));
 				} else {
-					await this.$store.commit("editCollection", res.data);
+					await this.$store.commit("editCollection", JSON.parse(JSON.stringify(res.data)));
 				}
+				
 			} catch (error) {
 				console.log("error ", error);
 			}
@@ -212,6 +208,14 @@ export default {
 		removeSpeech() {
 			this.$store.commit("removeSpeech");
 		},
+		getCollectionFromId(id) {
+			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
+			return this.$store.getters.getCollections[index];
+		},
+		getPictoFromId(id) {
+			const index = this.$store.getters.getPictos.findIndex((picto) => picto.id === id);
+			return this.$store.getters.getPictos[index];
+		}
 	},
 };
 </script>

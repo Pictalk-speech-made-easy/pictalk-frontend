@@ -77,7 +77,8 @@ export default {
 					} else {
 						const res = await this.$store.dispatch(
 							"removePicto",
-							this.object
+							this.object,
+							parseInt(this.$route.params.fatherCollectionId, 10)
 						);
 					}
 					this.$buefy.notification.open({
