@@ -40,15 +40,31 @@
 						icon-right="delete"
 						@click="deletePicto()"
 				/></b-dropdown-item>
-				<b-dropdown-item aria-role="listitem">
+				<b-dropdown-item v-if="picto.collection" aria-role="listitem">
 					<b-button
-					v-if="picto.collection"
 						:expanded="true"
 						type="is-info"
 						icon-right="content-copy"
 						@click="setCopyCollectionId(picto.id)"
 					/>
-				</b-dropdown-item>
+					</b-dropdown-item>
+					<b-dropdown-item v-if="picto.collection" aria-role="listitem">
+					<b-button
+						:expanded="true"
+						type="is-info"
+						icon-right="share"
+						@click="setShortcutCollectionId(picto.id)"
+					/>
+					</b-dropdown-item>
+					<b-dropdown-item v-if="picto.collection" aria-role="listitem">
+					<b-button
+						:expanded="true"
+						type="is-info"
+						icon-right="share-variant"
+						@click="shareCollection(picto.id)"
+					/>
+					</b-dropdown-item>
+				
 			</b-dropdown>
 
 			<div class="column noMargin is-mobile" v-if="picto.starred">
@@ -89,6 +105,14 @@ export default {
 	methods: {
 		setCopyCollectionId(collectionId) {
 			this.$store.commit("setCopyCollectionId", collectionId);
+			this.$store.commit("resetShortcutCollectionId");
+		},
+		setShortcutCollectionId(collectionId) {
+			this.$store.commit("setShortcutCollectionId", collectionId);
+			this.$store.commit("resetCopyCollectionId");
+		},
+		shareCollection(collectionId) {
+
 		},
 		addToSpeech() {
 			this.$store.commit("addSpeech", this.picto);

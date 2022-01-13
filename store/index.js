@@ -19,6 +19,7 @@ export const mutations = {
 		state.pictoSpeech = [];
 		state.rootId = null;
 		state.copyCollectionId = null;
+		state.shortcutCollectionId = null;
 		state.user = {};
 	},
 	addSpeech(state, picto) {
@@ -113,6 +114,12 @@ export const mutations = {
 	},
 	resetCopyCollectionId(state) {
 		state.copyCollectionId = null;
+	},
+	setShortcutCollectionId(state, collectionId) {
+		state.shortcutCollectionId = collectionId;
+	},
+	resetShortcutCollectionId(state) {
+		state.shortcutCollectionId = null;
 	}
 };
 export const actions = {
@@ -224,14 +231,27 @@ export const actions = {
 	},
 	async editCollection(vuexContext, collection) {
 		let formData = new FormData();
-		formData.append("speech", JSON.stringify(collection.speech));
-		formData.append("meaning", JSON.stringify(collection.meaning));
-		formData.append("color", collection.color);
-		formData.append("fatherCollectionId", collection.fatherCollectionId);
-		//formData.append("collectionIds", collection.collectionIds);
-		//formData.append("pictoIds", collection.pictoIds);
-		formData.append("share", collection.share);
-		formData.append("starred", JSON.stringify(collection.starred));
+		if (collection.speech) {
+			formData.append("speech", JSON.stringify(collection.speech));
+		}
+		if (collection.meaning) {
+			formData.append("meaning", JSON.stringify(collection.meaning));
+		}
+		if (collection.color) {
+			formData.append("color", collection.color);
+		}
+		if (collection.collections && collection.collections.length !== 0) {
+			collection.collections.map((col, index) => formData.append('collectionIds[' + index + ']', col.id));
+		}
+		if (collection.pictos && collection.pictos.length !== 0) {
+			collection.pictos.map((pict, index) => formData.append('pictoIds[' + index + ']', pict.id));
+		}
+		if (collection.share) {
+			formData.append("share", collection.share);
+		}
+		if (collection.starred) {
+			formData.append("starred", JSON.stringify(collection.starred));
+		}
 		if (collection.image) {
 			formData.append("image", collection.image);
 		}
@@ -243,14 +263,10 @@ export const actions = {
 			})).data;
 
 		vuexContext.commit("editCollection", {
-			speech: collection.speech,
-			meaning: collection.meaning,
-			color: collection.color,
-			userId: collection.userId,
+			...editedCollection,
+			...(editedCollection.meaning && { meaning: JSON.parse(editedCollection.meaning) }),
+			...(editedCollection.speech && { speech: JSON.parse(editedCollection.speech) }),
 			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
-			fatherCollectionId: collection.fatherCollectionId,
-			starred: editedCollection.starred,
-			id: collection.id
 		});
 	},
 	// DONT CHANGE
@@ -414,10 +430,12 @@ export const getters = {
 	getCopyCollectionId(state) {
 		return state.copyCollectionId;
 	},
+	getShortcutCollectionId(state) {
+		return state.shortcutCollectionId;
+	},
 	getPictos(state) {
 		return state.pictos;
 	}
-
 };
 
 function parseAndUpdateEntireCollection(vuexContext, collection) {

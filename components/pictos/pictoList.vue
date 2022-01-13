@@ -72,7 +72,7 @@ export default {
 	},
 	computed: {
 		checkCopyCollectionId() {
-			return this.$store.getters.getCopyCollectionId;
+			return this.$store.getters.getCopyCollectionId || this.$store.getters.getShortcutCollectionId;
 		},
 	},
 	methods: {
@@ -88,8 +88,18 @@ export default {
 			});
 		},
 		async copyCollection() {
-			await this.$store.dispatch("copyCollectionById", { collectionId: this.$store.getters.getCopyCollectionId, fatherCollectionId: this.$route.params.fatherCollectionId, collection: this.$store.getters.getCollectionList[this.$route.params.fatherCollectionId]});
-		}
+			if (this.$store.getters.getCopyCollectionId) {
+				await this.$store.dispatch("copyCollectionById", { collectionId: this.$store.getters.getCopyCollectionId, fatherCollectionId: this.$route.params.fatherCollectionId, collection: this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId,10))});
+			} else if(this.$store.getters.getShortcutCollectionId) {
+				let collection = JSON.parse(JSON.stringify(this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId,10))))
+				collection.collections.push({id: this.$store.getters.getShortcutCollectionId});
+				await this.$store.dispatch("editCollection", {id: collection.id, collections: collection.collections});
+			}
+		},
+		getCollectionFromId(id) {
+			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
+			return this.$store.getters.getCollections[index];
+		},
 	},
 };
 </script>
