@@ -71,14 +71,15 @@ export default {
 				try {
 					if (this.object.collection) {
 						const res = await this.$store.dispatch(
-							"removeCollection",
-							this.object
+							"removeCollection", {
+							collectionId: this.object.id,
+							fatherCollectionId: parseInt(this.$route.params.fatherCollectionId, 10)}
 						);
 					} else {
 						const res = await this.$store.dispatch(
-							"removePicto",
-							this.object,
-							parseInt(this.$route.params.fatherCollectionId, 10)
+							"removePicto", { pictoId:
+							this.object.id, fatherCollectionId:
+							parseInt(this.$route.params.fatherCollectionId, 10)}
 						);
 					}
 					this.$buefy.notification.open({

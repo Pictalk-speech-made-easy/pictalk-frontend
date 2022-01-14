@@ -82,12 +82,12 @@ export const mutations = {
 		state.collections.push({});
 		state.collections.pop();
 	},
-	removePicto(state, removedPicto, fatherCollectionId) {
+	removePicto(state, { pictoId, fatherCollectionId }) {
 		const collectionIndex = state.collections.findIndex(
 			collection => collection.id === fatherCollectionId
 		);
 		const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
-			picto => picto.id === removedPicto.id
+			picto => picto.id === pictoId
 		);
 		state.collections[collectionIndex].pictos.splice(pictoIndex, 1);
 	},
@@ -193,10 +193,10 @@ export const actions = {
 			public: editedPicto.public
 		});
 	},
-	async removePicto(vuexContext, removedPicto, fatherCollectionId) {
+	async removePicto(vuexContext, { pictoId, fatherCollectionId }) {
 		const res = await axios
-			.delete(URL + "/picto/", { params: { pictoId: removedPicto.id, fatherId: fatherCollectionId } });
-		vuexContext.commit("removePicto", removedPicto, fatherCollectionId);
+			.delete(URL + "/picto/", { params: { pictoId: pictoId, fatherId: fatherCollectionId } });
+		vuexContext.commit("removePicto", { pictoId, fatherCollectionId });
 		return res;
 	},
 	async addCollection(vuexContext, collection) {
@@ -270,9 +270,14 @@ export const actions = {
 		});
 	},
 	// DONT CHANGE
-	async removeCollection(vuexContext, collection) {
-		const res = await axios.delete(URL + "/collection/", { params: { collectionId: collection.id, fatherId: collection.fatherCollectionId } })
-		vuexContext.commit("removeCollection", collection.id)
+	async removeCollection(vuexContext, { collectionId, fatherCollectionId }) {
+		const res = await axios.delete(URL + "/collection/", { params: { collectionId: collectionId, fatherId: fatherCollectionId } });
+		const collectionIndex = vuexContext.getters.getCollections.findIndex((col) => col.id == fatherCollectionId);
+		const collection = vuexContext.getters.getCollections[collectionIndex];
+		const collectionCollectionsIndex = vuexContext.getters.getCollections[collectionIndex].collections.findIndex((col) => col.id == collectionId);
+		const editedCollection = JSON.parse(JSON.stringify(collection));
+		editedCollection.collections.splice(collectionCollectionsIndex, 1);
+		vuexContext.commit("editCollection", editedCollection);
 		return res;
 	},
 	async authenticateUser(vuexContext, authData) {
