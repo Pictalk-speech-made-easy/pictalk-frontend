@@ -14,6 +14,7 @@
 				:key="picto.id + Math.random()"
 				:picto="picto"
 				:adminMode="adminMode"
+				:publicMode="publicMode"
 			/>
 			<div
 				class="
@@ -26,7 +27,7 @@
 				"
 				v-if="adminMode"
 			>
-				<div class="contenant">
+				<div v-if="!publicMode" class="contenant">
 					<div class="columns fab-zone">
 						<div class="column">
 							<b-button
@@ -69,6 +70,11 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		publicMode: {
+			type: Boolean,
+			required: false,
+			default:() => false
+		}
 	},
 	computed: {
 		checkCopyCollectionId() {

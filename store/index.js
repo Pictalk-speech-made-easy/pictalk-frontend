@@ -6,6 +6,7 @@ export const state = () => ({
 	pictos: [],
 	token: null,
 	pictoSpeech: [],
+	public: [],
 	user: {},
 	rootId: null,
 	copyCollectionId: null,
@@ -120,6 +121,9 @@ export const mutations = {
 	},
 	resetShortcutCollectionId(state) {
 		state.shortcutCollectionId = null;
+	},
+	setPublicCollections(state, collections) {
+		state.public = collections;
 	}
 };
 export const actions = {
@@ -414,6 +418,14 @@ export const actions = {
 			})).data;
 		parseAndUpdateEntireCollection(vuexContext, editedCollection);
 		vuexContext.commit("resetCopyCollectionId");
+	},
+	async getPublicCollections(vuexContext) {
+		const publicCollections = (await axios
+			.get(URL + "/collection/public")).data;
+		publicCollections.map(collection => {
+			parseAndUpdateEntireCollection(vuexContext, collection);
+		});
+		vuexContext.commit("setPublicCollections", publicCollections);
 	}
 }
 export const getters = {
@@ -440,6 +452,9 @@ export const getters = {
 	},
 	getPictos(state) {
 		return state.pictos;
+	},
+	getPublicCollections(state) {
+		return state.public;
 	}
 };
 
@@ -457,49 +472,59 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
 		collection.speech = JSON.parse(collection.speech);
 	}
 	collection.collection = true;
+	if (collection.pictos && !collection.pictos.length == 0) {
+		collection.pictos.map((picto) => {
+			if (picto.image) {
+				picto.image =
+					axios.defaults.baseURL +
+					"/image/pictalk/" +
+					picto.image;
+			}
+			if (picto.meaning) {
+				picto.meaning = JSON.parse(picto.meaning);
+			}
+			if (picto.speech) {
+				picto.speech = JSON.parse(picto.speech);
+			}
+			picto.fatherCollectionId = collection.id;
+			if (!getPictoFromId(vuexContext, picto.id)) {
+				vuexContext.commit("addPicto", picto);
+			} else {
+				vuexContext.commit("editPicto", picto);
+			}
+		});
+	}
+	if (collection.collections && !collection.collections.length == 0) {
+		collection.collections.map((col) => {
+			if (col.image) {
+				col.image =
+					axios.defaults.baseURL +
+					"/image/pictalk/" +
+					col.image;
+			}
+			if (col.meaning) {
+				col.meaning = JSON.parse(col.meaning);
+			}
+			if (col.speech) {
+				col.speech = JSON.parse(col.speech);
+			}
+			if (!col.pictos) {
+				col.pictos = [];
+			}
+			if (!col.collections) {
+				col.collections = [];
+			}
 
-	collection.pictos.map((picto) => {
-		if (picto.image) {
-			picto.image =
-				axios.defaults.baseURL +
-				"/image/pictalk/" +
-				picto.image;
-		}
-		if (picto.meaning) {
-			picto.meaning = JSON.parse(picto.meaning);
-		}
-		if (picto.speech) {
-			picto.speech = JSON.parse(picto.speech);
-		}
-		picto.fatherCollectionId = collection.id;
-		if (!getPictoFromId(picto.id)) {
-			vuexContext.commit("addPicto", picto);
-		} else {
-			vuexContext.commit("editPicto", picto);
-		}
-	});
-	collection.collections.map((col) => {
-		if (col.image) {
-			col.image =
-				axios.defaults.baseURL +
-				"/image/pictalk/" +
-				col.image;
-		}
-		if (col.meaning) {
-			col.meaning = JSON.parse(col.meaning);
-		}
-		if (col.speech) {
-			col.speech = JSON.parse(col.speech);
-		}
-		col.collection = true;
-		col.fatherCollectionId = collection.id;
-		if (!getCollectionFromId(col.id)) {
-			vuexContext.commit("addCollection", col);
-		} else {
-			vuexContext.commit("editCollection", col);
-		}
-	});
-	if (!getCollectionFromId(collection.id)) {
+			col.collection = true;
+			col.fatherCollectionId = collection.id;
+			if (!getCollectionFromId(vuexContext, col.id)) {
+				vuexContext.commit("addCollection", col);
+			} else {
+				vuexContext.commit("editCollection", col);
+			}
+		});
+	}
+	if (!getCollectionFromId(vuexContext, collection.id)) {
 		vuexContext.commit("addCollection", collection);
 	} else {
 		vuexContext.commit("editCollection", collection);
@@ -508,10 +533,10 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
 }
 
 function getCollectionFromId(vuexContext, id) {
-	const index = vuexContext.getCollections.findIndex((collection) => collection.id === id);
-	return vuexContext.getCollections[index];
+	const index = vuexContext.getters.getCollections.findIndex((collection) => collection.id === id);
+	return vuexContext.getters.getCollections[index];
 }
 function getPictoFromId(vuexContext, id) {
-	const index = vuexContext.getPictos.findIndex((picto) => picto.id === id);
-	return vuexContext.getPictos[index];
+	const index = vuexContext.getters.getPictos.findIndex((picto) => picto.id === id);
+	return vuexContext.getters.getPictos[index];
 }

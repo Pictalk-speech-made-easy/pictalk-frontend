@@ -49,6 +49,12 @@
 						icon-right="home"
 					/>
 					<b-button
+					type="is-success-light"
+					icon-right="human"
+					tag="nuxt-link"
+					to="/public"
+					/>
+					<b-button
 						v-if="this.$route.path.includes('pictalk')"
 						type="is-success"
 						icon-right="cloud-sync"

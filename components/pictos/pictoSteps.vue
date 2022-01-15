@@ -462,15 +462,10 @@ export default {
 			}
 		},
 		async flickrExtractImg(pictoSearch) {
-			if (!this.$config.flickrAPIKey) {
-				return;
-			}
 			let responseData;
 			try {
 				responseData = (
-					await axios.get(
-						`https://www.flickr.com/services/rest/?sort=relevance&lang=${this.$store.getters.getUser.language}&method=flickr.photos.search&api_key=${this.$config.flickrAPIKey}&text=${pictoSearch}&safe_search=true&per_page=25&format=json&nojsoncallback=1`
-					)
+					await axios.get('/image/flickr/', { params: {search: pictoSearch, language: this.getUserLang(true)}})
 				).data.photos.photo;
 				responseData.forEach((photo) => {
 					this.images.push({

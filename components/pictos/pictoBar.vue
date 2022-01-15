@@ -167,7 +167,12 @@ export default {
 								adminMode
 						);
 					} else {
-						this.$router.push("/pictalk" + adminMode);
+						if (this.publicMode) {
+							this.$router.push("/public");
+						} else {
+							this.$router.push("/pictalk" + adminMode);
+						}
+						
 					}
 				} else {
 					if (pictoSpeech[pictoSpeech.length - 2].collection) {
@@ -238,6 +243,11 @@ export default {
 			type: String,
 			required: true,
 		},
+		publicMode: {
+			type: Boolean,
+			required: false,
+			default: () => false
+		}
 	},
 	data() {
 		return {

@@ -16,7 +16,7 @@
 		<div class="notification meaning">
 			{{ picto.meaning[$store.getters.getUser.language] }}
 		</div>
-		<div v-if="adminMode" class="adminMenu adminoption columns">
+		<div v-if="adminMode && !publicMode" class="adminMenu adminoption columns">
 			<b-dropdown aria-role="menu" class="column noMargin is-mobile">
 				<template #trigger="{ active }">
 					<b-button
@@ -82,6 +82,15 @@
 				/>
 			</div>
 		</div>
+		<div v-if="publicMode" class="adminMenu adminoption columns">
+			<div class="column noMargin is-mobile">
+				<b-button
+					type="is-success"
+					icon-right="plus"
+					@click=""
+				/>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -101,6 +110,11 @@ export default {
 			type: Object,
 			required: true,
 		},
+		publicMode: {
+			type: Boolean,
+			required: false,
+			default: () => false
+		}
 	},
 	methods: {
 		setCopyCollectionId(collectionId) {
