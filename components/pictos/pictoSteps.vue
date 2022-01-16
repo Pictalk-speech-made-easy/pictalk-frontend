@@ -458,7 +458,7 @@ export default {
 			} else if (user.language && detailled) {
 				return user.language;
 			} else {
-				return this.$i18n.getLocaleCookie();
+				return window.navigator.language;
 			}
 		},
 		async flickrExtractImg(pictoSearch) {

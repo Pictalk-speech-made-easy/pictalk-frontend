@@ -67,7 +67,7 @@ export default {
 		getText(pictos) {
 			return pictos.reduce(
 				(acc, curr_val) =>
-					acc + " " + curr_val.speech[this.getUserLang],
+					acc + " " + curr_val.speech[this.getUserLang(true)],
 				""
 			);
 		},
@@ -137,7 +137,7 @@ export default {
 				const message = this.getText(pictos);
 				msg.text = message;
 				let voice = this.languages.filter(
-					(voice) => voice.lang == this.getUserLang
+					(voice) => voice.lang == this.getUserLang(true)
 				);
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
@@ -160,6 +160,9 @@ export default {
 					adminMode = "?isAdmin=true";
 				}
 				if (pictoSpeech.length <= 1) {
+					if (this.publicMode) {
+						this.$router.push("/public/");
+					} else {
 					if (this.$store.getters.getRootId) {
 						this.$router.push(
 							"/pictalk/" +
@@ -167,28 +170,27 @@ export default {
 								adminMode
 						);
 					} else {
-						if (this.publicMode) {
-							this.$router.push("/public");
-						} else {
 							this.$router.push("/pictalk" + adminMode);
-						}
-						
+					}
 					}
 				} else {
 					if (pictoSpeech[pictoSpeech.length - 2].collection) {
 					this.$router.push(
-						"/pictalk/" +
+						(this.publicMode ? "/public/" : "/pictalk/") +
 							pictoSpeech[pictoSpeech.length - 2].id +
 							adminMode
 					);
 					}
 				}
-			
 			this.$store.commit("removeSpeech");
 		},
 		eraseSpeech() {
 			this.$store.commit("eraseSpeech");
 			const adminMode = this.$route.query.isAdmin ? "?isAdmin=true" : "";
+			if (this.publicMode) {
+				this.$router.push("/public/");
+				return;
+			}
 			if (this.$store.getters.getRootId) {
 				this.$router.push(
 					"/pictalk/" + this.$store.getters.getRootId + adminMode
@@ -227,8 +229,15 @@ export default {
 				"--bg-color": this.collectionColor,
 			};
 		},
-		getUserLang() {
-			return this.$store.getters.getUser.language;
+		getUserLang(detailled = false) {
+			const user = this.$store.getters.getUser;
+			if (user.language && !detailled) {
+				return user.language.replace(/[^a-z]/g, "");
+			} else if (user.language && detailled) {
+				return user.language;
+			} else {
+				return window.navigator.language;
+			}
 		},
 	},
 	components: {

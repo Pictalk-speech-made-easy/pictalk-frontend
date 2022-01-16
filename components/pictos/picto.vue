@@ -186,7 +186,7 @@ export default {
 	},
 	computed: {
 		pictoLink() {
-			return String("/pictalk/" + this.picto.id);
+			return this.publicMode ? String("/public/" + this.picto.id) : String("/pictalk/" + this.picto.id);
 		},
 	},
 };

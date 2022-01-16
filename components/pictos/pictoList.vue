@@ -10,7 +10,7 @@
 					is-one-quarter-widescreen
 					is-one-fifth-fullhd
 				"
-				v-for="picto in pictos"
+				v-for="picto in getFilteredPictoList"
 				:key="picto.id + Math.random()"
 				:picto="picto"
 				:adminMode="adminMode"
@@ -74,12 +74,20 @@ export default {
 			type: Boolean,
 			required: false,
 			default:() => false
+		},
+		search: {
+			type: String,
+			required: false,
+			default:() => ""
 		}
 	},
 	computed: {
 		checkCopyCollectionId() {
 			return this.$store.getters.getCopyCollectionId || this.$store.getters.getShortcutCollectionId;
 		},
+		getFilteredPictoList() {
+			return this.pictos.filter((picto) => picto.meaning[this.getUserLang(true)]?.includes(this.search));
+		}
 	},
 	methods: {
 		addPicto() {
@@ -92,6 +100,16 @@ export default {
 				trapFocus: true,
 				canCancel: ["escape", "x"],
 			});
+		},
+		getUserLang(detailled = false) {
+			const user = this.$store.getters.getUser;
+			if (user.language && !detailled) {
+				return user.language.replace(/[^a-z]/g, "");
+			} else if (user.language && detailled) {
+				return user.language;
+			} else {
+				return window.navigator.language;
+			}
 		},
 		async copyCollection() {
 			if (this.$store.getters.getCopyCollectionId) {
@@ -108,6 +126,7 @@ export default {
 			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
 			return this.$store.getters.getCollections[index];
 		},
+
 	},
 };
 </script>

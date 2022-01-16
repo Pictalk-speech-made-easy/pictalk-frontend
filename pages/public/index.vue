@@ -20,18 +20,7 @@
 		<br>
 		<br>
 		<div class="container is-widescreen">
-			<pictoList :pictos="loadedPictos" :adminMode="isLogged" :publicMode="true" />
-		</div>
-		<div class="contenant">
-			<pictoBar
-				v-if="loadSpeech.length != 0"
-				class="pictobar"
-				:pictos="loadSpeech"
-				collectionColor="#fe5656"
-			/>
-		</div>
-		<div class="filler"></div>
-			<div class="container is-max-desktop">
+			<pictoList :search="search" :pictos="loadedPictos" :adminMode="isLogged" :publicMode="true" />
 		</div>
 	</div>
 </template>
