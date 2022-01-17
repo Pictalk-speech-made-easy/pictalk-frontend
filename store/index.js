@@ -426,6 +426,18 @@ export const actions = {
 			parseAndUpdateEntireCollection(vuexContext, collection);
 		});
 		vuexContext.commit("setPublicCollections", publicCollections);
+	},
+	async shareCollection(vuexContext, { collectionId, username, role, access }) {
+		const params = new URLSearchParams();
+		params.append('access', access);
+		params.append('username', username);
+		params.append('role', role);
+		const sharedCollection = (await axios.put(URL + '/collection/share/' + collectionId, params, {
+			headers: {
+				"Content-Type": 'application/x-www-form-urlencoded'
+			}
+		})).data;
+		parseAndUpdateEntireCollection(vuexContext, sharedCollection);
 	}
 }
 export const getters = {

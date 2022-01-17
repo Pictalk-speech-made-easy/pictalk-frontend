@@ -61,7 +61,7 @@
 						:expanded="true"
 						type="is-info"
 						icon-right="share-variant"
-						@click="shareCollection(picto.id)"
+						@click="sharePicto()"
 					/>
 					</b-dropdown-item>
 				
@@ -96,6 +96,7 @@
 <script>
 import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
+import shareItem from "@/components/pictos/shareItem";
 export default {
 	name: "picto",
 	components: {
@@ -125,9 +126,6 @@ export default {
 			this.$store.commit("setShortcutCollectionId", collectionId);
 			this.$store.commit("resetCopyCollectionId");
 		},
-		shareCollection(collectionId) {
-
-		},
 		addToSpeech() {
 			this.$store.commit("addSpeech", this.picto);
 			if (this.picto.collection == true) {
@@ -148,6 +146,20 @@ export default {
 				hasModalCard: true,
 				customClass: "custom-class custom-class-2",
 				trapFocus: true,
+				canCancel: ["escape", "x"],
+			});
+		},
+		sharePicto() {
+			this.$buefy.modal.open({
+				parent: this,
+				props: {
+					picto: JSON.parse(JSON.stringify(this.picto)),
+				},
+				component: shareItem,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+				canCancel: ["escape", "x"],
 			});
 		},
 		editPicto() {

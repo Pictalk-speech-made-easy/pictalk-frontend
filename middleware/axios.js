@@ -21,6 +21,7 @@ export default function (context) {
     if (error.response?.status == 401) {
       await context.store.dispatch("logout");
       context.store.commit('editUser', {});
+      context.redirect('/');
       return Promise.reject(error);
     }
   });
