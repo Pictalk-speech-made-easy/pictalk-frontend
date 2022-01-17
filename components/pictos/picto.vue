@@ -87,7 +87,7 @@
 				<b-button
 					type="is-success"
 					icon-right="plus"
-					@click=""
+					@click="setShortcutCollectionIdDirectlyToRoot(picto.id)"
 				/>
 			</div>
 		</div>
@@ -118,6 +118,11 @@ export default {
 		}
 	},
 	methods: {
+		async setShortcutCollectionIdDirectlyToRoot(collectionId) {
+			let collection = JSON.parse(JSON.stringify(this.getCollectionFromId(this.$store.getters.getRootId)))
+			collection.collections.push({id: collectionId});
+			await this.$store.dispatch("editCollection", {id: collection.id, collections: collection.collections});
+		},
 		setCopyCollectionId(collectionId) {
 			this.$store.commit("setCopyCollectionId", collectionId);
 			this.$store.commit("resetShortcutCollectionId");
@@ -194,6 +199,10 @@ export default {
 					icon: "account",
 				});
 			}
+		},
+		getCollectionFromId(id) {
+			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
+			return this.$store.getters.getCollections[index];
 		},
 	},
 	computed: {
