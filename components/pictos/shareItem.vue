@@ -66,7 +66,6 @@ export default {
 		},
 		deleteCollaborator(index) {
 			this.collaborators[index].access = '0';
-			this.collaborators.splice(index, 1);
 		},
 		getIconByMode(index){
 			console.log((this.collaborators[index].mode == "editor") ? "account-edit" : "account-eye");

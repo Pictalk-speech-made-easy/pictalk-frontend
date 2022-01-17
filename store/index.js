@@ -437,7 +437,9 @@ export const actions = {
 				"Content-Type": 'application/x-www-form-urlencoded'
 			}
 		})).data;
-		parseAndUpdateEntireCollection(vuexContext, sharedCollection);
+		if (sharedCollection) {
+			parseAndUpdateEntireCollection(vuexContext, sharedCollection);
+		}
 	}
 }
 export const getters = {

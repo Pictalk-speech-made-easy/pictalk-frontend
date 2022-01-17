@@ -69,6 +69,12 @@
 							type="is-primary"
 							>{{ $t("GoToPictalk") }}</b-button
 						>
+						<b-button
+							tag="nuxt-link"
+							to="/public"
+							type="is-success is-light"
+							>{{ $t("TryPictalk") }}</b-button
+						>
 					</div>
 				</b-navbar-item>
 			</template>
