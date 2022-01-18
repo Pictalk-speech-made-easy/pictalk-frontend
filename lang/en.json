@@ -1,6 +1,12 @@
 {
     "Home": "Home",
+    "Description": "Pictalk aims to facilitate non-verbal people communications using AAC resources or pictograms",
     "GetStarted": "Get Started !",
+    "DescriptionNews": "All the news about Pictalk development in the path of providing free speech for all. Based on AAC pictograms and TTS.",
+    "DescriptionHelp": "Seeking help ? Here are the basic functionnalities and buttons of Pictalk. Based on AAC pictograms and TTS.",
+    "DescriptionTutorial": "Newcomer ? The Pictalk tutorial will get you on tracks ! Based on AAC pictograms and TTS.",
+    "DescriptionContact": "Want to request a feature or talk to us ? Just get in touch with us at this email address.",
+    "DescriptionAbout": "Things about us and Pictalk.",
     "Infos": "Informations",
     "BugsAndSuggestions": "Bugs & Suggestions",
     "NewsAndUpdates": "News and Updates",

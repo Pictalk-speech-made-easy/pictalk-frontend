@@ -225,3 +225,24 @@
 		</body>
 	</div>
 </template>
+<script>
+export default {
+	head() {
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      htmlAttrs: {
+        title: 'Pictograms',
+        ...i18nHead.htmlAttrs
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('DescriptionTutorial')
+        },
+        ...i18nHead.meta
+      ]
+    }
+	},
+}
+</script>

@@ -28,6 +28,27 @@
 		</section>
 	</div>
 </template>
+<script>
+export default {
+	head() {
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      htmlAttrs: {
+        title: 'Pictograms',
+        ...i18nHead.htmlAttrs
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('DescriptionContact')
+        },
+        ...i18nHead.meta
+      ]
+    }
+	},
+}
+</script>
 <style scoped>
 .bug {
 	max-width: 100%;

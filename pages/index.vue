@@ -149,6 +149,23 @@ export default {
 	components: {
 		signup,
 	},
+	head() {
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
+    return {
+      htmlAttrs: {
+        title: 'Pictalk',
+        ...i18nHead.htmlAttrs
+      },
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.$t('Description')
+        },
+        ...i18nHead.meta
+      ]
+    }
+	},
 	middleware: ["check-auth"],
 	methods: {
 		openSignUpModal() {

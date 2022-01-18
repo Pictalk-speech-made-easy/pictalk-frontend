@@ -9,9 +9,6 @@
 <script>
 import pictalkNavbar from "@/components/navigation/pictalk-navbar";
 export default {
-	head() {
-		return this.$nuxtI18nHead({ addSeoAttributes: true });
-	},
 	components: {
 		pictalkNavbar,
 	},

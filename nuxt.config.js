@@ -12,7 +12,7 @@ export default {
     fallback: true
   },
   head: {
-    title: process.env.npm_package_name || "Pictalk",
+    title: "Pictalk",
     meta: [{
       charset: "utf-8"
     },
@@ -23,7 +23,7 @@ export default {
     {
       hid: "description",
       name: "description",
-      content: process.env.npm_package_description || "Pictalk is a web app that aims to facilitate non-verbal poeople's communications"
+      content: "Pictalk aims to facilitate non-verbal people communications using AAC resources or pictograms"
     }
     ],
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
@@ -69,7 +69,8 @@ export default {
     exclude: [
       '/changePassword',
       '/account',
-      '/resetPassword/**'
+      '/resetPassword/**',
+      '/_nuxt/**'
     ],
   },
   i18n: {
@@ -147,6 +148,7 @@ export default {
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
     '@nuxtjs/i18n',
     [
       "nuxt-cookie-control",
@@ -176,6 +178,16 @@ export default {
       }
     ]
   ],
+  robots: {
+    Disallow: [
+      '/pictalk',
+      '/changepassword',
+      '/account',
+      '/resetPassword/**',
+      '/_nuxt/**'
+    ],
+    Sitemap: 'https://www.pictalk.xyz/sitemap.xml'
+  },
   pwa: {
     workbox: {
 
