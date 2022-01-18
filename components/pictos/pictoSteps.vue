@@ -167,7 +167,7 @@
 
 								<b-dropdown-item
 									v-for="language in getAllUserLanguages"
-									:key="language"
+									:key="language + Math.random()"
 									aria-role="listitem"
 									@click="switchSpeechLanguage(language)"
 									>{{ getEmoji(language) }}</b-dropdown-item
@@ -335,6 +335,9 @@ export default {
 		previousStep() {
 			this.activeStep -= 1;
 		},
+		convertToSimpleLanguage(language){
+			return language.replace(/[^a-z]/g, "");
+		},
 		async pronounce(speech) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
@@ -358,11 +361,12 @@ export default {
 		},
 		async onSubmitted(isCollection = false) {
 			let cfile;
-			if (Object.values(this.picto.meaning).length == 0) {
+			if (Object.values(this.picto.meaning).length == 0 || !this.picto.meaning[this.getUserLang(true)]) {
 				this.$buefy.notification.open({
 					message: this.$t("MeaningEmpty"),
 					type: "is-danger",
 				});
+				return;
 			}
 			if (this.create && !this.file.name) {
 				this.$buefy.notification.open({
@@ -394,6 +398,34 @@ export default {
 						maxWidth: 500,
 						quality: 0.15,
 					});
+				}
+				if (this.create || traductionNeeded()) {
+				this.$store.getters.getUser.languages.forEach(async (language) => {
+					if (language == this.getUserLang(true) || this.picto.meaning[language] || this.picto.speech[language]) {
+						return;
+					}
+					if (this.picto.meaning[this.getUserLang(true)] == this.picto.speech[this.getUserLang(true)]){
+						this.picto.meaning[language] = this.picto.speech[language] = (await axios.get('/translation/', { 
+							params: {
+								text: this.picto.meaning[this.getUserLang(true)],
+								targetLang: this.convertToSimpleLanguage(language),
+							}
+						}))?.data.translations[0].text;
+					} else {
+						this.picto.meaning[language] = (await axios.get('/translation/', { 
+							params: {
+								text: this.picto.meaning[this.getUserLang(true)],
+								targetLang: this.convertToSimpleLanguage(language),
+							}
+						}))?.data.translations[0].text;
+						this.picto.speech[language] = (await axios.get('/translation/', { 
+							params: {
+								text: this.picto.speech[this.getUserLang(true)],
+								targetLang: this.convertToSimpleLanguage(language),
+							}
+						}))?.data.translations[0].text;
+					}
+				});
 				}
 				if (this.create) {
 					await this.$store.dispatch(
@@ -461,6 +493,24 @@ export default {
 				return window.navigator.language;
 			}
 		},
+		traductionNeeded() {
+			// Si meaning du language principal change
+			// Si meaning vide
+			const savedPicto = this.picto.collection ?  getCollectionFromId(this.picto.id) : getPictoFromId(this.picto.id);
+			if (!savedPicto.meaning[this.getUserLang(true)] || savedPicto.meaning[this.getUserLang(true)] != this.picto.meaning[this.getUserLang(true)]) {
+				return true
+			} else {
+				return false
+			}
+		},
+		getCollectionFromId(id) {
+			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
+			return this.$store.getters.getCollections[index];
+		},
+		getPictoFromId(id) {
+			const index = this.$store.getters.getPictos.findIndex((picto) => picto.id === id);
+			return this.$store.getters.getPictos[index];
+		},
 		async flickrExtractImg(pictoSearch) {
 			let responseData;
 			try {
@@ -490,8 +540,8 @@ export default {
 					await axios.get(
 						`https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`
 					)
-				).data;
-				for (let i = 0; i < responseData.length; i++) {
+				)?.data;
+				for (let i = 0; i < responseData?.length; i++) {
 					this.images.push({
 						src: `https://api.arasaac.org/api/pictograms/${responseData[i]["_id"]}?color=true&resolution=500&download=false`,
 						alt: responseData[i]["keywords"][0]
@@ -499,7 +549,7 @@ export default {
 							: responseData[i]["categories"][0],
 					});
 				}
-				if (responseData.length < 3) {
+				if (!responseData || responseData?.length < 3) {
 					this.flickrExtractImg(pictoSearch);
 				} else {
 					this.loading = false;

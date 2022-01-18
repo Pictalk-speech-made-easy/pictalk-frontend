@@ -220,6 +220,9 @@ export default {
 				});
 				return;
 			}
+			this.languages = this.languages.filter(function(item, pos, a) {
+    		return a.indexOf(item) == pos;
+			});
 			try {
 				const res = await axios.post("/auth/signup", {
 					username: this.username,

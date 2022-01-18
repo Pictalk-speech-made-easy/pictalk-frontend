@@ -350,7 +350,7 @@ export const actions = {
 	// NEEDS CHANGES
 	async editUser(vuexContext, user) {
 		const res = await axios
-			.put(URL + "/auth/details/", user);
+			.put(URL + "/user/details/", user);
 		vuexContext.commit("editUser", {
 			username: user.username,
 			language: user.language,
@@ -361,50 +361,8 @@ export const actions = {
 	},
 	async downloadCollections(vuexContext) {
 		const res = await axios.get("/collection");
-		res.data.map(collection => {
-			if (collection.image) {
-				collection.image =
-					axios.defaults.baseURL + "/image/pictalk/" + collection.image;
-			}
-			if (collection.meaning) {
-				collection.meaning = JSON.parse(collection.meaning);
-			}
-			if (collection.speech) {
-				collection.speech = JSON.parse(collection.speech);
-			}
-			collection.pictos.map((picto) => {
-				if (picto.image) {
-					picto.image =
-						axios.defaults.baseURL +
-						"/image/pictalk/" +
-						picto.image;
-				}
-				if (picto.meaning) {
-					picto.meaning = JSON.parse(picto.meaning);
-				}
-				if (picto.speech) {
-					picto.speech = JSON.parse(picto.speech);
-				}
-			});
-			collection.collections.map((coll) => {
-				if (coll.image) {
-					coll.image =
-						axios.defaults.baseURL +
-						"/image/pictalk/" +
-						coll.image;
-				}
-				if (coll.meaning) {
-					coll.meaning = JSON.parse(coll.meaning);
-				}
-				if (coll.speech) {
-					coll.speech = JSON.parse(coll.speech);
-				}
-				coll.collection = true;
-			});
-			collection.collection = true;
-		});
-		vuexContext.commit("resetCollections");
-		vuexContext.commit("setCollections", res.data);
+		res.data.map(collection => parseAndUpdateEntireCollection(vuexContext, collection)
+		);
 	},
 	async copyCollectionById(vuexContext, { collectionId, fatherCollectionId, collection }) {
 		const params = new URLSearchParams();

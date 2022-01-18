@@ -25,6 +25,14 @@ export default {
 		pictoList: pictoList,
 		pictoBar: pictoBar,
 	},
+	mounted(){
+		window.addEventListener('online', this.refreshPictos);
+		window.addEventListener('offline', this.lostConnectivityNotification);
+	},
+	unmounted(){
+		window.removeEventListener('online', this.refreshPictos);
+		window.removeEventListener('offline', this.lostConnectivityNotification);
+	},
 	computed: {
 		loadSpeech() {
 			return this.$store.getters.getSpeech;
@@ -215,7 +223,39 @@ export default {
 		getPictoFromId(id) {
 			const index = this.$store.getters.getPictos.findIndex((picto) => picto.id === id);
 			return this.$store.getters.getPictos[index];
-		}
+		},
+		lostConnectivityNotification(){
+			const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("LostConnectivity"),
+					position: "is-top-right",
+					type: "is-danger",
+					hasIcon: true,
+					icon: "airplane",
+				});
+		},
+		async refreshPictos() {
+			try {
+				await this.$store.dispatch("downloadCollections");
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("PictosFetched"),
+					position: "is-top-right",
+					type: "is-success",
+					hasIcon: true,
+					icon: "refresh",
+				});
+			} catch (err) {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("ServerOffline"),
+					position: "is-top-right",
+					type: "is-danger",
+					hasIcon: true,
+					icon: "danger",
+				});
+			}
+		},
 	},
 };
 </script>

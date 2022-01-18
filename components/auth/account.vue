@@ -336,6 +336,9 @@ export default {
 			}
 		},
 		async onSave() {
+			this.user.languages = this.user.languages.filter(function(item, pos, a) {
+    		return a.indexOf(item) == pos;
+			});
 			try {
 				const res = await this.$store.dispatch("editUser", {
 					username: this.user.username,
