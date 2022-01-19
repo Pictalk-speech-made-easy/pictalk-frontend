@@ -10,7 +10,7 @@
 					animated
 					mobile-mode="compact"
 					label-position="bottom">
-        <b-step-item clickable label="Account" icon="account-key">
+        <b-step-item clickable :label="$t('Account')" icon="account-key">
 					<b-field :label="$t('Email')">
 					<b-input
 						type="email"
@@ -42,7 +42,7 @@
 					></b-input>
 				</b-field>
 				</b-step-item>
-        <b-step-item clickable label="Profile" icon="account">
+        <b-step-item clickable :label="$t('Language')" icon="translate">
 					<div class="contenant">
 					<b-image
 					class="center"
@@ -52,7 +52,7 @@
 						style="width: 80%;"
         ></b-image>
 				</div>
-					<b-field class="column" :label="$t('Principal Language')">
+					<b-field class="column" :label="$t('PrincipalLanguage')">
 						<b-select
 							v-model="language"
 							placeholder="Select language"
@@ -74,7 +74,7 @@
 					<b-field v-if="showLanguages" class="column" :label="$t('Languages')">
 						<b-select
 							v-model="languages"
-							placeholder="Select language"
+							:placeholder="$t('SelectLanguage')"
 							required
 							multiple
 							expanded
@@ -92,8 +92,8 @@
 						</b-select>
 					</b-field>
 				</b-step-item clickable>
-        <b-step-item clickable label="Social" icon="account-plus">
-					<b-field :label="$t('Direct Sharers')">
+        <b-step-item clickable :label="$t('Sharers')" icon="account-plus">
+					<b-field :label="$t('DirectSharers')">
 						<b-input
 							v-for="index in directSharers.length"
 							:key="index"
@@ -108,7 +108,7 @@
 						</p>
 					</b-field>
 				</b-step-item>
-				<b-step-item clickable label="Social" icon="account-plus">
+				<b-step-item clickable :label="$t('TermsAndConditions')" icon="chart-box">
 					<div class="field">
 					<b-checkbox v-model="majority" required type="is-success">
 						{{ $t("Majority") }}
@@ -182,14 +182,12 @@ export default {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
 			let voices = window.speechSynthesis.getVoices();
 			if (voices.length !== 0) {
-				console.log(voices);
 				resolve(voices);
 			} else {
 				window.speechSynthesis.addEventListener(
 					"voiceschanged",
 					function () {
 						voices = window.speechSynthesis.getVoices();
-						console.log(voices);
 						resolve(voices);
 
 					}
