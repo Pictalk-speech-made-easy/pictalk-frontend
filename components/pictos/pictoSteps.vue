@@ -25,7 +25,7 @@
 					mobile-mode="compact"
 					label-position="bottom"
 				>
-					<b-step-item step="1" :label="$t('Image')" clickable>
+					<b-step-item clickable step="1" :label="$t('Image')" clickable>
 						<div v-if="picto.path">
 							<img
 								class="mini-image"
