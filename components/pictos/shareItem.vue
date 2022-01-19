@@ -68,7 +68,6 @@ export default {
 			this.collaborators[index].access = '0';
 		},
 		getIconByMode(index){
-			console.log((this.collaborators[index].mode == "editor") ? "account-edit" : "account-eye");
 			return (this.collaborators[index].mode == "editor") ? "account-edit" : "account-eye";
 		},
 		pushSharerAndMode() {

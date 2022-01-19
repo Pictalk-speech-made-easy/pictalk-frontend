@@ -11,6 +11,15 @@
 					mobile-mode="compact"
 					label-position="bottom">
         <b-step-item clickable :label="$t('Account')" icon="account-key">
+					<div class="contenant">
+					<b-image
+					class="center"
+            lazy
+						:srcset="require('@/assets/credentials.png').srcSet"
+						alt="A boy and a girl speaking different languages"
+						style="width: 80%;"
+        ></b-image>
+				</div>
 					<b-field :label="$t('Email')">
 					<b-input
 						type="email"
@@ -93,22 +102,39 @@
 					</b-field>
 				</b-step-item clickable>
         <b-step-item clickable :label="$t('Sharers')" icon="account-plus">
-					<b-field :label="$t('DirectSharers')">
+					<div class="contenant">
+					<b-image
+					class="center"
+            lazy
+						:srcset="require('@/assets/share.png').srcSet"
+						alt="A boy and a girl speaking different languages"
+						style="width: 80%;"
+        ></b-image>
+				</div>
+					<b-field v-for="index in directSharers.length"
+							:key="index" :label="$t('DirectSharer') + ' ' + index">
 						<b-input
-							v-for="index in directSharers.length"
-							:key="index"
 							v-model="directSharers[index - 1]"
 						></b-input>
-						<p class="control">
-							<b-button
+						<b-button class="is-danger" icon-left="delete" @click="directSharers.splice(index - 1,1)">
+						</b-button>
+					</b-field>
+					<b-button
 								type="is-primary"
 								icon-right="plus"
 								@click="directSharers.push('')"
 							/>
-						</p>
-					</b-field>
 				</b-step-item>
 				<b-step-item clickable :label="$t('TermsAndConditions')" icon="chart-box">
+					<div class="contenant">
+					<b-image
+					class="center"
+            lazy
+						:srcset="require('@/assets/terms_conditions.png').srcSet"
+						alt="A boy and a girl speaking different languages"
+						style="width: 40%;"
+        ></b-image>
+				</div>
 					<div class="field">
 					<b-checkbox v-model="majority" required type="is-success">
 						{{ $t("Majority") }}
@@ -174,7 +200,7 @@ export default {
 			majority: false,
 			passwordConfirmation: "",
 			loadingVoices: true,
-			directSharers: [],
+			directSharers: [''],
 			showLanguages: false,
 		};
 	},
@@ -208,15 +234,18 @@ export default {
 			},
 			deep: true,
 		},
+		languages(newValue, oldValue) {
+			if (newValue.length > oldValue.length && newValue.length > 1) {
+				const l = newValue[0];
+				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == l)[0].lang, l);
+			}
+		}
 	},
 	methods: {
 		convertToSimpleLanguage(language){
 			return language.replace(/[^a-z]/g, "");
 		},
 		async playSentenceInLanguage(lang, voiceURI){
-			console.log(lang);
-			console.log(voiceURI);
-			// Ask deepL for traduction of a specific phrase
 			let translatedText = (await axios.get('/translation/', { 
 							params: {
 								text: "I like french fries",
@@ -224,8 +253,6 @@ export default {
 							}
 						}))?.data.translations[0].text;
 			this.pronounce(translatedText, lang, voiceURI);
-			console.log("Done playSentence");
-			// Play it
 		},
 		async pronounce(speech, lang, voiceURI) {
 			if ("speechSynthesis" in window) {
@@ -234,15 +261,12 @@ export default {
 				let voice = this.voices.filter(
 					(voice) => voice.voiceURI == voiceURI
 				);
-				console.log(voice);
 				if (voice.length == 0) {
 					voice = this.voices.filter(
 					(voice) => voice.lang == lang
 					);
 				}
-				console.log(voice);
 				if (voice.length !== 0) {
-					console.log("Voice: ",voice[0]);
 					msg.voice = voice[0];
 				}
 				window.speechSynthesis.speak(msg);
