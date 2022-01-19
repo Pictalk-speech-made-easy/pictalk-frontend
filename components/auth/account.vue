@@ -59,6 +59,18 @@
 				</b-field>
 			</div>
 			<hr />
+			<h1 class="subtitle">{{$t('OptionnalParameters')}}</h1>
+
+			<b-field>
+            <b-switch>{{$t('PronouncePictoOnClick')}}</b-switch>
+      </b-field>
+			<b-field>
+            <b-switch>{{$t('EnforcedSecurityMode')}}</b-switch>
+      </b-field>
+			<b-field>
+            <b-switch>{{$t('ReturnWithoutRemoveButton')}}</b-switch>
+      </b-field>
+			<hr />
 			<b-button tag="nuxt-link" to="/pictalk">{{
 				$t("Cancel")
 			}}</b-button>

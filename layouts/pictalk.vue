@@ -12,6 +12,9 @@ export default {
 	components: {
 		pictalkNavbar,
 	},
+	mounted(){
+		// Fetch cache and get all images by batches
+	}
 };
 </script>
 <style scoped>
