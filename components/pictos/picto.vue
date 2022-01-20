@@ -14,7 +14,7 @@
 			/>
 		</div>
 		<div class="notification meaning">
-			{{ picto.meaning[$store.getters.getUser.language] }}
+			{{ picto.meaning[getUserLang] }}
 		</div>
 		<div v-if="adminMode && !publicMode" class="adminMenu adminoption columns">
 			<b-dropdown aria-role="menu" class="column noMargin is-mobile">
@@ -208,6 +208,15 @@ export default {
 	computed: {
 		pictoLink() {
 			return this.publicMode ? String("/public/" + this.picto.id) : String("/pictalk/" + this.picto.id);
+		},
+		getUserLang() {
+			const user = this.$store.getters.getUser;
+			const lang = Object.keys(user.language)[0];
+			if (lang ) {
+				return lang;
+			} else {
+				return window.navigator.language;
+			}
 		},
 	},
 };
