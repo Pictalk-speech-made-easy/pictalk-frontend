@@ -209,7 +209,7 @@ export default {
 		},
 		voiceURIs: function(newValue, oldValue) {
 				if (newValue.length > oldValue.length && newValue.length > 1) {
-					const v = newValue[newValue.length - 1];
+					const v = newValue.filter( ai => oldValue.indexOf(ai) == -1 )[0];
 					if (this.initialization == false) {this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);}
 				}
 		}
@@ -235,7 +235,6 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
-			console.log(this.user.language);
 			this.voiceURI = this.user.language[Object.keys(this.user.language)[0]][this.getDeviceInfo()]?.voiceURI;
 			this.voiceURIs = Object.keys(this.user.languages).map((lang) => {
 				return (this.user.languages[lang][this.getDeviceInfo()]?.voiceURI)
@@ -252,7 +251,6 @@ export default {
 					return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
 				}
 			});
-			console.log(this.user.language);
 		});
 		this.directSharers = [...this.user.directSharers];
 	},
