@@ -146,6 +146,7 @@
 <script>
 import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
+import merge from 'lodash.merge';
 export default {
 	computed: {
 		getObjectUserDirectSharers() {
@@ -234,7 +235,7 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
-
+			console.log(this.user.language);
 			this.voiceURI = this.user.language[Object.keys(this.user.language)[0]][this.getDeviceInfo()]?.voiceURI;
 			this.voiceURIs = Object.keys(this.user.languages).map((lang) => {
 				return (this.user.languages[lang][this.getDeviceInfo()]?.voiceURI)
@@ -251,6 +252,7 @@ export default {
 					return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
 				}
 			});
+			console.log(this.user.language);
 		});
 		this.directSharers = [...this.user.directSharers];
 	},
@@ -442,15 +444,17 @@ export default {
 				device[this.getDeviceInfo()] = {voiceURI: voiceURI, pitch: ""};
 				languages[this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang] = device;
 			});
-			console.log(language);
-			console.log(languages);
+			let editedLanguage = Object.assign({}, JSON.parse(JSON.stringify(this.user.language)));
+			let editedLanguages = Object.assign({}, JSON.parse(JSON.stringify(this.user.languages)));
+			merge(editedLanguage, language);
+			merge(editedLanguages, languages);
 			try {
 				const res = await this.$store.dispatch("editUser", {
 					username: this.user.username,
 					password: this.user.password,
 					password: this.user.password,
-					language: language,
-					languages: languages,
+					language: editedLanguage,
+					languages: editedLanguages,
 					directSharers: this.directSharers,
 				});
 			} catch (error) {
