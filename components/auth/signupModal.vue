@@ -236,7 +236,7 @@ export default {
 		},
 		voiceURIs(newValue, oldValue) {
 			if (newValue.length > oldValue.length && newValue.length > 1) {
-				const v = newValue[newValue.length - 1];
+				const v = newValue.filter( ai => oldValue.indexOf(ai) == -1 )[0];
 				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);
 			}
 		}
@@ -344,8 +344,6 @@ export default {
 				device[this.getDeviceInfo()] = {voiceURI: voiceURI, pitch: ""};
 				languages[this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang] = device;
 			});
-			console.log(language);
-			console.log(languages);
 			try {
 				const res = await axios.post("/auth/signup", {
 					username: this.username,
