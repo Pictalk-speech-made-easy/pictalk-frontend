@@ -213,6 +213,9 @@ export default {
 				}
 		}
 	},
+	beforeUpdate() {
+		this.initialization = false;
+	},
 	async created() {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
 			let voices = window.speechSynthesis.getVoices();
@@ -248,13 +251,8 @@ export default {
 					return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
 				}
 			});
-			
-			console.log(this.voiceURI);
-			console.log(this.voiceURIs);
 		});
 		this.directSharers = [...this.user.directSharers];
-		this.initialization = false;
-		
 	},
 	methods: {
 		getDeviceInfo(){

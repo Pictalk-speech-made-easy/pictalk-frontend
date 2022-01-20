@@ -103,10 +103,11 @@ export default {
 		},
 		getUserLang(detailled = false) {
 			const user = this.$store.getters.getUser;
-			if (user.language && !detailled) {
-				return user.language.replace(/[^a-z]/g, "");
-			} else if (user.language && detailled) {
-				return user.language;
+			const lang = Object.keys(user.language)[0];
+			if (lang && !detailled) {
+				return lang.replace(/[^a-z]/g, "");
+			} else if (lang && detailled) {
+				return lang;
 			} else {
 				return window.navigator.language;
 			}

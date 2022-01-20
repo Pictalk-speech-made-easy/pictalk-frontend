@@ -61,7 +61,25 @@ export default {
 				);
 			}
 		});
-		allVoicesObtained.then((voices) => (this.languages = voices));
+		allVoicesObtained.then((voices) => {
+			this.voices = voices
+			this.voiceURI = this.$store.getters.getUser.language[Object.keys(this.$store.getters.getUser.language)[0]][this.getDeviceInfo()]?.voiceURI;
+			this.voiceURIs = Object.keys(this.$store.getters.getUser.languages).map((lang) => {
+				return (this.$store.getters.getUser.languages[lang][this.getDeviceInfo()]?.voiceURI)
+			});
+			// Si vide alors remplir avec la premiere valeur equiv a lang
+			if (!this.voiceURI) {
+				this.voiceURI = this.voices.filter((voice) => voice.lang == Object.keys(this.$store.getters.getUser.language)[0])[0].voiceURI;
+			}
+			
+			this.voiceURIs = Object.keys(this.$store.getters.getUser.languages).map((lang, index) => {
+				if (this.voiceURIs[index]) {
+					return this.voiceURIs[index];
+				} else {
+					return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
+				}
+			});
+		});
 	},
 	methods: {
 		getText(pictos) {
@@ -70,6 +88,22 @@ export default {
 					acc + " " + curr_val.speech[this.getUserLang(true)],
 				""
 			);
+		},
+		getDeviceInfo(){
+			return this.getOSInfo() + window.screen.height + window.screen.width + window.devicePixelRatio;
+		},
+		getOSInfo(){
+			if (window.navigator.userAgent.indexOf("Windows NT 10.0")!= -1) return "Windows 10";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1) return "Windows 8.1";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1) return "Windows 8";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1) return "Windows 7";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1) return "Windows Vista";
+			if (window.navigator.userAgent.indexOf("Mac")            != -1) return "Mac/iOS";
+			if (window.navigator.userAgent.indexOf("X11")            != -1) return "UNIX";
+			if (window.navigator.userAgent.indexOf("Linux")          != -1) return "Linux";
+		},
+		convertToSimpleLanguage(language){
+			return language.replace(/[^a-z]/g, "");
 		},
 		async copyPictosToClipboardLegacy(pictos) {
 			const message = this.getText(pictos);
@@ -136,9 +170,14 @@ export default {
 				var msg = new SpeechSynthesisUtterance();
 				const message = this.getText(pictos);
 				msg.text = message;
-				let voice = this.languages.filter(
-					(voice) => voice.lang == this.getUserLang(true)
+				let voice = this.voices.filter(
+					(voice) => voice.voiceURI == this.voiceURI
 				);
+				if (voice.length == 0) {
+					voice = this.voices.filter(
+					(voice) => voice.lang == this.getUserLang(true)
+					);
+				}
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
 				}
@@ -222,22 +261,23 @@ export default {
 			}
 			return new Blob([ab], { type: "image/png" });
 		},
+		getUserLang(detailled = false) {
+			const user = this.$store.getters.getUser;
+			const lang = Object.keys(user.language)[0];
+			if (lang && !detailled) {
+				return lang.replace(/[^a-z]/g, "");
+			} else if (lang && detailled) {
+				return lang;
+			} else {
+				return window.navigator.language;
+			}
+		},
 	},
 	computed: {
 		cssVars() {
 			return {
 				"--bg-color": this.collectionColor,
 			};
-		},
-		getUserLang(detailled = false) {
-			const user = this.$store.getters.getUser;
-			if (user.language && !detailled) {
-				return user.language.replace(/[^a-z]/g, "");
-			} else if (user.language && detailled) {
-				return user.language;
-			} else {
-				return window.navigator.language;
-			}
 		},
 	},
 	components: {
@@ -261,7 +301,9 @@ export default {
 	data() {
 		return {
 			adminMode: false,
-			languages: [],
+			voices: [],
+			voiceURI: "",
+			voiceURIs: [],
 		};
 	},
 };
