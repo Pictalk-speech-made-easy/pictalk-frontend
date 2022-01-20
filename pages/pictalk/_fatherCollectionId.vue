@@ -200,8 +200,7 @@ export default {
 		const user = this.$store.getters.getUser;
 		if (!user.username) {
 			try {
-				var res = await axios.get("/user/details/");
-				this.$store.commit("editUser", res.data);
+				await this.$store.dispatch('getUser');
 			} catch (error) {
 				console.log("error ", error);
 			}

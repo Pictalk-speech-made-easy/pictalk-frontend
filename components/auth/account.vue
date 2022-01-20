@@ -19,9 +19,9 @@
 				></b-input>
 			</b-field>
 			<div class="columns">
-				<b-field class="column" :label="$t('Principal Language')">
+				<b-field class="column" :label="$t('PrincipalLanguage')">
 					<b-select
-						v-model="user.language"
+						v-model="voiceURI"
 						placeholder="Select language"
 						required
 						expanded
@@ -29,17 +29,17 @@
 						size="is-small"
 					>
 						<option
-							v-for="language in loadedVoices"
-							:value="language.lang"
-							:key="language.voiceURI"
+							v-for="voice in loadedVoices"
+							:value="voice.voiceURI"
+							:key="voice.voiceURI"
 						>
-							{{ getEmoji(language.lang) }}
+							{{ getEmoji(voice.lang) }} {{voice.voiceURI}}
 						</option>
 					</b-select>
 				</b-field>
 				<b-field class="column" :label="$t('Languages')">
 					<b-select
-						v-model="user.languages"
+						v-model="voiceURIs"
 						placeholder="Select language"
 						required
 						multiple
@@ -49,11 +49,11 @@
 						:loading="loadingVoices"
 					>
 						<option
-							v-for="language in loadedVoices"
-							:value="language.lang"
-							:key="language.voiceURI"
+							v-for="voice in loadedVoices"
+							:value="voice.voiceURI"
+							:key="voice.voiceURI"
 						>
-							{{ getEmoji(language.lang) }}
+							{{ getEmoji(voice.lang) }} {{voice.voiceURI}}
 						</option>
 					</b-select>
 				</b-field>
@@ -179,12 +179,15 @@ export default {
 			showDirectSharerInputText: false,
 			addDirectSharer: "",
 			voices: [],
+			voiceURI: "",
+			voiceURIs: [],
 			nb_requests: 0,
 			checkedRows: [],
 			directSharers: [],
 			loadingVoices: true,
 			done_requests: 0,
 			dl_launched: false,
+			initialization: true,
 			columns: [
 				{
 					field: "username",
@@ -195,10 +198,20 @@ export default {
 		};
 	},
 	watch: {
-		language(l) {
-			this.user.languages = [];
-			this.user.languages.push(l);
+		voiceURI:function(v, oldVoice) {
+				const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
+				if (oldIndex != -1) {
+					this.voiceURIs.splice(oldIndex, 1);
+				}
+				this.voiceURIs.push(v);
+				if (this.initialization == false) {this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);}
 		},
+		voiceURIs: function(newValue, oldValue) {
+				if (newValue.length > oldValue.length && newValue.length > 1) {
+					const v = newValue[newValue.length - 1];
+					if (this.initialization == false) {this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);}
+				}
+		}
 	},
 	async created() {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -218,10 +231,83 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
+
+			this.voiceURI = this.user.language[Object.keys(this.user.language)[0]][this.getDeviceInfo()]?.voiceURI;
+			this.voiceURIs = Object.keys(this.user.languages).map((lang) => {
+				return (this.user.languages[lang][this.getDeviceInfo()]?.voiceURI)
+			});
+			// Si vide alors remplir avec la premiere valeur equiv a lang
+			if (!this.voiceURI) {
+				this.voiceURI = this.voices.filter((voice) => voice.lang == Object.keys(this.user.language)[0])[0].voiceURI;
+			}
+			
+			this.voiceURIs = Object.keys(this.user.languages).map((lang, index) => {
+				if (this.voiceURIs[index]) {
+					return this.voiceURIs[index];
+				} else {
+					return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
+				}
+			});
+			
+			console.log(this.voiceURI);
+			console.log(this.voiceURIs);
 		});
 		this.directSharers = [...this.user.directSharers];
+		this.initialization = false;
+		
 	},
 	methods: {
+		getDeviceInfo(){
+			return this.getOSInfo() + window.screen.height + window.screen.width + window.devicePixelRatio;
+		},
+		getOSInfo(){
+			if (window.navigator.userAgent.indexOf("Windows NT 10.0")!= -1) return "Windows 10";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1) return "Windows 8.1";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1) return "Windows 8";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1) return "Windows 7";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1) return "Windows Vista";
+			if (window.navigator.userAgent.indexOf("Mac")            != -1) return "Mac/iOS";
+			if (window.navigator.userAgent.indexOf("X11")            != -1) return "UNIX";
+			if (window.navigator.userAgent.indexOf("Linux")          != -1) return "Linux";
+		},
+		convertToSimpleLanguage(language){
+			return language.replace(/[^a-z]/g, "");
+		},
+		async playSentenceInLanguage(lang, voiceURI){
+			let translatedText = (await axios.get('/translation/', { 
+							params: {
+								text: "I like french fries",
+								targetLang: this.convertToSimpleLanguage(lang),
+							}
+						}))?.data.translations[0].text;
+			this.pronounce(translatedText, lang, voiceURI);
+		},
+		async pronounce(speech, lang, voiceURI) {
+			if ("speechSynthesis" in window) {
+				var msg = new SpeechSynthesisUtterance();
+				msg.text = speech;
+				let voice = this.voices.filter(
+					(voice) => voice.voiceURI == voiceURI
+				);
+				if (voice.length == 0) {
+					voice = this.voices.filter(
+					(voice) => voice.lang == lang
+					);
+				}
+				if (voice.length !== 0) {
+					msg.voice = voice[0];
+				}
+				window.speechSynthesis.speak(msg);
+			} else {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("NoVoicesFound"),
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+				});
+			}
+		},
 		showDirectSharerInput() {
 			this.showDirectSharerInputText = !this.showDirectSharerInputText;
 		},
@@ -348,16 +434,25 @@ export default {
 			}
 		},
 		async onSave() {
-			this.user.languages = this.user.languages.filter(function(item, pos, a) {
-    		return a.indexOf(item) == pos;
+			let device = {};
+			let language = {};
+			let languages = {};
+			device[this.getDeviceInfo()] = {voiceURI: this.voiceURI, pitch: ""};
+			language[this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0].lang] = device;
+			this.voiceURIs.forEach((voiceURI) => {
+				device = {};
+				device[this.getDeviceInfo()] = {voiceURI: voiceURI, pitch: ""};
+				languages[this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang] = device;
 			});
+			console.log(language);
+			console.log(languages);
 			try {
 				const res = await this.$store.dispatch("editUser", {
 					username: this.user.username,
 					password: this.user.password,
 					password: this.user.password,
-					language: this.user.language,
-					languages: this.user.languages,
+					language: language,
+					languages: languages,
 					directSharers: this.directSharers,
 				});
 			} catch (error) {

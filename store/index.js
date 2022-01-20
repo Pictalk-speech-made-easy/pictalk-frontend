@@ -347,14 +347,21 @@ export const actions = {
 		}
 		vuexContext.commit("resetStore");
 	},
-	// NEEDS CHANGES
+	async getUser(vuexContext) {
+		var user = (await axios.get("/user/details/")).data;
+		user.language = JSON.parse(user.language);
+		user.languages = JSON.parse(user.languages);
+		vuexContext.commit("editUser", user);
+	},
 	async editUser(vuexContext, user) {
+		user.language = JSON.stringify(user.language);
+		user.languages = JSON.stringify(user.languages);
 		const res = await axios
 			.put(URL + "/user/details/", user);
 		vuexContext.commit("editUser", {
 			username: user.username,
-			language: user.language,
-			languages: user.languages,
+			language: JSON.parse(user.language),
+			languages: JSON.parse(user.languages),
 			directSharers: user.directSharers
 		});
 		return res;

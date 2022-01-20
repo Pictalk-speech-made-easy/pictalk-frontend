@@ -63,7 +63,7 @@
 				</div>
 					<b-field class="column" :label="$t('PrincipalLanguage')">
 						<b-select
-							v-model="language"
+							v-model="voiceURI"
 							placeholder="Select language"
 							required
 							expanded
@@ -82,7 +82,7 @@
 					<b-button @click="showLanguages = !showLanguages" type="is-ghost">{{ $t('SpeakMoreLanguage')}}</b-button>
 					<b-field v-if="showLanguages" class="column" :label="$t('Languages')">
 						<b-select
-							v-model="languages"
+							v-model="voiceURIs"
 							:placeholder="$t('SelectLanguage')"
 							required
 							multiple
@@ -193,9 +193,9 @@ export default {
 		return {
 			username: "",
 			password: "",
-			language: "",
+			voiceURI: "",
 			voices: [],
-			languages: [],
+			voiceURIs: [],
 			terms: false,
 			majority: false,
 			passwordConfirmation: "",
@@ -226,24 +226,37 @@ export default {
 		});
 	},
 	watch: {
-		language: {
-			handler: function(l) {
-				this.languages = [];
-				this.languages.push(l);
-				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == l)[0].lang, l);
+		voiceURI: {
+			handler: function(v) {
+				this.voiceURIs = [];
+				this.voiceURIs.push(v);
+				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);
 			},
 			deep: true,
 		},
-		languages(newValue, oldValue) {
+		voiceURIs(newValue, oldValue) {
 			if (newValue.length > oldValue.length && newValue.length > 1) {
-				const l = newValue[0];
-				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == l)[0].lang, l);
+				const v = newValue[newValue.length - 1];
+				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);
 			}
 		}
 	},
 	methods: {
 		convertToSimpleLanguage(language){
 			return language.replace(/[^a-z]/g, "");
+		},
+		getDeviceInfo(){
+			return this.getOSInfo() + window.screen.height + window.screen.width + window.devicePixelRatio;
+		},
+		getOSInfo(){
+			if (window.navigator.userAgent.indexOf("Windows NT 10.0")!= -1) return "Windows 10";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1) return "Windows 8.1";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1) return "Windows 8";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1) return "Windows 7";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1) return "Windows Vista";
+			if (window.navigator.userAgent.indexOf("Mac")            != -1) return "Mac/iOS";
+			if (window.navigator.userAgent.indexOf("X11")            != -1) return "UNIX";
+			if (window.navigator.userAgent.indexOf("Linux")          != -1) return "Linux";
 		},
 		async playSentenceInLanguage(lang, voiceURI){
 			let translatedText = (await axios.get('/translation/', { 
@@ -296,8 +309,8 @@ export default {
 				this.passwordConfirmation == "" ||
 				this.major == false ||
 				this.terms == false ||
-				this.language == "" ||
-				this.languages.length == 0
+				this.voiceURI == "" ||
+				this.voiceURIs.length == 0
 			) {
 				const notif = this.$buefy.notification.open({
 					duration: 5000,
@@ -320,15 +333,25 @@ export default {
 				});
 				return;
 			}
-			this.languages = this.languages.filter(function(item, pos, a) {
-    		return a.indexOf(item) == pos;
+			//let device, language, languages = {};
+			let device = {};
+			let language = {};
+			let languages = {};
+			device[this.getDeviceInfo()] = {voiceURI: this.voiceURI, pitch: ""};
+			language[this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0].lang] = device;
+			Object.assign(languages, language);
+			this.voiceURIs.forEach((voiceURI) => {
+				device[this.getDeviceInfo()] = {voiceURI: voiceURI, pitch: ""};
+				languages[this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang] = device;
 			});
+			console.log(language);
+			console.log(languages);
 			try {
 				const res = await axios.post("/auth/signup", {
 					username: this.username,
 					password: this.password,
-					language: this.language,
-					languages: this.languages,
+					language: JSON.stringify(language),
+					languages: JSON.stringify(languages),
 					directSharers: this.directSharers,
 				});
 				if (res.status == 201) {
