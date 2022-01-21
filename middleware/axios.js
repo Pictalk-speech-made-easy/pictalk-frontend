@@ -14,17 +14,18 @@ export default function (context) {
     (error) => {
       return Promise.reject(error);
     });
-  axios.interceptors.response.use((response) => {
-    // If err 401 redirect to homepage with notifications
-    return response;
-  }, async (error) => {
-    if (error.response?.status == 401) {
-      await context.store.dispatch("logout");
-      context.store.commit('editUser', {});
-      context.redirect('/');
-      return Promise.reject(error);
-    }
-  });
+  /*
+axios.interceptors.response.use((response) => {
+  // If err 401 redirect to homepage with notifications
+  return response;
+}, async (error) => {
+  if (error.response?.status == 401) {
+    await context.store.dispatch("logout");
+    context.store.commit('editUser', {});
+    context.redirect('/');
+    return Promise.reject(error);
+  }
+});*/
 }
 
 

@@ -25,11 +25,11 @@ export default {
 		pictoList: pictoList,
 		pictoBar: pictoBar,
 	},
-	mounted(){
+	created(){
 		window.addEventListener('online', this.refreshPictos);
 		window.addEventListener('offline', this.lostConnectivityNotification);
 	},
-	unmounted(){
+	destroyed(){
 		window.removeEventListener('online', this.refreshPictos);
 		window.removeEventListener('offline', this.lostConnectivityNotification);
 	},

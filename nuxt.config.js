@@ -193,10 +193,13 @@ export default {
 
       //dev: true,
       /*
-      config: {
-        debug: true
-      },*/
-      cachingExtensions: '@/plugins/workboxConfig.js'
+            config: {
+              debug: true
+            },*/
+      cachingExtensions: '@/plugins/workboxConfig.js',
+      importScripts: [
+        'background-fetch.js'
+      ],
       /*
       runtimeCaching: [
         {

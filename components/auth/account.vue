@@ -80,25 +80,6 @@
 				>{{ $t("Save") }}</b-button
 			>
 			<br />
-			<br />
-			<br />
-			<b-progress
-				type="is-success"
-				:value="requestsPercentage"
-				show-value
-				format="percent"
-			></b-progress>
-
-			<b-button icon-left="download" type="is-info" @click="downloadAll()"
-				>{{ $t("DownloadAllPictos") }}
-			</b-button>
-			<br />
-			<br />
-			<b-message type="is-success">
-				<div class="subtitle">
-					{{ $t("DownloadAllPictosNotice") }}
-				</div>
-			</b-message>
 		</div>
 		<div class="column">
 			<b-field :label="$t('TrustedSources')">

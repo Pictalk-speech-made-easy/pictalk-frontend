@@ -1,10 +1,11 @@
 <template>
 	<form action>
-		<div class="modal-card" style="height: 100vh; width: 100vw;">
+		<div class="modal-card">
 			<header class="modal-card-head">
 				<p class="modal-card-title">{{ $t("SignUp") }}</p>
 			</header>
 			<section class="modal-card-body">
+				<div class="container">
 				<b-steps 
 					rounded
 					animated
@@ -155,6 +156,7 @@
 				</div>
 				</b-step-item>
     		</b-steps>
+				</div>
 				
 				<br />
 				
