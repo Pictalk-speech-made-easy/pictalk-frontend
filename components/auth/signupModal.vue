@@ -168,7 +168,6 @@
 						onSubmit(
 							username,
 							password,
-							language,
 							majority,
 							terms,
 							passwordConfirmation

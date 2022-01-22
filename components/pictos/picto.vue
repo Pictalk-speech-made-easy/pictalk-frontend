@@ -25,7 +25,7 @@
 					/>
 				</template>
 
-				<b-dropdown-item aria-role="listitem"
+				<b-dropdown-item v-if="isOnline && (isEditor || isToUser)" aria-role="listitem"
 					><b-button
 						type="is-info"
 						icon-right="pencil"
@@ -33,7 +33,7 @@
 						@click="editPicto()"
 					/>
 				</b-dropdown-item>
-				<b-dropdown-item aria-role="listitem"
+				<b-dropdown-item v-if="isOnline" aria-role="listitem"
 					><b-button
 						:expanded="true"
 						type="is-danger"
@@ -213,11 +213,23 @@ export default {
 			const user = this.$store.getters.getUser;
 			const lang = Object.keys(user.language)[0];
 			if (lang ) {
-				return lang;
+				return lang.replace(/[^a-z]/g, "");;
 			} else {
 				return window.navigator.language;
 			}
 		},
+		isToUser() {
+			return this.$store.getters.getUser.id == this.picto.userId;
+		},
+		isEditor() {
+			return this.picto.editors?.find((editor) => editor == this.$store.getters.getUser.username) != undefined;
+		},
+		isViewer() {
+			return this.picto.viewers?.find((viewer) => viewer == this.$store.getters.getUser.username) != undefined;
+		},
+		isOnline() {
+			return window.navigator.onLine;
+		}
 	},
 };
 </script>

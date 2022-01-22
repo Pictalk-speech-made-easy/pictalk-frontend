@@ -55,6 +55,12 @@
 					to="/public"
 					/>
 					<b-button
+					type="is-primary-light"
+					icon-right="folder-account"
+					:to="sharedLink"
+					tag="nuxt-link"
+					/>
+					<b-button
 						v-if="this.$route.path.includes('pictalk')"
 						type="is-success"
 						icon-right="cloud-sync"
@@ -110,6 +116,9 @@ export default {
 				(i) => i.code !== this.$i18n.locale
 			);
 		},
+		sharedLink() {
+			return '/pictalk/' + this.$store.getters.getSharedId;
+		}
 	},
 	methods: {
 		async refreshPictos() {

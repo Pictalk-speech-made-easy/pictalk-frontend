@@ -85,7 +85,7 @@ export default {
 		getText(pictos) {
 			return pictos.reduce(
 				(acc, curr_val) =>
-					acc + " " + curr_val.speech[this.getUserLang(true)],
+					acc + " " + curr_val.speech[this.getUserLang()],
 				""
 			);
 		},
@@ -175,7 +175,7 @@ export default {
 				);
 				if (voice.length == 0) {
 					voice = this.voices.filter(
-					(voice) => voice.lang == this.getUserLang(true)
+					(voice) => voice.lang == this.getUserLang()
 					);
 				}
 				if (voice.length !== 0) {

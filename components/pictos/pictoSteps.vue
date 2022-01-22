@@ -177,7 +177,7 @@
 						<b-field :label="$t('Speech')">
 							<b-input
 								type="text"
-								v-model="picto.speech[languageSelectorSpeech]"
+								v-model="picto.speech[this.convertToSimple(languageSelectorSpeech)]"
 								:placeholder="$t('SpeechNotice')"
 								expanded
 							></b-input>
@@ -186,7 +186,7 @@
 								icon-right="message"
 								@click="
 									pronounce(
-										picto.speech[languageSelectorSpeech]
+										picto.speech[this.convertToSimple(languageSelectorSpeech)]
 									)
 								"
 							></b-button>
@@ -194,7 +194,7 @@
 						<b-field :label="$t('Meaning')">
 							<b-input
 								type="text"
-								v-model="picto.meaning[languageSelectorSpeech]"
+								v-model="picto.meaning[this.convertToSimple(languageSelectorSpeech)]"
 								:placeholder="$t('MeaningNotice')"
 								expanded
 							></b-input>
@@ -299,7 +299,7 @@ export default {
 			);
 		},
 		getAllUserLanguages() {
-			return Object.keys(this.$store.getters.getUser.languages);
+			return Object.keys(this.$store.getters.getUser.languages).map((languages) => languages.replace(/[^a-z]/g, ""));
 		},
 	},
 	data() {
@@ -323,6 +323,9 @@ export default {
 		this.languageSelectorSpeech = this.getUserLang(true);
 	},
 	methods: {
+		convertToSimple(language) {
+			return language.replace(/[^a-z]/g, "");
+		},
 		switchSpeechLanguage(language) {
 			this.languageSelectorSpeech = language;
 		},
@@ -334,9 +337,6 @@ export default {
 		},
 		previousStep() {
 			this.activeStep -= 1;
-		},
-		convertToSimpleLanguage(language){
-			return language.replace(/[^a-z]/g, "");
 		},
 		async pronounce(speech) {
 			if ("speechSynthesis" in window) {
@@ -361,7 +361,7 @@ export default {
 		},
 		async onSubmitted(isCollection = false) {
 			let cfile;
-			if (Object.values(this.picto.meaning).length == 0 || !this.picto.meaning[this.getUserLang(true)]) {
+			if (Object.values(this.picto.meaning).length == 0 || !this.picto.meaning[this.getUserLang()]) {
 				this.$buefy.notification.open({
 					message: this.$t("MeaningEmpty"),
 					type: "is-danger",
@@ -400,28 +400,28 @@ export default {
 					});
 				}
 				if (this.create || traductionNeeded()) {
-				this.getAllUserLanguages().forEach(async (language) => {
-					if (language == this.getUserLang(true) || this.picto.meaning[language] || this.picto.speech[language]) {
+				this.getAllUserLanguages.forEach(async (language) => {
+					if (language == this.getUserLang() || this.picto.meaning[language] || this.picto.speech[language]) {
 						return;
 					}
-					if (this.picto.meaning[this.getUserLang(true)] == this.picto.speech[this.getUserLang(true)]){
+					if (this.picto.meaning[this.getUserLang()] == this.picto.speech[this.getUserLang()]){
 						this.picto.meaning[language] = this.picto.speech[language] = (await axios.get('/translation/', { 
 							params: {
-								text: this.picto.meaning[this.getUserLang(true)],
-								targetLang: this.convertToSimpleLanguage(language),
+								text: this.picto.meaning[this.getUserLang()],
+								targetLang: language,
 							}
 						}))?.data.translations[0].text;
 					} else {
 						this.picto.meaning[language] = (await axios.get('/translation/', { 
 							params: {
-								text: this.picto.meaning[this.getUserLang(true)],
-								targetLang: this.convertToSimpleLanguage(language),
+								text: this.picto.meaning[this.getUserLang()],
+								targetLang: language,
 							}
 						}))?.data.translations[0].text;
 						this.picto.speech[language] = (await axios.get('/translation/', { 
 							params: {
-								text: this.picto.speech[this.getUserLang(true)],
-								targetLang: this.convertToSimpleLanguage(language),
+								text: this.picto.speech[this.getUserLang()],
+								targetLang: language,
 							}
 						}))?.data.translations[0].text;
 					}
@@ -565,10 +565,10 @@ export default {
 			}
 		},
 		uploadfile(file) {
-			this.picto.speech[this.languageSelectorSpeech] = file.name
+			this.picto.speech[this.convertToSimple(this.languageSelectorSpeech)] = file.name
 				.replaceAll("-", " ")
 				.replace(/\.[^/.]+$/, "");
-			this.picto.meaning[this.languageSelectorSpeech] = file.name
+			this.picto.meaning[this.convertToSimple(this.languageSelectorSpeech)] = file.name
 				.replaceAll("-", " ")
 				.replace(/\.[^/.]+$/, "");
 			this.file = file;

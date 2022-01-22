@@ -5,7 +5,7 @@
 		</header>
 		<section class="modal-card-body">
 			{{ $t("DeleteItem")
-			}}{{ object.meaning[$store.getters.getUser.language] }} ?
+			}}{{ object.meaning[getUserLang()] }} ?
 			<br />
 			<br />
 			<img
@@ -21,7 +21,7 @@
 				:label="
 					$t('PleaseType1') +
 					' ' +
-					object.meaning[$store.getters.getUser.language] +
+					object.meaning[getUserLang()] +
 					' ' +
 					$t('PleaseType2')
 				"
@@ -29,10 +29,10 @@
 				<b-input
 					v-model="meaningOrName"
 					:placeholder="
-						object.meaning[$store.getters.getUser.language]
+						object.meaning[getUserLang()]
 					"
 					v-on:keyup.native.enter="
-						object.meaning[$store.getters.getUser.language]
+						object.meaning[getUserLang()]
 					"
 				></b-input>
 			</b-field>
@@ -63,10 +63,21 @@ export default {
 		};
 	},
 	methods: {
+		getUserLang(detailled = false) {
+			const user = this.$store.getters.getUser;
+			const lang = Object.keys(user.language)[0];
+			if (lang && !detailled) {
+				return lang.replace(/[^a-z]/g, "");
+			} else if (lang && detailled) {
+				return lang;
+			} else {
+				return window.navigator.language;
+			}
+		},
 		async onSubmitted(name) {
 			if (
 				name ==
-				this.object.meaning[this.$store.getters.getUser.language]
+				this.object.meaning[this.getUserLang()]
 			) {
 				try {
 					if (this.object.collection) {

@@ -179,7 +179,7 @@ export default {
 							picto.speech = JSON.parse(picto.speech);
 						}
 						picto.fatherCollectionId = res.data.id;
-						if (!this.getCollectionFromId(picto.id)) {
+						if (!this.getPictoFromId(picto.id)) {
 						this.$store.commit("addPicto",picto);
 					} else {
 						this.$store.commit("editPicto",picto);

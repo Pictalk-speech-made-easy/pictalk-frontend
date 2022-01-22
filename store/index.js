@@ -9,6 +9,7 @@ export const state = () => ({
 	public: [],
 	user: {},
 	rootId: null,
+	sharedId: null,
 	copyCollectionId: null,
 });
 const URL = "http://localhost:3001";
@@ -22,6 +23,7 @@ export const mutations = {
 		state.copyCollectionId = null;
 		state.shortcutCollectionId = null;
 		state.user = {};
+		state.sharedId = null;
 	},
 	addSpeech(state, picto) {
 		state.pictoSpeech.push(picto);
@@ -110,6 +112,9 @@ export const mutations = {
 	setRootId(state, rootId) {
 		state.rootId = rootId;
 	},
+	setSharedId(state, sharedId) {
+		state.sharedId = sharedId;
+	},
 	setCopyCollectionId(state, collectionId) {
 		state.copyCollectionId = collectionId;
 	},
@@ -162,7 +167,6 @@ export const actions = {
 			public: newPicto.public
 		});
 	},
-	// NEEDS CHANGES
 	async editPicto(vuexContext, picto) {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(picto.speech));
@@ -273,7 +277,6 @@ export const actions = {
 			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
 		});
 	},
-	// DONT CHANGE
 	async removeCollection(vuexContext, { collectionId, fatherCollectionId }) {
 		const res = await axios.delete(URL + "/collection/", { params: { collectionId: collectionId, fatherId: fatherCollectionId } });
 		const collectionIndex = vuexContext.getters.getCollections.findIndex((col) => col.id == fatherCollectionId);
@@ -299,7 +302,6 @@ export const actions = {
 		Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true });
 		return res;
 	},
-	// NEEDS CHANGES
 	initAuth(vuexContext, req) {
 		let token;
 		let expirationDate;
@@ -336,7 +338,6 @@ export const actions = {
 		}
 		vuexContext.commit("setToken", token);
 	},
-	// DONT KNOW
 	logout(vuexContext) {
 		vuexContext.commit("clearToken");
 		Cookie.remove("jwt");
@@ -349,6 +350,7 @@ export const actions = {
 	},
 	async getUser(vuexContext) {
 		var user = (await axios.get("/user/details/")).data;
+		vuexContext.commit('setSharedId', user.shared);
 		user.language = JSON.parse(user.language);
 		user.languages = JSON.parse(user.languages);
 		vuexContext.commit("editUser", user);
@@ -422,6 +424,9 @@ export const getters = {
 	},
 	getRootId(state) {
 		return state.rootId;
+	},
+	getSharedId(state) {
+		return state.sharedId;
 	},
 	getCopyCollectionId(state) {
 		return state.copyCollectionId;

@@ -86,7 +86,7 @@ export default {
 			return this.$store.getters.getCopyCollectionId || this.$store.getters.getShortcutCollectionId;
 		},
 		getFilteredPictoList() {
-			return this.pictos.filter((picto) => picto.meaning[this.getUserLang(true)]?.includes(this.search));
+			return this.pictos.filter((picto) => picto.meaning[this.getUserLang()]?.includes(this.search));
 		}
 	},
 	methods: {
@@ -102,8 +102,7 @@ export default {
 			});
 		},
 		getUserLang(detailled = false) {
-			const user = this.$store.getters.getUser;
-			const lang = Object.keys(user.language)[0];
+			const lang = Object.keys(this.$store.getters.getUser?.language ?? {})[0];
 			if (lang && !detailled) {
 				return lang.replace(/[^a-z]/g, "");
 			} else if (lang && detailled) {

@@ -416,16 +416,28 @@ export default {
 			let device = {};
 			let language = {};
 			let languages = {};
+			let editedLanguage = {};
 			device[this.getDeviceInfo()] = {voiceURI: this.voiceURI, pitch: ""};
-			language[this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0].lang] = device;
+			const languageLang = this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0].lang;
+			language[languageLang] = device;
+			if (Object.keys(this.user.language)[0] == languageLang) {
+				editedLanguage = Object.assign({}, JSON.parse(JSON.stringify(this.user.language)));
+				merge(editedLanguage, language);
+			} else {
+				const languagesIndex = Object.keys(this.user.languages).find((language) => language == languageLang);
+				if (languagesIndex) {
+					editedLanguage[languagesIndex] = this.user.languages[languagesIndex];
+				} else {
+					editedLanguage = language;
+				}
+			}
 			this.voiceURIs.forEach((voiceURI) => {
 				device = {};
 				device[this.getDeviceInfo()] = {voiceURI: voiceURI, pitch: ""};
 				languages[this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang] = device;
 			});
-			let editedLanguage = Object.assign({}, JSON.parse(JSON.stringify(this.user.language)));
 			let editedLanguages = Object.assign({}, JSON.parse(JSON.stringify(this.user.languages)));
-			merge(editedLanguage, language);
+			
 			merge(editedLanguages, languages);
 			try {
 				const res = await this.$store.dispatch("editUser", {
