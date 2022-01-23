@@ -70,6 +70,9 @@
 			<b-field>
             <b-switch>{{$t('ReturnWithoutRemoveButton')}}</b-switch>
       </b-field>
+			<b-field>
+            <b-switch>{{$t('TravelerMode')}}</b-switch>
+      </b-field>
 			<hr />
 			<b-button tag="nuxt-link" to="/pictalk">{{
 				$t("Cancel")
@@ -297,11 +300,9 @@ export default {
 			});
 		},
 		getEmoji(language) {
-			if (language) {
-				if (language.match(/[a-z]{2}-[A-Z]{2}/g)) {
+				if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
 					return countryCodeEmoji(language.split("-")[1]);
 				}
-			}
 			return;
 			
 		},

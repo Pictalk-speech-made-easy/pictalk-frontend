@@ -46,7 +46,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL", "@/plugins/vuexpersistedstate.client.js"],
+  plugins: ["@/plugins/baseURL", "@/plugins/vuexpersistedstate.client.js", "@/plugins/longPress.js"],
   /*
    ** Nuxt.js dev-modules 
    */

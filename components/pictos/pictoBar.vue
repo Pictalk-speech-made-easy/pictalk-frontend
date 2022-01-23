@@ -28,10 +28,19 @@
 		</div>
 		<div class="column is-narrow nopadding">
 			<b-button
+			v-if="$store.getters.getTemporaryLanguage"
 				type="is-success"
 				icon-right="message"
 				@click="pictalk(pictos)"
-			/>
+				v-longpress="openTravelerMode"
+			>{{getEmoji($store.getters.getTemporaryLanguage)}}</b-button>
+			<b-button
+			v-else
+				type="is-success"
+				icon-right="message"
+				@click="pictalk(pictos)"
+				v-longpress="openTravelerMode"
+			></b-button>
 		</div>
 		<div class="column is-narrow nopadding">
 			<b-button
@@ -43,8 +52,11 @@
 	</div>
 </template>
 <script>
+import axios from "axios";
 import miniPicto from "@/components/pictos/miniPicto";
 import mergeImages from "merge-images-horizontally-with-text";
+import tradLanguageListVue from '@/components/pictos/tradLanguageList.vue';
+import { countryCodeEmoji } from "country-code-emoji";
 export default {
 	created() {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -82,6 +94,32 @@ export default {
 		});
 	},
 	methods: {
+		getEmoji(language) {
+			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
+			return countryCodeEmoji(language.split("-")[1]);
+			}
+			return;
+		},
+		openTravelerMode(e) {
+			// if (!this.user.settings.travelerMode) {
+			// 	return;
+			// }
+			if (!this.$store.getters.getTemporaryLanguage) {
+			this.$buefy.modal.open({
+				parent: this,
+				component: tradLanguageListVue,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+				canCancel: ["escape", "x"],
+			});
+			} else {
+				this.$store.commit('setTemporaryLanguage', null);
+			}
+			// OPEN MODAL
+			// Icon inside button flag of country
+			// Change for the session ?
+		},
 		getText(pictos) {
 			return pictos.reduce(
 				(acc, curr_val) =>
@@ -165,20 +203,40 @@ export default {
 				});
 			}
 		},
+		async getTranslatedText(pictos) {
+			return (await axios.get('/translation/', { 
+							params: {
+								text: this.getText(pictos),
+								targetLang: this.convertToSimpleLanguage(this.$store.getters.getTemporaryLanguage),
+							}
+						}))?.data?.translations[0]?.text;
+		},
 		async pictalk(pictos) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
-				const message = this.getText(pictos);
-				msg.text = message;
-				let voice = this.voices.filter(
-					(voice) => voice.voiceURI == this.voiceURI
-				);
-				if (voice.length == 0) {
+				let voice;
+				if (this.$store.getters.getTemporaryLanguage) {
+					msg.text = await this.getTranslatedText(pictos);
 					voice = this.voices.filter(
-					(voice) => voice.lang == this.getUserLang()
+						(voice) => voice.lang.includes(this.$store.getters.getTemporaryLanguage)
 					);
+				} else {
+					msg.text = this.getText(pictos);
+					voice = this.voices.filter(
+						(voice) => voice.voiceURI == this.voiceURI
+					);
+					if (voice.length == 0) {
+						voice = this.voices.filter(
+						(voice) => voice.lang == this.getUserLang(true)
+						);
+					}
+					if (voice.length == 0) {
+						voice = this.voices.filter(
+						(voice) => voice.lang.includes(this.getUserLang())
+						);
+					}
 				}
-				if (voice.length !== 0) {
+				if (voice?.length !== 0) {
 					msg.voice = voice[0];
 				}
 				window.speechSynthesis.speak(msg);

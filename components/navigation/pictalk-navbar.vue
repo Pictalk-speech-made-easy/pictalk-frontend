@@ -1,7 +1,7 @@
 <template>
 	<b-navbar fixed-top>
 		<template slot="brand">
-			<b-navbar-item tag="nuxt-link" to="/">
+			<b-navbar-item @click="eraseSpeech()">
 				<img
 					src="~/assets/logo_compressed.png"
 					alt="A web app that help speach-disabled people"
@@ -108,8 +108,14 @@
 <script>
 export default {
 	computed: {
+		admin() {
+			return this.$route.query.isAdmin ? '?isAdmin=true' : '';
+		},
 		homeLink() {
 			return this.$route.path;
+		},
+		publicLink() {
+			return '/public' + this.admin;
 		},
 		availableLocales() {
 			return this.$i18n.locales.filter(
@@ -117,7 +123,8 @@ export default {
 			);
 		},
 		sharedLink() {
-			return '/pictalk/' + this.$store.getters.getSharedId;
+			//this.$store.commit('eraseSpeech');
+			return '/pictalk/' + this.$store.getters.getSharedId + this.admin;
 		}
 	},
 	methods: {
@@ -145,16 +152,12 @@ export default {
 		},
 		eraseSpeech() {
 			this.$store.commit("eraseSpeech");
-			let adminMode = "";
-			if (this.$route.query.isAdmin) {
-				adminMode = "?isAdmin=true";
-			}
 			if (this.$store.getters.getRootId) {
 				this.$router.push(
-					"/pictalk/" + this.$store.getters.getRootId + adminMode
+					"/pictalk/" + this.$store.getters.getRootId + this.admin
 				);
 			} else {
-				this.$router.push("/pictalk" + adminMode);
+				this.$router.push("/pictalk" + this.admin);
 			}
 		},
 		toAdmin() {

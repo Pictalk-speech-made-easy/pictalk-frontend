@@ -295,13 +295,10 @@ export default {
 			}
 		},
 		getEmoji(language) {
-			if (language) {
-				if (language.match(/[a-z]{2}-[A-Z]{2}/g)) {
-					return countryCodeEmoji(language.split("-")[1]);
-				}
+			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
+			return countryCodeEmoji(language.split("-")[1]);
 			}
 			return;
-			
 		},
 		async onSubmit() {
 			if (

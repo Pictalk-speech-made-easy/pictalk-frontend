@@ -33,6 +33,9 @@ export default {
 		pictoList: pictoList,
 		pictoBar: pictoBar,
 	},
+	created() {
+		this.$store.commit('eraseSpeech');
+	},
 	data(){
 		return {
 			search: "",

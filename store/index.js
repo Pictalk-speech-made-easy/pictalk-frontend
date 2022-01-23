@@ -11,6 +11,7 @@ export const state = () => ({
 	rootId: null,
 	sharedId: null,
 	copyCollectionId: null,
+	temporaryLanguage: null,
 });
 const URL = "http://localhost:3001";
 
@@ -24,6 +25,7 @@ export const mutations = {
 		state.shortcutCollectionId = null;
 		state.user = {};
 		state.sharedId = null;
+		state.temporaryLanguage = null;
 	},
 	addSpeech(state, picto) {
 		state.pictoSpeech.push(picto);
@@ -129,6 +131,9 @@ export const mutations = {
 	},
 	setPublicCollections(state, collections) {
 		state.public = collections;
+	},
+	setTemporaryLanguage(state, language) {
+		state.temporaryLanguage = language;
 	}
 };
 export const actions = {
@@ -439,6 +444,9 @@ export const getters = {
 	},
 	getPublicCollections(state) {
 		return state.public;
+	},
+	getTemporaryLanguage(state) {
+		return state.temporaryLanguage;
 	}
 };
 

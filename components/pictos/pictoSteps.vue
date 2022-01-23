@@ -299,7 +299,7 @@ export default {
 			);
 		},
 		getAllUserLanguages() {
-			return Object.keys(this.$store.getters.getUser.languages).map((languages) => languages.replace(/[^a-z]/g, ""));
+			return Object.keys(this.$store.getters.getUser.languages);
 		},
 	},
 	data() {
@@ -321,16 +321,21 @@ export default {
 	},
 	created() {
 		this.languageSelectorSpeech = this.getUserLang(true);
+		console.log(this.languageSelectorSpeech);
 	},
 	methods: {
 		convertToSimple(language) {
+			console.log(language);
 			return language.replace(/[^a-z]/g, "");
 		},
 		switchSpeechLanguage(language) {
 			this.languageSelectorSpeech = language;
 		},
 		getEmoji(language) {
+			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
 			return countryCodeEmoji(language.split("-")[1]);
+			}
+			return;
 		},
 		nextStep() {
 			this.activeStep += 1;
@@ -400,7 +405,7 @@ export default {
 					});
 				}
 				if (this.create || traductionNeeded()) {
-				this.getAllUserLanguages.forEach(async (language) => {
+				this.getAllUserLanguages.map((languages) => languages.replace(/[^a-z]/g, "")).forEach(async (language) => {
 					if (language == this.getUserLang() || this.picto.meaning[language] || this.picto.speech[language]) {
 						return;
 					}
