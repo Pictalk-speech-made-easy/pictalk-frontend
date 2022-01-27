@@ -3,7 +3,7 @@
 		<section class="section">
 			<div class="container">
 				<b-image
-					class="contact"
+					class="contact center"
 					lazy
 					:srcset="require('@/assets/Contact_compressed.png').srcSet"
 					alt="Rocket carrying non-verbal people"
@@ -31,23 +31,23 @@
 <script>
 export default {
 	head() {
-		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
-    return {
-      htmlAttrs: {
-        title: 'Pictograms',
-        ...i18nHead.htmlAttrs
-      },
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('DescriptionContact')
-        },
-        ...i18nHead.meta
-      ]
-    }
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+		return {
+			htmlAttrs: {
+				title: "Pictograms",
+				...i18nHead.htmlAttrs,
+			},
+			meta: [
+				{
+					hid: "description",
+					name: "description",
+					content: this.$t("DescriptionContact"),
+				},
+				...i18nHead.meta,
+			],
+		};
 	},
-}
+};
 </script>
 <style scoped>
 .bug {
@@ -58,7 +58,10 @@ export default {
 
 	display: block;
 }
-.contact {
-	width: 70%;
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
 }
 </style>
