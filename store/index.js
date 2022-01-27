@@ -308,6 +308,7 @@ export const actions = {
 		return res;
 	},
 	initAuth(vuexContext, req) {
+		console.log("InitAuth");
 		let token;
 		let expirationDate;
 		if (req) {
@@ -331,13 +332,19 @@ export const actions = {
 				expirationDate = jwtExpirationDate.split("=")[1];
 			}
 		} else if (process.client) {
+			console.log("process.client");
 			token = localStorage.getItem("token");
 			expirationDate = localStorage.getItem("tokenExpiration");
 		} else {
+			console.log("else");
 			token = null;
 			expirationDate = null;
 		}
+		console.log(new Date().getTime());
+		console.log(+expirationDate);
+		console.log(new Date().getTime() > +expirationDate);
 		if (new Date().getTime() > +expirationDate || !token) {
+			console.log("No token or invalid token");
 			vuexContext.dispatch("logout");
 			return;
 		}
@@ -464,6 +471,7 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
 		collection.speech = JSON.parse(collection.speech);
 	}
 	collection.collection = true;
+	collection.partial = false;
 	if (collection.pictos && !collection.pictos.length == 0) {
 		collection.pictos.map((picto) => {
 			if (picto.image) {
@@ -508,6 +516,7 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
 			}
 
 			col.collection = true;
+			col.partial = true;
 			col.fatherCollectionId = collection.id;
 			if (!getCollectionFromId(vuexContext, col.id)) {
 				vuexContext.commit("addCollection", col);

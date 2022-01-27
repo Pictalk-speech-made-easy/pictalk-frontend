@@ -18,7 +18,7 @@
             lazy
 						:srcset="require('@/assets/credentials.png').srcSet"
 						alt="A boy and a girl speaking different languages"
-						style="width: 80%;"
+						style="width: 40%;"
         ></b-image>
 				</div>
 					<b-field :label="$t('Email')">
@@ -59,7 +59,7 @@
             lazy
 						:srcset="require('@/assets/signup_languages.png').srcSet"
 						alt="A boy and a girl speaking different languages"
-						style="width: 80%;"
+						style="width: 40%;"
         ></b-image>
 				</div>
 					<b-field class="column" :label="$t('PrincipalLanguage')">
@@ -109,7 +109,7 @@
             lazy
 						:srcset="require('@/assets/share.png').srcSet"
 						alt="A boy and a girl speaking different languages"
-						style="width: 80%;"
+						style="width: 40%;"
         ></b-image>
 				</div>
 					<b-field v-for="index in directSharers.length"
@@ -201,7 +201,7 @@ export default {
 			majority: false,
 			passwordConfirmation: "",
 			loadingVoices: true,
-			directSharers: [''],
+			directSharers: [""],
 			showLanguages: false,
 		};
 	},
@@ -216,7 +216,6 @@ export default {
 					function () {
 						voices = window.speechSynthesis.getVoices();
 						resolve(voices);
-
 					}
 				);
 			}
@@ -228,44 +227,66 @@ export default {
 	},
 	watch: {
 		voiceURI: {
-			handler: function(v) {
+			handler: function (v) {
 				this.voiceURIs = [];
 				this.voiceURIs.push(v);
-				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);
+				this.playSentenceInLanguage(
+					this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
+					v
+				);
 			},
 			deep: true,
 		},
 		voiceURIs(newValue, oldValue) {
 			if (newValue.length > oldValue.length && newValue.length > 1) {
-				const v = newValue.filter( ai => oldValue.indexOf(ai) == -1 )[0];
-				this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);
+				const v = newValue.filter(
+					(ai) => oldValue.indexOf(ai) == -1
+				)[0];
+				this.playSentenceInLanguage(
+					this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
+					v
+				);
 			}
-		}
+		},
 	},
 	methods: {
-		convertToSimpleLanguage(language){
+		convertToSimpleLanguage(language) {
 			return language.replace(/[^a-z]/g, "");
 		},
-		getDeviceInfo(){
-			return this.getOSInfo() + window.screen.height + window.screen.width + window.devicePixelRatio;
+		getDeviceInfo() {
+			return (
+				this.getOSInfo() +
+				window.screen.height +
+				window.screen.width +
+				window.devicePixelRatio
+			);
 		},
-		getOSInfo(){
-			if (window.navigator.userAgent.indexOf("Windows NT 10.0")!= -1) return "Windows 10";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1) return "Windows 8.1";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1) return "Windows 8";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1) return "Windows 7";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1) return "Windows Vista";
-			if (window.navigator.userAgent.indexOf("Mac")            != -1) return "Mac/iOS";
-			if (window.navigator.userAgent.indexOf("X11")            != -1) return "UNIX";
-			if (window.navigator.userAgent.indexOf("Linux")          != -1) return "Linux";
+		getOSInfo() {
+			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+				return "Windows 10";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
+				return "Windows 8.1";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
+				return "Windows 8";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
+				return "Windows 7";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
+				return "Windows Vista";
+			if (window.navigator.userAgent.indexOf("Mac") != -1)
+				return "Mac/iOS";
+			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
+			if (window.navigator.userAgent.indexOf("Linux") != -1)
+				return "Linux";
 		},
-		async playSentenceInLanguage(lang, voiceURI){
-			let translatedText = (await axios.get('/translation/', { 
-							params: {
-								text: "I like french fries",
-								targetLang: this.convertToSimpleLanguage(lang),
-							}
-						}))?.data.translations[0].text;
+		async playSentenceInLanguage(lang, voiceURI) {
+			let translatedText = (
+				await axios.get("/translation/", {
+					params: {
+						text: "I like french fries",
+						targetLang: this.convertToSimpleLanguage(lang),
+					},
+				})
+			)?.data.translations[0].text;
 			this.pronounce(translatedText, lang, voiceURI);
 		},
 		async pronounce(speech, lang, voiceURI) {
@@ -276,9 +297,7 @@ export default {
 					(voice) => voice.voiceURI == voiceURI
 				);
 				if (voice.length == 0) {
-					voice = this.voices.filter(
-					(voice) => voice.lang == lang
-					);
+					voice = this.voices.filter((voice) => voice.lang == lang);
 				}
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
@@ -296,7 +315,7 @@ export default {
 		},
 		getEmoji(language) {
 			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-			return countryCodeEmoji(language.split("-")[1]);
+				return countryCodeEmoji(language.split("-")[1]);
 			}
 			return;
 		},
@@ -335,12 +354,26 @@ export default {
 			let device = {};
 			let language = {};
 			let languages = {};
-			device[this.getDeviceInfo()] = {voiceURI: this.voiceURI, pitch: ""};
-			language[this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0].lang] = device;
+			device[this.getDeviceInfo()] = {
+				voiceURI: this.voiceURI,
+				pitch: "",
+			};
+			language[
+				this.voices.filter(
+					(voice) => voice.voiceURI == this.voiceURI
+				)[0].lang
+			] = device;
 			Object.assign(languages, language);
 			this.voiceURIs.forEach((voiceURI) => {
-				device[this.getDeviceInfo()] = {voiceURI: voiceURI, pitch: ""};
-				languages[this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang] = device;
+				device[this.getDeviceInfo()] = {
+					voiceURI: voiceURI,
+					pitch: "",
+				};
+				languages[
+					this.voices.filter(
+						(voice) => voice.voiceURI == voiceURI
+					)[0].lang
+				] = device;
 			});
 			try {
 				const res = await axios.post("/auth/signup", {

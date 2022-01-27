@@ -134,10 +134,11 @@
 		<div class="container">
 			<a href="https://play.google.com/store/apps/details?id=xyz.pictalk.www.twa">
 				<b-image
+					class="center"
 								lazy
 								:srcset="require('@/assets/Pictalkplaystore.png').srcSet"
 								alt="Logo du Play store"
-						style="width: 80%;"
+						style="width: 40%;"
 				></b-image>
 			</a>
 		</div>
@@ -150,21 +151,21 @@ export default {
 		signup,
 	},
 	head() {
-		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
-    return {
-      htmlAttrs: {
-        title: 'Pictalk',
-        ...i18nHead.htmlAttrs
-      },
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('Description')
-        },
-        ...i18nHead.meta
-      ]
-    }
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+		return {
+			htmlAttrs: {
+				title: "Pictalk",
+				...i18nHead.htmlAttrs,
+			},
+			meta: [
+				{
+					hid: "description",
+					name: "description",
+					content: this.$t("Description"),
+				},
+				...i18nHead.meta,
+			],
+		};
 	},
 	middleware: ["check-auth"],
 	methods: {
@@ -199,5 +200,11 @@ export default {
 }
 .box {
 	padding: 0px;
+}
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
 }
 </style>
