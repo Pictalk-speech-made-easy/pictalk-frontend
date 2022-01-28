@@ -223,6 +223,9 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
+			this.voiceURI = this.voices.filter(
+				(voice) => voice.lang == this.localeIso()
+			)[0].voiceURI;
 		});
 	},
 	watch: {
@@ -250,6 +253,11 @@ export default {
 		},
 	},
 	methods: {
+		localeIso() {
+			return this.$i18n.locales.filter(
+				(i) => i.code == this.$i18n.locale
+			)[0].iso;
+		},
 		convertToSimpleLanguage(language) {
 			return language.replace(/[^a-z]/g, "");
 		},

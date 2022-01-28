@@ -34,12 +34,12 @@
 				</b-navbar-dropdown>
 			</template>
 			<template slot="end">
-				<b-navbar-dropdown collapsible :label="$t('Language')">
+				<b-navbar-dropdown collapsible :label="getEmoji(localeIso())">
 					<b-navbar-item
 						v-for="locale in availableLocales"
 						:key="locale.code"
 						@click.prevent.stop="$i18n.setLocale(locale.code)"
-						>{{ locale.name }}</b-navbar-item
+						>{{ getEmoji(locale.iso) }}</b-navbar-item
 					>
 				</b-navbar-dropdown>
 				<b-navbar-item tag="div">
@@ -67,12 +67,14 @@
 							tag="nuxt-link"
 							to="/pictalk"
 							type="is-primary"
-							>{{ $t("GoToPictalk") }}</b-button
-						>
+							icon-right="home"
+						></b-button>
 						<b-button
+							v-if="!isLogged"
 							tag="nuxt-link"
 							to="/public"
 							type="is-success is-light"
+							icon-right="test-tube"
 							>{{ $t("TryPictalk") }}</b-button
 						>
 					</div>
@@ -83,6 +85,7 @@
 </template>
 
 <script>
+import { countryCodeEmoji } from "country-code-emoji";
 import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
 export default {
@@ -106,6 +109,17 @@ export default {
 		},
 	},
 	methods: {
+		localeIso() {
+			return this.$i18n.locales.filter(
+				(i) => i.code == this.$i18n.locale
+			)[0].iso;
+		},
+		getEmoji(language) {
+			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
+				return countryCodeEmoji(language.split("-")[1]);
+			}
+			return;
+		},
 		onLogout() {
 			const a = Math.floor(Math.random() * 10 + 1);
 			const b = Math.floor(Math.random() * 10 + 1);

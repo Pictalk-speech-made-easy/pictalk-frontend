@@ -70,6 +70,21 @@
 					</b-field>
 					<b-field>
 						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapDone9")
+						}}</b-checkbox>
+					</b-field>
+					<b-field>
+						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapDone10")
+						}}</b-checkbox>
+					</b-field>
+					<b-field>
+						<b-checkbox :value="true" type="is-success">{{
+							$t("RoadmapDone11")
+						}}</b-checkbox>
+					</b-field>
+					<b-field>
+						<b-checkbox :value="true" type="is-success">{{
 							$t("RoadmapTodo2")
 						}}</b-checkbox>
 					</b-field>
@@ -94,21 +109,21 @@
 <script>
 export default {
 	head() {
-		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
-    return {
-      htmlAttrs: {
-        title: 'Pictograms',
-        ...i18nHead.htmlAttrs
-      },
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('DescriptionNews')
-        },
-        ...i18nHead.meta
-      ]
-    }
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+		return {
+			htmlAttrs: {
+				title: "Pictograms",
+				...i18nHead.htmlAttrs,
+			},
+			meta: [
+				{
+					hid: "description",
+					name: "description",
+					content: this.$t("DescriptionNews"),
+				},
+				...i18nHead.meta,
+			],
+		};
 	},
-}
+};
 </script>

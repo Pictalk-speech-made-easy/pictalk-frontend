@@ -12,9 +12,9 @@
 				<h1 class="title is-size-3-mobile">{{ $t("ContactMe") }}</h1>
 				<h2 class="subtitle is-size-5-mobile has-text-justified">
 					{{ $t("ContactText1") }}
-					<a href="mailto:alexandros.sidiras@laposte.net"
-						>alexandros.sidiras@laposte.net</a
-					>.{{ $t("ContactText2") }}
+					<a href="mailto:alex@pictalk.xyz">alex@pictalk.xyz</a>.{{
+						$t("ContactText2")
+					}}
 				</h2>
 				<br />
 				<h1 class="title is-size-3-mobile">{{ $t("BugReport") }}</h1>

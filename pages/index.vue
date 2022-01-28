@@ -9,48 +9,22 @@
 		<br>
 		<div class="container">
 		<div class="columns">
-			<div class="column">
+			<div class="column is-offset-one-quarter is-two-fifths">
 				<div class="box">
 					<a href="https://youtu.be/vv2ktwpAijI">
 					<b-image lazy alt="Yotube video link for the installation process."
-				:srcset="require('@/assets/Install.png').srcSet"
+				:srcset="require('@/assets/youtube_install.png').srcSet"
 				></b-image>
 					</a>
 				</div>
 			</div>
-			<div class="column">
-				<div class="box">
-					<a href="https://youtu.be/I0PBvxS7rSE">
-					<b-image lazy alt="Youtube video link for the pictalk tutorial. Tutorial is accessible through Get Started page"
-				:srcset="require('@/assets/Pictalktutorial.png').srcSet"
-				></b-image></a>
-				</div>
-			</div>
-			<div class="column">
-				<div class="box">
-					<a href="https://youtu.be/pKQJUBcRrQg">
-					<b-image lazy alt="Youtube video link for the how to fill your pictalk tutorial."
-				:srcset="require('@/assets/fillpictalk.png').srcSet"
-				></b-image></a>
-				</div>
-			</div>
 		</div>
-		</div>
-		<br>
-		<br>
-		<div class="container">
-			<b-message type="is-success">
-				<div class="subtitle">
-					{{ $t('OfflinePictalk')}}
-					</div>
-			</b-message>
 		</div>
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">{{ $t('WaitIsPictalk')}}</h1>
 					<p class="is-size-5 notification">
-
 						{{ $t('HomeText1')}}
 						<br>
 						<br>

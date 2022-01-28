@@ -33,33 +33,54 @@
 		</template>
 
 		<template slot="end">
-			<b-navbar-dropdown collapsible :label="$t('Language')">
+			<b-navbar-dropdown collapsible :label="getEmoji(localeIso())">
 				<b-navbar-item
 					v-for="locale in availableLocales"
 					:key="locale.code"
 					@click.prevent.stop="$i18n.setLocale(locale.code)"
-					>{{ locale.name }}</b-navbar-item
+					>{{ getEmoji(locale.iso) }}</b-navbar-item
 				>
 			</b-navbar-dropdown>
 			<b-navbar-item tag="div">
-				<div class="buttons">
-					<b-button
+				<div class="buttons b-tooltips">
+					<b-tooltip
+						position="is-right"
 						type="is-primary"
-						@click="eraseSpeech()"
-						icon-right="home"
-					/>
-					<b-button
-					type="is-success-light"
-					icon-right="human"
-					tag="nuxt-link"
-					to="/public"
-					/>
-					<b-button
-					type="is-primary-light"
-					icon-right="folder-account"
-					:to="sharedLink"
-					tag="nuxt-link"
-					/>
+						label="delayed by 1000ms"
+						:delay="1000"
+					>
+						<b-button
+							type="is-primary"
+							@click="eraseSpeech()"
+							icon-right="home"
+						/>
+					</b-tooltip>
+					<b-tooltip
+						position="is-bottom"
+						type="is-primary"
+						label="delayed by 1000ms"
+						:delay="1000"
+					>
+						<b-button
+							type="is-success-light"
+							icon-right="human"
+							tag="nuxt-link"
+							to="/public"
+						/>
+					</b-tooltip>
+					<b-tooltip
+						position="is-top"
+						type="is-primary"
+						label="delayed by 1000ms"
+						:delay="1000"
+					>
+						<b-button
+							type="is-primary-light"
+							icon-right="folder-account"
+							:to="sharedLink"
+							tag="nuxt-link"
+						/>
+					</b-tooltip>
 					<b-button
 						v-if="this.$route.path.includes('pictalk')"
 						type="is-success"
@@ -106,16 +127,17 @@
 	</b-navbar>
 </template>
 <script>
+import { countryCodeEmoji } from "country-code-emoji";
 export default {
 	computed: {
 		admin() {
-			return this.$route.query.isAdmin ? '?isAdmin=true' : '';
+			return this.$route.query.isAdmin ? "?isAdmin=true" : "";
 		},
 		homeLink() {
 			return this.$route.path;
 		},
 		publicLink() {
-			return '/public' + this.admin;
+			return "/public" + this.admin;
 		},
 		availableLocales() {
 			return this.$i18n.locales.filter(
@@ -124,10 +146,21 @@ export default {
 		},
 		sharedLink() {
 			//this.$store.commit('eraseSpeech');
-			return '/pictalk/' + this.$store.getters.getSharedId + this.admin;
-		}
+			return "/pictalk/" + this.$store.getters.getSharedId + this.admin;
+		},
 	},
 	methods: {
+		localeIso() {
+			return this.$i18n.locales.filter(
+				(i) => i.code == this.$i18n.locale
+			)[0].iso;
+		},
+		getEmoji(language) {
+			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
+				return countryCodeEmoji(language.split("-")[1]);
+			}
+			return;
+		},
 		async refreshPictos() {
 			try {
 				await this.$store.dispatch("downloadCollections");
@@ -217,3 +250,13 @@ export default {
 	},
 };
 </script>
+<style lang="scss" scoped>
+.b-tooltips {
+	.b-tooltip:not(:last-child) {
+		margin-right: 0.5em;
+	}
+	.b-tooltip {
+		margin-bottom: 0.5em;
+	}
+}
+</style>

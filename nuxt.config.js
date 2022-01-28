@@ -127,7 +127,7 @@ export default {
       },
       {
         code: 'el',
-        iso: 'el-EL',
+        iso: 'el-GR',
         name: 'Eλληνικά',
         file: 'el-EL.js'
       }
