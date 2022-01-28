@@ -6,10 +6,14 @@
 					<strong>PicTalk</strong> {{ $t("By") }}
 					<a href="https://website.asidiras.dev/"
 						>Alexandros SIDIRAS GALANTE</a
+					>
+					{{ $t("And") }}
+					<a href="https://github.com/UnlikelyBuddy1"
+						>Adrianos SIDIRAS GALANTE</a
 					>. {{ $t("CodeIsLicensed") }}
 					<a href="https://www.gnu.org/licenses/gpl-3.0.en.html"
 						>GNU</a
-					>. Also, if you need, take a look at the
+					>. {{ $t("TakeALook") }}
 					<nuxt-link to="/legal-infos/terms-of-use">{{
 						$t("TermsOfUse")
 					}}</nuxt-link>
@@ -26,9 +30,7 @@
 					class="changeOnViewport"
 				></b-image>
 				{{ $t("WantToBeABacker") }}
-				<a href="mailto:alexandros.sidiras@laposte.net">{{
-					$t("Me")
-				}}</a>
+				<a href="mailto:alex@pictalk.xyz">{{ $t("Us") }}</a>
 				!
 			</div>
 		</footer>

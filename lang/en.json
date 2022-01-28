@@ -11,6 +11,7 @@
     "Account":"Account",
     "PrincipalLanguage":"Principal Language",
     "SpeakMoreLanguage":"Speak more than one language ?",
+    "TakeALook": "Also, if you need, take a look at the",
     "Languages":"Languages",
     "SelectLanguage":"Select a language",
     "Sharers":"Sharers",
@@ -222,5 +223,6 @@
     "OrUploadYourOwn": "Or upload your own",
     "Try": "Try",
     "Pictogram": "Pictogram",
-    "MissingImage": "There is no image to upload"
+    "MissingImage": "There is no image to upload",
+    "Us": "us"
 }
