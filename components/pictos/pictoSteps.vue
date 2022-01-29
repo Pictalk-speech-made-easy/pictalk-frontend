@@ -42,9 +42,7 @@
 								:placeholder="$t('SearchNotice')"
 								expanded
 								:autofocus="true"
-								@keyup.native.enter="
-									pictoExtractImg(pictoSearch)
-								"
+								@keyup.native.enter="pictoExtractImg(pictoSearch)"
 							></b-input>
 							<b-button
 								type="is-success"
@@ -96,17 +94,9 @@
 											expanded
 											required
 										>
-											<a
-												class="
-													button
-													is-primary is-fullwidth
-												"
-											>
+											<a class="button is-primary is-fullwidth">
 												<b-icon icon="upload"></b-icon>
-												<span>{{
-													file.name ||
-													$t("ClickToUpload")
-												}}</span>
+												<span>{{ file.name || $t("ClickToUpload") }}</span>
 											</a>
 										</b-upload>
 									</b-field>
@@ -119,17 +109,9 @@
 											expanded
 										>
 											<section class="section">
-												<div
-													class="
-														content
-														has-text-centered
-													"
-												>
+												<div class="content has-text-centered">
 													<p>
-														<b-icon
-															icon="upload"
-															size="is-large"
-														></b-icon>
+														<b-icon icon="upload" size="is-large"></b-icon>
 													</p>
 													<p>
 														{{ $t("DropFiles") }}
@@ -160,9 +142,7 @@
 								v-if="getAllUserLanguages.length > 1"
 							>
 								<template #trigger="{ active }">
-									<b-button>{{
-										getEmoji(languageSelectorSpeech)
-									}}</b-button>
+									<b-button>{{ getEmoji(languageSelectorSpeech) }}</b-button>
 								</template>
 
 								<b-dropdown-item
@@ -177,7 +157,7 @@
 						<b-field :label="$t('Speech')">
 							<b-input
 								type="text"
-								v-model="picto.speech[this.convertToSimple(languageSelectorSpeech)]"
+								v-model="picto.speech[convertToSimple(languageSelectorSpeech)]"
 								:placeholder="$t('SpeechNotice')"
 								expanded
 							></b-input>
@@ -186,7 +166,7 @@
 								icon-right="message"
 								@click="
 									pronounce(
-										picto.speech[this.convertToSimple(languageSelectorSpeech)]
+										picto.speech[convertToSimple(languageSelectorSpeech)]
 									)
 								"
 							></b-button>
@@ -194,7 +174,7 @@
 						<b-field :label="$t('Meaning')">
 							<b-input
 								type="text"
-								v-model="picto.meaning[this.convertToSimple(languageSelectorSpeech)]"
+								v-model="picto.meaning[convertToSimple(languageSelectorSpeech)]"
 								:placeholder="$t('MeaningNotice')"
 								expanded
 							></b-input>
@@ -333,7 +313,7 @@ export default {
 		},
 		getEmoji(language) {
 			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-			return countryCodeEmoji(language.split("-")[1]);
+				return countryCodeEmoji(language.split("-")[1]);
 			}
 			return;
 		},
@@ -366,7 +346,10 @@ export default {
 		},
 		async onSubmitted(isCollection = false) {
 			let cfile;
-			if (Object.values(this.picto.meaning).length == 0 || !this.picto.meaning[this.getUserLang()]) {
+			if (
+				Object.values(this.picto.meaning).length == 0 ||
+				!this.picto.meaning[this.getUserLang()]
+			) {
 				this.$buefy.notification.open({
 					message: this.$t("MeaningEmpty"),
 					type: "is-danger",
@@ -392,10 +375,7 @@ export default {
 
 					const myNewFile = new File(
 						[this.file],
-						this.file.name.substr(
-							0,
-							this.file.name.lastIndexOf(".")
-						) + ".jpeg",
+						this.file.name.substr(0, this.file.name.lastIndexOf(".")) + ".jpeg",
 						{ type: this.file.type }
 					);
 					cfile = await jpegasus.compress(myNewFile, {
@@ -405,32 +385,47 @@ export default {
 					});
 				}
 				if (this.create || traductionNeeded()) {
-				this.getAllUserLanguages.map((languages) => languages.replace(/[^a-z]/g, "")).forEach(async (language) => {
-					if (language == this.getUserLang() || this.picto.meaning[language] || this.picto.speech[language]) {
-						return;
-					}
-					if (this.picto.meaning[this.getUserLang()] == this.picto.speech[this.getUserLang()]){
-						this.picto.meaning[language] = this.picto.speech[language] = (await axios.get('/translation/', { 
-							params: {
-								text: this.picto.meaning[this.getUserLang()],
-								targetLang: language,
+					this.getAllUserLanguages
+						.map((languages) => languages.replace(/[^a-z]/g, ""))
+						.forEach(async (language) => {
+							if (
+								language == this.getUserLang() ||
+								this.picto.meaning[language] ||
+								this.picto.speech[language]
+							) {
+								return;
 							}
-						}))?.data.translations[0].text;
-					} else {
-						this.picto.meaning[language] = (await axios.get('/translation/', { 
-							params: {
-								text: this.picto.meaning[this.getUserLang()],
-								targetLang: language,
+							if (
+								this.picto.meaning[this.getUserLang()] ==
+								this.picto.speech[this.getUserLang()]
+							) {
+								this.picto.meaning[language] = this.picto.speech[language] = (
+									await axios.get("/translation/", {
+										params: {
+											text: this.picto.meaning[this.getUserLang()],
+											targetLang: language,
+										},
+									})
+								)?.data.translations[0].text;
+							} else {
+								this.picto.meaning[language] = (
+									await axios.get("/translation/", {
+										params: {
+											text: this.picto.meaning[this.getUserLang()],
+											targetLang: language,
+										},
+									})
+								)?.data.translations[0].text;
+								this.picto.speech[language] = (
+									await axios.get("/translation/", {
+										params: {
+											text: this.picto.speech[this.getUserLang()],
+											targetLang: language,
+										},
+									})
+								)?.data.translations[0].text;
 							}
-						}))?.data.translations[0].text;
-						this.picto.speech[language] = (await axios.get('/translation/', { 
-							params: {
-								text: this.picto.speech[this.getUserLang()],
-								targetLang: language,
-							}
-						}))?.data.translations[0].text;
-					}
-				});
+						});
 				}
 				if (this.create) {
 					await this.$store.dispatch(
@@ -502,26 +497,38 @@ export default {
 		traductionNeeded() {
 			// Si meaning du language principal change
 			// Si meaning vide
-			const savedPicto = this.picto.collection ?  getCollectionFromId(this.picto.id) : getPictoFromId(this.picto.id);
-			if (!savedPicto.meaning[this.getUserLang(true)] || savedPicto.meaning[this.getUserLang(true)] != this.picto.meaning[this.getUserLang(true)]) {
-				return true
+			const savedPicto = this.picto.collection
+				? getCollectionFromId(this.picto.id)
+				: getPictoFromId(this.picto.id);
+			if (
+				!savedPicto.meaning[this.getUserLang(true)] ||
+				savedPicto.meaning[this.getUserLang(true)] !=
+					this.picto.meaning[this.getUserLang(true)]
+			) {
+				return true;
 			} else {
-				return false
+				return false;
 			}
 		},
 		getCollectionFromId(id) {
-			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
+			const index = this.$store.getters.getCollections.findIndex(
+				(collection) => collection.id === id
+			);
 			return this.$store.getters.getCollections[index];
 		},
 		getPictoFromId(id) {
-			const index = this.$store.getters.getPictos.findIndex((picto) => picto.id === id);
+			const index = this.$store.getters.getPictos.findIndex(
+				(picto) => picto.id === id
+			);
 			return this.$store.getters.getPictos[index];
 		},
 		async flickrExtractImg(pictoSearch) {
 			let responseData;
 			try {
 				responseData = (
-					await axios.get('/image/flickr/', { params: {search: pictoSearch, language: this.getUserLang(true)}})
+					await axios.get("/image/flickr/", {
+						params: { search: pictoSearch, language: this.getUserLang(true) },
+					})
 				).data.photos.photo;
 				responseData.forEach((photo) => {
 					this.images.push({
@@ -570,12 +577,10 @@ export default {
 			}
 		},
 		uploadfile(file) {
-			this.picto.speech[this.convertToSimple(this.languageSelectorSpeech)] = file.name
-				.replaceAll("-", " ")
-				.replace(/\.[^/.]+$/, "");
-			this.picto.meaning[this.convertToSimple(this.languageSelectorSpeech)] = file.name
-				.replaceAll("-", " ")
-				.replace(/\.[^/.]+$/, "");
+			this.picto.speech[this.convertToSimple(this.languageSelectorSpeech)] =
+				file.name.replaceAll("-", " ").replace(/\.[^/.]+$/, "");
+			this.picto.meaning[this.convertToSimple(this.languageSelectorSpeech)] =
+				file.name.replaceAll("-", " ").replace(/\.[^/.]+$/, "");
 			this.file = file;
 			this.activeStep = 1;
 		},

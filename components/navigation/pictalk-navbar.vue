@@ -218,7 +218,7 @@ export default {
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),
-					value: "0",
+					value: "",
 					maxlength: 2,
 					min: 0,
 					max: 20,

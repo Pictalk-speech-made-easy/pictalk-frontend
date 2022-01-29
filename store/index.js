@@ -238,6 +238,8 @@ export const actions = {
 			image: axios.defaults.baseURL + "/image/pictalk/" + newCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
 			pictos: newCollection.pictos ? newCollection.pictos : [],
+      viewers: newCollection.viewers ? newCollection.viewers : [],
+      editors: newCollection.editors ? newCollection.editors : [],
 			id: newCollection.id,
 			starred: newCollection.starred
 		});
