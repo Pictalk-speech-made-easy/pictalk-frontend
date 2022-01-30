@@ -234,12 +234,12 @@ export const actions = {
 			color: collection.color,
 			collection: true,
 			collections: newCollection.collections ? newCollection.collections : [],
-			userId: collection.userId,
+			userId: newCollection.userId,
 			image: axios.defaults.baseURL + "/image/pictalk/" + newCollection.image,
 			fatherCollectionId: collection.fatherCollectionId,
 			pictos: newCollection.pictos ? newCollection.pictos : [],
-      viewers: newCollection.viewers ? newCollection.viewers : [],
-      editors: newCollection.editors ? newCollection.editors : [],
+			viewers: newCollection.viewers ? newCollection.viewers : [],
+			editors: newCollection.editors ? newCollection.editors : [],
 			id: newCollection.id,
 			starred: newCollection.starred
 		});

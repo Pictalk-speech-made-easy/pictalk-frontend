@@ -25,7 +25,12 @@
 					mobile-mode="compact"
 					label-position="bottom"
 				>
-					<b-step-item clickable step="1" :label="$t('Image')" clickable>
+					<b-step-item
+						clickable
+						step="1"
+						:label="$t('Image')"
+						clickable
+					>
 						<div v-if="picto.path">
 							<img
 								class="mini-image"
@@ -42,7 +47,9 @@
 								:placeholder="$t('SearchNotice')"
 								expanded
 								:autofocus="true"
-								@keyup.native.enter="pictoExtractImg(pictoSearch)"
+								@keyup.native.enter="
+									pictoExtractImg(pictoSearch)
+								"
 							></b-input>
 							<b-button
 								type="is-success"
@@ -94,9 +101,17 @@
 											expanded
 											required
 										>
-											<a class="button is-primary is-fullwidth">
+											<a
+												class="
+													button
+													is-primary is-fullwidth
+												"
+											>
 												<b-icon icon="upload"></b-icon>
-												<span>{{ file.name || $t("ClickToUpload") }}</span>
+												<span>{{
+													file.name ||
+													$t("ClickToUpload")
+												}}</span>
 											</a>
 										</b-upload>
 									</b-field>
@@ -109,9 +124,17 @@
 											expanded
 										>
 											<section class="section">
-												<div class="content has-text-centered">
+												<div
+													class="
+														content
+														has-text-centered
+													"
+												>
 													<p>
-														<b-icon icon="upload" size="is-large"></b-icon>
+														<b-icon
+															icon="upload"
+															size="is-large"
+														></b-icon>
 													</p>
 													<p>
 														{{ $t("DropFiles") }}
@@ -142,7 +165,9 @@
 								v-if="getAllUserLanguages.length > 1"
 							>
 								<template #trigger="{ active }">
-									<b-button>{{ getEmoji(languageSelectorSpeech) }}</b-button>
+									<b-button>{{
+										getEmoji(languageSelectorSpeech)
+									}}</b-button>
 								</template>
 
 								<b-dropdown-item
@@ -157,7 +182,11 @@
 						<b-field :label="$t('Speech')">
 							<b-input
 								type="text"
-								v-model="picto.speech[convertToSimple(languageSelectorSpeech)]"
+								v-model="
+									picto.speech[
+										convertToSimple(languageSelectorSpeech)
+									]
+								"
 								:placeholder="$t('SpeechNotice')"
 								expanded
 							></b-input>
@@ -166,7 +195,11 @@
 								icon-right="message"
 								@click="
 									pronounce(
-										picto.speech[convertToSimple(languageSelectorSpeech)]
+										picto.speech[
+											convertToSimple(
+												languageSelectorSpeech
+											)
+										]
 									)
 								"
 							></b-button>
@@ -174,7 +207,11 @@
 						<b-field :label="$t('Meaning')">
 							<b-input
 								type="text"
-								v-model="picto.meaning[convertToSimple(languageSelectorSpeech)]"
+								v-model="
+									picto.meaning[
+										convertToSimple(languageSelectorSpeech)
+									]
+								"
 								:placeholder="$t('MeaningNotice')"
 								expanded
 							></b-input>
@@ -206,14 +243,14 @@
 							<b-button
 								v-if="isPicto || create"
 								:disabled="!(picto.speech && picto.meaning)"
-								class="is-success"
+								:class="classCreateOrEdit"
 								:icon-right="iconPictoOrEdit"
 								@click="onSubmitted(false)"
 							>
 							</b-button>
 							<b-button
 								v-if="!isPicto || create"
-								class="is-success"
+								:class="classCreateOrEdit"
 								:disabled="!(picto.speech && picto.meaning)"
 								:icon-right="iconCollectionOrEdit"
 								@click="onSubmitted(true)"
@@ -266,6 +303,9 @@ export default {
 		},
 	},
 	computed: {
+		classCreateOrEdit() {
+			return this.create ? "is-success" : "is-info";
+		},
 		iconPictoOrEdit() {
 			return this.create ? "image" : "image-edit";
 		},
@@ -375,7 +415,10 @@ export default {
 
 					const myNewFile = new File(
 						[this.file],
-						this.file.name.substr(0, this.file.name.lastIndexOf(".")) + ".jpeg",
+						this.file.name.substr(
+							0,
+							this.file.name.lastIndexOf(".")
+						) + ".jpeg",
 						{ type: this.file.type }
 					);
 					cfile = await jpegasus.compress(myNewFile, {
@@ -399,19 +442,24 @@ export default {
 								this.picto.meaning[this.getUserLang()] ==
 								this.picto.speech[this.getUserLang()]
 							) {
-								this.picto.meaning[language] = this.picto.speech[language] = (
-									await axios.get("/translation/", {
-										params: {
-											text: this.picto.meaning[this.getUserLang()],
-											targetLang: language,
-										},
-									})
-								)?.data.translations[0].text;
+								this.picto.meaning[language] =
+									this.picto.speech[language] = (
+										await axios.get("/translation/", {
+											params: {
+												text: this.picto.meaning[
+													this.getUserLang()
+												],
+												targetLang: language,
+											},
+										})
+									)?.data.translations[0].text;
 							} else {
 								this.picto.meaning[language] = (
 									await axios.get("/translation/", {
 										params: {
-											text: this.picto.meaning[this.getUserLang()],
+											text: this.picto.meaning[
+												this.getUserLang()
+											],
 											targetLang: language,
 										},
 									})
@@ -419,7 +467,9 @@ export default {
 								this.picto.speech[language] = (
 									await axios.get("/translation/", {
 										params: {
-											text: this.picto.speech[this.getUserLang()],
+											text: this.picto.speech[
+												this.getUserLang()
+											],
 											targetLang: language,
 										},
 									})
@@ -527,7 +577,10 @@ export default {
 			try {
 				responseData = (
 					await axios.get("/image/flickr/", {
-						params: { search: pictoSearch, language: this.getUserLang(true) },
+						params: {
+							search: pictoSearch,
+							language: this.getUserLang(true),
+						},
 					})
 				).data.photos.photo;
 				responseData.forEach((photo) => {
@@ -577,10 +630,12 @@ export default {
 			}
 		},
 		uploadfile(file) {
-			this.picto.speech[this.convertToSimple(this.languageSelectorSpeech)] =
-				file.name.replaceAll("-", " ").replace(/\.[^/.]+$/, "");
-			this.picto.meaning[this.convertToSimple(this.languageSelectorSpeech)] =
-				file.name.replaceAll("-", " ").replace(/\.[^/.]+$/, "");
+			this.picto.speech[
+				this.convertToSimple(this.languageSelectorSpeech)
+			] = file.name.replaceAll("-", " ").replace(/\.[^/.]+$/, "");
+			this.picto.meaning[
+				this.convertToSimple(this.languageSelectorSpeech)
+			] = file.name.replaceAll("-", " ").replace(/\.[^/.]+$/, "");
 			this.file = file;
 			this.activeStep = 1;
 		},
