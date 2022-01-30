@@ -19,7 +19,7 @@
 				></b-input>
 			</b-field>
 			<div class="columns">
-				<b-field class="column" :label="$t('PrincipalLanguage')">
+				<b-field class="column" :label="$t('Voice')">
 					<b-select
 						v-model="voiceURI"
 						placeholder="Select language"
@@ -33,11 +33,21 @@
 							:value="voice.voiceURI"
 							:key="voice.voiceURI"
 						>
-							{{ getEmoji(voice.lang) }} {{voice.voiceURI}}
+							{{ getEmoji(voice.lang) }} {{ voice.voiceURI }}
 						</option>
 					</b-select>
 				</b-field>
-				<b-field class="column" :label="$t('Languages')">
+				<b-button
+					v-if="!displayVoicesOrMultiLingual"
+					@click="displayVoices = !displayVoices"
+					type="is-ghost"
+					>{{ $t("SpeakMoreLanguage") }}</b-button
+				>
+				<b-field
+					v-if="displayVoicesOrMultiLingual"
+					class="column"
+					:label="$t('Voices')"
+				>
 					<b-select
 						v-model="voiceURIs"
 						placeholder="Select language"
@@ -53,26 +63,26 @@
 							:value="voice.voiceURI"
 							:key="voice.voiceURI"
 						>
-							{{ getEmoji(voice.lang) }} {{voice.voiceURI}}
+							{{ getEmoji(voice.lang) }} {{ voice.voiceURI }}
 						</option>
 					</b-select>
 				</b-field>
 			</div>
 			<hr />
-			<h1 class="subtitle">{{$t('OptionnalParameters')}}</h1>
+			<h1 class="subtitle">{{ $t("OptionnalParameters") }}</h1>
 
 			<b-field>
-            <b-switch>{{$t('PronouncePictoOnClick')}}</b-switch>
-      </b-field>
+				<b-switch>{{ $t("PronouncePictoOnClick") }}</b-switch>
+			</b-field>
 			<b-field>
-            <b-switch>{{$t('EnforcedSecurityMode')}}</b-switch>
-      </b-field>
+				<b-switch>{{ $t("EnforcedSecurityMode") }}</b-switch>
+			</b-field>
 			<b-field>
-            <b-switch>{{$t('ReturnWithoutRemoveButton')}}</b-switch>
-      </b-field>
+				<b-switch>{{ $t("ReturnWithoutRemoveButton") }}</b-switch>
+			</b-field>
 			<b-field>
-            <b-switch>{{$t('TravelerMode')}}</b-switch>
-      </b-field>
+				<b-switch>{{ $t("TravelerMode") }}</b-switch>
+			</b-field>
 			<hr />
 			<b-button tag="nuxt-link" to="/pictalk">{{
 				$t("Cancel")
@@ -130,9 +140,18 @@
 <script>
 import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
-import merge from 'lodash.merge';
+import merge from "lodash.merge";
 export default {
 	computed: {
+		displayVoicesOrMultiLingual() {
+			return (
+				this.displayVoices ||
+				Object.keys(this.user.languages).length > 1
+			);
+		},
+		userMultiLingual() {
+			return Object.keys(this.user.languages).length > 1;
+		},
 		getObjectUserDirectSharers() {
 			return this.directSharers.map((val) => {
 				return { username: val };
@@ -163,6 +182,7 @@ export default {
 		return {
 			showDirectSharerInputText: false,
 			addDirectSharer: "",
+			displayVoices: false,
 			voices: [],
 			voiceURI: "",
 			voiceURIs: [],
@@ -183,20 +203,33 @@ export default {
 		};
 	},
 	watch: {
-		voiceURI:function(v, oldVoice) {
-				const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
-				if (oldIndex != -1) {
-					this.voiceURIs.splice(oldIndex, 1);
-				}
-				this.voiceURIs.push(v);
-				if (this.initialization == false) {this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);}
+		voiceURI: function (v, oldVoice) {
+			const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
+			if (oldIndex != -1) {
+				this.voiceURIs.splice(oldIndex, 1);
+			}
+			this.voiceURIs.push(v);
+			if (this.initialization == false) {
+				this.playSentenceInLanguage(
+					this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
+					v
+				);
+			}
 		},
-		voiceURIs: function(newValue, oldValue) {
-				if (newValue.length > oldValue.length && newValue.length > 1) {
-					const v = newValue.filter( ai => oldValue.indexOf(ai) == -1 )[0];
-					if (this.initialization == false) {this.playSentenceInLanguage(this.voices.filter((voice) => voice.voiceURI == v)[0].lang, v);}
+		voiceURIs: function (newValue, oldValue) {
+			if (newValue.length > oldValue.length && newValue.length > 1) {
+				const v = newValue.filter(
+					(ai) => oldValue.indexOf(ai) == -1
+				)[0];
+				if (this.initialization == false) {
+					this.playSentenceInLanguage(
+						this.voices.filter((voice) => voice.voiceURI == v)[0]
+							.lang,
+						v
+					);
 				}
-		}
+			}
+		},
 	},
 	beforeUpdate() {
 		this.initialization = false;
@@ -219,49 +252,73 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
-			this.voiceURI = this.user.language[Object.keys(this.user.language)[0]][this.getDeviceInfo()]?.voiceURI;
+			this.voiceURI =
+				this.user.language[Object.keys(this.user.language)[0]][
+					this.getDeviceInfo()
+				]?.voiceURI;
 			this.voiceURIs = Object.keys(this.user.languages).map((lang) => {
-				return (this.user.languages[lang][this.getDeviceInfo()]?.voiceURI)
+				return this.user.languages[lang][this.getDeviceInfo()]
+					?.voiceURI;
 			});
 			// Si vide alors remplir avec la premiere valeur equiv a lang
 			if (!this.voiceURI) {
-				this.voiceURI = this.voices.filter((voice) => voice.lang == Object.keys(this.user.language)[0])[0].voiceURI;
+				this.voiceURI = this.voices.filter(
+					(voice) => voice.lang == Object.keys(this.user.language)[0]
+				)[0].voiceURI;
 			}
-			
-			this.voiceURIs = Object.keys(this.user.languages).map((lang, index) => {
-				if (this.voiceURIs[index]) {
-					return this.voiceURIs[index];
-				} else {
-					return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
+
+			this.voiceURIs = Object.keys(this.user.languages).map(
+				(lang, index) => {
+					if (this.voiceURIs[index]) {
+						return this.voiceURIs[index];
+					} else {
+						return this.voices.filter(
+							(voice) => voice.lang == lang
+						)[0].voiceURI;
+					}
 				}
-			});
+			);
 		});
 		this.directSharers = [...this.user.directSharers];
 	},
 	methods: {
-		getDeviceInfo(){
-			return this.getOSInfo() + window.screen.height + window.screen.width + window.devicePixelRatio;
+		getDeviceInfo() {
+			return (
+				this.getOSInfo() +
+				window.screen.height +
+				window.screen.width +
+				window.devicePixelRatio
+			);
 		},
-		getOSInfo(){
-			if (window.navigator.userAgent.indexOf("Windows NT 10.0")!= -1) return "Windows 10";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1) return "Windows 8.1";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1) return "Windows 8";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1) return "Windows 7";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1) return "Windows Vista";
-			if (window.navigator.userAgent.indexOf("Mac")            != -1) return "Mac/iOS";
-			if (window.navigator.userAgent.indexOf("X11")            != -1) return "UNIX";
-			if (window.navigator.userAgent.indexOf("Linux")          != -1) return "Linux";
+		getOSInfo() {
+			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+				return "Windows 10";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
+				return "Windows 8.1";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
+				return "Windows 8";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
+				return "Windows 7";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
+				return "Windows Vista";
+			if (window.navigator.userAgent.indexOf("Mac") != -1)
+				return "Mac/iOS";
+			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
+			if (window.navigator.userAgent.indexOf("Linux") != -1)
+				return "Linux";
 		},
-		convertToSimpleLanguage(language){
+		convertToSimpleLanguage(language) {
 			return language.replace(/[^a-z]/g, "");
 		},
-		async playSentenceInLanguage(lang, voiceURI){
-			let translatedText = (await axios.get('/translation/', { 
-							params: {
-								text: "I like french fries",
-								targetLang: this.convertToSimpleLanguage(lang),
-							}
-						}))?.data.translations[0].text;
+		async playSentenceInLanguage(lang, voiceURI) {
+			let translatedText = (
+				await axios.get("/translation/", {
+					params: {
+						text: "I like french fries",
+						targetLang: this.convertToSimpleLanguage(lang),
+					},
+				})
+			)?.data.translations[0].text;
 			this.pronounce(translatedText, lang, voiceURI);
 		},
 		async pronounce(speech, lang, voiceURI) {
@@ -272,9 +329,7 @@ export default {
 					(voice) => voice.voiceURI == voiceURI
 				);
 				if (voice.length == 0) {
-					voice = this.voices.filter(
-					(voice) => voice.lang == lang
-					);
+					voice = this.voices.filter((voice) => voice.lang == lang);
 				}
 				if (voice.length !== 0) {
 					msg.voice = voice[0];
@@ -300,11 +355,10 @@ export default {
 			});
 		},
 		getEmoji(language) {
-				if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-					return countryCodeEmoji(language.split("-")[1]);
-				}
+			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
+				return countryCodeEmoji(language.split("-")[1]);
+			}
 			return;
-			
 		},
 		addRetry(cache, url, retries = 3, backoff = 300) {
 			return cache
@@ -418,27 +472,48 @@ export default {
 			let language = {};
 			let languages = {};
 			let editedLanguage = {};
-			device[this.getDeviceInfo()] = {voiceURI: this.voiceURI, pitch: ""};
-			const languageLang = this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0].lang;
+			device[this.getDeviceInfo()] = {
+				voiceURI: this.voiceURI,
+				pitch: "",
+			};
+			const languageLang = this.voices.filter(
+				(voice) => voice.voiceURI == this.voiceURI
+			)[0].lang;
 			language[languageLang] = device;
 			if (Object.keys(this.user.language)[0] == languageLang) {
-				editedLanguage = Object.assign({}, JSON.parse(JSON.stringify(this.user.language)));
+				editedLanguage = Object.assign(
+					{},
+					JSON.parse(JSON.stringify(this.user.language))
+				);
 				merge(editedLanguage, language);
 			} else {
-				const languagesIndex = Object.keys(this.user.languages).find((language) => language == languageLang);
+				const languagesIndex = Object.keys(this.user.languages).find(
+					(language) => language == languageLang
+				);
 				if (languagesIndex) {
-					editedLanguage[languagesIndex] = this.user.languages[languagesIndex];
+					editedLanguage[languagesIndex] =
+						this.user.languages[languagesIndex];
 				} else {
 					editedLanguage = language;
 				}
 			}
 			this.voiceURIs.forEach((voiceURI) => {
 				device = {};
-				device[this.getDeviceInfo()] = {voiceURI: voiceURI, pitch: ""};
-				languages[this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang] = device;
+				device[this.getDeviceInfo()] = {
+					voiceURI: voiceURI,
+					pitch: "",
+				};
+				languages[
+					this.voices.filter(
+						(voice) => voice.voiceURI == voiceURI
+					)[0].lang
+				] = device;
 			});
-			let editedLanguages = Object.assign({}, JSON.parse(JSON.stringify(this.user.languages)));
-			
+			let editedLanguages = Object.assign(
+				{},
+				JSON.parse(JSON.stringify(this.user.languages))
+			);
+
 			merge(editedLanguages, languages);
 			try {
 				const res = await this.$store.dispatch("editUser", {
