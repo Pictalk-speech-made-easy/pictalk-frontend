@@ -10,9 +10,7 @@
 			</b-navbar-item>
 		</template>
 		<template slot="start">
-			<b-navbar-item tag="nuxt-link" to="/">{{
-				$t("Home")
-			}}</b-navbar-item>
+			<b-navbar-item tag="nuxt-link" to="/">{{ $t("Home") }}</b-navbar-item>
 			<b-navbar-item tag="nuxt-link" to="/getstarted"
 				>{{ $t("GetStarted") }} 🚀</b-navbar-item
 			>
@@ -96,8 +94,7 @@
 					/>
 					<b-button
 						v-if="
-							!this.$route.query.isAdmin &&
-							this.$route.path.includes('pictalk')
+							!this.$route.query.isAdmin && this.$route.path.includes('pictalk')
 						"
 						type="is-warning"
 						@click="toAdmin"
@@ -116,11 +113,7 @@
 						to="/help"
 						icon-right="help-circle"
 					/>
-					<b-button
-						type="is-light"
-						icon-right="logout"
-						@click="onLogout"
-					/>
+					<b-button type="is-light" icon-right="logout" @click="onLogout" />
 				</div>
 			</b-navbar-item>
 		</template>
@@ -140,9 +133,7 @@ export default {
 			return "/public" + this.admin;
 		},
 		availableLocales() {
-			return this.$i18n.locales.filter(
-				(i) => i.code !== this.$i18n.locale
-			);
+			return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
 		},
 		sharedLink() {
 			//this.$store.commit('eraseSpeech');
@@ -151,9 +142,8 @@ export default {
 	},
 	methods: {
 		localeIso() {
-			return this.$i18n.locales.filter(
-				(i) => i.code == this.$i18n.locale
-			)[0].iso;
+			return this.$i18n.locales.filter((i) => i.code == this.$i18n.locale)[0]
+				.iso;
 		},
 		getEmoji(language) {
 			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
@@ -198,12 +188,11 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message:
-					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
+				message: this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),
-					value: "0",
+					value: "",
 					maxlength: 2,
 					min: 0,
 					max: 20,
@@ -212,9 +201,7 @@ export default {
 				onConfirm: (value) => {
 					if (value == res) {
 						if (!this.$route.query.isAdmin) {
-							this.$buefy.toast.open(
-								this.$t("SupervisorModeSuccess")
-							);
+							this.$buefy.toast.open(this.$t("SupervisorModeSuccess"));
 						}
 						this.$router.push(this.$route.path + "?isAdmin=true");
 					}
@@ -227,12 +214,11 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message:
-					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
+				message: this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),
-					value: "0",
+					value: "",
 					maxlength: 2,
 					min: 0,
 					max: 20,
