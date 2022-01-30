@@ -10,7 +10,9 @@
 			</b-navbar-item>
 		</template>
 		<template slot="start">
-			<b-navbar-item tag="nuxt-link" to="/">{{ $t("Home") }}</b-navbar-item>
+			<b-navbar-item tag="nuxt-link" to="/">{{
+				$t("Home")
+			}}</b-navbar-item>
 			<b-navbar-item tag="nuxt-link" to="/getstarted"
 				>{{ $t("GetStarted") }} 🚀</b-navbar-item
 			>
@@ -31,14 +33,6 @@
 		</template>
 
 		<template slot="end">
-			<b-navbar-dropdown collapsible :label="getEmoji(localeIso())">
-				<b-navbar-item
-					v-for="locale in availableLocales"
-					:key="locale.code"
-					@click.prevent.stop="$i18n.setLocale(locale.code)"
-					>{{ getEmoji(locale.iso) }}</b-navbar-item
-				>
-			</b-navbar-dropdown>
 			<b-navbar-item tag="div">
 				<div class="buttons b-tooltips">
 					<b-tooltip
@@ -94,7 +88,8 @@
 					/>
 					<b-button
 						v-if="
-							!this.$route.query.isAdmin && this.$route.path.includes('pictalk')
+							!this.$route.query.isAdmin &&
+							this.$route.path.includes('pictalk')
 						"
 						type="is-warning"
 						@click="toAdmin"
@@ -113,7 +108,11 @@
 						to="/help"
 						icon-right="help-circle"
 					/>
-					<b-button type="is-light" icon-right="logout" @click="onLogout" />
+					<b-button
+						type="is-light"
+						icon-right="logout"
+						@click="onLogout"
+					/>
 				</div>
 			</b-navbar-item>
 		</template>
@@ -133,7 +132,9 @@ export default {
 			return "/public" + this.admin;
 		},
 		availableLocales() {
-			return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
+			return this.$i18n.locales.filter(
+				(i) => i.code !== this.$i18n.locale
+			);
 		},
 		sharedLink() {
 			//this.$store.commit('eraseSpeech');
@@ -141,16 +142,6 @@ export default {
 		},
 	},
 	methods: {
-		localeIso() {
-			return this.$i18n.locales.filter((i) => i.code == this.$i18n.locale)[0]
-				.iso;
-		},
-		getEmoji(language) {
-			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-				return countryCodeEmoji(language.split("-")[1]);
-			}
-			return;
-		},
 		async refreshPictos() {
 			try {
 				await this.$store.dispatch("downloadCollections");
@@ -188,7 +179,8 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
+				message:
+					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),
@@ -201,7 +193,9 @@ export default {
 				onConfirm: (value) => {
 					if (value == res) {
 						if (!this.$route.query.isAdmin) {
-							this.$buefy.toast.open(this.$t("SupervisorModeSuccess"));
+							this.$buefy.toast.open(
+								this.$t("SupervisorModeSuccess")
+							);
 						}
 						this.$router.push(this.$route.path + "?isAdmin=true");
 					}
@@ -214,7 +208,8 @@ export default {
 			const b = Math.floor(Math.random() * 10 + 1);
 			const res = a + b;
 			this.$buefy.dialog.prompt({
-				message: this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
+				message:
+					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
 				inputAttrs: {
 					type: "number",
 					placeholder: this.$t("SupervisorModeInput"),

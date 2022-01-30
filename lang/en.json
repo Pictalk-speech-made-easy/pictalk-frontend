@@ -224,5 +224,8 @@
     "Try": "Try",
     "Pictogram": "Pictogram",
     "MissingImage": "There is no image to upload",
-    "Us": "us"
+    "Us": "us",
+    "DisplayedLanguage": "Displayed language",
+    "Voice": "Voice",
+    "Voices": "Voices"
 }

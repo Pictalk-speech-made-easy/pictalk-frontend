@@ -18,6 +18,16 @@
 					password-reveal
 				></b-input>
 			</b-field>
+			<b-field :label="$t('DisplayedLanguage')">
+				<b-navbar-dropdown collapsible :label="getEmoji(localeIso())">
+					<b-navbar-item
+						v-for="locale in availableLocales"
+						:key="locale.code"
+						@click.prevent.stop="$i18n.setLocale(locale.code)"
+						>{{ getEmoji(locale.iso) }}</b-navbar-item
+					>
+				</b-navbar-dropdown>
+			</b-field>
 			<div class="columns">
 				<b-field class="column" :label="$t('Voice')">
 					<b-select
@@ -38,6 +48,7 @@
 					</b-select>
 				</b-field>
 				<b-button
+					class="column"
 					v-if="!displayVoicesOrMultiLingual"
 					@click="displayVoices = !displayVoices"
 					type="is-ghost"
@@ -143,6 +154,11 @@ import { countryCodeEmoji } from "country-code-emoji";
 import merge from "lodash.merge";
 export default {
 	computed: {
+		availableLocales() {
+			return this.$i18n.locales.filter(
+				(i) => i.code !== this.$i18n.locale
+			);
+		},
 		displayVoicesOrMultiLingual() {
 			return (
 				this.displayVoices ||
@@ -282,6 +298,11 @@ export default {
 		this.directSharers = [...this.user.directSharers];
 	},
 	methods: {
+		localeIso() {
+			return this.$i18n.locales.filter(
+				(i) => i.code == this.$i18n.locale
+			)[0].iso;
+		},
 		getDeviceInfo() {
 			return (
 				this.getOSInfo() +
