@@ -14,7 +14,7 @@
 			/>
 		</div>
 		<div class="notification meaning">
-			{{ picto.meaning[getUserLang] }}
+			{{ picto.meaning[getUserLang()] }}
 		</div>
 		<div
 			v-if="adminMode && !publicMode"
@@ -27,32 +27,39 @@
 						:icon-right="active ? 'menu-up' : 'menu-down'"
 					/>
 				</template>
-
-				<b-dropdown-item v-if="isOnline" aria-role="listitem"
-					><b-button
-						:disabled="!(isEditor || isToUser)"
+				<b-dropdown-item aria-role="listitem">
+					<b-button
+						:disabled="!(isEditor || isToUser) || !isOnline"
 						type="is-info"
 						icon-right="pencil"
 						:expanded="true"
 						@click="editPicto()"
 					/>
 				</b-dropdown-item>
-				<b-dropdown-item v-if="isOnline" aria-role="listitem"
-					><b-button
+				<b-dropdown-item aria-role="listitem">
+					<b-button
+						:disabled="!isOnline"
 						:expanded="true"
 						type="is-danger"
 						icon-right="delete"
 						@click="deletePicto()"
-				/></b-dropdown-item>
-				<b-dropdown-item v-if="picto.collection" aria-role="listitem">
+					/>
+				</b-dropdown-item>
+				<b-dropdown-item
+					v-if="picto.collection && !(isEditor || isToUser)"
+					aria-role="listitem"
+				>
 					<b-button
 						:expanded="true"
-						type="is-info"
-						icon-right="content-copy"
+						type="is-success"
+						icon-right="plus"
 						@click="setCopyCollectionId(picto.id)"
 					/>
 				</b-dropdown-item>
-				<b-dropdown-item v-if="picto.collection" aria-role="listitem">
+				<b-dropdown-item
+					v-if="picto.collection && (isEditor || isToUser)"
+					aria-role="listitem"
+				>
 					<b-button
 						:expanded="true"
 						type="is-info"
@@ -60,7 +67,10 @@
 						@click="setShortcutCollectionId(picto.id)"
 					/>
 				</b-dropdown-item>
-				<b-dropdown-item v-if="picto.collection" aria-role="listitem">
+				<b-dropdown-item
+					v-if="picto.collection && isToUser"
+					aria-role="listitem"
+				>
 					<b-button
 						:expanded="true"
 						type="is-info"
@@ -150,6 +160,49 @@ export default {
 				}
 				this.$router.push(this.pictoLink + adminMode);
 			}
+			if (this.$store.getters.getUser.settings?.pronounceClick) {
+				this.pronounce(this.picto);
+			}
+		},
+		async pronounce(picto) {
+			if ("speechSynthesis" in window) {
+				let voices = window.speechSynthesis.getVoices();
+				var msg = new SpeechSynthesisUtterance();
+				msg.text = picto.speech[this.getUserLang()];
+				let voice = voices.filter(
+					(voice) => voice.voiceURI == this.voiceURI
+				);
+				if (voice.length == 0) {
+					voice = voices.filter(
+						(voice) => voice.lang == this.getUserLang(true)
+					);
+				}
+				if (voice.length == 0) {
+					voice = voices.filter((voice) =>
+						voice.lang.includes(this.getUserLang())
+					);
+				}
+				window.speechSynthesis.speak(msg);
+			} else {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("NoVoicesFound"),
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+				});
+			}
+		},
+		getUserLang(detailled = false) {
+			const user = this.$store.getters.getUser;
+			const lang = Object.keys(user.language)[0];
+			if (lang && !detailled) {
+				return lang.replace(/[^a-z]/g, "");
+			} else if (lang && detailled) {
+				return lang;
+			} else {
+				return window.navigator.language;
+			}
 		},
 		deletePicto() {
 			this.$buefy.modal.open({
@@ -225,15 +278,6 @@ export default {
 			return this.publicMode
 				? String("/public/" + this.picto.id)
 				: String("/pictalk/" + this.picto.id);
-		},
-		getUserLang() {
-			const user = this.$store.getters.getUser;
-			const lang = Object.keys(user.language)[0];
-			if (lang) {
-				return lang.replace(/[^a-z]/g, "");
-			} else {
-				return window.navigator.language;
-			}
 		},
 		isToUser() {
 			return this.$store.getters.getUser.id == this.picto.userId;

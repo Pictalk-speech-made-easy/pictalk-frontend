@@ -109,7 +109,7 @@ export const mutations = {
 		state.token = null;
 	},
 	editUser(state, user) {
-		state.user = user;
+		Object.assign(state.user, user);
 	},
 	setRootId(state, rootId) {
 		state.rootId = rootId;
@@ -367,20 +367,23 @@ export const actions = {
 		vuexContext.commit('setSharedId', user.shared);
 		user.language = JSON.parse(user.language);
 		user.languages = JSON.parse(user.languages);
+		user.settings = JSON.parse(user.settings);
 		vuexContext.commit("editUser", user);
 	},
 	async editUser(vuexContext, user) {
 		user.language = JSON.stringify(user.language);
 		user.languages = JSON.stringify(user.languages);
-		const res = await axios
-			.put(URL + "/user/details/", user);
+		user.settings = JSON.stringify(user.settings);
+		const newUser = (await axios
+			.put(URL + "/user/details/", user)).data;
 		vuexContext.commit("editUser", {
 			username: user.username,
 			language: JSON.parse(user.language),
 			languages: JSON.parse(user.languages),
+			settings: JSON.parse(user.settings),
 			directSharers: user.directSharers
 		});
-		return res;
+		return newUser;
 	},
 	async downloadCollections(vuexContext) {
 		const res = await axios.get("/collection");

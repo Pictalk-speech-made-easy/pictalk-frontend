@@ -28,14 +28,15 @@
 		</div>
 		<div class="column is-narrow nopadding">
 			<b-button
-			v-if="$store.getters.getTemporaryLanguage"
+				v-if="$store.getters.getTemporaryLanguage"
 				type="is-success"
 				icon-right="message"
 				@click="pictalk(pictos)"
 				v-longpress="openTravelerMode"
-			>{{getEmoji($store.getters.getTemporaryLanguage)}}</b-button>
+				>{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button
+			>
 			<b-button
-			v-else
+				v-else
 				type="is-success"
 				icon-right="message"
 				@click="pictalk(pictos)"
@@ -55,7 +56,7 @@
 import axios from "axios";
 import miniPicto from "@/components/pictos/miniPicto";
 import mergeImages from "merge-images-horizontally-with-text";
-import tradLanguageListVue from '@/components/pictos/tradLanguageList.vue';
+import tradLanguageListVue from "@/components/pictos/tradLanguageList.vue";
 import { countryCodeEmoji } from "country-code-emoji";
 export default {
 	created() {
@@ -74,21 +75,35 @@ export default {
 			}
 		});
 		allVoicesObtained.then((voices) => {
-			this.voices = voices
-			this.voiceURI = this.$store.getters.getUser.language[Object.keys(this.$store.getters.getUser.language)[0]][this.getDeviceInfo()]?.voiceURI;
-			this.voiceURIs = Object.keys(this.$store.getters.getUser.languages).map((lang) => {
-				return (this.$store.getters.getUser.languages[lang][this.getDeviceInfo()]?.voiceURI)
+			this.voices = voices;
+			this.voiceURI =
+				this.$store.getters.getUser.language[
+					Object.keys(this.$store.getters.getUser.language)[0]
+				][this.getDeviceInfo()]?.voiceURI;
+			this.voiceURIs = Object.keys(
+				this.$store.getters.getUser.languages
+			).map((lang) => {
+				return this.$store.getters.getUser.languages[lang][
+					this.getDeviceInfo()
+				]?.voiceURI;
 			});
 			// Si vide alors remplir avec la premiere valeur equiv a lang
 			if (!this.voiceURI) {
-				this.voiceURI = this.voices.filter((voice) => voice.lang == Object.keys(this.$store.getters.getUser.language)[0])[0].voiceURI;
+				this.voiceURI = this.voices.filter(
+					(voice) =>
+						voice.lang ==
+						Object.keys(this.$store.getters.getUser.language)[0]
+				)[0].voiceURI;
 			}
-			
-			this.voiceURIs = Object.keys(this.$store.getters.getUser.languages).map((lang, index) => {
+
+			this.voiceURIs = Object.keys(
+				this.$store.getters.getUser.languages
+			).map((lang, index) => {
 				if (this.voiceURIs[index]) {
 					return this.voiceURIs[index];
 				} else {
-					return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
+					return this.voices.filter((voice) => voice.lang == lang)[0]
+						.voiceURI;
 				}
 			});
 		});
@@ -96,29 +111,25 @@ export default {
 	methods: {
 		getEmoji(language) {
 			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-			return countryCodeEmoji(language.split("-")[1]);
+				return countryCodeEmoji(language.split("-")[1]);
 			}
 			return;
 		},
 		openTravelerMode(e) {
-			// if (!this.user.settings.travelerMode) {
-			// 	return;
-			// }
-			if (!this.$store.getters.getTemporaryLanguage) {
-			this.$buefy.modal.open({
-				parent: this,
-				component: tradLanguageListVue,
-				hasModalCard: true,
-				customClass: "custom-class custom-class-2",
-				trapFocus: true,
-				canCancel: ["escape", "x"],
-			});
-			} else {
-				this.$store.commit('setTemporaryLanguage', null);
+			if (this.$store.getters.getUser.settings.travelMode) {
+				if (!this.$store.getters.getTemporaryLanguage) {
+					this.$buefy.modal.open({
+						parent: this,
+						component: tradLanguageListVue,
+						hasModalCard: true,
+						customClass: "custom-class custom-class-2",
+						trapFocus: true,
+						canCancel: ["escape", "x"],
+					});
+				} else {
+					this.$store.commit("setTemporaryLanguage", null);
+				}
 			}
-			// OPEN MODAL
-			// Icon inside button flag of country
-			// Change for the session ?
 		},
 		getText(pictos) {
 			return pictos.reduce(
@@ -127,20 +138,32 @@ export default {
 				""
 			);
 		},
-		getDeviceInfo(){
-			return this.getOSInfo() + window.screen.height + window.screen.width + window.devicePixelRatio;
+		getDeviceInfo() {
+			return (
+				this.getOSInfo() +
+				window.screen.height +
+				window.screen.width +
+				window.devicePixelRatio
+			);
 		},
-		getOSInfo(){
-			if (window.navigator.userAgent.indexOf("Windows NT 10.0")!= -1) return "Windows 10";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1) return "Windows 8.1";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1) return "Windows 8";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1) return "Windows 7";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1) return "Windows Vista";
-			if (window.navigator.userAgent.indexOf("Mac")            != -1) return "Mac/iOS";
-			if (window.navigator.userAgent.indexOf("X11")            != -1) return "UNIX";
-			if (window.navigator.userAgent.indexOf("Linux")          != -1) return "Linux";
+		getOSInfo() {
+			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+				return "Windows 10";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
+				return "Windows 8.1";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
+				return "Windows 8";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
+				return "Windows 7";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
+				return "Windows Vista";
+			if (window.navigator.userAgent.indexOf("Mac") != -1)
+				return "Mac/iOS";
+			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
+			if (window.navigator.userAgent.indexOf("Linux") != -1)
+				return "Linux";
 		},
-		convertToSimpleLanguage(language){
+		convertToSimpleLanguage(language) {
 			return language.replace(/[^a-z]/g, "");
 		},
 		async copyPictosToClipboardLegacy(pictos) {
@@ -204,12 +227,16 @@ export default {
 			}
 		},
 		async getTranslatedText(pictos) {
-			return (await axios.get('/translation/', { 
-							params: {
-								text: this.getText(pictos),
-								targetLang: this.convertToSimpleLanguage(this.$store.getters.getTemporaryLanguage),
-							}
-						}))?.data?.translations[0]?.text;
+			return (
+				await axios.get("/translation/", {
+					params: {
+						text: this.getText(pictos),
+						targetLang: this.convertToSimpleLanguage(
+							this.$store.getters.getTemporaryLanguage
+						),
+					},
+				})
+			)?.data?.translations[0]?.text;
 		},
 		async pictalk(pictos) {
 			if ("speechSynthesis" in window) {
@@ -217,8 +244,10 @@ export default {
 				let voice;
 				if (this.$store.getters.getTemporaryLanguage) {
 					msg.text = await this.getTranslatedText(pictos);
-					voice = this.voices.filter(
-						(voice) => voice.lang.includes(this.$store.getters.getTemporaryLanguage)
+					voice = this.voices.filter((voice) =>
+						voice.lang.includes(
+							this.$store.getters.getTemporaryLanguage
+						)
 					);
 				} else {
 					msg.text = this.getText(pictos);
@@ -227,12 +256,12 @@ export default {
 					);
 					if (voice.length == 0) {
 						voice = this.voices.filter(
-						(voice) => voice.lang == this.getUserLang(true)
+							(voice) => voice.lang == this.getUserLang(true)
 						);
 					}
 					if (voice.length == 0) {
-						voice = this.voices.filter(
-						(voice) => voice.lang.includes(this.getUserLang())
+						voice = this.voices.filter((voice) =>
+							voice.lang.includes(this.getUserLang())
 						);
 					}
 				}
@@ -252,14 +281,14 @@ export default {
 		},
 		removeSpeech() {
 			const pictoSpeech = this.$store.getters.getSpeech;
-				let adminMode = "";
-				if (this.$route.query.isAdmin) {
-					adminMode = "?isAdmin=true";
-				}
-				if (pictoSpeech.length <= 1) {
-					if (this.publicMode) {
-						this.$router.push("/public/");
-					} else {
+			let adminMode = "";
+			if (this.$route.query.isAdmin) {
+				adminMode = "?isAdmin=true";
+			}
+			if (pictoSpeech.length <= 1) {
+				if (this.publicMode) {
+					this.$router.push("/public/");
+				} else {
 					if (this.$store.getters.getRootId) {
 						this.$router.push(
 							"/pictalk/" +
@@ -267,18 +296,18 @@ export default {
 								adminMode
 						);
 					} else {
-							this.$router.push("/pictalk" + adminMode);
+						this.$router.push("/pictalk" + adminMode);
 					}
-					}
-				} else {
-					if (pictoSpeech[pictoSpeech.length - 2].collection) {
+				}
+			} else {
+				if (pictoSpeech[pictoSpeech.length - 2].collection) {
 					this.$router.push(
 						(this.publicMode ? "/public/" : "/pictalk/") +
 							pictoSpeech[pictoSpeech.length - 2].id +
 							adminMode
 					);
-					}
 				}
+			}
 			this.$store.commit("removeSpeech");
 		},
 		eraseSpeech() {
@@ -353,8 +382,8 @@ export default {
 		publicMode: {
 			type: Boolean,
 			required: false,
-			default: () => false
-		}
+			default: () => false,
+		},
 	},
 	data() {
 		return {

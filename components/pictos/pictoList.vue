@@ -147,7 +147,11 @@ export default {
 			if (this.admin) {
 				this.$router.push(this.homeLink);
 			} else {
-				this.toAdmin();
+				if (this.$store.getters.getUser.settings.securityMode) {
+					this.toAdmin();
+				} else {
+					this.$router.push(this.$route.path + "?isAdmin=true");
+				}
 			}
 		},
 		toAdmin() {

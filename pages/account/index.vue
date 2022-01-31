@@ -21,7 +21,7 @@ export default {
 	},
 	computed: {
 		getUser() {
-			return { ...this.$store.getters.getUser };
+			return JSON.parse(JSON.stringify(this.$store.getters.getUser));
 		},
 	},
 	middleware: ["check-auth", "auth", "axios"],

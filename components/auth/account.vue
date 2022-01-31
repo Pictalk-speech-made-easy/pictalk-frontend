@@ -81,29 +81,26 @@
 			</div>
 			<hr />
 			<h1 class="subtitle">{{ $t("OptionnalParameters") }}</h1>
-
 			<b-field>
-				<b-switch>{{ $t("PronouncePictoOnClick") }}</b-switch>
+				<b-switch v-model="user.settings.pronounceClick">{{
+					$t("PronouncePictoOnClick")
+				}}</b-switch>
 			</b-field>
 			<b-field>
-				<b-switch>{{ $t("EnforcedSecurityMode") }}</b-switch>
+				<b-switch v-model="user.settings.securityMode">{{
+					$t("EnforcedSecurityMode")
+				}}</b-switch>
 			</b-field>
 			<b-field>
-				<b-switch>{{ $t("ReturnWithoutRemoveButton") }}</b-switch>
+				<b-switch v-model="user.settings.returnWithoutRemove">{{
+					$t("ReturnWithoutRemoveButton")
+				}}</b-switch>
 			</b-field>
 			<b-field>
-				<b-switch>{{ $t("TravelerMode") }}</b-switch>
+				<b-switch v-model="user.settings.travelMode">{{
+					$t("TravelerMode")
+				}}</b-switch>
 			</b-field>
-			<hr />
-			<b-button tag="nuxt-link" to="/pictalk">{{
-				$t("Cancel")
-			}}</b-button>
-			<b-button
-				type="is-info"
-				@click="onSave(user.username, user.password, user.language)"
-				>{{ $t("Save") }}</b-button
-			>
-			<br />
 		</div>
 		<div class="column">
 			<b-field :label="$t('TrustedSources')">
@@ -146,6 +143,14 @@
 				</p>
 			</b-field>
 		</div>
+		<hr />
+		<b-button tag="nuxt-link" to="/pictalk">{{ $t("Cancel") }}</b-button>
+		<b-button
+			type="is-info"
+			@click="onSave(user.username, user.password, user.language)"
+			>{{ $t("Save") }}</b-button
+		>
+		<br />
 	</div>
 </template>
 <script>
@@ -543,6 +548,7 @@ export default {
 					password: this.user.password,
 					language: editedLanguage,
 					languages: editedLanguages,
+					settings: this.user.settings,
 					directSharers: this.directSharers,
 				});
 			} catch (error) {

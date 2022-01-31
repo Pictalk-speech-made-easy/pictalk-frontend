@@ -62,10 +62,10 @@
 						style="width: 40%;"
         ></b-image>
 				</div>
-					<b-field class="column" :label="$t('PrincipalLanguage')">
+					<b-field class="column" :label="$t('PrincipalVoice')">
 						<b-select
 							v-model="voiceURI"
-							placeholder="Select language"
+							:placeholder="$t('SelectVoice')"
 							required
 							expanded
 							:loading="loadingVoices"
@@ -81,10 +81,10 @@
 						</b-select>
 					</b-field>
 					<b-button @click="showLanguages = !showLanguages" type="is-ghost">{{ $t('SpeakMoreLanguage')}}</b-button>
-					<b-field v-if="showLanguages" class="column" :label="$t('Languages')">
+					<b-field v-if="showLanguages" class="column" :label="$t('Voices')">
 						<b-select
 							v-model="voiceURIs"
-							:placeholder="$t('SelectLanguage')"
+							:placeholder="$t('SelectVoice')"
 							required
 							multiple
 							expanded

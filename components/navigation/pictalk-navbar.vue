@@ -36,9 +36,9 @@
 			<b-navbar-item tag="div">
 				<div class="buttons b-tooltips">
 					<b-tooltip
-						position="is-right"
+						position="is-bottom"
 						type="is-primary"
-						label="delayed by 1000ms"
+						:label="$t('TooltipHome')"
 						:delay="1000"
 					>
 						<b-button
@@ -50,7 +50,7 @@
 					<b-tooltip
 						position="is-bottom"
 						type="is-primary"
-						label="delayed by 1000ms"
+						:label="$t('TooltipPublic')"
 						:delay="1000"
 					>
 						<b-button
@@ -61,9 +61,9 @@
 						/>
 					</b-tooltip>
 					<b-tooltip
-						position="is-top"
+						position="is-bottom"
 						type="is-primary"
-						label="delayed by 1000ms"
+						:label="$t('TooltipShared')"
 						:delay="1000"
 					>
 						<b-button
@@ -73,30 +73,45 @@
 							tag="nuxt-link"
 						/>
 					</b-tooltip>
-					<b-button
-						v-if="this.$route.path.includes('pictalk')"
-						type="is-success"
-						icon-right="cloud-sync"
-						@click="refreshPictos"
-					/>
-					<b-button
-						v-if="this.$route.path.includes('pictalk')"
-						type="is-info"
-						icon-right="account-cog"
-						tag="nuxt-link"
-						to="/account"
-					/>
-					<b-button
-						type="is-light"
-						tag="nuxt-link"
-						to="/help"
-						icon-right="help-circle"
-					/>
-					<b-button
-						type="is-light"
-						icon-right="logout"
-						@click="onLogout"
-					/>
+					<b-tooltip
+						position="is-bottom"
+						type="is-primary"
+						:label="$t('TooltipAcount')"
+						:delay="1000"
+					>
+						<b-button
+							v-if="this.$route.path.includes('pictalk')"
+							type="is-info"
+							icon-right="cog"
+							tag="nuxt-link"
+							to="/account"
+						/>
+					</b-tooltip>
+					<b-tooltip
+						position="is-bottom"
+						type="is-primary"
+						:label="$t('TooltipHelp')"
+						:delay="1000"
+					>
+						<b-button
+							type="is-light"
+							tag="nuxt-link"
+							to="/help"
+							icon-right="help-circle"
+						/>
+					</b-tooltip>
+					<b-tooltip
+						position="is-bottom"
+						type="is-primary"
+						:label="$t('TooltipLogout')"
+						:delay="1000"
+					>
+						<b-button
+							type="is-light"
+							icon-right="logout"
+							@click="onLogout"
+						/>
+					</b-tooltip>
 				</div>
 			</b-navbar-item>
 		</template>
