@@ -16,7 +16,10 @@
 		<div class="notification meaning">
 			{{ picto.meaning[getUserLang] }}
 		</div>
-		<div v-if="adminMode && !publicMode" class="adminMenu adminoption columns">
+		<div
+			v-if="adminMode && !publicMode"
+			class="adminMenu adminoption columns"
+		>
 			<b-dropdown aria-role="menu" class="column noMargin is-mobile">
 				<template #trigger="{ active }">
 					<b-button
@@ -25,8 +28,9 @@
 					/>
 				</template>
 
-				<b-dropdown-item v-if="isOnline && (isEditor || isToUser)" aria-role="listitem"
+				<b-dropdown-item v-if="isOnline" aria-role="listitem"
 					><b-button
+						:disabled="!(isEditor || isToUser)"
 						type="is-info"
 						icon-right="pencil"
 						:expanded="true"
@@ -47,24 +51,23 @@
 						icon-right="content-copy"
 						@click="setCopyCollectionId(picto.id)"
 					/>
-					</b-dropdown-item>
-					<b-dropdown-item v-if="picto.collection" aria-role="listitem">
+				</b-dropdown-item>
+				<b-dropdown-item v-if="picto.collection" aria-role="listitem">
 					<b-button
 						:expanded="true"
 						type="is-info"
 						icon-right="share"
 						@click="setShortcutCollectionId(picto.id)"
 					/>
-					</b-dropdown-item>
-					<b-dropdown-item v-if="picto.collection" aria-role="listitem">
+				</b-dropdown-item>
+				<b-dropdown-item v-if="picto.collection" aria-role="listitem">
 					<b-button
 						:expanded="true"
 						type="is-info"
 						icon-right="share-variant"
 						@click="sharePicto()"
 					/>
-					</b-dropdown-item>
-				
+				</b-dropdown-item>
 			</b-dropdown>
 
 			<div class="column noMargin is-mobile" v-if="picto.starred">
@@ -114,14 +117,21 @@ export default {
 		publicMode: {
 			type: Boolean,
 			required: false,
-			default: () => false
-		}
+			default: () => false,
+		},
 	},
 	methods: {
 		async setShortcutCollectionIdDirectlyToRoot(collectionId) {
-			let collection = JSON.parse(JSON.stringify(this.getCollectionFromId(this.$store.getters.getRootId)))
-			collection.collections.push({id: collectionId});
-			await this.$store.dispatch("editCollection", {id: collection.id, collections: collection.collections});
+			let collection = JSON.parse(
+				JSON.stringify(
+					this.getCollectionFromId(this.$store.getters.getRootId)
+				)
+			);
+			collection.collections.push({ id: collectionId });
+			await this.$store.dispatch("editCollection", {
+				id: collection.id,
+				collections: collection.collections,
+			});
 		},
 		setCopyCollectionId(collectionId) {
 			this.$store.commit("setCopyCollectionId", collectionId);
@@ -184,10 +194,13 @@ export default {
 		},
 		async alternateStar() {
 			try {
-				this.$store.commit(this.picto.collection ? "editCollection" : "editPicto", {
-					...this.picto,
-					starred: !this.picto.starred,
-				});
+				this.$store.commit(
+					this.picto.collection ? "editCollection" : "editPicto",
+					{
+						...this.picto,
+						starred: !this.picto.starred,
+					}
+				);
 			} catch (error) {
 				console.log(error);
 				const notif = this.$buefy.notification.open({
@@ -201,19 +214,23 @@ export default {
 			}
 		},
 		getCollectionFromId(id) {
-			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
+			const index = this.$store.getters.getCollections.findIndex(
+				(collection) => collection.id === id
+			);
 			return this.$store.getters.getCollections[index];
 		},
 	},
 	computed: {
 		pictoLink() {
-			return this.publicMode ? String("/public/" + this.picto.id) : String("/pictalk/" + this.picto.id);
+			return this.publicMode
+				? String("/public/" + this.picto.id)
+				: String("/pictalk/" + this.picto.id);
 		},
 		getUserLang() {
 			const user = this.$store.getters.getUser;
 			const lang = Object.keys(user.language)[0];
-			if (lang ) {
-				return lang.replace(/[^a-z]/g, "");;
+			if (lang) {
+				return lang.replace(/[^a-z]/g, "");
 			} else {
 				return window.navigator.language;
 			}
@@ -222,14 +239,22 @@ export default {
 			return this.$store.getters.getUser.id == this.picto.userId;
 		},
 		isEditor() {
-			return this.picto.editors?.find((editor) => editor == this.$store.getters.getUser.username) != undefined;
+			return (
+				this.picto.editors?.find(
+					(editor) => editor == this.$store.getters.getUser.username
+				) != undefined
+			);
 		},
 		isViewer() {
-			return this.picto.viewers?.find((viewer) => viewer == this.$store.getters.getUser.username) != undefined;
+			return (
+				this.picto.viewers?.find(
+					(viewer) => viewer == this.$store.getters.getUser.username
+				) != undefined
+			);
 		},
 		isOnline() {
 			return window.navigator.onLine;
-		}
+		},
 	},
 };
 </script>

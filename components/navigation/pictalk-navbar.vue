@@ -87,22 +87,6 @@
 						to="/account"
 					/>
 					<b-button
-						v-if="
-							!this.$route.query.isAdmin &&
-							this.$route.path.includes('pictalk')
-						"
-						type="is-warning"
-						@click="toAdmin"
-						icon-right="lock-open-variant"
-					/>
-					<b-button
-						v-else-if="this.$route.path.includes('pictalk')"
-						type="is-warning"
-						tag="nuxt-link"
-						:to="homeLink"
-						icon-right="lock"
-					/>
-					<b-button
 						type="is-light"
 						tag="nuxt-link"
 						to="/help"
@@ -119,7 +103,6 @@
 	</b-navbar>
 </template>
 <script>
-import { countryCodeEmoji } from "country-code-emoji";
 export default {
 	computed: {
 		admin() {
@@ -173,35 +156,6 @@ export default {
 			} else {
 				this.$router.push("/pictalk" + this.admin);
 			}
-		},
-		toAdmin() {
-			const a = Math.floor(Math.random() * 10 + 1);
-			const b = Math.floor(Math.random() * 10 + 1);
-			const res = a + b;
-			this.$buefy.dialog.prompt({
-				message:
-					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
-				inputAttrs: {
-					type: "number",
-					placeholder: this.$t("SupervisorModeInput"),
-					value: "",
-					maxlength: 2,
-					min: 0,
-					max: 20,
-				},
-				trapFocus: true,
-				onConfirm: (value) => {
-					if (value == res) {
-						if (!this.$route.query.isAdmin) {
-							this.$buefy.toast.open(
-								this.$t("SupervisorModeSuccess")
-							);
-						}
-						this.$router.push(this.$route.path + "?isAdmin=true");
-					}
-					return;
-				},
-			});
 		},
 		onLogout() {
 			const a = Math.floor(Math.random() * 10 + 1);

@@ -1,7 +1,11 @@
 <template>
 	<div>
 		<div class="container is-widescreen">
-			<pictoList :publicMode="true" :pictos="loadedPictos" :adminMode="false" />
+			<pictoList
+				:publicMode="true"
+				:pictos="loadedPictos"
+				:adminMode="false"
+			/>
 		</div>
 		<div class="contenant">
 			<pictoBar
@@ -20,7 +24,7 @@ import axios from "axios";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 export default {
-	layout: "pictalk",
+	layout: "public",
 	middleware: ["axios"],
 	components: {
 		pictoList: pictoList,
@@ -31,8 +35,12 @@ export default {
 			return this.$store.getters.getSpeech;
 		},
 		loadedPictos() {
-			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === parseInt(this.$route.params.fatherCollectionId,10));
-			const collection =  this.$store.getters.getCollections[index];
+			const index = this.$store.getters.getCollections.findIndex(
+				(collection) =>
+					collection.id ===
+					parseInt(this.$route.params.fatherCollectionId, 10)
+			);
+			const collection = this.$store.getters.getCollections[index];
 			if (collection) {
 				const collectionList = collection.collections.map((col) => {
 					return this.getCollectionFromId(col.id);
@@ -40,20 +48,15 @@ export default {
 				const pictos = collection.pictos.map((pict) => {
 					return this.getPictoFromId(pict.id);
 				});
-				if (
-					pictos &&
-					collectionList
-				) {
+				if (pictos && collectionList) {
 					let rankedPictos = [];
-					collectionList
-						.concat(pictos)
-						.forEach((picto) => {
-							if (picto && picto.starred == true) {
-								rankedPictos.unshift(picto);
-							} else {
-								rankedPictos.push(picto);
-							}
-						});
+					collectionList.concat(pictos).forEach((picto) => {
+						if (picto && picto.starred == true) {
+							rankedPictos.unshift(picto);
+						} else {
+							rankedPictos.push(picto);
+						}
+					});
 					return rankedPictos;
 				} else {
 					return [];
@@ -62,7 +65,9 @@ export default {
 			return [];
 		},
 		collectionColor() {
-			const collection = this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId,10));
+			const collection = this.getCollectionFromId(
+				parseInt(this.$route.params.fatherCollectionId, 10)
+			);
 			if (collection) {
 				if (collection.color) {
 					return collection.color;
@@ -75,7 +80,9 @@ export default {
 		},
 	},
 	async fetch() {
-		const collection = this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId,10));
+		const collection = this.getCollectionFromId(
+			parseInt(this.$route.params.fatherCollectionId, 10)
+		);
 		// TODO Traiter differement !collection et !collection.pictos || !collection.collections
 		if (
 			!collection ||
@@ -136,22 +143,22 @@ export default {
 						}
 						collection.collection = true;
 						collection.fatherCollectionId = res.data.id;
-						if (!collection.pictos){
+						if (!collection.pictos) {
 							collection.pictos = [];
 						}
-						if (!collection.collections){
+						if (!collection.collections) {
 							collection.collections = [];
 						}
 						// collectionIndex
 						if (!this.getCollectionFromId(collection.id)) {
-						this.$store.commit("addCollection", collection);
+							this.$store.commit("addCollection", collection);
 						} else {
 							this.$store.commit("editCollection", collection);
 						}
 					});
-				}				
+				}
 				if (res.data.pictos && !res.data.pictos.length == 0) {
-					res.data.pictos.map((picto) => {	
+					res.data.pictos.map((picto) => {
 						if (picto.image) {
 							picto.image =
 								this.$config.baseURL +
@@ -166,17 +173,23 @@ export default {
 						}
 						picto.fatherCollectionId = res.data.id;
 						if (!this.getCollectionFromId(picto.id)) {
-						this.$store.commit("addPicto",picto);
-					} else {
-						this.$store.commit("editPicto",picto);
-					}
+							this.$store.commit("addPicto", picto);
+						} else {
+							this.$store.commit("editPicto", picto);
+						}
 					});
 				}
 
 				if (!this.getCollectionFromId(res.data.id)) {
-					this.$store.commit("addCollection", JSON.parse(JSON.stringify(res.data)));
+					this.$store.commit(
+						"addCollection",
+						JSON.parse(JSON.stringify(res.data))
+					);
 				} else {
-					await this.$store.commit("editCollection", JSON.parse(JSON.stringify(res.data)));
+					await this.$store.commit(
+						"editCollection",
+						JSON.parse(JSON.stringify(res.data))
+					);
 				}
 			} catch (error) {
 				console.log("error ", error);
@@ -185,7 +198,7 @@ export default {
 		const user = this.$store.getters.getUser;
 		if (!user.username) {
 			try {
-				await this.$store.dispatch('getUser');
+				await this.$store.dispatch("getUser");
 			} catch (error) {
 				console.log("error ", error);
 			}
@@ -201,13 +214,17 @@ export default {
 			this.$store.commit("removeSpeech");
 		},
 		getCollectionFromId(id) {
-			const index = this.$store.getters.getCollections.findIndex((collection) => collection.id === id);
+			const index = this.$store.getters.getCollections.findIndex(
+				(collection) => collection.id === id
+			);
 			return this.$store.getters.getCollections[index];
 		},
 		getPictoFromId(id) {
-			const index = this.$store.getters.getPictos.findIndex((picto) => picto.id === id);
+			const index = this.$store.getters.getPictos.findIndex(
+				(picto) => picto.id === id
+			);
 			return this.$store.getters.getPictos[index];
-		}
+		},
 	},
 };
 </script>
