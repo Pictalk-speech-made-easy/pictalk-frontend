@@ -43,7 +43,7 @@
 							:value="voice.voiceURI"
 							:key="voice.voiceURI"
 						>
-							{{ getEmoji(voice.lang) }} {{ voice.voiceURI }}
+							{{ getEmoji(voice.lang) }} {{ voice.name }}
 						</option>
 					</b-select>
 				</b-field>
@@ -74,7 +74,7 @@
 							:value="voice.voiceURI"
 							:key="voice.voiceURI"
 						>
-							{{ getEmoji(voice.lang) }} {{ voice.voiceURI }}
+							{{ getEmoji(voice.lang) }} {{ voice.name }}
 						</option>
 					</b-select>
 				</b-field>
@@ -191,7 +191,11 @@ export default {
 			}
 		},
 		loadedVoices() {
-			return this.voices;
+			return this.voices.sort((x, y) => {
+				let a = x.lang.toUpperCase(),
+					b = y.lang.toUpperCase();
+				return a == b ? 0 : a > b ? 1 : -1;
+			});
 		},
 	},
 	props: {

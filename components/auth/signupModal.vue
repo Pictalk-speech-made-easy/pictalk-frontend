@@ -76,7 +76,7 @@
 								:value="voice.voiceURI"
 								:key="voice.voiceURI"
 							>
-								{{getEmoji(voice.lang)}} {{voice.voiceURI}}
+								{{getEmoji(voice.lang)}} {{voice.name}}
 							</option>
 						</b-select>
 					</b-field>
@@ -97,7 +97,7 @@
 								:value="voice.voiceURI"
 								:key="voice.voiceURI"
 							>
-								{{ getEmoji(voice.lang) }} {{voice.voiceURI}} 
+								{{ getEmoji(voice.lang) }} {{voice.name}} 
 							</option>
 						</b-select>
 					</b-field>
@@ -191,7 +191,6 @@ export default {
 				let a = x.lang.toUpperCase(),
 					b = y.lang.toUpperCase();
 				return a == b ? 0 : a > b ? 1 : -1;
-				return a == b ? 0 : a > b ? 1 : -1;
 			});
 		},
 	},
@@ -227,6 +226,7 @@ export default {
 		});
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
+			console.log(voices);
 			this.voiceURI = this.voices.filter(
 				(voice) => voice.lang == this.localeIso()
 			)[0].voiceURI;
