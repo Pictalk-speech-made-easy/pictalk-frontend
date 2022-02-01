@@ -183,11 +183,16 @@
 <script>
 import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
-
+import frenchFries from "@/assets/frenchFries.json";
 export default {
 	computed: {
 		loadedVoices() {
-			return this.voices;
+			return this.voices.sort((x, y) => {
+				let a = x.lang.toUpperCase(),
+					b = y.lang.toUpperCase();
+				return a == b ? 0 : a > b ? 1 : -1;
+				return a == b ? 0 : a > b ? 1 : -1;
+			});
 		},
 	},
 	data() {
@@ -201,7 +206,7 @@ export default {
 			majority: false,
 			passwordConfirmation: "",
 			loadingVoices: true,
-			directSharers: [""],
+			directSharers: [],
 			showLanguages: false,
 		};
 	},
@@ -222,10 +227,10 @@ export default {
 		});
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
-			this.loadingVoices = false;
 			this.voiceURI = this.voices.filter(
 				(voice) => voice.lang == this.localeIso()
 			)[0].voiceURI;
+			this.loadingVoices = false;
 		});
 	},
 	watch: {
@@ -233,10 +238,13 @@ export default {
 			handler: function (v) {
 				this.voiceURIs = [];
 				this.voiceURIs.push(v);
-				this.playSentenceInLanguage(
-					this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
-					v
-				);
+				if (!this.loadingVoices) {
+					this.playSentenceInLanguage(
+						this.voices.filter((voice) => voice.voiceURI == v)[0]
+							.lang,
+						v
+					);
+				}
 			},
 			deep: true,
 		},
@@ -245,10 +253,13 @@ export default {
 				const v = newValue.filter(
 					(ai) => oldValue.indexOf(ai) == -1
 				)[0];
-				this.playSentenceInLanguage(
-					this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
-					v
-				);
+				if (!this.loadingVoices) {
+					this.playSentenceInLanguage(
+						this.voices.filter((voice) => voice.voiceURI == v)[0]
+							.lang,
+						v
+					);
+				}
 			}
 		},
 	},
@@ -287,14 +298,8 @@ export default {
 				return "Linux";
 		},
 		async playSentenceInLanguage(lang, voiceURI) {
-			let translatedText = (
-				await axios.get("/translation/", {
-					params: {
-						text: "I like french fries",
-						targetLang: this.convertToSimpleLanguage(lang),
-					},
-				})
-			)?.data.translations[0].text;
+			let translatedText =
+				frenchFries[this.convertToSimpleLanguage(lang)];
 			this.pronounce(translatedText, lang, voiceURI);
 		},
 		async pronounce(speech, lang, voiceURI) {

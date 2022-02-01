@@ -157,6 +157,7 @@
 import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
 import merge from "lodash.merge";
+import frenchFries from "@/assets/frenchFries.json";
 export default {
 	computed: {
 		availableLocales() {
@@ -337,14 +338,8 @@ export default {
 			return language.replace(/[^a-z]/g, "");
 		},
 		async playSentenceInLanguage(lang, voiceURI) {
-			let translatedText = (
-				await axios.get("/translation/", {
-					params: {
-						text: "I like french fries",
-						targetLang: this.convertToSimpleLanguage(lang),
-					},
-				})
-			)?.data.translations[0].text;
+			let translatedText =
+				frenchFries[this.convertToSimpleLanguage(lang)];
 			this.pronounce(translatedText, lang, voiceURI);
 		},
 		async pronounce(speech, lang, voiceURI) {
