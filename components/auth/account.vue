@@ -101,6 +101,16 @@
 					$t("TravelerMode")
 				}}</b-switch>
 			</b-field>
+			<hr />
+			<b-button tag="nuxt-link" to="/pictalk">{{
+				$t("Cancel")
+			}}</b-button>
+			<b-button
+				type="is-info"
+				@click="onSave(user.username, user.password, user.language)"
+				>{{ $t("Save") }}</b-button
+			>
+			<br />
 		</div>
 		<div class="column">
 			<b-field :label="$t('TrustedSources')">
@@ -143,14 +153,6 @@
 				</p>
 			</b-field>
 		</div>
-		<hr />
-		<b-button tag="nuxt-link" to="/pictalk">{{ $t("Cancel") }}</b-button>
-		<b-button
-			type="is-info"
-			@click="onSave(user.username, user.password, user.language)"
-			>{{ $t("Save") }}</b-button
-		>
-		<br />
 	</div>
 </template>
 <script>

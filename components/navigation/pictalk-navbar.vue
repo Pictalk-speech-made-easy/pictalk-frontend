@@ -74,6 +74,50 @@
 						/>
 					</b-tooltip>
 					<b-tooltip
+						v-if="getUserNotifications.length != 0"
+						position="is-bottom"
+						type="is-primary"
+						:label="$t('TooltipNotifications')"
+						:delay="1000"
+					>
+						<b-dropdown
+							position="is-bottom-left"
+							aria-role="menu"
+							trap-focus
+							><template #trigger>
+								<a class="navbar-item" role="button">
+									<b-icon icon="bell-badge"></b-icon>
+								</a>
+							</template>
+							<b-dropdown-item
+								aria-role="menu-item"
+								:focusable="false"
+								custom
+								paddingless
+							>
+								<div class="modal-card" style="width: 300px">
+									<section class="modal-card-body">
+										<div
+											v-for="notification in getUserNotifications"
+											:key="
+												notification.operation +
+												Math.random()
+											"
+											class="notification"
+										>
+											{{ notification }}
+										</div>
+										<b-button
+											class="is-danger"
+											icon-left="delete"
+											@click="deleteUserNotifications()"
+										/>
+									</section>
+								</div>
+							</b-dropdown-item>
+						</b-dropdown>
+					</b-tooltip>
+					<b-tooltip
 						position="is-bottom"
 						type="is-primary"
 						:label="$t('TooltipAcount')"
@@ -120,6 +164,9 @@
 <script>
 export default {
 	computed: {
+		getUserNotifications() {
+			return this.$store.getters.getUser.notifications ?? [];
+		},
 		admin() {
 			return this.$route.query.isAdmin ? "?isAdmin=true" : "";
 		},
@@ -140,6 +187,9 @@ export default {
 		},
 	},
 	methods: {
+		deleteUserNotifications() {
+			this.$store.dispatch("deleteNotifications");
+		},
 		async refreshPictos() {
 			try {
 				await this.$store.dispatch("downloadCollections");

@@ -424,6 +424,12 @@ export const actions = {
 		if (sharedCollection) {
 			parseAndUpdateEntireCollection(vuexContext, sharedCollection);
 		}
+	},
+	async deleteNotifications(vuexContext) {
+		const notifications = (await axios.delete(URL + '/user/notification')).data;
+		const user = JSON.parse(JSON.stringify(vuexContext.getters.getUser));
+		user.notifications = notifications;
+		vuexContext.commit('editUser', user);
 	}
 }
 export const getters = {
