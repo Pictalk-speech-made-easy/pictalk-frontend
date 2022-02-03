@@ -12,9 +12,27 @@ export default {
 	components: {
 		pictalkNavbar,
 	},
-	mounted(){
-		// Fetch cache and get all images by batches
-	}
+	data() {
+		return {
+			intervalId: null,
+		};
+	},
+	async mounted() {
+		this.intervalId = setInterval(async function () {
+			if (window.navigator.onLine) {
+				try {
+					await this.$nuxt.$store.dispatch("downloadCollections");
+					await this.$nuxt.$store.dispatch("getUser");
+				} catch (err) {
+					console.log(err);
+				}
+			}
+		}, 30000);
+	},
+	destroyed() {
+		console.log("Delete interval");
+		clearInterval(this.intervalId);
+	},
 };
 </script>
 <style scoped>
