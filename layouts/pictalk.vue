@@ -30,7 +30,6 @@ export default {
 		}, 30000);
 	},
 	destroyed() {
-		console.log("Delete interval");
 		clearInterval(this.intervalId);
 	},
 };

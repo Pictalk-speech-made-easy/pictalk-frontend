@@ -238,5 +238,6 @@
     "TooltipAcount": "Go to your account settings",
     "TooltipHelp": "Get some help",
     "TooltipLogout": "Logout",
-    "LostConnectivity": "Lost connectivity"
+    "LostConnectivity": "Lost connectivity",
+    "UpdatedSharers": "Updated editors and viewers"
 }

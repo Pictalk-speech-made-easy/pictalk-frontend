@@ -63,7 +63,7 @@
 					<b-button
 						:expanded="true"
 						type="is-info"
-						icon-right="share"
+						icon-right="content-copy"
 						@click="setShortcutCollectionId(picto.id)"
 					/>
 				</b-dropdown-item>
