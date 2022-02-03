@@ -1,5 +1,5 @@
 <template>
-	<div @click="downloadImg(webpicto.src)">
+	<div @click="downloadImg(webpicto.download)">
 		<b-image lazy :src="webpicto.src"></b-image>
 		<b>{{ webpicto.alt }}</b>
 	</div>
@@ -18,7 +18,6 @@ export default {
 	methods: {
 		async downloadImg(src) {
 			this.show = 1;
-			src = src.replace("download=false", "download=true");
 			let response = await fetch(src);
 			response = await response.blob();
 			const file = new File(
