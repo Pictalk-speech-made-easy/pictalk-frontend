@@ -430,6 +430,14 @@ export const actions = {
 		const user = JSON.parse(JSON.stringify(vuexContext.getters.getUser));
 		user.notifications = notifications;
 		vuexContext.commit('editUser', user);
+	},
+	async serachImages(vuexContext, query){
+		const images = (await axios.get(URL + `/image/web/?search=${query.search}&language=${query.language}`, {
+			headers: {
+				"Content-Type": 'application/x-www-form-urlencoded'
+			}
+		})).data;
+		return images;
 	}
 }
 export const getters = {
