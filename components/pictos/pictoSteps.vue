@@ -45,6 +45,7 @@
                 @keyup.native.enter="pictoExtractImg(pictoSearch)"
               ></b-input>
               <b-button
+                focused
                 type="is-success"
                 icon-right="magnify"
                 :loading="loading"
@@ -70,16 +71,7 @@
                 @uploadfile="uploadfile($event)"
               />
             </div>
-            <b-button
-              class="fullWidth"
-              v-if="!moreImages"
-              type="is-success"
-              icon-right="magnify"
-              :loading="loading"
-              @click="webImages(pictoSearch)"
-            >
-              {{ $t("MoreImages") }}
-            </b-button>
+
             <b-pagination
               v-if="images.length > imgLimit"
               :total="images.length"
@@ -93,6 +85,18 @@
               :icon-next="'chevron-right'"
             >
             </b-pagination>
+            <b-button
+              rounded
+              expanded
+              v-if="!moreImages"
+              type="is-success is-light is-text"
+              icon-right="magnify"
+              :focused="loading"
+              :loading="loading"
+              @click="webImages(pictoSearch)"
+            >
+              {{ $t("MoreImages") }}
+            </b-button>
             <div>
               <br />
               <b-field :label="$t('OrUploadYourOwn')">
@@ -561,14 +565,16 @@ export default {
       return this.$store.getters.getPictos[index];
     },
     async webImages(pictoSearch) {
-      let responseData;
+      const regex = new RegExp("[$&+,:;=?@#|'<>.^*()%!-]", "g");
+      pictoSearch = pictoSearch.replaceAll(regex, " ");
+      let arasaacData;
       this.loading = true;
       try {
-        responseData = await this.$store.dispatch("serachImages", {
+        arasaacData = await this.$store.dispatch("serachImages", {
           language: this.getUserLang(),
           search: pictoSearch,
         });
-        responseData.forEach((photo) => {
+        arasaacData.forEach((photo) => {
           this.images.push({
             src: photo.thumbnail,
             alt: photo.title,
@@ -588,26 +594,102 @@ export default {
       const regex = new RegExp("[$&+,:;=?@#|'<>.^*()%!-]", "g");
       pictoSearch = pictoSearch.replaceAll(regex, " ");
       this.images = [];
-      let responseData;
       this.loading = true;
+      let promises = [];
       try {
-        responseData = (
-          await axios.get(
+        const arasaacData = axios
+          .get(
             `https://api.arasaac.org/api/pictograms/${this.getUserLang()}/search/${pictoSearch}`
           )
-        )?.data;
-        for (let i = 0; i < responseData?.length; i++) {
-          this.images.push({
-            src: `https://api.arasaac.org/api/pictograms/${responseData[i]["_id"]}?color=true&resolution=500&download=false`,
-            alt: responseData[i]["keywords"][0]
-              ? responseData[i]["keywords"][0]["keyword"]
-              : responseData[i]["categories"][0],
-            download: `https://api.arasaac.org/api/pictograms/${responseData[i]["_id"]}?color=true&resolution=500&download=false`,
-            source: "ARASAAC",
-            author: "aragon",
+          .then((arasaacData) => {
+            arasaacData = arasaacData.data;
+            for (let i = 0; i < arasaacData?.length; i++) {
+              this.images.push({
+                src: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
+                alt: arasaacData[i]["keywords"][0]
+                  ? arasaacData[i]["keywords"][0]["keyword"]
+                  : arasaacData[i]["categories"][0],
+                download: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
+                source: "ARASAAC",
+                author: "aragon",
+              });
+            }
+            console.log("arasaac done!");
+          })
+          .catch((error) => {
+            console.log(error);
           });
-        }
-        if (!responseData || responseData?.length < 5) {
+
+        const scleraData = axios
+          .get(
+            `https://symbotalkapiv1.azurewebsites.net/search/?name=${pictoSearch}&lang=${this.getUserLang()}&repo=sclera&limit=10`
+          )
+          .then((scleraData) => {
+            scleraData = scleraData.data;
+            for (let i = 0; i < scleraData?.length; i++) {
+              this.images.push({
+                src: scleraData[i].image_url,
+                alt: scleraData[i].translations[0].tName,
+                download: scleraData[i].image_url,
+                source: "SCLERA",
+                author: scleraData[i].author,
+              });
+            }
+            console.log("sclera done!");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        const tawasolData = axios
+          .get(
+            `https://symbotalkapiv1.azurewebsites.net/search/?name=${pictoSearch}&lang=${this.getUserLang()}&repo=tawasol&limit=10`
+          )
+          .then((tawasolData) => {
+            tawasolData = tawasolData.data;
+            for (let i = 0; i < tawasolData?.length; i++) {
+              this.images.push({
+                src: tawasolData[i].image_url,
+                alt: tawasolData[i].translations[0].tName,
+                download: tawasolData[i].image_url,
+                source: "tawasol",
+                author: tawasolData[i].author,
+              });
+            }
+            console.log("tawasol done!");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        const mulberryData = axios
+          .get(
+            `https://symbotalkapiv1.azurewebsites.net/search/?name=${pictoSearch}&lang=${this.getUserLang()}&repo=mulberry&limit=10`
+          )
+          .then((mulberryData) => {
+            mulberryData = mulberryData.data;
+            for (let i = 0; i < mulberryData?.length; i++) {
+              this.images.push({
+                src: mulberryData[i].image_url,
+                alt: mulberryData[i].translations[0].tName,
+                download: mulberryData[i].image_url,
+                source: "mulberry",
+                author: mulberryData[i].author,
+              });
+            }
+            console.log("mullberry done!");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        promises.push(arasaacData);
+        promises.push(scleraData);
+        promises.push(tawasolData);
+        promises.push(mulberryData);
+        await Promise.allSettled(promises).then(console.log(this.images));
+
+        if (!arasaacData || arasaacData?.length < 5) {
           this.webImages(pictoSearch);
         } else {
           this.loading = false;
@@ -672,8 +754,5 @@ export default {
 }
 .halfWidth {
   width: 40%;
-}
-.fullWidth {
-  width: 100%;
 }
 </style>
