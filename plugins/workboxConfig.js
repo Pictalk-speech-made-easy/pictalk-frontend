@@ -1,5 +1,5 @@
 workbox.routing.registerRoute(
-  new RegExp('https://api\\.pictalk\\.xyz/pictalk/image/.*\\.(png|jpg|jpeg|gif)'),
+  new RegExp('https://apidev\\.pictalk\\.org/pictalk/image/.*\\.(png|jpg|jpeg|gif)'),
   //new RegExp('http://localhost:3001/pictalk/image/.*\\.(png|jpg|jpeg|gif)'),
   new workbox.strategies.CacheFirst({
     cacheName: 'pictos',

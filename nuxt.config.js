@@ -5,8 +5,7 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    baseURL: process.env.BASE_URL || "http://localhost:3001",
-    flickrAPIKey: process.env.FLICKR_API_KEY
+    baseURL: process.env.BASE_URL || "http://localhost:3001"
   },
   generate: {
     fallback: true
@@ -64,7 +63,7 @@ export default {
     format: 'webp',
   },
   sitemap: {
-    hostname: 'https://www.pictalk.xyz',
+    hostname: 'https://www.pictalk.org',
     gzip: false,
     exclude: [
       '/changePassword',
@@ -74,7 +73,7 @@ export default {
     ],
   },
   i18n: {
-    baseURL: 'https://www.pictalk.xyz',
+    baseURL: 'https://www.pictalk.org',
     seo: true,
     detectBrowserLanguage: {
       useCookie: true,
@@ -186,7 +185,7 @@ export default {
       '/resetPassword/**',
       '/_nuxt/**'
     ],
-    Sitemap: 'https://www.pictalk.xyz/sitemap.xml'
+    Sitemap: 'https://www.pictalk.org/sitemap.xml'
   },
   pwa: {
     workbox: {

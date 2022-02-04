@@ -1,4 +1,4 @@
-apiUrl = 'http://localhost:3001'
+apiUrl = 'https://apidev.pictalk.org'
 checkAuthenticated(self);
 async function checkAuthenticated(self) {
 	const cookies = await self.cookieStore.getAll();
