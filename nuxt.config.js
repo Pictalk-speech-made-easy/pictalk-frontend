@@ -10,21 +10,16 @@ export default {
   generate: {
     fallback: true
   },
+  meta: {
+    ogTitle: false,
+    ogDescription: false,
+    charset: "utf-8",
+    viewport: "width=device-width, initial-scale=1",
+    name: "Pictalk",
+    author: "Alexandros & Adrianos SIDIRAS GALANTE",
+    theme_color: "#ff5757"
+  },
   head: {
-    title: "Pictalk",
-    meta: [{
-      charset: "utf-8"
-    },
-    {
-      name: "viewport",
-      content: "width=device-width, initial-scale=1"
-    },
-    {
-      hid: "description",
-      name: "description",
-      content: "Pictalk aims to facilitate non-verbal people communications using AAC resources or pictograms"
-    }
-    ],
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
     link: [{
       rel: "icon",
