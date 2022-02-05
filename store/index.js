@@ -310,6 +310,7 @@ export const actions = {
 		return res;
 	},
 	initAuth(vuexContext, req) {
+		console.log("InitAuth");
 		let token;
 		let expirationDate;
 		if (req) {
@@ -333,13 +334,19 @@ export const actions = {
 				expirationDate = jwtExpirationDate.split("=")[1];
 			}
 		} else if (process.client) {
+			console.log("process.client");
 			token = localStorage.getItem("token");
 			expirationDate = localStorage.getItem("tokenExpiration");
 		} else {
+			console.log("else");
 			token = null;
 			expirationDate = null;
 		}
+		console.log(new Date().getTime());
+		console.log(+expirationDate);
+		console.log(new Date().getTime() > +expirationDate);
 		if (new Date().getTime() > +expirationDate || !token) {
+			console.log("No token or invalid token");
 			vuexContext.dispatch("logout");
 			return;
 		}
@@ -424,7 +431,7 @@ export const actions = {
 		user.notifications = notifications;
 		vuexContext.commit('editUser', user);
 	},
-	async serachImages(vuexContext, query) {
+	async serachImages(vuexContext, query){
 		const images = (await axios.get(URL + `/image/web/?search=${query.search}&language=${query.language}`, {
 			headers: {
 				"Content-Type": 'application/x-www-form-urlencoded'

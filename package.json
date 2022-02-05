@@ -41,7 +41,6 @@
     "vuex-persistedstate": "^4.1.0"
   },
   "dependencies": {
-    "@nuxtjs/sentry": "^5.1.7",
     "lodash.merge": "^4.6.2"
   }
 }

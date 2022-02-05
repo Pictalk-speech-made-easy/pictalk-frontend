@@ -5,7 +5,7 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    baseURL: "http://apidev.pictalk.org"
+    baseURL: process.env.BASE_URL || "http://localhost:3001"
   },
   generate: {
     fallback: true
@@ -45,7 +45,6 @@ export default {
    ** Nuxt.js dev-modules 
    */
   buildModules: [
-    '@nuxt/image'
   ],
   /*
    ** Nuxt.js modules
@@ -138,13 +137,12 @@ export default {
   },
   modules: [
     // Doc: https://buefy.github.io/#/documentation
-    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css" }],
+    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css" }],
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
-    '@nuxtjs/sentry',
     '@nuxtjs/i18n',
     [
       "nuxt-cookie-control",
@@ -183,13 +181,6 @@ export default {
       '/_nuxt/**'
     ],
     Sitemap: 'https://www.pictalk.org/sitemap.xml'
-  },
-  sentry: {
-    dsn: "https://6afdc113742e4c309b61a3bd6a64b06b@o1135783.ingest.sentry.io/6187341",
-    config: {
-      lazy: true
-      // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
-    },
   },
   pwa: {
     workbox: {
@@ -242,53 +233,20 @@ export default {
         },
 
         description: {
-          en: "Used for cookie control.",
-          fr: 'Utilisé pour le contrôle des cookies',
-          es: 'Utilizado para contrôlar los cookies'
+          en: "Used for cookie control."
         },
         cookies: ["cookie_control_consent", "cookie_control_enabled_cookies"]
       },
       {
         name: {
-          en: "Authentification cookies",
-          fr: "Cookies d'authentification",
-          es: 'Cookies de autenticación'
+          en: "Authentification cookies"
         },
         description: {
-          en: "Used to automatically sign you in. With these, you don't neeed to login every minute.",
-          es: 'Utilizado para automaticamente connectarte. Sin estos, tendras a cada vez que connectarte.',
-          fr: "Utilisés pour ne pas avoir à se reconnecter systématiquement"
+          en: "Used to automatically sign you in. With these, you don't neeed to login every minute."
         },
         cookies: ["expirationDate", "jwt"]
       }
     ],
-    optional: [
-      {
-        name: 'Google Analitycs',
-        //if you don't set identifier, slugified name will be used
-        identifier: 'ga',
-        //if multilanguage
-        description: {
-          en: 'Google analytics help us improve the website experience.',
-          fr: 'Google analytics aide à améliorer le contenu et les performances de Pictalk.',
-          es: 'Google analytics nos ayduda a amejorar el contenido de Pictalk'
-        },
-        initialState: true,
-        src: 'https://www.googletagmanager.com/gtag/js?id=G-6RGKKTSXND',
-        async: true,
-        cookies: ['_ga', '_gat', '_gid'],
-        accepted: () => {
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({
-            'gtm.start': new Date().getTime(),
-            event: 'gtm.js'
-          });
-        },
-        declined: () => {
-        }
-      }
-    ]
-
   },
 
 };
