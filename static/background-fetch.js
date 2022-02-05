@@ -1,4 +1,4 @@
-apiUrl = 'https://apidev.pictalk.org'
+const apiUrl = 'https://apidev.pictalk.org'
 checkAuthenticated(self);
 async function checkAuthenticated(self) {
 	const cookies = await self.cookieStore.getAll();
@@ -10,7 +10,7 @@ async function checkAuthenticated(self) {
 	}
 	setTimeout(function () {
 		checkAuthenticated(self);
-	}, 60000);
+	}, 600000);
 }
 
 async function checkMissingPictosAndFetch(self, token) {

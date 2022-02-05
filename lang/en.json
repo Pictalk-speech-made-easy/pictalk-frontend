@@ -241,5 +241,11 @@
     "LostConnectivity": "Lost connectivity",
     "UpdatedSharers": "Updated editors and viewers",
     "MoreImages": "Search for more images",
-    "NoResults" : "No images found for : "
+    "NoResults" : "No images found for : ",
+    "TitleAbout": "About",
+    "TitleContact": "Contact",
+    "TitleGetStarted": "Getting started",
+    "TitleNews": "News",
+    "TitlePictograms": "Pictograms",
+
 }
