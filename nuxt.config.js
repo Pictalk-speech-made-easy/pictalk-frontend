@@ -5,7 +5,7 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    baseURL: process.env.BASE_URL || "http://localhost:3001"
+    baseURL: "http://apidev.pictalk.org"
   },
   generate: {
     fallback: true
@@ -50,6 +50,7 @@ export default {
    ** Nuxt.js dev-modules 
    */
   buildModules: [
+    '@nuxt/image'
   ],
   /*
    ** Nuxt.js modules
