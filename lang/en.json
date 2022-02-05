@@ -240,5 +240,6 @@
     "TooltipLogout": "Logout",
     "LostConnectivity": "Lost connectivity",
     "UpdatedSharers": "Updated editors and viewers",
-    "MoreImages": "Search for more images"
+    "MoreImages": "Search for more images",
+    "NoResults" : "No images found for : "
 }
