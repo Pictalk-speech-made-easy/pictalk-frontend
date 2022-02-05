@@ -50,28 +50,30 @@
             >
             <b-button
               v-else
-              type="is-light"
-              icon-right="logout"
-              @click="onLogout"
-            />
-            <b-button
-              v-if="!isLogged"
-              @click="openSignUpModal()"
-              type="is-light"
-              >{{ $t("SignUp") }}</b-button
-            >
-            <b-button
-              v-else
               tag="nuxt-link"
               to="/pictalk"
               type="is-primary"
               icon-right="home"
             ></b-button>
+
             <b-button
+              v-if="!isLogged"
+              @click="openSignUpModal()"
+              type="is-success is-light"
+              >{{ $t("SignUp") }}</b-button
+            >
+            <b-button
+              v-else
+              type="is-light"
+              icon-right="logout"
+              @click="onLogout"
+            />
+            <b-button
+              outlined
               v-if="!isLogged"
               tag="nuxt-link"
               to="/public"
-              type="is-success is-light"
+              type="is-primary"
               icon-right="test-tube"
               >{{ $t("TryPictalk") }}</b-button
             >

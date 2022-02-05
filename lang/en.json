@@ -14,7 +14,7 @@
     "TakeALook": "Also, if you need, take a look at the",
     "Languages":"Languages",
     "SelectLanguage":"Select a language",
-    "Sharers":"Sharers",
+    "Sharers":"Sharing",
     "DirectSharer":"Direct sharer",
     "TermsAndConditions": "Terms and conditions",
     "TryPictalk": "Try Pictalk",
@@ -36,7 +36,7 @@
     "GoToPictalk": "Go to Pictalk",
     "More": "More",
     "Email": "Email",
-    "PlaceHolderEmail": "alex@pictalk.xyz",
+    "PlaceHolderEmail": "alex@pictalk.org",
     "Password": "Password",
     "PlaceHolderPassword": "MySup€rS€cretPassw0rd!",
     "ConfirmPassword": "Confirm password",
@@ -241,5 +241,7 @@
     "LostConnectivity": "Lost connectivity",
     "UpdatedSharers": "Updated editors and viewers",
     "MoreImages": "Search for more images",
-    "NoResults" : "No images found for : "
+    "NoResults" : "No images found for : ",
+    "SharingButton" : "Add friends that use Pictalk",
+    "SharingExplanation" : "Pictograms shared by your friends will apprear directly in your home screen and not only your 'Shared with me' collection"
 }
