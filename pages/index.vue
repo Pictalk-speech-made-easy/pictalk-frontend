@@ -24,15 +24,15 @@
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">{{ $t('WaitIsPictalk')}}</h1>
-					<p class="is-size-5 notification">
+					<p class="is-size-5 notification" align="justify">
 						{{ $t('HomeText1')}}
 						<br>
 						<br>
 						<b-image
 								lazy
 								:srcset="require('@/assets/startingpack.png').srcSet"
-								alt="Logo du Play store"
-						style="width: 80%;"
+								alt="Starter Pack"
+						style="width: 98%"
 					></b-image>
 					<br>
 					{{ $t('HowItWorks1')}}
@@ -40,8 +40,8 @@
 					<b-image
 								lazy
 								:srcset="require('@/assets/pictobar.png').srcSet"
-								alt="Logo du Play store"
-						style="width: 80%;"
+								alt="Pictobar"
+						style="width: 98%"
 						></b-image>
 					<br>
 					{{ $t('HowItWorks2')}}
@@ -54,7 +54,7 @@
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">{{ $t('Communicate')}}</h1>
-					<p class="is-size-5 notification">
+					<p class="is-size-5 notification" align="justify">
 						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
 				></b-image>
@@ -62,7 +62,7 @@
 				{{ $t('Communicate_IRL')}}
 					</p>
 					<br>
-					<p class="is-size-5 notification">
+					<p class="is-size-5 notification" align="justify">
 						<b-image lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/Messaging.png').srcSet"
 				></b-image>
@@ -76,7 +76,7 @@
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">{{ $t('MainFeatures')}}</h1>
-					<p class="is-size-5 notification">
+					<p class="is-size-5 notification" align="justify">
 						<ol style="list-style-type: inherit;margin-left: 5%;">
 						<li>{{ $t('HomeFeature1')}}</li>
 						<li>{{ $t('HomeFeature2')}}</li>
@@ -97,7 +97,7 @@
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">{{ $t('OpenSourceAndFree')}}</h1>
-					<p class="is-size-5 notification">
+					<p class="is-size-5 notification" align="justify">
 						 {{ $t('OpenSourceAndFreeText1')}}
 						<a href="https://github.com/Pictalk-speech-made-easy">github</a>
 						 {{ $t('OpenSourceAndFreeText2')}}
@@ -121,64 +121,64 @@
 <script>
 import signup from "@/components/auth/signupModal";
 export default {
-	components: {
-		signup,
-	},
-	head() {
-		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
-		return {
-			htmlAttrs: {
-				title: "Pictalk",
-				...i18nHead.htmlAttrs,
-			},
-			meta: [
-				{
-					hid: "description",
-					name: "description",
-					content: this.$t("Description"),
-				},
-				...i18nHead.meta,
-			],
-		};
-	},
-	middleware: ["check-auth"],
-	methods: {
-		openSignUpModal() {
-			this.$buefy.modal.open({
-				parent: this,
-				component: signup,
-				hasModalCard: true,
-				customClass: "custom-class custom-class-2",
-				trapFocus: true,
-			});
-		},
-	},
+  components: {
+    signup,
+  },
+  head() {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+    return {
+      htmlAttrs: {
+        title: "Pictalk",
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.$t("Description"),
+        },
+        ...i18nHead.meta,
+      ],
+    };
+  },
+  middleware: ["check-auth"],
+  methods: {
+    openSignUpModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: signup,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+      });
+    },
+  },
 };
 </script>
 <style scoped>
 .signup-button {
-	position: absolute;
-	top: 90%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .soontobe {
-	background: repeating-linear-gradient(
-		60deg,
-		white,
-		white 35px,
-		#ff5758 35px,
-		#ff5758 70px
-	);
-	min-height: 100%;
+  background: repeating-linear-gradient(
+    60deg,
+    white,
+    white 35px,
+    #ff5758 35px,
+    #ff5758 70px
+  );
+  min-height: 100%;
 }
 .box {
-	padding: 0px;
+  padding: 0px;
 }
 .center {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 </style>

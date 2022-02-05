@@ -74,7 +74,7 @@
               tag="nuxt-link"
               to="/public"
               type="is-primary"
-              icon-right="test-tube"
+              icon-right="arrow-right-box"
               >{{ $t("TryPictalk") }}</b-button
             >
           </div>
