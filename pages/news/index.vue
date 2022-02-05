@@ -115,6 +115,7 @@ export default {
 				title: this.$t("TitleNews"),
 				...i18nHead.htmlAttrs,
 			},
+			title: this.$t("TitleNews"),
 			meta: [
 				{
 					hid: "description",

@@ -35,6 +35,7 @@ export default {
 				title: this.$t("TitlePictograms"),
 				...i18nHead.htmlAttrs,
 			},
+			title: this.$t("TitlePictos"),
 			meta: [
 				{
 					hid: "description",

@@ -37,6 +37,7 @@ export default {
 				title: this.$t("TitleContact"),
 				...i18nHead.htmlAttrs,
 			},
+			title: this.$t("TitleContact"),
 			meta: [
 				{
 					hid: "description",

@@ -60,6 +60,7 @@ export default {
 				title: this.$t("TitleAbout"),
 				...i18nHead.htmlAttrs,
 			},
+			title: this.$t("TitleAbout"),
 			meta: [
 				{
 					hid: "description",

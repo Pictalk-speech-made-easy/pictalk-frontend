@@ -234,6 +234,7 @@ export default {
 				title: this.$t("TitleGetStarted"),
 				...i18nHead.htmlAttrs,
 			},
+			title: this.$t("TitleTutorial"),
 			meta: [
 				{
 					hid: "description",
