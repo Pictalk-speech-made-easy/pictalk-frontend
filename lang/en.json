@@ -243,5 +243,13 @@
     "MoreImages": "Search for more images",
     "NoResults" : "No images found for : ",
     "SharingButton" : "Add friends that use Pictalk",
-    "SharingExplanation" : "Pictograms shared by your friends will apprear directly in your home screen and not only your 'Shared with me' collection"
+    "SharingExplanation" : "Pictograms shared by your friends will apprear directly in your home screen and not only your 'Shared with me' collection",
+    "TitleAbout": "About",
+    "TitleContact": "Contact",
+    "TitleGetStarted": "Getting started",
+    "TitleNews": "News",
+    "TitlePictograms": "Pictograms",
+    "TitlePublic": "Public pictograms",
+    "DescriptionPublic": "Here you can find all of the free public AAC pictograms provided by generous individuals"
+
 }

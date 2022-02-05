@@ -41,5 +41,23 @@ export default {
 			return this.$store.getters.getSpeech;
 		},
 	},
+	head() {
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+		return {
+			htmlAttrs: {
+				title: this.$t("TitlePublic"),
+				...i18nHead.htmlAttrs,
+			},
+			title: this.$t("TitlePublic"),
+			meta: [
+				{
+					hid: "description",
+					name: "description",
+					content: this.$t("DescriptionPublic"),
+				},
+				...i18nHead.meta,
+			],
+		};
+	},
 };
 </script>

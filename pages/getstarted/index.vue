@@ -228,21 +228,22 @@
 <script>
 export default {
 	head() {
-		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true })
-    return {
-      htmlAttrs: {
-        title: 'Pictograms',
-        ...i18nHead.htmlAttrs
-      },
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: this.$t('DescriptionTutorial')
-        },
-        ...i18nHead.meta
-      ]
-    }
+		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+		return {
+			htmlAttrs: {
+				title: this.$t("TitleGetStarted"),
+				...i18nHead.htmlAttrs,
+			},
+			title: this.$t("TitleTutorial"),
+			meta: [
+				{
+					hid: "description",
+					name: "description",
+					content: this.$t("DescriptionTutorial"),
+				},
+				...i18nHead.meta,
+			],
+		};
 	},
-}
+};
 </script>

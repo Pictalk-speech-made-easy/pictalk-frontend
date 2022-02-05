@@ -57,9 +57,10 @@ export default {
 		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
 		return {
 			htmlAttrs: {
-				title: "Pictograms",
+				title: this.$t("TitleAbout"),
 				...i18nHead.htmlAttrs,
 			},
+			title: this.$t("TitleAbout"),
 			meta: [
 				{
 					hid: "description",
