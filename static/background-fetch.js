@@ -52,7 +52,6 @@ async function checkMissingPictosAndFetch(self, token) {
 		allPictosAndCollections.forEach((cacheRequest) => { toFetchImages[toFetchImages.indexOf(cacheRequest)] = toFetchImages[toFetchImages.length - 1]; toFetchImages.pop(); });
 
 		try {
-			console.log(toFetchImages.length);
 			if (navigator.onLine) {
 				await cache.addAll(toFetchImages);
 			}
