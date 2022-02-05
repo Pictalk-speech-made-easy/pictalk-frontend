@@ -589,7 +589,7 @@ export default {
         webData.forEach((photo) => {
           this.images.push({
             src: photo.thumbnail,
-            alt: photo.title,
+            title: photo.title,
             download: photo.download,
             source: photo.source,
             author: photo.author,
@@ -623,12 +623,12 @@ export default {
             for (let i = 0; i < arasaacData?.length; i++) {
               this.images.push({
                 src: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
-                alt: arasaacData[i]["keywords"][0]
+                title: arasaacData[i]["keywords"][0]
                   ? arasaacData[i]["keywords"][0]["keyword"]
                   : arasaacData[i]["categories"][0],
                 download: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
-                source: "ARASAAC",
-                author: "aragon",
+                source: "arasaac",
+                author: "",
               });
             }
             console.log("arasaac done!");
@@ -646,9 +646,9 @@ export default {
             for (let i = 0; i < scleraData?.length; i++) {
               this.images.push({
                 src: scleraData[i].image_url,
-                alt: scleraData[i].translations[0].tName,
+                title: scleraData[i].translations[0].tName,
                 download: scleraData[i].image_url,
-                source: "SCLERA",
+                source: "sclera-symbotalk",
                 author: scleraData[i].author,
               });
             }
@@ -667,9 +667,9 @@ export default {
             for (let i = 0; i < tawasolData?.length; i++) {
               this.images.push({
                 src: tawasolData[i].image_url,
-                alt: tawasolData[i].translations[0].tName,
+                title: tawasolData[i].translations[0].tName,
                 download: tawasolData[i].image_url,
-                source: "tawasol",
+                source: "tawasol-symbotalk",
                 author: tawasolData[i].author,
               });
             }
@@ -688,9 +688,9 @@ export default {
             for (let i = 0; i < mulberryData?.length; i++) {
               this.images.push({
                 src: mulberryData[i].image_url,
-                alt: mulberryData[i].translations[0].tName,
+                title: mulberryData[i].translations[0].tName,
                 download: mulberryData[i].image_url,
-                source: "mulberry",
+                source: "mulberry-symbotalk",
                 author: mulberryData[i].author,
               });
             }
