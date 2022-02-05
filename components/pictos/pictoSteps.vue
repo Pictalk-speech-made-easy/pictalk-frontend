@@ -85,6 +85,17 @@
               :icon-next="'chevron-right'"
             >
             </b-pagination>
+            <b-notification
+              v-if="this.noResults"
+              auto-close
+              :duration="5000"
+              type="is-warning is-light"
+              has-icon
+              aria-close-label="Close notification"
+              role="alert"
+            >
+              {{ $t("NoResults") }}{{ this.pictoSearch }}
+            </b-notification>
             <b-button
               rounded
               expanded
@@ -327,6 +338,7 @@ export default {
       images: [],
       loading: false,
       moreImages: true,
+      noResults: false,
     };
   },
   created() {
@@ -567,14 +579,14 @@ export default {
     async webImages(pictoSearch) {
       const regex = new RegExp("[$&+,:;=?@#|'<>.^*()%!-]", "g");
       pictoSearch = pictoSearch.replaceAll(regex, " ");
-      let arasaacData;
+      let webData;
       this.loading = true;
       try {
-        arasaacData = await this.$store.dispatch("serachImages", {
+        webData = await this.$store.dispatch("serachImages", {
           language: this.getUserLang(),
           search: pictoSearch,
         });
-        arasaacData.forEach((photo) => {
+        webData.forEach((photo) => {
           this.images.push({
             src: photo.thumbnail,
             alt: photo.title,
@@ -583,6 +595,11 @@ export default {
             author: photo.author,
           });
         });
+        if (webData.length === 0) {
+          this.noResults = true;
+        } else {
+          this.noResults = false;
+        }
       } catch (err) {
         console.log(err);
         throw new Error("Web images not available");
@@ -689,9 +706,10 @@ export default {
         promises.push(mulberryData);
         await Promise.allSettled(promises).then(console.log(this.images));
 
-        if (!arasaacData || arasaacData?.length < 5) {
+        if (this.images.length < 5) {
           this.webImages(pictoSearch);
         } else {
+          this.noResults = false;
           this.loading = false;
           this.moreImages = false;
         }
