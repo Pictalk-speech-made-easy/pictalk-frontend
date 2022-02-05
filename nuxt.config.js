@@ -247,20 +247,53 @@ export default {
         },
 
         description: {
-          en: "Used for cookie control."
+          en: "Used for cookie control.",
+          fr: 'Utilisé pour le contrôle des cookies',
+          es: 'Utilizado para contrôlar los cookies'
         },
         cookies: ["cookie_control_consent", "cookie_control_enabled_cookies"]
       },
       {
         name: {
-          en: "Authentification cookies"
+          en: "Authentification cookies",
+          fr: "Cookies d'authentification",
+          es: 'Cookies de autenticación'
         },
         description: {
-          en: "Used to automatically sign you in. With these, you don't neeed to login every minute."
+          en: "Used to automatically sign you in. With these, you don't neeed to login every minute.",
+          es: 'Utilizado para automaticamente connectarte. Sin estos, tendras a cada vez que connectarte.',
+          fr: "Utilisés pour ne pas avoir à se reconnecter systématiquement"
         },
         cookies: ["expirationDate", "jwt"]
       }
     ],
+    optional: [
+      {
+        name: 'Google Analitycs',
+        //if you don't set identifier, slugified name will be used
+        identifier: 'ga',
+        //if multilanguage
+        description: {
+          en: 'Google analytics help us improve the website experience.',
+          fr: 'Google analytics aide à améliorer le contenu et les performances de Pictalk.',
+          es: 'Google analytics nos ayduda a amejorar el contenido de Pictalk'
+        },
+        initialState: true,
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-6RGKKTSXND',
+        async: true,
+        cookies: ['_ga', '_gat', '_gid'],
+        accepted: () => {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+          });
+        },
+        declined: () => {
+        }
+      }
+    ]
+
   },
 
 };
