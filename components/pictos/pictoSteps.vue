@@ -448,7 +448,7 @@ export default {
                       targetLang: language,
                     },
                   })
-                )?.data.translations[0].text;
+                )?.data.translation;
               } else {
                 this.picto.meaning[language] = (
                   await axios.get("/translation/", {
@@ -457,7 +457,7 @@ export default {
                       targetLang: language,
                     },
                   })
-                )?.data.translations[0].text;
+                )?.data.translation;
                 this.picto.speech[language] = (
                   await axios.get("/translation/", {
                     params: {
@@ -465,7 +465,7 @@ export default {
                       targetLang: language,
                     },
                   })
-                )?.data.translations[0].text;
+                )?.data.translation;
               }
             });
         }
