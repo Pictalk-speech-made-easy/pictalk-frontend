@@ -180,7 +180,8 @@
 					<b-image
 					  class="center"
             lazy
-						:srcset="require('@/assets/20_Pictalk_Mail.gif').srcSet"
+						:srcset="require('@/static/20_Pictalk_Mail.gif')"
+            :placeholder="require('@/assets/20_Pictalk_Mail.png').srcSet"
 						alt="Email verification"
 						style="width: 40%;"
         ></b-image>

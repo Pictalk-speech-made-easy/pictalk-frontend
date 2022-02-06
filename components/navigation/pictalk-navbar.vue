@@ -65,7 +65,7 @@
             :delay="1000"
           >
             <b-button
-              type="is-warning is-light"
+              type="is-primary is-light"
               icon-right="folder-account"
               :to="sharedLink"
               tag="nuxt-link"

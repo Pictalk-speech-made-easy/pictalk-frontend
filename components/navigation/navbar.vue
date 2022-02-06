@@ -59,7 +59,8 @@
             <b-button
               v-if="!isLogged"
               @click="openSignUpModal()"
-              type="is-success is-light"
+              type="is-success"
+              outlined
               >{{ $t("SignUp") }}</b-button
             >
             <b-button
