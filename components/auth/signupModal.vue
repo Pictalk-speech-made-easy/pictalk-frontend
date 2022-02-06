@@ -542,7 +542,7 @@ export default {
       this.verificationLoading = true;
       let validationUrl = `/auth/validation/${this.verificationToken}`;
       try {
-        const res = await axios.post(validationUrl);
+        const res = await axios.get(validationUrl);
         if (res.status == 201) {
           this.verificationLoading = false;
           const notif = this.$buefy.notification.open({
@@ -579,7 +579,7 @@ export default {
       let validationUrl = `/auth/validation/${this.username}`;
       try {
         this.mailLoading = true;
-        const res = await axios.get(validationUrl);
+        const res = await axios.post(validationUrl);
         if (res.status == 200) {
           const notif = this.$buefy.notification.open({
             duration: 5000,
