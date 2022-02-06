@@ -4,7 +4,7 @@
       <header class="modal-card-head">
         <b-button
           class="button"
-          type="button"
+          type="is-danger"
           icon-left="arrow-left"
           @click="$parent.close()"
         />
