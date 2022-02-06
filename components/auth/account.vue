@@ -152,14 +152,69 @@
 					/>
 				</p>
 			</b-field>
+			<b-field :label="$t('Groups')">
+				<div class="columns">
+					<div
+						class="card column"
+						v-for="(group, index) in mailingList"
+					>
+						<div class="card-content">
+							<div class="media">
+								<div class="media-left">
+									<b-icon :icon="group.icon" />
+								</div>
+								<div class="media-content">
+									<p class="title is-4">
+										{{ group.name }}
+									</p>
+								</div>
+							</div>
+							<div style="column-count: 2">
+								<div
+									v-for="username in group.users.slice(0, 10)"
+								>
+									{{ username }}
+								</div>
+							</div>
+							...
+							<div class="columns is-mobile is-centered">
+								<div class="container column">
+									<b-button
+										type="is-danger"
+										icon-right="delete"
+										@click="mailingList.splice(index, 1)"
+									/>
+								</div>
+								<div class="container column">
+									<b-button
+										type="is-info"
+										icon-right="pencil"
+										@click="
+											openEditGroupModal(group, index)
+										"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="column container">
+						<b-button
+							class="is-success"
+							icon-left="plus"
+							@click="openAddGroupModal()"
+						/>
+					</div>
+				</div>
+			</b-field>
 		</div>
 	</div>
 </template>
 <script>
-import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
 import merge from "lodash.merge";
 import frenchFries from "@/assets/frenchFries.json";
+import editGroupModal from "@/components/auth/editGroupModal";
+import addGroupModal from "@/components/auth/addGroupModal";
 export default {
 	computed: {
 		availableLocales() {
@@ -221,6 +276,7 @@ export default {
 			done_requests: 0,
 			dl_launched: false,
 			initialization: true,
+			mailingList: {},
 			columns: [
 				{
 					field: "username",
@@ -308,12 +364,38 @@ export default {
 			);
 		});
 		this.directSharers = [...this.user.directSharers];
+		this.mailingList = [...this.user.mailingList];
 	},
 	methods: {
+		openEditGroupModal(group, index) {
+			this.$buefy.modal.open({
+				parent: this,
+				component: editGroupModal,
+				props: { group: group, index: index },
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+			});
+		},
+		openAddGroupModal(group) {
+			this.$buefy.modal.open({
+				parent: this,
+				component: addGroupModal,
+				props: { group: group },
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+			});
+		},
 		localeIso() {
 			return this.$i18n.locales.filter(
 				(i) => i.code == this.$i18n.locale
 			)[0].iso;
+		},
+		localeCode() {
+			return this.$i18n.locales.filter(
+				(i) => i.code == this.$i18n.locale
+			)[0].code;
 		},
 		getDeviceInfo() {
 			return (
@@ -322,6 +404,9 @@ export default {
 				window.screen.width +
 				window.devicePixelRatio
 			);
+		},
+		getLimitedUserList(group) {
+			return group?.users?.slice(0, 10);
 		},
 		getOSInfo() {
 			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
@@ -466,9 +551,15 @@ export default {
 					languages: editedLanguages,
 					settings: this.user.settings,
 					directSharers: this.directSharers,
+					displayLanguage: this.localeCode(),
+					mailingList: this.mailingList,
 				});
 			} catch (error) {
 				console.log("error: ", error);
+				this.$buefy.notification.open({
+					message: this.$t("SomeThingBadHappened"),
+					type: "is-danger",
+				});
 			}
 
 			this.$router.push("/pictalk");

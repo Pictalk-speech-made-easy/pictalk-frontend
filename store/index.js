@@ -310,7 +310,6 @@ export const actions = {
 		return res;
 	},
 	initAuth(vuexContext, req) {
-		console.log("InitAuth");
 		let token;
 		let expirationDate;
 		if (req) {
@@ -334,17 +333,12 @@ export const actions = {
 				expirationDate = jwtExpirationDate.split("=")[1];
 			}
 		} else if (process.client) {
-			console.log("process.client");
 			token = localStorage.getItem("token");
 			expirationDate = localStorage.getItem("tokenExpiration");
 		} else {
-			console.log("else");
 			token = null;
 			expirationDate = null;
 		}
-		console.log(new Date().getTime());
-		console.log(+expirationDate);
-		console.log(new Date().getTime() > +expirationDate);
 		if (new Date().getTime() > +expirationDate || !token) {
 			console.log("No token or invalid token");
 			vuexContext.dispatch("logout");
@@ -368,20 +362,25 @@ export const actions = {
 		user.language = JSON.parse(user.language);
 		user.languages = JSON.parse(user.languages);
 		user.settings = JSON.parse(user.settings);
+		if (user.mailingList) {
+			user.mailingList = JSON.parse(user.mailingList);
+		}
 		vuexContext.commit("editUser", user);
 	},
 	async editUser(vuexContext, user) {
 		user.language = JSON.stringify(user.language);
 		user.languages = JSON.stringify(user.languages);
 		user.settings = JSON.stringify(user.settings);
+		user.mailingList = JSON.stringify(user.mailingList);
 		const newUser = (await axios
 			.put(URL + "/user/details/", user)).data;
 		vuexContext.commit("editUser", {
-			username: user.username,
-			language: JSON.parse(user.language),
-			languages: JSON.parse(user.languages),
-			settings: JSON.parse(user.settings),
-			directSharers: user.directSharers
+			username: newUser.username,
+			language: JSON.parse(newUser.language),
+			languages: JSON.parse(newUser.languages),
+			settings: JSON.parse(newUser.settings),
+			mailingList: JSON.parse(newUser.mailingList),
+			directSharers: newUser.directSharers
 		});
 		return newUser;
 	},
@@ -431,7 +430,7 @@ export const actions = {
 		user.notifications = notifications;
 		vuexContext.commit('editUser', user);
 	},
-	async serachImages(vuexContext, query){
+	async serachImages(vuexContext, query) {
 		const images = (await axios.get(URL + `/image/web/?search=${query.search}&language=${query.language}`, {
 			headers: {
 				"Content-Type": 'application/x-www-form-urlencoded'

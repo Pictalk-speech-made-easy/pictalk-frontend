@@ -33,7 +33,7 @@ export default {
 			return;
 		} else {
 			try {
-				var res = await axios.get("/auth/details/");
+				var res = await axios.get("/user/details/");
 				context.store.commit("editUser", res.data);
 				return res;
 			} catch (error) {
