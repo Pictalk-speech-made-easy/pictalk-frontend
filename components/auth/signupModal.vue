@@ -543,7 +543,7 @@ export default {
       let validationUrl = `/auth/validation/${this.verificationToken}`;
       try {
         const res = await axios.get(validationUrl);
-        if (res.status == 201) {
+        if (res.status == 200) {
           this.verificationLoading = false;
           const notif = this.$buefy.notification.open({
             duration: 5000,
@@ -580,7 +580,7 @@ export default {
       try {
         this.mailLoading = true;
         const res = await axios.post(validationUrl);
-        if (res.status == 200) {
+        if (res.status == 201) {
           const notif = this.$buefy.notification.open({
             duration: 5000,
             message: this.$t("VerificationMoreMailSuccess"),
