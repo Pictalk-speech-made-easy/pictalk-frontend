@@ -253,6 +253,14 @@
     "TitleNews": "News",
     "TitlePictograms": "Pictograms",
     "TitlePublic": "Public pictograms",
-    "DescriptionPublic": "Here you can find all of the free public AAC pictograms provided by generous individuals"
-
+    "DescriptionPublic": "Here you can find all of the free public AAC pictograms provided by generous individuals",
+    "VerifyAccount": "Verification",
+    "VerifyAccountText": "In order to login copy above the code you received in your mailing box",
+    "VerifyAccountOK": "OK",
+    "VerifyAccountVerificationCode": "Insert verification code",
+    "VerificationToken": "The validation token is wrong",
+    "VerificationMoreMail": "Have not received an email ? Click here",
+    "VerificationMoreMailSuccess": "Antoher email has been sent to you, Check your spams!",
+    "VerificationMoreMailFail": "Couldn't send another email",
+    "VerificationSuccess": "Welcome to Pictalk"
 }

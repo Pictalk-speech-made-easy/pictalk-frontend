@@ -4,7 +4,7 @@
 			<header class="modal-card-head">
 				<b-button
 					class="button"
-					type="button"
+					type="is-danger"
 					icon-left="arrow-left"
 					@click="$parent.close()"
 				/>
@@ -154,8 +154,8 @@
 						:srcset="require('@/assets/terms_conditions.png').srcSet"
 						alt="A boy and a girl speaking different languages"
 						style="width: 40%;"
-        ></b-image>
-				</div>
+          ></b-image>
+				  </div>
 					<div class="field">
 					<b-checkbox v-model="majority" required type="is-success">
 						{{ $t("Majority") }}
@@ -175,6 +175,38 @@
 					</b-checkbox>
 				</div>
 				</b-step-item>
+        <b-step-item :clickable="!notSignedUp" :label="$t('VerifyAccount')" icon="chart-box">
+					<div class="contenant">
+					<b-image
+					  class="center"
+            lazy
+						:srcset="require('@/assets/20_Pictalk_Mail.gif').srcSet"
+						alt="Email verification"
+						style="width: 40%;"
+        ></b-image>
+          </div>
+          <b-field>
+            <b-input 
+            :placeholder="$t('VerifyAccountVerificationCode')"
+            v-model="verificationToken"
+            expanded
+            size="is-medium"
+            required
+            :loading="verificationLoading"
+            maxlength="40"
+            icon-right="key"
+            ></b-input>
+        </b-field>
+          <p class="is-size-5 notification" align="justify">
+						 {{ $t('VerifyAccountText')}}
+					</p>
+          
+        <b-button 
+        type="is-text"
+        :loading="mailLoading"
+        @click="sendAnotherMail()"
+        >{{$t("VerificationMoreMail")}}</b-button>
+				</b-step-item>
     		</b-steps>
 				</div>
 				
@@ -189,14 +221,14 @@
 								@click="previousStep()"
 								:disabled="activeStep == 0"
 								class="button center"
-								type="button"
 								icon-right="chevron-left"
 							/>
 						</div>
 						<div class="column is-half">
-							<b-button
+						<b-button v-if="notSignedUp"
 					class="is-primary fullWidth"
-					:disabled="!(username && password && majority && terms && passwordConfirmation)"
+          :loading="signupLoading"
+					:disabled="!(username && password && majority && terms && passwordConfirmation && notSignedUp)"
 					@click="
 						onSubmit(
 							username,
@@ -207,12 +239,19 @@
 						)
 					"
 					>{{ $t("SignUp") }}</b-button
+				><b-button v-else
+					class="is-success fullWidth"
+					:disabled="(notSignedUp) || (verificationToken.length!=40)"
+					@click="
+						onVerify()
+					"
+					>{{ $t("VerifyAccountOK") }}</b-button
 				>
 						</div>
 						<div class="column is-one-quarter">
 							<b-button
 								class="center"
-								:disabled="activeStep == 3"
+								:disabled="activeStep == maxStep"
 								@click="nextStep()"
 								icon-right="chevron-right"
 							/>
@@ -253,6 +292,12 @@ export default {
       directSharers: [],
       showLanguages: false,
       activeStep: 0,
+      notSignedUp: true,
+      maxStep: 3,
+      verificationToken: "",
+      verificationLoading: false,
+      signupLoading: false,
+      mailLoading: false,
     };
   },
   async created() {
@@ -425,7 +470,9 @@ export default {
           this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang
         ] = device;
       });
+
       try {
+        this.signupLoading = true;
         const res = await axios.post("/auth/signup", {
           username: this.username,
           password: this.password,
@@ -434,11 +481,9 @@ export default {
           directSharers: this.directSharers,
         });
         if (res.status == 201) {
-          await this.$store.dispatch("authenticateUser", {
-            username: this.username,
-            password: this.password,
-            isLogin: true,
-          });
+          this.notSignedUp = false;
+          this.maxStep = 4;
+          this.activeStep = 4;
           const notif = this.$buefy.notification.open({
             duration: 5000,
             message: this.$t("AccountCreated"),
@@ -446,9 +491,8 @@ export default {
             type: "is-success",
             hasIcon: true,
           });
-          this.$parent.close();
-          this.$router.push("/pictalk");
         }
+        this.signupLoading = false;
       } catch (error) {
         if (error.response) {
           if (error.response.status == 400 || error.response.status == 401) {
@@ -491,6 +535,72 @@ export default {
             icon: "account",
           });
         }
+        this.signupLoading = false;
+      }
+    },
+    async onVerify() {
+      this.verificationLoading = true;
+      let validationUrl = `/auth/validation/${this.verificationToken}`;
+      try {
+        const res = await axios.post(validationUrl);
+        if (res.status == 201) {
+          this.verificationLoading = false;
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: this.$t("VerificationSuccess"),
+            position: "is-top-right",
+            type: "is-success",
+          });
+          this.$parent.close();
+          this.$router.push("/pictalk");
+          await this.$store.dispatch("authenticateUser", {
+            username: this.username,
+            password: this.password,
+            isLogin: true,
+          });
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 401) {
+            const notif = this.$buefy.notification.open({
+              duration: 4000,
+              message: this.$t("VerificationToken"),
+              position: "is-top-right",
+              type: "is-danger",
+              hasIcon: true,
+              icon: "key",
+            });
+          }
+          this.verificationLoading = false;
+        }
+      }
+    },
+    async sendAnotherMail() {
+      let validationUrl = `/auth/validation/${this.username}`;
+      try {
+        this.mailLoading = true;
+        const res = await axios.get(validationUrl);
+        if (res.status == 200) {
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: this.$t("VerificationMoreMailSuccess"),
+            position: "is-top-right",
+            type: "is-info",
+            hasIcon: true,
+            icon: "email-check-outline",
+          });
+        }
+        this.mailLoading = false;
+      } catch (error) {
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: this.$t("VerificationMoreMailFail"),
+          position: "is-top-right",
+          type: "is-danger",
+          hasIcon: true,
+          icon: "email-remove-outline",
+        });
+        this.mailLoading = false;
       }
     },
   },
