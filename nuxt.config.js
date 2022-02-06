@@ -79,9 +79,9 @@ export default {
     locales: [
       {
         code: 'en',
-        iso: 'en-US',
+        iso: 'en-GB',
         name: 'English',
-        file: 'en-US.js'
+        file: 'en-GB.js'
       },
       {
         code: 'fr',
