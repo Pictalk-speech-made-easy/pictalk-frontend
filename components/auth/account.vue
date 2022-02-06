@@ -317,6 +317,7 @@ export default {
 	},
 	beforeUpdate() {
 		this.initialization = false;
+		//TODO Quand on en cree ça n'est plus visible ... this.mailingList = [...this.user.mailingList];
 	},
 	async created() {
 		const allVoicesObtained = new Promise(function (resolve, reject) {

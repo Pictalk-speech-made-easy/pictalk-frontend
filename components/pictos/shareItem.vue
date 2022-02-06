@@ -7,9 +7,7 @@
 			<div class="columns is-mobile">
 				<div class="column">
 					<b-field
-						v-for="(
-							collaborator, index
-						) in getTrueAccessCollaborators"
+						v-for="(collaborator, index) in getLoneCollaborators"
 						:key="index"
 						:label="$t('Contact') + ' ' + (index + 1)"
 						group-multiline
@@ -39,25 +37,49 @@
 					<b-field :label="$t('Groups')">
 						<div class="columns is-mobile is-multiline">
 							<div
-								class=""
+								v-for="(group, index) in groups"
 								:class="[
-									groupInSelected(group) != -1
+									isGroupSelected(group) ||
+									isGroupShared(group)
 										? 'has-background card column is-half'
 										: 'card column is-half ',
 								]"
-								v-for="(group, index) in $store.getters.getUser
-									.mailingList"
-								@click="addOrRemoveGroupToSelected(group)"
 							>
 								<div class="card-content">
 									<div class="media">
-										<div class="media-left">
+										<div
+											@click="
+												addOrRemoveGroupToSelected(
+													group
+												)
+											"
+											class="media-left"
+										>
 											<b-icon :icon="group.icon" />
 										</div>
 										<div class="media-content">
-											<p class="title is-6">
+											<p
+												@click="
+													addOrRemoveGroupToSelected(
+														group
+													)
+												"
+												class="title is-6"
+											>
 												{{ group.name }}
 											</p>
+											<b-select
+												v-if="group.selected"
+												v-model="group.mode"
+												required
+											>
+												<option value="editor">
+													✏️
+												</option>
+												<option value="viewer">
+													👁️
+												</option>
+											</b-select>
 										</div>
 									</div>
 								</div>
@@ -89,6 +111,8 @@ export default {
 		return {
 			collaborators: [],
 			selectedGroups: [],
+			loneCollaborators: [],
+			groups: [],
 		};
 	},
 	mounted() {
@@ -106,40 +130,113 @@ export default {
 				access: "1",
 			})
 		);
+		this.groups = this.getGroups;
+		let found;
+		this.collaborators.forEach((coll) => {
+			found = false;
+			this.groups.forEach((group) => {
+				if (group.users.indexOf(coll) != -1) {
+					found = true;
+					if (!group.foundUserCount) {
+						group.foundUserCount = 0;
+					}
+					group.foundUserCount += 1;
+				}
+			});
+			if (!found) {
+				this.loneCollaborators.push(coll);
+			}
+		});
 	},
 	computed: {
+		getLoneCollaborators() {
+			return this.loneCollaborators.filter(
+				(collaborator) => collaborator.access == "1"
+			);
+		},
 		getTrueAccessCollaborators() {
 			return this.collaborators.filter(
 				(collaborator) => collaborator.access == "1"
 			);
 		},
+		getGroups() {
+			return JSON.parse(
+				JSON.stringify(this.$store.getters.getUser.mailingList)
+			);
+		},
+		getSharedGroups() {
+			return this.groups.filter((group) => this.isGroupShared(group));
+		},
 	},
 	methods: {
-		groupInSelected(selectedGroup) {
-			return this.selectedGroups
-				.map((group) => group.name)
-				.indexOf(selectedGroup.name);
+		isGroupSelected(group) {
+			return group.selected;
+		},
+		isGroupShared(group) {
+			return group.foundUserCount == group.users.length;
 		},
 		addOrRemoveGroupToSelected(selectedGroup) {
-			const groupIndex = this.selectedGroups
-				.map((group) => group?.name)
-				.indexOf(selectedGroup?.name);
-			if (groupIndex != -1) {
-				this.selectedGroups.splice(groupIndex, 1);
-			} else {
-				this.selectedGroups.push(selectedGroup);
-			}
+			selectedGroup.selected = !selectedGroup?.selected;
+			this.groups.push("");
+			this.groups.pop();
 		},
 		async onSubmitted() {
 			try {
-				this.collaborators.forEach((sharer) => {
-					this.$store.dispatch("shareCollection", {
+				const sharedGroups = this.getSharedGroups.concat(
+					this.groups.filter((group) => group.selected)
+				);
+				const editorUsernameArray = sharedGroups
+					.filter((group) => group.mode == "editor")
+					.map((group) => group.users)
+					.concat(
+						this.loneCollaborators
+							.filter((coll) => coll.mode == "editor")
+							.map((coll) => coll.username)
+					)
+					.flat();
+				if (editorUsernameArray.length != 0) {
+					await this.$store.dispatch("shareCollection", {
 						collectionId: this.picto.id,
-						username: sharer.username,
-						role: sharer.mode,
+						usernames: editorUsernameArray,
+						role: "editor",
 						access: "1",
 					});
-				});
+				}
+
+				const viewerUsernameArray = sharedGroups
+					.filter((group) => group.mode == "viewer")
+					.map((group) => group.users)
+					.concat(
+						this.loneCollaborators
+							.filter((coll) => coll.mode == "viewer")
+							.map((coll) => coll.username)
+					)
+					.flat();
+				if (viewerUsernameArray.length != 0) {
+					await this.$store.dispatch("shareCollection", {
+						collectionId: this.picto.id,
+						usernames: viewerUsernameArray,
+						role: "viewer",
+						access: "1",
+					});
+				}
+
+				const deletedUsernameArray = sharedGroups
+					.filter((group) => !group.selected)
+					.concat(
+						this.loneCollaborators
+							.filter((coll) => coll.access == "0")
+							.map((coll) => coll.username)
+					)
+					.flat();
+				if (deletedUsernameArray.length != 0) {
+					await this.$store.dispatch("shareCollection", {
+						collectionId: this.picto.id,
+						usernames: deletedUsernameArray,
+						role: "viewer",
+						access: "0",
+					});
+				}
 				this.$buefy.notification.open({
 					message: this.$t("UpdatedSharers"),
 					type: "is-success",

@@ -410,10 +410,10 @@ export const actions = {
 		});
 		vuexContext.commit("setPublicCollections", publicCollections);
 	},
-	async shareCollection(vuexContext, { collectionId, username, role, access }) {
+	async shareCollection(vuexContext, { collectionId, usernames, role, access }) {
 		const params = new URLSearchParams();
 		params.append('access', access);
-		params.append('username', username);
+		usernames.forEach((username) => params.append('usernames[]', username));
 		params.append('role', role);
 		const sharedCollection = (await axios.put(URL + '/collection/share/' + collectionId, params, {
 			headers: {
