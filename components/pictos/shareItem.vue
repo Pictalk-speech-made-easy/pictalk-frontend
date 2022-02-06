@@ -135,11 +135,12 @@ export default {
 		this.collaborators.forEach((coll) => {
 			found = false;
 			this.groups.forEach((group) => {
-				if (group.users.indexOf(coll) != -1) {
+				if (group.users.indexOf(coll.username) != -1) {
 					found = true;
 					if (!group.foundUserCount) {
 						group.foundUserCount = 0;
 					}
+					console.log(group.foundUserCount);
 					group.foundUserCount += 1;
 				}
 			});
