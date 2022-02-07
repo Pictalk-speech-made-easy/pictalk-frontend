@@ -11,6 +11,7 @@
     "generate": "nuxt generate"
   },
   "devDependencies": {
+    "@nuxtjs/sentry": "^5.1.7",
     "@nuxtjs/i18n": "^7.2.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/robots": "^2.5.0",
