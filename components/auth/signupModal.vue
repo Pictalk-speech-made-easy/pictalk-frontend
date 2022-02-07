@@ -124,7 +124,9 @@
 							:key="index">
 						<b-input
 							v-model="directSharers[index - 1]"
+              type="email"
 							expanded
+              :placeholder="$t('PlaceHolderEmail')"
 						></b-input>
 						<b-button class="is-danger" icon-left="close-circle" @click="directSharers.splice(index - 1,1)">
 						</b-button>

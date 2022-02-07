@@ -268,5 +268,6 @@
     "VerificationMoreMail": "Have not received an email ? Click here",
     "VerificationMoreMailSuccess": "Antoher email has been sent to you, Check your spams!",
     "VerificationMoreMailFail": "Couldn't send another email",
-    "VerificationSuccess": "Welcome to Pictalk"
+    "VerificationSuccess": "Welcome to Pictalk",
+    "PictoMeaningNotEmpty": "Meaning should not be empty"
 }

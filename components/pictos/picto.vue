@@ -75,7 +75,7 @@
         </b-dropdown-item>
       </b-dropdown>
 
-      <div class="column noMargin is-mobile" v-if="picto.starred">
+      <div class="column noMargin is-mobile" v-if="picto.starred == true">
         <b-button
           type="is-success"
           icon-right="star"

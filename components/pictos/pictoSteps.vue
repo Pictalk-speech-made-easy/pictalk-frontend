@@ -133,6 +133,7 @@
                       native
                       drag-drop
                       expanded
+                      @input="uploadfile(file)"
                     >
                       <section class="section">
                         <div class="content has-text-centered">
@@ -235,9 +236,9 @@
                 :disabled="
                   !(
                     Object.values(picto.meaning).length &&
-                    Object.values(picto.speech).length &&
-                    this.file.name
-                  )
+                    Object.values(picto.speech).length
+                  ) ||
+                  (!this.file.name && create)
                 "
                 :class="classCreateOrEdit"
                 :icon-right="iconPictoOrEdit"
@@ -249,7 +250,8 @@
                 v-if="!isPicto || create"
                 :class="classCreateOrEdit"
                 :disabled="
-                  !(Object.values(picto.meaning).length && this.file.name)
+                  !Object.values(picto.meaning).length ||
+                  (!this.file.name && create)
                 "
                 :icon-right="iconCollectionOrEdit"
                 @click="onSubmitted(true)"
@@ -288,7 +290,7 @@ export default {
       default: () => ({
         speech: new Object(),
         meaning: new Object(),
-        color: "#fe5656",
+        color: "#ffffff00",
       }),
     },
     create: {
@@ -421,12 +423,12 @@ export default {
             { type: this.file.type }
           );
           cfile = await jpegasus.compress(myNewFile, {
-            maxHeight: 500,
-            maxWidth: 500,
+            maxHeight: 300,
+            maxWidth: 300,
             quality: 0.15,
           });
         }
-        if (this.create || traductionNeeded()) {
+        if (this.create || this.traductionNeeded()) {
           this.getAllUserLanguages
             .map((languages) => languages.replace(/[^a-z]/g, ""))
             .forEach(async (language) => {
@@ -552,8 +554,8 @@ export default {
       // Si meaning du language principal change
       // Si meaning vide
       const savedPicto = this.picto.collection
-        ? getCollectionFromId(this.picto.id)
-        : getPictoFromId(this.picto.id);
+        ? this.getCollectionFromId(this.picto.id)
+        : this.getPictoFromId(this.picto.id);
       if (
         !savedPicto.meaning[this.getUserLang(true)] ||
         savedPicto.meaning[this.getUserLang(true)] !=
