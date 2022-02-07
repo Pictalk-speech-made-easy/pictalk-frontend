@@ -365,6 +365,7 @@ export default {
 			);
 		});
 		this.directSharers = [...this.user.directSharers];
+		console.log(this.user.mailingList);
 		this.mailingList = [...this.user.mailingList];
 	},
 	methods: {

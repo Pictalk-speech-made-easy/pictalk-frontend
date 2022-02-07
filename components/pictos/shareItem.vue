@@ -140,7 +140,6 @@ export default {
 					if (!group.foundUserCount) {
 						group.foundUserCount = 0;
 					}
-					console.log(group.foundUserCount);
 					group.foundUserCount += 1;
 				}
 			});

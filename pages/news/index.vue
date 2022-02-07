@@ -118,7 +118,7 @@ export default {
 			title: this.$t("TitleNews"),
 			meta: [
 				{
-					hid: "description",
+					hid: "descriptionNews",
 					name: "description",
 					content: this.$t("DescriptionNews"),
 				},

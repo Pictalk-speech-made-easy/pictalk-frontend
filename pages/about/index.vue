@@ -63,7 +63,7 @@ export default {
 			title: this.$t("TitleAbout"),
 			meta: [
 				{
-					hid: "description",
+					hid: "descriptionAbout",
 					name: "description",
 					content: this.$t("DescriptionAbout"),
 				},

@@ -51,7 +51,7 @@ export default {
 			title: this.$t("TitlePublic"),
 			meta: [
 				{
-					hid: "description",
+					hid: "descriptionPublic",
 					name: "description",
 					content: this.$t("DescriptionPublic"),
 				},
