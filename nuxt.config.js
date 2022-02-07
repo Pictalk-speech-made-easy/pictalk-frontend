@@ -69,11 +69,10 @@ export default {
   },
   i18n: {
     baseURL: 'https://www.pictalk.org',
-    seo: true,
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
-      onlyOnRoot: true,
+      redirectOn: 'root',
       alwaysRedirect: true
     },
     locales: [
@@ -210,7 +209,7 @@ export default {
       name: 'Pictalk',
       short_name: 'Pictalk',
       lang: 'en',
-      description: 'Pictalk is an app which aims to make speech easier for non-verbal people',
+      description: 'Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ',
       theme_color: '#ff5758',
       display: 'standalone',
       useWebmanifestExtension: 'true'
@@ -247,6 +246,33 @@ export default {
         cookies: ["expirationDate", "jwt"]
       }
     ],
+    optional: [
+      {
+        name: 'Google Analitycs',
+        //if you don't set identifier, slugified name will be used
+        identifier: 'ga',
+        //if multilanguage
+        description: {
+          fr: 'Google Analytics nous permet d\'améliorer Pictalk en comprenant l\'usage que vous en faites',
+          en: 'Google Analytics help us improve Bictalk by learning how you use it'
+        },
+
+        initialState: true,
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-6RGKKTSXND',
+        async: true,
+        cookies: ['_ga', '_gat', '_gid'],
+        accepted: () => {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+          });
+        },
+        declined: () => {
+        }
+      }
+    ]
+
   },
 
 };
