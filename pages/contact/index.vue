@@ -42,7 +42,7 @@ export default {
 				{
 					hid: "descriptionContact",
 					name: "description",
-					content: this.$t("DescriptionContact"),
+					content: this.$t("DescriptionMetaContact"),
 				},
 				...i18nHead.meta,
 			],

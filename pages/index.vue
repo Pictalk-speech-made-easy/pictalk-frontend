@@ -53,7 +53,7 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">{{ $t('Communicate')}}</h1>
+					<h2 class="title">{{ $t('Communicate')}}</h2>
 					<p class="is-size-5 notification" align="justify">
 						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
@@ -75,7 +75,7 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">{{ $t('MainFeatures')}}</h1>
+					<h2 class="title">{{ $t('MainFeatures')}}</h2>
 					<p class="is-size-5 notification" align="justify">
 						<ol style="list-style-type: inherit;margin-left: 5%;">
 						<li>{{ $t('HomeFeature1')}}</li>
@@ -96,7 +96,7 @@
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">{{ $t('OpenSourceAndFree')}}</h1>
+					<h2 class="title">{{ $t('OpenSourceAndFree')}}</h2>
 					<p class="is-size-5 notification" align="justify">
 						 {{ $t('OpenSourceAndFreeText1')}}
 						<a href="https://github.com/Pictalk-speech-made-easy">github</a>

@@ -56,7 +56,7 @@ export default {
 				{
 					hid: "descriptionPictos",
 					name: "description",
-					content: this.$t("ProvidedPictos"),
+					content: this.$t("DescriptionMetaPictograms"),
 				},
 				...i18nHead.meta,
 			],

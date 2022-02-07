@@ -65,7 +65,7 @@ export default {
 				{
 					hid: "descriptionAbout",
 					name: "description",
-					content: this.$t("DescriptionAbout"),
+					content: this.$t("DescriptionMetaAbout"),
 				},
 				...i18nHead.meta,
 			],

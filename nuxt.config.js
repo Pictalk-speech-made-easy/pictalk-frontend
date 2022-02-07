@@ -26,9 +26,16 @@ export default {
       rel: "icon",
       type: "image/x-icon",
       href: "favicon.ico?v2"
+    }, {
+      rel: 'canonical',
+      href: 'https://www.pictalk.org'
     }],
     meta: [
-      { hid: 'keywords', name: 'keywords', content: 'AAC,pictograms,speech,text-to-speech,communication,online,translate,sentences,free,open-source' }
+      { hid: 'keywords', name: 'keywords', content: 'AAC,pictograms,speech,text-to-speech,communication,online,translate,sentences,free,open-source' },
+      { hid: 'og:title', name: 'og:title', content: 'Pictalk AAC' },
+      { hid: 'og:description', name: 'og:description', content: 'Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language !' },
+      { hid: 'og:url', name: 'og:url', content: 'https://www.pictalk.org' },
+      { hid: 'og:image', name: 'og:image', content: 'https://www.pictalk.org/_nuxt/img/logo_compressed-240.webp' },
     ]
   },
   /*
