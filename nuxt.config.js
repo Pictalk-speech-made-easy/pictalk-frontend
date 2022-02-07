@@ -17,7 +17,8 @@ export default {
     viewport: "width=device-width, initial-scale=1",
     name: "Pictalk",
     author: "Alexandros & Adrianos SIDIRAS GALANTE",
-    theme_color: "#ff5757"
+    theme_color: "#ff5757",
+
   },
   head: {
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
@@ -25,7 +26,10 @@ export default {
       rel: "icon",
       type: "image/x-icon",
       href: "favicon.ico?v2"
-    }]
+    }],
+    meta: [
+      { hid: 'keywords', name: 'keywords', content: 'AAC,pictograms,speech,text-to-speech,communication,online,translate,sentences,free,open-source' }
+    ]
   },
   /*
    ** Customize the progress-bar color
