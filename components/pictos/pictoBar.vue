@@ -163,18 +163,16 @@ export default {
       const message = this.getText(pictos);
       try {
         await this.$copyText(message);
-        const notif = this.$buefy.notification.open({
+        const notif = this.$buefy.toast.open({
           duration: 5000,
           message: this.$t("CopySucces"),
-          position: "is-top-right",
           type: "is-success",
           hasIcon: true,
         });
       } catch (e) {
-        const notif = this.$buefy.notification.open({
+        const notif = this.$buefy.toast.open({
           duration: 5000,
           message: this.$t("CopyError"),
-          position: "is-top-right",
           type: "is-danger",
           hasIcon: true,
         });
@@ -200,22 +198,18 @@ export default {
         const blob = this.b64toBlob(b64);
         const data = [new ClipboardItem({ [blob.type]: blob })];
         await navigator.clipboard.write(data);
-        const notif = this.$buefy.notification.open({
+        const notif = this.$buefy.toast.open({
           duration: 5000,
           message: this.$t("CopySucces"),
-          position: "is-top-right",
           type: "is-success",
-          hasIcon: true,
         });
       } catch (e) {
         console.log(e);
         await this.$copyText(b64);
-        const notif = this.$buefy.notification.open({
+        const notif = this.$buefy.toast.open({
           duration: 5000,
           message: this.$t("CopyError"),
-          position: "is-top-right",
           type: "is-danger",
-          hasIcon: true,
         });
       }
     },

@@ -394,14 +394,14 @@ export default {
         Object.values(this.picto.meaning).length == 0 ||
         !this.picto.meaning[this.getUserLang()]
       ) {
-        this.$buefy.notification.open({
+        this.$buefy.toast.open({
           message: this.$t("MeaningEmpty"),
           type: "is-danger",
         });
         return;
       }
       if (this.create && !this.file.name) {
-        this.$buefy.notification.open({
+        this.$buefy.toast.open({
           message: this.$t("MissingImage"),
           type: "is-danger",
         });
@@ -410,7 +410,7 @@ export default {
       try {
         if (this.file.name) {
           if (!this.file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
-            this.$buefy.notification.open({
+            this.$buefy.toast.open({
               message: this.$t("ImageFiles"),
               type: "is-warning",
             });
@@ -474,13 +474,15 @@ export default {
         if (Object.keys(this.picto.speech).length === 0) {
           this.picto.speech = { ...this.picto.meaning };
           for (let key of Object.keys(this.picto.speech)) {
-            this.picto.speech[`${key}`] = "";
+            this.picto.speech[`${key}`] = "a";
           }
           console.log(
             Object.values(this.picto.speech),
             Object.values(this.picto.meaning)
           );
         }
+        console.log("Steps speech", this.picto.speech);
+        console.log("Steps meaning", this.picto.meaning);
         if (this.create) {
           await this.$store.dispatch(
             isCollection ? "addCollection" : "addPicto",
@@ -497,7 +499,7 @@ export default {
               image: cfile,
             }
           );
-          this.$buefy.notification.open({
+          this.$buefy.toast.open({
             message: isCollection
               ? this.$t("CreatedCollection")
               : this.$t("CreatedPictogram"),
@@ -512,7 +514,7 @@ export default {
               id: this.picto.id,
               collection: isCollection,
               speech: this.picto.speech,
-              meaning: this.picto.speech,
+              meaning: this.picto.meaning,
               color: this.picto.color,
               share: 1,
               fatherCollectionId: parseInt(
@@ -522,7 +524,7 @@ export default {
               image: cfile,
             }
           );
-          this.$buefy.notification.open({
+          this.$buefy.toast.open({
             message: isCollection
               ? this.$t("EditedCollection")
               : this.$t("EditedPictogram"),
@@ -532,7 +534,7 @@ export default {
         }
       } catch (err) {
         console.log(err);
-        this.$buefy.notification.open({
+        this.$buefy.toast.open({
           message: this.$t("SomeThingBadHappened"),
           type: "is-danger",
         });
