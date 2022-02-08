@@ -263,6 +263,8 @@
     "VerificationSuccess": "Welcome to Pictalk",
     "PictoMeaningNotEmpty": "Meaning should not be empty",
     "DuplicateFriends": "This user is already your friend",
-    "CannotRemoveFriends": "This is already removed from your friend",
+    "CannotRemoveFriends": "This user is already removed from your friend",
+    "DuplicateGroupUser": "This user is already in this group",
+    "CannotRemoveGroupUser": "This user is already removed from this group",
     "CreateNewGroup": "Create a new group"
 }

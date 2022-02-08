@@ -8,6 +8,7 @@
         <b-field :label="$t('Email')">
           <b-input
             type="email"
+            maxlength="64"
             v-model="username"
             :placeholder="$t('PlaceHolderEmail')"
             required

@@ -32,6 +32,7 @@
 					<b-field :label="$t('Email')">
 					<b-input
 						type="email"
+            maxlength="64"
 						v-model="username"
 						:placeholder="$t('PlaceHolderEmail')"
 						required
@@ -125,6 +126,7 @@
 						<b-input
 							v-model="directSharers[index - 1]"
               type="email"
+              maxlength="64"
 							expanded
               :placeholder="$t('PlaceHolderEmail')"
 						></b-input>

@@ -96,7 +96,7 @@
             expanded
             placeholder="alex@pictalk.xyz"
             type="email"
-            maxlength="30"
+            maxlength="64"
           ></b-input>
           <b-button
             type="is-success"
@@ -119,9 +119,7 @@
           icon-left="delete"
           @click="removeFromSharers()"
         />
-        <p class="title is-4">
-          {{ $t("Groups") }}
-        </p>
+        <p class="title is-4">{{ $t("Groups") }}</p>
         <b-field>
           <div class="columns">
             <div class="card column" v-for="(group, index) in mailingList">
@@ -131,9 +129,7 @@
                     <b-icon :icon="group.icon" />
                   </div>
                   <div class="media-content">
-                    <p class="title is-4">
-                      {{ group.name }}
-                    </p>
+                    <p class="title is-4">{{ group.name }}</p>
                   </div>
                 </div>
                 <div style="column-count: 2">
@@ -179,7 +175,7 @@
         v-model="user.password"
         placeholder="S0meExample!"
         type="password"
-        maxlength="30"
+        maxlength="32"
         password-reveal
       ></b-input>
     </b-field>
@@ -189,6 +185,7 @@
     <b-button
       class="sixWidth"
       type="is-info"
+      icon-left="content-save"
       @click="onSave(user.username, user.password, user.language)"
       >{{ $t("Save") }}</b-button
     >

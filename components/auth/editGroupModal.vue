@@ -32,7 +32,7 @@
           v-model="addUser"
           placeholder="alex@pictalk.xyz"
           type="email"
-          maxlength="30"
+          maxlength="64"
         ></b-input>
         <p class="control">
           <b-button
