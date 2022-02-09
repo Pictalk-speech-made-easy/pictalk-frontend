@@ -273,355 +273,377 @@ import axios from "axios";
 import { countryCodeEmoji } from "country-code-emoji";
 import frenchFries from "@/assets/frenchFries.json";
 export default {
-  computed: {
-    loadedVoices() {
-      return this.voices.sort((x, y) => {
-        let a = x.lang.toUpperCase(),
-          b = y.lang.toUpperCase();
-        return a == b ? 0 : a > b ? 1 : -1;
-      });
-    },
-  },
-  data() {
-    return {
-      username: "",
-      password: "",
-      voiceURI: "",
-      voices: [],
-      voiceURIs: [],
-      terms: false,
-      majority: false,
-      initialization: true,
-      passwordConfirmation: "",
-      loadingVoices: true,
-      directSharers: [],
-      showLanguages: false,
-      activeStep: 0,
-      notSignedUp: true,
-      maxStep: 3,
-      verificationToken: "",
-      verificationLoading: false,
-      signupLoading: false,
-      mailLoading: false,
-    };
-  },
-  async created() {
-    const allVoicesObtained = new Promise(function (resolve, reject) {
-      let voices = window.speechSynthesis.getVoices();
-      if (voices.length !== 0) {
-        resolve(voices);
-      } else {
-        window.speechSynthesis.addEventListener("voiceschanged", function () {
-          voices = window.speechSynthesis.getVoices();
-          resolve(voices);
-        });
-      }
-    });
-    allVoicesObtained.then((voices) => {
-      this.voices = voices;
-      this.voiceURI = this.voices.filter(
-        (voice) => voice.lang == this.localeIso()
-      )[0].voiceURI;
-      this.loadingVoices = false;
-    });
-  },
-  watch: {
-    voiceURI: {
-      handler: function (v) {
-        this.voiceURIs = [];
-        this.voiceURIs.push(v);
-        if (!this.loadingVoices && !this.initialization) {
-          this.playSentenceInLanguage(
-            this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
-            v
-          );
-        }
-      },
-      deep: true,
-    },
-    voiceURIs(newValue, oldValue) {
-      if (newValue.length > oldValue.length && newValue.length > 1) {
-        const v = newValue.filter((ai) => oldValue.indexOf(ai) == -1)[0];
-        if (!this.loadingVoices && !this.initialization) {
-          this.playSentenceInLanguage(
-            this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
-            v
-          );
-        }
-      }
-    },
-  },
-  beforeUpdate() {
-    this.initialization = false;
-  },
-  methods: {
-    nextStep() {
-      this.activeStep += 1;
-    },
-    previousStep() {
-      this.activeStep -= 1;
-    },
-    localeIso() {
-      return this.$i18n.locales.filter((i) => i.code == this.$i18n.locale)[0]
-        .iso;
-    },
-    convertToSimpleLanguage(language) {
-      return language.replace(/[^a-z]/g, "");
-    },
-    getDeviceInfo() {
-      return (
-        this.getOSInfo() +
-        window.screen.height +
-        window.screen.width +
-        window.devicePixelRatio
-      );
-    },
-    getOSInfo() {
-      if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
-        return "Windows 10";
-      if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
-        return "Windows 8.1";
-      if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
-        return "Windows 8";
-      if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
-        return "Windows 7";
-      if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
-        return "Windows Vista";
-      if (window.navigator.userAgent.indexOf("Mac") != -1) return "Mac/iOS";
-      if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
-      if (window.navigator.userAgent.indexOf("Linux") != -1) return "Linux";
-    },
-    async playSentenceInLanguage(lang, voiceURI) {
-      let translatedText = frenchFries[this.convertToSimpleLanguage(lang)];
-      this.pronounce(translatedText, lang, voiceURI);
-    },
-    async pronounce(speech, lang, voiceURI) {
-      if ("speechSynthesis" in window) {
-        var msg = new SpeechSynthesisUtterance();
-        msg.text = speech;
-        let voice = this.voices.filter((voice) => voice.voiceURI == voiceURI);
-        if (voice.length == 0) {
-          voice = this.voices.filter((voice) => voice.lang == lang);
-        }
-        if (voice.length !== 0) {
-          msg.voice = voice[0];
-        }
-        window.speechSynthesis.speak(msg);
-      } else {
-        const notif = this.$buefy.notification.open({
-          duration: 5000,
-          message: this.$t("NoVoicesFound"),
-          position: "is-top-right",
-          type: "is-warning",
-          hasIcon: true,
-        });
-      }
-    },
-    getEmoji(language) {
-      if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-        return countryCodeEmoji(language.split("-")[1]);
-      }
-      return;
-    },
-    async onSubmit() {
-      if (
-        this.username == "" ||
-        this.password == "" ||
-        this.passwordConfirmation == "" ||
-        this.major == false ||
-        this.terms == false ||
-        this.voiceURI == "" ||
-        this.voiceURIs.length == 0
-      ) {
-        const notif = this.$buefy.notification.open({
-          duration: 5000,
-          message: this.$t("PleaseCompleteForm"),
-          position: "is-top-right",
-          type: "is-info",
-          hasIcon: true,
-          icon: "account",
-        });
-        return;
-      }
-      if (this.passwordConfirmation != this.password) {
-        const notif = this.$buefy.notification.open({
-          duration: 5000,
-          message: this.$t("PasswordNotCorrespond"),
-          position: "is-top-right",
-          type: "is-warning",
-          hasIcon: true,
-          icon: "key",
-        });
-        return;
-      }
-      //let device, language, languages = {};
-      let device = {};
-      let language = {};
-      let languages = {};
-      device[this.getDeviceInfo()] = {
-        voiceURI: this.voiceURI,
-        pitch: "",
-      };
-      language[
-        this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0].lang
-      ] = device;
-      Object.assign(languages, language);
-      this.voiceURIs.forEach((voiceURI) => {
-        device[this.getDeviceInfo()] = {
-          voiceURI: voiceURI,
-          pitch: "",
-        };
-        languages[
-          this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang
-        ] = device;
-      });
+	computed: {
+		loadedVoices() {
+			return this.voices.sort((x, y) => {
+				let a = x.lang.toUpperCase(),
+					b = y.lang.toUpperCase();
+				return a == b ? 0 : a > b ? 1 : -1;
+			});
+		},
+	},
+	data() {
+		return {
+			username: "",
+			password: "",
+			voiceURI: "",
+			voices: [],
+			voiceURIs: [],
+			terms: false,
+			majority: false,
+			initialization: true,
+			passwordConfirmation: "",
+			loadingVoices: true,
+			directSharers: [],
+			showLanguages: false,
+			activeStep: 0,
+			notSignedUp: true,
+			maxStep: 3,
+			verificationToken: "",
+			verificationLoading: false,
+			signupLoading: false,
+			mailLoading: false,
+		};
+	},
+	async created() {
+		const allVoicesObtained = new Promise(function (resolve, reject) {
+			let voices = window.speechSynthesis.getVoices();
+			if (voices.length !== 0) {
+				resolve(voices);
+			} else {
+				window.speechSynthesis.addEventListener(
+					"voiceschanged",
+					function () {
+						voices = window.speechSynthesis.getVoices();
+						resolve(voices);
+					}
+				);
+			}
+		});
+		allVoicesObtained.then((voices) => {
+			console.log(voices);
+			console.log(this.localeIso());
+			this.voices = voices;
+			this.voiceURI = this.voices.filter(
+				(voice) => voice.lang == this.localeIso()
+			)[0]?.voiceURI;
+			this.loadingVoices = false;
+		});
+	},
+	watch: {
+		voiceURI: {
+			handler: function (v) {
+				this.voiceURIs = [];
+				this.voiceURIs.push(v);
+				if (!this.loadingVoices && !this.initialization) {
+					this.playSentenceInLanguage(
+						this.voices.filter((voice) => voice.voiceURI == v)[0]
+							?.lang,
+						v
+					);
+				}
+			},
+			deep: true,
+		},
+		voiceURIs(newValue, oldValue) {
+			if (newValue.length > oldValue.length && newValue.length > 1) {
+				const v = newValue.filter(
+					(ai) => oldValue.indexOf(ai) == -1
+				)[0];
+				if (!this.loadingVoices && !this.initialization) {
+					this.playSentenceInLanguage(
+						this.voices.filter((voice) => voice.voiceURI == v)[0]
+							?.lang,
+						v
+					);
+				}
+			}
+		},
+	},
+	beforeUpdate() {
+		this.initialization = false;
+	},
+	methods: {
+		nextStep() {
+			this.activeStep += 1;
+		},
+		previousStep() {
+			this.activeStep -= 1;
+		},
+		localeIso() {
+			return this.$i18n.locales.filter(
+				(i) => i.code == this.$i18n.locale
+			)[0].iso;
+		},
+		convertToSimpleLanguage(language) {
+			return language.replace(/[^a-z]/g, "");
+		},
+		getDeviceInfo() {
+			return (
+				this.getOSInfo() +
+				window.screen.height +
+				window.screen.width +
+				window.devicePixelRatio
+			);
+		},
+		getOSInfo() {
+			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+				return "Windows 10";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
+				return "Windows 8.1";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
+				return "Windows 8";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
+				return "Windows 7";
+			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
+				return "Windows Vista";
+			if (window.navigator.userAgent.indexOf("Mac") != -1)
+				return "Mac/iOS";
+			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
+			if (window.navigator.userAgent.indexOf("Linux") != -1)
+				return "Linux";
+		},
+		async playSentenceInLanguage(lang, voiceURI) {
+			let translatedText =
+				frenchFries[this.convertToSimpleLanguage(lang)];
+			this.pronounce(translatedText, lang, voiceURI);
+		},
+		async pronounce(speech, lang, voiceURI) {
+			if ("speechSynthesis" in window) {
+				var msg = new SpeechSynthesisUtterance();
+				msg.text = speech;
+				let voice = this.voices.filter(
+					(voice) => voice.voiceURI == voiceURI
+				);
+				if (voice.length == 0) {
+					voice = this.voices.filter((voice) => voice.lang == lang);
+				}
+				if (voice.length !== 0) {
+					msg.voice = voice[0];
+				}
+				window.speechSynthesis.speak(msg);
+			} else {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("NoVoicesFound"),
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+				});
+			}
+		},
+		getEmoji(language) {
+			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
+				return countryCodeEmoji(language.split("-")[1]);
+			}
+			return;
+		},
+		async onSubmit() {
+			if (
+				this.username == "" ||
+				this.password == "" ||
+				this.passwordConfirmation == "" ||
+				this.major == false ||
+				this.terms == false ||
+				this.voiceURI == "" ||
+				this.voiceURIs.length == 0
+			) {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("PleaseCompleteForm"),
+					position: "is-top-right",
+					type: "is-info",
+					hasIcon: true,
+					icon: "account",
+				});
+				return;
+			}
+			if (this.passwordConfirmation != this.password) {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("PasswordNotCorrespond"),
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+					icon: "key",
+				});
+				return;
+			}
+			//let device, language, languages = {};
+			let device = {};
+			let language = {};
+			let languages = {};
+			device[this.getDeviceInfo()] = {
+				voiceURI: this.voiceURI,
+				pitch: "",
+			};
+			language[
+				this.voices.filter(
+					(voice) => voice.voiceURI == this.voiceURI
+				)[0]?.lang
+			] = device;
+			Object.assign(languages, language);
+			this.voiceURIs.forEach((voiceURI) => {
+				device[this.getDeviceInfo()] = {
+					voiceURI: voiceURI,
+					pitch: "",
+				};
+				languages[
+					this.voices.filter(
+						(voice) => voice.voiceURI == voiceURI
+					)[0]?.lang
+				] = device;
+			});
 
-      try {
-        this.signupLoading = true;
-        const res = await axios.post("/auth/signup", {
-          username: this.username,
-          password: this.password,
-          language: JSON.stringify(language),
-          languages: JSON.stringify(languages),
-          directSharers: this.directSharers,
-        });
-        if (res.status == 201) {
-          this.notSignedUp = false;
-          this.maxStep = 4;
-          this.activeStep = 4;
-          const notif = this.$buefy.notification.open({
-            duration: 5000,
-            message: this.$t("AccountCreated"),
-            position: "is-top-right",
-            type: "is-success",
-            hasIcon: true,
-          });
-        }
-        this.signupLoading = false;
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 400 || error.response.status == 401) {
-            const notif = this.$buefy.notification.open({
-              duration: 5000,
-              message: this.$t("ParametersInvalid"),
-              position: "is-top-right",
-              type: "is-danger",
-              hasIcon: true,
-              icon: "account",
-            });
-          } else {
-            if (error.response.status == 409) {
-              const notif = this.$buefy.notification.open({
-                duration: 5000,
-                message: this.$t("EmailAlreadyInUse"),
-                position: "is-top-right",
-                type: "is-danger",
-                hasIcon: true,
-                icon: "mail",
-              });
-            } else {
-              const notif = this.$buefy.notification.open({
-                duration: 5000,
-                message: this.$t("ServerOffline"),
-                position: "is-top-right",
-                type: "is-danger",
-                hasIcon: true,
-                icon: "account",
-              });
-            }
-          }
-        } else {
-          const notif = this.$buefy.notification.open({
-            duration: 5000,
-            message: this.$t("ServerOffline"),
-            position: "is-top-right",
-            type: "is-danger",
-            hasIcon: true,
-            icon: "account",
-          });
-        }
-        this.signupLoading = false;
-      }
-    },
-    async onVerify() {
-      this.verificationLoading = true;
-      let validationUrl = `/auth/validation/${this.verificationToken}`;
-      try {
-        const res = await axios.get(validationUrl);
-        if (res.status == 200) {
-          this.verificationLoading = false;
-          const notif = this.$buefy.notification.open({
-            duration: 5000,
-            message: this.$t("VerificationSuccess"),
-            position: "is-top-right",
-            type: "is-success",
-          });
-          this.$parent.close();
-          this.$router.push("/pictalk");
-          await this.$store.dispatch("authenticateUser", {
-            username: this.username,
-            password: this.password,
-            isLogin: true,
-          });
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 401) {
-            const notif = this.$buefy.notification.open({
-              duration: 4000,
-              message: this.$t("VerificationToken"),
-              position: "is-top-right",
-              type: "is-danger",
-              hasIcon: true,
-              icon: "key",
-            });
-          }
-          this.verificationLoading = false;
-        }
-      }
-    },
-    async sendAnotherMail() {
-      let validationUrl = `/auth/validation/${this.username}`;
-      try {
-        this.mailLoading = true;
-        const res = await axios.post(validationUrl);
-        if (res.status == 201) {
-          const notif = this.$buefy.notification.open({
-            duration: 5000,
-            message: this.$t("VerificationMoreMailSuccess"),
-            position: "is-top-right",
-            type: "is-info",
-            hasIcon: true,
-            icon: "email-check-outline",
-          });
-        }
-        this.mailLoading = false;
-      } catch (error) {
-        const notif = this.$buefy.notification.open({
-          duration: 5000,
-          message: this.$t("VerificationMoreMailFail"),
-          position: "is-top-right",
-          type: "is-danger",
-          hasIcon: true,
-          icon: "email-remove-outline",
-        });
-        this.mailLoading = false;
-      }
-    },
-  },
+			try {
+				this.signupLoading = true;
+				const res = await axios.post("/auth/signup", {
+					username: this.username,
+					password: this.password,
+					language: JSON.stringify(language),
+					languages: JSON.stringify(languages),
+					directSharers: this.directSharers,
+				});
+				if (res.status == 201) {
+					this.notSignedUp = false;
+					this.maxStep = 4;
+					this.activeStep = 4;
+					const notif = this.$buefy.notification.open({
+						duration: 5000,
+						message: this.$t("AccountCreated"),
+						position: "is-top-right",
+						type: "is-success",
+						hasIcon: true,
+					});
+				}
+				this.signupLoading = false;
+			} catch (error) {
+				if (error.response) {
+					if (
+						error.response.status == 400 ||
+						error.response.status == 401
+					) {
+						const notif = this.$buefy.notification.open({
+							duration: 5000,
+							message: this.$t("ParametersInvalid"),
+							position: "is-top-right",
+							type: "is-danger",
+							hasIcon: true,
+							icon: "account",
+						});
+					} else {
+						if (error.response.status == 409) {
+							const notif = this.$buefy.notification.open({
+								duration: 5000,
+								message: this.$t("EmailAlreadyInUse"),
+								position: "is-top-right",
+								type: "is-danger",
+								hasIcon: true,
+								icon: "mail",
+							});
+						} else {
+							const notif = this.$buefy.notification.open({
+								duration: 5000,
+								message: this.$t("ServerOffline"),
+								position: "is-top-right",
+								type: "is-danger",
+								hasIcon: true,
+								icon: "account",
+							});
+						}
+					}
+				} else {
+					const notif = this.$buefy.notification.open({
+						duration: 5000,
+						message: this.$t("ServerOffline"),
+						position: "is-top-right",
+						type: "is-danger",
+						hasIcon: true,
+						icon: "account",
+					});
+				}
+				this.signupLoading = false;
+			}
+		},
+		async onVerify() {
+			this.verificationLoading = true;
+			let validationUrl = `/auth/validation/${this.verificationToken}`;
+			try {
+				const res = await axios.get(validationUrl);
+				if (res.status == 200) {
+					this.verificationLoading = false;
+					const notif = this.$buefy.notification.open({
+						duration: 5000,
+						message: this.$t("VerificationSuccess"),
+						position: "is-top-right",
+						type: "is-success",
+					});
+					this.$parent.close();
+					this.$router.push("/pictalk");
+					await this.$store.dispatch("authenticateUser", {
+						username: this.username,
+						password: this.password,
+						isLogin: true,
+					});
+				}
+			} catch (error) {
+				if (error.response) {
+					if (error.response.status == 401) {
+						const notif = this.$buefy.notification.open({
+							duration: 4000,
+							message: this.$t("VerificationToken"),
+							position: "is-top-right",
+							type: "is-danger",
+							hasIcon: true,
+							icon: "key",
+						});
+					}
+					this.verificationLoading = false;
+				}
+			}
+		},
+		async sendAnotherMail() {
+			let validationUrl = `/auth/validation/${this.username}`;
+			try {
+				this.mailLoading = true;
+				const res = await axios.post(validationUrl);
+				if (res.status == 201) {
+					const notif = this.$buefy.notification.open({
+						duration: 5000,
+						message: this.$t("VerificationMoreMailSuccess"),
+						position: "is-top-right",
+						type: "is-info",
+						hasIcon: true,
+						icon: "email-check-outline",
+					});
+				}
+				this.mailLoading = false;
+			} catch (error) {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("VerificationMoreMailFail"),
+					position: "is-top-right",
+					type: "is-danger",
+					hasIcon: true,
+					icon: "email-remove-outline",
+				});
+				this.mailLoading = false;
+			}
+		},
+	},
 };
 </script>
 <style>
 .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 .contenant {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 .fullWidth {
-  width: 100%;
+	width: 100%;
 }
 </style>

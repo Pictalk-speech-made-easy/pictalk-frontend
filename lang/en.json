@@ -266,5 +266,7 @@
     "CannotRemoveFriends": "This user is already removed from your friend",
     "DuplicateGroupUser": "This user is already in this group",
     "CannotRemoveGroupUser": "This user is already removed from this group",
-    "CreateNewGroup": "Create a new group"
+    "CreateNewGroup": "Create a new group",
+    "TraductionError": "Couln't get the traduction"
+
 }

@@ -270,7 +270,7 @@ export default {
       this.voiceURIs.push(v);
       if (this.initialization == false) {
         this.playSentenceInLanguage(
-          this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
+          this.voices.filter((voice) => voice.voiceURI == v)[0]?.lang,
           v
         );
       }
@@ -280,7 +280,7 @@ export default {
         const v = newValue.filter((ai) => oldValue.indexOf(ai) == -1)[0];
         if (this.initialization == false) {
           this.playSentenceInLanguage(
-            this.voices.filter((voice) => voice.voiceURI == v)[0].lang,
+            this.voices.filter((voice) => voice.voiceURI == v)[0]?.lang,
             v
           );
         }
@@ -317,19 +317,18 @@ export default {
       if (!this.voiceURI) {
         this.voiceURI = this.voices.filter(
           (voice) => voice.lang == Object.keys(this.user.language)[0]
-        )[0].voiceURI;
+        )[0]?.voiceURI;
       }
 
       this.voiceURIs = Object.keys(this.user.languages).map((lang, index) => {
         if (this.voiceURIs[index]) {
           return this.voiceURIs[index];
         } else {
-          return this.voices.filter((voice) => voice.lang == lang)[0].voiceURI;
+          return this.voices.filter((voice) => voice.lang == lang)[0]?.voiceURI;
         }
       });
     });
     this.directSharers = [...this.user.directSharers];
-    console.log(this.user.mailingList);
     this.mailingList = [...this.user.mailingList];
   },
   methods: {
@@ -487,7 +486,7 @@ export default {
       };
       const languageLang = this.voices.filter(
         (voice) => voice.voiceURI == this.voiceURI
-      )[0].lang;
+      )[0]?.lang;
       language[languageLang] = device;
       if (Object.keys(this.user.language)[0] == languageLang) {
         editedLanguage = Object.assign(
@@ -512,7 +511,7 @@ export default {
           pitch: "",
         };
         languages[
-          this.voices.filter((voice) => voice.voiceURI == voiceURI)[0].lang
+          this.voices.filter((voice) => voice.voiceURI == voiceURI)[0]?.lang
         ] = device;
       });
       let editedLanguages = Object.assign(

@@ -110,6 +110,7 @@
             </b-dropdown>
           </b-tooltip>
           <b-tooltip
+            v-if="this.$route.path.includes('pictalk')"
             position="is-bottom"
             type="is-primary"
             :label="$t('TooltipAcount')"
