@@ -264,5 +264,6 @@
     "PictoMeaningNotEmpty": "Meaning should not be empty",
     "DuplicateFriends": "This user is already your friend",
     "CannotRemoveFriends": "This is already removed from your friend",
-    "CreateNewGroup": "Create a new group"
+    "CreateNewGroup": "Create a new group",
+    "TraductionError": "Couln't get the traduction"
 }

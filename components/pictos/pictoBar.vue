@@ -80,13 +80,6 @@ export default {
 				this.$store.getters.getUser.language[
 					Object.keys(this.$store.getters.getUser.language)[0]
 				][this.getDeviceInfo()]?.voiceURI;
-			this.voiceURIs = Object.keys(
-				this.$store.getters.getUser.languages
-			).map((lang) => {
-				return this.$store.getters.getUser.languages[lang][
-					this.getDeviceInfo()
-				]?.voiceURI;
-			});
 			// Si vide alors remplir avec la premiere valeur equiv a lang
 			if (!this.voiceURI) {
 				this.voiceURI = this.voices.filter(
@@ -95,17 +88,6 @@ export default {
 						Object.keys(this.$store.getters.getUser.language)[0]
 				)[0]?.voiceURI;
 			}
-
-			this.voiceURIs = Object.keys(
-				this.$store.getters.getUser.languages
-			).map((lang, index) => {
-				if (this.voiceURIs[index]) {
-					return this.voiceURIs[index];
-				} else {
-					return this.voices.filter((voice) => voice.lang == lang)[0]
-						?.voiceURI;
-				}
-			});
 		});
 	},
 	methods: {
@@ -221,16 +203,26 @@ export default {
 			}
 		},
 		async getTranslatedText(pictos) {
-			return (
-				await axios.get("/translation/", {
-					params: {
-						text: this.getText(pictos),
-						targetLang: this.convertToSimpleLanguage(
-							this.$store.getters.getTemporaryLanguage
-						),
-					},
-				})
-			)?.data?.translation;
+			try {
+				return (
+					await axios.get("/translation/", {
+						params: {
+							text: this.getText(pictos),
+							targetLang: this.convertToSimpleLanguage(
+								this.$store.getters.getTemporaryLanguage
+							),
+							sourceLang: this.getUserLang(),
+						},
+					})
+				)?.data?.translation;
+			} catch (err) {
+				console.log(err);
+				const notif = this.$buefy.toast.open({
+					duration: 5000,
+					message: this.$t("TraductionError"),
+					type: "is-danger",
+				});
+			}
 		},
 		async pictalk(pictos) {
 			if ("speechSynthesis" in window) {
@@ -384,7 +376,6 @@ export default {
 			adminMode: false,
 			voices: [],
 			voiceURI: "",
-			voiceURIs: [],
 		};
 	},
 };
