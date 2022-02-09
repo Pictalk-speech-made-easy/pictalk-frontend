@@ -404,9 +404,6 @@ export default {
 		async playSentenceInLanguage(lang, voiceURI) {
 			let translatedText =
 				frenchFries[this.convertToSimpleLanguage(lang)];
-			console.log(this.voices);
-			console.log(lang);
-			console.log(voiceURI);
 			this.pronounce(translatedText, lang, voiceURI);
 		},
 		async pronounce(speech, lang, voiceURI) {
