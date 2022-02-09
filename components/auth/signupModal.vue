@@ -319,6 +319,8 @@ export default {
 			}
 		});
 		allVoicesObtained.then((voices) => {
+			console.log(voices);
+			console.log(this.localeIso());
 			this.voices = voices;
 			this.voiceURI = this.voices.filter(
 				(voice) => voice.lang == this.localeIso()
@@ -402,6 +404,9 @@ export default {
 		async playSentenceInLanguage(lang, voiceURI) {
 			let translatedText =
 				frenchFries[this.convertToSimpleLanguage(lang)];
+			console.log(this.voices);
+			console.log(lang);
+			console.log(voiceURI);
 			this.pronounce(translatedText, lang, voiceURI);
 		},
 		async pronounce(speech, lang, voiceURI) {
