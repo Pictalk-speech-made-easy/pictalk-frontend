@@ -270,6 +270,7 @@
     "TraductionError": "Couln't get the traduction",
     "SharedWithYou": "shared with you : ",
     "UnsharedWithYou": "stopped sharing : ",
-    "MustVerifyEmail": "You must verify your email first"
+    "MustVerifyEmail": "You must verify your email first",
+    "CreateGroups": "Create a group in your account page"
 
 }
