@@ -267,6 +267,9 @@
     "DuplicateGroupUser": "This user is already in this group",
     "CannotRemoveGroupUser": "This user is already removed from this group",
     "CreateNewGroup": "Create a new group",
-    "TraductionError": "Couln't get the traduction"
+    "TraductionError": "Couln't get the traduction",
+    "SharedWithYou": "shared with you : ",
+    "UnsharedWithYou": "stopped sharing : ",
+    "MustVerifyEmail": "You must verify your email first"
 
 }
