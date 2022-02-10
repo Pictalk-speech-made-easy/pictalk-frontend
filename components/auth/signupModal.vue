@@ -406,6 +406,11 @@ export default {
 				frenchFries[this.convertToSimpleLanguage(lang)];
 			this.pronounce(translatedText, lang, voiceURI);
 		},
+		localeCode() {
+			return this.$i18n.locales.filter(
+				(i) => i.code == this.$i18n.locale
+			)[0].code;
+		},
 		async pronounce(speech, lang, voiceURI) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
@@ -501,6 +506,7 @@ export default {
 					language: JSON.stringify(language),
 					languages: JSON.stringify(languages),
 					directSharers: this.directSharers,
+					displayLanguage: this.localeCode(),
 				});
 				if (res.status == 201) {
 					this.notSignedUp = false;
