@@ -271,6 +271,8 @@
     "SharedWithYou": "shared with you : ",
     "UnsharedWithYou": "stopped sharing : ",
     "MustVerifyEmail": "You must verify your email first",
-    "CreateGroups": "Create a group in your account page"
+    "CreateGroups": "Create a group in your account page",
+    "CreatedGroupSucess": "Created group with success",
+    "EditedGroupSucess": "Edited group with success"
 
 }
