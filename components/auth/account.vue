@@ -50,13 +50,21 @@
 						expanded
 					>
 						<option
-							v-for="voice in loadedVoices"
+							v-for="voice in loadedVoicesWithFilter"
 							:value="voice.voiceURI"
 							:key="voice.voiceURI"
 						>
 							{{ getEmoji(voice.lang) }} {{ voice.name }}
 						</option>
 					</b-select>
+					<b-button
+						type="is-ghost"
+						@click="
+							loadedVoicesFilterState = !loadedVoicesFilterState
+						"
+					>
+						{{ $t("ShowMore") }}...
+					</b-button>
 				</b-field>
 				<b-button
 					v-if="!displayVoicesOrMultiLingual"
@@ -255,6 +263,11 @@ export default {
 				return a == b ? 0 : a > b ? 1 : -1;
 			});
 		},
+		loadedVoicesWithFilter() {
+			return this.loadedVoices.filter((voice) =>
+				voice.lang.includes(this.localeCode())
+			);
+		},
 	},
 	props: {
 		user: {
@@ -280,6 +293,7 @@ export default {
 			dl_launched: false,
 			initialization: true,
 			mailingList: {},
+			loadedVoicesFilterState: true,
 			data: [],
 			columns: [
 				{
