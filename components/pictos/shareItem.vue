@@ -4,7 +4,7 @@
 			<p class="modal-card-title">{{ $t("ShareCollection") }}</p>
 		</header>
 		<section class="modal-card-body">
-			<div class="columns is-mobile">
+			<div class="columns">
 				<div class="column">
 					<b-field
 						v-for="(collaborator, index) in getLoneCollaborators"
@@ -41,48 +41,52 @@
 						>
 							<div
 								v-for="(group, index) in groups"
-								:class="[
-									isGroupSelected(group) ||
-									isGroupShared(group)
-										? 'has-background card column is-half'
-										: 'card column is-half ',
-								]"
+								class="column is-half"
 							>
-								<div class="card-content">
-									<div class="media">
-										<div
-											@click="
-												addOrRemoveGroupToSelected(
-													group
-												)
-											"
-											class="media-left"
-										>
-											<b-icon :icon="group.icon" />
-										</div>
-										<div class="media-content">
-											<p
+								<div
+									:class="[
+										isGroupSelected(group) ||
+										isGroupShared(group)
+											? 'card has-background'
+											: 'card',
+									]"
+								>
+									<div class="card-content">
+										<div class="media">
+											<div
 												@click="
 													addOrRemoveGroupToSelected(
 														group
 													)
 												"
-												class="title is-6"
+												class="media-left"
 											>
-												{{ group.name }}
-											</p>
-											<b-select
-												v-if="group.selected"
-												v-model="group.mode"
-												required
-											>
-												<option value="editor">
-													✏️
-												</option>
-												<option value="viewer">
-													👁️
-												</option>
-											</b-select>
+												<b-icon :icon="group.icon" />
+											</div>
+											<div class="media-content">
+												<p
+													@click="
+														addOrRemoveGroupToSelected(
+															group
+														)
+													"
+													class="title is-6"
+												>
+													{{ group.name }}
+												</p>
+												<b-select
+													v-if="group.selected"
+													v-model="group.mode"
+													required
+												>
+													<option value="editor">
+														✏️
+													</option>
+													<option value="viewer">
+														👁️
+													</option>
+												</b-select>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -93,7 +97,9 @@
 								v-if="groups.length == 0"
 								lazy
 								class="center"
-								:srcset="require('@/assets/NoGroups.png')"
+								:srcset="
+									require('@/assets/NoGroups.png').srcSet
+								"
 								alt="No groups"
 								style="width: 50%"
 							></b-image>

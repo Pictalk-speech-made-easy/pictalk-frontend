@@ -54,6 +54,7 @@
             </p>
           </b-field>
           <b-table
+            :focusable="true"
             :data="getUsersAsObjectArrays"
             :columns="columns"
             :selected.sync="selected"
@@ -92,6 +93,7 @@
               expanded
               class="is-info"
               icon-left="content-save"
+              :disabled="groupName === ''"
               @click="save()"
               >{{ $t("Save") }}</b-button
             >
@@ -138,7 +140,20 @@ export default {
     pushToGroup() {
       const index = this.group.users.indexOf(this.addUser);
       if (index === -1) {
-        this.group.users.push(this.addUser);
+        if (
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            this.addUser
+          )
+        ) {
+          this.group.users.push(this.addUser);
+        } else {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: this.$t("EmailPlease"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        }
       } else {
         this.$buefy.toast.open({
           duration: 5000,
@@ -196,6 +211,10 @@ export default {
           mailingList: tempMailingList,
         });
         this.$parent.close();
+        this.$buefy.toast.open({
+          message: this.$t("CreatedGroupSucess"),
+          type: "is-success",
+        });
       } catch (err) {
         console.log(err);
         this.$buefy.toast.open({

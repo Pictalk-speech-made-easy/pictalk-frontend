@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div class="container" style="max-width: 100%">
     <b-tabs expanded type="is-toggle">
       <b-tab-item icon="tune">
         <br />
@@ -85,7 +85,7 @@
         </b-field>
         <hr />
       </b-tab-item>
-      <b-tab-item icon="account-group">
+      <b-tab-item style="width: 100%" icon="account-group">
         <br />
         <p class="title is-4">
           {{ $t("SharingButton") }}
@@ -105,6 +105,7 @@
           />
         </b-field>
         <b-table
+          :focusable="true"
           :data="directSharersObj"
           :columns="columns"
           :selected.sync="selected"
@@ -121,15 +122,17 @@
         />
         <p class="title is-4">{{ $t("Groups") }}</p>
         <b-field>
-          <div class="columns">
+          <div class="columns is-multiline is-5">
             <div class="card column" v-for="(group, index) in mailingList">
-              <div class="card-content">
+              <div class="card-content lessPadding">
                 <div class="media">
-                  <div class="media-left">
+                  <div class="media-left" v-if="group.icon">
                     <b-icon :icon="group.icon" />
                   </div>
-                  <div class="media-content">
-                    <p class="title is-4">{{ group.name }}</p>
+                  <div class="media-content" style="overflow-y: hidden">
+                    <p class="title is-4">
+                      {{ group.name }}
+                    </p>
                   </div>
                 </div>
                 <div style="column-count: 2">
@@ -142,6 +145,7 @@
                   <div class="container column">
                     <b-button
                       type="is-danger"
+                      expanded
                       icon-right="delete"
                       @click="mailingList.splice(index, 1)"
                     />
@@ -149,24 +153,24 @@
                   <div class="container column">
                     <b-button
                       type="is-info"
+                      expanded
                       icon-right="pencil"
-                      @click="openEditGroupModal(group, index)"
+                      @click="openAddGroupModal(group, index)"
                     />
                   </div>
                 </div>
               </div>
             </div>
-            <div class="column container">
-              <b-button
-                class="is-success"
-                icon-left="plus"
-                expanded
-                :label="$t('CreateNewGroup')"
-                @click="openAddGroupModal()"
-              />
-            </div>
           </div>
         </b-field>
+        <br />
+        <b-button
+          class="is-success"
+          icon-left="plus"
+          expanded
+          @click="openAddGroupModal()"
+        />
+
         <hr />
       </b-tab-item>
     </b-tabs>
@@ -195,10 +199,12 @@
 import { countryCodeEmoji } from "country-code-emoji";
 import merge from "lodash.merge";
 import frenchFries from "@/assets/frenchFries.json";
-import editGroupModal from "@/components/auth/editGroupModal";
 import addGroupModal from "@/components/auth/addGroupModal";
 export default {
   computed: {
+    getMailingList() {
+      return this.$store.getters.getUser.mailingList.length;
+    },
     availableLocales() {
       return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
     },
@@ -262,6 +268,11 @@ export default {
     };
   },
   watch: {
+    getMailingList: function (value) {
+      this.mailingList = JSON.parse(
+        JSON.stringify(this.$store.getters.getUser.mailingList)
+      );
+    },
     voiceURI: function (v, oldVoice) {
       const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
       if (oldIndex != -1) {
@@ -335,8 +346,21 @@ export default {
     pushToSharers() {
       const index = this.directSharers.indexOf(this.addDirectSharer);
       if (index === -1) {
-        this.directSharers.push(this.addDirectSharer);
-        this.directSharersObj.push({ username: this.addDirectSharer });
+        if (
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            this.addDirectSharer
+          )
+        ) {
+          this.directSharers.push(this.addDirectSharer);
+          this.directSharersObj.push({ username: this.addDirectSharer });
+        } else {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: this.$t("EmailPlease"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        }
       } else {
         this.$buefy.toast.open({
           duration: 5000,
@@ -360,21 +384,11 @@ export default {
         });
       }
     },
-    openEditGroupModal(group, index) {
-      this.$buefy.modal.open({
-        parent: this,
-        component: editGroupModal,
-        props: { group: group, index: index },
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2",
-        trapFocus: true,
-      });
-    },
-    openAddGroupModal(group) {
+    openAddGroupModal(group, index) {
       this.$buefy.modal.open({
         parent: this,
         component: addGroupModal,
-        props: { group: group },
+        props: { group: group, index: index },
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
@@ -551,5 +565,8 @@ export default {
 }
 .sixWidth {
   width: 59%;
+}
+.lessPadding {
+  padding: 0.5rem;
 }
 </style>

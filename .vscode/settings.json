@@ -5,6 +5,7 @@
         "source.fixAll.eslint": true
     },
     "editor.tabSize": 2,
+    "editor.detectIndentation": false,
     "editor.insertSpaces": false,
     "search.exclude": {
         "**/node_modules": true,

@@ -134,6 +134,12 @@ export const mutations = {
 	},
 	setTemporaryLanguage(state, language) {
 		state.temporaryLanguage = language;
+	},
+	removeMailingList(state, index) {
+		state.user.mailingList.splice(index, 1);
+	},
+	addMailingList(state, mailingList) {
+		state.user.mailingList.push(mailingList);
 	}
 };
 export const actions = {
