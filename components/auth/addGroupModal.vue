@@ -21,7 +21,7 @@
 				<b-step-item
 					clickable
 					step="1"
-					:label="$t('GoupeName')"
+					:label="$t('GroupName')"
 					clickable
 				>
 					<hr />

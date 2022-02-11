@@ -215,6 +215,9 @@ import editGroupModal from "@/components/auth/editGroupModal";
 import addGroupModal from "@/components/auth/addGroupModal";
 export default {
 	computed: {
+		getMailingList() {
+			return this.$store.getters.getUser.mailingList.length;
+		},
 		availableLocales() {
 			return this.$i18n.locales.filter(
 				(i) => i.code !== this.$i18n.locale
@@ -283,6 +286,11 @@ export default {
 		};
 	},
 	watch: {
+		getMailingList: function (value) {
+			this.mailingList = JSON.parse(
+				JSON.stringify(this.$store.getters.getUser.mailingList)
+			);
+		},
 		voiceURI: function (v, oldVoice) {
 			const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
 			if (oldIndex != -1) {

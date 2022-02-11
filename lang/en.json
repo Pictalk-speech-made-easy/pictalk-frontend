@@ -273,6 +273,11 @@
     "MustVerifyEmail": "You must verify your email first",
     "CreateGroups": "Create a group in your account page",
     "CreatedGroupSucess": "Created group with success",
-    "EditedGroupSucess": "Edited group with success"
+    "EditedGroupSucess": "Edited group with success",
+    "AddGroup": "Create a group",
+    "GroupLabel": "Icon for the group",
+    "GroupName": "Name of the group",
+    "AddUser": "Add user",
+    "TooltipNotifications": "Take a look at your notifications"
 
 }
