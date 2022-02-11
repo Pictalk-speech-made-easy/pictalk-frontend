@@ -210,7 +210,7 @@
 						:srcset="require('@/static/20_Pictalk_Mail.gif')"
             :placeholder="require('@/assets/20_Pictalk_Mail.png').srcSet"
 						alt="Email verification"
-						style="width: 40%;"
+						style="width: 55%;"
         ></b-image>
           </div>
           <b-field>
