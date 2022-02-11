@@ -382,6 +382,7 @@ export const actions = {
 			.put(URL + "/user/details/", user)).data;
 		vuexContext.commit("editUser", {
 			username: newUser.username,
+			displayLanguage: newUser.displayLanguage,
 			language: JSON.parse(newUser.language),
 			languages: JSON.parse(newUser.languages),
 			settings: JSON.parse(newUser.settings),
