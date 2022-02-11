@@ -18,12 +18,12 @@
         mobile-mode="compact"
         label-position="bottom"
       >
-        <b-step-item clickable step="1" :label="$t('GoupeName')" clickable>
+        <b-step-item clickable step="1" :label="$t('GroupName')" clickable>
           <hr />
           <b-field :label="$t('GroupName')">
             <b-input
               v-model="groupName"
-              placeholder="Group"
+              :placeholder="$t('GroupName')"
               type="name"
               maxlength="30"
             />
@@ -112,6 +112,19 @@
 </template>
 <script>
 export default {
+  props: {
+    group: {
+      type: Object,
+      required: false,
+      default: () => ({
+        users: [],
+      }),
+    },
+    index: {
+      type: Number,
+      required: false,
+    },
+  },
   computed: {
     getUsersAsObjectArrays() {
       return this.group.users.map((user) => {
@@ -162,6 +175,7 @@ export default {
       this.groupIcon = icon;
     },
     async save() {
+      console.log("this is index ", this.index);
       let tempMailingList = JSON.parse(
         JSON.stringify(this.$store.getters.getUser.mailingList)
       );
@@ -169,7 +183,14 @@ export default {
         name: this.groupName,
         icon: this.groupIcon,
       });
-      tempMailingList.push(this.group);
+      if (this.index > -1) {
+        console.log("edditing");
+        tempMailingList[this.index] = this.group;
+      } else {
+        console.log("creating");
+        tempMailingList.push(this.group);
+      }
+
       try {
         const res = await this.$store.dispatch("editUser", {
           mailingList: tempMailingList,
@@ -188,7 +209,6 @@ export default {
     return {
       selected: {},
       activeStep: 0,
-      group: { users: [] },
       iconList: [
         "account-group",
         "school",
@@ -198,8 +218,8 @@ export default {
         "video-vintage",
         "van-passenger",
       ],
-      groupName: "",
-      groupIcon: "",
+      groupName: this.group.name ? this.group.name : "",
+      groupIcon: this.group.icon ? this.group.icon : "",
       addUser: "",
       columns: [
         {
