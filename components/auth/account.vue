@@ -171,7 +171,6 @@
           expanded
           @click="openAddGroupModal()"
         />
-
         <hr />
       </b-tab-item>
     </b-tabs>
@@ -232,6 +231,11 @@ export default {
           b = y.lang.toUpperCase();
         return a == b ? 0 : a > b ? 1 : -1;
       });
+    },
+    loadedVoicesWithFilter() {
+      return this.loadedVoices.filter((voice) =>
+        voice.lang.includes(this.localeCode())
+      );
     },
   },
   props: {
@@ -306,14 +310,25 @@ export default {
   },
   async created() {
     const allVoicesObtained = new Promise(function (resolve, reject) {
-      let voices = window.speechSynthesis.getVoices();
-      if (voices.length !== 0) {
-        resolve(voices);
-      } else {
-        window.speechSynthesis.addEventListener("voiceschanged", function () {
-          voices = window.speechSynthesis.getVoices();
+      try {
+        let voices = window.speechSynthesis.getVoices();
+        if (voices.length !== 0) {
           resolve(voices);
-        });
+        } else {
+          window.speechSynthesis.addEventListener("voiceschanged", function () {
+            try {
+              voices = window.speechSynthesis.getVoices();
+            } catch (err) {
+              reject(err);
+            }
+            if (!voices) {
+              reject();
+            }
+            resolve(voices);
+          });
+        }
+      } catch (err) {
+        reject(err);
       }
     });
     allVoicesObtained.then((voices) => {
@@ -555,7 +570,6 @@ export default {
         {},
         JSON.parse(JSON.stringify(this.user.languages))
       );
-
       merge(editedLanguages, languages);
       try {
         const res = await this.$store.dispatch("editUser", {

@@ -185,21 +185,22 @@
 export default {
 	computed: {
 		getUserNotifications() {
-			const notifications = JSON.parse(
-				JSON.stringify(this.$store.getters.getUser.notifications)
-			);
-			if (notifications) {
-				notifications.forEach((notification) => {
-					if (notification.meaning) {
-						notification.meaning = JSON.parse(
-							notification?.meaning
-						);
-					}
-				});
-				return notifications;
-			} else {
-				return [];
+			if (this.$store.getters.getUser?.notifications) {
+				const notifications = JSON.parse(
+					JSON.stringify(this.$store.getters.getUser.notifications)
+				);
+				if (notifications) {
+					notifications.forEach((notification) => {
+						if (notification.meaning) {
+							notification.meaning = JSON.parse(
+								notification?.meaning
+							);
+						}
+					});
+					return notifications;
+				}
 			}
+			return [];
 		},
 		admin() {
 			return this.$route.query.isAdmin ? "?isAdmin=true" : "";

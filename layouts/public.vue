@@ -12,6 +12,22 @@ export default {
 	components: {
 		navbar,
 	},
+	created() {
+		if (
+			this.$store.getters.isAuthenticated &&
+			this.$store.getters.getUser &&
+			this.$store.getters.getUser.displayLanguage.match(/[a-z]{2}/g)
+		) {
+			if (
+				this.$i18n.locale.code !=
+				this.$store.getters.getUser.displayLanguage
+			) {
+				this.$i18n.setLocale(
+					this.$store.getters.getUser.displayLanguage
+				);
+			}
+		}
+	},
 };
 </script>
 <style scoped>

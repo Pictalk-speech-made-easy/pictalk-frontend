@@ -342,14 +342,25 @@ export default {
   },
   async created() {
     const allVoicesObtained = new Promise(function (resolve, reject) {
-      let voices = window.speechSynthesis.getVoices();
-      if (voices.length !== 0) {
-        resolve(voices);
-      } else {
-        window.speechSynthesis.addEventListener("voiceschanged", function () {
-          voices = window.speechSynthesis.getVoices();
+      try {
+        let voices = window.speechSynthesis.getVoices();
+        if (voices.length !== 0) {
           resolve(voices);
-        });
+        } else {
+          window.speechSynthesis.addEventListener("voiceschanged", function () {
+            try {
+              voices = window.speechSynthesis.getVoices();
+            } catch (err) {
+              reject(err);
+            }
+            if (!voices) {
+              reject();
+            }
+            resolve(voices);
+          });
+        }
+      } catch (err) {
+        reject(err);
       }
     });
     allVoicesObtained.then((voices) => {
@@ -578,7 +589,6 @@ export default {
           this.voices.filter((voice) => voice.voiceURI == voiceURI)[0]?.lang
         ] = device;
       });
-
       try {
         this.signupLoading = true;
         const res = await axios.post("/auth/signup", {
