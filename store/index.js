@@ -143,6 +143,19 @@ export const mutations = {
 	}
 };
 export const actions = {
+	async userExists(vuexContext, username){
+		console.log(username);
+		try{
+			const exists = (await axios.get(URL+`/user/verify/${username.username}`)).status;
+			if(exists==200){
+				return true;
+			}
+		} catch(err){
+			console.log(err);
+			return false;
+		}
+		
+	},
 	resetCollections(vuexContext) {
 		vuexContext.commit("resetCollections");
 	},

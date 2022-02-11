@@ -94,13 +94,14 @@
           <b-input
             v-model="addDirectSharer"
             expanded
-            placeholder="alex@pictalk.xyz"
+            :placeholder="$t('PlaceHolderEmail')"
             type="email"
             maxlength="64"
           ></b-input>
           <b-button
             type="is-success"
             icon-right="plus"
+            :loading="loading"
             @click="pushToSharers()"
           />
         </b-field>
@@ -242,6 +243,7 @@ export default {
   data() {
     return {
       selected: {},
+      loading: false,
       showDirectSharerInputText: false,
       addDirectSharer: "",
       displayVoices: false,
@@ -343,7 +345,7 @@ export default {
     this.mailingList = [...this.user.mailingList];
   },
   methods: {
-    pushToSharers() {
+    async pushToSharers() {
       const index = this.directSharers.indexOf(this.addDirectSharer);
       if (index === -1) {
         if (
@@ -351,8 +353,29 @@ export default {
             this.addDirectSharer
           )
         ) {
-          this.directSharers.push(this.addDirectSharer);
-          this.directSharersObj.push({ username: this.addDirectSharer });
+          try {
+            this.loading = true;
+            const res = await this.$store.dispatch("userExists", {
+              username: this.addDirectSharer,
+            });
+            if (res) {
+              this.directSharers.push(this.addDirectSharer);
+              this.directSharersObj.push({ username: this.addDirectSharer });
+            } else {
+              this.$buefy.toast.open({
+                duration: 5000,
+                message: this.$t("UserNotExists"),
+                position: "is-top",
+                type: "is-danger",
+              });
+            }
+          } catch (err) {
+            this.$buefy.toast.open({
+              message: this.$t("SomeThingBadHappened"),
+              type: "is-danger",
+            });
+          }
+          this.loading = false;
         } else {
           this.$buefy.toast.open({
             duration: 5000,

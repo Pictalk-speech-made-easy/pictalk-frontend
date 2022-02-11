@@ -278,6 +278,7 @@
     "GroupLabel": "Icon for the group",
     "GroupName": "Name of the group",
     "AddUser": "Add user",
-    "TooltipNotifications": "Take a look at your notifications"
+    "TooltipNotifications": "Take a look at your notifications",
+		"UserNotExists": "this user does not exist"
 
 }

@@ -41,7 +41,7 @@
           <b-field :label="$t('AddUser')">
             <b-input
               v-model="addUser"
-              placeholder="alex@pictalk.xyz"
+              :placeholder="$t('PlaceHolderEmail')"
               type="email"
               maxlength="64"
             ></b-input>
@@ -49,6 +49,7 @@
               <b-button
                 type="is-success"
                 icon-right="plus"
+                :loading="loading"
                 @click="pushToGroup()"
               />
             </p>
@@ -137,7 +138,7 @@ export default {
     },
   },
   methods: {
-    pushToGroup() {
+    async pushToGroup() {
       const index = this.group.users.indexOf(this.addUser);
       if (index === -1) {
         if (
@@ -145,7 +146,28 @@ export default {
             this.addUser
           )
         ) {
-          this.group.users.push(this.addUser);
+          try {
+            this.loading = true;
+            const res = await this.$store.dispatch("userExists", {
+              username: this.addUser,
+            });
+            if (res) {
+              this.group.users.push(this.addUser);
+            } else {
+              this.$buefy.toast.open({
+                duration: 5000,
+                message: this.$t("UserNotExists"),
+                position: "is-top",
+                type: "is-danger",
+              });
+            }
+          } catch (err) {
+            this.$buefy.toast.open({
+              message: this.$t("SomeThingBadHappened"),
+              type: "is-danger",
+            });
+          }
+          this.loading = false;
         } else {
           this.$buefy.toast.open({
             duration: 5000,
@@ -228,6 +250,7 @@ export default {
     return {
       selected: {},
       activeStep: 0,
+      loading: false,
       iconList: [
         "account-group",
         "school",
