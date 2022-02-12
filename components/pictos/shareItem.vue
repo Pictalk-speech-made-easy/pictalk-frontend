@@ -4,9 +4,14 @@
       <p class="modal-card-title">{{ $t("ShareCollection") }}</p>
     </header>
     <section class="modal-card-body">
-      <div class="columns">
-        <div class="column">
+      <div>
+        <div class="columns is-mobile is-multiline">
           <b-field
+            class="
+              column
+              lessPadding
+              is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-2-fullhd
+            "
             v-for="(collaborator, index) in getLoneCollaborators"
             :key="index"
             :label="$t('Contact') + ' ' + (index + 1)"
@@ -27,19 +32,24 @@
             >
             </b-button>
           </b-field>
-          <b-button
-            type="is-primary"
-            icon-right="plus"
-            @click="pushSharerAndMode()"
-          />
         </div>
-        <div class="column">
-          <b-field :label="$t('Groups')">
+        <b-button
+          type="is-primary"
+          icon-right="plus"
+          @click="pushSharerAndMode()"
+        />
+
+        <b-field :label="$t('Groups')">
+          <div v-if="groups.length != 0" class="columns is-multiline is-mobile">
             <div
-              v-if="groups.length != 0"
-              class="columns is-mobile is-multiline"
+              v-for="(group, index) in groups"
+              class="
+                column
+                lessPadding
+                is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-2-fullhd
+              "
             >
-              <div v-for="(group, index) in groups" class="column is-half">
+              <div>
                 <div
                   :class="[
                     isGroupSelected(group) || isGroupShared(group)
@@ -48,47 +58,43 @@
                   ]"
                 >
                   <div class="card-content">
-                    <div class="media">
-                      <div
-                        @click="addOrRemoveGroupToSelected(group)"
-                        class="media-left"
-                        v-if="group.icon"
-                      >
+                    <div
+                      class="media"
+                      @click="addOrRemoveGroupToSelected(group)"
+                    >
+                      <div v-if="group.icon" class="media-left">
                         <b-icon :icon="group.icon" />
                       </div>
                       <div class="media-content">
-                        <p
-                          @click="addOrRemoveGroupToSelected(group)"
-                          class="title is-6"
-                        >
+                        <p class="title is-6">
                           {{ group.name }}
                         </p>
-                        <b-select
-                          v-if="group.selected"
-                          v-model="group.mode"
-                          required
-                        >
-                          <option value="editor">✏️</option>
-                          <option value="viewer">👁️</option>
-                        </b-select>
                       </div>
                     </div>
+                    <b-select
+                      v-if="group.selected"
+                      v-model="group.mode"
+                      required
+                    >
+                      <option value="viewer">👁️</option>
+                      <option value="editor">✏️</option>
+                    </b-select>
                   </div>
                 </div>
               </div>
             </div>
-            <b-tooltip :label="$t('CreateGroups')">
-              <b-image
-                v-if="groups.length == 0"
-                lazy
-                class="center"
-                :srcset="require('@/assets/NoGroups.png').srcSet"
-                alt="No groups"
-                style="width: 50%"
-              ></b-image>
-            </b-tooltip>
-          </b-field>
-        </div>
+          </div>
+          <b-tooltip :label="$t('CreateGroups')">
+            <b-image
+              v-if="groups.length == 0"
+              lazy
+              class="center"
+              :srcset="require('@/assets/NoGroups.png').srcSet"
+              alt="No groups"
+              style="width: 50%"
+            ></b-image>
+          </b-tooltip>
+        </b-field>
       </div>
     </section>
     <footer class="modal-card-foot">
@@ -271,5 +277,8 @@ export default {
   -webkit-box-shadow: 3px 3px 5px 6px #ff5e5e; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 3px 3px 5px 6px #ff5e5e; /* Firefox 3.5 - 3.6 */
   box-shadow: 3px 3px 5px 6px #ff5e5e; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+.lessPadding {
+  padding: 0.3rem;
 }
 </style>
