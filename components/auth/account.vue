@@ -50,13 +50,21 @@
             expanded
           >
             <option
-              v-for="voice in loadedVoices"
+              v-for="voice in loadedVoicesFilterState
+                ? loadedVoicesWithFilter
+                : loadedVoices"
               :value="voice.voiceURI"
               :key="voice.voiceURI"
             >
               {{ getEmoji(voice.lang) }} {{ voice.name }}
             </option>
           </b-select>
+          <b-button
+            type="is-ghost"
+            @click="loadedVoicesFilterState = !loadedVoicesFilterState"
+          >
+            {{ loadedVoicesFilterState ? $t("ShowMore") : $t("ShowLess") }}
+          </b-button>
         </b-field>
         <b-button
           v-if="!displayVoicesOrMultiLingual"
@@ -249,6 +257,7 @@ export default {
       selected: {},
       loading: false,
       showDirectSharerInputText: false,
+      loadedVoicesFilterState: true,
       addDirectSharer: "",
       displayVoices: false,
       voices: [],

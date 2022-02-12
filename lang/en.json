@@ -279,6 +279,8 @@
     "GroupName": "Name of the group",
     "AddUser": "Add user",
     "TooltipNotifications": "Take a look at your notifications",
-		"UserNotExists": "this user does not exist"
+		"UserNotExists": "this user does not exist",
+		"ShowMore": "Show more",
+		"ShowLess": "Show less"
 
 }
