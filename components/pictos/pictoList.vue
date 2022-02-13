@@ -9,6 +9,7 @@
           is-one-quarter-desktop
           is-one-quarter-widescreen
           is-one-fifth-fullhd
+          lessPadding
         "
         v-for="picto in getFilteredPictoList"
         :key="picto.id + Math.random()"
@@ -31,7 +32,6 @@
             <div v-if="!publicMode && adminMode" class="column">
               <b-button
                 rounded
-                size="is-medium"
                 type="is-success"
                 @click="addPicto()"
                 icon-right="plus"
@@ -40,7 +40,6 @@
             <div v-if="!publicMode" class="column">
               <b-button
                 rounded
-                size="is-medium"
                 type="is-warning"
                 @click="adminModeChoose()"
                 :icon-right="iconIsAdmin"
@@ -252,5 +251,8 @@ export default {
   bottom: 15%;
   right: 5%;
   position: fixed;
+}
+.lessPadding {
+  padding: 0.4rem;
 }
 </style>
