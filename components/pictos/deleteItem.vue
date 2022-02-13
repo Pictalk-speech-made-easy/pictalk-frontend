@@ -1,7 +1,13 @@
 <template>
   <div class="modal-card" style="width: auto">
     <header class="modal-card-head">
-      <p class="modal-card-title">{{ $t("Delete") }}</p>
+      <b-button
+        class="button"
+        type="is-danger"
+        icon-left="arrow-left"
+        @click="$parent.close()"
+      />
+      <p align="center" class="modal-card-title">{{ $t("Delete") }}</p>
     </header>
     <section class="modal-card-body">
       {{ $t("DeleteItem") }}{{ object.meaning[getUserLang()] }} ?

@@ -131,15 +131,22 @@
         />
         <p class="title is-4">{{ $t("Groups") }}</p>
         <b-field>
-          <div class="columns is-multiline is-5">
-            <div class="card column" v-for="(group, index) in mailingList">
+          <div class="columns is-multiline is-mobile">
+            <div
+              class="
+                card
+                column
+                is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-2-fullhd
+              "
+              v-for="(group, index) in mailingList"
+            >
               <div class="card-content lessPadding">
                 <div class="media">
                   <div class="media-left" v-if="group.icon">
                     <b-icon :icon="group.icon" />
                   </div>
                   <div class="media-content" style="overflow-y: hidden">
-                    <p class="title is-4">
+                    <p class="title is-6">
                       {{ group.name }}
                     </p>
                   </div>
@@ -284,9 +291,12 @@ export default {
   },
   watch: {
     getMailingList: function (value) {
+      console.log("Mailing List changed");
+      console.log(this.mailingList);
       this.mailingList = JSON.parse(
         JSON.stringify(this.$store.getters.getUser.mailingList)
       );
+      console.log(this.mailingList);
     },
     voiceURI: function (v, oldVoice) {
       const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
@@ -377,29 +387,39 @@ export default {
             this.addDirectSharer
           )
         ) {
-          try {
-            this.loading = true;
-            const res = await this.$store.dispatch("userExists", {
-              username: this.addDirectSharer,
-            });
-            if (res) {
-              this.directSharers.push(this.addDirectSharer);
-              this.directSharersObj.push({ username: this.addDirectSharer });
-            } else {
+          if (this.addDirectSharer != this.$store.getters.getUser.username) {
+            try {
+              this.loading = true;
+              const res = await this.$store.dispatch("userExists", {
+                username: this.addDirectSharer,
+              });
+              if (res) {
+                this.directSharers.push(this.addDirectSharer);
+                this.directSharersObj.push({ username: this.addDirectSharer });
+              } else {
+                this.$buefy.toast.open({
+                  duration: 5000,
+                  message: this.$t("UserNotExists"),
+                  position: "is-top",
+                  type: "is-danger",
+                });
+              }
+            } catch (err) {
               this.$buefy.toast.open({
-                duration: 5000,
-                message: this.$t("UserNotExists"),
-                position: "is-top",
+                message: this.$t("SomeThingBadHappened"),
                 type: "is-danger",
               });
             }
-          } catch (err) {
+
+            this.loading = false;
+          } else {
             this.$buefy.toast.open({
-              message: this.$t("SomeThingBadHappened"),
+              duration: 5000,
+              message: this.$t("NotFriendYourself"),
+              position: "is-top",
               type: "is-danger",
             });
           }
-          this.loading = false;
         } else {
           this.$buefy.toast.open({
             duration: 5000,

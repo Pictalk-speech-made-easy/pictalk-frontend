@@ -671,12 +671,12 @@ export default {
             type: "is-success",
           });
           this.$parent.close();
-          this.$router.push("/pictalk");
           await this.$store.dispatch("authenticateUser", {
             username: this.username,
             password: this.password,
             isLogin: true,
           });
+          this.$router.push("/pictalk");
         }
       } catch (error) {
         if (error.response) {
@@ -737,5 +737,8 @@ export default {
 }
 .fullWidth {
   width: 100%;
+}
+.fourWidth {
+  width: 39%;
 }
 </style>

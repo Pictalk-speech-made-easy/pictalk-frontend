@@ -281,6 +281,8 @@
     "TooltipNotifications": "Take a look at your notifications",
 		"UserNotExists": "this user does not exist",
 		"ShowMore": "Show more",
-		"ShowLess": "Show less"
+		"ShowLess": "Show less",
+		"NotShareYourself": "Cannot share to yourself",
+		"NotFriendYourself": "Cannot be a friend to yourself"
 
 }

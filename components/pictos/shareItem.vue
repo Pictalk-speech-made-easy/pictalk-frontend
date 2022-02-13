@@ -1,44 +1,59 @@
 <template>
   <div class="modal-card" style="width: auto">
     <header class="modal-card-head">
-      <p class="modal-card-title">{{ $t("ShareCollection") }}</p>
+      <b-button
+        class="button"
+        type="is-danger"
+        icon-left="arrow-left"
+        @click="$parent.close()"
+      />
+      <p align="center" class="modal-card-title">{{ $t("ShareCollection") }}</p>
     </header>
     <section class="modal-card-body">
       <div>
-        <div class="columns is-mobile is-multiline">
-          <b-field
-            class="
-              column
-              lessPadding
-              is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-2-fullhd
-            "
-            v-for="(collaborator, index) in getLoneCollaborators"
-            :key="index"
-            :label="$t('Contact') + ' ' + (index + 1)"
-            group-multiline
-            grouped
-          >
-            <b-input v-model="collaborator.username" />
-            <p class="control">
-              <b-select v-model="collaborator.mode" required>
-                <option value="editor">✏️</option>
-                <option value="viewer">👁️</option>
-              </b-select>
-            </p>
-            <b-button
-              class="is-danger"
-              icon-left="delete"
-              @click="deleteCollaborator(index)"
-            >
-            </b-button>
-          </b-field>
-        </div>
+        <b-field>
+          <b-input
+            v-model="addSharer"
+            expanded
+            :placeholder="$t('PlaceHolderEmail')"
+            type="email"
+            maxlength="64"
+          ></b-input>
+          <b-select v-model="mode" required>
+            <option value="editor">✏️</option>
+            <option value="viewer">👁️</option>
+          </b-select>
+          <b-button
+            type="is-success"
+            icon-right="plus"
+            :loading="loading"
+            @click="pushToSharers()"
+          />
+        </b-field>
+        <b-table
+          v-if="loneCollaborators.length > 0"
+          :focusable="true"
+          :data="SharersObj"
+          :columns="columns"
+          :selected.sync="selected"
+          :mobile-cards="false"
+        >
+        </b-table>
+        <br />
         <b-button
-          type="is-primary"
-          icon-right="plus"
-          @click="pushSharerAndMode()"
+          v-if="
+            loneCollaborators
+              .map((Sharer) => {
+                return Sharer.username;
+              })
+              .indexOf(selected.username) !== -1
+          "
+          class="fourWidth"
+          type="is-danger"
+          icon-left="delete"
+          @click="removeFromSharers()"
         />
-
+        <hr v-if="SharersObj.length > 0" />
         <b-field :label="$t('Groups')">
           <div v-if="groups.length != 0" class="columns is-multiline is-mobile">
             <div
@@ -121,6 +136,23 @@ export default {
       selectedGroups: [],
       loneCollaborators: [],
       groups: [],
+      mode: "viewer",
+      selected: {},
+      loading: false,
+      SharersObj: [],
+      addSharer: "",
+      columns: [
+        {
+          field: "username",
+          label: "",
+          searchable: false,
+        },
+        {
+          field: "mode",
+          label: "",
+          searchable: false,
+        },
+      ],
     };
   },
   mounted() {
@@ -153,6 +185,12 @@ export default {
       });
       if (!found) {
         this.loneCollaborators.push(coll);
+        this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
+          return {
+            username: loneCollaborator.username,
+            mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
+          };
+        });
       }
     });
   },
@@ -177,6 +215,106 @@ export default {
     },
   },
   methods: {
+    async pushToSharers() {
+      const index = this.SharersObj.map((collaborator) => {
+        return collaborator.username;
+      }).indexOf(this.addSharer);
+      const indexCollab = this.loneCollaborators
+        .map((collaborator) => {
+          return collaborator.username;
+        })
+        .indexOf(this.addSharer);
+      if (
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          this.addSharer
+        )
+      ) {
+        if (this.addSharer != this.$store.getters.getUser.username) {
+          try {
+            this.loading = true;
+            const res = await this.$store.dispatch("userExists", {
+              username: this.addSharer,
+            });
+            if (res) {
+              if (index !== -1) {
+                this.SharersObj[index] = {
+                  username: this.addSharer,
+                  mode: this.mode === "viewer" ? "👁️" : "✏️",
+                };
+              } else {
+                this.SharersObj.push({
+                  username: this.addSharer,
+                  mode: this.mode === "viewer" ? "👁️" : "✏️",
+                });
+              }
+              if (indexCollab !== -1) {
+                this.loneCollaborators[indexCollab] = {
+                  username: this.addSharer,
+                  mode: this.mode,
+                  access: "1",
+                };
+              } else {
+                this.loneCollaborators.push({
+                  username: this.addSharer,
+                  mode: this.mode,
+                  access: "1",
+                });
+              }
+            } else {
+              this.$buefy.toast.open({
+                duration: 5000,
+                message: this.$t("UserNotExists"),
+                position: "is-top",
+                type: "is-danger",
+              });
+            }
+          } catch (err) {
+            this.$buefy.toast.open({
+              message: this.$t("SomeThingBadHappened"),
+              type: "is-danger",
+            });
+          }
+          this.loading = false;
+        } else {
+          this.$buefy.toast.open({
+            duration: 5000,
+            message: this.$t("NotShareYourself"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        }
+      } else {
+        this.$buefy.toast.open({
+          duration: 5000,
+          message: this.$t("EmailPlease"),
+          position: "is-top",
+          type: "is-danger",
+        });
+      }
+    },
+    removeFromSharers() {
+      const index = this.SharersObj.map((collaborator) => {
+        return collaborator.username;
+      }).indexOf(this.selected.username);
+      const indexCollab = this.loneCollaborators
+        .map((collaborator) => {
+          return collaborator.username;
+        })
+        .indexOf(this.selected.username);
+
+      console.log(index);
+      if (index !== -1) {
+        console.log(this.SharersObj.splice(index, 1));
+      }
+      console.log(indexCollab);
+      if (indexCollab !== -1) {
+        this.loneCollaborators[indexCollab] = {
+          username: this.selected.username,
+          mode: this.mode,
+          access: "0",
+        };
+      }
+    },
     isGroupSelected(group) {
       return group.selected;
     },
@@ -258,16 +396,6 @@ export default {
         });
       }
     },
-    deleteCollaborator(index) {
-      this.loneCollaborators[index].access = "0";
-    },
-    pushSharerAndMode() {
-      this.loneCollaborators.push({
-        username: "",
-        mode: "viewer",
-        access: "1",
-      });
-    },
   },
 };
 </script>
@@ -280,5 +408,11 @@ export default {
 }
 .lessPadding {
   padding: 0.3rem;
+}
+.fullWidth {
+  width: 100%;
+}
+.fourWidth {
+  width: 39%;
 }
 </style>
