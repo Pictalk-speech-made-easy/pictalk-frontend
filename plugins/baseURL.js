@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default ({
-  $config
+	$config
 }) => {
-  axios.defaults.baseURL = $config.baseURL;
+	axios.defaults.baseURL = $config.apiURL;
 }

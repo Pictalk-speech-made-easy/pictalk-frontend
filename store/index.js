@@ -13,7 +13,6 @@ export const state = () => ({
 	copyCollectionId: null,
 	temporaryLanguage: null,
 });
-const URL = "http://localhost:3001";
 
 export const mutations = {
 	resetStore(state) {
@@ -143,18 +142,18 @@ export const mutations = {
 	}
 };
 export const actions = {
-	async userExists(vuexContext, username){
+	async userExists(vuexContext, username) {
 		console.log(username);
-		try{
-			const exists = (await axios.get(URL+`/user/verify/${username.username}`)).status;
-			if(exists==200){
+		try {
+			const exists = (await axios.get(`/user/verify/${username.username}`)).status;
+			if (exists == 200) {
 				return true;
 			}
-		} catch(err){
+		} catch (err) {
 			console.log(err);
 			return false;
 		}
-		
+
 	},
 	resetCollections(vuexContext) {
 		vuexContext.commit("resetCollections");
@@ -172,7 +171,7 @@ export const actions = {
 		//formData.append("collectionIds", picto.collectionIds);
 		formData.append("image", picto.image);
 		const newPicto = (await axios
-			.post(URL + "/picto/", formData, {
+			.post("/picto/", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
@@ -203,7 +202,7 @@ export const actions = {
 			formData.append("image", picto.image);
 		}
 		const editedPicto = (await axios
-			.put(URL + "/picto/" + picto.id, formData, {
+			.put("/picto/" + picto.id, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
@@ -227,7 +226,7 @@ export const actions = {
 	},
 	async removePicto(vuexContext, { pictoId, fatherCollectionId }) {
 		const res = await axios
-			.delete(URL + "/picto/", { params: { pictoId: pictoId, fatherId: fatherCollectionId } });
+			.delete("/picto/", { params: { pictoId: pictoId, fatherId: fatherCollectionId } });
 		vuexContext.commit("removePicto", { pictoId, fatherCollectionId });
 		return res;
 	},
@@ -242,7 +241,7 @@ export const actions = {
 		formData.append("share", collection.share);
 		formData.append("image", collection.image);
 		const newCollection = (await axios
-			.post(URL + "/collection", formData, {
+			.post("/collection", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
@@ -290,7 +289,7 @@ export const actions = {
 			formData.append("image", collection.image);
 		}
 		const editedCollection = (await axios
-			.put(URL + "/collection/" + collection.id, formData, {
+			.put("/collection/" + collection.id, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data"
 				}
@@ -304,7 +303,7 @@ export const actions = {
 		});
 	},
 	async removeCollection(vuexContext, { collectionId, fatherCollectionId }) {
-		const res = await axios.delete(URL + "/collection/", { params: { collectionId: collectionId, fatherId: fatherCollectionId } });
+		const res = await axios.delete("/collection/", { params: { collectionId: collectionId, fatherId: fatherCollectionId } });
 		const collectionIndex = vuexContext.getters.getCollections.findIndex((col) => col.id == fatherCollectionId);
 		const collection = vuexContext.getters.getCollections[collectionIndex];
 		const collectionCollectionsIndex = vuexContext.getters.getCollections[collectionIndex].collections.findIndex((col) => col.id == collectionId);
@@ -314,9 +313,9 @@ export const actions = {
 		return res;
 	},
 	async authenticateUser(vuexContext, authData) {
-		let authUrl = URL + "/auth/signin";
+		console.log(axios.defaults.baseURL);
 		const res = await axios
-			.post(authUrl, {
+			.post("/auth/signin", {
 				username: authData.username,
 				password: authData.password
 			});
@@ -392,7 +391,7 @@ export const actions = {
 		user.settings = JSON.stringify(user.settings);
 		user.mailingList = JSON.stringify(user.mailingList);
 		const newUser = (await axios
-			.put(URL + "/user/details/", user)).data;
+			.put("/user/details/", user)).data;
 		vuexContext.commit("editUser", {
 			username: newUser.username,
 			displayLanguage: newUser.displayLanguage,
@@ -414,7 +413,7 @@ export const actions = {
 		params.append('collectionId', collectionId);
 		params.append('fatherCollectionId', fatherCollectionId);
 		const editedCollection = (await axios
-			.post(URL + "/collection/copy", params, {
+			.post("/collection/copy", params, {
 				headers: {
 					"Content-Type": 'application/x-www-form-urlencoded'
 				}
@@ -424,7 +423,7 @@ export const actions = {
 	},
 	async getPublicCollections(vuexContext) {
 		const publicCollections = (await axios
-			.get(URL + "/collection/public")).data;
+			.get("/collection/public")).data;
 		publicCollections.map(collection => {
 			parseAndUpdateEntireCollection(vuexContext, collection);
 		});
@@ -435,7 +434,7 @@ export const actions = {
 		params.append('access', access);
 		usernames.forEach((username) => params.append('usernames[]', username));
 		params.append('role', role);
-		const sharedCollection = (await axios.put(URL + '/collection/share/' + collectionId, params, {
+		const sharedCollection = (await axios.put('/collection/share/' + collectionId, params, {
 			headers: {
 				"Content-Type": 'application/x-www-form-urlencoded'
 			}
@@ -445,13 +444,13 @@ export const actions = {
 		}
 	},
 	async deleteNotifications(vuexContext) {
-		const notifications = (await axios.delete(URL + '/user/notification')).data;
+		const notifications = (await axios.delete('/user/notification')).data;
 		const user = JSON.parse(JSON.stringify(vuexContext.getters.getUser));
 		user.notifications = notifications;
 		vuexContext.commit('editUser', user);
 	},
 	async serachImages(vuexContext, query) {
-		const images = (await axios.get(URL + `/image/web/?search=${query.search}&language=${query.language}`, {
+		const images = (await axios.get(`/image/web/?search=${query.search}&language=${query.language}`, {
 			headers: {
 				"Content-Type": 'application/x-www-form-urlencoded'
 			}
