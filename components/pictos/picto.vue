@@ -9,6 +9,7 @@
         @click="addToSpeech()"
         width="60%"
         crossorigin="anonymous"
+        :style="`border: solid; border-color: ${this.picto.color}`"
       />
     </div>
     <div class="notification meaning">
@@ -295,9 +296,9 @@ export default {
 <style scoped>
 .has-background {
   border-radius: 7px;
-  -webkit-box-shadow: 4px 4px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow: 4px 4px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
-  box-shadow: 4px 4px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  -webkit-box-shadow: 3px 3px 2px 2px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 3px 3px 2px 2px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 3px 3px 2px 2px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .containing {
   display: flex;
