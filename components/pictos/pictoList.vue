@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="margins">
     <div class="columns is-multiline is-mobile">
       <picto
         class="
@@ -254,5 +254,9 @@ export default {
 }
 .lessPadding {
   padding: 0.4rem;
+}
+.margins {
+  margin-left: 6px;
+  margin-right: 6px;
 }
 </style>
