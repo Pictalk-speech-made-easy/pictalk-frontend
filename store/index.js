@@ -184,7 +184,7 @@ export const actions = {
 			image: axios.defaults.baseURL + "/image/pictalk/" + newPicto.image,
 			fatherCollectionId: picto.fatherCollectionId,
 			id: newPicto.id,
-			starred: newPicto.starred,
+			starred: JSON.parse(newPicto.starred),
 			editors: newPicto.editors,
 			viewers: newPicto.viewers,
 			public: newPicto.public
@@ -196,7 +196,7 @@ export const actions = {
 		formData.append("meaning", JSON.stringify(picto.meaning));
 		formData.append("color", picto.color);
 		formData.append("share", picto.shared);
-		formData.append("starred", JSON.stringify(picto.starred));
+		formData.append("starred", picto.starred);
 		//formData.append("collectionIds", picto.collectionIds);
 		if (picto.image) {
 			formData.append("image", picto.image);
@@ -218,7 +218,7 @@ export const actions = {
 			image: axios.defaults.baseURL + "/image/pictalk/" + editedPicto.image,
 			fatherCollectionId: picto.fatherCollectionId,
 			id: picto.id,
-			starred: editedPicto.starred,
+			starred: JSON.parse(editedPicto.starred),
 			editors: editedPicto.editors,
 			viewers: editedPicto.viewers,
 			public: editedPicto.public
@@ -259,7 +259,7 @@ export const actions = {
 			viewers: newCollection.viewers ? newCollection.viewers : [],
 			editors: newCollection.editors ? newCollection.editors : [],
 			id: newCollection.id,
-			starred: newCollection.starred
+			starred: JSON.parse(newCollection.starred)
 		});
 	},
 	async editCollection(vuexContext, collection) {
@@ -283,7 +283,7 @@ export const actions = {
 			formData.append("share", collection.share);
 		}
 		if (collection.starred) {
-			formData.append("starred", JSON.stringify(collection.starred));
+			formData.append("starred", collection.starred);
 		}
 		if (collection.image) {
 			formData.append("image", collection.image);
@@ -299,6 +299,7 @@ export const actions = {
 			...editedCollection,
 			...(editedCollection.meaning && { meaning: JSON.parse(editedCollection.meaning) }),
 			...(editedCollection.speech && { speech: JSON.parse(editedCollection.speech) }),
+			...(editedCollection.starred && { speech: JSON.parse(editedCollection.starred) }),
 			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
 		});
 	},

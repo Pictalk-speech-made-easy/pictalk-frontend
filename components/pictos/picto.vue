@@ -235,7 +235,7 @@ export default {
 		},
 		async alternateStar() {
 			try {
-				this.$store.commit(
+				this.$store.dispatch(
 					this.picto.collection ? "editCollection" : "editPicto",
 					{
 						...this.picto,
