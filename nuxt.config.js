@@ -5,7 +5,7 @@ export default {
 	 ** Headers of the page
 	 */
 	publicRuntimeConfig: {
-		apiURL: process.env.API_URL || "http://localhost:3000"
+		apiURL: process.env.API_URL || "http://localhost:3001"
 	},
 	generate: {
 		fallback: true

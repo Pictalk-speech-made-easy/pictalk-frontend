@@ -115,7 +115,7 @@ export default {
 					);
 					if (res.data.image) {
 						res.data.image =
-							this.$config.baseURL +
+							this.$config.apiURL +
 							"/image/pictalk/" +
 							res.data.image;
 					}
@@ -131,7 +131,7 @@ export default {
 					res.data.collections.map((collection) => {
 						if (collection.image) {
 							collection.image =
-								this.$config.baseURL +
+								this.$config.apiURL +
 								"/image/pictalk/" +
 								collection.image;
 						}
@@ -161,7 +161,7 @@ export default {
 					res.data.pictos.map((picto) => {
 						if (picto.image) {
 							picto.image =
-								this.$config.baseURL +
+								this.$config.apiURL +
 								"/image/pictalk/" +
 								picto.image;
 						}
