@@ -32,6 +32,7 @@
             <div v-if="!publicMode && adminMode" class="column">
               <b-button
                 rounded
+                size="is-medium"
                 type="is-success"
                 @click="addPicto()"
                 icon-right="plus"
@@ -40,6 +41,7 @@
             <div v-if="!publicMode" class="column">
               <b-button
                 rounded
+                size="is-medium"
                 type="is-warning"
                 @click="adminModeChoose()"
                 :icon-right="iconIsAdmin"
@@ -253,10 +255,10 @@ export default {
   position: fixed;
 }
 .lessPadding {
-  padding: 0.4rem;
+  padding: 0.38rem;
 }
 .margins {
-  margin-left: 6px;
-  margin-right: 6px;
+  margin-left: 7px;
+  margin-right: 7px;
 }
 </style>
