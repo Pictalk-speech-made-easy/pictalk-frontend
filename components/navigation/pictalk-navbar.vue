@@ -220,6 +220,16 @@ export default {
 			//this.$store.commit('eraseSpeech');
 			return "/pictalk/" + this.$store.getters.getSharedId + this.admin;
 		},
+		getUserLang() {
+			const user = this.$store.getters.getUser;
+			if (user?.language) {
+				return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
+			}
+			if (user?.displayLanguage) {
+				return user.displayLanguage;
+			}
+			return window.navigator.language.replace(/[^a-z]/g, "");
+		},
 	},
 	methods: {
 		notificationGoToCollectionOrReturn(notification) {
@@ -237,7 +247,7 @@ export default {
 		},
 		getNotificationMeaning(notification) {
 			if (notification.meaning) {
-				const meaning = notification?.meaning[this.getUserLang()];
+				const meaning = notification?.meaning[this.getUserLang];
 				if (meaning) {
 					return meaning;
 				} else {
@@ -246,17 +256,6 @@ export default {
 				}
 			} else {
 				return "";
-			}
-		},
-		getUserLang(detailled = false) {
-			const user = this.$store.getters.getUser;
-			const lang = Object.keys(user.language)[0];
-			if (lang && !detailled) {
-				return lang.replace(/[^a-z]/g, "");
-			} else if (lang && detailled) {
-				return lang;
-			} else {
-				return window.navigator.language;
 			}
 		},
 		notificationIcon(notif) {

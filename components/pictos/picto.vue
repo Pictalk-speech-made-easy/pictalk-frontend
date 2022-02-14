@@ -13,7 +13,7 @@
       />
     </div>
     <div class="notification meaning">
-      {{ picto.meaning[getUserLang()] }}
+      {{ picto.meaning[getUserLang] }}
     </div>
     <div v-if="adminMode && !publicMode" class="adminMenu adminoption columns">
       <b-dropdown aria-role="menu" class="column noMargin is-mobile">
@@ -158,16 +158,11 @@ export default {
       if ("speechSynthesis" in window) {
         let voices = window.speechSynthesis.getVoices();
         var msg = new SpeechSynthesisUtterance();
-        msg.text = picto.speech[this.getUserLang()];
+        msg.text = picto.speech[this.getUserLang];
         let voice = voices.filter((voice) => voice.voiceURI == this.voiceURI);
         if (voice.length == 0) {
-          voice = voices.filter(
-            (voice) => voice.lang == this.getUserLang(true)
-          );
-        }
-        if (voice.length == 0) {
           voice = voices.filter((voice) =>
-            voice.lang.includes(this.getUserLang())
+            voice.lang.includes(this.getUserLang)
           );
         }
         if (voice?.length !== 0) {
@@ -182,17 +177,6 @@ export default {
           type: "is-warning",
           hasIcon: true,
         });
-      }
-    },
-    getUserLang(detailled = false) {
-      const user = this.$store.getters.getUser;
-      const lang = Object.keys(user.language)[0];
-      if (lang && !detailled) {
-        return lang.replace(/[^a-z]/g, "");
-      } else if (lang && detailled) {
-        return lang;
-      } else {
-        return window.navigator.language;
       }
     },
     deletePicto() {
@@ -263,8 +247,41 @@ export default {
       );
       return this.$store.getters.getCollections[index];
     },
+    getDeviceInfo() {
+      return (
+        this.getOSInfo() +
+        window.screen.height +
+        window.screen.width +
+        window.devicePixelRatio
+      );
+    },
+    getOSInfo() {
+      if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
+        return "Windows 10";
+      if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
+        return "Windows 8.1";
+      if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
+        return "Windows 8";
+      if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
+        return "Windows 7";
+      if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
+        return "Windows Vista";
+      if (window.navigator.userAgent.indexOf("Mac") != -1) return "Mac/iOS";
+      if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
+      if (window.navigator.userAgent.indexOf("Linux") != -1) return "Linux";
+    },
   },
   computed: {
+    getUserLang() {
+      const user = this.$store.getters.getUser;
+      if (user?.language) {
+        return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
+      }
+      if (user?.displayLanguage) {
+        return user.displayLanguage;
+      }
+      return window.navigator.language.replace(/[^a-z]/g, "");
+    },
     pictoLink() {
       return this.publicMode
         ? String("/public/" + this.picto.id)
@@ -290,6 +307,44 @@ export default {
     isOnline() {
       return window.navigator.onLine;
     },
+  },
+  created() {
+    const allVoicesObtained = new Promise(function (resolve, reject) {
+      try {
+        let voices = window.speechSynthesis.getVoices();
+        if (voices.length !== 0) {
+          resolve(voices);
+        } else {
+          window.speechSynthesis.addEventListener("voiceschanged", function () {
+            try {
+              voices = window.speechSynthesis.getVoices();
+            } catch (err) {
+              reject(err);
+            }
+            if (!voices) {
+              reject();
+            }
+            resolve(voices);
+          });
+        }
+      } catch (err) {
+        reject(err);
+      }
+    });
+    allVoicesObtained.then((voices) => {
+      this.voices = voices;
+      this.voiceURI =
+        this.$store.getters.getUser.language[
+          Object.keys(this.$store.getters.getUser.language)[0]
+        ][this.getDeviceInfo()]?.voiceURI;
+      // Si vide alors remplir avec la premiere valeur equiv a lang
+      if (!this.voiceURI) {
+        this.voiceURI = this.voices.filter(
+          (voice) =>
+            voice.lang == Object.keys(this.$store.getters.getUser.language)[0]
+        )[0]?.voiceURI;
+      }
+    });
   },
 };
 </script>

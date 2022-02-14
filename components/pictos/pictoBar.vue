@@ -99,10 +99,14 @@ export default {
   },
   methods: {
     getEmoji(language) {
+      if (language?.match(/[a-z]{2}_[A-Z]{2}/g)) {
+        language = language.replace("_", "-");
+      }
       if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
         return countryCodeEmoji(language.split("-")[1]);
+      } else {
+        return language;
       }
-      return;
     },
     openTravelerMode(e) {
       if (this.$store.getters.getUser.settings.travelMode) {
@@ -122,7 +126,7 @@ export default {
     },
     getText(pictos) {
       return pictos.reduce(
-        (acc, curr_val) => acc + " " + curr_val.speech[this.getUserLang()],
+        (acc, curr_val) => acc + " " + curr_val.speech[this.getUserLang],
         ""
       );
     },
@@ -215,7 +219,7 @@ export default {
               targetLang: this.convertToSimpleLanguage(
                 this.$store.getters.getTemporaryLanguage
               ),
-              sourceLang: this.getUserLang(),
+              sourceLang: this.getUserLang,
             },
           })
         )?.data?.translation;
@@ -243,13 +247,8 @@ export default {
             (voice) => voice.voiceURI == this.voiceURI
           );
           if (voice.length == 0) {
-            voice = this.voices.filter(
-              (voice) => voice.lang == this.getUserLang(true)
-            );
-          }
-          if (voice.length == 0) {
             voice = this.voices.filter((voice) =>
-              voice.lang.includes(this.getUserLang())
+              voice.lang.includes(this.getUserLang)
             );
           }
         }
@@ -334,19 +333,18 @@ export default {
       }
       return new Blob([ab], { type: "image/png" });
     },
-    getUserLang(detailled = false) {
-      const user = this.$store.getters.getUser;
-      const lang = Object.keys(user.language)[0];
-      if (lang && !detailled) {
-        return lang.replace(/[^a-z]/g, "");
-      } else if (lang && detailled) {
-        return lang;
-      } else {
-        return window.navigator.language;
-      }
-    },
   },
   computed: {
+    getUserLang() {
+      const user = this.$store.getters.getUser;
+      if (user?.language) {
+        return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
+      }
+      if (user?.displayLanguage) {
+        return user.displayLanguage;
+      }
+      return window.navigator.language.replace(/[^a-z]/g, "");
+    },
     cssVars() {
       return {
         "--bg-color": this.collectionColor,

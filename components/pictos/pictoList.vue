@@ -133,8 +133,18 @@ export default {
     },
     getFilteredPictoList() {
       return this.pictos.filter((picto) =>
-        picto.meaning[this.getUserLang()]?.includes(this.search)
+        picto.meaning[this.getUserLang]?.includes(this.search)
       );
+    },
+    getUserLang() {
+      const user = this.$store.getters.getUser;
+      if (user?.language) {
+        return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
+      }
+      if (user?.displayLanguage) {
+        return user.displayLanguage;
+      }
+      return window.navigator.language.replace(/[^a-z]/g, "");
     },
   },
   methods: {
@@ -185,16 +195,6 @@ export default {
         trapFocus: true,
         canCancel: ["escape", "x"],
       });
-    },
-    getUserLang(detailled = false) {
-      const lang = Object.keys(this.$store.getters.getUser?.language ?? {})[0];
-      if (lang && !detailled) {
-        return lang.replace(/[^a-z]/g, "");
-      } else if (lang && detailled) {
-        return lang;
-      } else {
-        return window.navigator.language;
-      }
     },
     async copyCollection() {
       if (this.$store.getters.getCopyCollectionId) {
