@@ -46,13 +46,17 @@ export default {
 						return uri;
 					}
 				}
-				)
+				);
+				if (!this.voiceURI) {
+					this.voiceURI = this.voices.filter((voice) =>
+						voice.lang.includes(this.getUserLang)
+					)[0]?.voiceURI;
+				}
 			} else {
 				this.voiceURI = this.voices.filter(
 					(voice) => voice.lang == this.localeIso()
 				)[0]?.voiceURI;
 			}
-
 		});
 	},
 	methods: {
@@ -116,7 +120,7 @@ export default {
 				this.voiceURIs.splice(oldIndex, 1);
 			}
 			this.voiceURIs.push(v);
-			if (this.initialization == false) {
+			if (!this.initialization) {
 				this.playSentenceInLanguage(
 					this.voices.filter((voice) => voice.voiceURI == v)[0]?.lang,
 					v
@@ -128,7 +132,7 @@ export default {
 				const v = newValue.filter(
 					(ai) => oldValue.indexOf(ai) == -1
 				)[0];
-				if (this.initialization == false) {
+				if (!this.initialization) {
 					this.playSentenceInLanguage(
 						this.voices.filter((voice) => voice.voiceURI == v)[0]
 							?.lang,
@@ -143,7 +147,8 @@ export default {
 			voices: [],
 			voiceURI: "",
 			voiceURIs: [],
-			loadingVoices: true
+			loadingVoices: true,
+			initialization: true
 		}
 	}
 }

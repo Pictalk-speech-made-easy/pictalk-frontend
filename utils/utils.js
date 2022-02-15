@@ -1,3 +1,3 @@
 export function convertToSimpleLanguage(language) {
-	return language.replace(/[^a-z]/g, "");
+	return language?.replace(/[^a-z]/g, "");
 };
