@@ -374,7 +374,7 @@ export default {
       setTimeout(() => {
         let element = document.getElementById("bar");
         element.scrollLeft = element.scrollWidth;
-      }, 100);
+      }, 125);
     },
   },
   data() {
@@ -396,10 +396,9 @@ export default {
   background-color: var(--bg-color);
   position: relative;
   align-items: center;
-  padding: 0.25rem;
 }
 .nopadding {
-  padding: 1%;
+  padding: 0.2rem;
 }
 .scrolling {
   display: flex;

@@ -23,8 +23,7 @@ export default {
 }
 .image {
   margin-top: 0;
-  min-width: 0;
-  max-height: 3.25rem;
-  min-height: 0;
+  max-height: 5.5rem;
+  height: 7vh;
 }
 </style>
