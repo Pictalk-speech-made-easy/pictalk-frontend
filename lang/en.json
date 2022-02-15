@@ -193,5 +193,6 @@
     "OrUploadYourOwn": "Or upload your own",
     "Try": "Try",
     "Pictogram": "Pictogram",
-    "MissingImage": "There is no image to upload"
+    "MissingImage": "There is no image to upload",
+    "NewAddress": "Pictalk new address is: "
 }

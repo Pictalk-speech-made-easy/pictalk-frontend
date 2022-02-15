@@ -41,7 +41,7 @@
 		<div class="container">
 			<b-message type="is-success">
 				<div class="subtitle">
-					{{ $t('OfflinePictalk')}}
+					{{$t('NewAddress')}}<a href="https://www.pictalk.org/">https://www.pictalk.org/</a>
 					</div>
 			</b-message>
 		</div>
