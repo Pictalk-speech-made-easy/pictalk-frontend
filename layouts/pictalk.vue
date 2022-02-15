@@ -41,7 +41,7 @@ export default {
           console.log(err);
         }
       }
-    }, 30000);
+    }, 300000);
   },
   destroyed() {
     clearInterval(this.intervalId);
