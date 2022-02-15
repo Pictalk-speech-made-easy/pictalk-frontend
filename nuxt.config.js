@@ -55,8 +55,7 @@ export default {
 	/*
 	 ** Nuxt.js dev-modules 
 	 */
-	buildModules: [
-	],
+	buildModules: ['nuxt-compress'],
 	sentry: {
 		dsn: "https://6afdc113742e4c309b61a3bd6a64b06b@o1135783.ingest.sentry.io/6187341",
 		config: {
@@ -165,6 +164,8 @@ export default {
 		[
 			"nuxt-cookie-control",
 			{
+				controlButton: false,
+				domain: 'pictalk.org',
 				barPosition: "bottom-right",
 				colors: {
 					barTextColor: "#fff",

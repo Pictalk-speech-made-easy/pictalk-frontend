@@ -11,10 +11,10 @@
     "generate": "nuxt generate"
   },
   "devDependencies": {
-    "@nuxtjs/sentry": "^5.1.7",
     "@nuxtjs/i18n": "^7.2.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/robots": "^2.5.0",
+    "@nuxtjs/sentry": "^5.1.7",
     "@nuxtjs/sitemap": "^2.4.0",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
@@ -32,6 +32,7 @@
     "nuxt": "^2.15.8",
     "nuxt-buefy": "^0.4.10",
     "nuxt-clipboard2": "^0.2.1",
+    "nuxt-compress": "^5.0.0",
     "nuxt-cookie-control": "^1.9.9",
     "nuxt-responsive-loader": "^2.0.1",
     "prettier": "^2.5.1",

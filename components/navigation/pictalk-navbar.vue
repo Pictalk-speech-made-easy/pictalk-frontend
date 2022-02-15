@@ -182,7 +182,11 @@
 	</b-navbar>
 </template>
 <script>
+import lang from "@/mixins/lang";
+import navbar from "@/mixins/navbar";
+import enforcedSecurity from "@/mixins/enforcedSecurity";
 export default {
+	mixins: [lang, navbar, enforcedSecurity],
 	computed: {
 		getUserNotifications() {
 			if (this.$store.getters.getUser?.notifications) {
@@ -219,16 +223,6 @@ export default {
 		sharedLink() {
 			//this.$store.commit('eraseSpeech');
 			return "/pictalk/" + this.$store.getters.getSharedId + this.admin;
-		},
-		getUserLang() {
-			const user = this.$store.getters.getUser;
-			if (user?.language) {
-				return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
-			}
-			if (user?.displayLanguage) {
-				return user.displayLanguage;
-			}
-			return window.navigator.language.replace(/[^a-z]/g, "");
 		},
 	},
 	methods: {
@@ -281,28 +275,6 @@ export default {
 		deleteUserNotifications() {
 			this.$store.dispatch("deleteNotifications");
 		},
-		async refreshPictos() {
-			try {
-				await this.$store.dispatch("downloadCollections");
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("PictosFetched"),
-					position: "is-top-right",
-					type: "is-success",
-					hasIcon: true,
-					icon: "refresh",
-				});
-			} catch (err) {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("ServerOffline"),
-					position: "is-top-right",
-					type: "is-danger",
-					hasIcon: true,
-					icon: "danger",
-				});
-			}
-		},
 		eraseSpeech() {
 			this.$store.commit("eraseSpeech");
 			if (this.$store.getters.getRootId) {
@@ -312,31 +284,6 @@ export default {
 			} else {
 				this.$router.push("/pictalk" + this.admin);
 			}
-		},
-		onLogout() {
-			const a = Math.floor(Math.random() * 10 + 1);
-			const b = Math.floor(Math.random() * 10 + 1);
-			const res = a + b;
-			this.$buefy.dialog.prompt({
-				message:
-					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
-				inputAttrs: {
-					type: "number",
-					placeholder: this.$t("SupervisorModeInput"),
-					value: "",
-					maxlength: 2,
-					min: 0,
-					max: 20,
-				},
-				trapFocus: true,
-				onConfirm: (value) => {
-					if (value == res) {
-						this.$store.dispatch("logout");
-						this.$router.push("/");
-					}
-					return;
-				},
-			});
 		},
 	},
 };

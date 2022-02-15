@@ -14,8 +14,9 @@
 	</div>
 </template>
 <script>
-import { countryCodeEmoji } from "country-code-emoji";
+import emoji from "@/mixins/emoji";
 export default {
+	mixins: [emoji],
 	data() {
 		return {
 			languages: [
@@ -47,16 +48,6 @@ export default {
 		};
 	},
 	methods: {
-		getEmoji(language) {
-			if (language?.match(/[a-z]{2}_[A-Z]{2}/g)) {
-				language = language.replace("_", "-");
-			}
-			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-				return countryCodeEmoji(language.split("-")[1]);
-			} else {
-				return language;
-			}
-		},
 		setTemporaryLanguage(language) {
 			this.$store.commit("setTemporaryLanguage", language);
 			this.$parent.close();

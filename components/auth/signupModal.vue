@@ -293,16 +293,23 @@
 
 <script>
 import axios from "axios";
-import { countryCodeEmoji } from "country-code-emoji";
-import frenchFries from "@/assets/frenchFries.json";
+import lang from "@/mixins/lang";
+import sharers from "@/mixins/sharers";
+import tts from "@/mixins/tts";
+import deviceInfos from "@/mixins/deviceInfos";
+import emoji from "@/mixins/emoji";
+import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
-	computed: {
-		loadedVoices() {
-			return this.voices.sort((x, y) => {
-				let a = x.lang.toUpperCase(),
-					b = y.lang.toUpperCase();
-				return a == b ? 0 : a > b ? 1 : -1;
-			});
+	mixins: [deviceInfos, emoji, tts, lang, sharers],
+	props: {
+		recoverCode: {
+			type: Boolean,
+			required: false,
+			default: () => false,
+		},
+		credentials: {
+			type: Object,
+			required: false,
 		},
 	},
 	data() {
@@ -340,224 +347,24 @@ export default {
 			],
 		};
 	},
-	async created() {
-		const allVoicesObtained = new Promise(function (resolve, reject) {
-			try {
-				let voices = window.speechSynthesis.getVoices();
-				if (voices.length !== 0) {
-					resolve(voices);
-				} else {
-					window.speechSynthesis.addEventListener(
-						"voiceschanged",
-						function () {
-							try {
-								voices = window.speechSynthesis.getVoices();
-							} catch (err) {
-								reject(err);
-							}
-							if (!voices) {
-								reject();
-							}
-							resolve(voices);
-						}
-					);
-				}
-			} catch (err) {
-				reject(err);
-			}
-		});
-		allVoicesObtained.then((voices) => {
-			console.log(voices);
-			console.log(this.localeIso());
-			this.voices = voices;
-			this.voiceURI = this.voices.filter(
-				(voice) => voice.lang == this.localeIso()
-			)[0]?.voiceURI;
-			this.loadingVoices = false;
-		});
-	},
-	watch: {
-		voiceURI: {
-			handler: function (v) {
-				this.voiceURIs = [];
-				this.voiceURIs.push(v);
-				if (!this.loadingVoices && !this.initialization) {
-					this.playSentenceInLanguage(
-						this.voices.filter((voice) => voice.voiceURI == v)[0]
-							?.lang,
-						v
-					);
-				}
-			},
-			deep: true,
-		},
-		voiceURIs(newValue, oldValue) {
-			if (newValue.length > oldValue.length && newValue.length > 1) {
-				const v = newValue.filter(
-					(ai) => oldValue.indexOf(ai) == -1
-				)[0];
-				if (!this.loadingVoices && !this.initialization) {
-					this.playSentenceInLanguage(
-						this.voices.filter((voice) => voice.voiceURI == v)[0]
-							?.lang,
-						v
-					);
-				}
-			}
-		},
-	},
 	beforeUpdate() {
 		this.initialization = false;
 	},
+	created() {
+		if (this.recoverCode) {
+			this.notSignedUp = false;
+			this.maxStep = 4;
+			this.activeStep = 4;
+			this.username = this.credentials.username;
+			this.password = this.credentials.password;
+		}
+	},
 	methods: {
-		async pushToSharers() {
-			const index = this.directSharers.indexOf(this.addDirectSharer);
-			if (index === -1) {
-				if (
-					/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-						this.addDirectSharer
-					)
-				) {
-					try {
-						this.loading = true;
-						const res = await this.$store.dispatch("userExists", {
-							username: this.addDirectSharer,
-						});
-						if (res) {
-							this.directSharers.push(this.addDirectSharer);
-							this.directSharersObj.push({
-								username: this.addDirectSharer,
-							});
-						} else {
-							this.$buefy.toast.open({
-								duration: 5000,
-								message: this.$t("UserNotExists"),
-								position: "is-top",
-								type: "is-danger",
-							});
-						}
-					} catch (err) {
-						this.$buefy.toast.open({
-							message: this.$t("SomeThingBadHappened"),
-							type: "is-danger",
-						});
-					}
-					this.loading = false;
-				} else {
-					this.$buefy.toast.open({
-						duration: 5000,
-						message: this.$t("EmailPlease"),
-						position: "is-top",
-						type: "is-danger",
-					});
-				}
-			} else {
-				this.$buefy.toast.open({
-					duration: 5000,
-					message: this.$t("DuplicateFriends"),
-					position: "is-top",
-					type: "is-danger",
-				});
-			}
-		},
-		removeFromSharers() {
-			const index = this.directSharers.indexOf(this.selected.username);
-			if (index !== -1) {
-				this.directSharers.splice(index);
-				this.directSharersObj.splice(index);
-			} else {
-				this.$buefy.toast.open({
-					duration: 5000,
-					message: this.$t("CannotRemoveFriends"),
-					position: "is-top",
-					type: "is-danger",
-				});
-			}
-		},
 		nextStep() {
 			this.activeStep += 1;
 		},
 		previousStep() {
 			this.activeStep -= 1;
-		},
-		localeIso() {
-			return this.$i18n.locales.filter(
-				(i) => i.code == this.$i18n.locale
-			)[0].iso;
-		},
-		convertToSimpleLanguage(language) {
-			return language?.replace(/[^a-z]/g, "");
-		},
-		getDeviceInfo() {
-			return (
-				this.getOSInfo() +
-				window.screen.height +
-				window.screen.width +
-				window.devicePixelRatio
-			);
-		},
-		getOSInfo() {
-			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
-				return "Windows 10";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
-				return "Windows 8.1";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
-				return "Windows 8";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
-				return "Windows 7";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
-				return "Windows Vista";
-			if (window.navigator.userAgent.indexOf("Mac") != -1)
-				return "Mac/iOS";
-			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
-			if (window.navigator.userAgent.indexOf("Linux") != -1)
-				return "Linux";
-		},
-		async playSentenceInLanguage(lang, voiceURI) {
-			let translatedText =
-				frenchFries[this.convertToSimpleLanguage(lang)];
-			this.pronounce(translatedText, lang, voiceURI);
-		},
-		localeCode() {
-			return this.$i18n.locales.filter(
-				(i) => i.code == this.$i18n.locale
-			)[0].code;
-		},
-		async pronounce(speech, lang, voiceURI) {
-			if ("speechSynthesis" in window) {
-				var msg = new SpeechSynthesisUtterance();
-				msg.text = speech;
-				let voice = this.voices.filter(
-					(voice) => voice.voiceURI == voiceURI
-				);
-				if (voice.length == 0) {
-					voice = this.voices.filter((voice) =>
-						voice.lang.includes(lang)
-					);
-				}
-				if (voice.length !== 0) {
-					msg.voice = voice[0];
-				}
-				window.speechSynthesis.speak(msg);
-			} else {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("NoVoicesFound"),
-					position: "is-top-right",
-					type: "is-warning",
-					hasIcon: true,
-				});
-			}
-		},
-		getEmoji(language) {
-			if (language?.match(/[a-z]{2}_[A-Z]{2}/g)) {
-				language = language.replace("_", "-");
-			}
-			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-				return countryCodeEmoji(language.split("-")[1]);
-			} else {
-				return language;
-			}
 		},
 		async onSubmit() {
 			if (
@@ -599,7 +406,7 @@ export default {
 				pitch: "",
 			};
 			language[
-				this.convertToSimpleLanguage(
+				convertToSimpleLanguage(
 					this.voices.filter(
 						(voice) => voice.voiceURI == this.voiceURI
 					)[0]?.lang
@@ -612,7 +419,7 @@ export default {
 					pitch: "",
 				};
 				languages[
-					this.convertToSimpleLanguage(
+					convertToSimpleLanguage(
 						this.voices.filter(
 							(voice) => voice.voiceURI == voiceURI
 						)[0]?.lang

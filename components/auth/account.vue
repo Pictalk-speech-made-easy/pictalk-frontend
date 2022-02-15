@@ -236,20 +236,21 @@
 	</div>
 </template>
 <script>
-import { countryCodeEmoji } from "country-code-emoji";
 import merge from "lodash.merge";
-import frenchFries from "@/assets/frenchFries.json";
 import addGroupModal from "@/components/auth/addGroupModal";
+import deviceInfos from "@/mixins/deviceInfos";
+import emoji from "@/mixins/emoji";
+import tts from "@/mixins/tts";
+import lang from "@/mixins/lang";
+import sharers from "@/mixins/sharers";
+import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
+	mixins: [deviceInfos, emoji, tts, lang, sharers],
 	computed: {
 		getMailingList() {
 			return this.$store.getters.getUser.mailingList.length;
 		},
-		availableLocales() {
-			return this.$i18n.locales.filter(
-				(i) => i.code !== this.$i18n.locale
-			);
-		},
+
 		displayVoicesOrMultiLingual() {
 			return (
 				this.displayVoices ||
@@ -258,39 +259,6 @@ export default {
 		},
 		userMultiLingual() {
 			return Object.keys(this.user.languages).length > 1;
-		},
-		requestsPercentage() {
-			if (this.nb_requests == 0 && this.dl_launched == false) {
-				return 0;
-			} else {
-				if (this.dl_launched == true && this.nb_requests == 0) {
-					return 100;
-				} else {
-					return (this.done_requests / this.nb_requests) * 100;
-				}
-			}
-		},
-		loadedVoices() {
-			return this.voices.sort((x, y) => {
-				let a = x.lang.toUpperCase(),
-					b = y.lang.toUpperCase();
-				return a == b ? 0 : a > b ? 1 : -1;
-			});
-		},
-		loadedVoicesWithFilter() {
-			return this.loadedVoices.filter((voice) =>
-				voice.lang.includes(this.localeCode())
-			);
-		},
-		getUserLang() {
-			const user = this.$store.getters.getUser;
-			if (user?.language) {
-				return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
-			}
-			if (user?.displayLanguage) {
-				return user.displayLanguage;
-			}
-			return window.navigator.language.replace(/[^a-z]/g, "");
 		},
 	},
 	props: {
@@ -338,184 +306,16 @@ export default {
 			);
 			console.log(this.mailingList);
 		},
-		voiceURI: function (v, oldVoice) {
-			const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
-			if (oldIndex != -1) {
-				this.voiceURIs.splice(oldIndex, 1);
-			}
-			this.voiceURIs.push(v);
-			if (this.initialization == false) {
-				this.playSentenceInLanguage(
-					this.voices.filter((voice) => voice.voiceURI == v)[0]?.lang,
-					v
-				);
-			}
-		},
-		voiceURIs: function (newValue, oldValue) {
-			if (newValue.length > oldValue.length && newValue.length > 1) {
-				const v = newValue.filter(
-					(ai) => oldValue.indexOf(ai) == -1
-				)[0];
-				if (this.initialization == false) {
-					this.playSentenceInLanguage(
-						this.voices.filter((voice) => voice.voiceURI == v)[0]
-							?.lang,
-						v
-					);
-				}
-			}
-		},
 	},
 	beforeUpdate() {
 		this.initialization = false;
 		//TODO Quand on en cree ça n'est plus visible ... this.mailingList = [...this.user.mailingList];
 	},
-	async created() {
-		const allVoicesObtained = new Promise(function (resolve, reject) {
-			try {
-				let voices = window.speechSynthesis.getVoices();
-				if (voices.length !== 0) {
-					resolve(voices);
-				} else {
-					window.speechSynthesis.addEventListener(
-						"voiceschanged",
-						function () {
-							try {
-								voices = window.speechSynthesis.getVoices();
-							} catch (err) {
-								reject(err);
-							}
-							if (!voices) {
-								reject();
-							}
-							resolve(voices);
-						}
-					);
-				}
-			} catch (err) {
-				reject(err);
-			}
-		});
-		allVoicesObtained.then((voices) => {
-			this.voices = voices;
-			this.loadingVoices = false;
-			this.voiceURI =
-				this.user.language[this.getUserLang][
-					this.getDeviceInfo()
-				]?.voiceURI;
-			this.voiceURIs = Object.keys(this.user.languages).map((lang) => {
-				let uri =
-					this.user.languages[lang][this.getDeviceInfo()]?.voiceURI;
-				if (!uri) {
-					return this.voices.filter((voice) =>
-						voice.lang.includes(this.getUserLang)
-					)[0]?.voiceURI;
-				} else {
-					return uri;
-				}
-			});
-			// Si vide alors remplir avec la premiere valeur equiv a lang
-			if (!this.voiceURI) {
-				this.voiceURI = this.voices.filter((voice) =>
-					voice.lang.includes(this.getUserLang)
-				)[0]?.voiceURI;
-			}
-			this.voiceURIs = Object.keys(this.user.languages).map(
-				(lang, index) => {
-					if (this.voiceURIs[index]) {
-						return this.voiceURIs[index];
-					} else {
-						return this.voices.filter(
-							(voice) => voice.lang == lang
-						)[0]?.voiceURI;
-					}
-				}
-			);
-		});
+	created() {
 		this.directSharers = [...this.user.directSharers];
 		this.mailingList = [...this.user.mailingList];
 	},
 	methods: {
-		async pushToSharers() {
-			const index = this.directSharers.indexOf(this.addDirectSharer);
-			if (index === -1) {
-				if (
-					/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-						this.addDirectSharer
-					)
-				) {
-					if (
-						this.addDirectSharer !=
-						this.$store.getters.getUser.username
-					) {
-						try {
-							this.loading = true;
-							const res = await this.$store.dispatch(
-								"userExists",
-								{
-									username: this.addDirectSharer,
-								}
-							);
-							if (res) {
-								this.directSharers.push(this.addDirectSharer);
-								this.directSharersObj.push({
-									username: this.addDirectSharer,
-								});
-							} else {
-								this.$buefy.toast.open({
-									duration: 5000,
-									message: this.$t("UserNotExists"),
-									position: "is-top",
-									type: "is-danger",
-								});
-							}
-						} catch (err) {
-							this.$buefy.toast.open({
-								message: this.$t("SomeThingBadHappened"),
-								type: "is-danger",
-							});
-						}
-
-						this.loading = false;
-					} else {
-						this.$buefy.toast.open({
-							duration: 5000,
-							message: this.$t("NotFriendYourself"),
-							position: "is-top",
-							type: "is-danger",
-						});
-					}
-				} else {
-					this.$buefy.toast.open({
-						duration: 5000,
-						message: this.$t("EmailPlease"),
-						position: "is-top",
-						type: "is-danger",
-					});
-				}
-			} else {
-				this.$buefy.toast.open({
-					duration: 5000,
-					message: this.$t("DuplicateFriends"),
-					position: "is-top",
-					type: "is-danger",
-				});
-			}
-		},
-		removeFromSharers() {
-			const index = this.directSharers.indexOf(this.selected.username);
-			if (index !== -1) {
-				this.directSharers.splice(index);
-				this.directSharersObj.splice(index);
-			} else {
-				this.$buefy.toast.open({
-					duration: 5000,
-					message: this.$t("CannotRemoveFriends"),
-					position: "is-top",
-					type: "is-danger",
-				});
-			}
-		},
 		openAddGroupModal(group, index) {
 			this.$buefy.modal.open({
 				parent: this,
@@ -526,77 +326,8 @@ export default {
 				trapFocus: true,
 			});
 		},
-		localeIso() {
-			return this.$i18n.locales.filter(
-				(i) => i.code == this.$i18n.locale
-			)[0].iso;
-		},
-		localeCode() {
-			return this.$i18n.locales.filter(
-				(i) => i.code == this.$i18n.locale
-			)[0].code;
-		},
-		getDeviceInfo() {
-			return (
-				this.getOSInfo() +
-				window.screen.height +
-				window.screen.width +
-				window.devicePixelRatio
-			);
-		},
 		getLimitedUserList(group) {
 			return group?.users?.slice(0, 10);
-		},
-		getOSInfo() {
-			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
-				return "Windows 10";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
-				return "Windows 8.1";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
-				return "Windows 8";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
-				return "Windows 7";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
-				return "Windows Vista";
-			if (window.navigator.userAgent.indexOf("Mac") != -1)
-				return "Mac/iOS";
-			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
-			if (window.navigator.userAgent.indexOf("Linux") != -1)
-				return "Linux";
-		},
-		convertToSimpleLanguage(language) {
-			return language.replace(/[^a-z]/g, "");
-		},
-		async playSentenceInLanguage(lang, voiceURI) {
-			let translatedText =
-				frenchFries[this.convertToSimpleLanguage(lang)];
-			this.pronounce(translatedText, lang, voiceURI);
-		},
-		async pronounce(speech, lang, voiceURI) {
-			if ("speechSynthesis" in window) {
-				var msg = new SpeechSynthesisUtterance();
-				msg.text = speech;
-				let voice = this.voices.filter(
-					(voice) => voice.voiceURI == voiceURI
-				);
-				if (voice.length == 0) {
-					voice = this.voices.filter((voice) =>
-						voice.lang.includes(lang)
-					); //TODO voice.lang includes on all
-				}
-				if (voice.length !== 0) {
-					msg.voice = voice[0];
-				}
-				window.speechSynthesis.speak(msg);
-			} else {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("NoVoicesFound"),
-					position: "is-top-right",
-					type: "is-warning",
-					hasIcon: true,
-				});
-			}
 		},
 		showDirectSharerInput() {
 			this.showDirectSharerInputText = !this.showDirectSharerInputText;
@@ -607,41 +338,6 @@ export default {
 				this.directSharers.splice(index, 1);
 			});
 		},
-		getEmoji(language) {
-			if (language?.match(/[a-z]{2}_[A-Z]{2}/g)) {
-				language = language.replace("_", "-");
-			}
-			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-				return countryCodeEmoji(language.split("-")[1]);
-			} else {
-				return language;
-			}
-		},
-		addRetry(cache, url, retries = 3, backoff = 300) {
-			return cache
-				.add(url)
-				.then(() => {
-					this.done_requests++;
-					return;
-				})
-				.catch(() => {
-					if (retries > 0) {
-						setTimeout(() => {
-							return this.addRetry(
-								cache,
-								url,
-								retries - 1,
-								backoff * 2
-							);
-						}, backoff);
-					} else {
-						console.log("Network disconnected !");
-					}
-				});
-		},
-		convertToSimpleLanguage(language) {
-			return language?.replace(/[^a-z]/g, "");
-		},
 		async onSave() {
 			let device = {};
 			let language = {};
@@ -651,7 +347,7 @@ export default {
 				voiceURI: this.voiceURI,
 				pitch: "",
 			};
-			const languageLang = this.convertToSimpleLanguage(
+			const languageLang = convertToSimpleLanguage(
 				this.voices.filter(
 					(voice) => voice.voiceURI == this.voiceURI
 				)[0]?.lang
@@ -681,7 +377,7 @@ export default {
 					pitch: "",
 				};
 				languages[
-					this.convertToSimpleLanguage(
+					convertToSimpleLanguage(
 						this.voices.filter(
 							(voice) => voice.voiceURI == voiceURI
 						)[0]?.lang

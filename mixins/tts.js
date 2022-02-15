@@ -1,0 +1,149 @@
+import frenchFries from "@/assets/frenchFries.json";
+import { convertToSimpleLanguage } from "@/utils/utils";
+export default {
+	created: function () {
+		const allVoicesObtained = new Promise(function (resolve, reject) {
+			try {
+				let voices = window.speechSynthesis.getVoices();
+				if (voices.length !== 0) {
+					resolve(voices);
+				} else {
+					window.speechSynthesis.addEventListener(
+						"voiceschanged",
+						function () {
+							try {
+								voices = window.speechSynthesis.getVoices();
+							} catch (err) {
+								reject(err);
+							}
+							if (!voices) {
+								reject();
+							}
+							resolve(voices);
+						}
+					);
+				}
+			} catch (err) {
+				reject(err);
+			}
+		});
+		allVoicesObtained.then((voices) => {
+			this.voices = voices;
+			this.loadingVoices = false;
+			if (this.user) {
+				this.voiceURI =
+					this.user.language[this.getUserLang][
+						this.getDeviceInfo()
+					]?.voiceURI;
+				this.voiceURIs = Object.keys(this.user.languages).map((lang) => {
+					let uri =
+						this.user.languages[lang][this.getDeviceInfo()]?.voiceURI;
+					if (!uri) {
+						return this.voices.filter((voice) =>
+							voice.lang.includes(this.getUserLang)
+						)[0]?.voiceURI;
+					} else {
+						return uri;
+					}
+				}
+				)
+			} else {
+				this.voiceURI = this.voices.filter(
+					(voice) => voice.lang == this.localeIso()
+				)[0]?.voiceURI;
+			}
+
+		});
+	},
+	methods: {
+		async pronounce(speech, lang, voiceURI) {
+			if ("speechSynthesis" in window) {
+				var msg = new SpeechSynthesisUtterance();
+				if (this.$store.getters.getTemporaryLanguage) {
+					msg.text = await this.getTranslatedText(pictos);
+					voice = this.voices.filter((voice) =>
+						voice.lang.includes(this.$store.getters.getTemporaryLanguage)
+					);
+				} else {
+					msg.text = speech;
+				}
+				let voice = this.voices.filter(
+					(voice) => voice.voiceURI == voiceURI
+				);
+				if (voice.length == 0) {
+					voice = this.voices.filter((voice) =>
+						voice.lang.includes(lang)
+					);
+				}
+				if (voice.length !== 0) {
+					msg.voice = voice[0];
+				}
+				window.speechSynthesis.speak(msg);
+			} else {
+				const notif = this.$buefy.notification.open({
+					duration: 5000,
+					message: this.$t("NoVoicesFound"),
+					position: "is-top-right",
+					type: "is-warning",
+					hasIcon: true,
+				});
+			}
+		},
+		async playSentenceInLanguage(lang, voiceURI) {
+			let translatedText =
+				frenchFries[convertToSimpleLanguage(lang)];
+			this.pronounce(translatedText, lang, voiceURI);
+		},
+	},
+	computed: {
+		loadedVoices() {
+			return this.voices.sort((x, y) => {
+				let a = x.lang.toUpperCase(),
+					b = y.lang.toUpperCase();
+				return a == b ? 0 : a > b ? 1 : -1;
+			});
+		},
+		loadedVoicesWithFilter() {
+			return this.loadedVoices.filter((voice) =>
+				voice.lang.includes(this.localeCode())
+			);
+		},
+	},
+	watch: {
+		voiceURI: function (v, oldVoice) {
+			const oldIndex = this.voiceURIs.findIndex((uri) => uri == oldVoice);
+			if (oldIndex != -1) {
+				this.voiceURIs.splice(oldIndex, 1);
+			}
+			this.voiceURIs.push(v);
+			if (this.initialization == false) {
+				this.playSentenceInLanguage(
+					this.voices.filter((voice) => voice.voiceURI == v)[0]?.lang,
+					v
+				);
+			}
+		},
+		voiceURIs: function (newValue, oldValue) {
+			if (newValue.length > oldValue.length && newValue.length > 1) {
+				const v = newValue.filter(
+					(ai) => oldValue.indexOf(ai) == -1
+				)[0];
+				if (this.initialization == false) {
+					this.playSentenceInLanguage(
+						this.voices.filter((voice) => voice.voiceURI == v)[0]
+							?.lang,
+						v
+					);
+				}
+			}
+		},
+	},
+	data: function () {
+		return {
+			voices: [],
+			voiceURI: "",
+			voiceURIs: [],
+			loadingVoices: true
+		}
+	}
+}

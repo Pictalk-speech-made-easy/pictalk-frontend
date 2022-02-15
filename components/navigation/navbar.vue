@@ -88,10 +88,14 @@
 </template>
 
 <script>
-import { countryCodeEmoji } from "country-code-emoji";
+import lang from "@/mixins/lang";
+import navbar from "@/mixins/navbar";
+import emoji from "@/mixins/emoji";
+import enforcedSecurity from "@/mixins/enforcedSecurity";
 import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
 export default {
+	mixins: [lang, emoji, navbar, enforcedSecurity],
 	data() {
 		return {
 			trueValue: true,
@@ -112,47 +116,6 @@ export default {
 		},
 	},
 	methods: {
-		localeIso() {
-			return this.$i18n.locales.filter(
-				(i) => i.code == this.$i18n.locale
-			)[0].iso;
-		},
-		getEmoji(language) {
-			if (language?.match(/[a-z]{2}_[A-Z]{2}/g)) {
-				language = language.replace("_", "-");
-			}
-			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-				return countryCodeEmoji(language.split("-")[1]);
-			} else {
-				return language;
-			}
-		},
-		onLogout() {
-			const a = Math.floor(Math.random() * 10 + 1);
-			const b = Math.floor(Math.random() * 10 + 1);
-			const res = a + b;
-			this.$buefy.dialog.prompt({
-				message:
-					this.$t("SupervisorModeQuestion") + " : " + `${a} + ${b} ?`,
-				inputAttrs: {
-					type: "number",
-					placeholder: this.$t("SupervisorModeInput"),
-					value: "",
-					maxlength: 2,
-					min: 0,
-					max: 20,
-				},
-				trapFocus: true,
-				onConfirm: (value) => {
-					if (value == res) {
-						this.$store.dispatch("logout");
-						this.$router.push("/");
-					}
-					return;
-				},
-			});
-		},
-
 		openSignInModal() {
 			this.$buefy.modal.open({
 				parent: this,

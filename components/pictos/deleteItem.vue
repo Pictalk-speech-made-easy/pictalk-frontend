@@ -51,7 +51,9 @@
 	</div>
 </template>
 <script>
+import lang from "@/mixins/lang";
 export default {
+	mixins: [lang],
 	props: {
 		object: {
 			type: Object,
@@ -62,18 +64,6 @@ export default {
 		return {
 			meaningOrName: "",
 		};
-	},
-	computed: {
-		getUserLang() {
-			const user = this.$store.getters.getUser;
-			if (user?.language) {
-				return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
-			}
-			if (user?.displayLanguage) {
-				return user.displayLanguage;
-			}
-			return window.navigator.language.replace(/[^a-z]/g, "");
-		},
 	},
 	methods: {
 		async onSubmitted(name) {

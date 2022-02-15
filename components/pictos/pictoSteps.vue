@@ -218,7 +218,9 @@
 								icon-right="message"
 								@click="
 									pronounce(
-										picto.speech[languageSelectorSpeech]
+										picto.speech[languageSelectorSpeech],
+										getUserLang(),
+										voiceURI
 									)
 								"
 							></b-button>
@@ -302,8 +304,12 @@
 const jpegasus = require("jpegasus");
 import axios from "axios";
 import Webpicto from "@/components/pictos/webpicto";
-import { countryCodeEmoji } from "country-code-emoji";
+import lang from "@/mixins/lang";
+import emoji from "@/mixins/emoji";
+import tts from "@/mixins/tts";
+import deviceInfos from "@/mixins/deviceInfos";
 export default {
+	mixins: [emoji, lang, tts, deviceInfos],
 	name: "PictoSteps",
 	components: {
 		Webpicto,
@@ -348,16 +354,6 @@ export default {
 		getAllUserLanguages() {
 			return Object.keys(this.$store.getters.getUser.languages);
 		},
-		getUserLang() {
-			const user = this.$store.getters.getUser;
-			if (user?.language) {
-				return Object.keys(user.language)[0].replace(/[^a-z]/g, "");
-			}
-			if (user?.displayLanguage) {
-				return user.displayLanguage;
-			}
-			return window.navigator.language.replace(/[^a-z]/g, "");
-		},
 	},
 	data() {
 		return {
@@ -383,122 +379,16 @@ export default {
 	},
 	created() {
 		this.languageSelectorSpeech = this.getUserLang;
-		const allVoicesObtained = new Promise(function (resolve, reject) {
-			try {
-				let voices = window.speechSynthesis.getVoices();
-				if (voices.length !== 0) {
-					resolve(voices);
-				} else {
-					window.speechSynthesis.addEventListener(
-						"voiceschanged",
-						function () {
-							try {
-								voices = window.speechSynthesis.getVoices();
-							} catch (err) {
-								reject(err);
-							}
-							if (!voices) {
-								reject();
-							}
-							resolve(voices);
-						}
-					);
-				}
-			} catch (err) {
-				reject(err);
-			}
-		});
-		allVoicesObtained.then((voices) => {
-			this.voices = voices;
-			this.voiceURI =
-				this.$store.getters.getUser.language[
-					Object.keys(this.$store.getters.getUser.language)[0]
-				][this.getDeviceInfo()]?.voiceURI;
-			// Si vide alors remplir avec la premiere valeur equiv a lang
-			if (!this.voiceURI) {
-				this.voiceURI = this.voices.filter(
-					(voice) =>
-						voice.lang ==
-						Object.keys(this.$store.getters.getUser.language)[0]
-				)[0]?.voiceURI;
-			}
-		});
 	},
 	methods: {
 		switchSpeechLanguage(language) {
 			this.languageSelectorSpeech = language;
-		},
-		getEmoji(language) {
-			if (language?.match(/[a-z]{2}_[A-Z]{2}/g)) {
-				language = language.replace("_", "-");
-			}
-			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
-				return countryCodeEmoji(language.split("-")[1]);
-			} else {
-				return language;
-			}
 		},
 		nextStep() {
 			this.activeStep += 1;
 		},
 		previousStep() {
 			this.activeStep -= 1;
-		},
-		async pronounce(speech) {
-			if ("speechSynthesis" in window) {
-				var msg = new SpeechSynthesisUtterance();
-				msg.text = speech;
-				console.log(this.$store.getters.getUser.languages);
-				let voice = this.voices.filter(
-					(voice) =>
-						voice.voiceURI ==
-						this.$store.getters.getUser.languages[
-							this.languageSelectorSpeech
-						][this.getDeviceInfo()]?.voiceURI
-				);
-				if (voice.length == 0) {
-					voice = this.voices.filter(
-						(voice) => voice.lang == this.languageSelectorSpeech
-					);
-				}
-				if (voice.length !== 0) {
-					msg.voice = voice[0];
-				}
-				window.speechSynthesis.speak(msg);
-			} else {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("NoVoicesFound"),
-					position: "is-top-right",
-					type: "is-warning",
-					hasIcon: true,
-				});
-			}
-		},
-		getDeviceInfo() {
-			return (
-				this.getOSInfo() +
-				window.screen.height +
-				window.screen.width +
-				window.devicePixelRatio
-			);
-		},
-		getOSInfo() {
-			if (window.navigator.userAgent.indexOf("Windows NT 10.0") != -1)
-				return "Windows 10";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.3") != -1)
-				return "Windows 8.1";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.2") != -1)
-				return "Windows 8";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.1") != -1)
-				return "Windows 7";
-			if (window.navigator.userAgent.indexOf("Windows NT 6.0") != -1)
-				return "Windows Vista";
-			if (window.navigator.userAgent.indexOf("Mac") != -1)
-				return "Mac/iOS";
-			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
-			if (window.navigator.userAgent.indexOf("Linux") != -1)
-				return "Linux";
 		},
 		async onSubmitted(isCollection = false) {
 			let cfile;
