@@ -134,32 +134,10 @@ export default {
 				});
 			} catch (e) {
 				console.log(e);
-				await this.$copyText(b64);
+				await this.$copsyText(b64);
 				const notif = this.$buefy.toast.open({
 					duration: 5000,
 					message: this.$t("CopyError"),
-					type: "is-danger",
-				});
-			}
-		},
-		async getTranslatedText(pictos) {
-			try {
-				return (
-					await axios.get("/translation/", {
-						params: {
-							text: this.getText(pictos),
-							targetLang: convertToSimpleLanguage(
-								this.$store.getters.getTemporaryLanguage
-							),
-							sourceLang: this.getUserLang,
-						},
-					})
-				)?.data?.translation;
-			} catch (err) {
-				console.log(err);
-				const notif = this.$buefy.toast.open({
-					duration: 5000,
-					message: this.$t("TraductionError"),
 					type: "is-danger",
 				});
 			}

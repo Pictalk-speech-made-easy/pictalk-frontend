@@ -1,5 +1,6 @@
 import frenchFries from "@/assets/frenchFries.json";
 import { convertToSimpleLanguage } from "@/utils/utils";
+import axios from "axios";
 export default {
 	created: function () {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -60,11 +61,33 @@ export default {
 		});
 	},
 	methods: {
+		async getTranslatedText(speech) {
+			try {
+				return (
+					await axios.get("/translation/", {
+						params: {
+							text: speech,
+							targetLang: convertToSimpleLanguage(
+								this.$store.getters.getTemporaryLanguage
+							),
+							sourceLang: this.getUserLang,
+						},
+					})
+				)?.data?.translation;
+			} catch (err) {
+				console.log(err);
+				const notif = this.$buefy.toast.open({
+					duration: 5000,
+					message: this.$t("TraductionError"),
+					type: "is-danger",
+				});
+			}
+		},
 		async pronounce(speech, lang, voiceURI) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
 				if (this.$store.getters.getTemporaryLanguage) {
-					msg.text = await this.getTranslatedText(pictos);
+					msg.text = await this.getTranslatedText(speech);
 					voice = this.voices.filter((voice) =>
 						voice.lang.includes(this.$store.getters.getTemporaryLanguage)
 					);
