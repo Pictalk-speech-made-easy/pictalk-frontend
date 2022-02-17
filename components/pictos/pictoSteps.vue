@@ -219,7 +219,7 @@
 								@click="
 									pronounce(
 										picto.speech[languageSelectorSpeech],
-										getUserLang(),
+										getUserLang,
 										voiceURI
 									)
 								"

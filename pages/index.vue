@@ -1,15 +1,40 @@
 <template>
 	<div>
-		<div class="container">
-				<b-image alt="A little boy talking thanks to Pictalk"
+		<div class="container is-max-widescreen">
+			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade">
+        <b-carousel-item class="containing">
+            <b-image  alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
 				:lazy="false"
 				></b-image>
+        </b-carousel-item>
+				 <b-carousel-item class="containing">
+            <b-image  alt="A little boy talking thanks to Pictalk"
+				:srcset="require('@/assets/Usages.png').srcSet"
+				:lazy="false"
+				></b-image>
+				<section class="centeredBottomLeftText">
+                    <div class="has-text-centered">
+                        <h1 class="title">{{$t('Create')}}</h1>
+                    </div>
+                </section>
+								<section class="centeredBottomText">
+                    <div class="has-text-centered">
+                        <h1 class="title">{{$t('Talk')}}</h1>
+                    </div>
+                </section>
+								<section class="centeredBottomRightText">
+                    <div class="has-text-centered">
+                        <h1 class="title">{{$t('Communicate2')}}</h1>
+                    </div>
+                </section>
+        </b-carousel-item>
+    </b-carousel>
 		</div>
 		<br>
-		<div class="container">
-		<div class="columns">
-			<div class="column is-offset-one-quarter is-two-fifths">
+		<div class="container is-max-widescreen">
+		<div class="columns is-mobile">
+			<div class="column is-one-quarter-fullhd is-one-third-widescreen is-one-third-tablet is-half-mobile">
 				<div class="box">
 					<a href="https://youtu.be/vv2ktwpAijI">
 					<b-image lazy alt="Yotube video link for the installation process."
@@ -26,26 +51,6 @@
 					<h1 class="title">{{ $t('WaitIsPictalk')}}</h1>
 					<p class="is-size-5 notification" align="justify">
 						{{ $t('HomeText1')}}
-						<br>
-						<br>
-						<b-image
-								lazy
-								:srcset="require('@/assets/startingpack.png').srcSet"
-								alt="Starter Pack"
-						style="width: 98%"
-					></b-image>
-					<br>
-					{{ $t('HowItWorks1')}}
-					<br>
-					<b-image
-								lazy
-								:srcset="require('@/assets/pictobar.png').srcSet"
-								alt="Pictobar"
-						style="width: 98%"
-						></b-image>
-					<br>
-					{{ $t('HowItWorks2')}}
-
 					</p>
 				</div>
 			</div>
@@ -54,21 +59,28 @@
 			<div class="hero-body">
 				<div class="container">
 					<h2 class="title">{{ $t('Communicate')}}</h2>
-					<p class="is-size-5 notification" align="justify">
+					<div class="columns">
+						<div class="column">
+					<p class="is-size-5 notification column" align="justify">
 						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
 				></b-image>
 				<br>
 				{{ $t('Communicate_IRL')}}
 					</p>
+					</div>
 					<br>
-					<p class="is-size-5 notification" align="justify">
-						<b-image lazy alt="Sample image of a copied sentence"
-				:srcset="require('@/assets/Messaging.png').srcSet"
+					<div class="column">
+					<p class="is-size-5 notification " align="justify">
+						<b-image class="center" lazy alt="Sample image of a copied sentence"
+				:srcset="require('@/assets/whatsapp.png').srcSet"
+				style="width: 25%;"
 				></b-image>
 				<br>
 				{{ $t('Communicate_Messages')}}
 					</p>
+					</div>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -180,5 +192,28 @@ export default {
 	margin-left: auto;
 	margin-right: auto;
 	width: 50%;
+}
+.containing {
+	position: relative;
+	text-align: center;
+	color: #ff5e5e;
+}
+.centeredBottomText {
+	position: absolute;
+	top: 90%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.centeredBottomLeftText {
+	position: absolute;
+	top: 90%;
+	left: 15%;
+	transform: translate(-50%, -50%);
+}
+.centeredBottomRightText {
+	position: absolute;
+	top: 90%;
+	left: 85%;
+	transform: translate(-50%, -50%);
 }
 </style>
