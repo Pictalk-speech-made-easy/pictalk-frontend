@@ -8,12 +8,33 @@
 					icon-left="arrow-left"
 					@click="$parent.close()"
 				/>
-
-				<p v-if="create" align="center" class="modal-card-title">
+				<p
+					v-if="create && isPicto"
+					align="center"
+					class="modal-card-title"
+				>
 					{{ $t("CreatePictogram") }}
 				</p>
-				<p v-else align="center" class="modal-card-title">
+				<p
+					v-if="!create && isPicto"
+					align="center"
+					class="modal-card-title"
+				>
 					{{ $t("EditPictogram") }}
+				</p>
+				<p
+					v-if="create && !isPicto"
+					align="center"
+					class="modal-card-title"
+				>
+					{{ $t("CreateCollection") }}
+				</p>
+				<p
+					v-if="!create && !isPicto"
+					align="center"
+					class="modal-card-title"
+				>
+					{{ $t("EditCollection") }}
 				</p>
 			</header>
 			<section class="modal-card-body">
@@ -258,8 +279,8 @@
 						</div>
 						<div class="column is-half">
 							<b-button
-								class="halfWidth"
-								v-if="isPicto || create"
+								expanded
+								v-if="isPicto"
 								:disabled="
 									!(
 										Object.values(picto.meaning).length &&
@@ -273,8 +294,8 @@
 							>
 							</b-button>
 							<b-button
-								class="halfWidth"
-								v-if="!isPicto || create"
+								expanded
+								v-if="!isPicto"
 								:class="classCreateOrEdit"
 								:disabled="
 									!Object.values(picto.meaning).length ||
@@ -331,8 +352,7 @@ export default {
 		},
 		isPicto: {
 			type: Boolean,
-			required: false,
-			default: () => true,
+			required: true,
 		},
 	},
 	computed: {
@@ -343,7 +363,7 @@ export default {
 			return this.create ? "image" : "image-edit";
 		},
 		iconCollectionOrEdit() {
-			return this.create ? "folder-multiple-image" : "image-edit";
+			return this.create ? "folder-table" : "folder-edit";
 		},
 		paginate() {
 			return this.images.slice(
@@ -411,7 +431,11 @@ export default {
 			}
 			try {
 				if (this.file.name) {
-					if (!this.file.name.match(/\.(jpeg|png|gif|jpg)$/)) {
+					if (
+						!this.file.name.match(
+							/\.(jpeg|png|gif|jpg|JPEG|JPG|PNG)$/
+						)
+					) {
 						this.$buefy.toast.open({
 							message: this.$t("ImageFiles"),
 							type: "is-warning",
@@ -424,7 +448,7 @@ export default {
 						this.file.name.substr(
 							0,
 							this.file.name.lastIndexOf(".")
-						) + ".jpeg",
+						) + ".jpg",
 						{ type: this.file.type }
 					);
 					cfile = await jpegasus.compress(myNewFile, {
@@ -640,7 +664,6 @@ export default {
 								author: "",
 							});
 						}
-						console.log("arasaac done!");
 					})
 					.catch((error) => {
 						console.log(error);
@@ -652,16 +675,17 @@ export default {
 					)
 					.then((scleraData) => {
 						scleraData = scleraData.data;
-						for (let i = 0; i < scleraData?.length; i++) {
-							this.images.push({
-								src: scleraData[i].image_url,
-								title: scleraData[i].translations[0].tName,
-								download: scleraData[i].image_url,
-								source: "sclera-symbotalk",
-								author: scleraData[i].author,
-							});
+						if (scleraData != "no result") {
+							for (let i = 0; i < scleraData?.length; i++) {
+								this.images.push({
+									src: scleraData[i].image_url,
+									title: scleraData[i].translations[0].tName,
+									download: scleraData[i].image_url,
+									source: "sclera-symbotalk",
+									author: scleraData[i].author,
+								});
+							}
 						}
-						console.log("sclera done!");
 					})
 					.catch((error) => {
 						console.log(error);
@@ -673,16 +697,17 @@ export default {
 					)
 					.then((tawasolData) => {
 						tawasolData = tawasolData.data;
-						for (let i = 0; i < tawasolData?.length; i++) {
-							this.images.push({
-								src: tawasolData[i].image_url,
-								title: tawasolData[i].translations[0].tName,
-								download: tawasolData[i].image_url,
-								source: "tawasol-symbotalk",
-								author: tawasolData[i].author,
-							});
+						if (tawasolData != "no result") {
+							for (let i = 0; i < tawasolData?.length; i++) {
+								this.images.push({
+									src: tawasolData[i].image_url,
+									title: tawasolData[i].translations[0].tName,
+									download: tawasolData[i].image_url,
+									source: "tawasol-symbotalk",
+									author: tawasolData[i].author,
+								});
+							}
 						}
-						console.log("tawasol done!");
 					})
 					.catch((error) => {
 						console.log(error);
@@ -694,16 +719,18 @@ export default {
 					)
 					.then((mulberryData) => {
 						mulberryData = mulberryData.data;
-						for (let i = 0; i < mulberryData?.length; i++) {
-							this.images.push({
-								src: mulberryData[i].image_url,
-								title: mulberryData[i].translations[0].tName,
-								download: mulberryData[i].image_url,
-								source: "mulberry-symbotalk",
-								author: mulberryData[i].author,
-							});
+						if (mulberryData != "no result") {
+							for (let i = 0; i < mulberryData?.length; i++) {
+								this.images.push({
+									src: mulberryData[i].image_url,
+									title: mulberryData[i].translations[0]
+										.tName,
+									download: mulberryData[i].image_url,
+									source: "mulberry-symbotalk",
+									author: mulberryData[i].author,
+								});
+							}
 						}
-						console.log("mullberry done!");
 					})
 					.catch((error) => {
 						console.log(error);
