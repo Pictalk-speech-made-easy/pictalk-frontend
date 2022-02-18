@@ -31,8 +31,10 @@ export default {
       }
     }
   },
-  async mounted() {
-    this.$store.dispatch("downloadCollections");
+  destroyed() {
+    clearInterval(this.intervalId);
+  },
+  mounted() {
     this.intervalId = setInterval(async function () {
       if (window.navigator.onLine) {
         try {
@@ -42,9 +44,6 @@ export default {
         }
       }
     }, 15000);
-  },
-  destroyed() {
-    clearInterval(this.intervalId);
   },
 };
 </script>

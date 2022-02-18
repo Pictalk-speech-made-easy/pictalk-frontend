@@ -165,13 +165,23 @@ import navbar from "@/mixins/navbar";
 import enforcedSecurity from "@/mixins/enforcedSecurity";
 export default {
   mixins: [lang, navbar, enforcedSecurity],
+  data() {
+    return {
+      notificationsCount: 0,
+    };
+  },
   computed: {
     getUserNotifications() {
+      console.log("I AM HERE AT COMPUTED");
       if (this.$store.getters.getUser?.notifications) {
         const notifications = JSON.parse(
           JSON.stringify(this.$store.getters.getUser.notifications)
         );
         if (notifications) {
+          if (notifications.length != this.notificationsCount) {
+            this.$store.dispatch("downloadCollections");
+            this.notificationsCount = notifications.length;
+          }
           notifications.forEach((notification) => {
             if (notification.meaning) {
               notification.meaning = JSON.parse(notification?.meaning);
@@ -195,7 +205,6 @@ export default {
       return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
     },
     sharedLink() {
-      this.$store.dispatch("downloadCollections");
       return "/pictalk/" + this.$store.getters.getSharedId + this.admin;
     },
   },
@@ -246,6 +255,7 @@ export default {
     },
     deleteUserNotifications() {
       this.$store.dispatch("deleteNotifications");
+      this.notificationsCount = 0;
     },
     eraseSpeech() {
       this.$store.commit("eraseSpeech");
