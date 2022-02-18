@@ -32,16 +32,16 @@ export default {
     }
   },
   async mounted() {
+    this.$store.dispatch("downloadCollections");
     this.intervalId = setInterval(async function () {
       if (window.navigator.onLine) {
         try {
-          await this.$nuxt.$store.dispatch("downloadCollections");
           await this.$nuxt.$store.dispatch("getUser");
         } catch (err) {
           console.log(err);
         }
       }
-    }, 300000);
+    }, 15000);
   },
   destroyed() {
     clearInterval(this.intervalId);
