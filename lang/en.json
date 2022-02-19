@@ -281,6 +281,10 @@
 		"ShowMore": "Show more",
 		"ShowLess": "Show less",
 		"NotShareYourself": "Cannot share to yourself",
-		"NotFriendYourself": "Cannot be a friend to yourself"
+		"NotFriendYourself": "Cannot be a friend to yourself",
+		"ShareDemo": "Share",
+		"CommunicateDemo": "Message",
+		"CreateDemo": "Create",
+		"TalkDemo": "Talk"
 
 }

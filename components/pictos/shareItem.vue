@@ -67,10 +67,10 @@
 								column
 								lessPadding
 								is-6-mobile
-								is-4-tablet
-								is-3-desktop
-								is-3-widescreen
-								is-2-fullhd
+								is-6-tablet
+								is-6-desktop
+								is-6-widescreen
+								is-6-fullhd
 							"
 						>
 							<div>

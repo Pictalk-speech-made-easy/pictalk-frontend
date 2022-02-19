@@ -15,17 +15,26 @@
 				></b-image>
 				<section class="centeredBottomLeftText">
                     <div class="has-text-centered">
-                        <h1 class="title">{{$t('Create')}}</h1>
+                        <h1 class="title is-1 isPictalkColor">{{$t('CreateDemo')}}</h1>
                     </div>
                 </section>
 								<section class="centeredBottomText">
                     <div class="has-text-centered">
-                        <h1 class="title">{{$t('Talk')}}</h1>
+                        <h1 class="title is-1 isPictalkColor">{{$t('TalkDemo')}}</h1>
                     </div>
                 </section>
 								<section class="centeredBottomRightText">
+                        <h1 class="title is-1 isPictalkColor">{{$t('CommunicateDemo')}}</h1>
+                </section>
+        </b-carousel-item>
+				<b-carousel-item class="containing">
+            <b-image  alt="A little boy talking thanks to Pictalk"
+				:srcset="require('@/assets/Share_demo.png').srcSet"
+				:lazy="false"
+				></b-image>
+				<section class="centeredBottomLeftTextAndBitRight">
                     <div class="has-text-centered">
-                        <h1 class="title">{{$t('Communicate2')}}</h1>
+                        <h1 class="title is-1 isPictalkColor">{{$t('ShareDemo')}}</h1>
                     </div>
                 </section>
         </b-carousel-item>
@@ -196,7 +205,6 @@ export default {
 .containing {
 	position: relative;
 	text-align: center;
-	color: #ff5e5e;
 }
 .centeredBottomText {
 	position: absolute;
@@ -215,5 +223,14 @@ export default {
 	top: 90%;
 	left: 85%;
 	transform: translate(-50%, -50%);
+}
+.centeredBottomLeftTextAndBitRight {
+	position: absolute;
+	top: 80%;
+	left: 22%;
+	transform: translate(-50%, -50%);
+}
+.isPictalkColor {
+	color: #ff5e5e;
 }
 </style>
