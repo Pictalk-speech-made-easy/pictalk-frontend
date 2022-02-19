@@ -35,6 +35,8 @@
         <div class="buttons b-tooltips">
           <b-tooltip
             position="is-right"
+            multilined
+            size="is-small"
             type="is-primary"
             :label="$t('TooltipHome')"
             :delay="1000"
@@ -47,6 +49,8 @@
           </b-tooltip>
           <b-tooltip
             position="is-right"
+            multilined
+            size="is-small"
             type="is-primary"
             :label="$t('TooltipPublic')"
             :delay="1000"
@@ -59,7 +63,9 @@
             />
           </b-tooltip>
           <b-tooltip
-            position="is-top"
+            position="is-right"
+            multilined
+            size="is-small"
             type="is-primary"
             :label="$t('TooltipShared')"
             :delay="1000"
@@ -73,7 +79,9 @@
           </b-tooltip>
           <b-tooltip
             v-if="getUserNotifications.length != 0"
-            position="is-top"
+            position="is-left"
+            multilined
+            size="is-small"
             type="is-primary"
             :label="$t('TooltipNotifications')"
             :delay="1000"
@@ -95,13 +103,15 @@
                   class="notification"
                   @click="notificationGoToCollectionOrReturn(notification)"
                 >
-                  <b-icon
-                    :icon="notificationIcon(notification)"
-                    size="is-medium"
-                    :type="notificationType(notification)"
-                  />
+                  <b-field expanded>
+                    <b-icon
+                      :icon="notificationIcon(notification)"
+                      size="is-medium"
+                      :type="notificationType(notification)"
+                    />
 
-                  {{ notification.username }}
+                    <p align="center">{{ notification.username }}</p>
+                  </b-field>
                   <div v-if="notification.operation == 'share'">
                     {{ $t("SharedWithYou") }}
                   </div>
@@ -120,7 +130,9 @@
           </b-tooltip>
           <b-tooltip
             v-if="this.$route.path.includes('pictalk')"
-            position="is-top"
+            position="is-left"
+            multilined
+            size="is-small"
             type="is-primary"
             :label="$t('TooltipAcount')"
             :delay="1000"
@@ -135,6 +147,8 @@
           </b-tooltip>
           <b-tooltip
             position="is-left"
+            multilined
+            size="is-small"
             type="is-primary"
             :label="$t('TooltipHelp')"
             :delay="1000"
@@ -148,6 +162,8 @@
           </b-tooltip>
           <b-tooltip
             position="is-left"
+            multilined
+            size="is-small"
             type="is-primary"
             :label="$t('TooltipLogout')"
             :delay="1000"
