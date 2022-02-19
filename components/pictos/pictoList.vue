@@ -231,7 +231,7 @@ export default {
   position: fixed;
 }
 .fab-zone {
-  bottom: 10%;
+  bottom: 12%;
   right: 5%;
   position: fixed;
 }
