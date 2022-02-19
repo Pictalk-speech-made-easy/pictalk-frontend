@@ -29,7 +29,6 @@
         >
       </b-navbar-dropdown>
     </template>
-
     <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons b-tooltips">
@@ -188,7 +187,6 @@ export default {
   },
   computed: {
     getUserNotifications() {
-      console.log("I AM HERE AT COMPUTED");
       if (this.$store.getters.getUser?.notifications) {
         const notifications = JSON.parse(
           JSON.stringify(this.$store.getters.getUser.notifications)

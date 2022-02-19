@@ -295,12 +295,9 @@ export default {
 	},
 	watch: {
 		getMailingList: function (value) {
-			console.log("Mailing List changed");
-			console.log(this.mailingList);
 			this.mailingList = JSON.parse(
 				JSON.stringify(this.$store.getters.getUser.mailingList)
 			);
-			console.log(this.mailingList);
 		},
 	},
 	beforeUpdate() {

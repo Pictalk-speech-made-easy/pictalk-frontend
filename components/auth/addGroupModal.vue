@@ -240,7 +240,6 @@ export default {
 			this.groupIcon = icon;
 		},
 		async save() {
-			console.log("this is index ", this.index);
 			let tempMailingList = JSON.parse(
 				JSON.stringify(this.$store.getters.getUser.mailingList)
 			);
@@ -249,10 +248,8 @@ export default {
 				icon: this.groupIcon,
 			});
 			if (this.index > -1) {
-				console.log("edditing");
 				tempMailingList[this.index] = this.group;
 			} else {
-				console.log("creating");
 				tempMailingList.push(this.group);
 			}
 

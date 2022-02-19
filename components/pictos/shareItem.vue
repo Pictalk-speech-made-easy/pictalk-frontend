@@ -67,10 +67,10 @@
 								column
 								lessPadding
 								is-6-mobile
-								is-4-tablet
-								is-3-desktop
-								is-3-widescreen
-								is-2-fullhd
+								is-6-tablet
+								is-6-desktop
+								is-6-widescreen
+								is-6-fullhd
 							"
 						>
 							<div>
@@ -326,11 +326,8 @@ export default {
 				})
 				.indexOf(this.selected.username);
 
-			console.log(index);
 			if (index !== -1) {
-				console.log(this.SharersObj.splice(index, 1));
 			}
-			console.log(indexCollab);
 			if (indexCollab !== -1) {
 				this.loneCollaborators[indexCollab] = {
 					username: this.selected.username,

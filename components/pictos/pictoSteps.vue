@@ -515,13 +515,7 @@ export default {
 					for (let key of Object.keys(this.picto.speech)) {
 						this.picto.speech[`${key}`] = "a";
 					}
-					console.log(
-						Object.values(this.picto.speech),
-						Object.values(this.picto.meaning)
-					);
 				}
-				console.log("Steps speech", this.picto.speech);
-				console.log("Steps meaning", this.picto.meaning);
 				if (this.create) {
 					await this.$store.dispatch(
 						isCollection ? "addCollection" : "addPicto",
@@ -740,9 +734,7 @@ export default {
 				promises.push(scleraData);
 				promises.push(tawasolData);
 				promises.push(mulberryData);
-				await Promise.allSettled(promises).then(
-					console.log(this.images)
-				);
+				await Promise.allSettled(promises).then();
 
 				if (this.images.length < 5) {
 					this.webImages(pictoSearch);

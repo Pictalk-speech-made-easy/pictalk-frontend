@@ -15,17 +15,26 @@
 				></b-image>
 				<section class="centeredBottomLeftText">
                     <div class="has-text-centered">
-                        <h1 class="title">{{$t('Create')}}</h1>
+                        <h1 class="title is-1 isPictalkColor">{{$t('CreateDemo')}}</h1>
                     </div>
                 </section>
 								<section class="centeredBottomText">
                     <div class="has-text-centered">
-                        <h1 class="title">{{$t('Talk')}}</h1>
+                        <h1 class="title is-1 isPictalkColor">{{$t('TalkDemo')}}</h1>
                     </div>
                 </section>
 								<section class="centeredBottomRightText">
+                        <h1 class="title is-1 isPictalkColor">{{$t('CommunicateDemo')}}</h1>
+                </section>
+        </b-carousel-item>
+				<b-carousel-item class="containing">
+            <b-image  alt="A little boy talking thanks to Pictalk"
+				:srcset="require('@/assets/Share_demo.png').srcSet"
+				:lazy="false"
+				></b-image>
+				<section class="centeredBottomLeftTextAndBitRight">
                     <div class="has-text-centered">
-                        <h1 class="title">{{$t('Communicate2')}}</h1>
+                        <h1 class="title is-1 isPictalkColor">{{$t('ShareDemo')}}</h1>
                     </div>
                 </section>
         </b-carousel-item>
@@ -100,6 +109,9 @@
 						<li>{{ $t('HomeFeature8')}}</li>
 						<li>{{ $t('HomeFeature9')}}</li>
 						<li>{{ $t('HomeFeature10')}}</li>
+						<li>{{ $t('HomeFeature11')}}</li>
+						<li>{{ $t('HomeFeature12')}}</li>
+						<li>{{ $t('HomeFeature13')}}</li>
 						</ol>
 					</p>
 				</div>
@@ -111,7 +123,7 @@
 					<h2 class="title">{{ $t('OpenSourceAndFree')}}</h2>
 					<p class="is-size-5 notification" align="justify">
 						 {{ $t('OpenSourceAndFreeText1')}}
-						<a href="https://github.com/Pictalk-speech-made-easy">github</a>
+						<a href="https://github.com/Pictalk-speech-made-easy">Github</a>
 						 {{ $t('OpenSourceAndFreeText2')}}
 					</p>
 				</div>
@@ -196,7 +208,6 @@ export default {
 .containing {
 	position: relative;
 	text-align: center;
-	color: #ff5e5e;
 }
 .centeredBottomText {
 	position: absolute;
@@ -215,5 +226,14 @@ export default {
 	top: 90%;
 	left: 85%;
 	transform: translate(-50%, -50%);
+}
+.centeredBottomLeftTextAndBitRight {
+	position: absolute;
+	top: 80%;
+	left: 22%;
+	transform: translate(-50%, -50%);
+}
+.isPictalkColor {
+	color: #ff5e5e;
 }
 </style>
