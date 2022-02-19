@@ -42,7 +42,7 @@
               <b-button
                 rounded
                 size="is-medium"
-                type="is-success"
+                type="is-primary"
                 @click="addPicto(false)"
                 icon-right="folder-table"
               />
@@ -52,6 +52,7 @@
                 rounded
                 size="is-medium"
                 type="is-warning"
+                :focused="adminMode"
                 @click="adminModeChoose()"
                 :icon-right="iconIsAdmin"
               />

@@ -31,20 +31,19 @@ export default {
       }
     }
   },
-  async mounted() {
+  destroyed() {
+    clearInterval(this.intervalId);
+  },
+  mounted() {
     this.intervalId = setInterval(async function () {
       if (window.navigator.onLine) {
         try {
-          await this.$nuxt.$store.dispatch("downloadCollections");
           await this.$nuxt.$store.dispatch("getUser");
         } catch (err) {
           console.log(err);
         }
       }
-    }, 300000);
-  },
-  destroyed() {
-    clearInterval(this.intervalId);
+    }, 15000);
   },
 };
 </script>
