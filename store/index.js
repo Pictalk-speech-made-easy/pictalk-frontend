@@ -186,7 +186,9 @@ export const actions = {
 			starred: JSON.parse(newPicto.starred),
 			editors: newPicto.editors,
 			viewers: newPicto.viewers,
-			public: newPicto.public
+			public: newPicto.public,
+			createdDate: newPicto.createdDate,
+			updatedDate: newPicto.updatedDate
 		});
 	},
 	async editPicto(vuexContext, picto) {
@@ -220,7 +222,9 @@ export const actions = {
 			starred: JSON.parse(editedPicto.starred),
 			editors: editedPicto.editors,
 			viewers: editedPicto.viewers,
-			public: editedPicto.public
+			public: editedPicto.public,
+			createdDate: editedPicto.createdDate,
+			updatedDate: editedPicto.updatedDate,
 		});
 	},
 	async removePicto(vuexContext, { pictoId, fatherCollectionId }) {
@@ -258,7 +262,9 @@ export const actions = {
 			viewers: newCollection.viewers ? newCollection.viewers : [],
 			editors: newCollection.editors ? newCollection.editors : [],
 			id: newCollection.id,
-			starred: JSON.parse(newCollection.starred)
+			starred: JSON.parse(newCollection.starred),
+			createdDate: newCollection.createdDate,
+			updatedDate: newCollection.updatedDate
 		});
 	},
 	async editCollection(vuexContext, collection) {
@@ -300,6 +306,8 @@ export const actions = {
 			...(editedCollection.speech && { speech: JSON.parse(editedCollection.speech) }),
 			...(editedCollection.starred && { speech: JSON.parse(editedCollection.starred) }),
 			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
+			createdDate: editedCollection.createdDate,
+			updatedDate: editedCollection.updatedDate,
 		});
 	},
 	async removeCollection(vuexContext, { collectionId, fatherCollectionId }) {
