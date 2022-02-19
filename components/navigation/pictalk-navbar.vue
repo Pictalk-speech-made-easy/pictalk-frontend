@@ -33,7 +33,7 @@
       <b-navbar-item tag="div">
         <div class="buttons b-tooltips">
           <b-tooltip
-            position="is-right"
+            position="is-bottom"
             multilined
             size="is-small"
             type="is-primary"
@@ -47,7 +47,7 @@
             />
           </b-tooltip>
           <b-tooltip
-            position="is-right"
+            position="is-bottom"
             multilined
             size="is-small"
             type="is-primary"
@@ -62,7 +62,7 @@
             />
           </b-tooltip>
           <b-tooltip
-            position="is-right"
+            position="is-bottom"
             multilined
             size="is-small"
             type="is-primary"
@@ -78,7 +78,7 @@
           </b-tooltip>
           <b-tooltip
             v-if="getUserNotifications.length != 0"
-            position="is-left"
+            position="is-bottom"
             multilined
             size="is-small"
             type="is-primary"
@@ -137,7 +137,7 @@
           </b-tooltip>
           <b-tooltip
             v-if="this.$route.path.includes('pictalk')"
-            position="is-left"
+            position="is-bottom"
             multilined
             size="is-small"
             type="is-primary"
@@ -153,7 +153,7 @@
             />
           </b-tooltip>
           <b-tooltip
-            position="is-left"
+            position="is-bottom"
             multilined
             size="is-small"
             type="is-primary"
@@ -168,7 +168,7 @@
             />
           </b-tooltip>
           <b-tooltip
-            position="is-left"
+            position="is-bottom"
             multilined
             size="is-small"
             type="is-primary"
@@ -307,6 +307,6 @@ export default {
   margin-right: auto;
 }
 .lessPadding {
-  padding: 0.1rem;
+  padding: 0.3rem;
 }
 </style>
