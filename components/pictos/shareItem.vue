@@ -326,11 +326,8 @@ export default {
 				})
 				.indexOf(this.selected.username);
 
-			console.log(index);
 			if (index !== -1) {
-				console.log(this.SharersObj.splice(index, 1));
 			}
-			console.log(indexCollab);
 			if (indexCollab !== -1) {
 				this.loneCollaborators[indexCollab] = {
 					username: this.selected.username,

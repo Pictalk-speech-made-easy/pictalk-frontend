@@ -143,7 +143,6 @@ export const mutations = {
 };
 export const actions = {
 	async userExists(vuexContext, username) {
-		console.log(username);
 		try {
 			const exists = (await axios.get(`/user/verify/${username.username}`)).status;
 			if (exists == 200) {
@@ -314,7 +313,6 @@ export const actions = {
 		return res;
 	},
 	async authenticateUser(vuexContext, authData) {
-		console.log(axios.defaults.baseURL);
 		const res = await axios
 			.post("/auth/signin", {
 				username: authData.username,
@@ -359,7 +357,6 @@ export const actions = {
 			expirationDate = null;
 		}
 		if (new Date().getTime() > +expirationDate || !token) {
-			console.log("No token or invalid token");
 			vuexContext.dispatch("logout");
 			return;
 		}
