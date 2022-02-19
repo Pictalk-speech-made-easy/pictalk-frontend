@@ -109,6 +109,9 @@
 						<li>{{ $t('HomeFeature8')}}</li>
 						<li>{{ $t('HomeFeature9')}}</li>
 						<li>{{ $t('HomeFeature10')}}</li>
+						<li>{{ $t('HomeFeature11')}}</li>
+						<li>{{ $t('HomeFeature12')}}</li>
+						<li>{{ $t('HomeFeature13')}}</li>
 						</ol>
 					</p>
 				</div>
@@ -120,7 +123,7 @@
 					<h2 class="title">{{ $t('OpenSourceAndFree')}}</h2>
 					<p class="is-size-5 notification" align="justify">
 						 {{ $t('OpenSourceAndFreeText1')}}
-						<a href="https://github.com/Pictalk-speech-made-easy">github</a>
+						<a href="https://github.com/Pictalk-speech-made-easy">Github</a>
 						 {{ $t('OpenSourceAndFreeText2')}}
 					</p>
 				</div>
