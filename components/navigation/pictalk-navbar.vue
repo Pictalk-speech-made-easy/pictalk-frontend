@@ -95,11 +95,16 @@
                   <b-icon icon="bell-alert"></b-icon>
                 </a>
               </template>
-              <b-dropdown-item aria-role="menu-item" :focusable="false" custom>
+              <b-dropdown-item
+                aria-role="menu-item"
+                :focusable="false"
+                custom
+                class="lessPadding"
+              >
                 <div
                   v-for="notification in getUserNotifications"
                   :key="notification.operation + Math.random()"
-                  class="notification"
+                  class="notification lessPadding"
                   @click="notificationGoToCollectionOrReturn(notification)"
                 >
                   <b-field expanded>
@@ -109,7 +114,9 @@
                       :type="notificationType(notification)"
                     />
 
-                    <p align="center">{{ notification.username }}</p>
+                    <p align="center" style="width: 100%">
+                      {{ notification.username }}
+                    </p>
                   </b-field>
                   <div v-if="notification.operation == 'share'">
                     {{ $t("SharedWithYou") }}
@@ -122,6 +129,7 @@
                 <b-button
                   class="is-danger center"
                   icon-left="delete"
+                  expanded
                   @click="deleteUserNotifications()"
                 />
               </b-dropdown-item>
@@ -297,5 +305,8 @@ export default {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.lessPadding {
+  padding: 0.1rem;
 }
 </style>
