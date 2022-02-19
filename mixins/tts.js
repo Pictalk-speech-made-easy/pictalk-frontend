@@ -31,14 +31,14 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
-			if (this.user) {
+			if (this.$store.getters.getUser) {
 				this.voiceURI =
-					this.user.language[this.getUserLang][
+					this.$store.getters.getUser.language[this.getUserLang][
 						this.getDeviceInfo()
 					]?.voiceURI;
-				this.voiceURIs = Object.keys(this.user.languages).map((lang) => {
+				this.voiceURIs = Object.keys(this.$store.getters.getUser.languages).map((lang) => {
 					let uri =
-						this.user.languages[lang][this.getDeviceInfo()]?.voiceURI;
+						this.$store.getters.getUser.languages[lang][this.getDeviceInfo()]?.voiceURI;
 					if (!uri) {
 						return this.voices.filter((voice) =>
 							voice.lang.includes(this.getUserLang)
