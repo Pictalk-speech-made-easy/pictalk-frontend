@@ -43,7 +43,7 @@ export default {
           console.log(err);
         }
       }
-    }, 15000);
+    }, 1200000); // 20 minutes
   },
 };
 </script>

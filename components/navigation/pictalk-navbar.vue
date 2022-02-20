@@ -77,7 +77,7 @@
             />
           </b-tooltip>
           <b-tooltip
-            v-if="getUserNotifications.length != 0"
+            v-if="notificationsCount != 0"
             position="is-bottom"
             multilined
             size="is-small"
@@ -184,6 +184,7 @@
 </template>
 <script>
 import lang from "@/mixins/lang";
+import axios from "axios";
 import navbar from "@/mixins/navbar";
 import enforcedSecurity from "@/mixins/enforcedSecurity";
 export default {
@@ -191,29 +192,34 @@ export default {
   data() {
     return {
       notificationsCount: 0,
+      intervalId: null,
     };
   },
-  computed: {
-    getUserNotifications() {
-      if (this.$store.getters.getUser?.notifications) {
-        const notifications = JSON.parse(
-          JSON.stringify(this.$store.getters.getUser.notifications)
-        );
-        if (notifications) {
-          if (notifications.length != this.notificationsCount) {
-            this.$store.dispatch("downloadCollections");
-            this.notificationsCount = notifications.length;
-          }
-          notifications.forEach((notification) => {
-            if (notification.meaning) {
-              notification.meaning = JSON.parse(notification?.meaning);
+  mounted() {
+    this.intervalId = setInterval(async function () {
+      if (window.navigator.onLine) {
+        try {
+          const notificationsRequest = await axios.get("/user/notification");
+          if (notificationsRequest.status == 200) {
+            const notifications = notificationsRequest.data;
+            if (notifications.length != this.notificationsCount) {
+              this.$store.dispatch("downloadCollections");
+              this.notificationsCount = notifications.length;
             }
-          });
+            notifications.forEach((notification) => {
+              if (notification.meaning) {
+                notification.meaning = JSON.parse(notification?.meaning);
+              }
+            });
+          }
           return notifications;
+        } catch (err) {
+          return [];
         }
       }
-      return [];
-    },
+    }, 15000);
+  },
+  computed: {
     admin() {
       return this.$route.query.isAdmin ? "?isAdmin=true" : "";
     },
