@@ -15,16 +15,16 @@
 				></b-image>
 				<section class="centeredBottomLeftText">
                     <div class="has-text-centered">
-                        <h1 class="title is-1 isPictalkColor">{{$t('CreateDemo')}}</h1>
+                        <div class="title is-3 isPictalkColor">{{$t('CreateDemo')}}</div>
                     </div>
                 </section>
 								<section class="centeredBottomText">
                     <div class="has-text-centered">
-                        <h1 class="title is-1 isPictalkColor">{{$t('TalkDemo')}}</h1>
+                        <div class="title is-3 isPictalkColor">{{$t('TalkDemo')}}</div>
                     </div>
                 </section>
 								<section class="centeredBottomRightText">
-                        <h1 class="title is-1 isPictalkColor">{{$t('CommunicateDemo')}}</h1>
+                        <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{$t('CommunicateDemo')}}</div>
                 </section>
         </b-carousel-item>
 				<b-carousel-item class="containing">
@@ -34,7 +34,7 @@
 				></b-image>
 				<section class="centeredBottomLeftTextAndBitRight">
                     <div class="has-text-centered">
-                        <h1 class="title is-1 isPictalkColor">{{$t('ShareDemo')}}</h1>
+                        <div class="title is-2 isPictalkColor">{{$t('ShareDemo')}}</div>
                     </div>
                 </section>
         </b-carousel-item>
