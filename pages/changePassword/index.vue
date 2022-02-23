@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin: 1rem">
     <div class="container">
       <section class="hero">
         <div class="hero-body">
@@ -13,16 +13,16 @@
           type="email"
           maxlength="64"
           v-model="username"
-          :placeholder="$('EmailNotice')"
+          :placeholder="$t('PlaceHolderEmail')"
           required
         ></b-input>
       </b-field>
       <b-message type="is-danger" has-icon>
         {{ $t("CheckSpam") }}
       </b-message>
-      <b-button class="is-primary" @click="onSubmit(username)"
-        >Reset Password</b-button
-      >
+      <b-button class="is-primary" @click="onSubmit(username)">{{
+        $t("ResetPassword")
+      }}</b-button>
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
         return;
       }
       try {
-        const res = await axios.post("/auth/resetPassword", {
+        const res = await axios.post("/user/resetPassword", {
           username: username,
         });
         if (res.status == 201) {

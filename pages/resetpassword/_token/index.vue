@@ -49,7 +49,7 @@ export default {
       }
       try {
         const res = await axios.post(
-          "/auth/changePassword/" + this.$route.params.token,
+          "/user/changePassword/" + this.$route.params.token,
           {
             password: password,
           }
