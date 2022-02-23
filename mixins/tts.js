@@ -119,7 +119,8 @@ export default {
 		async playSentenceInLanguage(lang, voiceURI) {
 			let translatedText =
 				frenchFries[convertToSimpleLanguage(lang)];
-			this.pronounce(translatedText, lang, voiceURI);
+		
+				translatedText ? this.pronounce(translatedText, lang, voiceURI): ()=>{return};
 		},
 	},
 	computed: {

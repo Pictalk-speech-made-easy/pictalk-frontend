@@ -305,6 +305,7 @@ export default {
       let language = {};
       let languages = {};
       let editedLanguage = {};
+      let editedLanguages = {};
       device[this.getDeviceInfo()] = {
         voiceURI: this.voiceURI,
         pitch: "",
@@ -312,47 +313,50 @@ export default {
       const languageLang = convertToSimpleLanguage(
         this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0]?.lang
       );
-      language[languageLang] = device;
-      if (Object.keys(this.user.language)[0] == languageLang) {
-        editedLanguage = Object.assign(
-          {},
-          JSON.parse(JSON.stringify(this.user.language))
-        );
-        merge(editedLanguage, language);
-      } else {
-        const languagesIndex = Object.keys(this.user.languages).find(
-          (language) => language == languageLang
-        );
-        if (languagesIndex) {
-          editedLanguage[languagesIndex] = this.user.languages[languagesIndex];
+      if (languageLang != "undifined") {
+        language[languageLang] = device;
+        if (Object.keys(this.user.language)[0] == languageLang) {
+          editedLanguage = Object.assign(
+            {},
+            JSON.parse(JSON.stringify(this.user.language))
+          );
+          merge(editedLanguage, language);
         } else {
-          editedLanguage = language;
+          const languagesIndex = Object.keys(this.user.languages).find(
+            (language) => language == languageLang
+          );
+          if (languagesIndex) {
+            editedLanguage[languagesIndex] =
+              this.user.languages[languagesIndex];
+          } else {
+            editedLanguage = language;
+          }
         }
+        this.voiceURIs.forEach((voiceURI) => {
+          device = {};
+          device[this.getDeviceInfo()] = {
+            voiceURI: voiceURI,
+            pitch: "",
+          };
+          languages[
+            convertToSimpleLanguage(
+              this.voices.filter((voice) => voice.voiceURI == voiceURI)[0]?.lang
+            )
+          ] = device;
+        });
+        editedLanguages = Object.assign(
+          {},
+          JSON.parse(JSON.stringify(this.user.languages))
+        );
+        merge(editedLanguages, languages);
       }
-      this.voiceURIs.forEach((voiceURI) => {
-        device = {};
-        device[this.getDeviceInfo()] = {
-          voiceURI: voiceURI,
-          pitch: "",
-        };
-        languages[
-          convertToSimpleLanguage(
-            this.voices.filter((voice) => voice.voiceURI == voiceURI)[0]?.lang
-          )
-        ] = device;
-      });
-      let editedLanguages = Object.assign(
-        {},
-        JSON.parse(JSON.stringify(this.user.languages))
-      );
-      merge(editedLanguages, languages);
       try {
         const res = await this.$store.dispatch("editUser", {
           username: this.user.username,
           password: this.user.password,
           password: this.user.password,
-          language: editedLanguage,
-          languages: editedLanguages,
+          language: editedLanguage ? editedLanguage : this.user.language,
+          languages: editedLanguages ? editedLanguages : this.user.languages,
           settings: this.user.settings,
           directSharers: this.directSharers,
           displayLanguage: this.localeCode(),
@@ -365,7 +369,6 @@ export default {
           type: "is-danger",
         });
       }
-
       this.$router.push("/pictalk");
     },
   },
