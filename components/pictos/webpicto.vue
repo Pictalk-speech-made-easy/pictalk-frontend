@@ -5,7 +5,7 @@
       position="is-bottom"
       is-small
       multilined
-      :triggers="['hover', 'contextmenu']"
+      :triggers="['hover']"
     >
       <b-image id="svg" lazy :src="webpicto.src"></b-image>
       <b>{{ webpicto.title }}</b>
@@ -88,7 +88,6 @@ export default {
         )}.${type}`,
         { type: blob.type }
       );
-      console.log(file);
       this.$emit("uploadfile", file);
     },
   },
