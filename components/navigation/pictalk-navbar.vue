@@ -39,6 +39,7 @@
             type="is-primary"
             :label="$t('TooltipHome')"
             :delay="1000"
+            :triggers="['hover']"
           >
             <b-button
               type="is-primary"
@@ -53,6 +54,7 @@
             type="is-primary"
             :label="$t('TooltipPublic')"
             :delay="1000"
+            :triggers="['hover']"
           >
             <b-button
               type="is-success is-light"
@@ -68,6 +70,7 @@
             type="is-primary"
             :label="$t('TooltipShared')"
             :delay="1000"
+            :triggers="['hover']"
           >
             <b-button
               type="is-primary is-light"
@@ -84,6 +87,7 @@
             type="is-primary"
             :label="$t('TooltipNotifications')"
             :delay="1000"
+            :triggers="['hover']"
           >
             <b-dropdown
               position="is-bottom-left"
@@ -143,6 +147,7 @@
             type="is-primary"
             :label="$t('TooltipAcount')"
             :delay="1000"
+            :triggers="['hover']"
           >
             <b-button
               v-if="this.$route.path.includes('pictalk')"
@@ -159,6 +164,7 @@
             type="is-primary"
             :label="$t('TooltipHelp')"
             :delay="1000"
+            :triggers="['hover']"
           >
             <b-button
               type="is-light"
@@ -174,6 +180,7 @@
             type="is-primary"
             :label="$t('TooltipLogout')"
             :delay="1000"
+            :triggers="['hover']"
           >
             <b-button type="is-light" icon-right="logout" @click="onLogout" />
           </b-tooltip>

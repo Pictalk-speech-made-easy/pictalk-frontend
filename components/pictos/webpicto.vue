@@ -5,6 +5,7 @@
       position="is-bottom"
       is-small
       multilined
+      :delay="1000"
       :triggers="['hover']"
     >
       <b-image id="svg" lazy :src="webpicto.src"></b-image>
