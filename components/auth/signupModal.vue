@@ -298,287 +298,296 @@ import sharers from "@/mixins/sharers";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
+import Tutorial from "@/components/navigation/tutorial";
 import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
-	mixins: [deviceInfos, emoji, tts, lang, sharers],
-	props: {
-		recoverCode: {
-			type: Boolean,
-			required: false,
-			default: () => false,
-		},
-		credentials: {
-			type: Object,
-			required: false,
-		},
-	},
-	data() {
-		return {
-			username: "",
-			password: "",
-			voiceURI: "",
-			voices: [],
-			voiceURIs: [],
-			terms: false,
-			majority: false,
-			initialization: true,
-			passwordConfirmation: "",
-			loadingVoices: true,
-			showLanguages: false,
-			activeStep: 0,
-			notSignedUp: true,
-			maxStep: 3,
-			verificationToken: "",
-			verificationLoading: false,
-			signupLoading: false,
-			mailLoading: false,
-			table: false,
-			selected: {},
-			loading: false,
-			directSharers: [],
-			directSharersObj: [],
-			addDirectSharer: "",
-			columns: [
-				{
-					field: "username",
-					label: "",
-					searchable: false,
-				},
-			],
-		};
-	},
-	beforeUpdate() {
-		this.initialization = false;
-	},
-	created() {
-		if (this.recoverCode) {
-			this.notSignedUp = false;
-			this.maxStep = 4;
-			this.activeStep = 4;
-			this.username = this.credentials.username;
-			this.password = this.credentials.password;
-		}
-	},
-	methods: {
-		nextStep() {
-			this.activeStep += 1;
-		},
-		previousStep() {
-			this.activeStep -= 1;
-		},
-		async onSubmit() {
-			if (
-				this.username == "" ||
-				this.password == "" ||
-				this.passwordConfirmation == "" ||
-				this.major == false ||
-				this.terms == false ||
-				this.voiceURI == "" ||
-				this.voiceURIs.length == 0
-			) {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("PleaseCompleteForm"),
-					position: "is-top-right",
-					type: "is-info",
-					hasIcon: true,
-					icon: "account",
-				});
-				return;
-			}
-			if (this.passwordConfirmation != this.password) {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("PasswordNotCorrespond"),
-					position: "is-top-right",
-					type: "is-warning",
-					hasIcon: true,
-					icon: "key",
-				});
-				return;
-			}
-			//let device, language, languages = {};
-			let device = {};
-			let language = {};
-			let languages = {};
-			device[this.getDeviceInfo()] = {
-				voiceURI: this.voiceURI,
-				pitch: "",
-			};
-			language[
-				convertToSimpleLanguage(
-					this.voices.filter(
-						(voice) => voice.voiceURI == this.voiceURI
-					)[0]?.lang
-				)
-			] = device;
-			Object.assign(languages, language);
-			this.voiceURIs.forEach((voiceURI) => {
-				device[this.getDeviceInfo()] = {
-					voiceURI: voiceURI,
-					pitch: "",
-				};
-				languages[
-					convertToSimpleLanguage(
-						this.voices.filter(
-							(voice) => voice.voiceURI == voiceURI
-						)[0]?.lang
-					)
-				] = device;
-			});
-			try {
-				this.signupLoading = true;
-				const res = await axios.post("/auth/signup", {
-					username: this.username,
-					password: this.password,
-					language: JSON.stringify(language),
-					languages: JSON.stringify(languages),
-					directSharers: this.directSharers,
-					displayLanguage: this.localeCode(),
-				});
-				if (res.status == 201) {
-					this.notSignedUp = false;
-					this.maxStep = 4;
-					this.activeStep = 4;
-					const notif = this.$buefy.notification.open({
-						duration: 5000,
-						message: this.$t("AccountCreated"),
-						position: "is-top-right",
-						type: "is-success",
-						hasIcon: true,
-					});
-				}
-				this.signupLoading = false;
-			} catch (error) {
-				if (error.response) {
-					if (
-						error.response.status == 400 ||
-						error.response.status == 401
-					) {
-						const notif = this.$buefy.notification.open({
-							duration: 5000,
-							message: this.$t("ParametersInvalid"),
-							position: "is-top-right",
-							type: "is-danger",
-							hasIcon: true,
-							icon: "account",
-						});
-					} else {
-						if (error.response.status == 409) {
-							const notif = this.$buefy.notification.open({
-								duration: 5000,
-								message: this.$t("EmailAlreadyInUse"),
-								position: "is-top-right",
-								type: "is-danger",
-								hasIcon: true,
-								icon: "mail",
-							});
-						} else {
-							const notif = this.$buefy.notification.open({
-								duration: 5000,
-								message: this.$t("ServerOffline"),
-								position: "is-top-right",
-								type: "is-danger",
-								hasIcon: true,
-								icon: "account",
-							});
-						}
-					}
-				} else {
-					const notif = this.$buefy.notification.open({
-						duration: 5000,
-						message: this.$t("ServerOffline"),
-						position: "is-top-right",
-						type: "is-danger",
-						hasIcon: true,
-						icon: "account",
-					});
-				}
-				this.signupLoading = false;
-			}
-		},
-		async onVerify() {
-			this.verificationLoading = true;
-			let validationUrl = `/auth/validation/${this.verificationToken}`;
-			try {
-				const res = await axios.get(validationUrl);
-				if (res.status == 200) {
-					this.verificationLoading = false;
-					const notif = this.$buefy.notification.open({
-						duration: 5000,
-						message: this.$t("VerificationSuccess"),
-						position: "is-top-right",
-						type: "is-success",
-					});
-					this.$parent.close();
-					await this.$store.dispatch("authenticateUser", {
-						username: this.username,
-						password: this.password,
-						isLogin: true,
-					});
-					this.$router.push("/pictalk");
-				}
-			} catch (error) {
-				if (error.response) {
-					if (error.response.status == 401) {
-						const notif = this.$buefy.notification.open({
-							duration: 4000,
-							message: this.$t("VerificationToken"),
-							position: "is-top-right",
-							type: "is-danger",
-							hasIcon: true,
-							icon: "key",
-						});
-					}
-					this.verificationLoading = false;
-				}
-			}
-		},
-		async sendAnotherMail() {
-			let validationUrl = `/auth/validation/${this.username}`;
-			try {
-				this.mailLoading = true;
-				const res = await axios.post(validationUrl);
-				if (res.status == 201) {
-					const notif = this.$buefy.notification.open({
-						duration: 5000,
-						message: this.$t("VerificationMoreMailSuccess"),
-						position: "is-top-right",
-						type: "is-info",
-						hasIcon: true,
-						icon: "email-check-outline",
-					});
-				}
-				this.mailLoading = false;
-			} catch (error) {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("VerificationMoreMailFail"),
-					position: "is-top-right",
-					type: "is-danger",
-					hasIcon: true,
-					icon: "email-remove-outline",
-				});
-				this.mailLoading = false;
-			}
-		},
-	},
+  mixins: [deviceInfos, emoji, tts, lang, sharers],
+  components: {
+    Tutorial,
+  },
+  props: {
+    recoverCode: {
+      type: Boolean,
+      required: false,
+      default: () => false,
+    },
+    credentials: {
+      type: Object,
+      required: false,
+    },
+  },
+  data() {
+    return {
+      username: "",
+      password: "",
+      voiceURI: "",
+      voices: [],
+      voiceURIs: [],
+      terms: false,
+      majority: false,
+      initialization: true,
+      passwordConfirmation: "",
+      loadingVoices: true,
+      showLanguages: false,
+      activeStep: 0,
+      notSignedUp: true,
+      maxStep: 3,
+      verificationToken: "",
+      verificationLoading: false,
+      signupLoading: false,
+      mailLoading: false,
+      table: false,
+      selected: {},
+      loading: false,
+      directSharers: [],
+      directSharersObj: [],
+      addDirectSharer: "",
+      columns: [
+        {
+          field: "username",
+          label: "",
+          searchable: false,
+        },
+      ],
+    };
+  },
+  beforeUpdate() {
+    this.initialization = false;
+  },
+  created() {
+    if (this.recoverCode) {
+      this.notSignedUp = false;
+      this.maxStep = 4;
+      this.activeStep = 4;
+      this.username = this.credentials.username;
+      this.password = this.credentials.password;
+    }
+  },
+  methods: {
+    openTutorial() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: Tutorial,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+    },
+    nextStep() {
+      this.activeStep += 1;
+    },
+    previousStep() {
+      this.activeStep -= 1;
+    },
+    async onSubmit() {
+      if (
+        this.username == "" ||
+        this.password == "" ||
+        this.passwordConfirmation == "" ||
+        this.major == false ||
+        this.terms == false ||
+        this.voiceURI == "" ||
+        this.voiceURIs.length == 0
+      ) {
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: this.$t("PleaseCompleteForm"),
+          position: "is-top-right",
+          type: "is-info",
+          hasIcon: true,
+          icon: "account",
+        });
+        return;
+      }
+      if (this.passwordConfirmation != this.password) {
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: this.$t("PasswordNotCorrespond"),
+          position: "is-top-right",
+          type: "is-warning",
+          hasIcon: true,
+          icon: "key",
+        });
+        return;
+      }
+      //let device, language, languages = {};
+      let device = {};
+      let language = {};
+      let languages = {};
+      device[this.getDeviceInfo()] = {
+        voiceURI: this.voiceURI,
+        pitch: "",
+      };
+      language[
+        convertToSimpleLanguage(
+          this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0]
+            ?.lang
+        )
+      ] = device;
+      Object.assign(languages, language);
+      this.voiceURIs.forEach((voiceURI) => {
+        device[this.getDeviceInfo()] = {
+          voiceURI: voiceURI,
+          pitch: "",
+        };
+        languages[
+          convertToSimpleLanguage(
+            this.voices.filter((voice) => voice.voiceURI == voiceURI)[0]?.lang
+          )
+        ] = device;
+      });
+      try {
+        this.signupLoading = true;
+        const res = await axios.post("/auth/signup", {
+          username: this.username,
+          password: this.password,
+          language: JSON.stringify(language),
+          languages: JSON.stringify(languages),
+          directSharers: this.directSharers,
+          displayLanguage: this.localeCode(),
+        });
+        if (res.status == 201) {
+          this.notSignedUp = false;
+          this.maxStep = 4;
+          this.activeStep = 4;
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: this.$t("AccountCreated"),
+            position: "is-top-right",
+            type: "is-success",
+            hasIcon: true,
+          });
+        }
+        this.signupLoading = false;
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 400 || error.response.status == 401) {
+            const notif = this.$buefy.notification.open({
+              duration: 5000,
+              message: this.$t("ParametersInvalid"),
+              position: "is-top-right",
+              type: "is-danger",
+              hasIcon: true,
+              icon: "account",
+            });
+          } else {
+            if (error.response.status == 409) {
+              const notif = this.$buefy.notification.open({
+                duration: 5000,
+                message: this.$t("EmailAlreadyInUse"),
+                position: "is-top-right",
+                type: "is-danger",
+                hasIcon: true,
+                icon: "mail",
+              });
+            } else {
+              const notif = this.$buefy.notification.open({
+                duration: 5000,
+                message: this.$t("ServerOffline"),
+                position: "is-top-right",
+                type: "is-danger",
+                hasIcon: true,
+                icon: "account",
+              });
+            }
+          }
+        } else {
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: this.$t("ServerOffline"),
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            icon: "account",
+          });
+        }
+        this.signupLoading = false;
+      }
+    },
+    async onVerify() {
+      this.verificationLoading = true;
+      let validationUrl = `/auth/validation/${this.verificationToken}`;
+      try {
+        const res = await axios.get(validationUrl);
+        if (res.status == 200) {
+          this.verificationLoading = false;
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: this.$t("VerificationSuccess"),
+            position: "is-top-right",
+            type: "is-success",
+          });
+          this.$parent.close();
+          await this.$store.dispatch("authenticateUser", {
+            username: this.username,
+            password: this.password,
+            isLogin: true,
+          });
+          this.$router.push("/pictalk");
+          this.openTutorial();
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 401) {
+            const notif = this.$buefy.notification.open({
+              duration: 4000,
+              message: this.$t("VerificationToken"),
+              position: "is-top-right",
+              type: "is-danger",
+              hasIcon: true,
+              icon: "key",
+            });
+          }
+          this.verificationLoading = false;
+        }
+      }
+    },
+    async sendAnotherMail() {
+      let validationUrl = `/auth/validation/${this.username}`;
+      try {
+        this.mailLoading = true;
+        const res = await axios.post(validationUrl);
+        if (res.status == 201) {
+          const notif = this.$buefy.notification.open({
+            duration: 5000,
+            message: this.$t("VerificationMoreMailSuccess"),
+            position: "is-top-right",
+            type: "is-info",
+            hasIcon: true,
+            icon: "email-check-outline",
+          });
+        }
+        this.mailLoading = false;
+      } catch (error) {
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: this.$t("VerificationMoreMailFail"),
+          position: "is-top-right",
+          type: "is-danger",
+          hasIcon: true,
+          icon: "email-remove-outline",
+        });
+        this.mailLoading = false;
+      }
+    },
+  },
 };
 </script>
 <style>
 .center {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .contenant {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .fullWidth {
-	width: 100%;
+  width: 100%;
 }
 .fourWidth {
-	width: 39%;
+  width: 39%;
 }
 </style>

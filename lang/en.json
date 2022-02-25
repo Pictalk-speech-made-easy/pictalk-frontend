@@ -288,6 +288,11 @@
 		"ShareDemo": "Share",
 		"CommunicateDemo": "Message",
 		"CreateDemo": "Create",
-		"TalkDemo": "Talk"
-
+		"TalkDemo": "Talk",
+		"Tutorial1": "In your home screen you will find pictograms and collections. collections have a shadow around them, you can think of pictograms and collections as files and folders, a collection can contain several collections and pictograms inside of it. In order to add or edit pictograms and collections you need to press the lock button to get to admin mode",
+		"Tutorial2": "Once in admin mode, you can press the green button to create a pictogram or the red one to create a collection. You can also edit your existing pictograms and collections. By clicking on the star button you can make favorite pictograms and collections and those will appear at the top of the list. Finally you can also press on the blue arrow button to show the rest of the actions.",
+		"Tutorial3": "The creation of pictograms and collection is quite simple, all you have to do is to add an image in the first tab, then a speech and a meaning in the second. The images can be searched directly on Pictalk or can also upload your own images.",
+		"Tutorial4": "Then you can modify the speech and the meaning to your liking, note that the speech is what will be said and the meaning is what will be displayed. Finally you can also assign colors to pictograms and collections which will appear as a border around the pictogram, by default the color is transparent. ",
+		"Tutorial5": "After creating your pictograms and collections you can perform several actions on them by getting in admin mode and then clicking on the blue arrow button. You can edit or delete pictograms. Collections can also be copied and then pasted and also shared to other users",
+		"TutorialSkip" : "Skip tutorial"
 }
