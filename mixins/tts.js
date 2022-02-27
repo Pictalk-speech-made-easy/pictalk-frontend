@@ -31,6 +31,7 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
+			console.log(this.$store.getters.getUser);
 			if (this.$store.getters.getUser.language) {
 				console.log("voicesLoader: user is logged");
 				this.voiceURI =
@@ -60,6 +61,8 @@ export default {
 					(voice) => voice.lang == this.localeIso()
 				)[0]?.voiceURI;
 			}
+			console.log(this.voices);
+			console.log(this.loadingVoices);
 		});
 	},
 	methods: {
