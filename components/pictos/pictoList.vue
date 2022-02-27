@@ -136,6 +136,7 @@ export default {
       return this.$route.query.isAdmin ? "lock-open-variant" : "lock";
     },
     checkCopyCollectionId() {
+      console.log("CHECKING HERE");
       return (
         this.$store.getters.getCopyCollectionId ||
         this.$store.getters.getShortcutCollectionId
