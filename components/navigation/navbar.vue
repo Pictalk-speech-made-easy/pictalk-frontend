@@ -15,9 +15,6 @@
 				<b-navbar-item tag="nuxt-link" to="/">
 					{{ $t("Home") }}</b-navbar-item
 				>
-				<b-navbar-item tag="nuxt-link" to="/getstarted"
-					>{{ $t("GetStarted") }} 🚀</b-navbar-item
-				>
 				<b-navbar-dropdown collapsible :label="$t('More')">
 					<b-navbar-item tag="nuxt-link" to="/about">{{
 						$t("Infos")
