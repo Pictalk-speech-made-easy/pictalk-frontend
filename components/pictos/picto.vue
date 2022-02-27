@@ -217,7 +217,9 @@ export default {
     async alternateStar() {
       try {
         this.$store.dispatch(
-          this.picto.collection ? "editCollection" : "editPicto",
+          this.picto.collection
+            ? "alternateCollectionStar"
+            : "alternatePictoStar",
           {
             ...this.picto,
             starred: !this.picto.starred,
