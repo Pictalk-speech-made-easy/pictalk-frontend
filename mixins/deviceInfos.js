@@ -24,6 +24,13 @@ export default {
 			if (window.navigator.userAgent.indexOf("X11") != -1) return "UNIX";
 			if (window.navigator.userAgent.indexOf("Linux") != -1)
 				return "Linux";
+			if (window.navigator.userAgent.indexOf("Android") != -1)
+			return "Android";
+			if (window.navigator.userAgent.indexOf("iPhone") != -1)
+			return "iPhone";
+			if (window.navigator.userAgent.indexOf("iPad") != -1)
+			return "iPad";
+			else return "Unknown"
 		},
 	},
 }
