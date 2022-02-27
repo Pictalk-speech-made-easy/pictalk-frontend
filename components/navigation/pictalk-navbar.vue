@@ -11,7 +11,7 @@
 		</template>
 		<template slot="start">
 			<b-navbar-item @click="openTutorialModal()"
-				>{{ $t("GetStarted") }} 🚀</b-navbar-item
+				>{{ $t("Tutorial") }} 🚀</b-navbar-item
 			>
 			<b-navbar-dropdown collapsible label="Info">
 				<b-navbar-item tag="nuxt-link" to="/about">{{
