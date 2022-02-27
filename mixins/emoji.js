@@ -7,7 +7,7 @@ export default {
 			}
 			let emojiOrText;
 			let languageRegex = language?.match(/[a-z]{2}-[A-Z]{2}/g);
-			if (languageRegex.length >= 1) {
+			if (languageRegex && languageRegex.length >= 1) {
 				languageRegex = languageRegex[0];
 				try {
 					emojiOrText = countryCodeEmoji(languageRegex.split("-")[1]);
