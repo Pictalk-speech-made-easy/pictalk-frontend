@@ -221,8 +221,11 @@ export default {
 			intervalId: null,
 		};
 	},
+	destroyed() {
+		clearInterval(this.intervalId);
+	},
 	mounted() {
-		this.intervalId = setInterval(async function () {
+		this.intervalId = setInterval(async () => {
 			if (window.navigator.onLine) {
 				try {
 					const notificationsRequest = await axios.get(
@@ -244,6 +247,7 @@ export default {
 					}
 					return notifications;
 				} catch (err) {
+					clearInterval(this.intervalId);
 					return [];
 				}
 			}

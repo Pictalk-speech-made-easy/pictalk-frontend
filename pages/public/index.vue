@@ -28,7 +28,11 @@ export default {
 		};
 	},
 	async fetch() {
-		this.$store.dispatch("getPublicCollections");
+		try {
+			this.$store.dispatch("getPublicCollections");
+		} catch (err) {
+			throw new Error(err);
+		}
 	},
 	computed: {
 		isLogged() {
