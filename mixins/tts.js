@@ -31,7 +31,8 @@ export default {
 		allVoicesObtained.then((voices) => {
 			this.voices = voices;
 			this.loadingVoices = false;
-			if (this.$store.getters.getUser) {
+			if (this.$store.getters.getUser.language) {
+				console.log("voicesLoader: user is logged");
 				this.voiceURI =
 					this.$store.getters.getUser.language[this.getUserLang][
 						this.getDeviceInfo()
@@ -54,6 +55,7 @@ export default {
 					)[0]?.voiceURI;
 				}
 			} else {
+				console.log("voicesLoader: user is NOT logged");
 				this.voiceURI = this.voices.filter(
 					(voice) => voice.lang == this.localeIso()
 				)[0]?.voiceURI;
@@ -119,8 +121,8 @@ export default {
 		async playSentenceInLanguage(lang, voiceURI) {
 			let translatedText =
 				frenchFries[convertToSimpleLanguage(lang)];
-		
-				translatedText ? this.pronounce(translatedText, lang, voiceURI): ()=>{return};
+
+			translatedText ? this.pronounce(translatedText, lang, voiceURI) : () => { return };
 		},
 	},
 	computed: {
