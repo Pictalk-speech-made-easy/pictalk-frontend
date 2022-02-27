@@ -313,7 +313,7 @@ export default {
       const languageLang = convertToSimpleLanguage(
         this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0]?.lang
       );
-      if (languageLang != "undifined") {
+      if (languageLang != "undefined") {
         language[languageLang] = device;
         if (Object.keys(this.user.language)[0] == languageLang) {
           editedLanguage = Object.assign(
