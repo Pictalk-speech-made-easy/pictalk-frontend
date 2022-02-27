@@ -6,12 +6,14 @@ export default {
 				language = language.replace("_", "-");
 			}
 			let emojiOrText;
-			if (language?.match(/[a-z]{2}-[A-Z]{2}/g)) {
+			let languageRegex = language?.match(/[a-z]{2}-[A-Z]{2}/g);
+			if (languageRegex.length >= 1) {
+				languageRegex = languageRegex[0];
 				try {
-					emojiOrText = countryCodeEmoji(language.split("-")[1]);
+					emojiOrText = countryCodeEmoji(languageRegex.split("-")[1]);
 				} catch (err) {
-					emojiOrText = language;
-					throw new Error("Could not get emoji from language: " + language);
+					emojiOrText = languageRegex;
+					throw new Error("Could not get emoji from language: " + languageRegex);
 				}
 				return emojiOrText;
 			} else {
