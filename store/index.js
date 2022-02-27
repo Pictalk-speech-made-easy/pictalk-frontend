@@ -233,6 +233,60 @@ export const actions = {
 		vuexContext.commit("removePicto", { pictoId, fatherCollectionId });
 		return res;
 	},
+	async alternatePictoStar(vuexContext, picto) {
+		let formData = new FormData();
+		formData.append("starred", picto.starred);
+		const editedPicto = (await axios
+			.put("/picto/" + picto.id, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data"
+				}
+			})).data;
+			vuexContext.commit("editPicto", {
+				speech: picto.speech,
+				meaning: picto.meaning,
+				color: picto.color,
+				collections: editedPicto.collections,
+				userId: editedPicto.userId,
+				shared: editedPicto.shared,
+				image: axios.defaults.baseURL + "/image/pictalk/" + editedPicto.image,
+				fatherCollectionId: picto.fatherCollectionId,
+				id: picto.id,
+				starred: JSON.parse(editedPicto.starred),
+				editors: editedPicto.editors,
+				viewers: editedPicto.viewers,
+				public: editedPicto.public,
+				createdDate: editedPicto.createdDate,
+				updatedDate: editedPicto.updatedDate,
+			});
+	},
+	async alternateCollectionStar(vuexContext, collection) {
+		let formData = new FormData();
+		formData.append("starred", collection.starred);
+		const editedCollection = (await axios
+			.put("/collection/" + collection.id, formData, {
+				headers: {
+					"Content-Type": "multipart/form-data"
+				}
+			})).data;
+			vuexContext.commit("editCollection", {
+				speech: collection.speech,
+				meaning: collection.meaning,
+				color: collection.color,
+				collections: editedCollection.collections,
+				userId: editedCollection.userId,
+				shared: editedCollection.shared,
+				image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
+				fatherCollectionId: collection.fatherCollectionId,
+				id: collection.id,
+				starred: JSON.parse(editedCollection.starred),
+				editors: editedCollection.editors,
+				viewers: editedCollection.viewers,
+				public: editedCollection.public,
+				createdDate: editedCollection.createdDate,
+				updatedDate: editedCollection.updatedDate,
+			});
+	},
 	async addCollection(vuexContext, collection) {
 		let formData = new FormData();
 		formData.append("speech", JSON.stringify(collection.speech));
