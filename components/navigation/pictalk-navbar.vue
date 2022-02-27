@@ -10,9 +10,9 @@
 			</b-navbar-item>
 		</template>
 		<template slot="start">
-			<b-navbar-item tag="nuxt-link" to="/">{{
-				$t("Home")
-			}}</b-navbar-item>
+			<b-navbar-item @click="openTutorialModal()"
+				>{{ $t("GetStarted") }} 🚀</b-navbar-item
+			>
 			<b-navbar-dropdown collapsible label="Info">
 				<b-navbar-item tag="nuxt-link" to="/about">{{
 					$t("Infos")
@@ -168,8 +168,7 @@
 							v-if="this.$route.path.includes('pictalk')"
 							type="is-info"
 							icon-right="cog"
-							tag="nuxt-link"
-							to="/account"
+							@click="goToAccount()"
 						/>
 					</b-tooltip>
 					<b-tooltip
@@ -213,6 +212,7 @@ import lang from "@/mixins/lang";
 import axios from "axios";
 import navbar from "@/mixins/navbar";
 import enforcedSecurity from "@/mixins/enforcedSecurity";
+import Tutorial from "@/components/navigation/tutorial";
 export default {
 	mixins: [lang, navbar, enforcedSecurity],
 	data() {
@@ -269,6 +269,16 @@ export default {
 		},
 	},
 	methods: {
+		openTutorialModal() {
+			this.$buefy.modal.open({
+				parent: this,
+				component: Tutorial,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+				canCancel: ["escape", "x"],
+			});
+		},
 		notificationGoToCollectionOrReturn(notification) {
 			const adminMode = this.$route.query.isAdmin ? "?isAdmin=true" : "";
 			if (
@@ -327,6 +337,20 @@ export default {
 				);
 			} else {
 				this.$router.push("/pictalk" + this.admin);
+			}
+		},
+		goToAccount() {
+			if (this.admin) {
+				this.$router.push("/account" + this.admin);
+			} else {
+				if (this.$store.getters.getUser.settings.securityMode) {
+					let postFunction = function (t) {
+						t.$router.push("/account");
+					};
+					this.enforcedSecurityMinor(postFunction);
+				} else {
+					this.$router.push("/account");
+				}
 			}
 		},
 	},

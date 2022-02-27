@@ -12,8 +12,11 @@
 				</b-navbar-item>
 			</template>
 			<template slot="start">
-				<b-navbar-item tag="nuxt-link" to="/">
+				<b-navbar-item v-if="$route.path != '/'" tag="nuxt-link" to="/">
 					{{ $t("Home") }}</b-navbar-item
+				>
+				<b-navbar-item tag="nuxt-link" to="/pictograms"
+					>{{ $t("Pictograms") }} 👐</b-navbar-item
 				>
 				<b-navbar-dropdown collapsible :label="$t('More')">
 					<b-navbar-item tag="nuxt-link" to="/about">{{
@@ -21,9 +24,6 @@
 					}}</b-navbar-item>
 					<b-navbar-item tag="nuxt-link" to="/contact"
 						>{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
-					>
-					<b-navbar-item tag="nuxt-link" to="/pictograms"
-						>{{ $t("Pictograms") }} 👐</b-navbar-item
 					>
 					<b-navbar-item tag="nuxt-link" to="/news"
 						>{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
