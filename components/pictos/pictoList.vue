@@ -181,30 +181,52 @@ export default {
     },
     async copyCollection() {
       if (this.$store.getters.getCopyCollectionId) {
-        await this.$store.dispatch("copyCollectionById", {
-          collectionId: this.$store.getters.getCopyCollectionId,
-          fatherCollectionId: this.$route.params.fatherCollectionId,
-          collection: this.getCollectionFromId(
-            parseInt(this.$route.params.fatherCollectionId, 10)
-          ),
-        });
-        this.$store.commit("resetCopyCollectionId");
-      } else if (this.$store.getters.getShortcutCollectionId) {
-        let collection = JSON.parse(
-          JSON.stringify(
-            this.getCollectionFromId(
+        try {
+          await this.$store.dispatch("copyCollectionById", {
+            collectionId: this.$store.getters.getCopyCollectionId,
+            fatherCollectionId: this.$route.params.fatherCollectionId,
+            collection: this.getCollectionFromId(
               parseInt(this.$route.params.fatherCollectionId, 10)
+            ),
+          });
+          this.$store.commit("resetCopyCollectionId");
+        } catch (error) {
+          if (error.response.status == 401) {
+            this.$buefy.toast.open({
+              duration: 5000,
+              message: this.$t("NotAuthorized"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          }
+        }
+      } else if (this.$store.getters.getShortcutCollectionId) {
+        try {
+          let collection = JSON.parse(
+            JSON.stringify(
+              this.getCollectionFromId(
+                parseInt(this.$route.params.fatherCollectionId, 10)
+              )
             )
-          )
-        );
-        collection.collections.push({
-          id: this.$store.getters.getShortcutCollectionId,
-        });
-        await this.$store.dispatch("editCollection", {
-          id: collection.id,
-          collections: collection.collections,
-        });
-        this.$store.commit("resetShortcutCollectionId");
+          );
+          collection.collections.push({
+            id: this.$store.getters.getShortcutCollectionId,
+          });
+          await this.$store.dispatch("editCollection", {
+            id: collection.id,
+            collections: collection.collections,
+          });
+          this.$store.commit("resetShortcutCollectionId");
+        } catch (error) {
+          if (error.response.status == 401) {
+            this.$buefy.toast.open({
+              duration: 5000,
+              message: this.$t("NotAuthorized"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          }
+        }
       }
     },
     getCollectionFromId(id) {

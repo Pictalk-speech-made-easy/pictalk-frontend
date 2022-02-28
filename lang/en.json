@@ -1,4 +1,5 @@
 {
+		"NotAuthorized" : "You don't have the rights to edit this Collection",
     "Home": "Home",
     "Description": "Pictalk aims to enable non-verbal people communications using AAC resources and Text-to-Speech. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ",
     "GetStarted": "Get Started!",
