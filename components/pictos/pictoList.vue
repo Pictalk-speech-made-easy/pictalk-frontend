@@ -198,6 +198,13 @@ export default {
               position: "is-top",
               type: "is-danger",
             });
+          } else {
+            this.$buefy.toast.open({
+              duration: 5000,
+              message: this.$t("CouldNotPaste"),
+              position: "is-top",
+              type: "is-danger",
+            });
           }
         }
       } else if (this.$store.getters.getShortcutCollectionId) {
@@ -222,6 +229,13 @@ export default {
             this.$buefy.toast.open({
               duration: 5000,
               message: this.$t("NotAuthorized"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          } else {
+            this.$buefy.toast.open({
+              duration: 5000,
+              message: this.$t("CouldNotPaste"),
               position: "is-top",
               type: "is-danger",
             });
