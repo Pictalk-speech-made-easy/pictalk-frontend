@@ -1,4 +1,4 @@
-const apiUrl = 'https://apidev.pictalk.org'
+const apiUrl = 'https://api.pictalk.org'
 checkAuthenticated(self);
 async function checkAuthenticated(self) {
 	const cookies = await self.cookieStore.getAll();
@@ -39,18 +39,21 @@ async function checkMissingPictosAndFetch(self, token) {
 	allPictosAndCollections = allPictosAndCollections.filter(function (item, pos) {
 		return allPictosAndCollections.indexOf(item) == pos;
 	});
-
 	let toFetchImages = [...allPictosAndCollections];
 	caches.open("pictos").then(async (cache) => {
-		await Promise.all(allPictosAndCollections.map((pictoOrCollection) =>
-			cache.match(new Request(pictoOrCollection.image), {
+		allPictosAndCollections = await Promise.all(allPictosAndCollections.map((pictoOrCollection) =>
+			cache.match(new Request(pictoOrCollection), {
 				ignoreSearch: false,
 				ignoreVary: true
 			})
 		));
-
-		allPictosAndCollections.forEach((cacheRequest) => { toFetchImages[toFetchImages.indexOf(cacheRequest)] = toFetchImages[toFetchImages.length - 1]; toFetchImages.pop(); });
-
+		allPictosAndCollections = allPictosAndCollections.map((resp) => resp.url);
+		allPictosAndCollections.forEach((cacheRequest) => {
+			if (toFetchImages.indexOf(cacheRequest) != -1) {
+				toFetchImages[toFetchImages.indexOf(cacheRequest)] = toFetchImages[toFetchImages.length - 1];
+				toFetchImages.pop();
+			}
+		});
 		try {
 			if (navigator.onLine) {
 				await cache.addAll(toFetchImages);
