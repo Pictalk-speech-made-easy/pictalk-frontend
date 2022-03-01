@@ -30,7 +30,7 @@
 					class="changeOnViewport"
 				></b-image>
 				{{ $t("WantToBeABacker") }}
-				<a href="mailto:alex@pictalk.xyz">{{ $t("Us") }}</a>
+				<a href="mailto:alex@pictalk.org">alex@pictalk.org</a>
 				!
 			</div>
 		</footer>

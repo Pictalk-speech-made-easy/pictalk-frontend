@@ -130,7 +130,7 @@
 			</div>
 		</section>
 		<div class="container">
-			<a href="https://play.google.com/store/apps/details?id=xyz.pictalk.www.twa">
+			<a href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
 				<b-image
 					class="center"
 								lazy
