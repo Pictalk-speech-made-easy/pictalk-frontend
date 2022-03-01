@@ -242,23 +242,10 @@ export const actions = {
 					"Content-Type": "multipart/form-data"
 				}
 			})).data;
-			vuexContext.commit("editPicto", {
-				speech: picto.speech,
-				meaning: picto.meaning,
-				color: picto.color,
-				collections: editedPicto.collections,
-				userId: editedPicto.userId,
-				shared: editedPicto.shared,
-				image: axios.defaults.baseURL + "/image/pictalk/" + editedPicto.image,
-				fatherCollectionId: picto.fatherCollectionId,
-				id: picto.id,
-				starred: JSON.parse(editedPicto.starred),
-				editors: editedPicto.editors,
-				viewers: editedPicto.viewers,
-				public: editedPicto.public,
-				createdDate: editedPicto.createdDate,
-				updatedDate: editedPicto.updatedDate,
-			});
+		vuexContext.commit("editPicto", {
+			starred: JSON.parse(editedPicto.starred),
+			id: editedPicto.id
+		});
 	},
 	async alternateCollectionStar(vuexContext, collection) {
 		let formData = new FormData();
@@ -269,23 +256,10 @@ export const actions = {
 					"Content-Type": "multipart/form-data"
 				}
 			})).data;
-			vuexContext.commit("editCollection", {
-				speech: collection.speech,
-				meaning: collection.meaning,
-				color: collection.color,
-				collections: editedCollection.collections,
-				userId: editedCollection.userId,
-				shared: editedCollection.shared,
-				image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
-				fatherCollectionId: collection.fatherCollectionId,
-				id: collection.id,
-				starred: JSON.parse(editedCollection.starred),
-				editors: editedCollection.editors,
-				viewers: editedCollection.viewers,
-				public: editedCollection.public,
-				createdDate: editedCollection.createdDate,
-				updatedDate: editedCollection.updatedDate,
-			});
+		vuexContext.commit("editCollection", {
+			starred: JSON.parse(editedCollection.starred),
+			id: editedCollection.id
+		});
 	},
 	async addCollection(vuexContext, collection) {
 		let formData = new FormData();
@@ -358,10 +332,12 @@ export const actions = {
 			...editedCollection,
 			...(editedCollection.meaning && { meaning: JSON.parse(editedCollection.meaning) }),
 			...(editedCollection.speech && { speech: JSON.parse(editedCollection.speech) }),
-			...(editedCollection.starred && { speech: JSON.parse(editedCollection.starred) }),
+			...(editedCollection.starred && { starred: JSON.parse(editedCollection.starred) }),
 			image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
 			createdDate: editedCollection.createdDate,
 			updatedDate: editedCollection.updatedDate,
+			collections: editedCollection.collections.map((colle) => parseAndUpdateEntireCollection(vuexContext, colle)),
+			pictos: editedCollection.pictos.map((pict) => parseAndUpdatePictogram(vuexContext, pict)),
 		});
 	},
 	async removeCollection(vuexContext, { collectionId, fatherCollectionId }) {
@@ -628,6 +604,27 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
 		vuexContext.commit("editCollection", collection);
 	}
 	return collection;
+}
+
+function parseAndUpdatePictogram(vuexContext, picto) {
+	if (picto.image) {
+		picto.image =
+			axios.defaults.baseURL +
+			"/image/pictalk/" +
+			picto.image;
+	}
+	if (picto.meaning) {
+		picto.meaning = JSON.parse(picto.meaning);
+	}
+	if (picto.speech) {
+		picto.speech = JSON.parse(picto.speech);
+	}
+	if (!getPictoFromId(vuexContext, picto.id)) {
+		vuexContext.commit("addPicto", picto);
+	} else {
+		vuexContext.commit("editPicto", picto);
+	}
+	return picto;
 }
 
 function getCollectionFromId(vuexContext, id) {
