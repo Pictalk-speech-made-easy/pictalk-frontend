@@ -1,4 +1,9 @@
 {
+		"EditPicto": "edit",
+		"DeletePicto": "delete",
+		"CopyPicto": "copy",
+		"LinkPicto": "create link",
+		"SharePicto": "share",
 		"NotAuthorized" : "You don't have the rights to edit this collection",
 		"CouldNotPaste" : "Couldn't paste inside this collection",
     "Home": "Home",
