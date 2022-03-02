@@ -534,7 +534,7 @@ export default {
 					);
 					this.$buefy.toast.open({
 						message: isCollection
-							? this.$t("Collection")
+							? this.$t("CreatedCollection")
 							: this.$t("CreatedPictogram"),
 						type: "is-success",
 					});
