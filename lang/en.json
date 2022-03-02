@@ -277,5 +277,5 @@
 		"Tutorial3": "The creation of pictograms and collection is quite simple, all you have to do is to add an image in the first tab, then a speech and a meaning in the second. The images can be searched directly on Pictalk or can also upload your own images.",
 		"Tutorial4": "Then you can modify the speech and the meaning to your liking, note that the speech is what will be said and the meaning is what will be displayed. Finally you can also assign colors to pictograms and collections which will appear as a border around the pictogram, by default the color is transparent. ",
 		"Tutorial5": "After creating your pictograms and collections you can perform several actions on them by getting in admin mode and then clicking on the blue arrow button. You can edit or delete pictograms. Collections can also be copied and then pasted and also shared to other users",
-		"TutorialSkip" : "Skip tutorial"
+		"TutorialSkip" : "end tutorial"
 }

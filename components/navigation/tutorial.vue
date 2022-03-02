@@ -92,6 +92,7 @@
             </div>
             <div class="column is-half">
               <b-button
+                :disabled="activeStep != 4"
                 :label="$t('TutorialSkip')"
                 expanded
                 @click="$parent.close()"
