@@ -47,7 +47,7 @@ async function checkMissingPictosAndFetch(self, token) {
 				ignoreVary: true
 			})
 		));
-		allPictosAndCollections = allPictosAndCollections.map((resp) => resp.url);
+		allPictosAndCollections = allPictosAndCollections.map((resp) => resp?.url);
 		allPictosAndCollections.forEach((cacheRequest) => {
 			if (toFetchImages.indexOf(cacheRequest) != -1) {
 				toFetchImages[toFetchImages.indexOf(cacheRequest)] = toFetchImages[toFetchImages.length - 1];
