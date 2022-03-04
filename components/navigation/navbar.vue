@@ -50,7 +50,7 @@
 						<b-button
 							v-else
 							tag="nuxt-link"
-							to="/pictalk"
+							:to="pictalkHome"
 							type="is-primary"
 							icon-right="home"
 						></b-button>
@@ -103,6 +103,13 @@ export default {
 		signup,
 	},
 	computed: {
+		pictalkHome() {
+			if (this.$store.getters.getRootId) {
+				return "/pictalk/" + this.$store.getters.getRootId;
+			} else {
+				return "/pictalk";
+			}
+		},
 		availableLocales() {
 			return this.$i18n.locales.filter(
 				(i) => i.code !== this.$i18n.locale
