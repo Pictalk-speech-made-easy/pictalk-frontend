@@ -18,10 +18,13 @@ export default {
 		};
 	},
 	async created() {
-		try {
-			await this.$store.dispatch("getUser");
-		} catch (err) {
-			console.log(err);
+		if (!this.$store.getters.getUser.username) {
+			try {
+				await this.$store.dispatch("getUser");
+			} catch (err) {
+				console.log(err);
+				throw new Error(err);
+			}
 		}
 		if (
 			this.$store.getters.isAuthenticated &&
