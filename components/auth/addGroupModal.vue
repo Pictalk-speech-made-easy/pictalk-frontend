@@ -1,6 +1,6 @@
 <template>
   <div class="modal-card" style="width: auto">
-    <header class="modal-card-head">
+    <header class="modal-card-head" style="padding: 2%">
       <b-button
         class="button"
         type="is-danger"
@@ -77,7 +77,7 @@
         </b-step-item>
       </b-steps>
     </section>
-    <footer class="modal-card-foot">
+    <footer class="modal-card-foot" style="padding: 2%">
       <div class="container">
         <div class="columns is-mobile is-full">
           <div class="column is-one-quarter">

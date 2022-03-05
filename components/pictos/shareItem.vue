@@ -1,6 +1,6 @@
 <template>
   <div class="modal-card" style="width: auto">
-    <header class="modal-card-head">
+    <header class="modal-card-head" style="padding: 2%">
       <b-button
         class="button"
         type="is-danger"
@@ -114,7 +114,7 @@
         </b-field>
       </div>
     </section>
-    <footer class="modal-card-foot">
+    <footer class="modal-card-foot" style="padding: 2%">
       <b-button class="button" type="button" @click="$parent.close()">{{
         $t("Close")
       }}</b-button>
