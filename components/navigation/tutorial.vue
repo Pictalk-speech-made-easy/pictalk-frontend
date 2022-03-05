@@ -1,116 +1,135 @@
 <template>
   <form action>
     <div class="modal-card" style="width: auto">
-      <header class="modal-card-head">
+      <header class="modal-card-head" style="padding: 2%">
         <b-button
           class="button"
           type="is-danger"
           icon-left="arrow-left"
           @click="$parent.close()"
         />
-        <p align="center" class="modal-card-title">
+        <p style="text-align: center" class="modal-card-title">
           {{ $t("TitleTutorial") }}
         </p>
       </header>
       <section class="modal-card-body">
-        <b-steps
-          v-model="activeStep"
-          rounded
-          animated
-          :has-navigation="false"
-          mobile-mode="compact"
-          label-position="bottom"
+        <p style="text-align: center">
+          <b class="is-size-4">
+            {{ $t("TutorialAdminMode") }}
+          </b>
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/admin-mode.mp4')"
+        ></video>
+        <p class="is-size-6 notification">
+          {{ $t("Tutorial1") }}
+        </p>
+        <hr />
+        <p style="text-align: center">
+          <b class="is-size-4">
+            {{ $t("TutorialCreateItems") }}
+          </b>
+        </p>
+        <p class="is-size-6 notification">
+          {{ $t("Tutorial2") }}
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/create-collection.mp4')"
+        ></video>
+        <p class="is-size-6 notification">
+          {{ $t("Tutorial3") }}
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/create-picto.mp4')"
+        ></video>
+
+        <p class="is-size-6 notification">
+          {{ $t("Tutorial4") }}
+        </p>
+        <hr />
+        <p style="text-align: center">
+          <b class="is-size-4">
+            {{ $t("TutorialEditItem") }}
+          </b>
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/edit-picto.mp4')"
+        ></video>
+
+        <p class="is-size-6 notification">
+          {{ $t("TutorialStar") }}
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/star-picto.mp4')"
+        ></video>
+        <hr />
+        <p style="text-align: center">
+          <b class="is-size-4">
+            {{ $t("TutorialCopy") }}
+          </b>
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/copy.mp4')"
+        ></video>
+        <p class="is-size-6 notification">
+          {{ $t("TutorialCopyText") }}
+        </p>
+        <hr />
+        <p style="text-align: center">
+          <b class="is-size-4">
+            {{ $t("TutorialLink") }}
+          </b>
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/link.mp4')"
+        ></video>
+        <p class="is-size-6 notification">
+          {{ $t("TutorialLinkText") }}
+        </p>
+        <hr />
+        <p style="text-align: center">
+          <b class="is-size-4">
+            {{ $t("TutorialDelete") }}
+          </b>
+        </p>
+        <video
+          controls
+          loop
+          alt="A little boy talking thanks to Pictalk"
+          :src="require('@/static/delete-item.mp4')"
+        ></video>
+        <p class="is-size-6 notification">
+          {{ $t("TutorialDeleteText") }}
+        </p>
+        <b-button
+          type="is-success"
+          :label="$t('TutorialSkip')"
+          expanded
+          @click="$parent.close()"
         >
-          <b-step-item clickable step="1" clickable>
-            <b-image
-              lazy
-              alt="A little boy talking thanks to Pictalk"
-              :srcset="require('@/assets/Tutorial1.jpg').srcSet"
-              style="width: 70%; margin-left: 15%"
-            ></b-image>
-            <p class="is-size-6 notification">
-              {{ $t("Tutorial1") }}
-            </p>
-          </b-step-item>
-          <b-step-item step="2" clickable>
-            <b-image
-              lazy
-              alt="A little boy talking thanks to Pictalk"
-              :srcset="require('@/assets/Tutorial2.png').srcSet"
-              style="width: 70%; margin-left: 15%"
-            ></b-image>
-            <p class="is-size-6 notification">
-              {{ $t("Tutorial2") }}
-            </p>
-          </b-step-item>
-          <b-step-item step="3" clickable>
-            <b-image
-              lazy
-              alt="A little boy talking thanks to Pictalk"
-              :srcset="require('@/assets/Tutorial3.png').srcSet"
-              style="width: 70%; margin-left: 15%"
-            ></b-image>
-            <p class="is-size-6 notification">
-              {{ $t("Tutorial3") }}
-            </p>
-          </b-step-item>
-          <b-step-item step="4" clickable>
-            <b-image
-              lazy
-              alt="A little boy talking thanks to Pictalk"
-              :srcset="require('@/assets/Tutorial4.png').srcSet"
-              style="width: 70%; margin-left: 15%"
-            ></b-image>
-            <p class="is-size-6 notification">
-              {{ $t("Tutorial4") }}
-            </p>
-          </b-step-item>
-          <b-step-item step="5" clickable>
-            <b-image
-              lazy
-              alt="A little boy talking thanks to Pictalk"
-              :srcset="require('@/assets/Tutorial5.png').srcSet"
-              style="width: 70%; margin-left: 15%"
-            ></b-image>
-            <p class="is-size-6 notification">
-              {{ $t("Tutorial5") }}
-            </p>
-          </b-step-item>
-        </b-steps>
+        </b-button>
       </section>
-      <footer class="modal-card-foot">
-        <div class="container">
-          <div class="columns is-mobile is-full">
-            <div class="column is-one-quarter">
-              <b-button
-                @click="previousStep()"
-                :disabled="activeStep == 0"
-                class="button center"
-                type="button"
-                icon-right="chevron-left"
-              />
-            </div>
-            <div class="column is-half">
-              <b-button
-                :disabled="activeStep != 4"
-                :label="$t('TutorialSkip')"
-                expanded
-                @click="$parent.close()"
-              >
-              </b-button>
-            </div>
-            <div class="column is-one-quarter">
-              <b-button
-                class="button center"
-                type="button"
-                :disabled="activeStep == 4"
-                @click="nextStep()"
-                icon-right="chevron-right"
-              />
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   </form>
 </template>
