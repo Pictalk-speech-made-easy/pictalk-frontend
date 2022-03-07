@@ -123,6 +123,7 @@
           {{ $t("TutorialDeleteText") }}
         </p>
         <b-button
+          class="has-background"
           type="is-success"
           :label="$t('TutorialSkip')"
           expanded
@@ -151,3 +152,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+.has-background {
+  border-radius: 5px;
+  -webkit-box-shadow: 2px 2px 2px 2px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 2px 2px 2px 2px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 2px 2px 2px 2px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+</style>
