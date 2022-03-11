@@ -98,7 +98,7 @@
     </div>
   </div>
 </template>
-<script>
+<script difer>
 import picto from "@/components/pictos/picto";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import lang from "@/mixins/lang";

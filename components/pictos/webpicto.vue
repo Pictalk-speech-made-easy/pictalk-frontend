@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script>
+<script difer>
 export default {
   name: "Webpicto",
 

@@ -52,12 +52,10 @@
     </div>
   </div>
 </template>
-<script>
-import axios from "axios";
+<script difer>
 import miniPicto from "@/components/pictos/miniPicto";
 import mergeImages from "merge-images-horizontally-with-text";
 import tradLanguageListVue from "@/components/pictos/tradLanguageList.vue";
-import { convertToSimpleLanguage } from "@/utils/utils";
 import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";

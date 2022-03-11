@@ -115,7 +115,7 @@
     </div>
   </div>
 </template>
-<script>
+<script difer>
 import lang from "@/mixins/lang";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";

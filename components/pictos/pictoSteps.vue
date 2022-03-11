@@ -280,7 +280,7 @@
     </div>
   </form>
 </template>
-<script>
+<script difer>
 const jpegasus = require("jpegasus");
 import axios from "axios";
 import Webpicto from "@/components/pictos/webpicto";

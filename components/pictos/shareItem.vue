@@ -124,7 +124,7 @@
     </footer>
   </div>
 </template>
-<script>
+<script difer>
 import sharers from "@/mixins/sharers";
 export default {
   mixins: [sharers],
