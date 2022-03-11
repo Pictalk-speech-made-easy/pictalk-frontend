@@ -40,7 +40,7 @@
     </div>
   </form>
 </template>
-<script>
+<script difer>
 import signup from "@/components/auth/signupModal";
 export default {
   data() {

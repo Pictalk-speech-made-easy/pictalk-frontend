@@ -217,7 +217,7 @@
     </div>
   </div>
 </template>
-<script>
+<script difer>
 import merge from "lodash.merge";
 import addGroupModal from "@/components/auth/addGroupModal";
 import deviceInfos from "@/mixins/deviceInfos";
@@ -289,7 +289,7 @@ export default {
     this.mailingList = [...this.user.mailingList];
   },
   methods: {
-    openAddGroupModal(group, index) {
+    async openAddGroupModal(group, index) {
       this.$buefy.modal.open({
         parent: this,
         component: addGroupModal,
@@ -303,13 +303,13 @@ export default {
         trapFocus: true,
       });
     },
-    getLimitedUserList(group) {
+    async getLimitedUserList(group) {
       return group?.users?.slice(0, 10);
     },
-    showDirectSharerInput() {
+    async showDirectSharerInput() {
       this.showDirectSharerInputText = !this.showDirectSharerInputText;
     },
-    deleteSelectedTrustedSources() {
+    async deleteSelectedTrustedSources() {
       this.checkedRows.forEach((row) => {
         const index = this.directSharers.indexOf(row);
         this.directSharers.splice(index, 1);

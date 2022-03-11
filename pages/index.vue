@@ -142,98 +142,98 @@
 		</div>
 	</div>
 </template>
-<script>
+<script difer>
 import signup from "@/components/auth/signupModal";
 export default {
-	components: {
-		signup,
-	},
-	head() {
-		const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
-		return {
-			htmlAttrs: {
-				title: "Pictalk",
-				...i18nHead.htmlAttrs,
-			},
-			meta: [
-				{
-					hid: "descriptionHome",
-					name: "description",
-					content: this.$t("Description"),
-				},
-				...i18nHead.meta,
-			],
-		};
-	},
-	middleware: ["check-auth"],
-	methods: {
-		openSignUpModal() {
-			this.$buefy.modal.open({
-				parent: this,
-				component: signup,
-				hasModalCard: true,
-				customClass: "custom-class custom-class-2",
-				trapFocus: true,
-			});
-		},
-	},
+  components: {
+    signup,
+  },
+  head() {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+    return {
+      htmlAttrs: {
+        title: "Pictalk",
+        ...i18nHead.htmlAttrs,
+      },
+      meta: [
+        {
+          hid: "descriptionHome",
+          name: "description",
+          content: this.$t("Description"),
+        },
+        ...i18nHead.meta,
+      ],
+    };
+  },
+  middleware: ["check-auth"],
+  methods: {
+    openSignUpModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: signup,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+      });
+    },
+  },
 };
 </script>
 <style scoped>
 .signup-button {
-	position: absolute;
-	top: 90%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .soontobe {
-	background: repeating-linear-gradient(
-		60deg,
-		white,
-		white 35px,
-		#ff5758 35px,
-		#ff5758 70px
-	);
-	min-height: 100%;
+  background: repeating-linear-gradient(
+    60deg,
+    white,
+    white 35px,
+    #ff5758 35px,
+    #ff5758 70px
+  );
+  min-height: 100%;
 }
 .box {
-	padding: 0px;
+  padding: 0px;
 }
 .center {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 .containing {
-	position: relative;
-	text-align: center;
+  position: relative;
+  text-align: center;
 }
 .centeredBottomText {
-	position: absolute;
-	top: 90%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .centeredBottomLeftText {
-	position: absolute;
-	top: 90%;
-	left: 15%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 90%;
+  left: 15%;
+  transform: translate(-50%, -50%);
 }
 .centeredBottomRightText {
-	position: absolute;
-	top: 90%;
-	left: 85%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 90%;
+  left: 85%;
+  transform: translate(-50%, -50%);
 }
 .centeredBottomLeftTextAndBitRight {
-	position: absolute;
-	top: 80%;
-	left: 22%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  top: 80%;
+  left: 22%;
+  transform: translate(-50%, -50%);
 }
 .isPictalkColor {
-	color: #ff5e5e;
+  color: #ff5e5e;
 }
 </style>
