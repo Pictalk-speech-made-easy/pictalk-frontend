@@ -464,63 +464,102 @@ export default {
 					});
 				}
 				if (this.create || this.traductionNeeded()) {
-					this.getAllUserLanguages
-						.map((languages) => languages.replace(/[^a-z]/g, ""))
-						.forEach(async (language) => {
-							if (
-								language == this.getUserLang ||
-								this.picto.meaning[language] ||
-								this.picto.speech[language] ||
-								(!this.picto.speech[this.getUserLang] &&
-									!this.picto.meaning[this.getUserLang])
-							) {
-								return;
-							}
-							if (
-								this.picto.meaning[this.getUserLang] ==
-								this.picto.speech[this.getUserLang]
-							) {
-								this.picto.meaning[language] =
-									this.picto.speech[language] = (
-										await axios.get("/translation/", {
-											params: {
-												text: this.picto.meaning[
-													this.getUserLang
-												],
-												targetLang: language,
-												sourceLang: this.getUserLang,
-											},
-										})
-									)?.data.translation;
-							} else {
-								if (this.picto.meaning[this.getUserLang]) {
-									this.picto.meaning[language] = (
-										await axios.get("/translation/", {
-											params: {
-												text: this.picto.meaning[
-													this.getUserLang
-												],
-												targetLang: language,
-												sourceLang: this.getUserLang,
-											},
-										})
-									)?.data.translation;
-								}
-								if (this.picto.speech[this.getUserLang]) {
-									this.picto.speech[language] = (
-										await axios.get("/translation/", {
-											params: {
-												text: this.picto.speech[
-													this.getUserLang
-												],
-												targetLang: language,
-												sourceLang: this.getUserLang,
-											},
-										})
-									)?.data.translation;
-								}
-							}
-						});
+					await Promise.all(
+						this.getAllUserLanguages
+							.map((languages) =>
+								languages.replace(/[^a-z]/g, "")
+							)
+							.map(async (language) => {
+								return new Promise(async (resolve, reject) => {
+									if (
+										language == this.getUserLang ||
+										this.picto.meaning[language] ||
+										this.picto.speech[language] ||
+										(!this.picto.speech[this.getUserLang] &&
+											!this.picto.meaning[
+												this.getUserLang
+											])
+									) {
+										resolve();
+									}
+									if (
+										this.picto.meaning[this.getUserLang] ==
+										this.picto.speech[this.getUserLang]
+									) {
+										this.picto.meaning[language] =
+											this.picto.speech[language] = (
+												await axios.get(
+													"/translation/",
+													{
+														params: {
+															text: this.picto
+																.meaning[
+																this.getUserLang
+															],
+															targetLang:
+																language,
+															sourceLang:
+																this
+																	.getUserLang,
+														},
+													}
+												)
+											)?.data.translation;
+										resolve();
+									} else {
+										if (
+											this.picto.meaning[this.getUserLang]
+										) {
+											this.picto.meaning[language] = (
+												await axios.get(
+													"/translation/",
+													{
+														params: {
+															text: this.picto
+																.meaning[
+																this.getUserLang
+															],
+															targetLang:
+																language,
+															sourceLang:
+																this
+																	.getUserLang,
+														},
+													}
+												)
+											)?.data.translation;
+										} else {
+											this.picto.meaning[language] = "";
+										}
+										if (
+											this.picto.speech[this.getUserLang]
+										) {
+											this.picto.speech[language] = (
+												await axios.get(
+													"/translation/",
+													{
+														params: {
+															text: this.picto
+																.speech[
+																this.getUserLang
+															],
+															targetLang:
+																language,
+															sourceLang:
+																this
+																	.getUserLang,
+														},
+													}
+												)
+											)?.data.translation;
+										} else {
+											this.picto.speech[language] = "";
+										}
+										resolve();
+									}
+								});
+							})
+					);
 				}
 				if (Object.keys(this.picto.speech).length === 0) {
 					this.picto.speech = { ...this.picto.meaning };
