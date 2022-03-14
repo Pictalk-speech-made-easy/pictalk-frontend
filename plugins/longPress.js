@@ -46,7 +46,7 @@ Vue.directive('longpress', {
 
 		// Add Event listeners
 		el.addEventListener("mousedown", start);
-		el.addEventListener("touchstart", start);
+		el.addEventListener("touchstart", start, {passive: true});
 		// Cancel timeouts if this events happen
 		el.addEventListener("click", cancel);
 		el.addEventListener("mouseout", cancel);

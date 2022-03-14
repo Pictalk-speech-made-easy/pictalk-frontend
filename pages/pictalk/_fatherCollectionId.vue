@@ -58,16 +58,18 @@ export default {
           return this.getPictoFromId(pict.id);
         });
         if (pictos && collectionList) {
-          let rankedPictos = [];
-          collectionList.concat(pictos).forEach((picto) => {
-            if (picto && picto.starred == true) {
-              rankedPictos.unshift(picto);
+          let sortedItems = [];
+          let starredItems = [];
+          let unstarredItems = [];
+          sortedItems = this.sorting(collectionList, pictos);
+          for (let item of sortedItems) {
+            if (item.starred) {
+              starredItems.push(item);
             } else {
-              rankedPictos.push(picto);
+              unstarredItems.push(item);
             }
-          });
-          console.log(rankedPictos);
-          return rankedPictos;
+          }
+          return starredItems.concat(unstarredItems);
         } else {
           console.log("No ranked pictos");
           return [];
@@ -75,6 +77,7 @@ export default {
       }
       return [];
     },
+
     collectionColor() {
       const collection = this.getCollectionFromId(
         parseInt(this.$route.params.fatherCollectionId, 10)
@@ -217,6 +220,13 @@ export default {
     };
   },
   methods: {
+    sorting(collections, pictos) {
+      let unsortedItems = collections.concat(pictos);
+      let sortedItems = unsortedItems.sort(function (itemA, itemB) {
+        return new Date(itemB.createdDate) - new Date(itemA.createdDate);
+      });
+      return sortedItems;
+    },
     removeSpeech() {
       this.$store.commit("removeSpeech");
     },
