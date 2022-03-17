@@ -5,13 +5,13 @@
         <b-carousel-item class="containing">
             <b-image  alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
-				:lazy="false"
+				:lazy="true"
 				></b-image>
         </b-carousel-item>
 				 <b-carousel-item class="containing">
             <b-image  alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/Usages.png').srcSet"
-				:lazy="false"
+				:lazy="true"
 				></b-image>
 				<section class="centeredBottomLeftText">
                     <div class="has-text-centered">
@@ -30,7 +30,7 @@
 				<b-carousel-item class="containing">
             <b-image  alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/Share_demo.png').srcSet"
-				:lazy="false"
+				:lazy="true"
 				></b-image>
 				<section class="centeredBottomLeftTextAndBitRight">
                     <div class="has-text-centered">
