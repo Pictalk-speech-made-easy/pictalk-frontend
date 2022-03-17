@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script difer>
+<script >
 import axios from "axios";
 export default {
   data() {

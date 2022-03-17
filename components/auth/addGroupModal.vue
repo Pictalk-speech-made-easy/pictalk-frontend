@@ -113,7 +113,7 @@
     </footer>
   </div>
 </template>
-<script difer>
+<script >
 export default {
   props: {
     group: {

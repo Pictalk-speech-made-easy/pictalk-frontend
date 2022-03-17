@@ -142,7 +142,7 @@
 		</div>
 	</div>
 </template>
-<script difer>
+<script >
 import signup from "@/components/auth/signupModal";
 export default {
   components: {

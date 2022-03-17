@@ -11,7 +11,7 @@
     </section>
   </div>
 </template>
-<script difer>
+<script >
 import emoji from "@/mixins/emoji";
 export default {
   mixins: [emoji],

@@ -217,7 +217,7 @@
     </div>
   </div>
 </template>
-<script difer>
+<script >
 import merge from "lodash.merge";
 import addGroupModal from "@/components/auth/addGroupModal";
 import deviceInfos from "@/mixins/deviceInfos";

@@ -48,7 +48,7 @@
     </footer>
   </div>
 </template>
-<script difer>
+<script >
 import lang from "@/mixins/lang";
 export default {
   mixins: [lang],

@@ -14,7 +14,7 @@
     <div class="filler"></div>
   </div>
 </template>
-<script difer>
+<script >
 import axios from "axios";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";

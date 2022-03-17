@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script difer>
+<script >
 import navbar from "@/components/navigation/navbar";
 import footerPictalk from "@/components/navigation/footer";
 export default {

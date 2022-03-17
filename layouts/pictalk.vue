@@ -6,7 +6,7 @@
     <br />
   </div>
 </template>
-<script difer>
+<script >
 import pictalkNavbar from "@/components/navigation/pictalk-navbar";
 export default {
   components: {
