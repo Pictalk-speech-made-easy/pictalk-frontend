@@ -12,7 +12,7 @@
     </div>
   </div>
 </template>
-<script difer>
+<script >
 import axios from "axios";
 import account from "@/components/auth/account";
 export default {

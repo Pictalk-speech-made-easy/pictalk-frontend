@@ -52,7 +52,7 @@
     </div>
   </div>
 </template>
-<script difer>
+<script >
 import miniPicto from "@/components/pictos/miniPicto";
 import mergeImages from "merge-images-horizontally-with-text";
 import tradLanguageListVue from "@/components/pictos/tradLanguageList.vue";

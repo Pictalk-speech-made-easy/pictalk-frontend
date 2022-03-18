@@ -47,7 +47,7 @@
     </body>
   </div>
 </template>
-<script difer>
+<script >
 export default {
   head() {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });

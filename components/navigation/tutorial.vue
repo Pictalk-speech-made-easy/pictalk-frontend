@@ -134,7 +134,7 @@
     </div>
   </form>
 </template>
-<script difer>
+<script >
 export default {
   name: "Tutorial",
   data() {

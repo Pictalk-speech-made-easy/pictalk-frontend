@@ -6,7 +6,7 @@
     <br />
   </div>
 </template>
-<script difer>
+<script >
 import navbar from "@/components/navigation/navbar";
 export default {
   components: {

@@ -290,7 +290,7 @@
 	</form>
 </template>
 
-<script difer>
+<script >
 import axios from "axios";
 import lang from "@/mixins/lang";
 import sharers from "@/mixins/sharers";

@@ -9,7 +9,7 @@
     </div>
   </div>
 </template>
-<script difer>
+<script >
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 export default {
