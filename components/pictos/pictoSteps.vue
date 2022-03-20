@@ -192,7 +192,14 @@
                 v-model="picto.speech[languageSelectorSpeech]"
                 :placeholder="$t('SpeechNotice')"
                 expanded
+                :disabled="silent"
               ></b-input>
+              <b-button
+                v-if="create"
+                :type="silent ? 'is-primary is-light' : 'is-primary'"
+                :icon-right="silent ? 'volume-mute' : 'volume-high'"
+                @click="silent = !silent"
+              ></b-button>
               <b-button
                 type="is-success"
                 icon-right="message"
@@ -354,6 +361,7 @@ export default {
       voices: [],
       voiceURI: "",
       voiceURIs: [],
+      silent: false,
     };
   },
   watch: {
@@ -473,6 +481,9 @@ export default {
                       this.picto.speech[language] = "";
                     }
                     resolve();
+                  }
+                  if (this.silent) {
+                    this.picto.speech[language] = "";
                   }
                 });
               })
