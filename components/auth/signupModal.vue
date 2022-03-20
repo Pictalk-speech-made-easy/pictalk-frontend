@@ -111,68 +111,7 @@
 						</b-select>
 					</b-field>
 				</b-step-item clickable>
-        <b-step-item clickable :label="$t('Sharers')" icon="account-plus">
-					<div class="contenant">
-					<b-image
-					class="center"
-            lazy
-						:srcset="require('@/assets/share.png').srcSet"
-						alt="A boy and a girl speaking different languages"
-						style="width: 40%;"
-        ></b-image>
-				</div>
-				<div v-if="table">
-				<b-field>
-					<b-input
-						v-model="addDirectSharer"
-						expanded
-						:placeholder="$t('PlaceHolderEmail')"
-						type="email"
-						maxlength="64"
-					></b-input>
-					<b-button
-						type="is-success"
-						icon-right="plus"
-						:loading="loading"
-						@click="pushToSharers()"
-					/>
-				</b-field>
-				<b-table
-					:focusable="true"
-					:data="directSharersObj"
-					:columns="columns"
-					:selected.sync="selected"
-					:mobile-cards="false"
-				>
-				</b-table>
-				<br />
-				<b-button
-					v-if="directSharers.indexOf(selected.username) !== -1"
-					class="fourWidth"
-					type="is-danger"
-					icon-left="delete"
-					@click="removeFromSharers()"
-				/>
-				</div>
-					
-					<b-button
-								v-if="!table"
-								type="is-primary"
-								expanded
-								icon-right="plus"
-								@click="table = true"
-							>
-							{{$t("SharingButton")}}
-					</b-button>
-					<br/>
-					<b-notification
-            type="is-info"
-            has-icon
-            aria-close-label="Close notification">
-						{{$t("SharingExplanation")}}
-        </b-notification>
 
-				</b-step-item>
 				<b-step-item clickable :label="$t('TermsAndConditions')" icon="chart-box">
 					<div class="contenant">
 					<b-image
@@ -330,7 +269,7 @@ export default {
       showLanguages: false,
       activeStep: 0,
       notSignedUp: true,
-      maxStep: 3,
+      maxStep: 2,
       verificationToken: "",
       verificationLoading: false,
       signupLoading: false,
@@ -356,8 +295,8 @@ export default {
   created() {
     if (this.recoverCode) {
       this.notSignedUp = false;
-      this.maxStep = 4;
-      this.activeStep = 4;
+      this.maxStep = 3;
+      this.activeStep = 3;
       this.username = this.credentials.username;
       this.password = this.credentials.password;
     }
@@ -448,8 +387,8 @@ export default {
         });
         if (res.status == 201) {
           this.notSignedUp = false;
-          this.maxStep = 4;
-          this.activeStep = 4;
+          this.maxStep = 3;
+          this.activeStep = 3;
           const notif = this.$buefy.notification.open({
             duration: 5000,
             message: this.$t("AccountCreated"),
