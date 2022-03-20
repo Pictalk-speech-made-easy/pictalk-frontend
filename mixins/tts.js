@@ -122,6 +122,11 @@ export default {
 
 			translatedText ? this.pronounce(translatedText, lang, voiceURI) : () => { return };
 		},
+		getLoadedVoicesWithFilter(lang) {
+			return this.loadedVoices.filter((voice) =>
+				voice.lang.includes(lang)
+			);
+		},
 	},
 	computed: {
 		loadedVoices() {
