@@ -7,7 +7,7 @@
       					lazy
       					:srcset="require('@/assets/PictalkV2.png').srcSet"
       					alt="Pictalk version 2 logo"
-						style="width: 40%; left: 30%"
+						style="width: 80%; left: 10%"
     		></b-image></a>
             <h1 class="title">{{ $t('PictalkV2')}}</h1>
 					<p class="is-size-5 notification">
