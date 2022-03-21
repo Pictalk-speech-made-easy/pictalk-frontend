@@ -194,5 +194,8 @@
     "Try": "Try",
     "Pictogram": "Pictogram",
     "MissingImage": "There is no image to upload",
-    "NewAddress": "Pictalk new address is: "
+    "NewAddress": "Pictalk new address is: ",
+    "PictalkV2" : "New version",
+    "PictalkV2Text" : "Hi, there is a new version of Pictalk available at ",
+    "PictalkV2Text2" : "with many new features !"
 }

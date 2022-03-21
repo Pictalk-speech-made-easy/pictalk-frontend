@@ -145,9 +145,12 @@
 </template>
 <script>
 import signup from "@/components/auth/signupModal";
+import popup from "@/components/navigation/pictalkV2"
+
 export default {
 	components: {
 		signup,
+		popup
 	},
 	middleware: ["check-auth"],
 	methods: {
@@ -161,6 +164,15 @@ export default {
 			});
 		},
 	},
+	mounted() {
+		this.$buefy.modal.open({
+				parent: this,
+				component: popup,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+			});
+	}
 };
 </script>
 <style scoped>
