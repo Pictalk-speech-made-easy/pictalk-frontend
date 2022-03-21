@@ -1,5 +1,5 @@
 <template>
-  <form action>
+  <form action @keyup.enter="onSubmit()">
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head" style="padding: 2%">
         <b-button
