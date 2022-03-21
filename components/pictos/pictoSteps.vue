@@ -437,53 +437,49 @@ export default {
                       !this.picto.meaning[this.getUserLang])
                   ) {
                     resolve();
-                  }
-                  if (
-                    this.picto.meaning[this.getUserLang] ==
-                    this.picto.speech[this.getUserLang]
-                  ) {
-                    this.picto.meaning[language] = this.picto.speech[language] =
-                      (
-                        await axios.get("/translation/", {
-                          params: {
-                            text: this.picto.meaning[this.getUserLang],
-                            targetLang: language,
-                            sourceLang: this.getUserLang,
-                          },
-                        })
-                      )?.data.translation;
-                    resolve();
                   } else {
-                    if (this.picto.meaning[this.getUserLang]) {
-                      this.picto.meaning[language] = (
-                        await axios.get("/translation/", {
-                          params: {
+                    if (
+                      this.picto.meaning[this.getUserLang] ==
+                      this.picto.speech[this.getUserLang]
+                    ) {
+                      this.picto.meaning[language] = this.picto.speech[
+                        language
+                      ] = (
+                        await axios.post("/translation/", {
+                          text: this.picto.meaning[this.getUserLang],
+                          targetLang: language,
+                          sourceLang: this.getUserLang,
+                        })
+                      )?.data.translation;
+                      resolve();
+                    } else {
+                      if (this.picto.meaning[this.getUserLang]) {
+                        this.picto.meaning[language] = (
+                          await axios.post("/translation/", {
                             text: this.picto.meaning[this.getUserLang],
                             targetLang: language,
                             sourceLang: this.getUserLang,
-                          },
-                        })
-                      )?.data.translation;
-                    } else {
-                      this.picto.meaning[language] = "";
-                    }
-                    if (this.picto.speech[this.getUserLang]) {
-                      this.picto.speech[language] = (
-                        await axios.get("/translation/", {
-                          params: {
-                            text: this.picto.speech[this.getUserLang],
+                          })
+                        )?.data.translation;
+                      } else {
+                        this.picto.meaning[language] = "";
+                      }
+                      if (this.picto.speech[this.getUserLang]) {
+                        this.picto.speech[language] = (
+                          await axios.post("/translation/", {
+                            text: this.picto.meaning[this.getUserLang],
                             targetLang: language,
                             sourceLang: this.getUserLang,
-                          },
-                        })
-                      )?.data.translation;
-                    } else {
+                          })
+                        )?.data.translation;
+                      } else {
+                        this.picto.speech[language] = "";
+                      }
+                      resolve();
+                    }
+                    if (this.silent) {
                       this.picto.speech[language] = "";
                     }
-                    resolve();
-                  }
-                  if (this.silent) {
-                    this.picto.speech[language] = "";
                   }
                 });
               })

@@ -64,16 +64,12 @@ export default {
 		async getTranslatedText(speech) {
 			try {
 				return (
-					await axios.get("/translation/", {
-						params: {
-							text: speech,
-							targetLang: convertToSimpleLanguage(
-								this.$store.getters.getTemporaryLanguage
-							),
-							sourceLang: this.getUserLang,
-						},
+					await axios.post("/translation/", {
+						text: speech,
+						targetLang: language,
+						sourceLang: this.getUserLang,
 					})
-				)?.data?.translation;
+				)?.data.translation;
 			} catch (err) {
 				console.log(err);
 				const notif = this.$buefy.toast.open({
