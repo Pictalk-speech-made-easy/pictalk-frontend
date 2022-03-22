@@ -33,7 +33,7 @@
         <a href="/changePassword">{{ $t("ForgotPswd") }}</a>
       </section>
       <footer class="modal-card-foot" style="padding: 2%">
-        <b-button class="is-primary" @click="onSubmit">{{
+        <b-button class="is-primary" :loading="loading" @click="onSubmit">{{
           $t("LogIn")
         }}</b-button>
       </footer>
@@ -47,10 +47,12 @@ export default {
     return {
       username: "",
       password: "",
+      loading: false,
     };
   },
   methods: {
     async onSubmit() {
+      this.loading = true;
       try {
         const res = await this.$store.dispatch("authenticateUser", {
           username: this.username,
@@ -122,6 +124,7 @@ export default {
             icon: "account",
           });
         }
+        this.loading = false;
       }
     },
   },

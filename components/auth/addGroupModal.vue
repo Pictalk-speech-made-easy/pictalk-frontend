@@ -95,6 +95,7 @@
               class="is-info"
               icon-left="content-save"
               :disabled="groupName === ''"
+              :loading="loadingSave"
               @click="save()"
               >{{ $t("Save") }}</b-button
             >
@@ -225,6 +226,7 @@ export default {
       this.groupIcon = icon;
     },
     async save() {
+      this.loadingSave = true;
       Object.assign(this.group, {
         name: this.groupName,
         icon: this.groupIcon,
@@ -239,6 +241,7 @@ export default {
         const res = await this.$store.dispatch("editUser", {
           mailingList: this.mailingList,
         });
+        this.loadingSave = false;
         this.$parent.close();
         this.$buefy.toast.open({
           message: this.$t("CreatedGroupSucess"),
@@ -246,6 +249,7 @@ export default {
         });
       } catch (err) {
         console.log(err);
+        this.loadingSave = false;
         this.$buefy.toast.open({
           message: this.$t("SomeThingBadHappened"),
           type: "is-danger",
@@ -258,6 +262,7 @@ export default {
       selected: {},
       activeStep: 0,
       loading: false,
+      loadingSave: false,
       iconList: [
         "account-group",
         "school",

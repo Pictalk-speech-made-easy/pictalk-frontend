@@ -42,9 +42,12 @@
       <b-button class="button" type="button" @click="$parent.close()">{{
         $t("Close")
       }}</b-button>
-      <b-button class="button is-primary" @click="onSubmitted(meaningOrName)">{{
-        $t("Delete")
-      }}</b-button>
+      <b-button
+        class="button is-primary"
+        :loading="loading"
+        @click="onSubmitted(meaningOrName)"
+        >{{ $t("Delete") }}</b-button
+      >
     </footer>
   </div>
 </template>
@@ -61,11 +64,12 @@ export default {
   data() {
     return {
       meaningOrName: "",
+      loading: false,
     };
   },
   methods: {
     async onSubmitted(name) {
-      console.log("this is the name", name);
+      this.loading = true;
       if (name == this.object.meaning[this.getUserLang]) {
         try {
           if (this.object.collection) {
@@ -104,6 +108,7 @@ export default {
           type: "is-danger",
         });
       }
+      this.loading = false;
     },
   },
 };

@@ -118,9 +118,12 @@
       <b-button class="button" type="button" @click="$parent.close()">{{
         $t("Close")
       }}</b-button>
-      <b-button class="button is-primary" @click="onSubmitted()">{{
-        $t("Share")
-      }}</b-button>
+      <b-button
+        class="button is-primary"
+        :loading="loading"
+        @click="onSubmitted()"
+        >{{ $t("Share") }}</b-button
+      >
     </footer>
   </div>
 </template>
@@ -136,6 +139,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       collaborators: [],
       selectedGroups: [],
       loneCollaborators: [],
@@ -328,6 +332,7 @@ export default {
       this.groups.pop();
     },
     async onSubmitted() {
+      this.loading = true;
       try {
         const sharedGroups = this.getSharedGroups.concat(
           this.groups.filter((group) => group.selected)
@@ -396,6 +401,7 @@ export default {
           type: "is-danger",
         });
       }
+      this.loading = false;
     },
   },
 };

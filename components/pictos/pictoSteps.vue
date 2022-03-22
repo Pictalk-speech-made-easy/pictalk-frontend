@@ -256,6 +256,7 @@
                 "
                 :class="classCreateOrEdit"
                 :icon-right="iconPictoOrEdit"
+                :loading="creationLoading"
                 @click="onSubmitted(false)"
               >
               </b-button>
@@ -268,6 +269,7 @@
                   (!this.file.name && create)
                 "
                 :icon-right="iconCollectionOrEdit"
+                :loading="creationLoading"
                 @click="onSubmitted(true)"
               >
               </b-button>
@@ -356,6 +358,7 @@ export default {
       size: 0,
       images: [],
       loading: false,
+      creationLoading: false,
       moreImages: true,
       noResults: false,
       voices: [],
@@ -384,6 +387,7 @@ export default {
       this.activeStep -= 1;
     },
     async onSubmitted(isCollection = false) {
+      this.creationLoading = true;
       let cfile;
       if (
         Object.values(this.picto.meaning).length == 0 ||
@@ -547,6 +551,7 @@ export default {
           type: "is-danger",
         });
       }
+      this.creationLoading = false;
       this.$emit("close");
     },
     traductionNeeded() {
