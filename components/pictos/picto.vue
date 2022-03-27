@@ -131,7 +131,7 @@ import deviceInfos from "@/mixins/deviceInfos";
 import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import shareItem from "@/components/pictos/shareItem";
-import sidebarModal from "@/components/pictos/sidebarModal";
+//import sidebarModal from "@/components/pictos/sidebarModal";
 export default {
 	mixins: [lang, tts, deviceInfos],
 	name: "picto",
