@@ -10,6 +10,7 @@ export const state = () => ({
 	user: {},
 	rootId: null,
 	sharedId: null,
+	sidebarId: null,
 	copyCollectionId: null,
 	temporaryLanguage: null,
 });
@@ -24,6 +25,7 @@ export const mutations = {
 		state.shortcutCollectionId = null;
 		state.user = {};
 		state.sharedId = null;
+		state.sidebarId = null;
 		state.temporaryLanguage = null;
 	},
 	addSpeech(state, picto) {
@@ -115,6 +117,9 @@ export const mutations = {
 	},
 	setSharedId(state, sharedId) {
 		state.sharedId = sharedId;
+	},
+	setSidebarId(state, sidebarId) {
+		state.sidebarId = sidebarId;
 	},
 	setCopyCollectionId(state, collectionId) {
 		state.copyCollectionId = collectionId;
@@ -413,6 +418,7 @@ export const actions = {
 	async getUser(vuexContext) {
 		var user = (await axios.get("/user/details/")).data;
 		vuexContext.commit('setSharedId', user.shared);
+		vuexContext.commit('setSidebarId', user.sider);
 		user.language = JSON.parse(user.language);
 		user.languages = JSON.parse(user.languages);
 		user.settings = JSON.parse(user.settings);
@@ -512,6 +518,9 @@ export const getters = {
 	},
 	getSharedId(state) {
 		return state.sharedId;
+	},
+	getSidebarId(state) {
+		return state.sidebarId;
 	},
 	getCopyCollectionId(state) {
 		return state.copyCollectionId;
