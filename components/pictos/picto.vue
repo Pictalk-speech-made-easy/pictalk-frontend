@@ -131,13 +131,11 @@ import deviceInfos from "@/mixins/deviceInfos";
 import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import shareItem from "@/components/pictos/shareItem";
-//import sidebarModal from "@/components/pictos/sidebarModal";
 export default {
 	mixins: [lang, tts, deviceInfos],
 	name: "picto",
 	components: {
 		PictoSteps,
-		//sidebarModal: sidebarModal,
 	},
 	props: {
 		adminMode: {
@@ -195,24 +193,12 @@ export default {
 					adminMode = "?isAdmin=true";
 				}
 				if (this.sidebarMode) {
-					//open modal
-					/* this.$router.push({
+					this.$router.push({
 						query: {
 							...this.$route.query,
 							sidebarPictoId: this.picto.id,
 						},
 					});
-					this.$buefy.modal.open({
-						parent: this,
-						props: {
-							object: { ...this.picto },
-						},
-						component: sidebarModal,
-						hasModalCard: true,
-						customClass: "custom-class custom-class-2",
-						trapFocus: true,
-						canCancel: ["escape", "x"],
-					}); */
 				} else {
 					this.$router.push(this.pictoLink + adminMode);
 				}

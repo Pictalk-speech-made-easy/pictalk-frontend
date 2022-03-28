@@ -78,7 +78,13 @@ export default {
 			);
 		},
 		loadedSidebarPictos() {
-			return this.loadPictos(this.$store.getters.getSidebarId);
+			if (this.$route.query.sidebarPictoId) {
+				return this.loadPictos(
+					parseInt(this.$route.query.sidebarPictoId, 10)
+				);
+			} else {
+				return this.loadPictos(this.$store.getters.getSidebarId);
+			}
 		},
 		collectionColor() {
 			const collection = this.getCollectionFromId(
