@@ -58,5 +58,6 @@ export default {
   overflow-y: scroll;
   position: fixed;
   left: 75%;
+  bottom: 15%;
 }
 </style>
