@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="columns is-mobile">
+    <div class="columns is-mobile" style="overflow-y: visible">
       <div class="container is-9 column smallPadding noMargins">
         <pictoList :pictos="loadedPictos" :adminMode="isAdmin" />
       </div>
       <sidebar
+        style="border: solid #fe5555"
         v-if="displaySidebar"
         v-on:sidebarExpanded="expandOrMinimizeSidebar()"
-        class="sidebar column is-3 smallPadding maxheight"
-        :style="expandedOrNot"
+        class="container column is-3 smallPadding noMargins maxheight"
         :adminMode="isAdmin"
         :publicMode="false"
         :pictos="loadedSidebarPictos"
@@ -22,7 +22,7 @@
         :collectionColor="collectionColor"
       />
     </div>
-    <!-- <div class="filler"></div> -->
+    <div class="filler"></div>
   </div>
 </template>
 <script>
@@ -52,12 +52,6 @@ export default {
         parseInt(this.$route.params.fatherCollectionId, 10) !=
         this.$store.getters.getSidebarId
       );
-    },
-    expandedOrNot() {
-      /* return this.sidebarExpanded
-				? "margin-right:80%"
-				: "margin-right:25%"; */
-      return "";
     },
     loadSpeech() {
       return this.$store.getters.getSpeech;
@@ -333,12 +327,12 @@ export default {
   align-items: center;
 }
 .smallPadding {
-  padding: 0px;
+  padding: 2px;
 }
 .noMargins {
   margin: 0%;
 }
 .maxheight {
-  max-height: 525px;
+  max-height: 72vh;
 }
 </style>

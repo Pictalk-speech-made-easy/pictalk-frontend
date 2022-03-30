@@ -15,7 +15,10 @@
     <div v-if="!sidebarMode" class="notification meaning">
       {{ picto.meaning[getUserLang] }}
     </div>
-    <div v-if="adminMode && !publicMode" class="adminMenu adminoption columns">
+    <div
+      v-if="adminMode && !publicMode && !sidebarMode"
+      class="adminMenu adminoption columns"
+    >
       <b-dropdown aria-role="menu" class="column noMargin is-mobile">
         <template #trigger="{ active }">
           <b-button

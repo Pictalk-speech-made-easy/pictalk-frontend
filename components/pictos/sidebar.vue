@@ -1,7 +1,16 @@
 <template>
   <div class="columns is-multiline is-mobile notification vertical">
     <picto
-      class="column is-full-mobile centeredImage smallPadding"
+      class="
+        column
+        is-full-mobile
+        is-full-tablet
+        is-half-desktop
+        is-half-widescreen
+        is-half-fullhd
+        centeredImage
+        smallPadding
+      "
       v-for="picto in pictos"
       :key="picto.id + Math.random()"
       :picto="picto"
@@ -46,7 +55,8 @@ export default {
   justify-content: center;
 }
 .vertical {
-  flex-direction: row;
   overflow-y: scroll;
+  position: fixed;
+  left: 75%;
 }
 </style>
