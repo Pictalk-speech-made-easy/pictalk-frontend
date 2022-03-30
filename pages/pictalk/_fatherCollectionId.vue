@@ -8,7 +8,15 @@
         style="border: solid #fe5555"
         v-if="displaySidebar"
         v-on:sidebarExpanded="expandOrMinimizeSidebar()"
-        class="container column is-3 smallPadding noMargins maxheight"
+        class="
+          container
+          column
+          is-3
+          smallPadding
+          noMargins
+          maxheight
+          has-background
+        "
         :adminMode="isAdmin"
         :publicMode="false"
         :pictos="loadedSidebarPictos"
@@ -17,7 +25,7 @@
     <div class="contenant">
       <pictoBar
         v-if="loadSpeech.length != 0"
-        class="pictobar"
+        class="pictobar has-background"
         :pictos="loadSpeech"
         :collectionColor="collectionColor"
       />
@@ -327,12 +335,18 @@ export default {
   align-items: center;
 }
 .smallPadding {
-  padding: 2px;
+  padding: 1px;
 }
 .noMargins {
   margin: 0%;
 }
 .maxheight {
   max-height: 72vh;
+}
+.has-background {
+  border-radius: 7px;
+  -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 </style>
