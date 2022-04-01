@@ -160,13 +160,25 @@ export default {
 				if (this.$store.getters.getUser.settings.securityMode) {
 					this.goToAdminWithEnforced();
 				} else {
-					this.$router.push(this.$route.path + "?isAdmin=true");
+					this.$router.push({
+						path: this.$route.path,
+						query: {
+							...this.$route.query,
+							isAdmin: true,
+						},
+					});
 				}
 			}
 		},
 		goToAdminWithEnforced() {
 			let postFunction = function (t) {
-				t.$router.push(t.$route.path + "?isAdmin=true");
+				t.$router.push({
+					path: t.$route.path,
+					query: {
+						...t.$route.query,
+						isAdmin: true,
+					},
+				});
 				if (!t.$route.query.isAdmin) {
 					t.$buefy.toast.open(t.$t("SupervisorModeSuccess"));
 				}
