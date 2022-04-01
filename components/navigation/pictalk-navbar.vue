@@ -303,16 +303,16 @@ export default {
 			});
 		},
 		notificationGoToCollectionOrReturn(notification) {
-			const adminMode = this.$route.query.isAdmin ? "?isAdmin=true" : "";
 			if (
 				notification.operation == "unshare" ||
 				notification.type != "collection"
 			) {
 				return;
 			} else {
-				this.$router.push(
-					"/pictalk/" + notification.affected + adminMode
-				);
+				this.$router.push({
+					path: "/pictalk/" + notification.affected,
+					query: { ...this.$route.query },
+				});
 			}
 		},
 		getNotificationMeaning(notification) {

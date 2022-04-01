@@ -18,7 +18,7 @@
 			{{ picto.meaning[getUserLang] }}
 		</div>
 		<div
-			v-if="adminMode && !publicMode && !sidebarMode"
+			v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
 			class="adminMenu adminoption columns"
 		>
 			<b-dropdown aria-role="menu" class="column noMargin is-mobile">
@@ -113,7 +113,10 @@
 				/>
 			</div>
 		</div>
-		<div v-if="publicMode" class="adminMenu adminoption columns">
+		<div
+			v-if="publicMode && $store.getters.getUser"
+			class="adminMenu adminoption columns"
+		>
 			<div class="column noMargin is-mobile">
 				<b-button
 					type="is-success"
@@ -138,10 +141,6 @@ export default {
 		PictoSteps,
 	},
 	props: {
-		adminMode: {
-			type: Boolean,
-			required: true,
-		},
 		picto: {
 			type: Object,
 			required: true,
@@ -191,10 +190,6 @@ export default {
 				sidebar: this.sidebarMode,
 			});
 			if (this.picto.collection == true) {
-				let adminMode = "";
-				if (this.$route.query.isAdmin) {
-					adminMode = "?isAdmin=true";
-				}
 				if (this.sidebarMode) {
 					this.$router.push({
 						query: {
@@ -203,7 +198,10 @@ export default {
 						},
 					});
 				} else {
-					this.$router.push(this.pictoLink + adminMode);
+					this.$router.push({
+						path: this.pictoLink,
+						query: { ...this.$route.query },
+					});
 				}
 			}
 			if (this.$store.getters.getUser.settings?.pronounceClick) {

@@ -1,63 +1,58 @@
 <template>
-  <div class="columns is-multiline is-mobile notification vertical">
-    <picto
-      class="
-        column
-        is-full-mobile
-        is-full-tablet
-        is-half-desktop
-        is-half-widescreen
-        is-half-fullhd
-        centeredImage
-        smallPadding
-      "
-      v-for="picto in pictos"
-      :key="picto.id + Math.random()"
-      :picto="picto"
-      :adminMode="adminMode"
-      :publicMode="publicMode"
-      :sidebarMode="true"
-    />
-  </div>
+	<div class="columns is-multiline is-mobile notification vertical">
+		<picto
+			class="
+				column
+				is-full-mobile
+				is-full-tablet
+				is-half-desktop
+				is-half-widescreen
+				is-half-fullhd
+				centeredImage
+				smallPadding
+			"
+			v-for="picto in pictos"
+			:key="picto.id + Math.random()"
+			:picto="picto"
+			:publicMode="publicMode"
+			:sidebarMode="true"
+		/>
+	</div>
 </template>
 <script>
 import picto from "@/components/pictos/picto";
 export default {
-  components: { picto: picto },
-  props: {
-    adminMode: {
-      type: Boolean,
-      required: true,
-    },
-    publicMode: {
-      type: Boolean,
-      required: false,
-      default: () => false,
-    },
-    pictos: {
-      type: Array,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      expanded: false,
-    };
-  },
+	components: { picto: picto },
+	props: {
+		publicMode: {
+			type: Boolean,
+			required: false,
+			default: () => false,
+		},
+		pictos: {
+			type: Array,
+			required: true,
+		},
+	},
+	data() {
+		return {
+			expanded: false,
+		};
+	},
 };
 </script>
 <style scoped>
 .smallPadding {
-  padding: 5%;
+	padding: 5%;
 }
 .centeredImage {
-  align-items: center;
-  justify-content: center;
+	align-items: center;
+	justify-content: center;
 }
 .vertical {
-  overflow-y: scroll;
-  position: fixed;
-  left: 75%;
-  bottom: 15%;
+	overflow-y: scroll;
+	position: fixed;
+	left: 75%;
+	bottom: 15%;
 }
 </style>

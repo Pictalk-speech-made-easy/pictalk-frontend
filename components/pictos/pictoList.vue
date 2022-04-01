@@ -14,7 +14,6 @@
 				v-for="picto in getFilteredPictoList"
 				:key="picto.id + Math.random()"
 				:picto="picto"
-				:adminMode="adminMode"
 				:publicMode="publicMode"
 			/>
 			<div
@@ -29,7 +28,10 @@
 			>
 				<div class="contenant">
 					<div class="columns fab-zone">
-						<div v-if="!publicMode && adminMode" class="column">
+						<div
+							v-if="!publicMode && $route.query.isAdmin"
+							class="column"
+						>
 							<b-button
 								rounded
 								size="is-medium"
@@ -38,7 +40,10 @@
 								icon-right="image"
 							/>
 						</div>
-						<div v-if="!publicMode && adminMode" class="column">
+						<div
+							v-if="!publicMode && $route.query.isAdmin"
+							class="column"
+						>
 							<b-button
 								rounded
 								size="is-medium"
@@ -52,7 +57,7 @@
 								rounded
 								size="is-medium"
 								type="is-warning"
-								:focused="adminMode"
+								:focused="Boolean($route.query.isAdmin)"
 								@click="adminModeChoose()"
 								:icon-right="iconIsAdmin"
 							/>
@@ -61,7 +66,7 @@
 							v-if="
 								checkCopyCollectionId &&
 								!publicMode &&
-								adminMode
+								$route.query.isAdmin
 							"
 							class="column"
 						>
@@ -124,10 +129,6 @@ export default {
 	props: {
 		pictos: {
 			type: Array,
-			required: true,
-		},
-		adminMode: {
-			type: Boolean,
 			required: true,
 		},
 		publicMode: {

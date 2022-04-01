@@ -155,22 +155,20 @@ export default {
 			const sidebarSpeech = this.$store.getters.getSpeech.filter(
 				(picto) => picto.sidebar
 			);
-			let adminMode = "";
-			if (this.$route.query.isAdmin) {
-				adminMode = "?isAdmin=true";
-			}
 			if (pictoSpeech.length <= 1) {
 				if (this.publicMode) {
 					this.$router.push("/public/");
 				} else {
 					if (this.$store.getters.getRootId) {
-						this.$router.push(
-							"/pictalk/" +
-								this.$store.getters.getRootId +
-								adminMode
-						);
+						this.$router.push({
+							path: "/pictalk/" + this.$store.getters.getRootId,
+							query: { isAdmin: this.$route.query.isAdmin },
+						});
 					} else {
-						this.$router.push("/pictalk" + adminMode);
+						this.$router.push({
+							path: "/pictalk",
+							query: { isAdmin: this.$route.query.isAdmin },
+						});
 					}
 				}
 			} else {
@@ -189,11 +187,12 @@ export default {
 							this.$router.push(this.$route.path);
 						}
 					} else {
-						this.$router.push(
-							(this.publicMode ? "/public/" : "/pictalk/") +
-								pictalkSpeech[pictalkSpeech.length - 2].id +
-								adminMode
-						);
+						this.$router.push({
+							path:
+								(this.publicMode ? "/public/" : "/pictalk/") +
+								pictalkSpeech[pictalkSpeech.length - 2].id,
+							query: { ...this.$route.query },
+						});
 					}
 				}
 			}
@@ -201,17 +200,20 @@ export default {
 		},
 		eraseSpeech() {
 			this.$store.commit("eraseSpeech");
-			const adminMode = this.$route.query.isAdmin ? "?isAdmin=true" : "";
 			if (this.publicMode) {
 				this.$router.push("/public/");
 				return;
 			}
 			if (this.$store.getters.getRootId) {
-				this.$router.push(
-					"/pictalk/" + this.$store.getters.getRootId + adminMode
-				);
+				this.$router.push({
+					path: "/pictalk/" + this.$store.getters.getRootId,
+					query: { isAdmin: this.$route.query.isAdmin },
+				});
 			} else {
-				this.$router.push("/pictalk" + adminMode);
+				this.$router.push({
+					path: "/pictalk",
+					query: { isAdmin: this.$route.query.isAdmin },
+				});
 			}
 		},
 		async askWritePermission() {
