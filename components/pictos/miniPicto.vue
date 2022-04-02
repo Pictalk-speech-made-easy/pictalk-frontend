@@ -24,6 +24,7 @@ export default {
 .image {
   margin-top: 0;
   max-height: 5.5rem;
+  min-height: 2.9rem;
   height: 7vh;
 }
 </style>
