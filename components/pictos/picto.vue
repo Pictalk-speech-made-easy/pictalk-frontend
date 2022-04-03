@@ -1,21 +1,28 @@
 <template>
   <div
-    :class="[!picto.collection ? 'containing' : 'containing has-background']"
+    :class="[
+      !picto.collection
+        ? 'containing'
+        : 'containing has-background notification',
+    ]"
   >
     <div>
       <img
         class="image"
         :src="picto.image"
         @click="addToSpeech()"
-        width="77%"
+        :width="sidebarMode ? '87%' : '77%'"
         crossorigin="anonymous"
         :style="`border: solid; border-color: ${this.picto.color}`"
       />
     </div>
-    <div class="notification meaning">
+    <div v-if="!sidebarMode" class="notification meaning">
       {{ picto.meaning[getUserLang] }}
     </div>
-    <div v-if="adminMode && !publicMode" class="adminMenu adminoption columns">
+    <div
+      v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
+      class="adminMenu adminoption columns"
+    >
       <b-dropdown aria-role="menu" class="column noMargin is-mobile">
         <template #trigger="{ active }">
           <b-button
@@ -104,7 +111,10 @@
         <b-button type="is-light" icon-right="star" @click="alternateStar()" />
       </div>
     </div>
-    <div v-if="publicMode" class="adminMenu adminoption columns">
+    <div
+      v-if="publicMode && $store.getters.getUser"
+      class="adminMenu adminoption columns"
+    >
       <div class="column noMargin is-mobile">
         <b-button
           type="is-success"
@@ -129,15 +139,16 @@ export default {
     PictoSteps,
   },
   props: {
-    adminMode: {
-      type: Boolean,
-      required: true,
-    },
     picto: {
       type: Object,
       required: true,
     },
     publicMode: {
+      type: Boolean,
+      required: false,
+      default: () => false,
+    },
+    sidebarMode: {
       type: Boolean,
       required: false,
       default: () => false,
@@ -170,13 +181,24 @@ export default {
       this.$store.commit("resetCopyCollectionId");
     },
     addToSpeech() {
-      this.$store.commit("addSpeech", this.picto);
+      this.$store.commit("addSpeech", {
+        ...this.picto,
+        sidebar: this.sidebarMode,
+      });
       if (this.picto.collection == true) {
-        let adminMode = "";
-        if (this.$route.query.isAdmin) {
-          adminMode = "?isAdmin=true";
+        if (this.sidebarMode) {
+          this.$router.push({
+            query: {
+              ...this.$route.query,
+              sidebarPictoId: this.picto.id,
+            },
+          });
+        } else {
+          this.$router.push({
+            path: this.pictoLink,
+            query: { ...this.$route.query },
+          });
         }
-        this.$router.push(this.pictoLink + adminMode);
       }
       if (this.$store.getters.getUser.settings?.pronounceClick) {
         this.pronounce(

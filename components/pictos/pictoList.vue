@@ -14,7 +14,6 @@
         v-for="picto in getFilteredPictoList"
         :key="picto.id + Math.random()"
         :picto="picto"
-        :adminMode="adminMode"
         :publicMode="publicMode"
       />
       <div
@@ -29,7 +28,7 @@
       >
         <div class="contenant">
           <div class="columns fab-zone">
-            <div v-if="!publicMode && adminMode" class="column">
+            <div v-if="!publicMode && $route.query.isAdmin" class="column">
               <b-button
                 rounded
                 size="is-medium"
@@ -38,7 +37,7 @@
                 icon-right="image"
               />
             </div>
-            <div v-if="!publicMode && adminMode" class="column">
+            <div v-if="!publicMode && $route.query.isAdmin" class="column">
               <b-button
                 rounded
                 size="is-medium"
@@ -52,13 +51,15 @@
                 rounded
                 size="is-medium"
                 type="is-warning"
-                :focused="adminMode"
+                :focused="Boolean($route.query.isAdmin)"
                 @click="adminModeChoose()"
                 :icon-right="iconIsAdmin"
               />
             </div>
             <div
-              v-if="checkCopyCollectionId && !publicMode && adminMode"
+              v-if="
+                checkCopyCollectionId && !publicMode && $route.query.isAdmin
+              "
               class="column"
             >
               <b-button
@@ -105,6 +106,7 @@ import lang from "@/mixins/lang";
 import enforcedSecurity from "@/mixins/enforcedSecurity";
 import links from "@/mixins/links";
 export default {
+  name: "pictoList",
   mixins: [lang, enforcedSecurity, links],
   components: {
     picto,
@@ -119,10 +121,6 @@ export default {
   props: {
     pictos: {
       type: Array,
-      required: true,
-    },
-    adminMode: {
-      type: Boolean,
       required: true,
     },
     publicMode: {
@@ -155,13 +153,25 @@ export default {
         if (this.$store.getters.getUser.settings.securityMode) {
           this.goToAdminWithEnforced();
         } else {
-          this.$router.push(this.$route.path + "?isAdmin=true");
+          this.$router.push({
+            path: this.$route.path,
+            query: {
+              ...this.$route.query,
+              isAdmin: true,
+            },
+          });
         }
       }
     },
     goToAdminWithEnforced() {
       let postFunction = function (t) {
-        t.$router.push(t.$route.path + "?isAdmin=true");
+        t.$router.push({
+          path: t.$route.path,
+          query: {
+            ...t.$route.query,
+            isAdmin: true,
+          },
+        });
         if (!t.$route.query.isAdmin) {
           t.$buefy.toast.open(t.$t("SupervisorModeSuccess"));
         }
@@ -267,8 +277,8 @@ export default {
   position: fixed;
 }
 .fab-zone {
-  bottom: 12%;
-  right: 5%;
+  bottom: 18%;
+  left: 5%;
   position: fixed;
 }
 .lessPadding {
