@@ -265,7 +265,7 @@ export default {
 				},
 				cookies: ["expirationDate", "jwt"]
 			}
-		],
+		]/* ,
 		optional: [
 			{
 				name: 'Google Analitycs',
@@ -291,7 +291,7 @@ export default {
 				declined: () => {
 				}
 			}
-		]
+		] */
 
 	},
 
