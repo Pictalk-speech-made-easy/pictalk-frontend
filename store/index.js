@@ -29,7 +29,12 @@ export const mutations = {
 		state.temporaryLanguage = null;
 	},
 	addSpeech(state, picto) {
-		state.pictoSpeech.push(picto);
+		if (state.pictoSpeech.length && state.pictoSpeech[state.pictoSpeech.length - 1].id == picto.id) {
+			state.pictoSpeech[state.pictoSpeech.length - 1].count += 1;
+		} else {
+			picto.count = 1;
+			state.pictoSpeech.push(picto);
+		}
 	},
 	removeSpeech(state) {
 		state.pictoSpeech.pop();
