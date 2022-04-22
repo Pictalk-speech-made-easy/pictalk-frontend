@@ -23,6 +23,7 @@
 					v-for="picto in pictos"
 					:key="picto.id + Math.random()"
 					:image="picto.image"
+					:pictoCount="picto.count"
 				/>
 			</div>
 		</div>
@@ -80,9 +81,13 @@ export default {
 			}
 		},
 		getText(pictos) {
+			console.log(pictos);
 			return pictos.reduce(
 				(acc, curr_val) =>
-					acc + " " + curr_val.speech[this.getUserLang],
+					acc +
+					" " +
+					(curr_val.count != 1 ? curr_val.count : "") +
+					curr_val.speech[this.getUserLang],
 				""
 			);
 		},

@@ -79,7 +79,7 @@ export default {
 				});
 			}
 		},
-		async pronounce(speech, lang, voiceURI) {
+		async pronounce(speech, lang, voiceURI, counter = 1) {
 			if ("speechSynthesis" in window) {
 				var msg = new SpeechSynthesisUtterance();
 				if (this.$store.getters.getTemporaryLanguage) {
