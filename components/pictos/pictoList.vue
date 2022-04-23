@@ -11,6 +11,7 @@
           is-one-fifth-fullhd
           lessPadding
         "
+        style="margin-bottom: 1%"
         v-for="picto in getFilteredPictoList"
         :key="picto.id + Math.random()"
         :picto="picto"
