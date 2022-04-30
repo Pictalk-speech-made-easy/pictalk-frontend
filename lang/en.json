@@ -290,5 +290,7 @@
 		"TutorialLinkText": "Instead of copy pasting you can also duplicate a collection, this will create a shortcut to that collection and allow you to put that same collection into several other collections.",
 		"TutorialDelete": "Deleting pictograms and collections",
 		"TutorialDeleteText" : "Finally you can also delete pictograms and collections, so as to avoid accidentally deleting items you'll have to write down the meaning of the item and then press the delete button",
-		"TutorialSkip" : "end tutorial"
+		"TutorialSkip" : "end tutorial",
+		"ErrorLoadingVoices": "An error occurred when trying to load voices, please try with another browser (Firefox, Chrome)",
+		"NoVoicesFound": "No voice was found, please try with another browser (Firefox, Chrome...)"
 }

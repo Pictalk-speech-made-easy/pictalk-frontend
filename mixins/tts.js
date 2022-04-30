@@ -1,6 +1,7 @@
 import frenchFries from "@/assets/frenchFries.json";
 import { convertToSimpleLanguage } from "@/utils/utils";
 import axios from "axios";
+import { setInterval, setTimeout } from "core-js";
 export default {
 	created: function () {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
@@ -9,20 +10,41 @@ export default {
 				if (voices.length !== 0) {
 					resolve(voices);
 				} else {
-					window.speechSynthesis.addEventListener(
-						"voiceschanged",
-						function () {
+					if (!window.safari) {
+						window.speechSynthesis.addEventListener(
+							"voiceschanged",
+							function () {
+								try {
+									voices = window.speechSynthesis.getVoices();
+								} catch (err) {
+									reject(err);
+								}
+								if (!voices) {
+									reject();
+								}
+								resolve(voices);
+							}
+						);
+					} else {
+						let intervalCounter = 0;
+						const getVoicesInterval = setInterval(() => {
 							try {
+								intervalCounter++;
 								voices = window.speechSynthesis.getVoices();
 							} catch (err) {
 								reject(err);
 							}
-							if (!voices) {
-								reject();
+							console.log(voices);
+							if (voices && voices?.length > 0) {
+								clearInterval(getVoicesInterval);
+								resolve(voices);
 							}
-							resolve(voices);
-						}
-					);
+							if (intervalCounter >= 10) {
+								clearInterval(getVoicesInterval);
+								reject("No voices found");
+							}
+						}, 3000);
+					}
 				}
 			} catch (err) {
 				reject(err);
@@ -59,6 +81,14 @@ export default {
 				)[0]?.voiceURI;
 			}
 		});
+		allVoicesObtained.catch((err) => {
+			const notif = this.$buefy.toast.open({
+				duration: 5000,
+				message: this.$t("ErrorLoadingVoices"),
+				type: "is-danger",
+				hasIcon: true,
+			});
+		})
 	},
 	methods: {
 		async getTranslatedText(speech) {
