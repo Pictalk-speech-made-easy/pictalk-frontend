@@ -342,7 +342,7 @@ export default {
   position: fixed;
 }
 .filler {
-  padding-bottom: 22rem;
+  padding-bottom: 27rem;
 }
 .contenant {
   display: flex;
