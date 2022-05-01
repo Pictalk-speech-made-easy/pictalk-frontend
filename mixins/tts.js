@@ -1,8 +1,10 @@
 import frenchFries from "@/assets/frenchFries.json";
 import { convertToSimpleLanguage } from "@/utils/utils";
 import axios from "axios";
-import { setInterval, setTimeout } from "core-js";
+import { setInterval } from "core-js";
+import installOtherBrowserModal from "@/components/pictos/installOtherBrowserModal";
 export default {
+	component: [installOtherBrowserModal],
 	created: function () {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
 			try {
@@ -43,7 +45,7 @@ export default {
 								clearInterval(getVoicesInterval);
 								reject("No voices found");
 							}
-						}, 3000);
+						}, 1000);
 					}
 				}
 			} catch (err) {
@@ -82,15 +84,20 @@ export default {
 			}
 		});
 		allVoicesObtained.catch((err) => {
-			const notif = this.$buefy.toast.open({
-				duration: 5000,
-				message: this.$t("ErrorLoadingVoices"),
-				type: "is-danger",
-				hasIcon: true,
-			});
+			this.$parent.close();
+			this.openInstallOtherBrowserModal();
 		})
 	},
 	methods: {
+		async openInstallOtherBrowserModal() {
+			this.$buefy.modal.open({
+				parent: this,
+				component: installOtherBrowserModal,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+			});
+		},
 		async getTranslatedText(speech) {
 			try {
 				return (
