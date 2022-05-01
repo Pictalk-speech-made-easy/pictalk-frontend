@@ -19,20 +19,40 @@
 				}}</nuxt-link
 				>. <b>PicTalk</b> {{ $t("ProjectBackedBy") }}
 			</p>
-			<b-image
-				lazy
-				:srcset="require('@/assets/FondationLogo.png').srcSet"
-				alt="Fondation INSA Lyon logo"
-				style="width: 10%"
-			></b-image>
-			{{ $t("WantToBeABacker") }}
-			<a href="mailto:alex@pictalk.org">alex@pictalk.org</a>
-			!
+		</div>
+		<br />
+		<div class="columns is-centered is-mobile">
+			<div class="column centerImage">
+				<b-image
+					lazy
+					:responsive="false"
+					src="https://fondation.insa-lyon.fr/sites/fondation.insa-lyon.fr/files/insa_lyon_logo_0.png"
+					alt="Fondation INSA Lyon logo"
+					custom-class="imgpixelslimit"
+				/>
+			</div>
+			<div class="column centerImage">
+				<b-image
+					lazy
+					:responsive="false"
+					src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/DigitalOcean_logo.svg/1200px-DigitalOcean_logo.svg.png"
+					alt="DigitalOcean"
+					custom-class="imgpixelslimit"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
 <style scoped>
 .footers {
 	padding: 2rem;
+}
+</style>
+<style>
+.imgpixelslimit {
+	max-height: 100px;
+}
+.centerImage {
+	text-align: center;
 }
 </style>
