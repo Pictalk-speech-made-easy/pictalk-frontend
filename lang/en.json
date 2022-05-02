@@ -161,7 +161,6 @@
     "OfflinePictalk": "Pictalk is now offline-ready ✈️ ! Just download all your pictograms in one click (Go to the account page)",
     "LatestUpdateWarning": "After the latest update, you'll need to Log out and Log in in order to make the app work properly, sorry for the inconvenience.",
     "WaitIsPictalk": "What is Pic'Talk ?",
-    "HomeText1": "Pic'Talk is about empowering individuals lacking of speech capabilities by providing a free and easy way to transform pictograms or photos in loud sentences. It uses Augmentative and Alternative Systems of Communication such as the ARASAAC pictograms to overcome the difficulties of communication for people with disabilities. Pic'Talk is designed for individuals but also for schools or groups. Pictograms can be shared to multiple groups and users with ease. How do Pic'Talk works ? It's fairly simple, it uses the Text-To-Speech voices you have in your device to pronounce the sentences you assembled. Why do we spend most of our free time building Pic'Talk ? I, Alex, started, back in 2019, to think about making an application to help my little brother, Pablo, talk. Pablo is one of the happiest individials I know and loves to communicate but, as he is a down syndrome carrier, he has difficulties with the oral language. Thanks to time and tons of coffee, I managed to build a first version of Pic'Talk and was awarded a price for it. As my other brother, Adri, saw Pablo talk for his first time, he immediately wanted to contribute to the project. Now we are a team of two developpers behind Pic'Talk and are as motivated as ever to make Speech a fundamental right.",
     "MainFeatures": "Main features",
     "HomeFeature1": "All your images/pictograms are saved in the cloud",
     "HomeFeature2": "You can install the app from your computer or phone and tablet",
@@ -293,5 +292,11 @@
 		"TutorialSkip" : "end tutorial",
 		"NoVoicesFound": "No voice was found, please try with another browser (Firefox, Chrome...)",
 		"InstallAnotherBrowserText": "Please use Pictalk on Chrome or Firefox in order to have the best experience. Browsers like Safari tend to have less support for Text-To-Speech and other modern features.",
-		"InstallAnotherBrowser": "Install another browser"
+		"InstallAnotherBrowser": "Install another browser",
+		"HomeTitle1": "What is Pictalk ?",
+		"HomeText1": "Pictalk is a free and open-source application that aims to offer a simple way of speaking to the non-verbal people.",
+		"HomeTitle2": "How it works",
+		"HomeText2": "Pictalk uses augmentative and alternative communication systems such as the ones provided by the ARASAAC non-profit organization, but also photos and converts them into out loud speech. Pictalk is made for individuals but also for families and community life because the collections can be shared across devices, users and user groups. Pictalk uses Text-To-Speech voices that are natively present on your device to pronounce the constructed sentences.",
+		"HomeTitle3": "Why Pictalk ?",
+		"HomeText3": "The adventure started back in 2019 with my studies of Telecommunication engineering. The idea to create a simple application to help my non-verbal little brother was an evidence. The first version of Pictalk appeared and I was awarded a price for it. When my other brother joined the engineering school, he wanted to be part of this heartfelt project. Now, we're a team of two yound developers behind Pictalk and we're as motivated as ever to make speech a fundamental right."
 }
