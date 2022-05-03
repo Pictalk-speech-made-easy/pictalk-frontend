@@ -7,7 +7,6 @@
       <sidebar
         style="border: solid #fe5555; background-color: #ffffff"
         v-if="displaySidebar"
-        v-on:sidebarExpanded="expandOrMinimizeSidebar()"
         class="
           container
           smallPadding
@@ -181,9 +180,6 @@ export default {
         }
       }
       return [];
-    },
-    expandOrMinimizeSidebar() {
-      this.sidebarExpanded = !this.sidebarExpanded;
     },
     sorting(collections, pictos) {
       let unsortedItems = collections.concat(pictos);
