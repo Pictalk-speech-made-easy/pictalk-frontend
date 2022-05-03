@@ -1,7 +1,7 @@
 <template>
 	<div class="vertical smallPadding">
 		<b-button
-			v-if="$route.query.sidebarPictoId"
+			v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId"
 			icon-left="arrow-left"
 			expanded
 			class="is-primary"
@@ -66,12 +66,13 @@ export default {
 				if (this.publicMode) {
 					this.$router.push("/public/");
 				} else {
-					if (this.$store.getters.sidebarId) {
+					if (this.$store.getters.getSidebarId) {
 						this.$router.push({
 							path: "/pictalk/" + this.$store.getters.getRootId,
 							query: {
 								isAdmin: this.$route.query.isAdmin,
-								sidebarPictoId: this.$store.getters.sidebarId,
+								sidebarPictoId:
+									this.$store.getters.getSidebarId,
 							},
 						});
 					} else {
@@ -79,7 +80,8 @@ export default {
 							path: "/pictalk",
 							query: {
 								isAdmin: this.$route.query.isAdmin,
-								sidebarPictoId: this.$store.getters.sidebarId,
+								sidebarPictoId:
+									this.$store.getters.getSidebarId,
 							},
 						});
 					}

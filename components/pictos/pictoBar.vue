@@ -154,6 +154,9 @@ export default {
 		},
 		removeSpeech() {
 			const pictoSpeech = this.$store.getters.getSpeech;
+			const pictoSpeechFolder = this.$store.getters.getSpeech.filter(
+				(picto) => picto.collection
+			);
 			const pictalkSpeech = this.$store.getters.getSpeech.filter(
 				(picto) => !picto.sidebar
 			);
@@ -167,16 +170,25 @@ export default {
 					if (this.$store.getters.getRootId) {
 						this.$router.push({
 							path: "/pictalk/" + this.$store.getters.getRootId,
-							query: { isAdmin: this.$route.query.isAdmin },
+							query: {
+								isAdmin: this.$route.query.isAdmin,
+								sidebarPictoId:
+									this.$store.getters.getSidebarId,
+							},
 						});
 					} else {
 						this.$router.push({
 							path: "/pictalk",
-							query: { isAdmin: this.$route.query.isAdmin },
+							query: {
+								isAdmin: this.$route.query.isAdmin,
+								sidebarPictoId:
+									this.$store.getters.getSidebarId,
+							},
 						});
 					}
 				}
 			} else {
+				// Filtrer par collection sinon il essaie d'aller au picto
 				if (pictoSpeech[pictoSpeech.length - 1].collection) {
 					if (pictoSpeech[pictoSpeech.length - 1].sidebar) {
 						if (sidebarSpeech[sidebarSpeech.length - 2]?.id) {
@@ -189,13 +201,20 @@ export default {
 								},
 							});
 						} else {
-							this.$router.push(this.$route.path);
+							this.$router.push({
+								path: this.$route.path,
+								query: {
+									...this.$route.query,
+									sidebarPictoId:
+										this.$store.getters.getSidebarId,
+								},
+							});
 						}
 					} else {
 						this.$router.push({
 							path:
 								(this.publicMode ? "/public/" : "/pictalk/") +
-								pictalkSpeech[pictalkSpeech.length - 2].id,
+								pictalkSpeech[pictalkSpeech.length - 2]?.id,
 							query: { ...this.$route.query },
 						});
 					}
@@ -212,12 +231,18 @@ export default {
 			if (this.$store.getters.getRootId) {
 				this.$router.push({
 					path: "/pictalk/" + this.$store.getters.getRootId,
-					query: { isAdmin: this.$route.query.isAdmin },
+					query: {
+						isAdmin: this.$route.query.isAdmin,
+						sidebarPictoId: this.$store.getters.getSidebarId,
+					},
 				});
 			} else {
 				this.$router.push({
 					path: "/pictalk",
-					query: { isAdmin: this.$route.query.isAdmin },
+					query: {
+						isAdmin: this.$route.query.isAdmin,
+						sidebarPictoId: this.$store.getters.getSidebarId,
+					},
 				});
 			}
 		},

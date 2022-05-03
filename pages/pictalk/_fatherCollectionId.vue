@@ -129,6 +129,22 @@ export default {
 				this.$router.push(this.$route.path + "/" + res.data.id);
 			}
 		}
+		if (!this.$route.query.sidebarPictoId) {
+			if (this.$store.getters.getSidebarId) {
+				this.$router.push({
+					query: {
+						...this.$route.query,
+						sidebarPictoId: this.$store.getters.getSidebarId,
+					},
+				});
+				return;
+			} else {
+				//TODO creer endpoint pour get sidebarid
+				/* var res = await axios.get("/user/root/");
+				this.$store.commit("setRootId", res.data.id);
+				this.$router.push(this.$route.path + "/" + res.data.id); */
+			}
+		}
 	},
 	async fetch() {
 		if (!this.$route.params.fatherCollectionId) {
