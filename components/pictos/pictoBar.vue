@@ -155,47 +155,66 @@ export default {
 		removeSpeech() {
 			const pictoSpeech = this.$store.getters.getSpeech;
 			const pictalkSpeech = this.$store.getters.getSpeech.filter(
-				(picto) => !picto.sidebar
+				(picto) => !picto.sidebar && picto.collection
 			);
 			const sidebarSpeech = this.$store.getters.getSpeech.filter(
-				(picto) => picto.sidebar
+				(picto) => picto.sidebar && picto.collection
 			);
-			if (pictoSpeech.length <= 1) {
-				if (this.publicMode) {
-					this.$router.push("/public/");
-				} else {
-					if (this.$store.getters.getRootId) {
-						this.$router.push({
-							path: "/pictalk/" + this.$store.getters.getRootId,
-							query: { isAdmin: this.$route.query.isAdmin },
-						});
+			if (pictoSpeech[pictoSpeech.length - 1].collection) {
+				if (pictoSpeech[pictoSpeech.length - 1].sidebar) {
+					if (sidebarSpeech.length <= 1) {
+						if (this.publicMode) {
+							this.$router.push("/public/");
+						} else {
+							if (this.$store.getters.getSidebarId) {
+								this.$router.push({
+									query: {
+										isAdmin: this.$route.query.isAdmin,
+										sidebarPictoId:
+											this.$store.getters.getSidebarId,
+									},
+								});
+							} else {
+								this.$router.push({
+									query: {
+										isAdmin: this.$route.query.isAdmin,
+									},
+								});
+							}
+						}
 					} else {
 						this.$router.push({
-							path: "/pictalk",
-							query: { isAdmin: this.$route.query.isAdmin },
+							query: {
+								...this.$route.query,
+								sidebarPictoId:
+									sidebarSpeech[sidebarSpeech.length - 2]?.id,
+							},
 						});
 					}
-				}
-			} else {
-				if (pictoSpeech[pictoSpeech.length - 1].collection) {
-					if (pictoSpeech[pictoSpeech.length - 1].sidebar) {
-						if (sidebarSpeech[sidebarSpeech.length - 2]?.id) {
-							this.$router.push({
-								query: {
-									...this.$route.query,
-									sidebarPictoId:
-										sidebarSpeech[sidebarSpeech.length - 2]
-											.id,
-								},
-							});
+				} else {
+					if (pictalkSpeech.length <= 1) {
+						if (this.publicMode) {
+							this.$router.push("/public/");
 						} else {
-							this.$router.push(this.$route.path);
+							if (this.$store.getters.getRootId) {
+								this.$router.push({
+									path:
+										"/pictalk/" +
+										this.$store.getters.getRootId,
+									query: { ...this.$route.query },
+								});
+							} else {
+								this.$router.push({
+									path: "/pictalk/",
+									query: { ...this.$route.query },
+								});
+							}
 						}
 					} else {
 						this.$router.push({
 							path:
 								(this.publicMode ? "/public/" : "/pictalk/") +
-								pictalkSpeech[pictalkSpeech.length - 2].id,
+								pictalkSpeech[pictalkSpeech.length - 2]?.id,
 							query: { ...this.$route.query },
 						});
 					}
@@ -212,12 +231,18 @@ export default {
 			if (this.$store.getters.getRootId) {
 				this.$router.push({
 					path: "/pictalk/" + this.$store.getters.getRootId,
-					query: { isAdmin: this.$route.query.isAdmin },
+					query: {
+						isAdmin: this.$route.query.isAdmin,
+						sidebarPictoId: this.$store.getters.getSidebarId,
+					},
 				});
 			} else {
 				this.$router.push({
 					path: "/pictalk",
-					query: { isAdmin: this.$route.query.isAdmin },
+					query: {
+						isAdmin: this.$route.query.isAdmin,
+						sidebarPictoId: this.$store.getters.getSidebarId,
+					},
 				});
 			}
 		},

@@ -2,7 +2,9 @@
 	<div class="containing">
 		<div class="numberContainer">
 			<img class="image" style :src="image" crossorigin="anonymous" />
-			<div class="centeredText">{{ pictoCount }}</div>
+			<div v-if="pictoCount > 1" class="centeredText">
+				{{ pictoCount }}
+			</div>
 		</div>
 	</div>
 </template>

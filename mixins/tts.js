@@ -1,7 +1,10 @@
 import frenchFries from "@/assets/frenchFries.json";
 import { convertToSimpleLanguage } from "@/utils/utils";
 import axios from "axios";
+import { setInterval } from "core-js";
+import installOtherBrowserModal from "@/components/pictos/installOtherBrowserModal";
 export default {
+	component: [installOtherBrowserModal],
 	created: function () {
 		const allVoicesObtained = new Promise(function (resolve, reject) {
 			try {
@@ -9,20 +12,41 @@ export default {
 				if (voices.length !== 0) {
 					resolve(voices);
 				} else {
-					window.speechSynthesis.addEventListener(
-						"voiceschanged",
-						function () {
+					if (!window.safari) {
+						window.speechSynthesis.addEventListener(
+							"voiceschanged",
+							function () {
+								try {
+									voices = window.speechSynthesis.getVoices();
+								} catch (err) {
+									reject(err);
+								}
+								if (!voices) {
+									reject();
+								}
+								resolve(voices);
+							}
+						);
+					} else {
+						let intervalCounter = 0;
+						const getVoicesInterval = setInterval(() => {
 							try {
+								intervalCounter++;
 								voices = window.speechSynthesis.getVoices();
 							} catch (err) {
 								reject(err);
 							}
-							if (!voices) {
-								reject();
+							console.log(voices);
+							if (voices && voices?.length > 0) {
+								clearInterval(getVoicesInterval);
+								resolve(voices);
 							}
-							resolve(voices);
-						}
-					);
+							if (intervalCounter >= 10) {
+								clearInterval(getVoicesInterval);
+								reject("No voices found");
+							}
+						}, 1000);
+					}
 				}
 			} catch (err) {
 				reject(err);
@@ -59,8 +83,21 @@ export default {
 				)[0]?.voiceURI;
 			}
 		});
+		allVoicesObtained.catch((err) => {
+			this.$parent.close();
+			this.openInstallOtherBrowserModal();
+		})
 	},
 	methods: {
+		async openInstallOtherBrowserModal() {
+			this.$buefy.modal.open({
+				parent: this,
+				component: installOtherBrowserModal,
+				hasModalCard: true,
+				customClass: "custom-class custom-class-2",
+				trapFocus: true,
+			});
+		},
 		async getTranslatedText(speech) {
 			try {
 				return (

@@ -52,14 +52,31 @@
 					</a>
 				</div>
 			</div>
+			<div class="column is-one-quarter-fullhd is-one-third-widescreen is-one-third-tablet is-half-mobile">
+				<div class="box">
+					<a href="https://youtu.be/fDqxScdXlJw">
+					<b-image lazy alt="Yotube video link for the tutorial in French."
+				:srcset="require('@/assets/video_tutorial.png').srcSet"
+				></b-image>
+					</a>
+				</div>
+			</div>
 		</div>
 		</div>
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">{{ $t('WaitIsPictalk')}}</h1>
+					<h1 class="title">{{ $t('HomeTitle1')}}</h1>
 					<p class="is-size-5 notification" align="justify">
 						{{ $t('HomeText1')}}
+					</p>
+					<h1 class="title">{{ $t('HomeTitle2')}}</h1>
+					<p class="is-size-5 notification" align="justify">
+						{{ $t('HomeText2')}}
+					</p>
+					<h1 class="title">{{ $t('HomeTitle3')}}</h1>
+					<p class="is-size-5 notification" align="justify">
+						{{ $t('HomeText3')}}
 					</p>
 				</div>
 			</div>
