@@ -1,35 +1,35 @@
 <template>
-	<div>
-		<div class="columns is-mobile" style="overflow-y: visible">
-			<div class="container is-9 column smallPadding noMargins">
-				<pictoList :pictos="loadedPictos" />
-			</div>
-			<sidebar
-				style="border: solid #fe5555; background-color: #ffffff"
-				v-if="displaySidebar"
-				class="
-					container
-					smallPadding
-					noMargins
-					maxheight
-					has-background
-					column
-					is-3
-				"
-				:publicMode="false"
-				:pictos="loadedSidebarPictos"
-			/>
-		</div>
-		<div class="contenant">
-			<pictoBar
-				v-if="loadSpeech.length != 0"
-				class="pictobar has-background"
-				:pictos="loadSpeech"
-				:collectionColor="collectionColor"
-			/>
-		</div>
-		<div class="filler"></div>
-	</div>
+  <div>
+    <div class="columns is-mobile" style="overflow-y: visible">
+      <div class="container is-9 column smallPadding noMargins">
+        <pictoList :pictos="loadedPictos" />
+      </div>
+      <sidebar
+        style="border: solid #fe5555; background-color: #ffffff"
+        v-if="displaySidebar"
+        class="
+          container
+          smallPadding
+          noMargins
+          maxheight
+          has-background
+          column
+          is-3
+        "
+        :publicMode="false"
+        :pictos="loadedSidebarPictos"
+      />
+    </div>
+    <div class="contenant">
+      <pictoBar
+        v-if="loadSpeech.length != 0"
+        class="pictobar has-background"
+        :pictos="loadSpeech"
+        :collectionColor="collectionColor"
+      />
+    </div>
+    <div class="filler"></div>
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -265,140 +265,126 @@ export default {
 					res.data.collection = true;
 					res.data.partial = false;
 
-					if (
-						res.data.collections &&
-						!res.data.collections.length == 0
-					) {
-						res.data.collections.map((collection) => {
-							if (collection.image) {
-								collection.image =
-									this.$config.apiURL +
-									"/image/pictalk/" +
-									collection.image;
-							}
-							if (collection.meaning) {
-								collection.meaning = JSON.parse(
-									collection.meaning
-								);
-							}
-							if (collection.speech) {
-								collection.speech = JSON.parse(
-									collection.speech
-								);
-							}
-							collection.collection = true;
-							collection.fatherCollectionId = res.data.id;
-							if (!collection.pictos) {
-								collection.pictos = [];
-							}
-							if (!collection.collections) {
-								collection.collections = [];
-							}
-							collection.partial = true;
-							// collectionIndex
-							if (!this.getCollectionFromId(collection.id)) {
-								this.$store.commit("addCollection", collection);
-							} else {
-								this.$store.commit(
-									"editCollection",
-									collection
-								);
-							}
-						});
-					}
-					if (res.data.pictos && !res.data.pictos.length == 0) {
-						res.data.pictos.map((picto) => {
-							if (picto.image) {
-								picto.image =
-									this.$config.apiURL +
-									"/image/pictalk/" +
-									picto.image;
-							}
-							if (picto.meaning) {
-								picto.meaning = JSON.parse(picto.meaning);
-							}
-							if (picto.speech) {
-								picto.speech = JSON.parse(picto.speech);
-							}
-							picto.fatherCollectionId = res.data.id;
-							if (!this.getPictoFromId(picto.id)) {
-								this.$store.commit("addPicto", picto);
-							} else {
-								this.$store.commit("editPicto", picto);
-							}
-						});
-					}
+          if (res.data.collections && !res.data.collections.length == 0) {
+            res.data.collections.map((collection) => {
+              if (collection.image) {
+                collection.image =
+                  this.$config.apiURL + "/image/pictalk/" + collection.image;
+              }
+              if (collection.meaning) {
+                collection.meaning = JSON.parse(collection.meaning);
+              }
+              if (collection.speech) {
+                collection.speech = JSON.parse(collection.speech);
+              }
+              collection.collection = true;
+              collection.fatherCollectionId = res.data.id;
+              if (!collection.pictos) {
+                collection.pictos = [];
+              }
+              if (!collection.collections) {
+                collection.collections = [];
+              }
+              collection.partial = true;
+              // collectionIndex
+              if (!this.getCollectionFromId(collection.id)) {
+                this.$store.commit("addCollection", collection);
+              } else {
+                this.$store.commit("editCollection", collection);
+              }
+            });
+          }
+          if (res.data.pictos && !res.data.pictos.length == 0) {
+            res.data.pictos.map((picto) => {
+              if (picto.image) {
+                picto.image =
+                  this.$config.apiURL + "/image/pictalk/" + picto.image;
+              }
+              if (picto.meaning) {
+                picto.meaning = JSON.parse(picto.meaning);
+              }
+              if (picto.speech) {
+                picto.speech = JSON.parse(picto.speech);
+              }
+              picto.fatherCollectionId = res.data.id;
+              if (!this.getPictoFromId(picto.id)) {
+                this.$store.commit("addPicto", picto);
+              } else {
+                this.$store.commit("editPicto", picto);
+              }
+            });
+          }
 
-					if (!this.getCollectionFromId(res.data.id)) {
-						this.$store.commit(
-							"addCollection",
-							JSON.parse(JSON.stringify(res.data))
-						);
-					} else {
-						await this.$store.commit(
-							"editCollection",
-							JSON.parse(JSON.stringify(res.data))
-						);
-					}
-				} catch (error) {
-					console.log("error ", error);
-				}
-			}
-		},
-		async refreshPictos() {
-			try {
-				await this.$store.dispatch("downloadCollections");
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("PictosFetched"),
-					position: "is-top-right",
-					type: "is-success",
-					hasIcon: true,
-					icon: "refresh",
-				});
-			} catch (err) {
-				const notif = this.$buefy.notification.open({
-					duration: 5000,
-					message: this.$t("ServerOffline"),
-					position: "is-top-right",
-					type: "is-danger",
-					hasIcon: true,
-					icon: "danger",
-				});
-			}
-		},
-	},
+          if (!this.getCollectionFromId(res.data.id)) {
+            this.$store.commit(
+              "addCollection",
+              JSON.parse(JSON.stringify(res.data))
+            );
+          } else {
+            await this.$store.commit(
+              "editCollection",
+              JSON.parse(JSON.stringify(res.data))
+            );
+          }
+        } catch (error) {
+          console.log("error ", error);
+        }
+      }
+    },
+    async refreshPictos() {
+      try {
+        await this.$store.dispatch("downloadCollections");
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: this.$t("PictosFetched"),
+          position: "is-top-right",
+          type: "is-success",
+          hasIcon: true,
+          icon: "refresh",
+        });
+      } catch (err) {
+        const notif = this.$buefy.notification.open({
+          duration: 5000,
+          message: this.$t("ServerOffline"),
+          position: "is-top-right",
+          type: "is-danger",
+          hasIcon: true,
+          icon: "danger",
+        });
+      }
+    },
+  },
 };
 </script>
 <style scoped>
 .pictobar {
-	bottom: 2%;
-	margin: 0 auto;
-	width: 98%;
-	max-height: 20%;
-	position: fixed;
+  bottom: 2%;
+  margin: 0 auto;
+  width: 98%;
+  max-height: 20%;
+  position: fixed;
 }
 .filler {
-	padding-bottom: 22rem;
+  padding-bottom: 27rem;
 }
 .contenant {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .smallPadding {
-	padding: 1px;
+  padding: 1px;
 }
 .noMargins {
-	margin: 0%;
+  margin: 0%;
 }
 .maxheight {
-	max-height: 75vh;
+  max-height: 75vh;
 }
 .has-background {
-	border-radius: 7px;
-	-webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-	-moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
-	box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border-radius: 7px;
+  -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 </style>

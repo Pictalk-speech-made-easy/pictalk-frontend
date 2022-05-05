@@ -196,13 +196,14 @@
               ></b-input>
               <b-button
                 v-if="create"
-                :type="silent ? 'is-primary is-light' : 'is-primary'"
-                :icon-right="silent ? 'volume-mute' : 'volume-high'"
+                :type="silent ? 'is-primary' : 'is-primary is-light'"
+                icon-right="volume-mute"
                 @click="silent = !silent"
               ></b-button>
               <b-button
+                :disabled="silent"
                 type="is-success"
-                icon-right="message"
+                icon-right="volume-high"
                 @click="
                   pronounce(
                     picto.speech[languageSelectorSpeech],
@@ -433,6 +434,9 @@ export default {
               .map((languages) => languages.replace(/[^a-z]/g, ""))
               .map(async (language) => {
                 return new Promise(async (resolve, reject) => {
+                  if (this.silent) {
+                    this.picto.speech[language] = "";
+                  }
                   if (
                     language == this.getUserLang ||
                     this.picto.meaning[language] ||
@@ -480,9 +484,6 @@ export default {
                         this.picto.speech[language] = "";
                       }
                       resolve();
-                    }
-                    if (this.silent) {
-                      this.picto.speech[language] = "";
                     }
                   }
                 });
