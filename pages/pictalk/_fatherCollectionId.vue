@@ -124,11 +124,10 @@ export default {
           path: "/pictalk/" + this.$store.getters.getRootId,
           query: { ...this.$route.query },
         });
-        return;
       } else {
         var res = await axios.get("/user/root/");
         this.$store.commit("setRootId", res.data.id);
-        this.$router.push(this.$route.path + "/" + res.data.id);
+        this.$router.push({ path: "/pictalk/" + res.data.id });
       }
     }
     if (!this.$route.query.sidebarPictoId) {
@@ -139,12 +138,11 @@ export default {
             sidebarPictoId: this.$store.getters.getSidebarId,
           },
         });
-        return;
       } else {
         //TODO creer endpoint pour get sidebarid
         /* var res = await axios.get("/user/root/");
-				this.$store.commit("setRootId", res.data.id);
-				this.$router.push(this.$route.path + "/" + res.data.id); */
+        this.$store.commit("setRootId", res.data.id);
+        this.$router.push(this.$route.path + "/" + res.data.id); */
       }
     }
   },

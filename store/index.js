@@ -424,6 +424,7 @@ export const actions = {
 		var user = (await axios.get("/user/details/")).data;
 		vuexContext.commit('setSharedId', user.shared);
 		vuexContext.commit('setSidebarId', user.sider);
+		vuexContext.commit('setRootId', user.root);
 		user.language = JSON.parse(user.language);
 		user.languages = JSON.parse(user.languages);
 		user.settings = JSON.parse(user.settings);

@@ -514,11 +514,21 @@ export default {
     eraseSpeech() {
       this.$store.commit("eraseSpeech");
       if (this.$store.getters.getRootId) {
-        this.$router.push(
-          "/pictalk/" + this.$store.getters.getRootId + this.admin
-        );
+        this.$router.push({
+          path: "/pictalk/" + this.$store.getters.getRootId,
+          query: {
+            isAdmin: this.$route.query.isAdmin,
+            sidebarPictoId: this.$store.getters.getSidebarId,
+          },
+        });
       } else {
-        this.$router.push("/pictalk" + this.admin);
+        this.$router.push({
+          path: "/pictalk",
+          query: {
+            isAdmin: this.$route.query.isAdmin,
+            sidebarPictoId: this.$store.getters.getSidebarId,
+          },
+        });
       }
     },
     goToAccount() {
@@ -547,7 +557,6 @@ export default {
     margin-bottom: 0.5em;
   }
 }
-
 .lock {
   border: solid;
   border-color: #4c4329;
