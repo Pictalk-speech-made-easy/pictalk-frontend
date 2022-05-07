@@ -12,7 +12,7 @@
 			</header>
 			<section class="modal-card-body">
 				<div class="container">
-				<b-steps 
+				<b-steps
 					v-model="activeStep"
 					rounded
 					animated
@@ -106,7 +106,7 @@
 								:value="voice.voiceURI"
 								:key="voice.voiceURI"
 							>
-								{{ getEmoji(voice.lang) }} {{voice.name}} 
+								{{ getEmoji(voice.lang) }} {{voice.name}}
 							</option>
 						</b-select>
 					</b-field>
@@ -152,7 +152,7 @@
         ></b-image>
           </div>
           <b-field>
-            <b-input 
+            <b-input
             :placeholder="$t('VerifyAccountVerificationCode')"
             v-model="verificationToken"
             expanded
@@ -166,8 +166,8 @@
           <p class="is-size-5 notification" align="justify">
 						 {{ $t('VerifyAccountText')}}
 					</p>
-          
-        <b-button 
+
+        <b-button
         type="is-text"
         :loading="mailLoading"
         @click="sendAnotherMail()"
@@ -175,9 +175,9 @@
 				</b-step-item>
     		</b-steps>
 				</div>
-				
+
 				<br />
-				
+
 			</section>
 			<footer class="modal-card-foot" style="padding: 2%">
 				<div class="container">
@@ -457,12 +457,23 @@ export default {
             type: "is-success",
           });
           this.$parent.close();
-          await this.$store.dispatch("authenticateUser", {
-            username: this.username,
-            password: this.password,
-            isLogin: true,
+
+          try {
+            await this.$store.dispatch("authenticateUser", {
+              username: this.username,
+              password: this.password,
+              isLogin: true,
+            });
+            await this.$store.dispatch("getUser");
+          } catch (error) {
+            console.log("error ", error);
+          }
+          this.$router.push({
+            path: "/pictalk/" + this.$store.getters.getRootId,
+            query: {
+              sidebarPictoId: this.$store.getters.getSidebarId,
+            },
           });
-          this.$router.push("/pictalk");
           this.openTutorial();
         }
       } catch (error) {

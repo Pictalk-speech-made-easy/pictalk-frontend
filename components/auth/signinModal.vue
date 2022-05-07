@@ -60,8 +60,14 @@ export default {
           isLogin: true,
         });
         if (res.status == 201) {
+          await this.$store.dispatch("getUser");
           this.$parent.close();
-          this.$router.push("/pictalk");
+          this.$router.push({
+            path: "/pictalk/" + this.$store.getters.getRootId,
+            query: {
+              sidebarPictoId: this.$store.getters.getSidebarId,
+            },
+          });
           const notif = this.$buefy.toast.open({
             duration: 5000,
             message: this.$t("Welcome"),
