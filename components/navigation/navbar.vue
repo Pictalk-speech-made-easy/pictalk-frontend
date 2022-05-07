@@ -2,12 +2,41 @@
   <div>
     <b-navbar fixed-top>
       <template slot="brand">
-        <b-navbar-item tag="nuxt-link" to="/">
+        <b-navbar-item
+          tag="nuxt-link"
+          to="/"
+          style="padding: 0%; padding-right: 10px; padding-left: 20px"
+        >
           <img
+            v-if="fitWidth"
             src="~/assets/logo_compressed.png"
             alt="A web app that help speach-disabled people"
             height="100px"
             width="150px"
+          />
+          <img
+            v-if="!fitWidth"
+            src="~/assets/small_logo.jpg"
+            alt="A web app that help speach-disabled people"
+          />
+        </b-navbar-item>
+        <b-navbar-item class="searchSection">
+          <b-autocomplete
+            v-model="search"
+            :data="
+              $store.getters.getPublicCollections.map(
+                (collections) => collections.meaning
+              )
+            "
+            :placeholder="$t('SearchPictoPlaceholder')"
+            clearable
+          >
+          </b-autocomplete>
+          <b-button
+            class="searchButton"
+            type="is-info"
+            @click="SearchPicto()"
+            icon-right="magnify"
           />
         </b-navbar-item>
       </template>
@@ -96,6 +125,7 @@ export default {
   data() {
     return {
       trueValue: true,
+      search: "",
     };
   },
   components: {
@@ -103,6 +133,14 @@ export default {
     signup,
   },
   computed: {
+    fitWidth() {
+      return window.innerWidth > 1000;
+    },
+    getFilteredPictoList() {
+      return this.pictos.filter((picto) =>
+        picto.meaning[this.getUserLang]?.includes(this.search)
+      );
+    },
     pictalkHome() {
       if (this.$store.getters.getRootId) {
         return "/pictalk/" + this.$store.getters.getRootId;
@@ -140,3 +178,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+.searchButton {
+  height: 100%;
+  width: 100%;
+}
+.searchSection {
+  width: 10vw;
+  min-width: 80px;
+}
+.noPadding {
+  padding: 0%;
+}
+</style>
+

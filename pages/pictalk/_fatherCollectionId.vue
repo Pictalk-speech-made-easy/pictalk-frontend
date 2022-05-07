@@ -1,34 +1,35 @@
 <template>
   <div>
-    <div class="columns is-mobile" style="overflow-y: visible">
-      <div class="container is-9 column smallPadding noMargins">
-        <pictoList :pictos="loadedPictos" />
-      </div>
-      <sidebar
-        style="border: solid #fe5555; background-color: #ffffff"
-        v-if="displaySidebar"
-        class="
-          container
-          smallPadding
-          noMargins
-          maxheight
-          has-background
-          column
-          is-3
+    <div
+      class="columns is-mobile noscroll"
+      :style="`max-height : ${fitScreen}px; width: 100vw`"
+    >
+      <div
+        :class="
+          !($route.params.fatherCollectionId == $store.getters.getSidebarId)
+            ? 'is-8-mobile is-8-tablet column noMargins scrolling'
+            : 'is-12 column noMargins scrolling'
         "
-        :publicMode="false"
-        :pictos="loadedSidebarPictos"
-      />
+      >
+        <pictoList :pictos="loadedPictos" :sidebar="false" />
+      </div>
+      <div
+        v-if="
+          !($route.params.fatherCollectionId == $store.getters.getSidebarId)
+        "
+        class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
+      >
+        <pictoList :pictos="loadedSidebarPictos" :sidebar="true" />
+      </div>
     </div>
     <div class="contenant">
       <pictoBar
         v-if="loadSpeech.length != 0"
-        class="pictobar has-background"
+        class="pictobar sidebar"
         :pictos="loadSpeech"
         :collectionColor="collectionColor"
       />
     </div>
-    <div class="filler"></div>
   </div>
 </template>
 <script>
@@ -37,233 +38,228 @@ import sidebar from "@/components/pictos/sidebar";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 export default {
-	layout: "pictalk",
-	middleware: ["check-auth", "auth", "axios"],
-	components: {
-		pictoList: pictoList,
-		pictoBar: pictoBar,
-		sidebar: sidebar,
-	},
-	watch: {
-		async sidebarPictoId(sidebarId) {
-			if (sidebarId) {
-				await this.fetchCollection(sidebarId);
-			}
-		},
-	},
-	created() {
-		window.addEventListener("online", this.refreshPictos);
-		window.addEventListener("offline", this.lostConnectivityNotification);
-	},
-	destroyed() {
-		window.removeEventListener("online", this.refreshPictos);
-		window.removeEventListener(
-			"offline",
-			this.lostConnectivityNotification
-		);
-	},
-	computed: {
-		displaySidebar() {
-			return (
-				parseInt(this.$route.params.fatherCollectionId, 10) !=
-				this.$store.getters.getSidebarId
-			);
-		},
-		loadSpeech() {
-			return this.$store.getters.getSpeech;
-		},
-		isAdmin() {
-			if (this.$route.query.isAdmin) {
-				return true;
-			} else {
-				return false;
-			}
-		},
-		loadedPictos() {
-			return this.loadPictos(
-				parseInt(this.$route.params.fatherCollectionId, 10)
-			);
-		},
-		loadedSidebarPictos() {
-			if (this.$route.query.sidebarPictoId) {
-				return this.loadPictos(
-					parseInt(this.$route.query.sidebarPictoId, 10)
-				);
-			} else {
-				return this.loadPictos(this.$store.getters.getSidebarId);
-			}
-		},
-		sidebarPictoId() {
-			if (this.$route.query.sidebarPictoId) {
-				return this.$route.query.sidebarPictoId;
-			} else {
-				return this.$store.getters.getSidebarId;
-			}
-		},
-		collectionColor() {
-			const collection = this.getCollectionFromId(
-				parseInt(this.$route.params.fatherCollectionId, 10)
-			);
-			if (collection) {
-				if (collection.color) {
-					return collection.color;
-				} else {
-					return "#f5f5f5";
-				}
-			} else {
-				return "#f5f5f5";
-			}
-		},
-	},
-	async mounted() {
-		if (!this.$route.params.fatherCollectionId) {
-			if (this.$store.getters.getRootId) {
-				this.$router.push({
-					path: "/pictalk/" + this.$store.getters.getRootId,
-					query: { ...this.$route.query },
-				});
-				return;
-			} else {
-				var res = await axios.get("/user/root/");
-				this.$store.commit("setRootId", res.data.id);
-				this.$router.push(this.$route.path + "/" + res.data.id);
-			}
-		}
-		if (!this.$route.query.sidebarPictoId) {
-			if (this.$store.getters.getSidebarId) {
-				this.$router.push({
-					query: {
-						...this.$route.query,
-						sidebarPictoId: this.$store.getters.getSidebarId,
-					},
-				});
-				return;
-			} else {
-				//TODO creer endpoint pour get sidebarid
-				/* var res = await axios.get("/user/root/");
+  layout: "pictalk",
+  middleware: ["check-auth", "auth", "axios"],
+  components: {
+    pictoList: pictoList,
+    pictoBar: pictoBar,
+    sidebar: sidebar,
+  },
+  watch: {
+    async sidebarPictoId(sidebarId) {
+      if (sidebarId) {
+        await this.fetchCollection(sidebarId);
+      }
+    },
+  },
+  created() {
+    window.addEventListener("online", this.refreshPictos);
+    window.addEventListener("offline", this.lostConnectivityNotification);
+  },
+  destroyed() {
+    window.removeEventListener("online", this.refreshPictos);
+    window.removeEventListener("offline", this.lostConnectivityNotification);
+  },
+  computed: {
+    fitScreen() {
+      return window.innerHeight - 64;
+    },
+    fitWidth() {
+      return window.innerWidth;
+    },
+    displaySidebar() {
+      return (
+        parseInt(this.$route.params.fatherCollectionId, 10) !=
+        this.$store.getters.getSidebarId
+      );
+    },
+    loadSpeech() {
+      return this.$store.getters.getSpeech;
+    },
+    isAdmin() {
+      if (this.$route.query.isAdmin) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    loadedPictos() {
+      return this.loadPictos(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+    },
+    loadedSidebarPictos() {
+      if (this.$route.query.sidebarPictoId) {
+        return this.loadPictos(parseInt(this.$route.query.sidebarPictoId, 10));
+      } else {
+        return this.loadPictos(this.$store.getters.getSidebarId);
+      }
+    },
+    sidebarPictoId() {
+      if (this.$route.query.sidebarPictoId) {
+        return this.$route.query.sidebarPictoId;
+      } else {
+        return this.$store.getters.getSidebarId;
+      }
+    },
+    collectionColor() {
+      const collection = this.getCollectionFromId(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+      if (collection) {
+        if (collection.color) {
+          return collection.color;
+        } else {
+          return "#f5f5f5";
+        }
+      } else {
+        return "#f5f5f5";
+      }
+    },
+  },
+  async mounted() {
+    if (!this.$route.params.fatherCollectionId) {
+      if (this.$store.getters.getRootId) {
+        this.$router.push({
+          path: "/pictalk/" + this.$store.getters.getRootId,
+          query: { ...this.$route.query },
+        });
+        return;
+      } else {
+        var res = await axios.get("/user/root/");
+        this.$store.commit("setRootId", res.data.id);
+        this.$router.push(this.$route.path + "/" + res.data.id);
+      }
+    }
+    if (!this.$route.query.sidebarPictoId) {
+      if (this.$store.getters.getSidebarId) {
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            sidebarPictoId: this.$store.getters.getSidebarId,
+          },
+        });
+        return;
+      } else {
+        //TODO creer endpoint pour get sidebarid
+        /* var res = await axios.get("/user/root/");
 				this.$store.commit("setRootId", res.data.id);
 				this.$router.push(this.$route.path + "/" + res.data.id); */
-			}
-		}
-	},
-	async fetch() {
-		if (!this.$route.params.fatherCollectionId) {
-			return;
-		}
-		// TODO Traiter differement !collection et !collection.pictos || !collection.collections
-		await this.fetchCollection(
-			parseInt(this.$route.params.fatherCollectionId, 10)
-		);
-		const user = this.$store.getters.getUser;
-		if (!user.username) {
-			try {
-				await this.$store.dispatch("getUser");
-			} catch (error) {
-				console.log("error ", error);
-			}
-		}
-	},
-	data() {
-		return {
-			isPicto: true,
-			sidebarExpanded: false,
-		};
-	},
-	methods: {
-		loadPictos(fatherCollectionId) {
-			const index = this.$store.getters.getCollections.findIndex(
-				(collection) => collection.id === fatherCollectionId
-			);
-			const collection = this.$store.getters.getCollections[index];
-			if (collection) {
-				const collectionList = collection.collections.map((col) => {
-					return this.getCollectionFromId(col.id);
-				});
-				const pictos = collection.pictos.map((pict) => {
-					return this.getPictoFromId(pict.id);
-				});
-				if (pictos && collectionList) {
-					let sortedItems = [];
-					let starredItems = [];
-					let unstarredItems = [];
-					sortedItems = this.sorting(collectionList, pictos);
-					for (let item of sortedItems) {
-						if (item.starred) {
-							starredItems.push(item);
-						} else {
-							unstarredItems.push(item);
-						}
-					}
-					return starredItems.concat(unstarredItems);
-				} else {
-					console.log("No ranked pictos");
-					return [];
-				}
-			}
-			return [];
-		},
-		sorting(collections, pictos) {
-			let unsortedItems = collections.concat(pictos);
-			let sortedItems = unsortedItems.sort(function (itemA, itemB) {
-				return (
-					new Date(itemB.createdDate) - new Date(itemA.createdDate)
-				);
-			});
-			return sortedItems;
-		},
-		removeSpeech() {
-			this.$store.commit("removeSpeech");
-		},
-		getCollectionFromId(id) {
-			const index = this.$store.getters.getCollections.findIndex(
-				(collection) => collection.id === id
-			);
-			return this.$store.getters.getCollections[index];
-		},
-		getPictoFromId(id) {
-			const index = this.$store.getters.getPictos.findIndex(
-				(picto) => picto.id === id
-			);
-			return this.$store.getters.getPictos[index];
-		},
-		lostConnectivityNotification() {
-			const notif = this.$buefy.notification.open({
-				duration: 5000,
-				message: this.$t("LostConnectivity"),
-				position: "is-top-right",
-				type: "is-danger",
-				hasIcon: true,
-				icon: "airplane",
-			});
-		},
-		async fetchCollection(collectionId) {
-			const collection = this.getCollectionFromId(collectionId);
-			// TODO Traiter differement !collection et !collection.pictos || !collection.collections
-			if (
-				(!collection ||
-					!collection.pictos ||
-					!collection.collections ||
-					collection?.partial) &&
-				navigator.onLine
-			) {
-				try {
-					var res = await axios.get(
-						"/collection/find/" + collectionId
-					);
-					if (res.data.image) {
-						res.data.image =
-							this.$config.apiURL +
-							"/image/pictalk/" +
-							res.data.image;
-					}
-					if (res.data.meaning) {
-						res.data.meaning = JSON.parse(res.data.meaning);
-					}
-					if (res.data.speech) {
-						res.data.speech = JSON.parse(res.data.speech);
-					}
-					res.data.collection = true;
-					res.data.partial = false;
+      }
+    }
+  },
+  async fetch() {
+    if (!this.$route.params.fatherCollectionId) {
+      return;
+    }
+    // TODO Traiter differement !collection et !collection.pictos || !collection.collections
+    await this.fetchCollection(
+      parseInt(this.$route.params.fatherCollectionId, 10)
+    );
+    const user = this.$store.getters.getUser;
+    if (!user.username) {
+      try {
+        await this.$store.dispatch("getUser");
+      } catch (error) {
+        console.log("error ", error);
+      }
+    }
+  },
+  data() {
+    return {
+      isPicto: true,
+      sidebarExpanded: false,
+    };
+  },
+  methods: {
+    loadPictos(fatherCollectionId) {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) => collection.id === fatherCollectionId
+      );
+      const collection = this.$store.getters.getCollections[index];
+      if (collection) {
+        const collectionList = collection.collections.map((col) => {
+          return this.getCollectionFromId(col.id);
+        });
+        const pictos = collection.pictos.map((pict) => {
+          return this.getPictoFromId(pict.id);
+        });
+        if (pictos && collectionList) {
+          let sortedItems = [];
+          let starredItems = [];
+          let unstarredItems = [];
+          sortedItems = this.sorting(collectionList, pictos);
+          for (let item of sortedItems) {
+            if (item.starred) {
+              starredItems.push(item);
+            } else {
+              unstarredItems.push(item);
+            }
+          }
+          return starredItems.concat(unstarredItems);
+        } else {
+          console.log("No ranked pictos");
+          return [];
+        }
+      }
+      return [];
+    },
+    sorting(collections, pictos) {
+      let unsortedItems = collections.concat(pictos);
+      let sortedItems = unsortedItems.sort(function (itemA, itemB) {
+        return new Date(itemB.createdDate) - new Date(itemA.createdDate);
+      });
+      return sortedItems;
+    },
+    removeSpeech() {
+      this.$store.commit("removeSpeech");
+    },
+    getCollectionFromId(id) {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) => collection.id === id
+      );
+      return this.$store.getters.getCollections[index];
+    },
+    getPictoFromId(id) {
+      const index = this.$store.getters.getPictos.findIndex(
+        (picto) => picto.id === id
+      );
+      return this.$store.getters.getPictos[index];
+    },
+    lostConnectivityNotification() {
+      const notif = this.$buefy.notification.open({
+        duration: 5000,
+        message: this.$t("LostConnectivity"),
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true,
+        icon: "airplane",
+      });
+    },
+    async fetchCollection(collectionId) {
+      const collection = this.getCollectionFromId(collectionId);
+      // TODO Traiter differement !collection et !collection.pictos || !collection.collections
+      if (
+        (!collection ||
+          !collection.pictos ||
+          !collection.collections ||
+          collection?.partial) &&
+        navigator.onLine
+      ) {
+        try {
+          var res = await axios.get("/collection/find/" + collectionId);
+          if (res.data.image) {
+            res.data.image =
+              this.$config.apiURL + "/image/pictalk/" + res.data.image;
+          }
+          if (res.data.meaning) {
+            res.data.meaning = JSON.parse(res.data.meaning);
+          }
+          if (res.data.speech) {
+            res.data.speech = JSON.parse(res.data.speech);
+          }
+          res.data.collection = true;
+          res.data.partial = false;
 
           if (res.data.collections && !res.data.collections.length == 0) {
             res.data.collections.map((collection) => {
@@ -358,14 +354,11 @@ export default {
 </script>
 <style scoped>
 .pictobar {
-  bottom: 2%;
+  bottom: 2px;
   margin: 0 auto;
-  width: 98%;
+  width: 99vw;
   max-height: 20%;
   position: fixed;
-}
-.filler {
-  padding-bottom: 27rem;
 }
 .contenant {
   display: flex;
@@ -378,8 +371,35 @@ export default {
 .noMargins {
   margin: 0%;
 }
-.maxheight {
-  max-height: 75vh;
+.sidebar {
+  -webkit-box-shadow: -2px 2px 8px 1px #777; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: -2px 2px 8px 1px #777; /* Firefox 3.5 - 3.6 */
+  box-shadow: -2px 2px 8px 1px #777;
+}
+.scrolling {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: #ffffff00;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #fe5555;
+  border-radius: 10px;
+}
+.noscroll {
+  padding-right: 0vw;
+  padding-left: 0vw;
+  margin: 0%;
 }
 .has-background {
   border-radius: 7px;

@@ -1,17 +1,33 @@
-.page-enter-active, .page-leave-active {
-    transition: opacity .1s;
-  }
-  .page-enter, .page-leave-to {
-    opacity: 0;
-  }
-  
-  .layout-enter-active, .layout-leave-active {
-    transition: opacity .5s
-  }
-  .layout-enter, .layout-leave-active {
-    opacity: 0
-  }
-  
+.page-enter-active,
+.page-leave-active {
+	transition: opacity .1s;
+}
+
+.page-enter,
+.page-leave-to {
+	opacity: 0;
+}
+
+.layout-enter-active,
+.layout-leave-active {
+	transition: opacity .5s
+}
+
+.layout-enter,
+.layout-leave-active {
+	opacity: 0
+}
+
 html {
-  overscroll-behavior-y: none;
+	overflow-y: auto;
+}
+
+.navbar-burger {
+	margin-left: auto;
+	margin-right: 20px;
+	margin-top: 10px
+}
+
+.navbar-brand {
+	height: 52px;
 }
