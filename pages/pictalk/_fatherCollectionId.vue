@@ -139,10 +139,9 @@ export default {
           },
         });
       } else {
-        //TODO creer endpoint pour get sidebarid
-        /* var res = await axios.get("/user/root/");
+        var res = await axios.get("/user/sider/");
         this.$store.commit("setRootId", res.data.id);
-        this.$router.push(this.$route.path + "/" + res.data.id); */
+        this.$router.push(this.$route.path + "/" + res.data.id);
       }
     }
   },
