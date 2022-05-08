@@ -64,9 +64,9 @@ export default {
           this.$parent.close();
           this.$router.push({
             path: "/pictalk/" + this.$store.getters.getRootId,
-            query: {
+            /* query: {
               sidebarPictoId: this.$store.getters.getSidebarId,
-            },
+            }, */
           });
           const notif = this.$buefy.toast.open({
             duration: 5000,

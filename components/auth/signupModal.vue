@@ -470,9 +470,9 @@ export default {
           }
           this.$router.push({
             path: "/pictalk/" + this.$store.getters.getRootId,
-            query: {
+            /* query: {
               sidebarPictoId: this.$store.getters.getSidebarId,
-            },
+            }, */
           });
           this.openTutorial();
         }
