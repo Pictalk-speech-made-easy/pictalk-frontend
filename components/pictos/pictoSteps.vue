@@ -166,6 +166,34 @@
               </b-field>
             </div>
           </b-step-item>
+          <b-step-item
+            v-if="file.arasaac"
+            step="1½"
+            :label="$t('Options')"
+            clickable
+          >
+            <h1 class="title has-text-centered">
+              {{ $t("Options") }}
+            </h1>
+            <b-image :src="arasaacImageUrl" />
+            <b-field :label="$t('Plural')">
+              <b-switch v-model="plural">
+                <div v-if="plural">{{ $t("yes") }}</div>
+                <div v-else>{{ $t("no") }}</div>
+              </b-switch>
+            </b-field>
+            <b-field :label="$t('ConjugationTime')">
+              <b-radio v-model="action" name="name" native-value="past">
+                {{ $t("Past") }}
+              </b-radio>
+              <b-radio v-model="action" name="name" native-value="present">
+                {{ $t("Present") }}
+              </b-radio>
+              <b-radio v-model="action" name="name" native-value="future">
+                {{ $t("Future") }}
+              </b-radio>
+            </b-field>
+          </b-step-item>
           <b-step-item step="2" :label="$t('Speech')" clickable>
             <h1 class="title has-text-centered">
               {{ $t("Speech") }}
@@ -325,6 +353,13 @@ export default {
     },
   },
   computed: {
+    arasaacImageUrl() {
+      if (this.action != "present") {
+        return this.file.url + `&action=${this.action}&plural=${this.plural}`;
+      } else {
+        return this.file.url + `&plural=${this.plural}`;
+      }
+    },
     classCreateOrEdit() {
       return this.create ? "is-success" : "is-info";
     },
@@ -366,6 +401,8 @@ export default {
       voiceURI: "",
       voiceURIs: [],
       silent: false,
+      action: "present",
+      plural: false,
     };
   },
   watch: {
@@ -733,6 +770,7 @@ export default {
       }
     },
     uploadfile(file) {
+      console.log(file);
       this.picto.speech[this.languageSelectorSpeech] = file.name
         .replaceAll("-", " ")
         .replace(/\.[^/.]+$/, "");
