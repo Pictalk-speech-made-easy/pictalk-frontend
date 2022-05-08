@@ -8,14 +8,14 @@
           style="padding: 0%; padding-right: 10px; padding-left: 20px"
         >
           <img
-            v-if="fitWidth"
+            v-if="fits"
             src="~/assets/logo_compressed.png"
             alt="A web app that help speach-disabled people"
             height="100px"
             width="150px"
           />
           <img
-            v-if="!fitWidth"
+            v-if="!fits"
             src="~/assets/small_logo.jpg"
             alt="A web app that help speach-disabled people"
           />
@@ -126,16 +126,20 @@ export default {
     return {
       trueValue: true,
       search: "",
+      fits: false,
     };
   },
   components: {
     signin,
     signup,
   },
+  destroyed() {
+    window.removeEventListener("resize", this.fitsBigger);
+  },
+  mounted() {
+    window.addEventListener("resize", this.fitsBigger);
+  },
   computed: {
-    fitWidth() {
-      return window.innerWidth > 1000;
-    },
     getFilteredPictoList() {
       return this.pictos.filter((picto) =>
         picto.meaning[this.getUserLang]?.includes(this.search)
@@ -156,6 +160,9 @@ export default {
     },
   },
   methods: {
+    fitsBigger() {
+      this.fits = window.innerWidth > 767;
+    },
     openSignInModal() {
       this.$buefy.modal.open({
         parent: this,

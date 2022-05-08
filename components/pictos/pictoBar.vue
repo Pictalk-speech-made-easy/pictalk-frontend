@@ -13,10 +13,14 @@
         inverted
         type="is-danger"
         icon-right="backspace"
-        @click="removeSpeech()"
+        @click="removeSpeech(true)"
       />
     </div>
-    <div class="column" style="padding: 0%">
+    <div
+      @click="copyPictosToClipboardBase(pictos)"
+      class="column"
+      style="padding: 0%"
+    >
       <div id="bar" class="scrolling">
         <miniPicto
           class
@@ -46,11 +50,17 @@
     </div>
     <div class="column is-narrow nopadding">
       <b-button
-        type="is-info"
-        icon-right="content-copy"
-        @click="copyPictosToClipboardBase(pictos)"
+        type="is-primary"
+        icon-right="undo"
+        @click="removeSpeech(false)"
       />
     </div>
+    <b-button
+      v-if="fits"
+      type="is-info"
+      icon-right="content-copy"
+      @click="copyPictosToClipboardBase(pictos)"
+    />
   </div>
 </template>
 <script >
@@ -63,7 +73,16 @@ import tts from "@/mixins/tts";
 import lang from "@/mixins/lang";
 export default {
   mixins: [emoji, tts, deviceInfos, lang],
+  destroyed() {
+    window.removeEventListener("resize", this.fitsBigger);
+  },
+  mounted() {
+    window.addEventListener("resize", this.fitsBigger);
+  },
   methods: {
+    fitsBigger() {
+      this.fits = window.innerWidth > 767;
+    },
     openTravelerMode(e) {
       if (this.$store.getters.getUser.settings.travelMode) {
         if (!this.$store.getters.getTemporaryLanguage) {
@@ -148,7 +167,7 @@ export default {
     async pictalk(pictos) {
       this.pronounce(this.getText(pictos), this.getUserLang, this.voiceURI);
     },
-    removeSpeech() {
+    removeSpeech(erase) {
       const pictoSpeech = this.$store.getters.getSpeech;
       const pictalkSpeech = this.$store.getters.getSpeech.filter(
         (picto) => !picto.sidebar && picto.collection
@@ -210,6 +229,11 @@ export default {
               query: { ...this.$route.query },
             });
           }
+        }
+      }
+      if (erase != null) {
+        if (erase == false) {
+          return;
         }
       }
       this.$store.commit("removeSpeech");
@@ -303,6 +327,7 @@ export default {
       adminMode: false,
       voices: [],
       voiceURI: "",
+      fits: false,
     };
   },
 };
@@ -318,8 +343,8 @@ export default {
   position: relative;
   align-items: center;
   border: solid;
-  border-color: #555;
-  border-width: 2px;
+  border-color: #fe5555;
+  border-width: 2.5px;
 }
 .nopadding {
   padding: 0.2rem;

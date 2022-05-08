@@ -6,12 +6,12 @@
         @click="eraseSpeech()"
       >
         <img
-          v-if="fitWidth"
+          v-if="fits"
           src="~/assets/logo_compressed.png"
           alt="A web app that help speach-disabled people"
         />
         <img
-          v-if="!fitWidth"
+          v-if="!fits"
           src="~/assets/small_logo.jpg"
           alt="A web app that help speach-disabled people"
         />
@@ -275,12 +275,15 @@ export default {
     return {
       notificationsCount: 0,
       intervalId: null,
+      fits: false,
     };
   },
   destroyed() {
     clearInterval(this.intervalId);
+    window.removeEventListener("resize", this.fitsBigger);
   },
   mounted() {
+    window.addEventListener("resize", this.fitsBigger);
     this.intervalId = setInterval(async () => {
       if (window.navigator.onLine) {
         try {
@@ -306,9 +309,6 @@ export default {
     }, 15000);
   },
   computed: {
-    fitWidth() {
-      return window.innerWidth > 1000;
-    },
     iconIsAdmin() {
       return this.$route.query.isAdmin ? "lock-open-variant" : "lock";
     },
@@ -338,6 +338,9 @@ export default {
     },
   },
   methods: {
+    fitsBigger() {
+      this.fits = window.innerWidth > 767;
+    },
     getCollectionFromId(id) {
       const index = this.$store.getters.getCollections.findIndex(
         (collection) => collection.id === id

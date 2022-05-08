@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      class="columns is-mobile noscroll"
-      :style="`max-height : ${fitScreen}px; width: 100vw`"
-    >
+    <div class="columns is-mobile noscroll">
       <div
         :class="
           !($route.params.fatherCollectionId == $store.getters.getSidebarId)
@@ -356,6 +353,7 @@ export default {
   width: 99vw;
   max-height: 20%;
   position: fixed;
+  max-width: 767px;
 }
 .contenant {
   display: flex;
@@ -397,6 +395,15 @@ export default {
   padding-right: 0vw;
   padding-left: 0vw;
   margin: 0%;
+  /* Firefox */
+  height: -moz-calc(100vh - 64px);
+  /* WebKit */
+  height: -webkit-calc(100vh - 64px);
+  /* Opera */
+  height: -o-calc(100vh - 64px);
+  /* Standard */
+  height: calc(100vh - 64px);
+  width: 100vw;
 }
 .has-background {
   border-radius: 7px;
