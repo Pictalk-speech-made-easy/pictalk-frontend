@@ -377,7 +377,8 @@ export default {
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 0.25rem;
+  width: 1vw;
+  max-width: 11px;
 }
 
 /* Track */
