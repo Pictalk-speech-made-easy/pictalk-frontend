@@ -46,8 +46,9 @@ export default {
     sidebar: sidebar,
   },
   watch: {
-    async sidebarPictoId(sidebarId) {
-      if (sidebarId) {
+    async sidebarPictoId(sidebarId, previousId) {
+      if (sidebarId && sidebarId != previousId) {
+        console.log("Calling fetchcollection for the sidebar");
         await this.fetchCollection(sidebarId);
       }
     },
@@ -81,18 +82,6 @@ export default {
         return true;
       } else {
         return false;
-      }
-    },
-    loadedPictos() {
-      return this.loadPictos(
-        parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-    },
-    loadedSidebarPictos() {
-      if (this.$route.query.sidebarPictoId) {
-        return this.loadPictos(parseInt(this.$route.query.sidebarPictoId, 10));
-      } else {
-        return this.loadPictos(this.$store.getters.getSidebarId);
       }
     },
     sidebarPictoId() {
@@ -169,6 +158,20 @@ export default {
     };
   },
   methods: {
+    loadedPictos() {
+      console.log("Calling loadedPictos");
+      return this.loadPictos(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+    },
+    loadedSidebarPictos() {
+      console.log("Calling loadedSidebarPictos");
+      if (this.$route.query.sidebarPictoId) {
+        return this.loadPictos(parseInt(this.$route.query.sidebarPictoId, 10));
+      } else {
+        return this.loadPictos(this.$store.getters.getSidebarId);
+      }
+    },
     loadPictos(fatherCollectionId) {
       const index = this.$store.getters.getCollections.findIndex(
         (collection) => collection.id === fatherCollectionId
@@ -213,7 +216,7 @@ export default {
     },
     getCollectionFromId(id) {
       const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === id
+        (collection) => collection.id === parseInt(id)
       );
       return this.$store.getters.getCollections[index];
     },
@@ -235,14 +238,15 @@ export default {
     },
     async fetchCollection(collectionId) {
       const collection = this.getCollectionFromId(collectionId);
+      console.log(collection);
       // TODO Traiter differement !collection et !collection.pictos || !collection.collections
       if (
         (!collection ||
-          !collection.pictos ||
-          !collection.collections ||
+          (!collection.pictos && !collection.collections) ||
           collection?.partial) &&
         navigator.onLine
       ) {
+        console.log("entree dans la fct");
         try {
           var res = await axios.get("/collection/find/" + collectionId);
           if (res.data.image) {
