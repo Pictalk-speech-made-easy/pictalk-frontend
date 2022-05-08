@@ -22,6 +22,7 @@ export default {
       return this.$i18n.getLocaleCookie();
     },
   },
+  middleware: ["axios"],
   created() {
     if (
       this.$store.getters.isAuthenticated &&

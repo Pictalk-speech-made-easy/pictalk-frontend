@@ -16,6 +16,7 @@ export default {
       intervalId: null,
     };
   },
+  middleware: ["axios"],
   async created() {
     if (!this.$store.getters.getUser.username) {
       try {
