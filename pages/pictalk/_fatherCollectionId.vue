@@ -11,7 +11,7 @@
             : 'is-12 column noMargins scrolling'
         "
       >
-        <pictoList :pictos="loadedPictos" :sidebar="false" />
+        <pictoList :pictos="pictos" :sidebar="false" />
       </div>
       <div
         v-if="
@@ -19,7 +19,7 @@
         "
         class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
       >
-        <pictoList :pictos="loadedSidebarPictos" :sidebar="true" />
+        <pictoList :pictos="sidebarPictos" :sidebar="true" />
       </div>
     </div>
     <div class="contenant">
@@ -39,7 +39,6 @@ import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 export default {
   layout: "pictalk",
-  middleware: ["check-auth", "auth", "axios"],
   components: {
     pictoList: pictoList,
     pictoBar: pictoBar,
@@ -47,9 +46,13 @@ export default {
   },
   watch: {
     async sidebarPictoId(sidebarId, previousId) {
+      console.log("Watch triggered");
+      console.log(sidebarId);
+      console.log(previousId);
       if (sidebarId && sidebarId != previousId) {
         console.log("Calling fetchcollection for the sidebar");
         await this.fetchCollection(sidebarId);
+        this.sidebarPictos = this.loadedSidebarPictos();
       }
     },
   },
@@ -107,6 +110,7 @@ export default {
     },
   },
   async mounted() {
+    console.log("Mounted called");
     if (!this.$route.params.fatherCollectionId) {
       if (this.$store.getters.getRootId) {
         this.$router.push({
@@ -133,8 +137,11 @@ export default {
         this.$router.push(this.$route.path + "/" + res.data.id);
       }
     }
+    this.pictos = this.loadedPictos();
+    this.sidebarPictos = this.loadedSidebarPictos();
   },
   async fetch() {
+    console.log("Fetch called");
     if (!this.$route.params.fatherCollectionId) {
       return;
     }
@@ -142,6 +149,7 @@ export default {
     await this.fetchCollection(
       parseInt(this.$route.params.fatherCollectionId, 10)
     );
+    await this.fetchCollection(parseInt(this.$route.query.sidebarPictoId, 10));
     const user = this.$store.getters.getUser;
     if (!user.username) {
       try {
@@ -155,6 +163,8 @@ export default {
     return {
       isPicto: true,
       sidebarExpanded: false,
+      sidebarPictos: [],
+      pictos: [],
     };
   },
   methods: {

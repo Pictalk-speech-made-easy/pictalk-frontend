@@ -8,6 +8,7 @@
 <script >
 import pictalkNavbar from "@/components/navigation/pictalk-navbar";
 export default {
+  middleware: ["check-auth", "auth", "axios"],
   components: {
     pictalkNavbar,
   },
