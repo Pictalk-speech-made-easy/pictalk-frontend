@@ -1,6 +1,8 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-
+import createPersistedState from 'vuex-persistedstate';
+export const strict = false;
+export const plugins = [createPersistedState()];
 export const state = () => ({
   collections: [],
   pictos: [],
