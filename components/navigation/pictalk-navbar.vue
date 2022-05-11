@@ -349,7 +349,10 @@ export default {
     },
     adminModeChoose() {
       if (this.admin) {
-        this.$router.push(this.homeLink);
+        this.$router.push({
+          path: this.homeLink,
+          query: { ...this.$route.query, isAdmin: undefined },
+        });
       } else {
         if (this.$store.getters.getUser.settings.securityMode) {
           this.goToAdminWithEnforced();

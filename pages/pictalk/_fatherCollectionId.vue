@@ -8,7 +8,7 @@
             : 'is-12 column noMargins scrolling'
         "
       >
-        <pictoList :pictos="loadedPictos" :sidebar="false" />
+        <pictoList :pictos="pictos" :sidebar="false" />
       </div>
       <div
         v-if="
@@ -16,7 +16,7 @@
         "
         class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
       >
-        <pictoList :pictos="loadedSidebarPictos" :sidebar="true" />
+        <pictoList :pictos="sidebarPictos" :sidebar="true" />
       </div>
     </div>
     <div class="contenant">
@@ -36,16 +36,16 @@ import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 export default {
   layout: "pictalk",
-  middleware: ["check-auth", "auth", "axios"],
   components: {
     pictoList: pictoList,
     pictoBar: pictoBar,
     sidebar: sidebar,
   },
   watch: {
-    async sidebarPictoId(sidebarId) {
-      if (sidebarId) {
+    async sidebarPictoId(sidebarId, previousId) {
+      if (sidebarId && sidebarId != previousId) {
         await this.fetchCollection(sidebarId);
+        this.sidebarPictos = this.loadedSidebarPictos();
       }
     },
   },
@@ -80,18 +80,6 @@ export default {
         return false;
       }
     },
-    loadedPictos() {
-      return this.loadPictos(
-        parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-    },
-    loadedSidebarPictos() {
-      if (this.$route.query.sidebarPictoId) {
-        return this.loadPictos(parseInt(this.$route.query.sidebarPictoId, 10));
-      } else {
-        return this.loadPictos(this.$store.getters.getSidebarId);
-      }
-    },
     sidebarPictoId() {
       if (this.$route.query.sidebarPictoId) {
         return this.$route.query.sidebarPictoId;
@@ -115,41 +103,56 @@ export default {
     },
   },
   async mounted() {
-    if (!this.$route.params.fatherCollectionId) {
-      if (this.$store.getters.getRootId) {
-        this.$router.push({
-          path: "/pictalk/" + this.$store.getters.getRootId,
-          query: { ...this.$route.query },
-        });
-      } else {
-        var res = await axios.get("/user/root/");
-        this.$store.commit("setRootId", res.data.id);
-        this.$router.push({ path: "/pictalk/" + res.data.id });
+    let path;
+    let query = { ...this.$route.query };
+    if (
+      !this.$route.params.fatherCollectionId ||
+      !this.$route.query.sidebarPictoId
+    ) {
+      if (!this.$route.params.fatherCollectionId) {
+        if (this.$store.getters.getRootId) {
+          path = "/pictalk/" + this.$store.getters.getRootId;
+        } else {
+          var res = await axios.get("/user/root/");
+          this.$store.commit("setRootId", res.data.id);
+          path = "/pictalk/" + res.data.id;
+        }
       }
-    }
-    if (!this.$route.query.sidebarPictoId) {
-      if (this.$store.getters.getSidebarId) {
-        this.$router.push({
-          query: {
+      if (!this.$route.query.sidebarPictoId) {
+        if (this.$store.getters.getSidebarId) {
+          query = {
             ...this.$route.query,
             sidebarPictoId: this.$store.getters.getSidebarId,
-          },
-        });
-      } else {
-        var res = await axios.get("/user/sider/");
-        this.$store.commit("setRootId", res.data.id);
-        this.$router.push(this.$route.path + "/" + res.data.id);
+          };
+        } else {
+          var res = await axios.get("/user/sider/");
+          this.$store.commit("setSidebarId", res.data.id);
+          query = { ...this.$route.query, sidebarPictoId: res.data.id };
+        }
       }
+      this.$router.push({
+        path: path,
+        query: query,
+      });
     }
+    //this.pictos = this.loadedPictos();
+    //this.sidebarPictos = this.loadedSidebarPictos();
   },
   async fetch() {
-    if (!this.$route.params.fatherCollectionId) {
-      return;
+    if (this.$route.params.fatherCollectionId) {
+      await this.fetchCollection(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
     }
-    // TODO Traiter differement !collection et !collection.pictos || !collection.collections
-    await this.fetchCollection(
-      parseInt(this.$route.params.fatherCollectionId, 10)
-    );
+    this.pictos = this.loadedPictos();
+
+    if (this.$route.query.sidebarPictoId) {
+      await this.fetchCollection(
+        parseInt(this.$route.query.sidebarPictoId, 10)
+      );
+    }
+    this.sidebarPictos = this.loadedSidebarPictos();
+
     const user = this.$store.getters.getUser;
     if (!user.username) {
       try {
@@ -163,9 +166,23 @@ export default {
     return {
       isPicto: true,
       sidebarExpanded: false,
+      sidebarPictos: [],
+      pictos: [],
     };
   },
   methods: {
+    loadedPictos() {
+      return this.loadPictos(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+    },
+    loadedSidebarPictos() {
+      if (this.$route.query.sidebarPictoId) {
+        return this.loadPictos(parseInt(this.$route.query.sidebarPictoId, 10));
+      } else {
+        return this.loadPictos(this.$store.getters.getSidebarId);
+      }
+    },
     loadPictos(fatherCollectionId) {
       const index = this.$store.getters.getCollections.findIndex(
         (collection) => collection.id === fatherCollectionId
@@ -192,7 +209,6 @@ export default {
           }
           return starredItems.concat(unstarredItems);
         } else {
-          console.log("No ranked pictos");
           return [];
         }
       }
@@ -210,7 +226,7 @@ export default {
     },
     getCollectionFromId(id) {
       const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === id
+        (collection) => collection.id === parseInt(id)
       );
       return this.$store.getters.getCollections[index];
     },
@@ -235,8 +251,7 @@ export default {
       // TODO Traiter differement !collection et !collection.pictos || !collection.collections
       if (
         (!collection ||
-          !collection.pictos ||
-          !collection.collections ||
+          (!collection.pictos && !collection.collections) ||
           collection?.partial) &&
         navigator.onLine
       ) {
