@@ -51,7 +51,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL", "@/plugins/longPress.js", "@/plugins/vueVirtualScroller.js"],
+  plugins: ["@/plugins/baseURL", "@/plugins/longPress.js"],
   /*
    ** Nuxt.js dev-modules
    */
