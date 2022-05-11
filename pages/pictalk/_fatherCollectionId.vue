@@ -46,11 +46,7 @@ export default {
   },
   watch: {
     async sidebarPictoId(sidebarId, previousId) {
-      console.log("Watch triggered");
-      console.log(sidebarId);
-      console.log(previousId);
       if (sidebarId && sidebarId != previousId) {
-        console.log("Calling fetchcollection for the sidebar");
         await this.fetchCollection(sidebarId);
         this.sidebarPictos = this.loadedSidebarPictos();
       }
@@ -110,46 +106,56 @@ export default {
     },
   },
   async mounted() {
-    console.log("Mounted called");
-    if (!this.$route.params.fatherCollectionId) {
-      if (this.$store.getters.getRootId) {
-        this.$router.push({
-          path: "/pictalk/" + this.$store.getters.getRootId,
-          query: { ...this.$route.query },
-        });
-      } else {
-        var res = await axios.get("/user/root/");
-        this.$store.commit("setRootId", res.data.id);
-        this.$router.push({ path: "/pictalk/" + res.data.id });
+    let path;
+    let query = { ...this.$route.query };
+    if (
+      !this.$route.params.fatherCollectionId ||
+      !this.$route.query.sidebarPictoId
+    ) {
+      if (!this.$route.params.fatherCollectionId) {
+        if (this.$store.getters.getRootId) {
+          path = "/pictalk/" + this.$store.getters.getRootId;
+        } else {
+          var res = await axios.get("/user/root/");
+          this.$store.commit("setRootId", res.data.id);
+          path = "/pictalk/" + res.data.id;
+        }
       }
-    }
-    if (!this.$route.query.sidebarPictoId) {
-      if (this.$store.getters.getSidebarId) {
-        this.$router.push({
-          query: {
+      if (!this.$route.query.sidebarPictoId) {
+        if (this.$store.getters.getSidebarId) {
+          query = {
             ...this.$route.query,
             sidebarPictoId: this.$store.getters.getSidebarId,
-          },
-        });
-      } else {
-        var res = await axios.get("/user/sider/");
-        this.$store.commit("setRootId", res.data.id);
-        this.$router.push(this.$route.path + "/" + res.data.id);
+          };
+        } else {
+          var res = await axios.get("/user/sider/");
+          this.$store.commit("setSidebarId", res.data.id);
+          query = { ...this.$route.query, sidebarPictoId: res.data.id };
+        }
       }
+      this.$router.push({
+        path: path,
+        query: query,
+      });
     }
-    this.pictos = this.loadedPictos();
-    this.sidebarPictos = this.loadedSidebarPictos();
+    //this.pictos = this.loadedPictos();
+    //this.sidebarPictos = this.loadedSidebarPictos();
   },
   async fetch() {
-    console.log("Fetch called");
-    if (!this.$route.params.fatherCollectionId) {
-      return;
+    if (this.$route.params.fatherCollectionId) {
+      await this.fetchCollection(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
     }
-    // TODO Traiter differement !collection et !collection.pictos || !collection.collections
-    await this.fetchCollection(
-      parseInt(this.$route.params.fatherCollectionId, 10)
-    );
-    await this.fetchCollection(parseInt(this.$route.query.sidebarPictoId, 10));
+    this.pictos = this.loadedPictos();
+
+    if (this.$route.query.sidebarPictoId) {
+      await this.fetchCollection(
+        parseInt(this.$route.query.sidebarPictoId, 10)
+      );
+    }
+    this.sidebarPictos = this.loadedSidebarPictos();
+
     const user = this.$store.getters.getUser;
     if (!user.username) {
       try {
@@ -169,13 +175,11 @@ export default {
   },
   methods: {
     loadedPictos() {
-      console.log("Calling loadedPictos");
       return this.loadPictos(
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     },
     loadedSidebarPictos() {
-      console.log("Calling loadedSidebarPictos");
       if (this.$route.query.sidebarPictoId) {
         return this.loadPictos(parseInt(this.$route.query.sidebarPictoId, 10));
       } else {
@@ -208,7 +212,6 @@ export default {
           }
           return starredItems.concat(unstarredItems);
         } else {
-          console.log("No ranked pictos");
           return [];
         }
       }
@@ -248,7 +251,6 @@ export default {
     },
     async fetchCollection(collectionId) {
       const collection = this.getCollectionFromId(collectionId);
-      console.log(collection);
       // TODO Traiter differement !collection et !collection.pictos || !collection.collections
       if (
         (!collection ||
@@ -256,7 +258,6 @@ export default {
           collection?.partial) &&
         navigator.onLine
       ) {
-        console.log("entree dans la fct");
         try {
           var res = await axios.get("/collection/find/" + collectionId);
           if (res.data.image) {
