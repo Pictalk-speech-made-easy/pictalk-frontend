@@ -10,7 +10,7 @@
       class="image"
       :src="picto.image"
       @click="addToSpeech()"
-      width="77%"
+      width="87%"
       crossorigin="anonymous"
       :style="`border: solid; border-color: ${this.picto.color}`"
     />
