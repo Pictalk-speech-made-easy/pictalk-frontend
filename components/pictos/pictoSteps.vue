@@ -196,7 +196,6 @@
                 :disabled="silent"
               ></b-input>
               <b-button
-                v-if="create"
                 :type="silent ? 'is-primary' : 'is-primary is-light'"
                 icon-right="volume-mute"
                 @click="silent = !silent"
@@ -681,15 +680,19 @@ export default {
             quality: 0.15,
           });
         }
+        this.getAllUserLanguages
+          .map((languages) => languages.replace(/[^a-z]/g, ""))
+          .map(async (language) => {
+            if (this.silent) {
+              this.picto.speech[language] = "";
+            }
+          });
         if (this.create || this.traductionNeeded()) {
           await Promise.all(
             this.getAllUserLanguages
               .map((languages) => languages.replace(/[^a-z]/g, ""))
               .map(async (language) => {
                 return new Promise(async (resolve, reject) => {
-                  if (this.silent) {
-                    this.picto.speech[language] = "";
-                  }
                   if (
                     language == this.getUserLang ||
                     this.picto.meaning[language] ||
@@ -773,6 +776,7 @@ export default {
           });
           this.$parent.close();
         } else {
+          console.log(this.picto.speech);
           await this.$store.dispatch(
             isCollection ? "editCollection" : "editPicto",
             {
