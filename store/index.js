@@ -187,7 +187,7 @@ export const actions = {
           "Content-Type": "multipart/form-data"
         }
       })).data;
-    vuexContext.commit("addPicto", {
+    const editedNewPicto = {
       speech: picto.speech,
       meaning: picto.meaning,
       color: picto.color,
@@ -201,7 +201,9 @@ export const actions = {
       public: newPicto.public,
       createdDate: newPicto.createdDate,
       updatedDate: newPicto.updatedDate
-    });
+    }
+    vuexContext.commit("addPicto", editedNewPicto);
+    return editedNewPicto;
   },
   async editPicto(vuexContext, picto) {
     let formData = new FormData();
@@ -289,7 +291,7 @@ export const actions = {
           "Content-Type": "multipart/form-data"
         }
       })).data;
-    vuexContext.commit("addCollection", {
+    const editedNewCollection = {
       speech: collection.speech,
       meaning: collection.meaning,
       color: collection.color,
@@ -305,7 +307,9 @@ export const actions = {
       starred: JSON.parse(newCollection.starred),
       createdDate: newCollection.createdDate,
       updatedDate: newCollection.updatedDate
-    });
+    };
+    vuexContext.commit("addCollection", editedNewCollection);
+    return editedNewCollection;
   },
   async editCollection(vuexContext, collection) {
     let formData = new FormData();

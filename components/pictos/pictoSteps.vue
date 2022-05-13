@@ -750,7 +750,7 @@ export default {
           }
         }
         if (this.create) {
-          await this.$store.dispatch(
+          let pictoOrCollection = await this.$store.dispatch(
             isCollection ? "addCollection" : "addPicto",
             {
               collection: isCollection,
@@ -771,6 +771,7 @@ export default {
               : this.$t("CreatedPictogram"),
             type: "is-success",
           });
+          $nuxt.$emit("addPictogram", pictoOrCollection);
           this.$parent.close();
         } else {
           await this.$store.dispatch(
