@@ -10,18 +10,28 @@
       >
         <pictoList :pictos="pictos" :sidebar="false" />
       </div>
+
       <div
         v-if="
           !($route.params.fatherCollectionId == $store.getters.getSidebarId)
         "
-        class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
+        class="is-4-mobile is-4-tablet column noMargins sidebar scrolling"
       >
-        <pictoList :pictos="sidebarPictos" :sidebar="true" />
+        <div v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId">
+          <b-button
+            expanded
+            icon-left="home"
+            class="is-primary"
+            @click="returnToSidebarRoot()"
+          />
+          <br />
+        </div>
+        <pictoList class="" :pictos="sidebarPictos" :sidebar="true" />
       </div>
     </div>
     <div class="contenant">
       <pictoBar
-        v-if="loadSpeech.length != 0"
+        v-if="loadSpeechWithoutSilent.length != 0"
         class="pictobar sidebar"
         :pictos="loadSpeech"
         :collectionColor="collectionColor"
@@ -34,8 +44,10 @@ import axios from "axios";
 import sidebar from "@/components/pictos/sidebar";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
+import lang from "@/mixins/lang";
 export default {
   layout: "pictalk",
+  mixins: [lang],
   components: {
     pictoList: pictoList,
     pictoBar: pictoBar,
@@ -73,12 +85,13 @@ export default {
     loadSpeech() {
       return this.$store.getters.getSpeech;
     },
-    isAdmin() {
-      if (this.$route.query.isAdmin) {
-        return true;
-      } else {
-        return false;
-      }
+    loadSpeechWithoutSilent() {
+      console.log(
+        this.loadSpeech.filter((picto) => picto.speech[this.getUserLang] != "")
+      );
+      return this.loadSpeech.filter(
+        (picto) => picto.speech[this.getUserLang] != ""
+      );
     },
     sidebarPictoId() {
       if (this.$route.query.sidebarPictoId) {
@@ -171,6 +184,14 @@ export default {
     };
   },
   methods: {
+    returnToSidebarRoot() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          sidebarPictoId: this.$store.getters.getSidebarId,
+        },
+      });
+    },
     loadedPictos() {
       return this.loadPictos(
         parseInt(this.$route.params.fatherCollectionId, 10)
