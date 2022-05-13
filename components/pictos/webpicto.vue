@@ -75,12 +75,12 @@ export default {
         const pngblob = await promise.then((value) => {
           return value;
         });
-        this.createFileFromBlob(pngblob, "png", src.includes("arasaac"), src);
+        this.createFileFromBlob(pngblob, "png", src);
       } else {
-        this.createFileFromBlob(response, "jpg", src.includes("arasaac"), src);
+        this.createFileFromBlob(response, "jpg", src);
       }
     },
-    createFileFromBlob(blob, type, isArasaac, url) {
+    createFileFromBlob(blob, type, url) {
       const file = new File(
         [blob],
         `${this.webpicto.title.replaceAll(
@@ -89,7 +89,6 @@ export default {
         )}.${type}`,
         { type: blob.type }
       );
-      file.arasaac = isArasaac;
       file.url = url;
       this.$emit("uploadfile", file);
     },
