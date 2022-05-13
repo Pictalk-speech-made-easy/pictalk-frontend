@@ -166,6 +166,7 @@
               </b-field>
             </div>
           </b-step-item>
+
           <b-step-item step="2" :label="$t('Speech')" clickable>
             <h1 class="title has-text-centered">
               {{ $t("Speech") }}
@@ -230,6 +231,215 @@
               ></b-input>
             </b-field>
           </b-step-item>
+          <b-step-item step="3" :label="$t('Options')" clickable>
+            <h1 class="title has-text-centered">
+              {{ $t("Options") }}
+            </h1>
+            <canvas
+              id="canvas"
+              class="optionImage"
+              :style="rendered ? '' : 'display:none'"
+            ></canvas>
+            <img :src="dynamicSrc" style="display: none" id="image" />
+            <img v-if="!rendered" :src="dynamicSrc" class="optionImage" />
+            <b-field
+              style="
+                display: flex;
+                justify-content: center;
+                padding-top: 0.8rem;
+              "
+            >
+              <b-switch
+                v-model="options.cross.enabled"
+                type="is-success"
+                class="optionSwitch"
+                >{{ $t("Negation") }}</b-switch
+              >
+              <b-switch
+                v-model="options.arrow.enabled"
+                type="is-success"
+                class="optionSwitch"
+                >{{ $t("Time") }}</b-switch
+              >
+              <b-switch
+                v-model="options.plus.enabled"
+                type="is-success"
+                class="optionSwitch"
+                >{{ $t("Plural") }}</b-switch
+              >
+            </b-field>
+            <div class="columns is-multiline is-mobile">
+              <div
+                v-if="options.cross.enabled"
+                class="column is-full-mobile optionSection"
+              >
+                <p align="center" class="modal-card-title">
+                  {{ $t("Negation") }}
+                </p>
+                <b-field :label="$t('Size')">
+                  <b-slider
+                    v-model="options.cross.scale"
+                    :min="20"
+                    :max="300"
+                    :step="10"
+                    ticks
+                    :custom-formatter="(val) => val + '%'"
+                  ></b-slider>
+                </b-field>
+                <b-field :label="$t('Color')">
+                  <b-input
+                    lazy
+                    type="color"
+                    v-model="options.cross.color"
+                    :placeholder="$t('ColorNotice')"
+                    required
+                  ></b-input>
+                </b-field>
+                <b-field :label="$t('Offsets')">
+                  <b-slider
+                    v-model="options.cross.Xoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%; margin-right: 5%"
+                  ></b-slider>
+                  <b-slider
+                    v-model="options.cross.Yoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%"
+                  ></b-slider>
+                </b-field>
+              </div>
+              <div
+                v-if="options.arrow.enabled"
+                class="column is-full-mobile optionSection"
+              >
+                <p align="center" class="modal-card-title">
+                  {{ $t("Time") }}
+                </p>
+                <div class="block">
+                  <b-radio v-model="options.arrow.shift" :native-value="0">
+                    {{ $t("Past") }}
+                  </b-radio>
+                  <b-radio v-model="options.arrow.shift" :native-value="1">
+                    {{ $t("Future") }}
+                  </b-radio>
+                </div>
+                <b-field :label="$t('Size')">
+                  <b-slider
+                    v-model="options.arrow.scale"
+                    :min="20"
+                    :max="200"
+                    :step="10"
+                    ticks
+                    :custom-formatter="(val) => val + '%'"
+                  ></b-slider>
+                </b-field>
+                <b-field :label="$t('BorderColor')">
+                  <b-input
+                    lazy
+                    type="color"
+                    v-model="options.arrow.color"
+                    :placeholder="$t('ColorNotice')"
+                    required
+                    style="width: 45%; margin-right: 5%"
+                  ></b-input>
+                  <b-input
+                    lazy
+                    type="color"
+                    v-model="options.arrow.border"
+                    :placeholder="$t('ColorNotice')"
+                    required
+                    style="width: 45%"
+                  ></b-input>
+                </b-field>
+                <b-field :label="$t('Offsets')">
+                  <b-slider
+                    v-model="options.arrow.Xoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%; margin-right: 5%"
+                  ></b-slider>
+                  <b-slider
+                    v-model="options.arrow.Yoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%"
+                  ></b-slider>
+                </b-field>
+              </div>
+              <div
+                v-if="options.plus.enabled"
+                class="column is-full-mobile optionSection"
+              >
+                <p align="center" class="modal-card-title">
+                  {{ $t("Plural") }}
+                </p>
+                <div class="block">
+                  <b-radio v-model="options.plus.shift" :native-value="0">
+                    {{ $t("Left") }}
+                  </b-radio>
+                  <b-radio v-model="options.plus.shift" :native-value="1">
+                    {{ $t("Right") }}
+                  </b-radio>
+                </div>
+                <b-field :label="$t('Size')">
+                  <b-slider
+                    v-model="options.plus.scale"
+                    :min="20"
+                    :max="200"
+                    :step="10"
+                    ticks
+                    :custom-formatter="(val) => val + '%'"
+                  ></b-slider>
+                </b-field>
+                <b-field :label="$t('BorderColor')">
+                  <b-input
+                    lazy
+                    type="color"
+                    v-model="options.plus.color"
+                    :placeholder="$t('ColorNotice')"
+                    required
+                    style="width: 45%; margin-right: 5%"
+                  ></b-input>
+                  <b-input
+                    lazy
+                    type="color"
+                    v-model="options.plus.border"
+                    :placeholder="$t('ColorNotice')"
+                    required
+                    style="width: 45%"
+                  ></b-input>
+                </b-field>
+                <b-field :label="$t('Offsets')">
+                  <b-slider
+                    v-model="options.plus.Xoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%; margin-right: 5%"
+                  ></b-slider>
+                  <b-slider
+                    v-model="options.plus.Yoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%"
+                  ></b-slider>
+                </b-field>
+              </div>
+            </div>
+          </b-step-item>
         </b-steps>
       </section>
       <footer class="modal-card-foot" style="padding: 2%">
@@ -279,7 +489,7 @@
               <b-button
                 class="button center"
                 type="button"
-                :disabled="activeStep == 1"
+                :disabled="activeStep == 2"
                 @click="nextStep()"
                 icon-right="chevron-right"
               />
@@ -298,6 +508,7 @@ import lang from "@/mixins/lang";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
+
 export default {
   mixins: [emoji, lang, tts, deviceInfos],
   name: "PictoSteps",
@@ -325,6 +536,11 @@ export default {
     },
   },
   computed: {
+    dynamicSrc() {
+      if (this.file.url) {
+        return window.webkitURL.createObjectURL(this.file);
+      }
+    },
     classCreateOrEdit() {
       return this.create ? "is-success" : "is-info";
     },
@@ -366,12 +582,46 @@ export default {
       voiceURI: "",
       voiceURIs: [],
       silent: false,
+      rendered: false,
+      options: {
+        arrow: {
+          enabled: false,
+          scale: 100,
+          shift: 0,
+          Xoffset: 0,
+          Yoffset: 0,
+          color: "#000000",
+          border: "#ffffff",
+        },
+        plus: {
+          enabled: false,
+          scale: 100,
+          shift: 1,
+          Xoffset: 0,
+          Yoffset: 0,
+          color: "#000000",
+          border: "#ffffff",
+        },
+        cross: {
+          enabled: false,
+          scale: 100,
+          Xoffset: 50,
+          Yoffset: 50,
+          color: "#ff0000",
+        },
+      },
     };
   },
   watch: {
     page: function () {
       let element = document.getElementById("search");
       element.scrollTop = 0;
+    },
+    options: {
+      handler() {
+        this.draw();
+      },
+      deep: true,
     },
   },
   created() {
@@ -390,6 +640,9 @@ export default {
     async onSubmitted(isCollection = false) {
       this.creationLoading = true;
       let cfile;
+      if (this.rendered) {
+        this.file = this.canvasToFile();
+      }
       if (
         Object.values(this.picto.meaning).length == 0 ||
         !this.picto.meaning[this.getUserLang]
@@ -747,6 +1000,179 @@ export default {
       this.file = {};
       this.activeStep = 0;
     },
+
+    canvasToFile() {
+      let canvas = document.getElementById("canvas");
+      const dataURI = canvas.toDataURL();
+      const byteString = atob(dataURI.split(",")[1]);
+      const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: mimeString });
+      let file = new File([blob], this.file.name, { type: blob.type });
+      file.url = this.file.url;
+      return file;
+    },
+    async draw() {
+      this.rendered = true;
+      let image = document.getElementById("image");
+      let canvas = document.getElementById("canvas");
+      let size = { width: image.width, height: image.height };
+      canvas.width = size["width"];
+      canvas.height = size["height"];
+      let ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0);
+      this.rendered = true;
+      if (this.options.arrow.enabled) {
+        this.render(
+          ctx,
+          size,
+          "arrow",
+          this.options.arrow.shift,
+          this.options.arrow.scale,
+          this.options.arrow.Xoffset,
+          this.options.arrow.Yoffset,
+          this.options.arrow.color,
+          this.options.arrow.border
+        );
+      }
+      if (this.options.plus.enabled) {
+        this.render(
+          ctx,
+          size,
+          "plus",
+          this.options.plus.shift,
+          this.options.plus.scale,
+          this.options.plus.Xoffset,
+          -this.options.plus.Yoffset + 100,
+          this.options.plus.color,
+          this.options.plus.border
+        );
+      }
+      if (this.options.cross.enabled) {
+        this.cross(
+          ctx,
+          size,
+          this.options.cross.scale,
+          this.options.cross.Xoffset,
+          this.options.cross.Yoffset,
+          this.options.cross.color
+        );
+      }
+    },
+
+    cross(ctx, size, scale = 100, Xoffset = 0, Yoffset = 0, color = "#FF0000") {
+      const widthPercent = parseInt(size["width"] / 100);
+      const heightPercent = parseInt(size["height"] / 100);
+      Xoffset = (Xoffset - 50) * widthPercent;
+      Yoffset = (Yoffset - 50) * heightPercent;
+      const topLeft = [
+        Xoffset + ((100 - scale) * widthPercent) / 2,
+        Yoffset + ((100 - scale) * heightPercent) / 2,
+      ];
+      const topRight = [
+        size["width"] + Xoffset + ((scale - 100) * widthPercent) / 2,
+        Yoffset + ((100 - scale) * heightPercent) / 2,
+      ];
+      const bottomLeft = [
+        Xoffset + ((100 - scale) * widthPercent) / 2,
+        size["height"] + Yoffset + ((scale - 100) * heightPercent) / 2,
+      ];
+      const bottomRight = [
+        size["width"] + Xoffset + ((scale - 100) * widthPercent) / 2,
+        size["height"] + Yoffset + ((scale - 100) * heightPercent) / 2,
+      ];
+
+      ctx.strokeStyle = color + "a9";
+      ctx.lineWidth = scale / 4;
+      ctx.beginPath();
+      ctx.moveTo(topLeft[0], topLeft[1]);
+      ctx.lineTo(bottomRight[0], bottomRight[1]);
+      ctx.moveTo(topRight[0], topRight[1]);
+      ctx.lineTo(bottomLeft[0], bottomLeft[1]);
+      ctx.stroke();
+    },
+    render(
+      ctx,
+      size,
+      shape = "arrow",
+      shift = 0,
+      scale = size["width"] / 100,
+      Xoffset = 0,
+      Yoffset = 0,
+      color = "#000000",
+      border = "#ffffff"
+    ) {
+      Xoffset = (0.8 * (Xoffset * size["width"])) / 100;
+      Yoffset = (0.8 * (Yoffset * size["height"])) / 100;
+      scale = parseInt(scale / 20);
+      ctx.fillStyle = color;
+      ctx.strokeStyle = border;
+      ctx.lineWidth = 3;
+      let points = this.getPoints(shape);
+      if (shift) {
+        points = this.Xshift(points);
+        Xoffset = size["width"] - (Xoffset + 20 * scale);
+      }
+      ctx.beginPath();
+      ctx.moveTo(points[0].x * scale + Xoffset, points[0].y * scale + Yoffset);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(
+          points[i].x * scale + Xoffset,
+          points[i].y * scale + Yoffset
+        );
+      }
+      ctx.fill();
+      ctx.closePath();
+      ctx.stroke();
+    },
+
+    Xshift(points) {
+      if (points.length > 0) {
+        for (let i = 0; i < points.length; i++) {
+          points[i].x = 20 - points[i].x;
+        }
+      }
+      return points;
+    },
+
+    getPoints(shape) {
+      let points;
+      if (shape == "plus") {
+        points = [
+          { x: 0, y: 12 },
+          { x: 0, y: 12 },
+          { x: 6, y: 12 },
+          { x: 6, y: 18 },
+          { x: 12, y: 18 },
+          { x: 12, y: 12 },
+          { x: 18, y: 12 },
+          { x: 18, y: 6 },
+          { x: 12, y: 6 },
+          { x: 12, y: 0 },
+          { x: 6, y: 0 },
+          { x: 6, y: 6 },
+          { x: 0, y: 6 },
+          { x: 0, y: 12 },
+        ];
+      } else if (shape == "arrow") {
+        points = [
+          { x: 18, y: 6 },
+          { x: 8, y: 6 },
+          { x: 8, y: 0 },
+          { x: 0, y: 9 },
+          { x: 8, y: 18 },
+          { x: 8, y: 12 },
+          { x: 18, y: 12 },
+        ];
+      } else {
+        return -1;
+      }
+      return points;
+    },
   },
 };
 </script>
@@ -788,5 +1214,22 @@ export default {
 .scrolling {
   scrollbar-width: thin;
   scroll-behavior: smooth;
+}
+.optionSection {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  margin: 0.5rem;
+  margin-left: 0%;
+  border-radius: 15px;
+}
+.optionImage {
+  margin: 0%;
+  max-width: 70%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+.optionSwitch {
+  padding-right: 0.3rem;
 }
 </style>
