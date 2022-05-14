@@ -5,7 +5,9 @@
         :class="
           sidebar
             ? 'column is-12-mobile is-6-tablet is-6-desktop is-4-widescreen is-4-fullhd'
-            : 'column is-6-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd'
+            : sidebarUsed
+            ? 'column is-6-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd'
+            : 'column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd'
         "
         style="margin-bottom: 1%"
         v-for="picto in getFilteredPictoList"
@@ -53,6 +55,11 @@ export default {
       type: Boolean,
       required: true,
       default: () => false,
+    },
+    sidebarUsed: {
+      type: Boolean,
+      required: false,
+      default: () => true,
     },
   },
   computed: {

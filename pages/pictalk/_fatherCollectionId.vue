@@ -3,16 +3,22 @@
     <div class="columns is-mobile noscroll">
       <div
         :class="
-          !($route.params.fatherCollectionId == $store.getters.getSidebarId)
+          !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
+          isSidebarUsed
             ? 'is-8-mobile is-8-tablet column noMargins scrolling'
             : 'is-12 column noMargins scrolling'
         "
       >
-        <pictoList :pictos="pictos" :sidebar="false" />
+        <pictoList
+          :sidebarUsed="isSidebarUsed"
+          :pictos="pictos"
+          :sidebar="false"
+        />
       </div>
       <div
         v-if="
-          !($route.params.fatherCollectionId == $store.getters.getSidebarId)
+          !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
+          isSidebarUsed
         "
         class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
       >
@@ -67,6 +73,9 @@ export default {
     window.removeEventListener("offline", this.lostConnectivityNotification);
   },
   computed: {
+    isSidebarUsed() {
+      return this.loadPictos(this.$store.getters.getSidebarId).length != 0;
+    },
     fitScreen() {
       return window.innerHeight - 64;
     },
