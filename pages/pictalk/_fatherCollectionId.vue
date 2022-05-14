@@ -8,7 +8,21 @@
             : 'is-12 column noMargins scrolling'
         "
       >
-        <pictoList :pictos="pictos" :sidebar="false" />
+        <pictoList
+          :pictos="pictos"
+          :sidebar="false"
+          v-if="!isPictoListPartial"
+        />
+        <div v-else>
+          <b-image
+            lazy
+            alt="No internet collection. To view the collection, please reconnect"
+            :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
+          />
+          <b-message>
+            {{ $t("CollectionNotExplored") }}
+          </b-message>
+        </div>
       </div>
       <div
         v-if="
@@ -16,7 +30,21 @@
         "
         class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
       >
-        <pictoList :pictos="sidebarPictos" :sidebar="true" />
+        <pictoList
+          :pictos="sidebarPictos"
+          :sidebar="true"
+          v-if="!isSidebarPartial"
+        />
+        <div v-else>
+          <b-image
+            lazy
+            alt="No internet collection. To view the collection, please reconnect"
+            :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
+          />
+          <b-message>
+            {{ $t("CollectionNotExplored") }}
+          </b-message>
+        </div>
       </div>
     </div>
     <div class="contenant">
@@ -67,6 +95,20 @@ export default {
     window.removeEventListener("offline", this.lostConnectivityNotification);
   },
   computed: {
+    isSidebarPartial() {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) =>
+          collection.id === parseInt(this.$route.query.sidebarPictoId, 10)
+      );
+      return this.$store.getters.getCollections[index].partial;
+    },
+    isPictoListPartial() {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) =>
+          collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+      return this.$store.getters.getCollections[index].partial;
+    },
     fitScreen() {
       return window.innerHeight - 64;
     },
