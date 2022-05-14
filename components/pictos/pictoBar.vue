@@ -5,6 +5,7 @@
         inverted
         type="is-danger"
         icon-right="delete"
+        class="buttonBorder"
         @click="eraseSpeech()"
       />
     </div>
@@ -13,6 +14,7 @@
         inverted
         type="is-danger"
         icon-right="backspace"
+        class="buttonBorder"
         @click="removeSpeech(true)"
       />
     </div>
@@ -50,17 +52,11 @@
     </div>
     <div class="column is-narrow nopadding">
       <b-button
-        type="is-primary"
-        icon-right="undo"
-        @click="removeSpeech(false)"
+        type="is-info"
+        icon-right="content-copy"
+        @click="copyPictosToClipboardBase(pictos)"
       />
     </div>
-    <b-button
-      v-if="fits"
-      type="is-info"
-      icon-right="content-copy"
-      @click="copyPictosToClipboardBase(pictos)"
-    />
   </div>
 </template>
 <script >
@@ -73,16 +69,7 @@ import tts from "@/mixins/tts";
 import lang from "@/mixins/lang";
 export default {
   mixins: [emoji, tts, deviceInfos, lang],
-  destroyed() {
-    window.removeEventListener("resize", this.fitsBigger);
-  },
-  mounted() {
-    window.addEventListener("resize", this.fitsBigger);
-  },
   methods: {
-    fitsBigger() {
-      this.fits = window.innerWidth > 767;
-    },
     openTravelerMode(e) {
       if (this.$store.getters.getUser.settings.travelMode) {
         if (!this.$store.getters.getTemporaryLanguage) {
@@ -327,7 +314,6 @@ export default {
       adminMode: false,
       voices: [],
       voiceURI: "",
-      fits: false,
     };
   },
 };
@@ -343,11 +329,13 @@ export default {
   position: relative;
   align-items: center;
   border: solid;
-  border-color: #fe5555;
-  border-width: 2.5px;
+  border-color: #4c4329;
+  border-width: 2px;
 }
 .nopadding {
-  padding: 0.2rem;
+  padding: 0.25rem;
+  padding-left: 0.1rem;
+  padding-right: 0.1rem;
 }
 .scrolling {
   display: flex;
@@ -356,5 +344,10 @@ export default {
   overflow-x: auto;
   scrollbar-width: thin;
   scroll-behavior: smooth;
+}
+.buttonBorder {
+  border: solid;
+  border-color: #f14668;
+  border-width: 1px;
 }
 </style>

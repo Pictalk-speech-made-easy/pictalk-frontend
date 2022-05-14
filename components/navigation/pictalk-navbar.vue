@@ -283,6 +283,7 @@ export default {
     window.removeEventListener("resize", this.fitsBigger);
   },
   mounted() {
+    this.fitsBigger();
     window.addEventListener("resize", this.fitsBigger);
     this.intervalId = setInterval(async () => {
       if (window.navigator.onLine) {

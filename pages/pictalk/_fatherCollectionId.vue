@@ -4,8 +4,8 @@
       <div
         :class="
           !($route.params.fatherCollectionId == $store.getters.getSidebarId)
-            ? 'is-8-mobile is-8-tablet column noMargins scrolling'
-            : 'is-12 column noMargins scrolling'
+            ? 'is-8-mobile is-8-tablet column noMargins scrolling lessPadding'
+            : 'is-12 column noMargins scrolling lessPadding'
         "
       >
         <pictoList :pictos="pictos" :sidebar="false" />
@@ -14,7 +14,14 @@
         v-if="
           !($route.params.fatherCollectionId == $store.getters.getSidebarId)
         "
-        class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
+        class="
+          is-4-mobile is-4-tablet
+          column
+          noMargins
+          scrolling
+          sidebar
+          lessPadding
+        "
       >
         <pictoList :pictos="sidebarPictos" :sidebar="true" />
       </div>
@@ -390,7 +397,14 @@ export default {
 .noMargins {
   margin: 0%;
 }
+.lessPadding {
+  padding: 0.45rem;
+  padding-top: 0.7rem;
+  padding-left: 0.5rem;
+}
+
 .sidebar {
+  padding-top: 2px;
   -webkit-box-shadow: -2px 2px 8px 1px #777; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: -2px 2px 8px 1px #777; /* Firefox 3.5 - 3.6 */
   box-shadow: -2px 2px 8px 1px #777;
@@ -401,7 +415,7 @@ export default {
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 1vw;
+  width: 0.9vw;
   max-width: 11px;
 }
 

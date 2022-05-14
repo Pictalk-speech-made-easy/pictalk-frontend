@@ -137,6 +137,7 @@ export default {
     window.removeEventListener("resize", this.fitsBigger);
   },
   mounted() {
+    this.fitsBigger();
     window.addEventListener("resize", this.fitsBigger);
   },
   computed: {
