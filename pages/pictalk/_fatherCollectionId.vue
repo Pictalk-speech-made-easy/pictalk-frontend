@@ -31,7 +31,7 @@
     </div>
     <div class="contenant">
       <pictoBar
-        v-if="loadSpeechWithoutSilent.length != 0"
+        v-if="loadSpeech.length != 0"
         class="pictobar sidebar"
         :pictos="loadSpeech"
         :collectionColor="collectionColor"
@@ -84,14 +84,6 @@ export default {
     },
     loadSpeech() {
       return this.$store.getters.getSpeech;
-    },
-    loadSpeechWithoutSilent() {
-      console.log(
-        this.loadSpeech.filter((picto) => picto.speech[this.getUserLang] != "")
-      );
-      return this.loadSpeech.filter(
-        (picto) => picto.speech[this.getUserLang] != ""
-      );
     },
     sidebarPictoId() {
       if (this.$route.query.sidebarPictoId) {
