@@ -15,6 +15,7 @@
         />
         <div v-else>
           <b-image
+            class="partialCollection"
             lazy
             alt="No internet collection. To view the collection, please reconnect"
             :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
@@ -37,6 +38,7 @@
         />
         <div v-else>
           <b-image
+            class="partialCollection"
             lazy
             alt="No internet collection. To view the collection, please reconnect"
             :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
@@ -477,5 +479,13 @@ export default {
   -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
   box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+.partialCollection {
+  width: 90%;
+  max-width: 300px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15vh;
 }
 </style>
