@@ -26,7 +26,7 @@
       <div id="bar" class="scrolling">
         <miniPicto
           class
-          v-for="picto in pictos"
+          v-for="picto in pictosWithoutSilent"
           :key="picto.id + Math.random()"
           :image="picto.image"
           :pictoCount="picto.count"
@@ -57,6 +57,12 @@
         @click="copyPictosToClipboardBase(pictos)"
       />
     </div>
+    <b-button
+      v-if="fits"
+      type="is-info"
+      icon-right="content-copy"
+      @click="copyPictosToClipboardBase(pictosWithoutSilent)"
+    />
   </div>
 </template>
 <script >
@@ -87,7 +93,6 @@ export default {
       }
     },
     getText(pictos) {
-      console.log(pictos);
       return pictos.reduce(
         (acc, curr_val) =>
           acc +
@@ -281,6 +286,11 @@ export default {
             ? "#f5f5f5"
             : this.collectionColor,
       };
+    },
+    pictosWithoutSilent() {
+      return this.pictos.filter(
+        (picto) => picto.speech[this.getUserLang] != ""
+      );
     },
   },
   components: {

@@ -47,6 +47,7 @@
           </b-message>
         </div>
       </div>
+
       <div
         v-if="
           !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
@@ -68,7 +69,15 @@
           alt="Collection is empty. Create pictos"
           :srcset="require('@/assets/EmptyCollection2.png').srcSet"
         />
-
+        <div v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId">
+          <b-button
+            expanded
+            icon-left="home"
+            class="is-primary"
+            @click="returnToSidebarRoot()"
+          />
+          <br />
+        </div>
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"
@@ -102,8 +111,10 @@ import axios from "axios";
 import sidebar from "@/components/pictos/sidebar";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
+import lang from "@/mixins/lang";
 export default {
   layout: "pictalk",
+  mixins: [lang],
   components: {
     pictoList: pictoList,
     pictoBar: pictoBar,
@@ -166,13 +177,6 @@ export default {
     },
     loadSpeech() {
       return this.$store.getters.getSpeech;
-    },
-    isAdmin() {
-      if (this.$route.query.isAdmin) {
-        return true;
-      } else {
-        return false;
-      }
     },
     sidebarPictoId() {
       if (this.$route.query.sidebarPictoId) {
@@ -265,6 +269,14 @@ export default {
     };
   },
   methods: {
+    returnToSidebarRoot() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          sidebarPictoId: this.$store.getters.getSidebarId,
+        },
+      });
+    },
     loadedPictos() {
       return this.loadPictos(
         parseInt(this.$route.params.fatherCollectionId, 10)
