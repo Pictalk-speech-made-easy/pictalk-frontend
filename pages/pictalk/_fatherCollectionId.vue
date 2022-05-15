@@ -8,6 +8,26 @@
             : 'is-12 column noMargins scrolling'
         "
       >
+        <div v-if="pictos.length == 0 && !isPictoListPartial">
+          <b-image
+            class="emptyCollection1"
+            lazy
+            alt="Collection is empty. Create pictos"
+            :srcset="require('@/assets/EmptyCollection1.png').srcSet"
+          />
+          <br />
+          <b-message>
+            {{ $t("EmptyCollection") }}
+          </b-message>
+          <br />
+          <b-image
+            class="emptyCollection2"
+            lazy
+            alt="Collection is empty. Create pictos"
+            :srcset="require('@/assets/EmptyCollection2.png').srcSet"
+          />
+        </div>
+
         <pictoList
           :pictos="pictos"
           :sidebar="false"
@@ -17,7 +37,7 @@
           <b-image
             class="partialCollection"
             lazy
-            alt="No internet collection. To view the collection, please reconnect"
+            alt="No internet connection. To view the collection, please reconnect"
             :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
           />
           <b-message>
@@ -31,6 +51,14 @@
         "
         class="is-4-mobile is-4-tablet column noMargins scrolling sidebar"
       >
+        <b-image
+          v-if="sidebarPictos.length == 0 && !isSidebarPartial"
+          class="emptyCollection2"
+          lazy
+          alt="Collection is empty. Create pictos"
+          :srcset="require('@/assets/EmptyCollection2.png').srcSet"
+        />
+
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"
@@ -102,7 +130,7 @@ export default {
         (collection) =>
           collection.id === parseInt(this.$route.query.sidebarPictoId, 10)
       );
-      return this.$store.getters.getCollections[index].partial;
+      return this.$store.getters.getCollections[index]?.partial;
     },
     isPictoListPartial() {
       const index = this.$store.getters.getCollections.findIndex(
@@ -487,5 +515,18 @@ export default {
   margin-left: auto;
   margin-right: auto;
   margin-top: 15vh;
+}
+.emptyCollection1 {
+  width: 50%;
+  max-width: 250px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+.emptyCollection2 {
+  width: 100%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

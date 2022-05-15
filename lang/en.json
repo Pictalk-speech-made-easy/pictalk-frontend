@@ -306,5 +306,6 @@
   "HomeText2": "Pictalk uses augmentative and alternative communication systems such as the ones provided by the ARASAAC non-profit organization, but also photos and converts them into out loud speech. Pictalk is made for individuals but also for families and community life because the collections can be shared across devices, users and user groups. Pictalk uses Text-To-Speech voices that are natively present on your device to pronounce the constructed sentences.",
   "HomeTitle3": "Why Pictalk ?",
   "HomeText3": "The adventure started back in 2019 with my studies of Telecommunication engineering. The idea to create a simple application to help my non-verbal little brother was an evidence. The first version of Pictalk appeared and I was awarded a price for it. When my other brother joined the engineering school, he wanted to be part of this heartfelt project. Now, we're a team of two yound developers behind Pictalk and we're as motivated as ever to make speech a fundamental right.",
-  "CollectionNotExplored": "The collection hasn't been explored yet... Please reconnect to the internet to view its contents"
+  "CollectionNotExplored": "The collection hasn't been explored yet... Please reconnect to the internet to view its contents",
+  "EmptyCollection": "The collection is empty... You can create pictograms or collections by pressing the lock button."
 }
