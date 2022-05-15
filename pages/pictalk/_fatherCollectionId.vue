@@ -5,7 +5,7 @@
         :class="
           !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
           isSidebarUsed
-            ? 'is-8-mobile is-8-tablet column noMargins scrolling lessPadding'
+            ? 'is-8-mobile is-three-fifths-tablet is-8-desktop is-three-fifths-widescreen is-7-fullhd column noMargins scrolling lessPadding'
             : 'is-12 column noMargins scrolling lessPadding'
         "
       >
@@ -20,7 +20,7 @@
           <b-message>
             {{ $t("EmptyCollection") }}
           </b-message>
-          <br />
+
           <b-image
             class="emptyCollection2"
             lazy
@@ -54,7 +54,11 @@
           isSidebarUsed
         "
         class="
-          is-4-mobile is-4-tablet
+          is-4-mobile
+          is-two-fifths-tablet
+          is-4-desktop
+          is-two-fifths-widescreen
+          is-5-fullhd
           column
           noMargins
           scrolling
@@ -62,6 +66,13 @@
           lessPadding
         "
       >
+        <b-button
+          v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId"
+          @click="toSidebarHome"
+          class="onTop"
+          type="is-primary"
+          icon-left="undo"
+        />
         <b-image
           v-if="sidebarPictos.length == 0 && !isSidebarPartial"
           class="emptyCollection2"
@@ -263,7 +274,7 @@ export default {
     };
   },
   methods: {
-    returnToSidebarRoot() {
+    toSidebarHome() {
       this.$router.push({
         query: {
           ...this.$route.query,
@@ -554,5 +565,21 @@ export default {
   display: flex;
   margin-left: auto;
   margin-right: auto;
+}
+.onTop {
+  -webkit-position: sticky;
+  -moz-position: sticky;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 0.8rem;
+  border: solid;
+  border-color: #4c4329;
+  border-width: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
 }
 </style>
