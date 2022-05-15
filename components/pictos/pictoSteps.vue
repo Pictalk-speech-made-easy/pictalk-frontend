@@ -196,6 +196,7 @@
                 :disabled="silent"
               ></b-input>
               <b-button
+                v-if="!isPicto"
                 :type="silent ? 'is-primary' : 'is-primary is-light'"
                 icon-right="volume-mute"
                 @click="silent = !silent"

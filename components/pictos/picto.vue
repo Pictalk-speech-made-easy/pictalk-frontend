@@ -48,40 +48,31 @@
             @click="deletePicto()"
           />
         </b-dropdown-item>
-        <b-dropdown-item
-          v-if="picto.collection && !(isEditor || isToUser)"
-          aria-role="listitem"
-        >
+        <b-dropdown-item v-if="!(isEditor || isToUser)" aria-role="listitem">
           <b-button
             :expanded="true"
             type="is-success"
             icon-left="plus"
             :label="$t('CopyPicto')"
-            @click="setCopyCollectionId(picto.id)"
+            @click="setCopyCollectionId(picto.id, !picto.collection)"
           />
         </b-dropdown-item>
-        <b-dropdown-item
-          v-if="picto.collection && (isEditor || isToUser)"
-          aria-role="listitem"
-        >
+        <b-dropdown-item v-if="isEditor || isToUser" aria-role="listitem">
           <b-button
             :expanded="true"
             type="is-warning"
             icon-left="content-copy"
             :label="$t('CopyPicto')"
-            @click="setCopyCollectionId(picto.id)"
+            @click="setCopyCollectionId(picto.id, !picto.collection)"
           />
         </b-dropdown-item>
-        <b-dropdown-item
-          v-if="picto.collection && (isEditor || isToUser)"
-          aria-role="listitem"
-        >
+        <b-dropdown-item v-if="isEditor || isToUser" aria-role="listitem">
           <b-button
             :expanded="true"
             type="is-dark"
             icon-left="image-move"
             :label="$t('LinkPicto')"
-            @click="setShortcutCollectionId(picto.id)"
+            @click="setShortcutCollectionId(picto.id, !picto.collection)"
           />
         </b-dropdown-item>
         <b-dropdown-item
@@ -117,7 +108,9 @@
         <b-button
           type="is-success"
           icon-right="plus"
-          @click="setShortcutCollectionIdDirectlyToRoot(picto.id)"
+          @click="
+            setShortcutCollectionIdDirectlyToRoot(picto.id, !picto.collection)
+          "
         />
       </div>
     </div>
@@ -153,29 +146,50 @@ export default {
     },
   },
   methods: {
-    async setShortcutCollectionIdDirectlyToRoot(collectionId) {
+    async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
       let collection = JSON.parse(
         JSON.stringify(this.getCollectionFromId(this.$store.getters.getRootId))
       );
-      collection.collections.push({ id: collectionId });
-      try {
-        await this.$store.dispatch("editCollection", {
-          id: collection.id,
-          collections: collection.collections,
-        });
-      } catch (err) {
-        throw new Error(
-          "Could not add shortcut to root collection: " +
-            JSON.stringify(collection.id)
-        );
+      if (isPicto) {
+        collection.pictos.push({ id: collectionId });
+        try {
+          await this.$store.dispatch("editCollection", {
+            id: collection.id,
+            collections: collection.pictos,
+          });
+        } catch (err) {
+          throw new Error(
+            "Could not add shortcut to root collection: " +
+              JSON.stringify(collection.id)
+          );
+        }
+      } else {
+        collection.collections.push({ id: collectionId });
+        try {
+          await this.$store.dispatch("editCollection", {
+            id: collection.id,
+            collections: collection.collections,
+          });
+        } catch (err) {
+          throw new Error(
+            "Could not add shortcut to root collection: " +
+              JSON.stringify(collection.id)
+          );
+        }
       }
     },
-    setCopyCollectionId(collectionId) {
-      this.$store.commit("setCopyCollectionId", collectionId);
+    setCopyCollectionId(collectionId, isPicto) {
+      this.$store.commit("setCopyCollectionId", {
+        collectionId: collectionId,
+        isPicto: isPicto,
+      });
       this.$store.commit("resetShortcutCollectionId");
     },
-    setShortcutCollectionId(collectionId) {
-      this.$store.commit("setShortcutCollectionId", collectionId);
+    setShortcutCollectionId(collectionId, isPicto) {
+      this.$store.commit("setShortcutCollectionId", {
+        collectionId: collectionId,
+        isPicto: isPicto,
+      });
       this.$store.commit("resetCopyCollectionId");
     },
     addToSpeech() {

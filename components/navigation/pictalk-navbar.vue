@@ -116,6 +116,7 @@
               icon-right="web"
               tag="nuxt-link"
               to="/public"
+              style="border: solid; border-width: 1px; border-color: #48c78e"
             />
           </b-tooltip>
           <b-tooltip
@@ -283,6 +284,7 @@ export default {
     window.removeEventListener("resize", this.fitsBigger);
   },
   mounted() {
+    this.fitsBigger();
     window.addEventListener("resize", this.fitsBigger);
     this.intervalId = setInterval(async () => {
       if (window.navigator.onLine) {
@@ -314,8 +316,8 @@ export default {
     },
     checkCopyCollectionId() {
       return (
-        this.$store.getters.getCopyCollectionId ||
-        this.$store.getters.getShortcutCollectionId
+        this.$store.getters.getCopyCollectionId?.collectionId ||
+        this.$store.getters.getShortcutCollectionId?.collectionId
       );
     },
     admin() {
@@ -394,15 +396,20 @@ export default {
       });
     },
     async copyCollection() {
-      if (this.$store.getters.getCopyCollectionId) {
+      if (this.$store.getters.getCopyCollectionId?.collectionId) {
         try {
-          await this.$store.dispatch("copyCollectionById", {
-            collectionId: this.$store.getters.getCopyCollectionId,
-            fatherCollectionId: this.$route.params.fatherCollectionId,
-            collection: this.getCollectionFromId(
-              parseInt(this.$route.params.fatherCollectionId, 10)
-            ),
-          });
+          if (this.$store.getters.getCopyCollectionId.isPicto) {
+            await this.$store.dispatch("copyPictoById", {
+              pictoId: this.$store.getters.getCopyCollectionId.collectionId,
+              fatherCollectionId: this.$route.params.fatherCollectionId,
+            });
+          } else {
+            await this.$store.dispatch("copyCollectionById", {
+              collectionId:
+                this.$store.getters.getCopyCollectionId.collectionId,
+              fatherCollectionId: this.$route.params.fatherCollectionId,
+            });
+          }
           this.$store.commit("resetCopyCollectionId");
         } catch (error) {
           if (error.response.status == 401) {
@@ -421,7 +428,7 @@ export default {
             });
           }
         }
-      } else if (this.$store.getters.getShortcutCollectionId) {
+      } else if (this.$store.getters.getShortcutCollectionId?.collectionId) {
         try {
           let collection = JSON.parse(
             JSON.stringify(
@@ -430,13 +437,24 @@ export default {
               )
             )
           );
-          collection.collections.push({
-            id: this.$store.getters.getShortcutCollectionId,
-          });
-          await this.$store.dispatch("editCollection", {
-            id: collection.id,
-            collections: collection.collections,
-          });
+          if (this.$store.getters.getShortcutCollectionId.isPicto) {
+            collection.pictos.push({
+              id: this.$store.getters.getShortcutCollectionId.collectionId,
+            });
+            await this.$store.dispatch("editCollection", {
+              id: collection.id,
+              pictos: collection.pictos,
+            });
+          } else {
+            collection.collections.push({
+              id: this.$store.getters.getShortcutCollectionId.collectionId,
+            });
+            await this.$store.dispatch("editCollection", {
+              id: collection.id,
+              collections: collection.collections,
+            });
+          }
+
           this.$store.commit("resetShortcutCollectionId");
         } catch (error) {
           if (error.response.status == 401) {

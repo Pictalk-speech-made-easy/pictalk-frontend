@@ -1,5 +1,12 @@
 <template>
   <div class="margins">
+    <b-button
+      @click="toSidebarHome"
+      v-if="sidebar"
+      class="onTop"
+      type="is-primary"
+      icon-left="undo"
+    />
     <div class="columns is-multiline is-mobile">
       <picto
         :class="
@@ -16,6 +23,7 @@
         :publicMode="publicMode"
         :sidebarMode="sidebar"
       />
+
       <div
         class="
           column
@@ -27,6 +35,7 @@
         "
       ></div>
     </div>
+
     <div class="filler"></div>
   </div>
 </template>
@@ -67,6 +76,16 @@ export default {
       return this.pictos.filter((picto) => picto.meaning[this.getUserLang]);
     },
   },
+  methods: {
+    toSidebarHome() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          sidebarPictoId: this.$store.getters.getSidebarId,
+        },
+      });
+    },
+  },
 };
 </script>
 <style scoped>
@@ -76,5 +95,21 @@ export default {
 }
 .filler {
   padding-bottom: 30vh;
+}
+.onTop {
+  -webkit-position: sticky;
+  -moz-position: sticky;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 1rem;
+  border: solid;
+  border-color: #4c4329;
+  border-width: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
 }
 </style>
