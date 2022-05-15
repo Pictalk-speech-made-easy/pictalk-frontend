@@ -14,6 +14,7 @@ export const state = () => ({
   sharedId: null,
   sidebarId: null,
   copyCollectionId: null,
+  shortcutCollectionId: null,
   temporaryLanguage: null,
 });
 
@@ -128,14 +129,14 @@ export const mutations = {
   setSidebarId(state, sidebarId) {
     state.sidebarId = sidebarId;
   },
-  setCopyCollectionId(state, collectionId) {
-    state.copyCollectionId = collectionId;
+  setCopyCollectionId(state, copied) {
+    state.copyCollectionId = copied;
   },
   resetCopyCollectionId(state) {
     state.copyCollectionId = null;
   },
-  setShortcutCollectionId(state, collectionId) {
-    state.shortcutCollectionId = collectionId;
+  setShortcutCollectionId(state, shortcut) {
+    state.shortcutCollectionId = shortcut
   },
   resetShortcutCollectionId(state) {
     state.shortcutCollectionId = null;
@@ -187,7 +188,7 @@ export const actions = {
           "Content-Type": "multipart/form-data"
         }
       })).data;
-    vuexContext.commit("addPicto", {
+    const editedNewPicto = {
       speech: picto.speech,
       meaning: picto.meaning,
       color: picto.color,
@@ -201,7 +202,9 @@ export const actions = {
       public: newPicto.public,
       createdDate: newPicto.createdDate,
       updatedDate: newPicto.updatedDate
-    });
+    }
+    vuexContext.commit("addPicto", editedNewPicto);
+    return editedNewPicto;
   },
   async editPicto(vuexContext, picto) {
     let formData = new FormData();
@@ -289,7 +292,7 @@ export const actions = {
           "Content-Type": "multipart/form-data"
         }
       })).data;
-    vuexContext.commit("addCollection", {
+    const editedNewCollection = {
       speech: collection.speech,
       meaning: collection.meaning,
       color: collection.color,
@@ -305,7 +308,9 @@ export const actions = {
       starred: JSON.parse(newCollection.starred),
       createdDate: newCollection.createdDate,
       updatedDate: newCollection.updatedDate
-    });
+    };
+    vuexContext.commit("addCollection", editedNewCollection);
+    return editedNewCollection;
   },
   async editCollection(vuexContext, collection) {
     let formData = new FormData();
@@ -460,12 +465,25 @@ export const actions = {
     res.data.map(collection => parseAndUpdateEntireCollection(vuexContext, collection)
     );
   },
-  async copyCollectionById(vuexContext, { collectionId, fatherCollectionId, collection }) {
+  async copyCollectionById(vuexContext, { collectionId, fatherCollectionId }) {
     const params = new URLSearchParams();
     params.append('collectionId', collectionId);
     params.append('fatherCollectionId', fatherCollectionId);
     const editedCollection = (await axios
       .post("/collection/copy", params, {
+        headers: {
+          "Content-Type": 'application/x-www-form-urlencoded'
+        }
+      })).data;
+    parseAndUpdateEntireCollection(vuexContext, editedCollection);
+    vuexContext.commit("resetCopyCollectionId");
+  },
+  async copyPictoById(vuexContext, { pictoId, fatherCollectionId }) {
+    const params = new URLSearchParams();
+    params.append('pictoId', pictoId);
+    params.append('fatherCollectionId', fatherCollectionId);
+    const editedCollection = (await axios
+      .post("/picto/copy", params, {
         headers: {
           "Content-Type": 'application/x-www-form-urlencoded'
         }

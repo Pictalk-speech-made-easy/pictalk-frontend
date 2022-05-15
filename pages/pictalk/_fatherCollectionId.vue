@@ -3,20 +3,72 @@
     <div class="columns is-mobile noscroll">
       <div
         :class="
-          !($route.params.fatherCollectionId == $store.getters.getSidebarId)
-            ? 'is-8-mobile is-8-tablet column noMargins scrolling'
-            : 'is-12 column noMargins scrolling'
+          !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
+          isSidebarUsed
+            ? 'is-8-mobile is-8-tablet column noMargins scrolling lessPadding'
+            : 'is-12 column noMargins scrolling lessPadding'
         "
       >
-        <pictoList :pictos="pictos" :sidebar="false" />
+        <div v-if="pictos.length == 0 && !isPictoListPartial">
+          <b-image
+            class="emptyCollection1"
+            lazy
+            alt="Collection is empty. Create pictos"
+            :srcset="require('@/assets/EmptyCollection1.png').srcSet"
+          />
+          <br />
+          <b-message>
+            {{ $t("EmptyCollection") }}
+          </b-message>
+          <br />
+          <b-image
+            class="emptyCollection2"
+            lazy
+            alt="Collection is empty. Create pictos"
+            :srcset="require('@/assets/EmptyCollection2.png').srcSet"
+          />
+        </div>
+
+        <pictoList
+          :pictos="pictos"
+          :sidebar="false"
+          :sidebarUsed="isSidebarUsed"
+          v-if="!isPictoListPartial"
+        />
+        <div v-else>
+          <b-image
+            class="partialCollection"
+            lazy
+            alt="No internet connection. To view the collection, please reconnect"
+            :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
+          />
+          <b-message>
+            {{ $t("CollectionNotExplored") }}
+          </b-message>
+        </div>
       </div>
 
       <div
         v-if="
-          !($route.params.fatherCollectionId == $store.getters.getSidebarId)
+          !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
+          isSidebarUsed
         "
-        class="is-4-mobile is-4-tablet column noMargins sidebar scrolling"
+        class="
+          is-4-mobile is-4-tablet
+          column
+          noMargins
+          scrolling
+          sidebar
+          lessPadding
+        "
       >
+        <b-image
+          v-if="sidebarPictos.length == 0 && !isSidebarPartial"
+          class="emptyCollection2"
+          lazy
+          alt="Collection is empty. Create pictos"
+          :srcset="require('@/assets/EmptyCollection2.png').srcSet"
+        />
         <div v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId">
           <b-button
             expanded
@@ -26,7 +78,22 @@
           />
           <br />
         </div>
-        <pictoList class="" :pictos="sidebarPictos" :sidebar="true" />
+        <pictoList
+          :pictos="sidebarPictos"
+          :sidebar="true"
+          v-if="!isSidebarPartial"
+        />
+        <div v-else>
+          <b-image
+            class="partialCollection"
+            lazy
+            alt="No internet collection. To view the collection, please reconnect"
+            :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
+          />
+          <b-message>
+            {{ $t("CollectionNotExplored") }}
+          </b-message>
+        </div>
       </div>
     </div>
     <div class="contenant">
@@ -64,12 +131,38 @@ export default {
   created() {
     window.addEventListener("online", this.refreshPictos);
     window.addEventListener("offline", this.lostConnectivityNotification);
+    this.$nuxt.$on("addPictogram", (picto) => {
+      this.pictos.push(picto);
+    });
+    this.$nuxt.$on("deletePictogram", (pictoOrCollectionId) => {
+      const index = this.pictos.findIndex(
+        (pictogram) => pictogram.id == pictoOrCollectionId
+      );
+      this.pictos.splice(index, 1);
+    });
   },
   destroyed() {
     window.removeEventListener("online", this.refreshPictos);
     window.removeEventListener("offline", this.lostConnectivityNotification);
   },
   computed: {
+    isSidebarUsed() {
+      return this.loadPictos(this.$store.getters.getSidebarId).length != 0;
+    },
+    isSidebarPartial() {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) =>
+          collection.id === parseInt(this.$route.query.sidebarPictoId, 10)
+      );
+      return this.$store.getters.getCollections[index]?.partial;
+    },
+    isPictoListPartial() {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) =>
+          collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+      return this.$store.getters.getCollections[index].partial;
+    },
     fitScreen() {
       return window.innerHeight - 64;
     },
@@ -394,7 +487,14 @@ export default {
 .noMargins {
   margin: 0%;
 }
+.lessPadding {
+  padding: 0.45rem;
+  padding-top: 0.7rem;
+  padding-left: 0.5rem;
+}
+
 .sidebar {
+  padding-top: 2px;
   -webkit-box-shadow: -2px 2px 8px 1px #777; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: -2px 2px 8px 1px #777; /* Firefox 3.5 - 3.6 */
   box-shadow: -2px 2px 8px 1px #777;
@@ -405,8 +505,8 @@ export default {
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 1vw;
-  max-width: 11px;
+  width: 0.9vw;
+  max-width: 10px;
 }
 
 /* Track */
@@ -439,5 +539,26 @@ export default {
   -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
   box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+.partialCollection {
+  width: 90%;
+  max-width: 300px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15vh;
+}
+.emptyCollection1 {
+  width: 50%;
+  max-width: 250px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+.emptyCollection2 {
+  width: 100%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
