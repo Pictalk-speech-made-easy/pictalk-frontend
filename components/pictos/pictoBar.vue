@@ -5,7 +5,7 @@
         inverted
         type="is-danger"
         icon-right="delete"
-        class="buttonBorder"
+        class="buttonBorder getsBigger"
         @click="eraseSpeech()"
       />
     </div>
@@ -14,7 +14,7 @@
         inverted
         type="is-danger"
         icon-right="backspace"
-        class="buttonBorder"
+        class="buttonBorder getsBigger"
         @click="removeSpeech(true)"
       />
     </div>
@@ -36,6 +36,7 @@
     <div class="column is-narrow nopadding">
       <b-button
         v-if="$store.getters.getTemporaryLanguage"
+        class="getsBigger"
         type="is-success"
         icon-right="volume-high"
         @click="pictalk(pictos)"
@@ -45,6 +46,7 @@
       <b-button
         v-else
         type="is-success"
+        class="getsBigger"
         icon-right="volume-high"
         @click="pictalk(pictos)"
         v-longpress="openTravelerMode"
@@ -52,6 +54,7 @@
     </div>
     <div class="column is-narrow nopadding">
       <b-button
+        class="getsBigger"
         type="is-info"
         icon-right="content-copy"
         @click="copyPictosToClipboardBase(pictosWithoutSilent)"
@@ -353,5 +356,13 @@ export default {
   border: solid;
   border-color: #f14668;
   border-width: 1px;
+}
+.getsBigger {
+  width: 7vmin;
+  height: 7vmin;
+  min-height: 40px;
+  max-height: 60px;
+  min-width: 40px;
+  max-width: 60px;
 }
 </style>
