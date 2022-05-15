@@ -69,15 +69,9 @@
           alt="Collection is empty. Create pictos"
           :srcset="require('@/assets/EmptyCollection2.png').srcSet"
         />
-        <div v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId">
-          <b-button
-            expanded
-            icon-left="home"
-            class="is-primary"
-            @click="returnToSidebarRoot()"
-          />
-          <br />
-        </div>
+        <div
+          v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId"
+        ></div>
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"

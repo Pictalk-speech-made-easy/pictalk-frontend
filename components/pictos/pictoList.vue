@@ -1,11 +1,19 @@
 <template>
   <div class="margins">
     <b-button
+      v-if="
+        sidebar && $route.query.sidebarPictoId != $store.getters.getSidebarId
+      "
       @click="toSidebarHome"
-      v-if="sidebar"
       class="onTop"
       type="is-primary"
       icon-left="undo"
+    />
+    <div
+      v-if="
+        sidebar && !($route.query.sidebarPictoId != $store.getters.getSidebarId)
+      "
+      style="padding-top: 9px"
     />
     <div class="columns is-multiline is-mobile">
       <picto
@@ -104,7 +112,7 @@ export default {
   top: 0;
   width: 100%;
   max-width: 250px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
   border: solid;
   border-color: #4c4329;
   border-width: 1px;
