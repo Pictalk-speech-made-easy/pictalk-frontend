@@ -54,15 +54,9 @@
       <b-button
         type="is-info"
         icon-right="content-copy"
-        @click="copyPictosToClipboardBase(pictos)"
+        @click="copyPictosToClipboardBase(pictosWithoutSilent)"
       />
     </div>
-    <b-button
-      v-if="fits"
-      type="is-info"
-      icon-right="content-copy"
-      @click="copyPictosToClipboardBase(pictosWithoutSilent)"
-    />
   </div>
 </template>
 <script >
