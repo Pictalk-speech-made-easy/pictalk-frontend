@@ -137,7 +137,7 @@ export default {
     window.addEventListener("online", this.refreshPictos);
     window.addEventListener("offline", this.lostConnectivityNotification);
     this.$nuxt.$on("resyncPictoList", () => {
-      this.loadedPictos();
+      this.pictos = this.loadedPictos();
     });
   },
   destroyed() {
