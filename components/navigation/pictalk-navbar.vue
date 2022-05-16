@@ -399,20 +399,29 @@ export default {
       if (this.$store.getters.getCopyCollectionId?.collectionId) {
         try {
           if (this.$store.getters.getCopyCollectionId.isPicto) {
-            await this.$store.dispatch("copyPictoById", {
+            const copiedPicto = await this.$store.dispatch("copyPictoById", {
               pictoId: this.$store.getters.getCopyCollectionId.collectionId,
               fatherCollectionId: this.$route.params.fatherCollectionId,
             });
+            /*
+            $nuxt.$emit("addPictogram", copiedPicto);
+            */
+            $nuxt.$emit("resyncPictoList");
           } else {
-            await this.$store.dispatch("copyCollectionById", {
-              collectionId:
-                this.$store.getters.getCopyCollectionId.collectionId,
-              fatherCollectionId: this.$route.params.fatherCollectionId,
-            });
+            const copiedCollection = await this.$store.dispatch(
+              "copyCollectionById",
+              {
+                collectionId:
+                  this.$store.getters.getCopyCollectionId.collectionId,
+                fatherCollectionId: this.$route.params.fatherCollectionId,
+              }
+            );
+            //$nuxt.$emit("addPictogram", copiedCollection);
+            $nuxt.$emit("resyncPictoList");
           }
           this.$store.commit("resetCopyCollectionId");
         } catch (error) {
-          if (error.response.status == 401) {
+          if (error?.response?.status == 401) {
             this.$buefy.toast.open({
               duration: 5000,
               message: this.$t("NotAuthorized"),
@@ -420,6 +429,7 @@ export default {
               type: "is-danger",
             });
           } else {
+            console.log(error);
             this.$buefy.toast.open({
               duration: 5000,
               message: this.$t("CouldNotPaste"),
@@ -441,10 +451,12 @@ export default {
             collection.pictos.push({
               id: this.$store.getters.getShortcutCollectionId.collectionId,
             });
+
             await this.$store.dispatch("editCollection", {
               id: collection.id,
               pictos: collection.pictos,
             });
+            $nuxt.$emit("resyncPictoList");
           } else {
             collection.collections.push({
               id: this.$store.getters.getShortcutCollectionId.collectionId,
@@ -453,6 +465,7 @@ export default {
               id: collection.id,
               collections: collection.collections,
             });
+            $nuxt.$emit("resyncPictoList");
           }
 
           this.$store.commit("resetShortcutCollectionId");

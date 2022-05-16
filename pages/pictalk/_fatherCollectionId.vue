@@ -136,14 +136,8 @@ export default {
   created() {
     window.addEventListener("online", this.refreshPictos);
     window.addEventListener("offline", this.lostConnectivityNotification);
-    this.$nuxt.$on("addPictogram", (picto) => {
-      this.pictos.push(picto);
-    });
-    this.$nuxt.$on("deletePictogram", (pictoOrCollectionId) => {
-      const index = this.pictos.findIndex(
-        (pictogram) => pictogram.id == pictoOrCollectionId
-      );
-      this.pictos.splice(index, 1);
+    this.$nuxt.$on("resyncPictoList", () => {
+      this.loadedPictos();
     });
   },
   destroyed() {

@@ -477,6 +477,8 @@ export const actions = {
       })).data;
     parseAndUpdateEntireCollection(vuexContext, editedCollection);
     vuexContext.commit("resetCopyCollectionId");
+    const index = editedCollection.collections.findIndex((coll) => coll.id == collectionId);
+    return editedCollection.collections[index];
   },
   async copyPictoById(vuexContext, { pictoId, fatherCollectionId }) {
     const params = new URLSearchParams();
@@ -490,6 +492,8 @@ export const actions = {
       })).data;
     parseAndUpdateEntireCollection(vuexContext, editedCollection);
     vuexContext.commit("resetCopyCollectionId");
+    const index = editedCollection.pictos.findIndex((pict) => pict.id == pictoId);
+    return editedCollection.pictos[index];
   },
   async getPublicCollections(vuexContext) {
     const publicCollections = (await axios

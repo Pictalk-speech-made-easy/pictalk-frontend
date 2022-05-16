@@ -775,7 +775,7 @@ export default {
               : this.$t("CreatedPictogram"),
             type: "is-success",
           });
-          $nuxt.$emit("addPictogram", pictoOrCollection);
+          $nuxt.$emit("resyncPictoList");
           this.$parent.close();
         } else {
           console.log(this.picto.speech);
