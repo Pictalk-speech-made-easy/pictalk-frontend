@@ -33,7 +33,7 @@
           :pictos="pictos"
           :sidebar="false"
           :sidebarUsed="isSidebarUsed"
-          v-if="!isPictoListPartial"
+          v-if="!isPictoListPartial || isOnLine"
         />
         <div v-else>
           <b-image
@@ -86,7 +86,7 @@
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"
-          v-if="!isSidebarPartial"
+          v-if="!isSidebarPartial || isOnLine"
         />
         <div v-else>
           <b-image
@@ -151,6 +151,9 @@ export default {
     window.removeEventListener("offline", this.lostConnectivityNotification);
   },
   computed: {
+    isOnLine() {
+      return window.navigator.onLine;
+    },
     isSidebarUsed() {
       return this.loadPictos(this.$store.getters.getSidebarId).length != 0;
     },
