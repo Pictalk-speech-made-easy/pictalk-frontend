@@ -93,7 +93,7 @@ export default {
             message: this.$t("DeletedSuccess"),
             type: "is-success",
           });
-          $nuxt.$emit("deletePictogram", this.object.id);
+          $nuxt.$emit("resyncPictoList");
           this.$parent.close();
           return;
         } catch (ex) {

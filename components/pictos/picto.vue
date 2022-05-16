@@ -263,7 +263,7 @@ export default {
     },
     async alternateStar() {
       try {
-        this.$store.dispatch(
+        await this.$store.dispatch(
           this.picto.collection
             ? "alternateCollectionStar"
             : "alternatePictoStar",
@@ -272,6 +272,7 @@ export default {
             starred: !this.picto.starred,
           }
         );
+        $nuxt.$emit("resyncPictoList");
       } catch (error) {
         console.log(error);
         const notif = this.$buefy.notification.open({
