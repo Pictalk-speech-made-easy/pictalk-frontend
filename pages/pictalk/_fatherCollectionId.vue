@@ -149,6 +149,7 @@ export default {
       return window.navigator.onLine;
     },
     isSidebarUsed() {
+      this.sidebarPictos;
       return this.loadPictos(this.$store.getters.getSidebarId).length != 0;
     },
     isSidebarPartial() {
