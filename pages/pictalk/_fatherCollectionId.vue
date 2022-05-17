@@ -163,7 +163,7 @@ export default {
         (collection) =>
           collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
       );
-      return this.$store.getters.getCollections[index].partial;
+      return this.$store.getters.getCollections[index]?.partial;
     },
     fitScreen() {
       return window.innerHeight - 64;
