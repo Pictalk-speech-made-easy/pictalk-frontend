@@ -32,3 +32,8 @@ html {
 .navbar-brand {
   height: 52px;
 }
+
+.message-body {
+  padding: 0.2rem;
+  border-width: 1px;
+}

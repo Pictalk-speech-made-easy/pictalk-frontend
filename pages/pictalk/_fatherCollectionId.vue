@@ -13,19 +13,19 @@
           <b-image
             class="emptyCollection1"
             lazy
-            alt="Collection is empty. Create pictos"
+            alt="an arrow and a lock pointing to the lock button on the upper part of the screen that allows the creation of pictograms"
             :srcset="require('@/assets/EmptyCollection1.png').srcSet"
           />
           <br />
-          <b-message>
+          <b-message class="emptyMessage">
             {{ $t("EmptyCollection") }}
           </b-message>
 
           <b-image
             class="emptyCollection2"
             lazy
-            alt="Collection is empty. Create pictos"
-            :srcset="require('@/assets/EmptyCollection2.png').srcSet"
+            alt="An empty cardboard box that represents an empty collection with no pictograms"
+            :srcset="require('@/assets/EmptyCollection3.png').srcSet"
           />
         </div>
 
@@ -558,7 +558,8 @@ export default {
   margin-right: auto;
 }
 .emptyCollection2 {
-  width: 100%;
+  width: 60vmin;
+  max-width: 450px;
   display: flex;
   margin-left: auto;
   margin-right: auto;
@@ -578,5 +579,14 @@ export default {
   margin-left: auto;
   margin-right: auto;
   display: flex;
+}
+.emptyMessage {
+  padding: 0.2rem;
+  width: auto;
+  max-width: 600px;
+  margin-bottom: 1rem;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
