@@ -16,7 +16,10 @@
           alt="A web app that help speach-disabled people"
         />
       </b-navbar-item>
-      <div class="columns is-mobile margins">
+      <div
+        v-if="$route.path.includes('pictalk')"
+        class="columns is-mobile margins"
+      >
         <div
           v-if="$route.query.isAdmin && !checkCopyCollectionId"
           class="column noPadding"
