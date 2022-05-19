@@ -13,7 +13,7 @@
             ? 'column is-12-mobile is-6-tablet is-6-desktop is-4-widescreen is-3-fullhd'
             : sidebarUsed
             ? 'column is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-one-fifth-fullhd'
-            : 'column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd'
+            : 'column is-one-third-mobile is-one-fifth-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd'
         "
         style="margin-bottom: 1%"
         v-for="picto in getFilteredPictoList"
