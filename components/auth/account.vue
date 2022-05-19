@@ -14,11 +14,11 @@
               $t("EnforcedSecurityMode")
             }}</b-switch>
           </b-field>
-          <b-field>
+          <!-- <b-field>
             <b-switch v-model="user.settings.travelMode">{{
               $t("TravelerMode")
             }}</b-switch>
-          </b-field>
+          </b-field> -->
           <br />
           <b-field :label="$t('Password')">
             <b-input
@@ -58,28 +58,55 @@
               expanded
             >
               <option
-                v-for="voice in loadedVoicesFilterState
-                  ? loadedVoicesWithFilter
-                  : loadedVoices"
+                v-for="voice in loadedVoicesWithFilter"
                 :value="voice.voiceURI"
                 :key="voice.voiceURI"
               >
                 {{ getEmoji(voice.lang) }} {{ voice.name }}
               </option>
             </b-select>
+            <!--
             <b-button
               type="is-ghost"
               @click="loadedVoicesFilterState = !loadedVoicesFilterState"
             >
               {{ loadedVoicesFilterState ? $t("ShowMore") : $t("ShowLess") }}
-            </b-button>
+            </b-button> -->
+            <b-button
+              class="speakButton"
+              type="is-success"
+              icon-right="volume-high"
+              @click="
+                playSentenceInLanguage(getUserLang, voiceURI, pitch, rate)
+              "
+            ></b-button>
           </b-field>
+          <b-field :label="$t('Pitch')">
+            <b-slider
+              v-model="pitch"
+              :min="0"
+              :max="2"
+              :step="0.1"
+              ticks
+            ></b-slider>
+          </b-field>
+          <b-field :label="$t('Rate')">
+            <b-slider
+              v-model="rate"
+              :min="0.4"
+              :max="1.6"
+              :step="0.05"
+              ticks
+            ></b-slider>
+          </b-field>
+          <!--
           <b-button
             v-if="!displayVoicesOrMultiLingual"
             @click="displayVoices = !displayVoices"
             type="is-ghost"
             >{{ $t("SpeakMoreLanguage") }}</b-button
           >
+
           <b-field v-if="displayVoicesOrMultiLingual" :label="$t('Voices')">
             <b-select
               v-model="voiceURIs"
@@ -98,7 +125,7 @@
                 {{ getEmoji(voice.lang) }} {{ voice.name }}
               </option>
             </b-select>
-          </b-field>
+          </b-field>  -->
           <hr />
         </b-tab-item>
         <b-tab-item style="width: 100%" icon="account-group">
@@ -202,15 +229,12 @@
         </b-tab-item>
       </b-tabs>
     </div>
-    <div class="container is-max-desktop footer">
+    <div class="footer container is-max-desktop">
+      <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
+        $t("Cancel")
+      }}</b-button>
       <b-button
-        tag="nuxt-link"
-        :to="'/pictalk' + admin"
-        class="fourWidth has-background"
-        >{{ $t("Cancel") }}</b-button
-      >
-      <b-button
-        class="sixWidth has-background"
+        class="menuButtons"
         type="is-info"
         icon-left="content-save"
         :loading="loadingSave"
@@ -261,6 +285,8 @@ export default {
       displayVoices: false,
       voices: [],
       voiceURI: "",
+      pitch: 1,
+      rate: 1,
       voiceURIs: [],
       checkedRows: [],
       directSharers: [],
@@ -301,6 +327,14 @@ export default {
               this.$store.getters.getUser.languages[value][
                 this.getDeviceInfo()
               ]?.voiceURI;
+            this.pitch =
+              this.$store.getters.getUser.languages[value][
+                this.getDeviceInfo()
+              ]?.pitch;
+            this.rate =
+              this.$store.getters.getUser.languages[value][
+                this.getDeviceInfo()
+              ]?.rate;
           } else {
             this.voiceURI = this.getLoadedVoicesWithFilter(value)[0]?.voiceURI;
           }
@@ -356,7 +390,8 @@ export default {
       let editedLanguages = {};
       device[this.getDeviceInfo()] = {
         voiceURI: this.voiceURI,
-        pitch: "",
+        pitch: this.pitch,
+        rate: this.rate,
       };
       const languageLang = convertToSimpleLanguage(
         this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0]?.lang
@@ -384,7 +419,8 @@ export default {
           device = {};
           device[this.getDeviceInfo()] = {
             voiceURI: voiceURI,
-            pitch: "",
+            pitch: this.pitch,
+            rate: this.rate,
           };
           languages[
             convertToSimpleLanguage(
@@ -424,28 +460,29 @@ export default {
 };
 </script>
 <style>
-.fourWidth {
-  width: 40%;
-}
-.sixWidth {
-  width: 50%;
-}
 .lessPadding {
   padding: 0.5rem;
+}
+.speakButton {
+  margin-left: 0.5rem;
 }
 .footer {
   display: flex;
   position: fixed;
   flex-direction: row;
   padding: 0%;
-  bottom: 2%;
+  bottom: 2vw;
   width: 100%;
   background-color: #ffffff;
 }
-.has-background {
-  border-radius: 5px;
-  -webkit-box-shadow: 2px 2px 2px 2px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow: 2px 2px 2px 2px #ccc; /* Firefox 3.5 - 3.6 */
-  box-shadow: 2px 2px 2px 2px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+.menuButtons {
+  margin-left: 1vmin;
+  margin-right: 1vmin;
+  width: 45vw;
+  max-width: 400px;
+  border-radius: 7px;
+  -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 </style>

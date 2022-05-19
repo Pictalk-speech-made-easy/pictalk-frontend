@@ -209,7 +209,9 @@
                   pronounce(
                     picto.speech[languageSelectorSpeech],
                     getUserLang,
-                    voiceURI
+                    voiceURI,
+                    pitch,
+                    rate
                   )
                 "
               ></b-button>

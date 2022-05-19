@@ -154,7 +154,13 @@ export default {
       }
     },
     async pictalk(pictos) {
-      this.pronounce(this.getText(pictos), this.getUserLang, this.voiceURI);
+      this.pronounce(
+        this.getText(pictos),
+        this.getUserLang,
+        this.voiceURI,
+        this.pitch,
+        this.rate
+      );
     },
     removeSpeech(erase) {
       const pictoSpeech = this.$store.getters.getSpeech;
