@@ -17,7 +17,7 @@
         />
       </b-navbar-item>
       <div
-        v-if="$route.path.includes('pictalk')"
+        :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
       >
         <div
