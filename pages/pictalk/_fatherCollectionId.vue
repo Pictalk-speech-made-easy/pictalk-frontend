@@ -558,8 +558,8 @@ export default {
   margin-right: auto;
 }
 .emptyCollection2 {
-  width: 60vmin;
-  max-width: 450px;
+  width: 80%;
+  max-width: 400px;
   display: flex;
   margin-left: auto;
   margin-right: auto;
