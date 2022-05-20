@@ -78,7 +78,7 @@
           class="emptyCollection2"
           lazy
           alt="Collection is empty. Create pictos"
-          :srcset="require('@/assets/EmptyCollection2.png').srcSet"
+          :srcset="require('@/assets/EmptyCollection3.png').srcSet"
         />
         <div
           v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId"

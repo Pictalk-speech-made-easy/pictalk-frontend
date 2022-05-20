@@ -37,7 +37,7 @@
           :responsive="false"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/DigitalOcean_logo.svg/1200px-DigitalOcean_logo.svg.png"
           alt="DigitalOcean"
-          style="max-width: 150px"
+          custom-class="imgpixelslimit"
         />
       </div>
     </div>
@@ -50,7 +50,7 @@
 </style>
 <style>
 .imgpixelslimit {
-  max-width: 150px;
+  max-width: 100px;
 }
 .centerImage {
   text-align: center;
