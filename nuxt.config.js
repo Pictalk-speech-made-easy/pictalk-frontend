@@ -203,27 +203,16 @@ export default {
   },
   pwa: {
     workbox: {
+      /*
+      dev: true,
 
-      //dev: true,
-
-      // config: {
-      // 	debug: true
-      // },
+      config: {
+        debug: true
+      },*/
       cachingExtensions: '@/plugins/workboxConfig.js',
       importScripts: [
         'background-fetch.js'
       ],
-      /*
-      runtimeCaching: [
-        {
-          urlPattern: (process.env.BASE_URL || "http://localhost:3001") + '/pictalk/image/.*',
-          handler: 'CacheFirst',
-          strategyOptions: {
-            cacheName: 'pictos'
-          }
-        },
-      ]
-      */
     },
     manifest: {
       name: 'Pictalk',
