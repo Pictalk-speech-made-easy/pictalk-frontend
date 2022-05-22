@@ -263,7 +263,7 @@
     </template>
   </b-navbar>
 </template>
-<script difer>
+<script>
 import lang from "@/mixins/lang";
 import axios from "axios";
 import navbar from "@/mixins/navbar";
@@ -295,11 +295,11 @@ export default {
           const notificationsRequest = await axios.get("/user/notification");
           if (notificationsRequest.status == 200) {
             const notifications = notificationsRequest.data;
-            if (notifications.length != this.notificationsCount) {
+            if (notifications?.length != this.notificationsCount) {
               this.$store.dispatch("downloadCollections");
-              this.notificationsCount = notifications.length;
+              this.notificationsCount = notifications?.length;
             }
-            notifications.forEach((notification) => {
+            notifications?.forEach((notification) => {
               if (notification.meaning) {
                 notification.meaning = JSON.parse(notification?.meaning);
               }
@@ -307,6 +307,7 @@ export default {
           }
           return notifications;
         } catch (err) {
+          console.log(err);
           clearInterval(this.intervalId);
           return [];
         }

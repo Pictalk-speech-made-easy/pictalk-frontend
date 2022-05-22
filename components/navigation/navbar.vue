@@ -113,7 +113,7 @@
   </div>
 </template>
 
-<script difer>
+<script>
 import lang from "@/mixins/lang";
 import navbar from "@/mixins/navbar";
 import emoji from "@/mixins/emoji";
