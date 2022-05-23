@@ -466,7 +466,7 @@ export default {
           position: "is-top-right",
           type: "is-danger",
           hasIcon: true,
-          icon: "danger",
+          icon: "close-octagon",
         });
       }
     },
