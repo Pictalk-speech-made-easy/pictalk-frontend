@@ -575,78 +575,99 @@ export const getters = {
 };
 
 function parseAndUpdateEntireCollection(vuexContext, collection) {
-  if (collection.image) {
-    collection.image =
-      axios.defaults.baseURL +
-      "/image/pictalk/" +
-      collection.image;
+  let localCollection = getCollectionFromId(vuexContext, collection.id);
+  let existsCollection = localCollection?.id == collection.id;
+  let updateCollection = (localCollection?.updatedDate != collection.updatedDate) && existsCollection;
+  if (!existsCollection || updateCollection) {
+    if (collection.image) {
+      collection.image =
+        axios.defaults.baseURL +
+        "/image/pictalk/" +
+        collection.image;
+    }
+    if (collection.meaning) {
+      collection.meaning = JSON.parse(collection.meaning);
+    }
+    if (collection.speech) {
+      collection.speech = JSON.parse(collection.speech);
+    }
+    collection.collection = true;
+    collection.partial = false;
   }
-  if (collection.meaning) {
-    collection.meaning = JSON.parse(collection.meaning);
-  }
-  if (collection.speech) {
-    collection.speech = JSON.parse(collection.speech);
-  }
-  collection.collection = true;
-  collection.partial = false;
-  if (collection.pictos && !collection.pictos.length == 0) {
-    collection.pictos.map((picto) => {
-      if (picto.image) {
-        picto.image =
-          axios.defaults.baseURL +
-          "/image/pictalk/" +
-          picto.image;
-      }
-      if (picto.meaning) {
-        picto.meaning = JSON.parse(picto.meaning);
-      }
-      if (picto.speech) {
-        picto.speech = JSON.parse(picto.speech);
-      }
-      picto.fatherCollectionId = collection.id;
-      if (!getPictoFromId(vuexContext, picto.id)) {
-        vuexContext.commit("addPicto", picto);
-      } else {
-        vuexContext.commit("editPicto", picto);
-      }
-    });
-  }
-  if (collection.collections && !collection.collections.length == 0) {
-    collection.collections.map((col) => {
-      if (col.image) {
-        col.image =
-          axios.defaults.baseURL +
-          "/image/pictalk/" +
-          col.image;
-      }
-      if (col.meaning) {
-        col.meaning = JSON.parse(col.meaning);
-      }
-      if (col.speech) {
-        col.speech = JSON.parse(col.speech);
-      }
-      if (!col.pictos) {
-        col.pictos = [];
-      }
-      if (!col.collections) {
-        col.collections = [];
-      }
-
-      col.collection = true;
-      col.partial = true;
-      col.fatherCollectionId = collection.id;
-      if (!getCollectionFromId(vuexContext, col.id)) {
-        vuexContext.commit("addCollection", col);
-      } else {
-        vuexContext.commit("editCollection", col);
-      }
-    });
-  }
-  if (!getCollectionFromId(vuexContext, collection.id)) {
+  if (!existsCollection) {
     vuexContext.commit("addCollection", collection);
-  } else {
+  }
+  if (updateCollection) {
+    if (collection.pictos && !collection.pictos.length == 0) {
+      collection.pictos.map((picto) => {
+        let localPicto = getPictoFromId(vuexContext, picto.id);
+        let existsPicto = localPicto?.id == picto.id;
+        let updatePicto = (localPicto?.updatedDate != picto.updatedDate) && existsPicto;
+        if (!existsPicto || updatePicto) {
+          if (picto.image) {
+            picto.image =
+              axios.defaults.baseURL +
+              "/image/pictalk/" +
+              picto.image;
+          }
+          if (picto.meaning) {
+            picto.meaning = JSON.parse(picto.meaning);
+          }
+          if (picto.speech) {
+            picto.speech = JSON.parse(picto.speech);
+          }
+          picto.fatherCollectionId = collection.id;
+
+        }
+        if (!existsPicto) {
+          vuexContext.commit("addPicto", picto);
+        }
+        if (!existsPicto && updatePicto) {
+          vuexContext.commit("editPicto", picto);
+
+        }
+      });
+    }
+    if (collection.collections && !collection.collections.length == 0) {
+      collection.collections.map((col) => {
+        let localCollection = getCollectionFromId(vuexContext, col.id);
+        let existsCollection = localCollection?.id == col.id;
+        let updateCollection = (localCollection?.updatedDate != col.updatedDate) && existsCollection;
+        if (!existsCollection || updateCollection) {
+          if (col.image) {
+            col.image =
+              axios.defaults.baseURL +
+              "/image/pictalk/" +
+              col.image;
+          }
+          if (col.meaning) {
+            col.meaning = JSON.parse(col.meaning);
+          }
+          if (col.speech) {
+            col.speech = JSON.parse(col.speech);
+          }
+          if (!col.pictos) {
+            col.pictos = [];
+          }
+          if (!col.collections) {
+            col.collections = [];
+          }
+          col.collection = true;
+          col.partial = true;
+          col.fatherCollectionId = collection.id;
+        }
+        if (!existsCollection) {
+          vuexContext.commit("addCollection", col);
+
+        }
+        if (!existsCollection && updateCollection) {
+          vuexContext.commit("editCollection", col);
+        }
+      });
+    }
     vuexContext.commit("editCollection", collection);
   }
+
   return collection;
 }
 

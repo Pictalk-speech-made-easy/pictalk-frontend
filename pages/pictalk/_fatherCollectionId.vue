@@ -447,6 +447,9 @@ export default {
     async refreshPictos() {
       try {
         await this.$store.dispatch("downloadCollections");
+        this.pictos = this.loadedPictos();
+        this.sidebarPictos = this.loadedSidebarPictos();
+        //TODO : refresh pictoList so that it displays new pictos and maybe count number of eddited and added in notification
         const notif = this.$buefy.notification.open({
           duration: 5000,
           message: this.$t("PictosFetched"),
@@ -456,6 +459,7 @@ export default {
           icon: "refresh",
         });
       } catch (err) {
+        console.log(err);
         const notif = this.$buefy.notification.open({
           duration: 5000,
           message: this.$t("ServerOffline"),
