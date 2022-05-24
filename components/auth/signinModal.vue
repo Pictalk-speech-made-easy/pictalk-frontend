@@ -69,29 +69,32 @@ export default {
             },
           });
           const notif = this.$buefy.toast.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("Welcome"),
 
             type: "is-info",
             hasIcon: true,
+            iconSize: "is-small",
           });
         }
       } catch (error) {
         if (error.response) {
           if (error.response.status == 400 || error.response.status == 401) {
             const notif = this.$buefy.toast.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("WrongCredentials"),
               type: "is-danger",
               hasIcon: true,
+              iconSize: "is-small",
               icon: "account",
             });
           } else if (error.response.status == 403) {
             const notif = this.$buefy.toast.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("MustVerifyEmail"),
               type: "is-danger",
               hasIcon: true,
+              iconSize: "is-small",
               icon: "account",
             });
             this.$parent.close();
@@ -112,21 +115,24 @@ export default {
             });
           } else {
             const notif = this.$buefy.notification.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("ServerOffline"),
               position: "is-top-right",
               type: "is-danger",
               hasIcon: true,
+              iconSize: "is-small",
+              iconSize: "medium",
               icon: "account",
             });
           }
         } else {
           const notif = this.$buefy.notification.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("ServerOffline"),
             position: "is-top-right",
             type: "is-danger",
             hasIcon: true,
+            iconSize: "is-small",
             icon: "account",
           });
         }

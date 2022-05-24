@@ -278,11 +278,12 @@ export default {
       } catch (error) {
         console.log(error);
         const notif = this.$buefy.notification.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("SomeThingBadHappened"),
           position: "is-top-right",
           type: "is-danger",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "account",
         });
       }

@@ -329,22 +329,24 @@ export default {
         this.voiceURIs.length == 0
       ) {
         const notif = this.$buefy.notification.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("PleaseCompleteForm"),
           position: "is-top-right",
           type: "is-info",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "account",
         });
         return;
       }
       if (this.passwordConfirmation != this.password) {
         const notif = this.$buefy.notification.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("PasswordNotCorrespond"),
           position: "is-top-right",
           type: "is-warning",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "key",
         });
         return;
@@ -390,11 +392,12 @@ export default {
           this.maxStep = 3;
           this.activeStep = 3;
           const notif = this.$buefy.notification.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("AccountCreated"),
             position: "is-top-right",
             type: "is-success",
             hasIcon: true,
+            iconSize: "is-small",
           });
         }
         this.signupLoading = false;
@@ -402,41 +405,45 @@ export default {
         if (error.response) {
           if (error.response.status == 400 || error.response.status == 401) {
             const notif = this.$buefy.notification.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("ParametersInvalid"),
               position: "is-top-right",
               type: "is-danger",
               hasIcon: true,
+              iconSize: "is-small",
               icon: "account",
             });
           } else {
             if (error.response.status == 409) {
               const notif = this.$buefy.notification.open({
-                duration: 5000,
+                duration: 4500,
                 message: this.$t("EmailAlreadyInUse"),
                 position: "is-top-right",
                 type: "is-danger",
                 hasIcon: true,
+                iconSize: "is-small",
                 icon: "mail",
               });
             } else {
               const notif = this.$buefy.notification.open({
-                duration: 5000,
+                duration: 4500,
                 message: this.$t("ServerOffline"),
                 position: "is-top-right",
                 type: "is-danger",
                 hasIcon: true,
+                iconSize: "is-small",
                 icon: "account",
               });
             }
           }
         } else {
           const notif = this.$buefy.notification.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("ServerOffline"),
             position: "is-top-right",
             type: "is-danger",
             hasIcon: true,
+            iconSize: "is-small",
             icon: "account",
           });
         }
@@ -451,7 +458,7 @@ export default {
         if (res.status == 200) {
           this.verificationLoading = false;
           const notif = this.$buefy.notification.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("VerificationSuccess"),
             position: "is-top-right",
             type: "is-success",
@@ -480,11 +487,12 @@ export default {
         if (error.response) {
           if (error.response.status == 401) {
             const notif = this.$buefy.notification.open({
-              duration: 4000,
+              duration: 4500,
               message: this.$t("VerificationToken"),
               position: "is-top-right",
               type: "is-danger",
               hasIcon: true,
+              iconSize: "is-small",
               icon: "key",
             });
           }
@@ -499,22 +507,24 @@ export default {
         const res = await axios.post(validationUrl);
         if (res.status == 201) {
           const notif = this.$buefy.notification.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("VerificationMoreMailSuccess"),
             position: "is-top-right",
             type: "is-info",
             hasIcon: true,
+            iconSize: "is-small",
             icon: "email-check-outline",
           });
         }
         this.mailLoading = false;
       } catch (error) {
         const notif = this.$buefy.notification.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("VerificationMoreMailFail"),
           position: "is-top-right",
           type: "is-danger",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "email-remove-outline",
         });
         this.mailLoading = false;

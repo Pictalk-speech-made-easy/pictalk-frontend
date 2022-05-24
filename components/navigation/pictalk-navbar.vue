@@ -427,7 +427,7 @@ export default {
         } catch (error) {
           if (error?.response?.status == 401) {
             this.$buefy.toast.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("NotAuthorized"),
               position: "is-top",
               type: "is-danger",
@@ -435,7 +435,7 @@ export default {
           } else {
             console.log(error);
             this.$buefy.toast.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("CouldNotPaste"),
               position: "is-top",
               type: "is-danger",
@@ -476,14 +476,14 @@ export default {
         } catch (error) {
           if (error.response.status == 401) {
             this.$buefy.toast.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("NotAuthorized"),
               position: "is-top",
               type: "is-danger",
             });
           } else {
             this.$buefy.toast.open({
-              duration: 5000,
+              duration: 4500,
               message: this.$t("CouldNotPaste"),
               position: "is-top",
               type: "is-danger",
