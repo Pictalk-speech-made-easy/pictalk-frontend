@@ -192,7 +192,7 @@ export default {
       });
       this.$store.commit("resetCopyCollectionId");
     },
-    addToSpeech() {
+    async addToSpeech() {
       this.$store.commit("addSpeech", {
         ...this.picto,
         sidebar: this.sidebarMode,

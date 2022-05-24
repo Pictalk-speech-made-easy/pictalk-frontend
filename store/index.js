@@ -31,7 +31,7 @@ export const mutations = {
     state.sidebarId = null;
     state.temporaryLanguage = null;
   },
-  addSpeech(state, picto) {
+  async addSpeech(state, picto) {
     if (state.pictoSpeech.length && state.pictoSpeech[state.pictoSpeech.length - 1].id == picto.id && !picto.collection) {
       state.pictoSpeech[state.pictoSpeech.length - 1].count += 1;
     } else {
@@ -593,81 +593,79 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
     }
     collection.collection = true;
     collection.partial = false;
+    if (!existsCollection) {
+      vuexContext.commit("addCollection", collection);
+    }
+    if (!existsCollection && updateCollection) {
+      vuexContext.commit("editCollection", collection);
+    }
   }
-  if (!existsCollection) {
-    vuexContext.commit("addCollection", collection);
-  }
-  if (updateCollection) {
-    if (collection.pictos && !collection.pictos.length == 0) {
-      collection.pictos.map((picto) => {
-        let localPicto = getPictoFromId(vuexContext, picto.id);
-        let existsPicto = localPicto?.id == picto.id;
-        let updatePicto = (localPicto?.updatedDate != picto.updatedDate) && existsPicto;
-        if (!existsPicto || updatePicto) {
-          if (picto.image) {
-            picto.image =
-              axios.defaults.baseURL +
-              "/image/pictalk/" +
-              picto.image;
-          }
-          if (picto.meaning) {
-            picto.meaning = JSON.parse(picto.meaning);
-          }
-          if (picto.speech) {
-            picto.speech = JSON.parse(picto.speech);
-          }
-          picto.fatherCollectionId = collection.id;
 
+  if (collection.pictos && !collection.pictos.length == 0) {
+    collection.pictos.map((picto) => {
+      let localPicto = getPictoFromId(vuexContext, picto.id);
+      let existsPicto = localPicto?.id == picto.id;
+      let updatePicto = (localPicto?.updatedDate != picto.updatedDate) && existsPicto;
+      if (!existsPicto || updatePicto) {
+        if (picto.image) {
+          picto.image =
+            axios.defaults.baseURL +
+            "/image/pictalk/" +
+            picto.image;
         }
+        if (picto.meaning) {
+          picto.meaning = JSON.parse(picto.meaning);
+        }
+        if (picto.speech) {
+          picto.speech = JSON.parse(picto.speech);
+        }
+        picto.fatherCollectionId = collection.id;
         if (!existsPicto) {
           vuexContext.commit("addPicto", picto);
         }
         if (!existsPicto && updatePicto) {
           vuexContext.commit("editPicto", picto);
+        }
+      }
 
+    });
+  }
+  if (collection.collections && !collection.collections.length == 0) {
+    collection.collections.map((col) => {
+      let localCollection = getCollectionFromId(vuexContext, col.id);
+      let existsCollection = localCollection?.id == col.id;
+      let updateCollection = (localCollection?.updatedDate != col.updatedDate) && existsCollection;
+      if (!existsCollection || updateCollection) {
+        if (col.image) {
+          col.image =
+            axios.defaults.baseURL +
+            "/image/pictalk/" +
+            col.image;
         }
-      });
-    }
-    if (collection.collections && !collection.collections.length == 0) {
-      collection.collections.map((col) => {
-        let localCollection = getCollectionFromId(vuexContext, col.id);
-        let existsCollection = localCollection?.id == col.id;
-        let updateCollection = (localCollection?.updatedDate != col.updatedDate) && existsCollection;
-        if (!existsCollection || updateCollection) {
-          if (col.image) {
-            col.image =
-              axios.defaults.baseURL +
-              "/image/pictalk/" +
-              col.image;
-          }
-          if (col.meaning) {
-            col.meaning = JSON.parse(col.meaning);
-          }
-          if (col.speech) {
-            col.speech = JSON.parse(col.speech);
-          }
-          if (!col.pictos) {
-            col.pictos = [];
-          }
-          if (!col.collections) {
-            col.collections = [];
-          }
-          col.collection = true;
-          col.partial = true;
-          col.fatherCollectionId = collection.id;
+        if (col.meaning) {
+          col.meaning = JSON.parse(col.meaning);
         }
+        if (col.speech) {
+          col.speech = JSON.parse(col.speech);
+        }
+        if (!col.pictos) {
+          col.pictos = [];
+        }
+        if (!col.collections) {
+          col.collections = [];
+        }
+        col.collection = true;
+        col.partial = true;
+        col.fatherCollectionId = collection.id;
         if (!existsCollection) {
           vuexContext.commit("addCollection", col);
-
         }
         if (!existsCollection && updateCollection) {
           vuexContext.commit("editCollection", col);
         }
-      });
-    }
-    vuexContext.commit("editCollection", collection);
+      }
+    });
   }
-
   return collection;
 }
 
