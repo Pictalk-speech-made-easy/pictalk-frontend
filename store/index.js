@@ -45,19 +45,25 @@ export const mutations = {
   eraseSpeech(state) {
     state.pictoSpeech = [];
   },
-  addCollection(state, newCollection) {
-    state.collections.push(newCollection);
-    const fatherCollectionIndex = state.collections.findIndex(
-      collection => collection.id === newCollection.fatherCollectionId
-    );
-    if (fatherCollectionIndex !== -1) {
-      const collectionIndex = state.collections[fatherCollectionIndex].collections.findIndex(
+  addCollection(state, newCollections) {
+    if (!Array.isArray(newCollections)) {
+      newCollections = new Array(newCollections);
+    }
+    for (let newCollection of newCollections) {
+      state.collections.push(newCollection);
+      const fatherCollectionIndex = state.collections.findIndex(
         collection => collection.id === newCollection.fatherCollectionId
       );
-      if (collectionIndex == -1) {
-        state.collections[fatherCollectionIndex].collections.push(newCollection);
+      if (fatherCollectionIndex !== -1) {
+        const collectionIndex = state.collections[fatherCollectionIndex].collections.findIndex(
+          collection => collection.id === newCollection.fatherCollectionId
+        );
+        if (collectionIndex == -1) {
+          state.collections[fatherCollectionIndex].collections.push(newCollection);
+        }
       }
     }
+
   },
   removeCollection(state, removedCollection) {
     const collectionIndex = state.collections.findIndex(
@@ -65,36 +71,50 @@ export const mutations = {
     );
     state.collections.splice(collectionIndex, 1);
   },
-  editCollection(state, editedCollection) {
-    const collectionIndex = state.collections.findIndex(
-      collection => collection.id === editedCollection.id
-    );
-    Object.assign(state.collections[collectionIndex], editedCollection);
-    state.collections.push({});
-    state.collections.pop();
-  },
-  addPicto(state, picto) {
-    const collectionIndex = state.collections.findIndex(
-      collection => collection.id === picto.fatherCollectionId
-    );
-    if (collectionIndex !== -1) {
-      const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
-        pct => pct.id === picto.id
-      );
-      if (collectionIndex !== -1 && pictoIndex == -1) {
-        state.collections[collectionIndex].pictos.push(picto);
-      }
+  editCollection(state, editedCollections) {
+    if (!Array.isArray(editedCollections)) {
+      editedCollections = new Array(editedCollections);
     }
-    state.pictos.push(picto);
-
+    for (let editedCollection of editedCollections) {
+      const collectionIndex = state.collections.findIndex(
+        collection => collection.id === editedCollection.id
+      );
+      Object.assign(state.collections[collectionIndex], editedCollection);
+      state.collections.push({});
+      state.collections.pop();
+    }
   },
-  editPicto(state, editedPicto) {
-    const pictoIndex = state.pictos.findIndex(
-      picto => picto.id === editedPicto.id
-    );
-    Object.assign(state.pictos[pictoIndex], editedPicto);
-    state.collections.push({});
-    state.collections.pop();
+  addPicto(state, pictos) {
+    if (!Array.isArray(pictos)) {
+      pictos = new Array(pictos);
+    }
+    for (let picto of pictos) {
+      const collectionIndex = state.collections.findIndex(
+        collection => collection.id === picto.fatherCollectionId
+      );
+      if (collectionIndex !== -1) {
+        const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
+          pct => pct.id === picto.id
+        );
+        if (collectionIndex !== -1 && pictoIndex == -1) {
+          state.collections[collectionIndex].pictos.push(picto);
+        }
+      }
+      state.pictos.push(picto);
+    }
+  },
+  editPicto(state, editedPictos) {
+    if (!Array.isArray(editedPictos)) {
+      editedPictos = new Array(editedPictos);
+    }
+    for (let editedPicto of editedPictos) {
+      const pictoIndex = state.pictos.findIndex(
+        picto => picto.id === editedPicto.id
+      );
+      Object.assign(state.pictos[pictoIndex], editedPicto);
+      state.collections.push({});
+      state.collections.pop();
+    }
   },
   removePicto(state, { pictoId, fatherCollectionId }) {
     const collectionIndex = state.collections.findIndex(
@@ -575,6 +595,10 @@ export const getters = {
 };
 
 function parseAndUpdateEntireCollection(vuexContext, collection) {
+  let pictosToEdit = [];
+  let pictosTocreate = [];
+  let collectionsToEdit = [];
+  let collectionsToCreate = [];
   let localCollection = getCollectionFromId(vuexContext, collection.id);
   let existsCollection = localCollection?.id == collection.id;
   let updateCollection = (localCollection?.updatedDate != collection.updatedDate) && existsCollection;
@@ -594,10 +618,10 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
     collection.collection = true;
     collection.partial = false;
     if (!existsCollection) {
-      vuexContext.commit("addCollection", collection);
+      collectionsToCreate.push(collection);
     }
-    if (!existsCollection && updateCollection) {
-      vuexContext.commit("editCollection", collection);
+    if (updateCollection) {
+      collectionsToEdit.push(collection);
     }
   }
 
@@ -621,10 +645,10 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
         }
         picto.fatherCollectionId = collection.id;
         if (!existsPicto) {
-          vuexContext.commit("addPicto", picto);
+          pictosTocreate.push(picto);
         }
-        if (!existsPicto && updatePicto) {
-          vuexContext.commit("editPicto", picto);
+        if (updatePicto) {
+          pictosToEdit.push(picto);
         }
       }
 
@@ -658,13 +682,25 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
         col.partial = true;
         col.fatherCollectionId = collection.id;
         if (!existsCollection) {
-          vuexContext.commit("addCollection", col);
+          collectionsToCreate.push(col);
         }
-        if (!existsCollection && updateCollection) {
-          vuexContext.commit("editCollection", col);
+        if (updateCollection) {
+          collectionsToEdit.push(col);
         }
       }
     });
+  }
+  if (collectionsToCreate.length > 0) {
+    vuexContext.commit("addCollection", collectionsToCreate);
+  }
+  if (collectionsToEdit.length > 0) {
+    vuexContext.commit("editCollection", collectionsToEdit);
+  }
+  if (pictosTocreate.length > 0) {
+    vuexContext.commit("addPicto", pictosTocreate);
+  }
+  if (pictosToEdit.length > 0) {
+    vuexContext.commit("editPicto", pictosToEdit);
   }
   return collection;
 }
