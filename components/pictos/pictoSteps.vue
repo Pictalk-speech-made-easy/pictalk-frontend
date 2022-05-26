@@ -208,8 +208,8 @@
                 @click="
                   pronounce(
                     picto.speech[languageSelectorSpeech],
-                    getUserLang,
-                    voiceURI,
+                    languageSelectorSpeech,
+                    getVoiceURIFromLanguage(languageSelectorSpeech),
                     pitch,
                     rate
                   )
@@ -630,6 +630,15 @@ export default {
     this.languageSelectorSpeech = this.getUserLang;
   },
   methods: {
+    getVoiceURIFromLanguage(language) {
+      let voiceURI =
+        this.$store.getters.getUser.languages[language][this.getDeviceInfo()]
+          ?.voiceURI;
+      if (!voiceURI) {
+        voiceURI = this.voices.filter((voice) => voice.lang.includes(language));
+      }
+      return voiceURI;
+    },
     switchSpeechLanguage(language) {
       this.languageSelectorSpeech = language;
     },
