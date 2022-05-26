@@ -51,7 +51,7 @@
               ></b-input>
               <b-button
                 focused
-                type="is-success"
+                type="is-info"
                 icon-right="magnify"
                 :loading="loading"
                 @click="pictoExtractImg(pictoSearch)"
@@ -105,7 +105,7 @@
               rounded
               expanded
               v-if="!moreImages"
-              type="is-success is-light is-text"
+              type="is-info is-light is-text"
               icon-right="magnify"
               :focused="loading"
               :loading="loading"

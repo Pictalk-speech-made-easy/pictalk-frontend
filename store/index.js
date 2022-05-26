@@ -515,13 +515,24 @@ export const actions = {
     const index = editedCollection.pictos.findIndex((pict) => pict.id == pictoId);
     return editedCollection.pictos[index];
   },
-  async getPublicCollections(vuexContext) {
+  async getPublicCollections(vuexContext, publicSearch) {
+    let formData = new FormData();
+    formData.append("search", publicSearch?.search);
+    formData.append("page", publicSearch?.page);
+    formData.append("per_page", publicSearch?.per_page);
     const publicCollections = (await axios
-      .get("/collection/public")).data;
+      .get("/collection/public", formData)).data;
     publicCollections.map(collection => {
       parseAndUpdateEntireCollection(vuexContext, collection);
     });
     vuexContext.commit("setPublicCollections", publicCollections);
+  },
+  async publish(vuexContext, collection) {
+    let formData = new URLSearchParams();
+    formData.append('publish', collection.public ? 0 : 1);
+    const published = (await axios.put(`/collection/publish/${collection.id}`, formData)).data;
+    console.log(published);
+    parseAndUpdateEntireCollection(vuexContext, published);
   },
   async shareCollection(vuexContext, { collectionId, usernames, role, access }) {
     const params = new URLSearchParams();

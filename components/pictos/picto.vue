@@ -87,6 +87,19 @@
             @click="sharePicto()"
           />
         </b-dropdown-item>
+        <b-dropdown-item
+          v-if="picto.collection && this.$store.getters.getUser.admin"
+          aria-role="listitem"
+        >
+          <b-button
+            :expanded="true"
+            :loading="publishLoad"
+            :type="picto.public ? 'is-danger' : 'is-success'"
+            icon-left="web"
+            :label="picto.public ? $t('Unpublish') : $t('Publish')"
+            @click="publishPicto()"
+          />
+        </b-dropdown-item>
       </b-dropdown>
 
       <div class="column noMargin is-mobile" v-if="picto.starred == true">
@@ -128,6 +141,11 @@ export default {
   name: "picto",
   components: {
     PictoSteps,
+  },
+  data() {
+    return {
+      publishLoad: false,
+    };
   },
   props: {
     picto: {
@@ -248,6 +266,24 @@ export default {
         canCancel: ["escape", "x"],
       });
     },
+    async publishPicto() {
+      try {
+        this.publishLoad = true;
+        await this.$store.dispatch("publish", this.picto);
+        this.publishLoad = false;
+      } catch (error) {
+        console.log(error);
+        const notif = this.$buefy.notification.open({
+          duration: 4500,
+          message: this.$t("SomeThingBadHappened"),
+          position: "is-top-right",
+          type: "is-danger",
+          hasIcon: true,
+          iconSize: "is-small",
+          icon: "account",
+        });
+      }
+    },
     editPicto() {
       this.$buefy.modal.open({
         parent: this,
@@ -321,6 +357,7 @@ export default {
     isOnline() {
       return window.navigator.onLine;
     },
+    isAdmin() {},
   },
 };
 </script>

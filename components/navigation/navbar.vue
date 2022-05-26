@@ -20,14 +20,12 @@
             alt="A web app that help speach-disabled people"
           />
         </b-navbar-item>
-        <b-navbar-item class="searchSection">
+        <b-navbar-item
+          :style="this.$route.path.includes('public') ? 'display:none' : ''"
+        >
           <b-autocomplete
+            class="searchSection"
             v-model="search"
-            :data="
-              $store.getters.getPublicCollections.map(
-                (collections) => collections.meaning
-              )
-            "
             :placeholder="$t('SearchPictoPlaceholder')"
             clearable
           >
@@ -189,11 +187,11 @@ export default {
 <style scoped>
 .searchButton {
   height: 100%;
-  width: 100%;
 }
 .searchSection {
-  width: 10vw;
-  min-width: 80px;
+  width: 40vw;
+  min-width: 100px;
+  max-width: 220px;
 }
 .noPadding {
   padding: 0%;

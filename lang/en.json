@@ -16,6 +16,8 @@
   "CopyPicto": "copy",
   "LinkPicto": "create link",
   "SharePicto": "share",
+  "Unublish": "Unpublish",
+  "Publish": "Publish",
   "NotAuthorized": "You don't have the rights to edit this collection",
   "CouldNotPaste": "Couldn't paste inside this collection",
   "Home": "Home",
