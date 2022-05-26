@@ -396,7 +396,7 @@ export default {
       const languageLang = convertToSimpleLanguage(
         this.voices.filter((voice) => voice.voiceURI == this.voiceURI)[0]?.lang
       );
-      if (languageLang != "undefined") {
+      if (languageLang != undefined) {
         language[languageLang] = device;
         if (Object.keys(this.user.language)[0] == languageLang) {
           editedLanguage = Object.assign(
@@ -432,8 +432,12 @@ export default {
           {},
           JSON.parse(JSON.stringify(this.user.languages))
         );
+        if (editedLanguages?.undefined) {
+          delete editedLanguages.undefined;
+        }
         merge(editedLanguages, languages);
       }
+
       try {
         const res = await this.$store.dispatch("editUser", {
           username: this.user.username,

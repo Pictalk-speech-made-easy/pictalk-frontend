@@ -270,7 +270,7 @@ export default {
               }
             } else {
               this.$buefy.toast.open({
-                duration: 5000,
+                duration: 4500,
                 message: this.$t("UserNotExists"),
                 position: "is-top",
                 type: "is-danger",
@@ -285,7 +285,7 @@ export default {
           this.loading = false;
         } else {
           this.$buefy.toast.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("NotShareYourself"),
             position: "is-top",
             type: "is-danger",
@@ -293,7 +293,7 @@ export default {
         }
       } else {
         this.$buefy.toast.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("EmailPlease"),
           position: "is-top",
           type: "is-danger",

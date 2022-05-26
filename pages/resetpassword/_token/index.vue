@@ -39,10 +39,11 @@ export default {
     async onSubmit(password) {
       if (password == "") {
         const notif = this.$buefy.toast.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("PasswordEmpty"),
           type: "is-info",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "account",
         });
         return;
@@ -56,28 +57,31 @@ export default {
         );
         if (res.status == 201) {
           const notif = this.$buefy.toast.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("ChangePasswordSuccess"),
             type: "is-success",
             hasIcon: true,
+            iconSize: "is-small",
           });
           this.$router.push("/");
         } else {
           const notif = this.$buefy.toast.open({
-            duration: 5000,
+            duration: 4500,
             message: this.$t("SomeThingBadHappened"),
             type: "is-danger",
             hasIcon: true,
+            iconSize: "is-small",
             icon: "account",
           });
         }
       } catch (error) {
         console.log("error: ", error);
         const notif = this.$buefy.toast.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("SomeThingBadHappened"),
           type: "is-danger",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "account",
         });
       }
