@@ -304,8 +304,10 @@ export default {
                 notification.meaning = JSON.parse(notification?.meaning);
               }
             });
+            return notifications;
+          } else {
+            return [];
           }
-          return notifications;
         } catch (err) {
           console.log(err);
           clearInterval(this.intervalId);
