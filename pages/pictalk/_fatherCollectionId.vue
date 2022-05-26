@@ -109,6 +109,11 @@
         :collectionColor="collectionColor"
       />
     </div>
+    <b-loading
+      :is-full-page="true"
+      v-model="loading"
+      :can-cancel="true"
+    ></b-loading>
   </div>
 </template>
 <script>
@@ -289,6 +294,7 @@ export default {
       sidebarExpanded: false,
       sidebarPictos: [],
       pictos: [],
+      loading: false,
     };
   },
   methods: {
@@ -367,11 +373,12 @@ export default {
     },
     lostConnectivityNotification() {
       const notif = this.$buefy.notification.open({
-        duration: 5000,
+        duration: 4500,
         message: this.$t("LostConnectivity"),
         position: "is-top-right",
         type: "is-danger",
         hasIcon: true,
+        iconSize: "is-small",
         icon: "airplane",
       });
     },
@@ -467,26 +474,31 @@ export default {
     },
     async refreshPictos() {
       try {
+        this.loading = true;
         await this.$store.dispatch("downloadCollections");
         this.pictos = this.loadedPictos();
         this.sidebarPictos = this.loadedSidebarPictos();
+        this.loading = false;
+
         //TODO : refresh pictoList so that it displays new pictos and maybe count number of eddited and added in notification
         const notif = this.$buefy.notification.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("PictosFetched"),
           position: "is-top-right",
           type: "is-success",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "refresh",
         });
       } catch (err) {
         console.log(err);
         const notif = this.$buefy.notification.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("ServerOffline"),
           position: "is-top-right",
           type: "is-danger",
           hasIcon: true,
+          iconSize: "is-small",
           icon: "close-octagon",
         });
       }

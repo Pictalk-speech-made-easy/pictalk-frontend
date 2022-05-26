@@ -37,3 +37,14 @@ html {
   padding: 0.2rem;
   border-width: 1px;
 }
+
+.is-top-right {
+  padding: 1rem;
+  padding-right: 2rem;
+}
+
+.is-top {
+  margin-top: 44px;
+  padding: 1rem;
+  padding-right: 2rem;
+}

@@ -118,7 +118,7 @@ export default {
       } catch (err) {
         console.log(err);
         const notif = this.$buefy.toast.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("TraductionError"),
           type: "is-danger",
         });
@@ -155,11 +155,12 @@ export default {
         window.speechSynthesis.speak(msg);
       } else {
         const notif = this.$buefy.notification.open({
-          duration: 5000,
+          duration: 4500,
           message: this.$t("NoVoicesFound"),
           position: "is-top-right",
           type: "is-warning",
           hasIcon: true,
+          iconSize: "is-small",
         });
       }
     },
