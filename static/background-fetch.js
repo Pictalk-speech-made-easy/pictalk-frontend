@@ -75,12 +75,9 @@ async function checkMissingPictos(self, token) {
 
 async function fetchFromList() {
   let toFetchPictos = [];
-  console.log(pictogramList);
   for (let i = 0; i < 10; i++) {
     toFetchPictos.push(pictogramList.pop());
   }
-  console.log(pictogramList);
-  console.log(toFetchPictos);
   caches.open("pictos").then(async (cache) => {
     try {
       if (navigator.onLine) {
