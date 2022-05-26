@@ -482,7 +482,7 @@ export const actions = {
   },
   async downloadCollections(vuexContext) {
     const res = await axios.get("/collection");
-    res.data.map(collection => parseAndUpdateEntireCollection(vuexContext, collection)
+    res.data.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true)
     );
   },
   async copyCollectionById(vuexContext, { collectionId, fatherCollectionId }) {
@@ -594,7 +594,7 @@ export const getters = {
   }
 };
 
-function parseAndUpdateEntireCollection(vuexContext, collection) {
+function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = false) {
   let pictosToEdit = [];
   let pictosTocreate = [];
   let collectionsToEdit = [];
@@ -602,7 +602,8 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
   let localCollection = getCollectionFromId(vuexContext, collection.id);
   let existsCollection = localCollection?.id == collection.id;
   let updateCollection = (localCollection?.updatedDate != collection.updatedDate) && existsCollection;
-  if (!existsCollection || updateCollection) {
+  const partialCollection = localCollection?.partial;
+  if (!existsCollection || updateCollection || partialCollection) {
     if (collection.image) {
       collection.image =
         axios.defaults.baseURL +
@@ -616,11 +617,13 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
       collection.speech = JSON.parse(collection.speech);
     }
     collection.collection = true;
+
     collection.partial = false;
+
     if (!existsCollection) {
       collectionsToCreate.push(collection);
     }
-    if (updateCollection) {
+    if (updateCollection || partialCollection) {
       collectionsToEdit.push(collection);
     }
   }
@@ -659,7 +662,8 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
       let localCollection = getCollectionFromId(vuexContext, col.id);
       let existsCollection = localCollection?.id == col.id;
       let updateCollection = (localCollection?.updatedDate != col.updatedDate) && existsCollection;
-      if (!existsCollection || updateCollection) {
+      const partialCollection = localCollection?.partial;
+      if (!existsCollection || updateCollection || partialCollection) {
         if (col.image) {
           col.image =
             axios.defaults.baseURL +
@@ -679,12 +683,14 @@ function parseAndUpdateEntireCollection(vuexContext, collection) {
           col.collections = [];
         }
         col.collection = true;
+
         col.partial = true;
+
         col.fatherCollectionId = collection.id;
         if (!existsCollection) {
           collectionsToCreate.push(col);
         }
-        if (updateCollection) {
+        if (updateCollection || partialCollection) {
           collectionsToEdit.push(col);
         }
       }

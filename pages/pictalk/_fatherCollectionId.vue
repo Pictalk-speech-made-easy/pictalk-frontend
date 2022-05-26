@@ -33,7 +33,7 @@
           :pictos="pictos"
           :sidebar="false"
           :sidebarUsed="isSidebarUsed"
-          v-if="!isPictoListPartial || isOnLine"
+          v-if="!isPictoListPartial || isOnLine || !isPictoListEmpty"
         />
         <div v-else>
           <b-image
@@ -86,7 +86,7 @@
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"
-          v-if="!isSidebarPartial || isOnLine"
+          v-if="!isSidebarPartial || isOnLine || !isSidebarEmpty"
         />
         <div v-else>
           <b-image
@@ -158,12 +158,33 @@ export default {
       );
       return this.$store.getters.getCollections[index]?.partial;
     },
+    isSidebarEmpty() {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) =>
+          collection.id === parseInt(this.$route.query.sidebarPictoId, 10)
+      );
+      return (
+        this.$store.getters.getCollections[index]?.pictos.length == 0 &&
+        this.$store.getters.getCollections[index]?.collections.length == 0
+      );
+    },
     isPictoListPartial() {
       const index = this.$store.getters.getCollections.findIndex(
         (collection) =>
           collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
       );
       return this.$store.getters.getCollections[index]?.partial;
+    },
+    isPictoListEmpty() {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) =>
+          collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+      console.log();
+      return (
+        this.$store.getters.getCollections[index]?.pictos.length == 0 &&
+        this.$store.getters.getCollections[index]?.collections.length == 0
+      );
     },
     fitScreen() {
       return window.innerHeight - 64;
