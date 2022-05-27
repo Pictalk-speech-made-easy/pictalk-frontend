@@ -139,11 +139,6 @@ export default {
     window.addEventListener("resize", this.fitsBigger);
   },
   computed: {
-    getFilteredPictoList() {
-      return this.pictos.filter((picto) =>
-        picto.meaning[this.getUserLang]?.includes(this.search)
-      );
-    },
     pictalkHome() {
       if (this.$store.getters.getRootId) {
         return "/pictalk/" + this.$store.getters.getRootId;
