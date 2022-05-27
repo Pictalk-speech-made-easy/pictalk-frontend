@@ -522,10 +522,9 @@ export const actions = {
     formData.append("per_page", publicSearch?.per_page);
     const publicCollections = (await axios
       .get("/collection/public", formData)).data;
-    publicCollections.map(collection => {
-      parseAndUpdateEntireCollection(vuexContext, collection);
-    });
-    vuexContext.commit("setPublicCollections", publicCollections);
+    return publicCollections.map(collection =>
+      parseAndUpdateEntireCollection(vuexContext, collection)
+    );
   },
   async publish(vuexContext, collection) {
     let formData = new URLSearchParams();
@@ -561,7 +560,7 @@ export const actions = {
       }
     })).data;
     return images;
-  }
+  },
 }
 export const getters = {
   getCollections(state) {

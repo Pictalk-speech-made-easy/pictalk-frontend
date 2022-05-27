@@ -24,18 +24,31 @@
           :style="this.$route.path.includes('public') ? 'display:none' : ''"
         >
           <b-autocomplete
+            :data="filteredPublicPictos"
             class="searchSection"
             v-model="search"
             :placeholder="$t('SearchPictoPlaceholder')"
+            icon="magnify"
             clearable
+            :loading="isFetching"
+            @typing="searchPictos"
+            @select="(option) => (selected = option)"
           >
+            <template #empty>No results found</template>
+            <template slot-scope="props">
+              <div class="media">
+                <div class="media-left">
+                  <img
+                    width="32"
+                    :src="`${$config.apiURL}/image/pictalk/${props.option.image}`"
+                  />
+                </div>
+                <div class="media-content">
+                  {{ JSON.parse(props.option.meaning)[getUserLang] }}
+                </div>
+              </div>
+            </template>
           </b-autocomplete>
-          <b-button
-            class="searchButton"
-            type="is-info"
-            @click="SearchPicto()"
-            icon-right="magnify"
-          />
         </b-navbar-item>
       </template>
       <template slot="start">
@@ -120,11 +133,19 @@ import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
 export default {
   mixins: [lang, emoji, navbar, enforcedSecurity],
+  watch: {
+    selected: function (value) {
+      this.$router.push(`/public/${value.id}`);
+    },
+  },
   data() {
     return {
       trueValue: true,
       search: "",
       fits: false,
+      filteredPublicPictos: [],
+      isFetching: false,
+      selected: null,
     };
   },
   components: {
@@ -159,6 +180,19 @@ export default {
     },
   },
   methods: {
+    async searchPictos() {
+      this.isFetching = true;
+      this.filteredPublicPictos = await this.$store.dispatch(
+        "getPublicCollections",
+        {
+          search: this.search,
+          page: 1,
+          per_page: 5,
+        }
+      );
+      console.log(this.filteredPublicPictos);
+      this.isFetching = false;
+    },
     fitsBigger() {
       this.fits = window.innerWidth > 767;
     },
