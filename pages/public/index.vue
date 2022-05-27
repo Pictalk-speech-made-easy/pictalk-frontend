@@ -17,7 +17,12 @@
       />
     </b-field>
     <div class="container publicPictos is-widescreen">
-      <pictoList class="publicList" :pictos="loadedPictos" :publicMode="true" />
+      <pictoList
+        class="publicList"
+        :pictos="loadedPictos"
+        :publicMode="true"
+        :sidebar="false"
+      />
     </div>
   </div>
 </template>
@@ -56,6 +61,7 @@ export default {
       return this.$store.getters.getUser.username == !undefined;
     },
     loadedPictos() {
+      console.log(this.$store.getters.getPublicCollections);
       return this.$store.getters.getPublicCollections;
     },
     loadSpeech() {
