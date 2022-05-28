@@ -88,17 +88,11 @@ export default {
     ) {
       try {
         if (!this.$route.params.fatherCollectionId) {
-          if (this.$store.getters.getRootId) {
-            this.$router.push({
-              path: "/pictalk/" + this.$store.getters.getRootId,
-              query: { ...this.$route.query },
-            });
-            return;
-          } else {
-            var res = await axios.get("/user/root/");
-            this.$store.commit("setRootId", res.data.id);
-            this.$router.push(this.$route.path + "/" + res.data.id);
-          }
+          this.$router.push({
+            path: "/public",
+            query: { ...this.$route.query },
+          });
+          return;
         } else {
           var res = await axios.get(
             "/collection/find/" + this.$route.params.fatherCollectionId
@@ -175,14 +169,6 @@ export default {
             JSON.parse(JSON.stringify(res.data))
           );
         }
-      } catch (error) {
-        console.log("error ", error);
-      }
-    }
-    const user = this.$store.getters.getUser;
-    if (!user.username) {
-      try {
-        await this.$store.dispatch("getUser");
       } catch (error) {
         console.log("error ", error);
       }
