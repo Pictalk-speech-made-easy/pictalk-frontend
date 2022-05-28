@@ -630,7 +630,11 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
     }
     collection.collection = true;
 
-    collection.partial = false;
+    if (collection.collections && collection.pictos) {
+      collection.partial = false;
+    } else {
+      collection.partial = true;
+    }
 
     if (!existsCollection) {
       collectionsToCreate.push(collection);

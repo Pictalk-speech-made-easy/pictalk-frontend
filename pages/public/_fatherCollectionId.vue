@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container is-widescreen">
-      <pictoList :publicMode="true" :pictos="loadedPictos" :sidebar="false" />
+      <pictoList :publicMode="true" :pictos="pictos" :sidebar="false" />
     </div>
     <div class="contenant">
       <pictoBar
@@ -30,35 +30,6 @@ export default {
     loadSpeech() {
       return this.$store.getters.getSpeech;
     },
-    loadedPictos() {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) =>
-          collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-      const collection = this.$store.getters.getCollections[index];
-      if (collection) {
-        const collectionList = collection.collections.map((col) => {
-          return this.getCollectionFromId(col.id);
-        });
-        const pictos = collection.pictos.map((pict) => {
-          return this.getPictoFromId(pict.id);
-        });
-        if (pictos && collectionList) {
-          let rankedPictos = [];
-          collectionList.concat(pictos).forEach((picto) => {
-            if (picto && picto.starred == true) {
-              rankedPictos.unshift(picto);
-            } else {
-              rankedPictos.push(picto);
-            }
-          });
-          return rankedPictos;
-        } else {
-          return [];
-        }
-      }
-      return [];
-    },
     collectionColor() {
       const collection = this.getCollectionFromId(
         parseInt(this.$route.params.fatherCollectionId, 10)
@@ -75,28 +46,38 @@ export default {
     },
   },
   async fetch() {
-    const collection = this.getCollectionFromId(
-      parseInt(this.$route.params.fatherCollectionId, 10)
-    );
-    // TODO Traiter differement !collection et !collection.pictos || !collection.collections
-    if (
-      !collection ||
-      !collection.pictos ||
-      collection.pictos.length == 0 ||
-      !collection.collections ||
-      collection.collections.length == 0
-    ) {
-      try {
-        if (!this.$route.params.fatherCollectionId) {
-          this.$router.push({
-            path: "/public",
-            query: { ...this.$route.query },
-          });
-          return;
-        } else {
-          var res = await axios.get(
-            "/collection/find/" + this.$route.params.fatherCollectionId
-          );
+    if (this.$route.params.fatherCollectionId) {
+      await this.fetchCollection(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+    }
+    this.pictos = this.loadedPictos();
+  },
+  data() {
+    return {
+      isPicto: true,
+      pictos: [],
+    };
+  },
+  methods: {
+    sorting(collections, pictos) {
+      let unsortedItems = collections.concat(pictos);
+      let sortedItems = unsortedItems.sort(function (itemA, itemB) {
+        return new Date(itemB.createdDate) - new Date(itemA.createdDate);
+      });
+      return sortedItems;
+    },
+    async fetchCollection(collectionId) {
+      const collection = this.getCollectionFromId(collectionId);
+      // TODO Traiter differement !collection et !collection.pictos || !collection.collections
+      if (
+        (!collection ||
+          (!collection.pictos && !collection.collections) ||
+          collection?.partial) &&
+        navigator.onLine
+      ) {
+        try {
+          var res = await axios.get("/collection/find/" + collectionId);
           if (res.data.image) {
             res.data.image =
               this.$config.apiURL + "/image/pictalk/" + res.data.image;
@@ -108,78 +89,111 @@ export default {
             res.data.speech = JSON.parse(res.data.speech);
           }
           res.data.collection = true;
-        }
-        if (res.data.collections && !res.data.collections.length == 0) {
-          res.data.collections.map((collection) => {
-            if (collection.image) {
-              collection.image =
-                this.$config.apiURL + "/image/pictalk/" + collection.image;
-            }
-            if (collection.meaning) {
-              collection.meaning = JSON.parse(collection.meaning);
-            }
-            if (collection.speech) {
-              collection.speech = JSON.parse(collection.speech);
-            }
-            collection.collection = true;
-            collection.fatherCollectionId = res.data.id;
-            if (!collection.pictos) {
-              collection.pictos = [];
-            }
-            if (!collection.collections) {
-              collection.collections = [];
-            }
-            // collectionIndex
-            if (!this.getCollectionFromId(collection.id)) {
-              this.$store.commit("addCollection", collection);
-            } else {
-              this.$store.commit("editCollection", collection);
-            }
-          });
-        }
-        if (res.data.pictos && !res.data.pictos.length == 0) {
-          res.data.pictos.map((picto) => {
-            if (picto.image) {
-              picto.image =
-                this.$config.apiURL + "/image/pictalk/" + picto.image;
-            }
-            if (picto.meaning) {
-              picto.meaning = JSON.parse(picto.meaning);
-            }
-            if (picto.speech) {
-              picto.speech = JSON.parse(picto.speech);
-            }
-            picto.fatherCollectionId = res.data.id;
-            if (!this.getCollectionFromId(picto.id)) {
-              this.$store.commit("addPicto", picto);
-            } else {
-              this.$store.commit("editPicto", picto);
-            }
-          });
-        }
 
-        if (!this.getCollectionFromId(res.data.id)) {
-          this.$store.commit(
-            "addCollection",
-            JSON.parse(JSON.stringify(res.data))
-          );
-        } else {
-          await this.$store.commit(
-            "editCollection",
-            JSON.parse(JSON.stringify(res.data))
-          );
+          res.data.partial = false;
+
+          if (res.data.collections && !res.data.collections.length == 0) {
+            res.data.collections.map((collection) => {
+              if (collection.image) {
+                collection.image =
+                  this.$config.apiURL + "/image/pictalk/" + collection.image;
+              }
+              if (collection.meaning) {
+                collection.meaning = JSON.parse(collection.meaning);
+              }
+              if (collection.speech) {
+                collection.speech = JSON.parse(collection.speech);
+              }
+              collection.collection = true;
+              collection.fatherCollectionId = res.data.id;
+              if (!collection.pictos) {
+                collection.pictos = [];
+              }
+              if (!collection.collections) {
+                collection.collections = [];
+              }
+              collection.partial = true;
+              // collectionIndex
+              if (!this.getCollectionFromId(collection.id)) {
+                this.$store.commit("addCollection", collection);
+              } else {
+                this.$store.commit("editCollection", collection);
+              }
+            });
+          }
+          if (res.data.pictos && !res.data.pictos.length == 0) {
+            res.data.pictos.map((picto) => {
+              if (picto.image) {
+                picto.image =
+                  this.$config.apiURL + "/image/pictalk/" + picto.image;
+              }
+              if (picto.meaning) {
+                picto.meaning = JSON.parse(picto.meaning);
+              }
+              if (picto.speech) {
+                picto.speech = JSON.parse(picto.speech);
+              }
+              picto.fatherCollectionId = res.data.id;
+              if (!this.getPictoFromId(picto.id)) {
+                this.$store.commit("addPicto", picto);
+              } else {
+                this.$store.commit("editPicto", picto);
+              }
+            });
+          }
+
+          if (!this.getCollectionFromId(res.data.id)) {
+            this.$store.commit(
+              "addCollection",
+              JSON.parse(JSON.stringify(res.data))
+            );
+          } else {
+            await this.$store.commit(
+              "editCollection",
+              JSON.parse(JSON.stringify(res.data))
+            );
+          }
+        } catch (error) {
+          console.log("error ", error);
         }
-      } catch (error) {
-        console.log("error ", error);
       }
-    }
-  },
-  data() {
-    return {
-      isPicto: true,
-    };
-  },
-  methods: {
+    },
+    loadedPictos() {
+      return this.loadPictos(
+        parseInt(this.$route.params.fatherCollectionId, 10)
+      );
+    },
+    loadPictos(fatherCollectionId) {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) => collection.id === fatherCollectionId
+      );
+      const collection = this.$store.getters.getCollections[index];
+      if (collection) {
+        const collectionList = collection.collections.map((col) => {
+          return this.getCollectionFromId(col.id);
+        });
+        const pictos = collection.pictos.map((pict) => {
+          return this.getPictoFromId(pict.id);
+        });
+        if (pictos && collectionList) {
+          let sortedItems = [];
+          let starredItems = [];
+          let unstarredItems = [];
+          sortedItems = this.sorting(collectionList, pictos);
+          for (let item of sortedItems) {
+            if (item.starred) {
+              starredItems.push(item);
+            } else {
+              unstarredItems.push(item);
+            }
+          }
+          return starredItems.concat(unstarredItems);
+        } else {
+          return [];
+        }
+      }
+      return [];
+    },
     removeSpeech() {
       this.$store.commit("removeSpeech");
     },
