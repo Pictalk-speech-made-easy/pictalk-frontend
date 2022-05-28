@@ -75,7 +75,14 @@ export default {
       return this.$store.getters.getUser.username == !undefined;
     },
     loadedPictos() {
-      return this.$store.getters.getPublicCollections.concat(this.pictos);
+      return this.$store.getters.getPublicCollections
+        .map((id) => {
+          const index = this.$store.getters.getCollections.findIndex(
+            (collection) => collection.id === id
+          );
+          return this.$store.getters.getCollections[index];
+        })
+        .concat(this.pictos);
     },
     loadSpeech() {
       return this.$store.getters.getSpeech;
