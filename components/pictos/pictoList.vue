@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     getFilteredPictoList() {
-      return this.pictos.filter((picto) => picto.meaning[this.getUserLang]);
+      return this.pictos.filter((picto) => picto?.meaning[this.getUserLang]);
     },
   },
 };
