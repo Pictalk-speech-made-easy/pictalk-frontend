@@ -718,7 +718,12 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
   if (pictosToEdit.length > 0) {
     vuexContext.commit("editPicto", pictosToEdit);
   }
-  return collection;
+  console.log(collection);
+  if (!(!existsCollection || updateCollection || partialCollection)) {
+    return localCollection;
+  } else {
+    return collection;
+  }
 }
 
 function parseAndUpdatePictogram(vuexContext, picto) {
