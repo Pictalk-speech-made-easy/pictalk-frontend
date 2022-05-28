@@ -1,14 +1,14 @@
 <template>
   <div>
     <b-field class="searchBar">
-      <b-autocomplete
+      <b-input
         v-model="search"
         :placeholder="$t('SearchPictoPlaceholder')"
         clearable
         expanded
         style="min-width: 70vw"
       >
-      </b-autocomplete>
+      </b-input>
       <b-button
         class="searchButton"
         type="is-info"
@@ -36,33 +36,55 @@ export default {
     pictoList: pictoList,
     pictoBar: pictoBar,
   },
+  watch: {
+    querySearchParameter: function (value) {
+      this.search = value;
+    },
+    search: function (value) {
+      this.$router.push({ query: { ...this.$route.query, search: value } });
+    },
+  },
   created() {
     this.$store.commit("eraseSpeech");
+  },
+  mounted() {
+    this.search = this.querySearchParameter;
   },
   data() {
     return {
       search: "",
       page: 1,
       per_page: 15,
+      pictos: [],
     };
   },
   methods: {
-    searchPicto() {
-      let publicSearch = {
+    async searchPicto() {
+      this.pictos = await this.$store.dispatch("getPublicCollections", {
         search: this.search,
         page: this.search,
         per_page: this.per_page,
-      };
-      this.$store.dispatch("getPublicCollections", publicSearch);
+      });
     },
   },
   computed: {
+    querySearchParameter() {
+      return this.$route.query.search;
+    },
     isLogged() {
       return this.$store.getters.getUser.username == !undefined;
     },
     loadedPictos() {
-      console.log(this.$store.getters.getPublicCollections);
-      return this.$store.getters.getPublicCollections;
+      if (!this.search) {
+        return this.$store.getters.getPublicCollections.map((id) => {
+          const index = this.$store.getters.getCollections.findIndex(
+            (collection) => collection.id === id
+          );
+          return this.$store.getters.getCollections[index];
+        });
+      } else {
+        return this.pictos;
+      }
     },
     loadSpeech() {
       return this.$store.getters.getSpeech;
