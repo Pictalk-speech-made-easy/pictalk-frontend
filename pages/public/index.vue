@@ -10,19 +10,32 @@
       >
       </b-input>
       <b-button
-        class="searchButton"
         type="is-info"
-        @click="searchPicto()"
+        @click="searchFirst()"
         icon-right="magnify"
+        :loading="loading"
       />
     </b-field>
-    <div class="container publicPictos is-widescreen">
-      <pictoList
-        class="publicList"
-        :pictos="loadedPictos"
-        :publicMode="true"
-        :sidebar="false"
-      />
+
+    <pictoList
+      class="publicList"
+      :pictos="pictos"
+      :publicMode="true"
+      :sidebar="false"
+      :sidebarUsed="false"
+    />
+    <div class="searchBottom">
+      <b-button
+        v-if="more"
+        class="searchButton"
+        type="is-info is-light is-text"
+        @click="searchMore()"
+        icon-right="magnify"
+        rounded
+        :loading="loading"
+      >
+        {{ $t("MoreItems") }}
+      </b-button>
     </div>
   </div>
 </template>
@@ -49,22 +62,43 @@ export default {
   },
   mounted() {
     this.search = this.querySearchParameter;
+    this.per_page =
+      window.innerWidth > 767 ? (window.innerWidth > 1407 ? 48 : 30) : 15;
   },
   data() {
     return {
       search: "",
       page: 1,
       per_page: 15,
+      loading: false,
+      more: false,
       pictos: [],
+      per_page_options: [15, 30, 50],
     };
   },
   methods: {
-    async searchPicto() {
-      this.pictos = await this.$store.dispatch("getPublicCollections", {
-        search: this.search,
-        page: this.search,
+    async searchPublic() {
+      this.loading = true;
+      const requested = await this.$store.dispatch("getPublicCollections", {
+        search: this.search ? this.search : "",
+        page: this.page,
         per_page: this.per_page,
       });
+      if (requested.length >= this.per_page) {
+        this.more = true;
+      } else {
+        this.more = false;
+      }
+      this.loading = false;
+      return requested;
+    },
+    async searchMore() {
+      this.page = this.page + 1;
+      this.pictos = this.pictos.concat(await this.searchPublic());
+    },
+    async searchFirst() {
+      this.page = 1;
+      this.pictos = await this.searchPublic();
     },
   },
   computed: {
@@ -113,22 +147,27 @@ export default {
 <style scoped>
 .searchBar {
   width: 80vw;
-  max-width: 768px;
   display: flex;
   margin-right: auto;
   margin-left: auto;
 }
-.publicPictos {
-  margin-left: 1vw;
-  margin-right: 1vw;
-  border: solid;
-  border-radius: 4px;
-  border-width: 2px;
-  border-color: #4c43294f;
-}
 .publicList {
-  margin-top: 1vh;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  margin: 20px;
+}
+.searchBottom {
+  width: 100vw;
+  position: fixed;
+  bottom: 2vh;
+}
+.searchButton {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid;
+  border-width: 1px;
+  border-color: #3e8ed0;
+  width: 30vw;
+  min-width: 200px;
+  max-width: 450px;
 }
 </style>
