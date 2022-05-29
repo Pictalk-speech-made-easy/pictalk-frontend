@@ -98,7 +98,6 @@ export default {
               icon: "account",
             });
             this.$parent.close();
-
             this.$buefy.modal.open({
               parent: this,
               component: signup,
@@ -114,6 +113,7 @@ export default {
               trapFocus: true,
             });
           } else {
+            console.log(error);
             const notif = this.$buefy.notification.open({
               duration: 4500,
               message: this.$t("ServerOffline"),
@@ -126,6 +126,7 @@ export default {
             });
           }
         } else {
+          console.log(error);
           const notif = this.$buefy.notification.open({
             duration: 4500,
             message: this.$t("ServerOffline"),
