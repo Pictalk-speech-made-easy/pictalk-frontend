@@ -205,7 +205,6 @@
                     >
                       {{ username }}
                     </div>
-                    ...
                   </div>
                 </div>
                 <div class="columns is-mobile is-centered">
