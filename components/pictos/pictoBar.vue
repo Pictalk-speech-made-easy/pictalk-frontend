@@ -104,7 +104,6 @@ export default {
       try {
         await this.$copyText(message);
         const notif = this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("CopySucces"),
           type: "is-success",
           hasIcon: true,
@@ -112,7 +111,6 @@ export default {
         });
       } catch (e) {
         const notif = this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("CopyError"),
           type: "is-danger",
           hasIcon: true,
@@ -141,7 +139,6 @@ export default {
         const data = [new ClipboardItem({ [blob.type]: blob })];
         await navigator.clipboard.write(data);
         const notif = this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("CopySucces"),
           type: "is-success",
         });
@@ -149,7 +146,6 @@ export default {
         console.log(e);
         await this.$copsyText(b64);
         const notif = this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("CopyError"),
           type: "is-danger",
         });

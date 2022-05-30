@@ -69,7 +69,6 @@ export default {
             },
           });
           const notif = this.$buefy.toast.open({
-            duration: 4500,
             message: this.$t("Welcome"),
 
             type: "is-info",
@@ -81,7 +80,6 @@ export default {
         if (error.response) {
           if (error.response.status == 400 || error.response.status == 401) {
             const notif = this.$buefy.toast.open({
-              duration: 4500,
               message: this.$t("WrongCredentials"),
               type: "is-danger",
               hasIcon: true,
@@ -90,7 +88,6 @@ export default {
             });
           } else if (error.response.status == 403) {
             const notif = this.$buefy.toast.open({
-              duration: 4500,
               message: this.$t("MustVerifyEmail"),
               type: "is-danger",
               hasIcon: true,

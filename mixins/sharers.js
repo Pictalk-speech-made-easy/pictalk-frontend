@@ -18,7 +18,6 @@ export default {
             });
           } else {
             this.$buefy.toast.open({
-              duration: 4500,
               message: this.$t("NotFriendYourself"),
               position: "is-top",
               type: "is-danger",
@@ -26,7 +25,6 @@ export default {
           }
         } else {
           this.$buefy.toast.open({
-            duration: 4500,
             message: this.$t("EmailPlease"),
             position: "is-top",
             type: "is-danger",
@@ -34,7 +32,6 @@ export default {
         }
       } else {
         this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("DuplicateFriends"),
           position: "is-top",
           type: "is-danger",
@@ -48,7 +45,6 @@ export default {
         this.directSharersObj.splice(index);
       } else {
         this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("CannotRemoveFriends"),
           position: "is-top",
           type: "is-danger",

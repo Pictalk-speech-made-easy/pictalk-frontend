@@ -12,7 +12,6 @@ export default {
             this.group.users.push(this.addUser);
           } else {
             this.$buefy.toast.open({
-              duration: 4500,
               message: this.$t("NotShareYourself"),
               position: "is-top",
               type: "is-danger",
@@ -20,7 +19,6 @@ export default {
           }
         } else {
           this.$buefy.toast.open({
-            duration: 4500,
             message: this.$t("EmailPlease"),
             position: "is-top",
             type: "is-danger",
@@ -28,7 +26,6 @@ export default {
         }
       } else {
         this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("DuplicateGroupUser"),
           position: "is-top",
           type: "is-danger",
@@ -42,7 +39,6 @@ export default {
           this.group.users.splice(index);
         } else {
           this.$buefy.toast.open({
-            duration: 4500,
             message: this.$t("CannotRemoveGroupUser"),
             position: "is-top",
             type: "is-danger",

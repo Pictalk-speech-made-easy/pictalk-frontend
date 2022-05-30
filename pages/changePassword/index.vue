@@ -39,7 +39,6 @@ export default {
     async onSubmit(username) {
       if (username == "") {
         const notif = this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("EmailPlease"),
           type: "is-info",
           hasIcon: true,
@@ -54,7 +53,6 @@ export default {
         });
         if (res.status == 201) {
           const notif = this.$buefy.toast.open({
-            duration: 4500,
             message: this.$t("ChangePasswordDemand"),
             type: "is-success",
             hasIcon: true,
@@ -63,7 +61,6 @@ export default {
           this.$router.push("/");
         } else {
           const notif = this.$buefy.toast.open({
-            duration: 4500,
             message: this.$t("SomeThingBadHappened"),
             type: "is-danger",
             hasIcon: true,
@@ -74,7 +71,6 @@ export default {
       } catch (error) {
         console.log("error: ", error);
         const notif = this.$buefy.notification.open({
-          duration: 4500,
           message: this.$t("ServerOffline"),
           position: "is-top-right",
           type: "is-danger",

@@ -264,7 +264,6 @@ export default {
           }
         } else {
           this.$buefy.toast.open({
-            duration: 4500,
             message: this.$t("NotShareYourself"),
             position: "is-top",
             type: "is-danger",
@@ -272,7 +271,6 @@ export default {
         }
       } else {
         this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("EmailPlease"),
           position: "is-top",
           type: "is-danger",

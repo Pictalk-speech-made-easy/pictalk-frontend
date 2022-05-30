@@ -118,7 +118,6 @@ export default {
       } catch (err) {
         console.log(err);
         const notif = this.$buefy.toast.open({
-          duration: 4500,
           message: this.$t("TraductionError"),
           type: "is-danger",
         });
