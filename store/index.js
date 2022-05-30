@@ -516,7 +516,6 @@ export const actions = {
     let formData = new URLSearchParams();
     formData.append('publish', collection.public ? 0 : 1);
     const published = (await axios.put(`/collection/publish/${collection.id}`, formData)).data;
-    console.log(published);
     parseAndUpdateEntireCollection(vuexContext, published);
   },
   async shareCollection(vuexContext, { collectionId, usernames, role, access }) {
@@ -715,7 +714,6 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
   if (pictosToEdit.length > 0) {
     vuexContext.commit("editPicto", pictosToEdit);
   }
-  console.log(collection);
   if (!(!existsCollection || updateCollection || partialCollection)) {
     return localCollection;
   } else {

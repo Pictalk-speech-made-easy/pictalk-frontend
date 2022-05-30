@@ -1,14 +1,14 @@
 const apiUrl = 'https://api.pictalk.org'
 //const apiUrl = 'http://localhost:3001'
 let pictogramList = [];
+let counter = 30;
 checkAuthenticated(self);
 async function checkAuthenticated(self) {
   const cookies = await self.cookieStore.getAll();
   const token = cookies.filter((c) => c.name == 'jwt')[0]?.value;
   const tokenExp = cookies.filter((c) => c.name == 'expirationDate')[0]?.value;
-  let counter = 30;
   if (new Date().getTime() < +tokenExp && token) {
-    if (counter <= 30) {
+    if (counter >= 30) {
       counter = 0;
       pictogramList.concat(await checkMissingPictos(self, token));
     }
@@ -66,7 +66,9 @@ async function checkMissingPictos(self, token) {
           toFetchImages.pop();
         }
       });
-      resolve(toFetchImages);
+      resolve(toFetchImages.filter(element => {
+        return element !== undefined;
+      }));
     }).catch((err) => {
       reject(err);
     });
@@ -75,7 +77,7 @@ async function checkMissingPictos(self, token) {
 
 async function fetchFromList() {
   let toFetchPictos = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; ((i < 10) && (i < pictogramList.length)); i++) {
     toFetchPictos.push(pictogramList.pop());
   }
   caches.open("pictos").then(async (cache) => {
