@@ -159,11 +159,19 @@
           <br />
           <b-button
             v-if="directSharers.indexOf(selected.username) !== -1"
-            class="fourWidth"
+            style="
+              margin-top: -15px;
+              border: solid;
+              border-width: 1px;
+              border-color: #f14668;
+            "
+            class="actionButtons"
+            inverted
             type="is-danger"
             icon-left="delete"
             @click="removeFromSharers()"
           />
+          <hr />
           <p class="title is-4">{{ $t("Groups") }}</p>
           <b-field>
             <div class="columns is-multiline is-mobile">
@@ -185,34 +193,39 @@
                       <b-icon :icon="group.icon" />
                     </div>
                     <div class="media-content" style="overflow-y: hidden">
-                      <p class="title is-6">
+                      <p class="title is-6" style="margin-bottom: 2px">
                         {{ group.name }}
                       </p>
                     </div>
                   </div>
-                  <div style="column-count: 2">
-                    <div v-for="username in group.users.slice(0, 10)">
+                  <div class="groupUsers">
+                    <div
+                      style="overflow-x: hidden"
+                      v-for="username in group.users"
+                    >
                       {{ username }}
                     </div>
+                    ...
                   </div>
-                  ...
-                  <div class="columns is-mobile is-centered">
-                    <div class="container column">
-                      <b-button
-                        type="is-danger"
-                        expanded
-                        icon-right="delete"
-                        @click="mailingList.splice(index, 1)"
-                      />
-                    </div>
-                    <div class="container column">
-                      <b-button
-                        type="is-info"
-                        expanded
-                        icon-right="pencil"
-                        @click="openAddGroupModal(group, index)"
-                      />
-                    </div>
+                </div>
+                <div class="columns is-mobile is-centered">
+                  <div class="column">
+                    <b-button
+                      type="is-danger"
+                      expanded
+                      style="max-width: 90px"
+                      icon-right="delete"
+                      @click="mailingList.splice(index, 1)"
+                    />
+                  </div>
+                  <div class="column">
+                    <b-button
+                      type="is-info"
+                      expanded
+                      style="max-width: 90px"
+                      icon-right="pencil"
+                      @click="openAddGroupModal(group, index)"
+                    />
                   </div>
                 </div>
               </div>
@@ -220,9 +233,9 @@
           </b-field>
           <br />
           <b-button
-            class="is-success"
+            type="is-success"
+            class="actionButtons"
             icon-left="plus"
-            expanded
             @click="openAddGroupModal()"
           />
           <hr />
@@ -351,6 +364,9 @@ export default {
   },
   created() {
     this.directSharers = [...this.user.directSharers];
+    for (let sharer of this.directSharers) {
+      this.directSharersObj.push({ username: sharer });
+    }
     this.mailingList = [...this.user.mailingList];
     this.displayedLanguage = this.localeCode();
   },
@@ -466,6 +482,7 @@ export default {
 <style>
 .lessPadding {
   padding: 0.5rem;
+  height: 80%;
 }
 .speakButton {
   margin-left: 0.5rem;
@@ -479,6 +496,14 @@ export default {
   width: 100%;
   background-color: #ffffff;
 }
+.actionButtons {
+  width: 40vw;
+  min-width: 200px;
+  max-width: 400px;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+}
 .menuButtons {
   margin-left: 1vmin;
   margin-right: 1vmin;
@@ -488,5 +513,25 @@ export default {
   -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
   box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+.groupUsers {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  width: 0.7vw;
+  max-width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: #ffffff00;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #fe5555;
+  border-radius: 10px;
 }
 </style>

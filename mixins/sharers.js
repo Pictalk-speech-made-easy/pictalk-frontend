@@ -12,35 +12,10 @@ export default {
             this.addDirectSharer !=
             this.$store.getters.getUser.username
           ) {
-            try {
-              this.loading = true;
-              const res = await this.$store.dispatch(
-                "userExists",
-                {
-                  username: this.addDirectSharer,
-                }
-              );
-              if (res) {
-                this.directSharers.push(this.addDirectSharer);
-                this.directSharersObj.push({
-                  username: this.addDirectSharer,
-                });
-              } else {
-                this.$buefy.toast.open({
-                  duration: 4500,
-                  message: this.$t("UserNotExists"),
-                  position: "is-top",
-                  type: "is-danger",
-                });
-              }
-            } catch (err) {
-              this.$buefy.toast.open({
-                message: this.$t("SomeThingBadHappened"),
-                type: "is-danger",
-              });
-            }
-
-            this.loading = false;
+            this.directSharers.push(this.addDirectSharer);
+            this.directSharersObj.push({
+              username: this.addDirectSharer,
+            });
           } else {
             this.$buefy.toast.open({
               duration: 4500,

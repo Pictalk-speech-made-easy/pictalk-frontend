@@ -238,51 +238,30 @@ export default {
         )
       ) {
         if (this.addSharer != this.$store.getters.getUser.username) {
-          try {
-            this.loading = true;
-            const res = await this.$store.dispatch("userExists", {
+          if (index !== -1) {
+            this.SharersObj[index] = {
               username: this.addSharer,
-            });
-            if (res) {
-              if (index !== -1) {
-                this.SharersObj[index] = {
-                  username: this.addSharer,
-                  mode: this.mode === "viewer" ? "👁️" : "✏️",
-                };
-              } else {
-                this.SharersObj.push({
-                  username: this.addSharer,
-                  mode: this.mode === "viewer" ? "👁️" : "✏️",
-                });
-              }
-              if (indexCollab !== -1) {
-                this.loneCollaborators[indexCollab] = {
-                  username: this.addSharer,
-                  mode: this.mode,
-                  access: "1",
-                };
-              } else {
-                this.loneCollaborators.push({
-                  username: this.addSharer,
-                  mode: this.mode,
-                  access: "1",
-                });
-              }
-            } else {
-              this.$buefy.toast.open({
-                duration: 4500,
-                message: this.$t("UserNotExists"),
-                position: "is-top",
-                type: "is-danger",
-              });
-            }
-          } catch (err) {
-            this.$buefy.toast.open({
-              message: this.$t("SomeThingBadHappened"),
-              type: "is-danger",
+              mode: this.mode === "viewer" ? "👁️" : "✏️",
+            };
+          } else {
+            this.SharersObj.push({
+              username: this.addSharer,
+              mode: this.mode === "viewer" ? "👁️" : "✏️",
             });
           }
-          this.loading = false;
+          if (indexCollab !== -1) {
+            this.loneCollaborators[indexCollab] = {
+              username: this.addSharer,
+              mode: this.mode,
+              access: "1",
+            };
+          } else {
+            this.loneCollaborators.push({
+              username: this.addSharer,
+              mode: this.mode,
+              access: "1",
+            });
+          }
         } else {
           this.$buefy.toast.open({
             duration: 4500,

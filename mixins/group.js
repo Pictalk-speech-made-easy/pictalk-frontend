@@ -9,28 +9,7 @@ export default {
           )
         ) {
           if (this.addUser != this.$store.getters.getUser.username) {
-            try {
-              this.loading = true;
-              const res = await this.$store.dispatch("userExists", {
-                username: this.addUser,
-              });
-              if (res) {
-                this.group.users.push(this.addUser);
-              } else {
-                this.$buefy.toast.open({
-                  duration: 4500,
-                  message: this.$t("UserNotExists"),
-                  position: "is-top",
-                  type: "is-danger",
-                });
-              }
-            } catch (err) {
-              this.$buefy.toast.open({
-                message: this.$t("SomeThingBadHappened"),
-                type: "is-danger",
-              });
-            }
-            this.loading = false;
+            this.group.users.push(this.addUser);
           } else {
             this.$buefy.toast.open({
               duration: 4500,
