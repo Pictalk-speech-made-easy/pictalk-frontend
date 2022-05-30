@@ -317,6 +317,9 @@ export default {
     }, 15000);
   },
   computed: {
+    getUserNotifications() {
+      return this.$store.getters.getUser.notifications;
+    },
     iconIsAdmin() {
       return this.$route.query.isAdmin ? "lock-open-variant" : "lock";
     },
