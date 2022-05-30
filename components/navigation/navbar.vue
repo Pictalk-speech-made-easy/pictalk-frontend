@@ -99,7 +99,7 @@
               outlined
               v-if="!isLogged"
               tag="nuxt-link"
-              to="/public"
+              to="/public/346"
               type="is-primary"
               icon-right="arrow-right-box"
               >{{ $t("TryPictalk") }}</b-button
