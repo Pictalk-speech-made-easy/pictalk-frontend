@@ -33,7 +33,6 @@
     "nuxt-buefy": "^0.4.22",
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-compress": "^5.0.0",
-    "nuxt-cookie-control": "^1.9.9",
     "nuxt-responsive-loader": "^2.0.1",
     "prettier": "^2.5.1",
     "responsive-loader": "^2.3.0",

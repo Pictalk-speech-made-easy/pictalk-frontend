@@ -161,35 +161,6 @@ export default {
     '@nuxtjs/robots',
     //'@nuxtjs/sentry',
     '@nuxtjs/i18n',
-    [
-      "nuxt-cookie-control",
-      {
-        controlButton: false,
-        domain: 'pictalk.org',
-        barPosition: "bottom-right",
-        colors: {
-          barTextColor: "#fff",
-          barBackground: "#448cce",
-          barButtonColor: "#fff",
-          barButtonBackground: "#ff5758",
-          barButtonHoverColor: "#fff",
-          barButtonHoverBackground: "#e85050",
-          modalButtonBackground: "#ff5758",
-          modalButtonHoverColor: "#fff",
-          controlButtonBackground: "#ff5758",
-          controlButtonHoverBackground: "#e85050",
-          controlButtonIconHoverColor: "#fff",
-          controlButtonIconColor: "#fff",
-          modalButtonHoverBackground: "#e85050",
-          checkboxActiveBackground: "#e85050",
-          checkboxInactiveBackground: "#ede1e1",
-          checkboxActiveCircleBackground: "#448cce",
-          checkboxInactiveCircleBackground: "#f44336",
-          checkboxDisabledBackground: "#ddd",
-          checkboxDisabledCircleBackground: "#fff"
-        }
-      }
-    ]
   ],
   robots: {
     Disallow: [
@@ -233,55 +204,4 @@ export default {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
     }
   },
-  cookies: {
-    necessary: [
-      {
-        name: {
-          en: "Default cookies",
-        },
-
-        description: {
-          en: "Used for cookie control."
-        },
-        cookies: ["cookie_control_consent", "cookie_control_enabled_cookies"]
-      },
-      {
-        name: {
-          en: "Authentification cookies"
-        },
-        description: {
-          en: "Used to automatically sign you in. With these, you don't neeed to login every minute."
-        },
-        cookies: ["expirationDate", "jwt"]
-      }
-    ]/* ,
-		optional: [
-			{
-				name: 'Google Analitycs',
-				//if you don't set identifier, slugified name will be used
-				identifier: 'ga',
-				//if multilanguage
-				description: {
-					fr: 'Google Analytics nous permet d\'améliorer Pictalk en comprenant l\'usage que vous en faites',
-					en: 'Google Analytics help us improve Bictalk by learning how you use it'
-				},
-
-				initialState: true,
-				src: 'https://www.googletagmanager.com/gtag/js?id=G-6RGKKTSXND',
-				async: true,
-				cookies: ['_ga', '_gat', '_gid'],
-				accepted: () => {
-					window.dataLayer = window.dataLayer || [];
-					window.dataLayer.push({
-						'gtm.start': new Date().getTime(),
-						event: 'gtm.js'
-					});
-				},
-				declined: () => {
-				}
-			}
-		] */
-
-  },
-
 };

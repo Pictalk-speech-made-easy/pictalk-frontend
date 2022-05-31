@@ -4,7 +4,6 @@
     <hr />
     <nuxt />
     <hr />
-    <CookieControl :locale="retrieveLocale" />
     <footerPictalk />
   </div>
 </template>
@@ -34,6 +33,18 @@ export default {
       ) {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
+    }
+  },
+  mounted() {
+    if (!this.$store.getters.isAuthenticated) {
+      const notif = this.$buefy.notification.open({
+        duration: 4000,
+        message: this.$t("CookiePolicie"),
+        position: "is-bottom-right",
+        type: "is-dark",
+        pauseOnHover: true,
+        progressBar: true,
+      });
     }
   },
 };
