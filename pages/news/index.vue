@@ -5,7 +5,7 @@
         <h1 class="title">{{ $t("RecentNews") }}</h1>
         <b-image
           lazy
-          alt="A little boy talking thanks to Pictalk"
+          alt="A technician working on a computer with tools"
           :srcset="require('@/assets/UpdatesandNews.png').srcSet"
           style="width: 80%; margin-left: 10%"
         ></b-image>

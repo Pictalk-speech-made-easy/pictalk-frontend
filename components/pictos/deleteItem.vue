@@ -16,6 +16,7 @@
       <img
         class="image"
         :src="object.image"
+        :alt="object.meaning"
         width="40%"
         crossorigin="anonymous"
         style=""

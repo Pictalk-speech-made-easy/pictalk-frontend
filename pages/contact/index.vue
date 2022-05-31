@@ -6,7 +6,7 @@
           class="contact center"
           lazy
           :srcset="require('@/assets/Contact_compressed.png').srcSet"
-          alt="Rocket carrying non-verbal people"
+          alt="help center people wearing headsets"
         ></b-image>
         <br />
         <h1 class="title is-size-3-mobile">{{ $t("ContactMe") }}</h1>

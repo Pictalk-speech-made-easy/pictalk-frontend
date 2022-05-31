@@ -107,7 +107,7 @@
               lazy
               class="center"
               :srcset="require('@/assets/NoGroups.png').srcSet"
-              alt="No groups"
+              alt="a group of person crossed out with a red cross"
               style="width: 50%"
             ></b-image>
           </b-tooltip>

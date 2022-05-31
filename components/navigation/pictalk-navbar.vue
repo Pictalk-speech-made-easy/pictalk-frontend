@@ -8,12 +8,12 @@
         <img
           v-if="fits"
           src="~/assets/logo_compressed.png"
-          alt="A web app that help speach-disabled people"
+          alt="Logo of a web app that help speach-disabled people"
         />
         <img
           v-if="!fits"
           src="~/assets/small_logo.jpg"
-          alt="A web app that help speach-disabled people"
+          alt="Logo of a web app that help speach-disabled people"
         />
       </b-navbar-item>
       <div

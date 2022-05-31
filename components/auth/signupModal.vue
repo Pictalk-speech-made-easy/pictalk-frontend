@@ -25,7 +25,7 @@
 					class="center"
             lazy
 						:srcset="require('@/assets/credentials.png').srcSet"
-						alt="A boy and a girl speaking different languages"
+						alt="drawing of a key openning a locked chest"
 						style="width: 40%;"
         ></b-image>
 				</div>
@@ -118,7 +118,7 @@
 					class="center"
             lazy
 						:srcset="require('@/assets/terms_conditions.png').srcSet"
-						alt="A boy and a girl speaking different languages"
+						alt="A paper and a pencil representing the terms and conditions"
 						style="width: 40%;"
           ></b-image>
 				  </div>
@@ -147,7 +147,7 @@
 					  class="center"
             lazy
 						:srcset="require('@/static/20_Pictalk_Mail.gif')"
-						alt="Email verification"
+						alt="A letter with a message from Pictalk inside of it"
 						style="width: 55%;"
         ></b-image>
           </div>

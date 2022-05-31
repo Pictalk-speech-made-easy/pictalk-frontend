@@ -9,6 +9,7 @@
     <img
       class="image"
       :src="picto.image"
+      :alt="picto.meaning"
       @click="addToSpeech()"
       width="87%"
       crossorigin="anonymous"

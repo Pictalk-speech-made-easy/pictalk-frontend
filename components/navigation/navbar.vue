@@ -10,14 +10,14 @@
           <img
             v-if="fits"
             src="~/assets/logo_compressed.png"
-            alt="A web app that help speach-disabled people"
+            alt="Logo of a web app that help speach-disabled people"
             height="100px"
             width="150px"
           />
           <img
             v-if="!fits"
             src="~/assets/small_logo.jpg"
-            alt="A web app that help speach-disabled people"
+            alt="Logo of a web app that help speach-disabled people"
           />
         </b-navbar-item>
         <b-navbar-item

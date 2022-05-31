@@ -36,6 +36,7 @@
                 class="mini-image"
                 style
                 :src="picto.path"
+                :alt="picto.meaning"
                 crossorigin="anonymous"
               />
             </div>

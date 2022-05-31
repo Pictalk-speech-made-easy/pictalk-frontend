@@ -49,14 +49,6 @@ export default {
     pictoList: pictoList,
     pictoBar: pictoBar,
   },
-  watch: {
-    querySearchParameter: function (value) {
-      this.search = value;
-    },
-    search: function (value) {
-      this.$router.push({ query: { ...this.$route.query, search: value } });
-    },
-  },
   created() {
     this.$store.commit("eraseSpeech");
   },

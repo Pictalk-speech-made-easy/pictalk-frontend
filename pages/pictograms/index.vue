@@ -5,7 +5,7 @@
         <h1 class="title">{{ $t("Pictograms") }}</h1>
         <b-image
           lazy
-          alt="A little boy talking thanks to Pictalk"
+          alt="The ARASAAC association logo"
           :srcset="require('@/assets/pictalkarsaac.png').srcSet"
           style="width: 80%; margin-left: 10%"
         ></b-image>

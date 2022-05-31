@@ -9,7 +9,7 @@
 				></b-image>
         </b-carousel-item>
 				 <b-carousel-item class="containing">
-            <b-image  alt="A little boy talking thanks to Pictalk"
+            <b-image  alt="screenshots of the Pictalk application running on different devices"
 				:srcset="require('@/assets/Usages.png').srcSet"
 				:lazy="true"
 				></b-image>
@@ -28,7 +28,7 @@
                 </section>
         </b-carousel-item>
 				<b-carousel-item class="containing">
-            <b-image  alt="A little boy talking thanks to Pictalk"
+            <b-image  alt="A device running Pictalk sharing pictograms with another device"
 				:srcset="require('@/assets/Share_demo.png').srcSet"
 				:lazy="true"
 				></b-image>
@@ -152,7 +152,7 @@
 					class="center"
 								lazy
 								src="https://i.pinimg.com/originals/71/42/62/714262829697e9749a4aa86b3c1f5538.png"
-								alt="Logo du Play store"
+								alt="Logo of the Play store"
 						style="width: 40%;"
 				></b-image>
 			</a>
@@ -163,7 +163,7 @@
 					class="center"
 								lazy
 								src="https://upload.wikimedia.org/wikipedia/fr/0/09/Logo_App_Store_d%27Apple.png"
-								alt="Logo du Play store"
+								alt="Logo of the Play store"
 						style="width: 10%;"
 				></b-image>
 			</a>

@@ -77,7 +77,7 @@
           v-if="sidebarPictos.length == 0 && !isSidebarPartial"
           class="emptyCollection2"
           lazy
-          alt="Collection is empty. Create pictos"
+          alt="An empty cardboard box that represents an empty collection with no pictograms"
           :srcset="require('@/assets/EmptyCollection3.png').srcSet"
         />
         <div
@@ -92,7 +92,7 @@
           <b-image
             class="partialCollection"
             lazy
-            alt="No internet collection. To view the collection, please reconnect"
+            alt="An astronaut wondering in space"
             :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
           />
           <b-message>

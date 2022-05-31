@@ -27,7 +27,7 @@
           lazy
           :responsive="false"
           src="https://fondation.insa-lyon.fr/sites/fondation.insa-lyon.fr/files/insa_lyon_logo_0.png"
-          alt="Fondation INSA Lyon logo"
+          alt="logo of Fondation INSA Lyon "
           custom-class="imgpixelslimit"
         />
       </div>
@@ -36,7 +36,7 @@
           lazy
           :responsive="false"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/DigitalOcean_logo.svg/1200px-DigitalOcean_logo.svg.png"
-          alt="DigitalOcean"
+          alt="Logo of DigitalOcean"
           custom-class="imgpixelslimit"
         />
       </div>
