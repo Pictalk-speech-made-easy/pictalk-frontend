@@ -7,6 +7,7 @@
         clearable
         expanded
         style="min-width: 70vw"
+        @keyup.native.enter="searchFirst()"
       >
       </b-input>
       <b-button
@@ -53,9 +54,12 @@ export default {
     this.$store.commit("eraseSpeech");
   },
   mounted() {
-    this.search = this.querySearchParameter;
     this.per_page =
       window.innerWidth > 767 ? (window.innerWidth > 1407 ? 48 : 30) : 15;
+    if (this.querySearchParameter != "") {
+      this.search = this.querySearchParameter;
+      this.searchFirst();
+    }
   },
   data() {
     return {

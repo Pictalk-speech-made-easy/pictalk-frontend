@@ -115,7 +115,9 @@
       </div>
     </div>
     <div
-      v-if="publicMode && $store.getters.getUser"
+      v-if="
+        publicMode && $store.getters.getUser && $store.getters.isAuthenticated
+      "
       class="adminMenu adminoption columns"
     >
       <div class="column noMargin is-mobile">

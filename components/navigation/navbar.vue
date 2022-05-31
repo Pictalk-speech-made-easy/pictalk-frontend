@@ -5,7 +5,7 @@
         <b-navbar-item
           tag="nuxt-link"
           to="/"
-          style="padding: 0%; padding-right: 10px; padding-left: 20px"
+          style="padding: 0%; padding-right: 1vw; padding-left: 1vw"
         >
           <img
             v-if="fits"
@@ -21,18 +21,22 @@
           />
         </b-navbar-item>
         <b-navbar-item
-          :style="this.$route.path.includes('public') ? 'display:none' : ''"
+          :style="
+            this.$route.path.includes('public')
+              ? 'display:none'
+              : 'padding-left: 0%; padding-right: 0%'
+          "
         >
           <b-input
             class="searchSection"
             v-model="search"
             :placeholder="$t('SearchPictoPlaceholder')"
             clearable
+            @keyup.native.enter="searchPicto()"
           >
           </b-input>
           <b-button
             aria-label="search button"
-            class="searchButton"
             type="is-info"
             @click="searchPicto()"
             icon-right="magnify"
@@ -167,7 +171,9 @@ export default {
       });
     },
     fitsBigger() {
-      this.fits = window.innerWidth > 767;
+      this.fits =
+        window.innerWidth > 767 &&
+        !(window.innerWidth > 1023 && window.innerWidth < 1215);
     },
     openSignInModal() {
       this.$buefy.modal.open({
@@ -192,13 +198,9 @@ export default {
 };
 </script>
 <style scoped>
-.searchButton {
-  height: 100%;
-}
 .searchSection {
-  width: 40vw;
   min-width: 100px;
-  max-width: 220px;
+  max-width: 156px;
 }
 .noPadding {
   padding: 0%;
