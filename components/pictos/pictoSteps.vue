@@ -5,7 +5,7 @@
         <b-button
           class="button"
           type="is-danger"
-          icon-left="arrow-left"
+          icon-left="close"
           @click="$parent.close()"
         />
         <p v-if="create && isPicto" align="center" class="modal-card-title">

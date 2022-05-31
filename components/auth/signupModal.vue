@@ -5,7 +5,7 @@
 				<b-button
 					class="button"
 					type="is-danger"
-					icon-left="arrow-left"
+					icon-left="close"
 					@click="$parent.close()"
 				/>
 				<p align="center" class="modal-card-title">{{ $t("SignUp") }}</p>

@@ -5,7 +5,7 @@
         <b-button
           class="button"
           type="is-danger"
-          icon-left="arrow-left"
+          icon-left="close"
           @click="$parent.close()"
         />
         <p style="text-align: center" class="modal-card-title">
