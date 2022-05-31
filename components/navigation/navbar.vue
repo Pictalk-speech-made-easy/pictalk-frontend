@@ -31,6 +31,7 @@
           >
           </b-input>
           <b-button
+            aria-label="search button"
             class="searchButton"
             type="is-info"
             @click="searchPicto()"
