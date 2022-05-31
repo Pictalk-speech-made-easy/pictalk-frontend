@@ -195,6 +195,22 @@ export default {
       ],
     };
   },
+  created() {
+    if (this.$route.query.standalone) {
+      if (this.$store.getters.getUser.username) {
+        this.$router.push({
+          path: "/pictalk/" + this.$store.getters.getRootId,
+          query: {
+            sidebarPictoId: this.$store.getters.getSidebarId,
+          },
+        });
+      } else {
+        this.$router.push({
+          path: "/public/" + "346",
+        });
+      }
+    }
+  },
   middleware: ["check-auth"],
   methods: {
     openSignUpModal() {
