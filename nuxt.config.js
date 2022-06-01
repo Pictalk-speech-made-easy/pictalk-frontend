@@ -159,6 +159,7 @@ export default {
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
+    'nuxt-helmet',
     //'@nuxtjs/sentry',
     '@nuxtjs/i18n',
   ],
