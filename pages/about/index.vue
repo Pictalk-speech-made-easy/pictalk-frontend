@@ -33,7 +33,7 @@
             <div class="column is-one-fifth">
               <b-image
                 lazy
-                src="https://fondation.insa-lyon.fr/sites/fondation.insa-lyon.fr/files/insa_lyon_logo_0.png"
+                :srcset="require('@/assets/InsaFondation.png').srcSet"
                 alt="logo of Fondation INSA Lyon "
                 style="width: 80%"
               ></b-image>

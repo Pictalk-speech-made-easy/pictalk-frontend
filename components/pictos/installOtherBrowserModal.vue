@@ -14,16 +14,8 @@
         <a class="column is-half" href="https://www.google.com/chrome/">
           <b-image
             responsive
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/1200px-Google_Chrome_icon_%28February_2022%29.svg.png"
+            :srcset="require('@/assets/ChromeLogo.png').srcSet"
             alt="Logo of the Chrome browser"
-            style="max-width: 100px"
-          />
-        </a>
-        <a class="column is-half" href="https://www.mozilla.org/fr/firefox/">
-          <b-image
-            responsive
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/800px-Firefox_logo%2C_2019.svg.png"
-            alt="Logo of the Firefox browser"
             style="max-width: 100px"
           />
         </a>

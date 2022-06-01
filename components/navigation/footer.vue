@@ -26,7 +26,7 @@
         <b-image
           lazy
           :responsive="false"
-          src="https://fondation.insa-lyon.fr/sites/fondation.insa-lyon.fr/files/insa_lyon_logo_0.png"
+          :srcset="require('@/assets/InsaFondation.png').srcSet"
           alt="logo of Fondation INSA Lyon "
           custom-class="imgpixelslimit"
         />
@@ -35,7 +35,7 @@
         <b-image
           lazy
           :responsive="false"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/DigitalOcean_logo.svg/1200px-DigitalOcean_logo.svg.png"
+          :srcset="require('@/assets/DigitalOcean.png').srcSet"
           alt="Logo of DigitalOcean"
           custom-class="imgpixelslimit"
         />

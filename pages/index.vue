@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container is-max-widescreen">
-			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade">
+			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" interval="7000">
         <b-carousel-item class="containing">
             <b-image  alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
@@ -151,7 +151,7 @@
 				<b-image
 					class="center"
 								lazy
-								src="https://i.pinimg.com/originals/71/42/62/714262829697e9749a4aa86b3c1f5538.png"
+								:srcset="require('@/assets/PlayStoreLogo.png').srcSet"
 								alt="Logo of the Play store"
 						style="width: 40%;"
 				></b-image>
@@ -162,9 +162,9 @@
 				<b-image
 					class="center"
 								lazy
-								src="https://upload.wikimedia.org/wikipedia/fr/0/09/Logo_App_Store_d%27Apple.png"
-								alt="Logo of the Play store"
-						style="width: 10%;"
+								:srcset="require('@/assets/AppleStoreLogo.png').srcSet"
+								alt="Logo of the Apple store"
+						style="width: 30%;"
 				></b-image>
 			</a>
 		</div>
