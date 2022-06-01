@@ -1,4 +1,7 @@
 export default {
+  render: {
+    csp: true
+  },
   ssr: false,
   target: 'static',
   /*
@@ -152,6 +155,7 @@ export default {
     vueI18nLoader: true,
   },
   modules: [
+    'nuxt-helmet',
     // Doc: https://buefy.github.io/#/documentation
     ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons.min.css" }],
     "@nuxtjs/pwa",
@@ -159,7 +163,6 @@ export default {
     'nuxt-responsive-loader',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
-    'nuxt-helmet',
     //'@nuxtjs/sentry',
     '@nuxtjs/i18n',
   ],
