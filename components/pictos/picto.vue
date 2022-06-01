@@ -15,7 +15,7 @@
       crossorigin="anonymous"
       :style="`border: solid; border-color: ${this.picto.color}`"
     />
-    <div class="notification meaning">
+    <div class="meaning">
       {{ picto.meaning[getUserLang] }}
     </div>
     <div
@@ -397,8 +397,10 @@ export default {
   padding-bottom: 1rem;
 }
 .meaning {
-  margin: 0 auto;
   font-size: 1rem;
+  padding-bottom: 0.15rem;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 .pictobackground {
   background-color: #ffffff00;
