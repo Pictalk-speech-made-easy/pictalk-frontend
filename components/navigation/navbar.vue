@@ -30,6 +30,7 @@
           <b-input
             class="searchSection"
             v-model="search"
+            aria-label="search input"
             :placeholder="$t('SearchPictoPlaceholder')"
             clearable
             @keyup.native.enter="searchPicto()"

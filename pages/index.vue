@@ -114,7 +114,7 @@
 			<div class="hero-body">
 				<div class="container">
 					<h2 class="title">{{ $t('MainFeatures')}}</h2>
-					<p class="is-size-5 notification" align="justify">
+					<p class="is-size-5 notification" align="justify" :aria-hidden="true">
 						<ol style="list-style-type: inherit;margin-left: 5%;">
 						<li>{{ $t('HomeFeature1')}}</li>
 						<li>{{ $t('HomeFeature2')}}</li>
