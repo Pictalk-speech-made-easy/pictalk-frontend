@@ -498,7 +498,7 @@ export default {
 .actionButtons {
   width: 40vw;
   min-width: 200px;
-  max-width: 400px;
+  max-width: 300px;
   display: flex;
   margin-right: auto;
   margin-left: auto;
@@ -506,8 +506,11 @@ export default {
 .menuButtons {
   margin-left: 1vmin;
   margin-right: 1vmin;
+  border: solid;
+  border-width: 1px;
+  border-color: #4c4329;
   width: 45vw;
-  max-width: 400px;
+  max-width: 450px;
   border-radius: 7px;
   -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
