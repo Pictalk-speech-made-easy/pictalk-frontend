@@ -32,7 +32,10 @@
         <pictoList
           :pictos="pictos"
           :sidebar="false"
-          :sidebarUsed="isSidebarUsed"
+          :sidebarUsed="
+            isSidebarUsed &&
+            $route.params.fatherCollectionId != $store.getters.getSidebarId
+          "
           v-if="!isPictoListPartial || isOnLine || !isPictoListEmpty"
         />
         <div v-else>

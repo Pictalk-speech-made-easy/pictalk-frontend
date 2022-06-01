@@ -1,7 +1,15 @@
 <template>
   <div>
-    <div class="container is-widescreen">
-      <pictoList :publicMode="true" :pictos="pictos" :sidebar="false" />
+    <div
+      class="is-widescreen"
+      style="margin-right: 0.5rem; margin-left: 0.5rem"
+    >
+      <pictoList
+        :publicMode="true"
+        :pictos="pictos"
+        :sidebar="false"
+        :sidebarUsed="false"
+      />
     </div>
     <div class="contenant">
       <pictoBar
