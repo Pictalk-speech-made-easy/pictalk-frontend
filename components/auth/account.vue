@@ -478,7 +478,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .lessPadding {
   padding: 0.5rem;
   height: 80%;
