@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="container is-max-widescreen">
-			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" interval="7000">
+			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" :interval="7000">
         <b-carousel-item class="containing">
             <b-image  alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
@@ -153,7 +153,7 @@
 								lazy
 								:srcset="require('@/assets/PlayStoreLogo.png').srcSet"
 								alt="Logo of the Play store"
-						style="width: 40%;"
+						style="width: 40%; max-width: 220px"
 				></b-image>
 			</a>
 		</div>
@@ -164,7 +164,7 @@
 								lazy
 								:srcset="require('@/assets/AppleStoreLogo.png').srcSet"
 								alt="Logo of the Apple store"
-						style="width: 30%;"
+						style="width: 30%; max-width: 200px"
 				></b-image>
 			</a>
 		</div>
