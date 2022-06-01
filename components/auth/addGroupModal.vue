@@ -272,10 +272,12 @@ export default {
   -moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
   box-shadow: 3px 3px 5px 6px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
-.fourWidth {
-  width: 39%;
-}
-.sixWidth {
-  width: 59%;
+.actionButtons {
+  width: 40vw;
+  min-width: 200px;
+  max-width: 400px;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>
