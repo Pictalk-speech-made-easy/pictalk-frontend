@@ -5,12 +5,14 @@
         <b-carousel-item class="containing">
             <b-image  alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
+        :placeholder="require('@/assets/pictalk_index.png').placeholder"
 				:lazy="false"
 				></b-image>
         </b-carousel-item>
 				 <b-carousel-item class="containing">
             <b-image  alt="screenshots of the Pictalk application running on different devices"
 				:srcset="require('@/assets/Usages.png').srcSet"
+        :placeholder="require('@/assets/Usages.png').placeholder"
 				:lazy="true"
 				></b-image>
 				<section class="centeredBottomLeftText">
@@ -30,6 +32,7 @@
 				<b-carousel-item class="containing">
             <b-image  alt="A device running Pictalk sharing pictograms with another device"
 				:srcset="require('@/assets/Share_demo.png').srcSet"
+        :placeholder="require('@/assets/Share_demo.png').placeholder"
 				:lazy="true"
 				></b-image>
 				<section class="centeredBottomLeftTextAndBitRight">
@@ -48,6 +51,7 @@
 					<a href="https://youtu.be/vv2ktwpAijI">
 					<b-image lazy alt="Yotube video link for the installation process."
 				:srcset="require('@/assets/youtube_install.png').srcSet"
+        :placeholder="require('@/assets/youtube_install.png').placeholder"
 				></b-image>
 					</a>
 				</div>
@@ -57,6 +61,7 @@
 					<a href="https://youtu.be/fDqxScdXlJw">
 					<b-image lazy alt="Yotube video link for the tutorial in French."
 				:srcset="require('@/assets/video_tutorial.png').srcSet"
+        :placeholder="require('@/assets/video_tutorial.png').placeholder"
 				></b-image>
 					</a>
 				</div>
@@ -90,6 +95,7 @@
 					<p class="is-size-5 notification column" align="justify">
 						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
+        :placeholder="require('@/assets/IRL.png').placeholder"
 				></b-image>
 				<br>
 				{{ $t('Communicate_IRL')}}
@@ -100,6 +106,7 @@
 					<p class="is-size-5 notification " align="justify">
 						<b-image class="center" lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/whatsapp.png').srcSet"
+        :placeholder="require('@/assets/whatsapp.png').placeholder"
 				style="width: 25%;"
 				></b-image>
 				<br>

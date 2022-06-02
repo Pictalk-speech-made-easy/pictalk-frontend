@@ -7,6 +7,7 @@
           lazy
           alt="A technician working on a computer with tools"
           :srcset="require('@/assets/UpdatesandNews.png').srcSet"
+          :placeholder="require('@/assets/UpdatesandNews.png').placeholder"
           style="width: 80%; margin-left: 10%"
         ></b-image>
         <br />
