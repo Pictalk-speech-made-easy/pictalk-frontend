@@ -9,7 +9,7 @@
     <img
       class="image"
       :src="picto.image"
-      :alt="picto.meaning"
+      :alt="picto.meaning[getUserLang]"
       @click="addToSpeech()"
       width="87%"
       crossorigin="anonymous"

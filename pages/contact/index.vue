@@ -6,6 +6,7 @@
           class="contact center"
           lazy
           :srcset="require('@/assets/Contact_compressed.png').srcSet"
+          :placeholder="require('@/assets/Contact_compressed.png').placeholder"
           alt="help center people wearing headsets"
         ></b-image>
         <br />

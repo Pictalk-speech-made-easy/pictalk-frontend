@@ -70,7 +70,7 @@ export default {
     adapter: require('responsive-loader/sharp'),
     name: 'img/[name]-[width].[ext]',
     sizes: [240, 320, 640, 768, 960, 1024, 1280, 1600, 1920],
-    placeholder: false, // no placeholder will be generated
+    placeholder: true, // no placeholder will be generated
     quality: 65, // images are compressed with medium quality
     format: 'webp',
   },

@@ -7,6 +7,7 @@
           lazy
           alt="two people lifting the earth"
           :srcset="require('@/assets/Help.png').srcSet"
+          :placeholder="require('@/assets/Help.png').placeholder"
           style="width: 80%; margin-left: 10%"
         ></b-image>
 
