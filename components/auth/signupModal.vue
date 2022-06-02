@@ -122,23 +122,29 @@
 						style="width: 40%;"
           ></b-image>
 				  </div>
-					<div class="field">
-					<b-checkbox v-model="majority" required type="is-success">
-						{{ $t("Majority") }}
-					</b-checkbox>
+					<div style="display: flex; flex-dirrection : column; margin-bottom: 1em;">
+					<b-checkbox-button v-model="majority" :native-value="true" type="is-success">
+            <b-icon v-if="majority" icon="check" style="margin-left: auto; margin-right: auto; border: solid; border-width: 1px; border-color: #4c43293f"></b-icon>
+					</b-checkbox-button>
+          <p>
+          {{ $t("Majority") }}
+          </p>
 				</div>
-				<div class="field">
-					<b-checkbox v-model="terms" required type="is-success">
-						{{ $t("IHaveRead") }}
+				<div style="display: flex; flex-dirrection : column">
+					<b-checkbox-button v-model="terms" :native-value="true" type="is-success">
+            <b-icon v-if="terms" icon="check" style="margin-left: auto; margin-right: auto; border: solid; border-width: 1px; border-color: #4c43293f"></b-icon>
+					</b-checkbox-button>
+          <p>
+          {{ $t("IHaveRead") }}
 						<nuxt-link to="/legal-infos/terms-of-use">{{
 							$t("TermsOfUse")
-						}}</nuxt-link>
+						}} </nuxt-link>
 						{{ $t("And") }}
 						<nuxt-link to="/legal-infos/privacy-policy">{{
 							$t("PrivacyPolicy")
 						}}</nuxt-link
 						>.
-					</b-checkbox>
+          </p>
 				</div>
 				</b-step-item>
         <b-step-item :clickable="!notSignedUp" :label="$t('VerifyAccount')" icon="chart-box">

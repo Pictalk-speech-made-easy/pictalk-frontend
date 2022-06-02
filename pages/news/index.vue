@@ -27,87 +27,344 @@
           </div>
         </b-message>
 
-        <p class="is-size-5 notification">
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapDone1")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapDone2")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapDone3")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success"
-              >{{ $t("RoadmapDone4") }}
-            </b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success"
-              >{{ $t("RoadmapDone5") }}
-            </b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success"
-              >{{ $t("RoadmapDone6") }}
-            </b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success"
-              >{{ $t("RoadmapDone7") }}
-            </b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapDone8")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapDone9")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapDone10")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapDone11")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="true" type="is-success">{{
-              $t("RoadmapTodo2")
-            }}</b-checkbox>
-          </b-field>
-        </p>
+        <div class="is-size-5 notification">
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone1") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone2") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone3") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone4") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone5") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone6") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone7") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone8") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone9") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone10") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapDone11") }}
+            </p>
+          </div>
+        </div>
         <h1 class="title">{{ $t("Roadmap") }}</h1>
-        <p class="is-size-5 notification">
-          <b-field>
-            <b-checkbox :value="false" type="is-primary">{{
-              $t("RoadmapTodo1")
-            }}</b-checkbox>
-          </b-field>
-          <b-field>
-            <b-checkbox :value="false" type="is-primary">{{
-              $t("RoadmapTodo3")
-            }}</b-checkbox>
-          </b-field>
-        </p>
+        <div class="is-size-5 notification">
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="true"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapTodo1") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="false"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapTodo2") }}
+            </p>
+          </div>
+          <div
+            style="display: flex; flex-dirrection: column; margin-bottom: 1em"
+          >
+            <b-checkbox-button
+              v-model="done"
+              :native-value="false"
+              type="is-success"
+            >
+              <b-icon
+                icon="check"
+                style="
+                  margin-left: auto;
+                  margin-right: auto;
+                  border: solid;
+                  border-width: 1px;
+                  border-color: #4c43292f;
+                "
+              ></b-icon>
+            </b-checkbox-button>
+            <p>
+              {{ $t("RoadmapTodo3") }}
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   </div>
 </template>
 <script >
 export default {
+  data() {
+    return {
+      done: true,
+    };
+  },
   head() {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
     return {

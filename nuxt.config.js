@@ -1,7 +1,4 @@
 export default {
-  render: {
-    csp: true
-  },
   ssr: false,
   target: 'static',
   /*
@@ -166,6 +163,32 @@ export default {
     //'@nuxtjs/sentry',
     '@nuxtjs/i18n',
   ],
+  helmet: {
+    /*
+    frameguard: false,
+    ...
+    */
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        frameAncestors: ["'none'"],
+        defaultSrc: ["'self'", "api.pictalk.org", "localhost:3000", "localhost:3001"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+        frameAncestors: ["'none'"],
+        styleSrc: ["'self'", "fonts.googleapis.com", "'unsafe-inline'"],
+        fontSrc: [
+          "'self'",
+          'fonts.googleapis.com',
+          'themes.googleusercontent.com',
+          'fonts.gstatic.com'
+        ],
+        scriptSrcAttr: ["'self'", "'unsafe-inline'"],
+        objectSrc: ["'none'"],
+        imgSrc: ["'self'", "api.pictalk.org", "localhost:3001", "api.arasaac.org", "symbotalkapiv1.azurewebsites.net", "storage.googleapis.com", "cdn.pixabay.com", "images.unsplash.com", "images.pexels.com", "live.staticflickr.com", "avatars0.githubusercontent.com", "avatars.githubusercontent.com"]
+      },
+    }
+
+  },
   robots: {
     Disallow: [
       '/pictalk',

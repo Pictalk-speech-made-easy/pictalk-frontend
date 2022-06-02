@@ -42,3 +42,10 @@ html {
   padding: 1rem;
   padding-right: 2rem;
 }
+
+.b-checkbox {
+  width: 25px;
+  height: 25px;
+  padding: 0%;
+  margin-right: 1em;
+}
