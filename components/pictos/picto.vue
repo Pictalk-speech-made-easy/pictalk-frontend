@@ -6,15 +6,17 @@
         : 'containing has-background notification',
     ]"
   >
-    <img
-      class="image"
-      :src="picto.image"
-      :alt="picto.meaning[getUserLang]"
-      @click="addToSpeech()"
-      width="87%"
-      crossorigin="anonymous"
-      :style="`border: solid; border-color: ${this.picto.color}`"
-    />
+    <div style="width: 87%; aspect-ratio: 1/1">
+      <img
+        class="image"
+        :src="picto.image"
+        :alt="picto.meaning[getUserLang]"
+        @click="addToSpeech()"
+        width="100%"
+        crossorigin="anonymous"
+        :style="`border: solid; border-color: ${this.picto.color}`"
+      />
+    </div>
     <div class="meaning">
       {{ picto.meaning[getUserLang] }}
     </div>

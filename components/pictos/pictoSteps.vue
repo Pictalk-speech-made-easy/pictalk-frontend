@@ -30,7 +30,7 @@
           mobile-mode="compact"
           label-position="bottom"
         >
-          <b-step-item clickable step="1" :label="$t('Image')" clickable>
+          <b-step-item clickable step="1" :label="$t('Image')">
             <div v-if="picto.path">
               <img
                 class="mini-image"
@@ -71,6 +71,7 @@
                   containing
                   has-background
                 "
+                style="aspect-ratio: 1/1"
                 v-for="picto in paginate"
                 :key="picto.src"
                 :webpicto="picto"
@@ -888,6 +889,10 @@ export default {
     async pictoExtractImg(pictoSearch) {
       const regex = new RegExp("[$&+,:;=?@#|'<>.^*()%!-]", "g");
       pictoSearch = pictoSearch.replaceAll(regex, " ");
+      if (pictoSearch.length < 7) {
+        const spaces = " ".repeat(7 - pictoSearch.length);
+        pictoSearch = pictoSearch.concat(spaces);
+      }
       this.images = [];
       this.loading = true;
       this.page = 1;

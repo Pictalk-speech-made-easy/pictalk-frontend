@@ -8,12 +8,13 @@
       :delay="1000"
       :triggers="['hover']"
     >
-      <b-image id="svg" lazy :src="webpicto.src"></b-image>
-      <b>{{ webpicto.title }}</b>
+      <img id="svg" style="aspect-ratio: 1/1; max-height: 13vh;" loading="lazy" :src="webpicto.src"></img>
+      
       <template v-slot:content>
         {{ webpicto.source }}/{{ webpicto.author }}
       </template>
     </b-tooltip>
+    <b>{{ webpicto.title }}</b>
   </div>
 </template>
 
