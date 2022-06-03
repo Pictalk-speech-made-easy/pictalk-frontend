@@ -21,7 +21,7 @@
       </p>
     </div>
     <br />
-    <div class="columns is-centered is-mobile">
+    <div class="columns is-centered is-mobile" style="aspect-ratio: 6/1">
       <div class="column centerImage">
         <b-image
           lazy

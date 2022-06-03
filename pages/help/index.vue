@@ -8,7 +8,7 @@
           alt="two people lifting the earth"
           :srcset="require('@/assets/Help.png').srcSet"
           :placeholder="require('@/assets/Help.png').placeholder"
-          style="width: 80%; margin-left: 10%"
+          style="width: 80%; margin-left: 10%; aspect-ratio: 16/9"
         ></b-image>
 
         <div class="box">

@@ -3,6 +3,7 @@
     <section class="section">
       <div class="container">
         <b-image
+          style="aspect-ratio: 16/9"
           class="contact center"
           lazy
           :srcset="require('@/assets/Contact_compressed.png').srcSet"

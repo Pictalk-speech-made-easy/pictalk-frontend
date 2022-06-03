@@ -8,7 +8,7 @@
           alt="The ARASAAC association logo"
           :srcset="require('@/assets/pictalkarsaac.png').srcSet"
           :placeholder="require('@/assets/pictalkarsaac.png').placeholder"
-          style="width: 80%; margin-left: 10%"
+          style="width: 80%; margin-left: 10%; aspect-ratio: 16/9"
         ></b-image>
         <section class="hero">
           <div class="hero-body">

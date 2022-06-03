@@ -16,7 +16,7 @@
             responsive
             :srcset="require('@/assets/ChromeLogo.png').srcSet"
             alt="Logo of the Chrome browser"
-            style="max-width: 100px"
+            style="max-width: 100px; aspect-ratio: 1/1"
           />
         </a>
       </div>

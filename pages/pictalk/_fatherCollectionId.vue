@@ -11,6 +11,7 @@
       >
         <div v-if="pictos.length == 0 && !isPictoListPartial">
           <b-image
+            style="aspect-ratio: 1/1"
             class="emptyCollection1"
             lazy
             alt="an arrow and a lock pointing to the lock button on the upper part of the screen that allows the creation of pictograms"
@@ -22,6 +23,7 @@
           </b-message>
 
           <b-image
+            style="aspect-ratio: 1/1"
             class="emptyCollection2"
             lazy
             alt="An empty cardboard box that represents an empty collection with no pictograms"
@@ -40,6 +42,7 @@
         />
         <div v-else>
           <b-image
+            style="aspect-ratio: 1/1"
             class="partialCollection"
             lazy
             alt="No internet connection. To view the collection, please reconnect"
@@ -77,6 +80,7 @@
           icon-left="undo"
         />
         <b-image
+          style="aspect-ratio: 1/1"
           v-if="sidebarPictos.length == 0 && !isSidebarPartial"
           class="emptyCollection2"
           lazy
@@ -93,6 +97,7 @@
         />
         <div v-else>
           <b-image
+            style="aspect-ratio: 1/1"
             class="partialCollection"
             lazy
             alt="An astronaut wondering in space"

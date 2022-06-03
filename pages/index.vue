@@ -1,16 +1,17 @@
 <template>
 	<div>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
 		<div class="container is-max-widescreen">
-			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" :interval="7000">
+			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" :interval="15000">
         <b-carousel-item class="containing">
-            <b-image  alt="A little boy talking thanks to Pictalk"
+            <b-image style="aspect-ratio: 16/9;" alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
         :placeholder="require('@/assets/pictalk_index.png').placeholder"
 				:lazy="false"
 				></b-image>
         </b-carousel-item>
 				 <b-carousel-item class="containing">
-            <b-image  alt="screenshots of the Pictalk application running on different devices"
+            <b-image style="aspect-ratio: 16/9;" alt="screenshots of the Pictalk application running on different devices"
 				:srcset="require('@/assets/Usages.png').srcSet"
         :placeholder="require('@/assets/Usages.png').placeholder"
 				:lazy="true"
@@ -30,7 +31,7 @@
                 </section>
         </b-carousel-item>
 				<b-carousel-item class="containing">
-            <b-image  alt="A device running Pictalk sharing pictograms with another device"
+            <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
 				:srcset="require('@/assets/Share_demo.png').srcSet"
         :placeholder="require('@/assets/Share_demo.png').placeholder"
 				:lazy="true"
@@ -49,7 +50,7 @@
 			<div class="column is-one-quarter-fullhd is-one-third-widescreen is-one-third-tablet is-half-mobile">
 				<div class="box">
 					<a href="https://youtu.be/vv2ktwpAijI">
-					<b-image lazy alt="Yotube video link for the installation process."
+					<b-image style="aspect-ratio: 23/5" lazy alt="Yotube video link for the installation process."
 				:srcset="require('@/assets/youtube_install.png').srcSet"
         :placeholder="require('@/assets/youtube_install.png').placeholder"
 				></b-image>
@@ -59,7 +60,7 @@
 			<div class="column is-one-quarter-fullhd is-one-third-widescreen is-one-third-tablet is-half-mobile">
 				<div class="box">
 					<a href="https://youtu.be/fDqxScdXlJw">
-					<b-image lazy alt="Yotube video link for the tutorial in French."
+					<b-image style="aspect-ratio: 23/5" lazy alt="Yotube video link for the tutorial in French."
 				:srcset="require('@/assets/video_tutorial.png').srcSet"
         :placeholder="require('@/assets/video_tutorial.png').placeholder"
 				></b-image>
@@ -93,7 +94,7 @@
 					<div class="columns">
 						<div class="column">
 					<p class="is-size-5 notification column" align="justify">
-						<b-image lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
+						<b-image style="aspect-ratio: 16/9" lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
         :placeholder="require('@/assets/IRL.png').placeholder"
 				></b-image>
@@ -104,10 +105,9 @@
 					<br>
 					<div class="column">
 					<p class="is-size-5 notification " align="justify">
-						<b-image class="center" lazy alt="Sample image of a copied sentence"
+						<b-image style="aspect-ratio: 5/11; width: 25%;" class="center" lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/whatsapp.png').srcSet"
         :placeholder="require('@/assets/whatsapp.png').placeholder"
-				style="width: 25%;"
 				></b-image>
 				<br>
 				{{ $t('Communicate_Messages')}}
@@ -160,7 +160,7 @@
 								lazy
 								:srcset="require('@/assets/PlayStoreLogo.png').srcSet"
 								alt="Logo of the Play store"
-						style="width: 40%; max-width: 220px"
+						style="width: 40%; max-width: 220px; aspect-ratio: 1/1"
 				></b-image>
 			</a>
 		</div>
@@ -171,7 +171,7 @@
 								lazy
 								:srcset="require('@/assets/AppleStoreLogo.png').srcSet"
 								alt="Logo of the Apple store"
-						style="width: 30%; max-width: 200px"
+						style="width: 30%; max-width: 200px; aspect-ratio: 1/1"
 				></b-image>
 			</a>
 		</div>

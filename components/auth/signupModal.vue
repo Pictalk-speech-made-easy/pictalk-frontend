@@ -26,7 +26,7 @@
             lazy
 						:srcset="require('@/assets/credentials.png').srcSet"
 						alt="drawing of a key openning a locked chest"
-						style="width: 40%;"
+						style="width: 40%; aspect-ratio: 1/1"
         ></b-image>
 				</div>
 					<b-field :label="$t('Email')">
@@ -68,7 +68,7 @@
             lazy
 						:srcset="require('@/assets/signup_languages.png').srcSet"
 						alt="A boy and a girl speaking different languages"
-						style="width: 40%;"
+						style="width: 40%; aspect-ratio: 1/1"
         ></b-image>
 				</div>
 					<b-field class="column" :label="$t('PrincipalVoice')">
@@ -119,7 +119,7 @@
             lazy
 						:srcset="require('@/assets/terms_conditions.png').srcSet"
 						alt="A paper and a pencil representing the terms and conditions"
-						style="width: 40%;"
+						style="width: 40%; aspect-ratio: 1/1"
           ></b-image>
 				  </div>
 					<div style="display: flex; flex-dirrection : column; margin-bottom: 1em;">
@@ -154,7 +154,7 @@
             lazy
 						:srcset="require('@/static/20_Pictalk_Mail.gif')"
 						alt="A letter with a message from Pictalk inside of it"
-						style="width: 55%;"
+						style="width: 55%; aspect-ratio: 1/1"
         ></b-image>
           </div>
           <b-field>

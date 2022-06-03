@@ -4,14 +4,20 @@
       <section class="section">
         <div class="container">
           <div class="columns is-multiline is-mobile">
-            <figure style="padding: 1vw" class="image is-128x128">
+            <figure
+              style="padding: 1vw; aspect-ratio: 1/1"
+              class="image is-128x128"
+            >
               <img
                 class="is-rounded"
                 src="https://avatars0.githubusercontent.com/u/45072484?s=460&u=319a46de82b5b32ade7afb1807dec076bd6a925f&v=4"
                 alt="photo of Alexandros SIDIRAS GALANTE"
               />
             </figure>
-            <figure style="padding: 1vw" class="image is-128x128">
+            <figure
+              style="padding: 1vw; aspect-ratio: 1/1"
+              class="image is-128x128"
+            >
               <img
                 class="is-rounded"
                 src="https://avatars.githubusercontent.com/u/52712038?v=4"
@@ -35,7 +41,7 @@
                 lazy
                 :srcset="require('@/assets/InsaFondation.png').srcSet"
                 alt="logo of Fondation INSA Lyon "
-                style="width: 80%"
+                style="width: 80%; aspect-ratio: 1/1"
               ></b-image>
             </div>
           </div>

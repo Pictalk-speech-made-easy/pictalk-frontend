@@ -108,7 +108,7 @@
               class="center"
               :srcset="require('@/assets/NoGroups.png').srcSet"
               alt="a group of person crossed out with a red cross"
-              style="width: 50%"
+              style="width: 50%; aspect-ratio: 1/1"
             ></b-image>
           </b-tooltip>
         </b-field>

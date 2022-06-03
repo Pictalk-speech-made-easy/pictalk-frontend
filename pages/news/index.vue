@@ -8,7 +8,7 @@
           alt="A technician working on a computer with tools"
           :srcset="require('@/assets/UpdatesandNews.png').srcSet"
           :placeholder="require('@/assets/UpdatesandNews.png').placeholder"
-          style="width: 80%; margin-left: 10%"
+          style="width: 80%; margin-left: 10%; aspect-ratio: 16/9"
         ></b-image>
         <br />
         <b-message type="is-success">
