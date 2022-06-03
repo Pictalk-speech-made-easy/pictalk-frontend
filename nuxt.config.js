@@ -172,7 +172,7 @@ export default {
       useDefaults: true,
       directives: {
         frameAncestors: ["'none'"],
-        defaultSrc: ["'self'", "api.pictalk.org", "localhost:3000", "localhost:3001"],
+        defaultSrc: ["'self'", "api.pictalk.org", "api.arasaac.org", "symbotalkapiv1.azurewebsites.net", "storage.googleapis.com", "storage.googleapis.com", "cdn.pixabay.com", "images.unsplash.com", "images.pexels.com", "live.staticflickr.com", "avatars0.githubusercontent.com", "avatars.githubusercontent.com", "localhost:3000", "localhost:3001"],
         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
         styleSrc: ["'self'", "fonts.googleapis.com", "'unsafe-inline'"],
         fontSrc: [
@@ -183,7 +183,7 @@ export default {
         ],
         scriptSrcAttr: ["'self'", "'unsafe-inline'"],
         objectSrc: ["'none'"],
-        imgSrc: ["'self'", "data:", "api.pictalk.org", "localhost:3001", "api.arasaac.org", "symbotalkapiv1.azurewebsites.net", "storage.googleapis.com", "cdn.pixabay.com", "images.unsplash.com", "images.pexels.com", "live.staticflickr.com", "avatars0.githubusercontent.com", "avatars.githubusercontent.com"]
+        imgSrc: ["'self'", "data:", "blob:", "api.pictalk.org", "localhost:3001", "api.arasaac.org", "symbotalkapiv1.azurewebsites.net", "storage.googleapis.com", "cdn.pixabay.com", "images.unsplash.com", "images.pexels.com", "live.staticflickr.com", "avatars0.githubusercontent.com", "avatars.githubusercontent.com"]
       },
     }
 
