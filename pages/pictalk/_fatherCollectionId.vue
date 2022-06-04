@@ -117,11 +117,6 @@
         :collectionColor="collectionColor"
       />
     </div>
-    <b-loading
-      :is-full-page="true"
-      v-model="loading"
-      :can-cancel="true"
-    ></b-loading>
   </div>
 </template>
 <script>
@@ -302,7 +297,6 @@ export default {
       sidebarExpanded: false,
       sidebarPictos: [],
       pictos: [],
-      loading: false,
     };
   },
   methods: {
@@ -482,12 +476,18 @@ export default {
     },
     async refreshPictos() {
       try {
-        this.loading = true;
+        this.$buefy.notification.open({
+          duration: 4500,
+          message: this.$t("FetchingPictos"),
+          position: "is-top-right",
+          type: "is-info",
+          hasIcon: true,
+          iconSize: "is-small",
+          icon: "refresh",
+        });
         await this.$store.dispatch("downloadCollections");
         this.pictos = this.loadedPictos();
         this.sidebarPictos = this.loadedSidebarPictos();
-        this.loading = false;
-
         //TODO : refresh pictoList so that it displays new pictos and maybe count number of eddited and added in notification
         const notif = this.$buefy.notification.open({
           duration: 4500,

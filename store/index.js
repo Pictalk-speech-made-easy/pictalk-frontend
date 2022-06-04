@@ -470,8 +470,30 @@ export const actions = {
   },
   async downloadCollections(vuexContext) {
     const res = await axios.get("/collection");
-    res.data.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true)
+    let toUpdate = res.data.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true, true)
     );
+    let collectionsToCreate = [];
+    let collectionsToEdit = [];
+    let pictosTocreate = [];
+    let pictosToEdit = [];
+    for (let update of toUpdate) {
+      collectionsToCreate = collectionsToCreate.concat(update.collectionsToCreate);
+      collectionsToEdit = collectionsToEdit.concat(update.collectionsToEdit);
+      pictosTocreate = pictosTocreate.concat(update.pictosTocreate);
+      pictosToEdit = pictosToEdit.concat(update.pictosToEdit);
+    }
+    if (collectionsToCreate.length > 0) {
+      vuexContext.commit("addCollection", collectionsToCreate);
+    }
+    if (collectionsToEdit.length > 0) {
+      vuexContext.commit("editCollection", collectionsToEdit);
+    }
+    if (pictosTocreate.length > 0) {
+      vuexContext.commit("addPicto", pictosTocreate);
+    }
+    if (pictosToEdit.length > 0) {
+      vuexContext.commit("editPicto", pictosToEdit);
+    }
   },
   async copyCollectionById(vuexContext, { collectionId, fatherCollectionId }) {
     const params = new URLSearchParams();
@@ -589,7 +611,7 @@ export const getters = {
   }
 };
 
-function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = false) {
+function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = false, download = false) {
   let pictosToEdit = [];
   let pictosTocreate = [];
   let collectionsToEdit = [];
@@ -702,23 +724,21 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
       }
     });
   }
-  if (collectionsToCreate.length > 0) {
-    vuexContext.commit("addCollection", collectionsToCreate);
+  if (!download) {
+    if (collectionsToCreate.length > 0) {
+      vuexContext.commit("addCollection", collectionsToCreate);
+    }
+    if (collectionsToEdit.length > 0) {
+      vuexContext.commit("editCollection", collectionsToEdit);
+    }
+    if (pictosTocreate.length > 0) {
+      vuexContext.commit("addPicto", pictosTocreate);
+    }
+    if (pictosToEdit.length > 0) {
+      vuexContext.commit("editPicto", pictosToEdit);
+    }
   }
-  if (collectionsToEdit.length > 0) {
-    vuexContext.commit("editCollection", collectionsToEdit);
-  }
-  if (pictosTocreate.length > 0) {
-    vuexContext.commit("addPicto", pictosTocreate);
-  }
-  if (pictosToEdit.length > 0) {
-    vuexContext.commit("editPicto", pictosToEdit);
-  }
-  if (!(!existsCollection || updateCollection || partialCollection)) {
-    return localCollection;
-  } else {
-    return collection;
-  }
+  return { collectionsToCreate, collectionsToEdit, pictosTocreate, pictosToEdit };
 }
 
 function parseAndUpdatePictogram(vuexContext, picto) {
