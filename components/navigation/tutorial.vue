@@ -24,7 +24,7 @@
           alt="A little boy talking thanks to Pictalk"
           :src="require('@/static/admin-mode.mp4')"
         ></video>
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("Tutorial1") }}
         </p>
         <hr />
@@ -33,7 +33,7 @@
             {{ $t("TutorialCreateItems") }}
           </b>
         </p>
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("Tutorial2") }}
         </p>
         <video
@@ -42,7 +42,7 @@
           alt="A little boy talking thanks to Pictalk"
           :src="require('@/static/create-collection.mp4')"
         ></video>
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("Tutorial3") }}
         </p>
         <video
@@ -52,7 +52,7 @@
           :src="require('@/static/create-picto.mp4')"
         ></video>
 
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("Tutorial4") }}
         </p>
         <hr />
@@ -68,7 +68,7 @@
           :src="require('@/static/edit-picto.mp4')"
         ></video>
 
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("TutorialStar") }}
         </p>
         <video
@@ -89,7 +89,7 @@
           alt="A little boy talking thanks to Pictalk"
           :src="require('@/static/copy.mp4')"
         ></video>
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("TutorialCopyText") }}
         </p>
         <hr />
@@ -104,7 +104,7 @@
           alt="A little boy talking thanks to Pictalk"
           :src="require('@/static/link.mp4')"
         ></video>
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("TutorialLinkText") }}
         </p>
         <hr />
@@ -119,7 +119,7 @@
           alt="A little boy talking thanks to Pictalk"
           :src="require('@/static/delete-item.mp4')"
         ></video>
-        <p class="is-size-6 notification">
+        <p class="is-size-5 notification">
           {{ $t("TutorialDeleteText") }}
         </p>
         <b-button

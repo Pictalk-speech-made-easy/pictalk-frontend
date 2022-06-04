@@ -38,7 +38,7 @@ export default {
   mounted() {
     if (!this.$store.getters.isAuthenticated) {
       const notif = this.$buefy.notification.open({
-        duration: 4000,
+        duration: 6000,
         message: this.$t("CookiePolicie"),
         position: "is-bottom-right",
         type: "is-dark",
