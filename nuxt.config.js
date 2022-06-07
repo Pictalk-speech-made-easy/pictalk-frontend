@@ -47,7 +47,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["~assets/styles/main.scss", "~assets/styles/main.css"],
+  css: ["@/assets/styles/main.scss", "@/assets/styles/main.css"],
   /*
    ** Plugins to load before mounting the App
    */
@@ -154,7 +154,7 @@ export default {
   modules: [
     'nuxt-helmet',
     // Doc: https://buefy.github.io/#/documentation
-    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons.min.css" }],
+    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons.min.css", css: false }],
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
@@ -225,7 +225,7 @@ export default {
    ** Build configuration
    */
   build: {
-    minimize: true,
+    analyze: true,
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
     }
