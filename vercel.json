@@ -22,7 +22,7 @@
     {
       "src": "/sw.js",
       "headers": {
-        "cache-control": "public, max-age=86400, immutable",
+        "cache-control": "public, max-age=216000, immutable",
         "Service-Worker-Allowed": "/"
       }
     },
