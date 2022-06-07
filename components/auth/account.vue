@@ -257,7 +257,6 @@
   </div>
 </template>
 <script >
-import merge from "lodash.merge";
 import addGroupModal from "@/components/auth/addGroupModal";
 import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
@@ -418,7 +417,6 @@ export default {
             {},
             JSON.parse(JSON.stringify(this.user.language))
           );
-          merge(editedLanguage, language);
         } else {
           const languagesIndex = Object.keys(this.user.languages).find(
             (language) => language == languageLang
@@ -450,7 +448,6 @@ export default {
         if (editedLanguages?.undefined) {
           delete editedLanguages.undefined;
         }
-        merge(editedLanguages, languages);
       }
 
       try {

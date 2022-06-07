@@ -3,7 +3,6 @@ import { convertToSimpleLanguage } from "@/utils/utils";
 import axios from "axios";
 import { setInterval } from "core-js";
 import installOtherBrowserModal from "@/components/pictos/installOtherBrowserModal";
-import { concat } from "lodash";
 export default {
   component: [installOtherBrowserModal],
   created: function () {
@@ -190,7 +189,7 @@ export default {
       let langlist = this.loadedVoices.filter((voice) =>
         voice.lang.includes(this.localeCode())
       );
-      return concat(langlist, list);
+      return langlist.concat(list);
     },
   },
   watch: {
