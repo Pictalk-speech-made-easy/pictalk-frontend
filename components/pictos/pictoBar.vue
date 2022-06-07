@@ -40,7 +40,6 @@
         type="is-success"
         icon-right="volume-high"
         @click="pictalk(pictos)"
-        v-longpress="openTravelerMode"
         >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button
       >
       <b-button
@@ -49,7 +48,6 @@
         class="getsBigger"
         icon-right="volume-high"
         @click="pictalk(pictos)"
-        v-longpress="openTravelerMode"
       ></b-button>
     </div>
     <div class="column is-narrow nopadding">
