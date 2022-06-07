@@ -1,7 +1,6 @@
 import frenchFries from "@/assets/frenchFries.json";
 import { convertToSimpleLanguage } from "@/utils/utils";
 import axios from "axios";
-import { setInterval } from "core-js";
 import installOtherBrowserModal from "@/components/pictos/installOtherBrowserModal";
 export default {
   component: [installOtherBrowserModal],
