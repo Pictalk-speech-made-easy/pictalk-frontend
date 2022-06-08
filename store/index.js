@@ -752,6 +752,7 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
     if (pictosToEdit.length > 0) {
       vuexContext.commit("editPicto", pictosToEdit);
     }
+    return collection;
   }
   return { collectionsToCreate, collectionsToEdit, pictosTocreate, pictosToEdit };
 }
