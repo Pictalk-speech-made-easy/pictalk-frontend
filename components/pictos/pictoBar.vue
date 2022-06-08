@@ -170,7 +170,7 @@ export default {
         if (pictoSpeech[pictoSpeech.length - 1].sidebar) {
           if (sidebarSpeech.length <= 1) {
             if (this.publicMode) {
-              this.$router.push("/public/");
+              //this.$router.push("/public/");
             } else {
               if (this.$store.getters.getSidebarId) {
                 this.$router.push({
@@ -198,7 +198,9 @@ export default {
         } else {
           if (pictalkSpeech.length <= 1) {
             if (this.publicMode) {
-              this.$router.push("/public/");
+              this.$router.push(
+                "/public/" + pictalkSpeech[0]?.fatherCollectionId
+              );
             } else {
               if (this.$store.getters.getRootId) {
                 this.$router.push({
@@ -230,27 +232,33 @@ export default {
       this.$store.commit("removeSpeech");
     },
     eraseSpeech() {
-      this.$store.commit("eraseSpeech");
       if (this.publicMode) {
-        this.$router.push("/public/");
-        return;
-      }
-      if (this.$store.getters.getRootId) {
-        this.$router.push({
-          path: "/pictalk/" + this.$store.getters.getRootId,
-          query: {
-            isAdmin: this.$route.query.isAdmin,
-            sidebarPictoId: this.$store.getters.getSidebarId,
-          },
-        });
+        const pictalkSpeech = this.$store.getters.getSpeech.filter(
+          (picto) => !picto.sidebar && picto.collection
+        );
+        if (pictalkSpeech.length >= 1) {
+          this.$router.push("/public/" + pictalkSpeech[0]?.fatherCollectionId);
+        }
+        this.$store.commit("eraseSpeech");
       } else {
-        this.$router.push({
-          path: "/pictalk",
-          query: {
-            isAdmin: this.$route.query.isAdmin,
-            sidebarPictoId: this.$store.getters.getSidebarId,
-          },
-        });
+        this.$store.commit("eraseSpeech");
+        if (this.$store.getters.getRootId) {
+          this.$router.push({
+            path: "/pictalk/" + this.$store.getters.getRootId,
+            query: {
+              isAdmin: this.$route.query.isAdmin,
+              sidebarPictoId: this.$store.getters.getSidebarId,
+            },
+          });
+        } else {
+          this.$router.push({
+            path: "/pictalk",
+            query: {
+              isAdmin: this.$route.query.isAdmin,
+              sidebarPictoId: this.$store.getters.getSidebarId,
+            },
+          });
+        }
       }
     },
     async askWritePermission() {
