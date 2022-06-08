@@ -314,5 +314,10 @@
   "HomeText3": "The adventure started back in 2019 with my studies of Telecommunication engineering. The idea to create a simple application to help my non-verbal little brother was an evidence. The first version of Pictalk appeared and I was awarded a price for it. When my other brother joined the engineering school, he wanted to be part of this heartfelt project. Now, we're a team of two yound developers behind Pictalk and we're as motivated as ever to make speech a fundamental right.",
   "CollectionNotExplored": "The collection hasn't been explored yet... Please reconnect to the internet to view its contents",
   "EmptyCollection": "The collection is empty... You can create pictograms or collections by pressing the lock button.",
-  "TooltipSidebar": "The sidebar let you place pictograms with more freedom"
+  "TooltipSidebar": "The sidebar let you place pictograms with more freedom",
+  "PublicBundleDescription": "Select a public bundle to import it into your new account. With this, you will start with a ready-to-talk account.",
+  "PublicBundleLevelADescription": "Level A bundle is the most basic setup. It's based on situational communication. The pictograms are stored in function of the context they are going to be used. For example, the food collection is where you will find all the food related pictograms.",
+  "PublicBundleLevelBDescription": "",
+  "PublicBundleLevelCDescription": "",
+  "StarterPack": "Starter pack"
 }
