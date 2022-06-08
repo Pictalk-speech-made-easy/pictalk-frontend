@@ -264,13 +264,9 @@ import sharers from "@/mixins/sharers";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
-import Tutorial from "@/components/navigation/tutorial";
 import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
   mixins: [deviceInfos, emoji, tts, lang, sharers],
-  components: {
-    Tutorial,
-  },
   props: {
     recoverCode: {
       type: Boolean,
@@ -355,16 +351,6 @@ export default {
       } else {
         this.selectedBundle = id;
       }
-    },
-    openTutorial() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: Tutorial,
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2",
-        trapFocus: true,
-        canCancel: ["escape", "x"],
-      });
     },
     nextStep() {
       this.activeStep += 1;
@@ -535,12 +521,8 @@ export default {
             console.log("error ", error);
           }
           this.$router.push({
-            path: "/pictalk/" + this.$store.getters.getRootId,
-            /* query: {
-              sidebarPictoId: this.$store.getters.getSidebarId,
-            }, */
+            path: "/tutorials/",
           });
-          this.openTutorial();
         }
       } catch (error) {
         if (error.response) {

@@ -69,7 +69,7 @@
       </div>
     </template>
     <template slot="start">
-      <b-navbar-item @click="openTutorialModal()"
+      <b-navbar-item tag="nuxt-link" to="/tutorials"
         >{{ $t("Tutorial") }} 🚀</b-navbar-item
       >
       <b-navbar-dropdown collapsible label="Info">
@@ -268,7 +268,6 @@ import lang from "@/mixins/lang";
 import axios from "axios";
 import navbar from "@/mixins/navbar";
 import enforcedSecurity from "@/mixins/enforcedSecurity";
-import Tutorial from "@/components/navigation/tutorial";
 import PictoSteps from "@/components/pictos/pictoSteps";
 export default {
   mixins: [lang, navbar, enforcedSecurity],
@@ -492,16 +491,6 @@ export default {
           }
         }
       }
-    },
-    openTutorialModal() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: Tutorial,
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2",
-        trapFocus: true,
-        canCancel: ["escape", "x"],
-      });
     },
     notificationGoToCollectionOrReturn(notification) {
       if (
