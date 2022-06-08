@@ -7,4 +7,4 @@
     X-XSS-Protection = "0"
     X-Content-Type-Options = "nosniff"
     cache-control = '''
-    max-age=216000'''
+    max-age=31536000'''
