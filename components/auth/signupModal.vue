@@ -112,26 +112,26 @@
 					</b-field>
 				</b-step-item clickable>
         <b-step-item clickable :label="$t('StarterPack')" icon="package-down">
-          <div class="contenant">
+          <div class="contenant columns is-mobile">
             <div v-for="bundle in publicBundles">
-              <div class="columns is-mobile">
-                <div class="column" style="aspect-ratio: 1/1;" @click="selectPublicBundle(bundle.id)">
+                <div class="column" @click="selectPublicBundle(bundle.id)">
                   <b-image :class="bundle.id == selectedBundle ? 'has-background-selected' : 'has-background'" :src="bundle.image"/>
-                  <br>
-                  <div class="notification" v-if="selectedBundle == bundle.id">
-                    <div v-if="getBundleLevelById(bundle.id) == 'levelA'">
-                      {{$t('PublicBundleLevelADescription')}}
-                    </div>
-                    <div v-if="getBundleLevelById(bundle.id) == 'levelB'">
-                      {{$t('PublicBundleLevelBDescription')}}
-                    </div>
-                    <div v-if="getBundleLevelById(bundle.id) == 'levelC'">
-                      {{$t('PublicBundleLevelCDescription')}}
-                    </div>
-                  </div>
-              </div>
               </div>
             </div>
+          </div>
+          <div v-if="!selectedBundle" class="notification">
+            {{$t('PublicBundleDescription')}}
+          </div>
+          <div class="notification" v-else>
+            <div v-if="getBundleLevelById(selectedBundle) == 'levelA'">
+                      {{$t('PublicBundleLevelADescription')}}
+                    </div>
+                    <div v-if="getBundleLevelById(selectedBundle) == 'levelB'">
+                      {{$t('PublicBundleLevelBDescription')}}
+                    </div>
+                    <div v-if="getBundleLevelById(selectedBundle) == 'levelC'">
+                      {{$t('PublicBundleLevelCDescription')}}
+                    </div>
           </div>
         </b-step-item>
 				<b-step-item clickable :label="$t('TermsAndConditions')" icon="chart-box">
@@ -611,7 +611,7 @@ export default {
 .has-background-selected {
   border: solid;
   border-width: 2px;
-  border-color: aqua;
+  border-color: #ff5757;
   border-radius: 7px;
 }
 </style>
