@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <navbar />
-    <hr />
+    <hr style="margin: 20px" />
     <nuxt />
     <hr />
     <footerPictalk />
@@ -41,7 +41,8 @@ export default {
 .wrapper {
   overflow-x: hidden;
   position: relative;
-  height: 100%;
+  bottom: 0%;
+  height: calc(100vh - 32px);
 }
 </style>
 
