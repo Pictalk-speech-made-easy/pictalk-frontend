@@ -26,7 +26,7 @@ export default {
     link: [{
       rel: "icon",
       type: "image/x-icon",
-      href: "favicon.ico"
+      href: "https://www.pictalk.org/favicon.ico"
     }, {
       rel: 'canonical',
       href: 'https://www.pictalk.org'
@@ -200,7 +200,7 @@ export default {
       useWebmanifestExtension: 'true',
       "screenshots": [
         {
-          "src": "https://www.pictalk.org/_nuxt/img/pwaSearch-320.webp",
+          "src": "https://www.pictalk.org/pwaSearch.webp",
           "sizes": "320x698",
           "type": "image/webp"
         },
