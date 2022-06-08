@@ -111,8 +111,8 @@
 						</b-select>
 					</b-field>
 				</b-step-item clickable>
-        <b-step-item clickable :label="$t('StarterPack')" icon="package-down">
-          <div class="contenant columns is-mobile">
+        <b-step-item clickable :label="$t('StarterPack')" icon="web">
+          <div class="contenant columns is-mobile" style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
             <div v-for="bundle in publicBundles">
                 <div class="column" @click="selectPublicBundle(bundle.id)">
                   <b-image :class="bundle.id == selectedBundle ? 'has-background-selected' : 'has-background'" :src="bundle.image"/>
@@ -605,19 +605,16 @@ export default {
 .fullWidth {
   width: 100%;
 }
-.fourWidth {
-  width: 39%;
-}
 .has-background {
-  border-radius: 7px;
+  border-radius: 3px;
   -webkit-box-shadow: 1px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 1px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
   box-shadow: 1px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .has-background-selected {
   border: solid;
-  border-width: 2px;
+  border-width: 4px;
   border-color: #ff5757;
-  border-radius: 7px;
+  border-radius: 3px;
 }
 </style>
