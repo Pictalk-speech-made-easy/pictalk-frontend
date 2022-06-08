@@ -37,9 +37,11 @@ export default {
       { hid: 'description', name: 'description', content: 'Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language !' },
       { hid: 'url', name: 'url', content: 'https://www.pictalk.org' },
       { hid: 'image', name: 'image', content: 'https://www.pictalk.org/_nuxt/img/logo_compressed-240.webp' },
-      { hid: 'og:title', name: 'og:title', content: 'Pictalk AAC' },
-      { hid: 'og:url', name: 'og:url', content: 'https://www.pictalk.org' },
-      { hid: 'og:image', name: 'og:image', content: 'https://www.pictalk.org/_nuxt/img/logo_compressed-240.webp' },
+      { hid: 'og-type', property: 'og:type', content: 'website' },
+      { hid: 'og-title', property: 'og:title', content: 'Pictalk AAC' },
+      { hid: 'og-desc', property: 'og:description', content: 'Pictalk is an app which aims to make speech easier for non-verbal people.' },
+      { hid: 'og-url', property: 'og:url', content: 'https://www.pictalk.org' },
+      { hid: 'og-image', property: 'og:image', content: 'https://www.pictalk.org/_nuxt/img/logo_compressed-240.webp' },
     ]
   },
   /*
