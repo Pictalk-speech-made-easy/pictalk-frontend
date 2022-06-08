@@ -192,13 +192,24 @@ export default {
       ],
     },
     manifest: {
-      name: 'Pictalk',
-      short_name: 'Pictalk',
-      lang: 'en',
-      description: 'Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ',
-      theme_color: '#ff5758',
-      display: 'standalone',
-      useWebmanifestExtension: 'true'
+      "name": 'Pictalk',
+      "lang": 'en',
+      "description": 'Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ',
+      "theme_color": '#ff5758',
+      "display": 'standalone',
+      useWebmanifestExtension: 'true',
+      "screenshots": [
+        {
+          "src": "https://www.pictalk.org/_nuxt/img/pwaSearch-320.webp",
+          "sizes": "320x698",
+          "type": "image/webp"
+        },
+        {
+          "src": "https://www.pictalk.org/_nuxt/img/whatsapp-320.webp",
+          "sizes": "320x698",
+          "type": "image/webp"
+        },
+      ]
     },
   },
   /*
