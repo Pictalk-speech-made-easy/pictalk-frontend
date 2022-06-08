@@ -113,8 +113,8 @@
 				</b-step-item clickable>
         <b-step-item clickable :label="$t('StarterPack')" icon="web">
           <div class="contenant columns is-mobile" style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
-            <div v-for="bundle in publicBundles">
-                <div class="column is-4" @click="selectPublicBundle(bundle.id)">
+            <div v-for="bundle in publicBundles" class="column is-4" style="padding: 2px">
+                <div  @click="selectPublicBundle(bundle.id)">
                   <b-image :class="bundle.id == selectedBundle ? 'has-background-selected' : 'has-background'" :src="bundle.image"/>
               </div>
             </div>
