@@ -16,6 +16,7 @@ export const state = () => ({
   copyCollectionId: null,
   shortcutCollectionId: null,
   temporaryLanguage: null,
+  publicBundles: null,
 });
 
 export const mutations = {
@@ -30,6 +31,10 @@ export const mutations = {
     state.sharedId = null;
     state.sidebarId = null;
     state.temporaryLanguage = null;
+    state.publicBundles = null;
+  },
+  async setPublicBundles(state, bundles) {
+    state.publicBundles = bundles;
   },
   async addSpeech(state, picto) {
     if (state.pictoSpeech.length && state.pictoSpeech[state.pictoSpeech.length - 1].id == picto.id && !picto.collection) {
@@ -177,6 +182,13 @@ export const mutations = {
 export const actions = {
   resetCollections(vuexContext) {
     vuexContext.commit("resetCollections");
+  },
+  async getPublicBundles(vuexContext) {
+    let publicBundles = (await axios.get('/collection/levels')).data;
+    publicBundles = Object.keys(publicBundles).map((key) => { parseAndUpdateEntireCollection(vuexContext, publicBundles[key]); return { id: publicBundles[key].id, level: key } });
+    //publicBundles = publicBundles.map((bundle) => { parseAndUpdateEntireCollection(vuexContext, bundle); bundle.level = bundle; return bundle.id; });
+    vuexContext.commit('setPublicBundles', publicBundles);
+    return publicBundles;
   },
   async addPicto(vuexContext, picto) {
     let formData = new FormData();
@@ -586,6 +598,9 @@ export const getters = {
   },
   getTemporaryLanguage(state) {
     return state.temporaryLanguage;
+  },
+  getPublicBundles(state) {
+    return state.publicBundles;
   }
 };
 

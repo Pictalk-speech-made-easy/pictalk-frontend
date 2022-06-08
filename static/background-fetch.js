@@ -1,28 +1,24 @@
 const apiUrl = 'https://api.pictalk.org'
 //const apiUrl = 'http://localhost:3001'
 let pictogramList = [];
-let counter = 30;
 checkAuthenticated(self);
 async function checkAuthenticated(self) {
   const cookies = await self.cookieStore.getAll();
   const token = cookies.filter((c) => c.name == 'jwt')[0]?.value;
   const tokenExp = cookies.filter((c) => c.name == 'expirationDate')[0]?.value;
   if (new Date().getTime() < +tokenExp && token) {
-    if (counter >= 30) {
-      counter = 0;
-      pictogramList.concat(await checkMissingPictos(self, token));
-    }
+    pictogramList.concat(await checkMissingPictos(self, token));
     fetchFromList();
-    counter++
-  }
-  if (!('BackgroundFetchManager' in self)) {
-    console.log("Background manager not supported");
-  } else {
-    setTimeout(function () {
-      checkAuthenticated(self);
-    }, 2000);
   }
 }
+if (!('BackgroundFetchManager' in self)) {
+  console.log("Background manager not supported");
+} else {
+  setTimeout(function () {
+    checkAuthenticated(self);
+  }, 60000);
+}
+
 async function checkMissingPictos(self, token) {
   let collections = await self.fetch(apiUrl + '/collection', {
     method: 'GET',
@@ -84,10 +80,13 @@ async function fetchFromList() {
     try {
       if (navigator.onLine) {
         await cache.addAll(toFetchPictos);
+        fetchFromList()
       }
-      //await Promise.all(allPictosAndCollections.map((image) => cache.add(image)));
     } catch (err) {
       console.log(err);
+      setTimeout(function () {
+        fetchFromList();
+      }, 10000);
     }
   });
 }
