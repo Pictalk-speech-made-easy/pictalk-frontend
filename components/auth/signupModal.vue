@@ -111,7 +111,29 @@
 						</b-select>
 					</b-field>
 				</b-step-item clickable>
-
+        <b-step-item clickable :label="$t('StarterPack')" icon="package-down">
+          <div class="contenant">
+            <div v-for="bundle in publicBundles">
+              <div class="columns is-mobile">
+                <div class="column" style="aspect-ratio: 1/1;" @click="selectPublicBundle(bundle.id)">
+                  <b-image :class="bundle.id == selectedBundle ? 'has-background-selected' : 'has-background'" :src="bundle.image"/>
+                  <br>
+                  <div class="notification" v-if="selectedBundle == bundle.id">
+                    <div v-if="getBundleLevelById(bundle.id) == 'levelA'">
+                      {{$t('PublicBundleLevelADescription')}}
+                    </div>
+                    <div v-if="getBundleLevelById(bundle.id) == 'levelB'">
+                      {{$t('PublicBundleLevelBDescription')}}
+                    </div>
+                    <div v-if="getBundleLevelById(bundle.id) == 'levelC'">
+                      {{$t('PublicBundleLevelCDescription')}}
+                    </div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </b-step-item>
 				<b-step-item clickable :label="$t('TermsAndConditions')" icon="chart-box">
 					<div class="contenant">
 					<b-image
@@ -262,6 +284,7 @@ export default {
   },
   data() {
     return {
+      selectedBundle: null,
       username: "",
       password: "",
       voiceURI: "",
@@ -275,7 +298,7 @@ export default {
       showLanguages: false,
       activeStep: 0,
       notSignedUp: true,
-      maxStep: 2,
+      maxStep: 3,
       verificationToken: "",
       verificationLoading: false,
       signupLoading: false,
@@ -295,6 +318,18 @@ export default {
       ],
     };
   },
+  computed: {
+    publicBundles() {
+      if (this.$store.getters.getPublicBundles) {
+        return this.$store.getters.getPublicBundles.map((bundle) => {
+          const index = this.$store.getters.getCollections.findIndex(
+            (collection) => collection.id === bundle.id
+          );
+          return this.$store.getters.getCollections[index];
+        });
+      }
+    },
+  },
   beforeUpdate() {
     this.initialization = false;
   },
@@ -306,8 +341,21 @@ export default {
       this.username = this.credentials.username;
       this.password = this.credentials.password;
     }
+    this.$store.dispatch("getPublicBundles");
   },
   methods: {
+    getBundleLevelById(id) {
+      return this.$store.getters.getPublicBundles.filter(
+        (publicBundle) => publicBundle.id == id
+      )[0]?.level;
+    },
+    selectPublicBundle(id) {
+      if (this.selectedBundle == id) {
+        this.selectedBundle = null;
+      } else {
+        this.selectedBundle = id;
+      }
+    },
     openTutorial() {
       this.$buefy.modal.open({
         parent: this,
@@ -392,11 +440,14 @@ export default {
           languages: JSON.stringify(languages),
           directSharers: this.directSharers,
           displayLanguage: this.localeCode(),
+          ...(this.selectedBundle && {
+            publicBundleId: String(this.selectedBundle),
+          }),
         });
         if (res.status == 201) {
           this.notSignedUp = false;
-          this.maxStep = 3;
-          this.activeStep = 3;
+          this.maxStep = 4;
+          this.activeStep = 4;
           const notif = this.$buefy.notification.open({
             duration: 4500,
             message: this.$t("AccountCreated"),
@@ -431,6 +482,7 @@ export default {
                 icon: "mail",
               });
             } else {
+              console.log(error);
               const notif = this.$buefy.notification.open({
                 duration: 4500,
                 message: this.$t("ServerOffline"),
@@ -443,6 +495,7 @@ export default {
             }
           }
         } else {
+          console.log(error);
           const notif = this.$buefy.notification.open({
             duration: 4500,
             message: this.$t("ServerOffline"),
@@ -554,5 +607,17 @@ export default {
 }
 .fourWidth {
   width: 39%;
+}
+.has-background {
+  border-radius: 7px;
+  -webkit-box-shadow: 1px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 1px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
+  box-shadow: 1px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+.has-background-selected {
+  border: solid;
+  border-width: 2px;
+  border-color: aqua;
+  border-radius: 7px;
 }
 </style>
