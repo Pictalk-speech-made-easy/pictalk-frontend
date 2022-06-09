@@ -144,7 +144,6 @@
             <b-button
               type="is-success"
               icon-right="plus"
-              :loading="loading"
               @click="pushToSharers()"
             />
           </b-field>
@@ -288,7 +287,6 @@ export default {
   data() {
     return {
       selected: {},
-      loading: false,
       loadingSave: false,
       showDirectSharerInputText: false,
       loadedVoicesFilterState: true,
