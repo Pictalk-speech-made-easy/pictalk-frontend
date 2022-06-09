@@ -198,7 +198,7 @@ export default {
       orientation: "any",
       lang: 'en',
       description: 'Pictalk is an app which aims to make speech easier for non-verbal people.',
-      theme_color: '#ff5758',
+      theme_color: '#ff5757',
       background_color: "#fff",
       display: 'standalone',
       icons: [{
