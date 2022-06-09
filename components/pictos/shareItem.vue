@@ -286,6 +286,7 @@ export default {
         .indexOf(this.selected.username);
 
       if (index !== -1) {
+        this.SharersObj.splice(index, 1);
       }
       if (indexCollab !== -1) {
         this.loneCollaborators[indexCollab] = {
