@@ -12,7 +12,7 @@
         ></b-image>
         <br />
         <h1 class="title is-size-3-mobile">{{ $t("ContactMe") }}</h1>
-        <h2 class="subtitle is-size-5-mobile has-text-justified">
+        <h2 class="subtitle is-size-5">
           {{ $t("ContactText1") }}
           <a href="mailto:alex@pictalk.org">alex@pictalk.org</a>.{{
             $t("ContactText2")
@@ -20,7 +20,7 @@
         </h2>
         <br />
         <h1 class="title is-size-3-mobile">{{ $t("BugReport") }}</h1>
-        <h2 class="subtitle is-size-5-mobile has-text-justified">
+        <h2 class="subtitle is-size-5">
           {{ $t("ContactText3") }}
           <a href="https://github.com/Pictalk-speech-made-easy"
             >https://github.com/Pictalk-speech-made-easy</a

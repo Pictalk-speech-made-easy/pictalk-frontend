@@ -222,10 +222,12 @@ export default {
 </script>
 <style scoped>
 .pictobar {
-  bottom: 3%;
-  width: 98%;
+  bottom: 2px;
+  margin: 0 auto;
+  width: 99vw;
   max-height: 20%;
   position: fixed;
+  max-width: 767px;
 }
 .filler {
   padding-bottom: 20%;

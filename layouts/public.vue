@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <navbar />
-    <hr />
+    <hr style="margin: 20px" />
     <nuxt />
     <br />
   </div>
@@ -32,7 +32,8 @@ export default {
   overflow-x: hidden;
   position: relative;
   width: 100%;
-  height: 100%;
+  bottom: 0%;
+  height: calc(100vh - 32px);
 }
 </style>
 

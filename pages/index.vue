@@ -256,8 +256,8 @@ export default {
     60deg,
     white,
     white 35px,
-    #ff5758 35px,
-    #ff5758 70px
+    #ff5757 35px,
+    #ff5757 70px
   );
   min-height: 100%;
 }
@@ -299,6 +299,6 @@ export default {
   transform: translate(-50%, -50%);
 }
 .isPictalkColor {
-  color: #ff5e5e;
+  color: #ff5757;
 }
 </style>

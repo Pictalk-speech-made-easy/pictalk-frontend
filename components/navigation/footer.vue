@@ -4,17 +4,22 @@
       <p style="margin-bottom: 0px">
         <strong>PicTalk</strong> {{ $t("By") }}
         <a
+          class="morecontrast"
           href="https://www.helloasso.com/associations/pictalk-speech-made-easy"
           >Pictalk Speech Made Easy</a
         >
         . {{ $t("CodeIsLicensed") }}
-        <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU</a>.
+        <a
+          class="morecontrast"
+          href="https://www.gnu.org/licenses/gpl-3.0.en.html"
+          >GNU</a
+        >.
         {{ $t("TakeALook") }}
-        <nuxt-link to="/legal-infos/terms-of-use">{{
+        <nuxt-link to="/legal-infos/terms-of-use" class="morecontrast">{{
           $t("TermsOfUse")
         }}</nuxt-link>
         {{ $t("And") }}
-        <nuxt-link to="/legal-infos/privacy-policy">{{
+        <nuxt-link to="/legal-infos/privacy-policy" class="morecontrast">{{
           $t("PrivacyPolicy")
         }}</nuxt-link
         >. <b>PicTalk</b> {{ $t("ProjectBackedBy") }}
@@ -54,5 +59,8 @@
 }
 .centerImage {
   text-align: center;
+}
+.morecontrast {
+  color: #ee0000;
 }
 </style>
