@@ -28,8 +28,7 @@
           <b-button
             type="is-success"
             icon-right="plus"
-            :loading="loading"
-            @click="pushToSharers()"
+            @click="pushToCollaborators()"
           />
         </b-field>
         <b-table
@@ -53,7 +52,7 @@
           class="fourWidth"
           type="is-danger"
           icon-left="delete"
-          @click="removeFromSharers()"
+          @click="removeFromCollaborators()"
         />
         <hr v-if="SharersObj.length > 0" />
         <b-field :label="$t('Groups')">
@@ -139,7 +138,6 @@ export default {
   },
   data() {
     return {
-      loading: false,
       collaborators: [],
       selectedGroups: [],
       loneCollaborators: [],
@@ -223,7 +221,7 @@ export default {
     },
   },
   methods: {
-    async pushToSharers() {
+    async pushToCollaborators() {
       const index = this.SharersObj.map((collaborator) => {
         return collaborator.username;
       }).indexOf(this.addSharer);
@@ -277,7 +275,7 @@ export default {
         });
       }
     },
-    removeFromSharers() {
+    removeFromCollaborators() {
       const index = this.SharersObj.map((collaborator) => {
         return collaborator.username;
       }).indexOf(this.selected.username);
