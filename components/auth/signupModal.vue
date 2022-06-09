@@ -574,7 +574,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .center {
   display: block;
   margin-left: auto;
@@ -588,6 +588,7 @@ export default {
   width: 100%;
 }
 .has-background {
+  opacity: 60%;
   border-radius: 3px;
   -webkit-box-shadow: 1px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 1px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
