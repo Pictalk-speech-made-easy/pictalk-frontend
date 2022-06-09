@@ -530,7 +530,7 @@ export default {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #fe5555;
+  background: #ff5757;
   border-radius: 10px;
 }
 </style>
