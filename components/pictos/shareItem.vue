@@ -28,7 +28,6 @@
           <b-button
             type="is-success"
             icon-right="plus"
-            :loading="loading"
             @click="pushToSharers()"
           />
         </b-field>
@@ -385,16 +384,13 @@ export default {
 </script>
 <style scoped>
 .has-background {
-  border-radius: 5px;
-  -webkit-box-shadow: 3px 3px 5px 6px #ff5e5e; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow: 3px 3px 5px 6px #ff5e5e; /* Firefox 3.5 - 3.6 */
-  box-shadow: 3px 3px 5px 6px #ff5e5e; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border: solid;
+  border-width: 2px;
+  border-color: #ff5757;
+  border-radius: 3px;
 }
 .lessPadding {
   padding: 0.3rem;
-}
-.fullWidth {
-  width: 100%;
 }
 .fourWidth {
   width: 39%;
