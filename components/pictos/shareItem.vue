@@ -199,6 +199,12 @@ export default {
         });
       }
     });
+    this.groups.map((group) => {
+      if (this.isGroupShared(group)) {
+        group.selected = true;
+      }
+      return group;
+    });
   },
   computed: {
     getLoneCollaborators() {
@@ -351,6 +357,7 @@ export default {
 
         const deletedUsernameArray = sharedGroups
           .filter((group) => !group.selected)
+          .map((group) => group.users)
           .concat(
             this.loneCollaborators
               .filter((coll) => coll.access == "0")
