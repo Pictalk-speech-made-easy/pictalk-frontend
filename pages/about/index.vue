@@ -28,7 +28,7 @@
 
           <br />
           <h1 class="title is-size-3-mobile">{{ $t("AboutMe") }}</h1>
-          <h2 class="subtitle is-size-5-mobile has-text-justified">
+          <h2 class="subtitle is-size-5">
             {{ $t("AboutText1") }}
             <a href="https://www.youtube.com/watch?v=aL7PR2x7UlU">videos</a>
             {{ $t("AboutText2") }}
@@ -45,7 +45,7 @@
               ></b-image>
             </div>
           </div>
-          <h2 class="subtitle is-size-5-mobile has-text-justified">
+          <h2 class="subtitle is-size-5">
             {{ $t("AboutText3") }}
             <a href="https://youtu.be/VTbszl_xmN4">video</a>
             {{ $t("AboutText4") }}
