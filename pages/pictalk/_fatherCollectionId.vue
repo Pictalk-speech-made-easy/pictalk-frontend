@@ -394,6 +394,10 @@ export default {
         navigator.onLine
       ) {
         try {
+          let pictosToEdit = [];
+          let pictosTocreate = [];
+          let collectionsToEdit = [];
+          let collectionsToCreate = [];
           var res = await axios.get("/collection/find/" + collectionId);
           if (res.data.image) {
             res.data.image =
@@ -406,6 +410,7 @@ export default {
             res.data.speech = JSON.parse(res.data.speech);
           }
           res.data.collection = true;
+
           res.data.partial = false;
 
           if (res.data.collections && !res.data.collections.length == 0) {
@@ -431,9 +436,9 @@ export default {
               collection.partial = true;
               // collectionIndex
               if (!this.getCollectionFromId(collection.id)) {
-                this.$store.commit("addCollection", collection);
+                collectionsToCreate.push(collection);
               } else {
-                this.$store.commit("editCollection", collection);
+                collectionsToEdit.push(collection);
               }
             });
           }
@@ -451,23 +456,29 @@ export default {
               }
               picto.fatherCollectionId = res.data.id;
               if (!this.getPictoFromId(picto.id)) {
-                this.$store.commit("addPicto", picto);
+                pictosTocreate.push(picto);
               } else {
-                this.$store.commit("editPicto", picto);
+                pictosToEdit.push(picto);
               }
             });
           }
 
           if (!this.getCollectionFromId(res.data.id)) {
-            this.$store.commit(
-              "addCollection",
-              JSON.parse(JSON.stringify(res.data))
-            );
+            collectionsToCreate.push(JSON.parse(JSON.stringify(res.data)));
           } else {
-            await this.$store.commit(
-              "editCollection",
-              JSON.parse(JSON.stringify(res.data))
-            );
+            collectionsToEdit.push(JSON.parse(JSON.stringify(res.data)));
+          }
+          if (collectionsToCreate.length > 0) {
+            this.$store.commit("addCollection", collectionsToCreate);
+          }
+          if (collectionsToEdit.length > 0) {
+            this.$store.commit("editCollection", collectionsToEdit);
+          }
+          if (pictosTocreate.length > 0) {
+            this.$store.commit("addPicto", pictosTocreate);
+          }
+          if (pictosToEdit.length > 0) {
+            this.$store.commit("editPicto", pictosToEdit);
           }
         } catch (error) {
           console.log("error ", error);
