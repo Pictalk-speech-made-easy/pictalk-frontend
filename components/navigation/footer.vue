@@ -46,6 +46,7 @@
         />
       </div>
     </div>
+    <div style="height: 10vh; max-height: 80px" />
   </div>
 </template>
 <style scoped>
