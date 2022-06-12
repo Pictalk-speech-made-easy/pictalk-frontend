@@ -121,9 +121,13 @@ export default {
         });
       }
     },
-    async pronounce(speech, lang, voiceURI, pitch, rate) {
+    async pronounce(speech, lang, voiceURI, pitch, rate, synthesis) {
       if ("speechSynthesis" in window) {
-        var msg = new SpeechSynthesisUtterance();
+        if (synthesis) {
+          var msg = synthesis;
+        } else {
+          var msg = new SpeechSynthesisUtterance();
+        }
         if (this.$store.getters.getTemporaryLanguage) {
           msg.text = await this.getTranslatedText(speech);
           voice = this.voices.filter((voice) =>

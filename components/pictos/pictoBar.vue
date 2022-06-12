@@ -18,14 +18,9 @@
         @click="removeSpeech(true)"
       />
     </div>
-    <div
-      @click="copyPictosToClipboardBase(pictos)"
-      class="column"
-      style="padding: 0%"
-    >
+    <div class="column" style="padding: 0%">
       <div id="bar" class="scrolling">
         <miniPicto
-          class
           v-for="picto in pictosWithoutSilent"
           :key="picto.id + Math.random()"
           :image="picto.image"
@@ -57,6 +52,27 @@
         icon-right="content-copy"
         @click="copyPictosToClipboardBase(pictosWithoutSilent)"
       />
+    </div>
+    <div v-if="vocalize" class="onTop">
+      <b-button
+        type="is-danger"
+        icon-left="close"
+        @click="vocalize = false"
+        style="margin-left: 2vmax; margin-top: 2vmax"
+      />
+      <div class="columns is-multiline is-mobile topColumns">
+        <img
+          class="
+            topImage
+            column
+            is-3-mobile is-2-tablet is-1-desktop is-1-widescreen is-1-fullhd
+          "
+          v-for="(picto, index) in pictosWithoutSilent"
+          :key="index"
+          :src="picto.image"
+          style="padding: 2px"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -150,12 +166,14 @@ export default {
       }
     },
     async pictalk(pictos) {
+      this.vocalize = true;
       this.pronounce(
         this.getText(pictos),
         this.getUserLang,
         this.voiceURI,
         this.pitch,
-        this.rate
+        this.rate,
+        this.synthesis
       );
     },
     removeSpeech(erase) {
@@ -300,6 +318,14 @@ export default {
       );
     },
   },
+  mounted() {
+    this.synthesis = new SpeechSynthesisUtterance();
+    this.synthesis.addEventListener("end", (event) => {
+      setTimeout(() => {
+        this.vocalize = false;
+      }, 125);
+    });
+  },
   components: {
     miniPicto: miniPicto,
   },
@@ -328,6 +354,8 @@ export default {
   },
   data() {
     return {
+      synthesis: null,
+      vocalize: false,
       adminMode: false,
       voices: [],
       voiceURI: "",
@@ -340,6 +368,30 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-evenly;
+}
+.onTop {
+  position: fixed;
+  top: 52px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: #000000df;
+  z-index: 2;
+}
+.topColumns {
+  margin-left: 1vw;
+  margin-right: 1vw;
+  width: 98vw;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  max-height: 70vh;
+  overflow-y: scroll;
+}
+.topImage {
+  padding: 0%;
+  margin-bottom: 1vh;
 }
 .notification {
   background-color: var(--bg-color);
