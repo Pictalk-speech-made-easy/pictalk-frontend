@@ -411,10 +411,7 @@ export default {
       if (languageLang != undefined) {
         language[languageLang] = device;
         if (Object.keys(this.user.language)[0] == languageLang) {
-          editedLanguage = Object.assign(
-            {},
-            JSON.parse(JSON.stringify(this.user.language))
-          );
+          editedLanguage = Object.assign(JSON.parse(JSON.stringify(language)));
         } else {
           const languagesIndex = Object.keys(this.user.languages).find(
             (language) => language == languageLang
@@ -440,14 +437,13 @@ export default {
           ] = device;
         });
         editedLanguages = Object.assign(
-          {},
-          JSON.parse(JSON.stringify(this.user.languages))
+          JSON.parse(JSON.stringify(this.user.languages)),
+          JSON.parse(JSON.stringify(language))
         );
         if (editedLanguages?.undefined) {
           delete editedLanguages.undefined;
         }
       }
-
       try {
         const res = await this.$store.dispatch("editUser", {
           username: this.user.username,
