@@ -62,16 +62,11 @@
       />
       <div class="columns is-multiline is-mobile topColumns">
         <img
-          class="
-            topImage
-            column
-            is-3-mobile is-2-tablet is-1-desktop is-1-widescreen is-1-fullhd
-          "
           v-for="(picto, index) in pictosWithoutSilent"
           :key="index"
           :src="picto.image"
-          style="padding: 2px"
-        />
+          :class="wordIndex >= index? 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd animations': 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd lowBrightness'"
+        ></img>
       </div>
     </div>
   </div>
@@ -112,6 +107,15 @@ export default {
           curr_val.speech[this.getUserLang],
         ""
       );
+    },
+    getChars(pictos) {
+      let chars = [];
+      let lastLength = 0;
+      for (let picto of pictos) {
+        chars.push(picto.speech[this.getUserLang].length + 1 + lastLength);
+        lastLength = picto.speech[this.getUserLang].length + lastLength;
+      }
+      return chars;
     },
     async copyPictosToClipboardLegacy(pictos) {
       const message = this.getText(pictos);
@@ -167,6 +171,7 @@ export default {
     },
     async pictalk(pictos) {
       this.vocalize = true;
+      this.chars = this.getChars(pictos);
       this.pronounce(
         this.getText(pictos),
         this.getUserLang,
@@ -323,7 +328,16 @@ export default {
     this.synthesis.addEventListener("end", (event) => {
       setTimeout(() => {
         this.vocalize = false;
-      }, 125);
+        this.wordIndex = 0;
+      }, 500);
+    });
+    this.synthesis.addEventListener("boundary", (event) => {
+      if (
+        event.name == "word" &&
+        event.charIndex >= this.chars[this.wordIndex]
+      ) {
+        this.wordIndex = this.wordIndex + 1;
+      }
     });
   },
   components: {
@@ -354,6 +368,8 @@ export default {
   },
   data() {
     return {
+      chars: [],
+      wordIndex: 0,
       synthesis: null,
       vocalize: false,
       adminMode: false,
@@ -379,19 +395,20 @@ export default {
   z-index: 2;
 }
 .topColumns {
-  margin-left: 1vw;
-  margin-right: 1vw;
-  width: 98vw;
+  margin-left: auto;
+  width: 96vw;
+  max-width: 900px;
   position: absolute;
   top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   max-height: 70vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .topImage {
-  padding: 0%;
   margin-bottom: 1vh;
+  padding: 2px;
 }
 .notification {
   background-color: var(--bg-color);
@@ -426,5 +443,26 @@ export default {
   max-height: 60px;
   min-width: 40px;
   max-width: 60px;
+}
+@keyframes lightup {
+  from {
+    filter: brightness(0.6);
+    -webkit-filter: brightness(0.6);
+    transform: scale(0.9);
+  }
+  to {
+    filter: brightness(1);
+    -webkit-filter: brightness(1);
+    transform: scale(1);
+  }
+}
+
+.animations {
+  animation-name: lightup;
+  animation-duration: 250ms;
+}
+.lowBrightness {
+  transform: scale(0.9);
+  filter: brightness(0.6);
 }
 </style>
