@@ -544,7 +544,6 @@ export const actions = {
     return publicCollections.map(collection =>
       parseAndUpdateEntireCollection(vuexContext, collection)
     );
-
   },
   async publish(vuexContext, collection) {
     let formData = new URLSearchParams();
@@ -702,11 +701,11 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
   }
   if (collection.collections && !collection.collections.length == 0) {
     collection.collections.map((col) => {
-      let localCollection = getCollectionFromId(vuexContext, col.id);
-      let existsCollection = localCollection?.id == col.id;
-      let updateCollection = (localCollection?.updatedDate != col.updatedDate) && existsCollection;
-      const partialCollection = localCollection?.partial;
-      if (!existsCollection || updateCollection || partialCollection) {
+      let localCollections = getCollectionFromId(vuexContext, col.id);
+      let existsCollections = localCollections?.id == col.id;
+      let updateCollection = (localCollections?.updatedDate != col.updatedDate) && existsCollections;
+      const partialCollection = localCollections?.partial;
+      if (!existsCollections || updateCollection || partialCollection) {
         if (col.image) {
           col.image =
             axios.defaults.baseURL +
@@ -730,7 +729,7 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
         col.partial = true;
 
         col.fatherCollectionId = collection.id;
-        if (!existsCollection) {
+        if (!existsCollections) {
           collectionsToCreate.push(col);
         }
         if (updateCollection || partialCollection) {
@@ -752,7 +751,12 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
     if (pictosToEdit.length > 0) {
       vuexContext.commit("editPicto", pictosToEdit);
     }
-    return collection;
+    if (existsCollection) {
+      return localCollection;
+    } else {
+      return collection;
+    }
+
   }
   return { collectionsToCreate, collectionsToEdit, pictosTocreate, pictosToEdit };
 }
