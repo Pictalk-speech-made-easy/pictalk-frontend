@@ -18,8 +18,8 @@
           is-half-fullhd
           centeredImage
         "
-        v-for="picto in pictos"
-        :key="picto.id + Math.random()"
+        v-for="(picto, index) in pictos"
+        :key="index"
         :picto="picto"
         :publicMode="publicMode"
         :sidebarMode="true"

@@ -16,8 +16,8 @@
             : 'column is-one-third-mobile is-one-fifth-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd'
         "
         style="margin-bottom: 1%"
-        v-for="picto in getFilteredPictoList"
-        :key="picto.id + Math.random()"
+        v-for="(picto, index) in getFilteredPictoList"
+        :key="index"
         :picto="picto"
         :publicMode="publicMode"
         :sidebarMode="sidebar"

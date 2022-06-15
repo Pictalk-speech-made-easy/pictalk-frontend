@@ -21,8 +21,8 @@
     <div class="column" style="padding: 0%">
       <div id="bar" class="scrolling">
         <miniPicto
-          v-for="picto in pictosWithoutSilent"
-          :key="picto.id + Math.random()"
+          v-for="(picto, index) in pictosWithoutSilent"
+          :key="index"
           :image="picto.image"
           :pictoCount="picto.count"
         />
