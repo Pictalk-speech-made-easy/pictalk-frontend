@@ -751,7 +751,7 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
     if (pictosToEdit.length > 0) {
       vuexContext.commit("editPicto", pictosToEdit);
     }
-    if (existsCollection) {
+    if (existsCollection && !updateCollection) {
       return localCollection;
     } else {
       return collection;
