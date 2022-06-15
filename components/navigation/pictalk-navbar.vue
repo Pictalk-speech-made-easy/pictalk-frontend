@@ -67,14 +67,6 @@
           />
         </div>
       </div>
-      <div>
-        <b-button
-          type="is-warning"
-          rounded
-          icon-right="bug"
-          @click="openFeedbackModal()"
-        />
-      </div>
     </template>
     <template slot="start">
       <b-navbar-item tag="nuxt-link" to="/tutorials"
@@ -253,6 +245,21 @@
               tag="nuxt-link"
               to="/help"
               icon-right="help-circle"
+            />
+          </b-tooltip>
+          <b-tooltip
+            position="is-bottom"
+            multilined
+            size="is-small"
+            type="is-primary"
+            :label="$t('TooltipFeedback')"
+            :delay="1000"
+            :triggers="['hover']"
+          >
+            <b-button
+              type="is-warning"
+              icon-right="bug"
+              @click="openFeedbackModal()"
             />
           </b-tooltip>
           <b-tooltip

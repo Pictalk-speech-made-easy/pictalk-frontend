@@ -328,5 +328,6 @@
   "FeedbackDeviceInfo": "Device information",
   "FeedbackVuex": "Vuex",
   "FeedbackVoices": "Voices",
-  "FeedbackCreatedSucess": "Feedback submited with success !"
+  "FeedbackCreatedSucess": "Feedback submited with success !",
+  "TooltipFeedback": "Submit any feedback"
 }
