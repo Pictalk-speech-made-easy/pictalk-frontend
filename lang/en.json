@@ -327,5 +327,6 @@
   "FeedbackToggle": "Toggle debug information",
   "FeedbackDeviceInfo": "Device information",
   "FeedbackVuex": "Vuex",
-  "FeedbackVoices": "Voices"
+  "FeedbackVoices": "Voices",
+  "FeedbackCreatedSucess": "Feedback submited with success !"
 }

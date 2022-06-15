@@ -31,7 +31,7 @@
         <br />
         <h2 class="subtitle is-size-5">{{ $t("FeedbackVuex") }}</h2>
         <div class="scrollableDiv">
-          {{ getVuex }}
+          {{ getFilteredLocalStorage }}
         </div>
         <br />
         <h2 class="subtitle is-size-5">{{ $t("FeedbackVoices") }}</h2>
@@ -62,14 +62,10 @@ import axios from "axios";
 export default {
   mixins: [deviceInfos, tts],
   computed: {
-    getVuex() {
-      return window.localStorage.getItem("vuex");
-    },
     getUserAgent() {
       return window.navigator.userAgent;
     },
     getVoices() {
-      console.log(JSON.stringify(...this.voices));
       return JSON.stringify(
         this.voices.map((voice) => {
           return {
@@ -79,6 +75,12 @@ export default {
           };
         })
       );
+    },
+    getFilteredLocalStorage() {
+      const vuex = JSON.parse(window.localStorage.getItem("vuex"));
+      delete vuex.collections;
+      delete vuex.pictos;
+      return vuex;
     },
   },
   methods: {
@@ -92,14 +94,14 @@ export default {
           title: this.title,
           description: this.description,
           contact: this.contact,
-          vuex: localStorage.getItem("vuex"),
-          voices: JSON.stringify(this.voices),
-          deviceInfo: this.getDeviceInfo(),
+          vuex: JSON.stringify(this.getFilteredLocalStorage),
+          voices: JSON.stringify(this.getVoices),
+          deviceInfos: this.getDeviceInfo(),
         });
         this.loadingSave = false;
         this.$parent.close();
         this.$buefy.toast.open({
-          message: this.$t("CreatedGroupSucess"),
+          message: this.$t("FeedbackCreatedSucess"),
           type: "is-success",
         });
       } catch (err) {
