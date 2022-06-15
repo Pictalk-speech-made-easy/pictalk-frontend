@@ -67,6 +67,14 @@
           />
         </div>
       </div>
+      <div>
+        <b-button
+          type="is-warning"
+          rounded
+          icon-right="bug"
+          @click="openFeedbackModal()"
+        />
+      </div>
     </template>
     <template slot="start">
       <b-navbar-item tag="nuxt-link" to="/tutorials"
@@ -269,6 +277,7 @@ import axios from "axios";
 import navbar from "@/mixins/navbar";
 import enforcedSecurity from "@/mixins/enforcedSecurity";
 import PictoSteps from "@/components/pictos/pictoSteps";
+import feedbackModal from "@/components/auth/feedbackModal";
 export default {
   mixins: [lang, navbar, enforcedSecurity],
   components: {
@@ -348,6 +357,15 @@ export default {
     },
   },
   methods: {
+    openFeedbackModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: feedbackModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+      });
+    },
     fitsBigger() {
       this.fits = window.innerWidth > 767;
     },

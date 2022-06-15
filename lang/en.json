@@ -319,5 +319,13 @@
   "PublicBundleLevelADescription": "Level A bundle is the most basic setup. It's based on situational communication. The pictograms are stored in function of the context they are going to be used. For example, the food collection is where you will find all the food related pictograms.",
   "PublicBundleLevelBDescription": "",
   "PublicBundleLevelCDescription": "",
-  "StarterPack": "Starter pack"
+  "StarterPack": "Starter pack",
+  "Feedback": "Feedback",
+  "FeedbackTitle": "Title",
+  "FeedbackContact": "Contact",
+  "FeedbackDescription": "Description",
+  "FeedbackToggle": "Toggle debug information",
+  "FeedbackDeviceInfo": "Device information",
+  "FeedbackVuex": "Vuex",
+  "FeedbackVoices": "Voices"
 }
