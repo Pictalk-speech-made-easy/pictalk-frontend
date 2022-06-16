@@ -260,6 +260,13 @@
           </b-tooltip>
         </div>
       </b-navbar-item>
+      <b-navbar-item tag="div">
+        <h3>Downloaded pictograms for the offline mode:</h3>
+        <b-progress
+          :type="isOfflineReady ? 'is-success' : 'is-info'"
+          :value="offlineImagesSavedRatio"
+        ></b-progress>
+      </b-navbar-item>
     </template>
   </b-navbar>
 </template>
@@ -274,11 +281,22 @@ export default {
   components: {
     PictoSteps,
   },
+  created() {
+    const bc = new BroadcastChannel("offline-ready");
+    bc.onmessage = (event) => {
+      if (event.isTrusted) {
+        this.offlineReadyTotal = event.data.total;
+        this.offlineReadyProgress = event.data.progress;
+      }
+    };
+  },
   data() {
     return {
       notificationsCount: 0,
       intervalId: null,
       fits: false,
+      offlineReadyTotal: null,
+      offlineReadyProgress: null,
     };
   },
   destroyed() {
@@ -316,6 +334,16 @@ export default {
     }, 15000);
   },
   computed: {
+    isOfflineReady() {
+      return this.offlineReadyProgress == 0;
+    },
+    offlineImagesSavedRatio() {
+      return (
+        ((this.offlineReadyTotal - this.offlineReadyProgress) /
+          this.offlineReadyTotal) *
+        100
+      );
+    },
     getUserNotifications() {
       return this.$store.getters.getUser.notifications;
     },
