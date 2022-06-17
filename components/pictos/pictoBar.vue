@@ -110,10 +110,13 @@ export default {
     },
     getChars(pictos) {
       let chars = [];
-      let lastLength = 0;
-      for (let picto of pictos) {
-        chars.push(picto.speech[this.getUserLang].length + 1 + lastLength);
-        lastLength = picto.speech[this.getUserLang].length + lastLength;
+      let speechLength = 2;
+      for (let index = 0; index < pictos.length; index++) {
+        if (pictos[index].speech[this.getUserLang].length > 0) {
+          speechLength =
+            pictos[index].speech[this.getUserLang].length + 1 + speechLength;
+          chars.push(speechLength);
+        }
       }
       return chars;
     },
