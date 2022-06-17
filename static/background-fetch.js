@@ -3,6 +3,7 @@ const apiUrl = 'http://localhost:3001'
 let pictogramList = [];
 
 const bc = new BroadcastChannel('offline-ready');
+const bc2 = new BroadcastChannel('sync');
 var totalPictoImages = null;
 var authenticated = false;
 var broadcastProgressInterval = null;
@@ -58,6 +59,9 @@ async function checkMissingPictos(self, token) {
     }
   });
   pictos = await pictos.json();
+
+  bc2.postMessage({ collections: collections, pictos: pictos });
+
   pictos = pictos.filter((picto) => picto.image != '' && picto.image);
   collections = collections.filter((collection) => collection.image != '' && collection.image);
 

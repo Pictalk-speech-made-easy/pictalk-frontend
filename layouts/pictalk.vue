@@ -19,6 +19,7 @@ export default {
   },
   middleware: ["axios"],
   async created() {
+    const bc2 = new BroadcastChannel("sync");
     if (!this.$store.getters.getUser.username) {
       try {
         await this.$store.dispatch("getUser");
@@ -38,6 +39,11 @@ export default {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
     }
+    bc2.onmessage = (event) => {
+      if (event.isTrusted) {
+        this.$store.dispatch("downloadCollections", event.data.collections);
+      }
+    };
   },
   destroyed() {
     clearInterval(this.intervalId);

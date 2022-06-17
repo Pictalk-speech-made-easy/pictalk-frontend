@@ -480,10 +480,14 @@ export const actions = {
     });
     return newUser;
   },
-  async downloadCollections(vuexContext) {
-    const res = await axios.get("/collection");
-    let toUpdate = res.data.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true, true)
-    );
+  async downloadCollections(vuexContext, alreadyFetchedCollections = null) {
+    let res;
+    if (alreadyFetchedCollections) {
+      res = alreadyFetchedCollections;
+    } else {
+      res = (await axios.get("/collection")).data;
+    }
+    let toUpdate = res.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true));
     let collectionsToCreate = [];
     let collectionsToEdit = [];
     let pictosTocreate = [];
@@ -625,7 +629,7 @@ export const getters = {
   }
 };
 
-function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = false, download = false) {
+function parseAndUpdateEntireCollection(vuexContext, collection, download = false) {
   let pictosToEdit = [];
   let pictosTocreate = [];
   let collectionsToEdit = [];
@@ -699,7 +703,7 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
 
     });
   }
-  if (collection.collections && !collection.collections.length == 0) {
+  if (collection.collections && !collection.collections.length == 0 && !download) {
     collection.collections.map((col) => {
       let localCollections = getCollectionFromId(vuexContext, col.id);
       let existsCollections = localCollections?.id == col.id;
@@ -756,7 +760,6 @@ function parseAndUpdateEntireCollection(vuexContext, collection, isFullSync = fa
     } else {
       return collection;
     }
-
   }
   return { collectionsToCreate, collectionsToEdit, pictosTocreate, pictosToEdit };
 }
