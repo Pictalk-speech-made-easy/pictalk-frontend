@@ -239,6 +239,27 @@
           <hr />
         </b-tab-item>
       </b-tabs>
+      <b-icon icon="cloud-download"></b-icon>
+      <!-- Si
+          breakpoint
+          mobile
+          alors
+          ne
+          pas
+          restreindre
+          la
+          width.
+          Sinon
+          la
+          restreindre
+          à
+          (petit)
+           -->
+      <b-progress
+        :type="isOfflineReady ? 'is-success' : 'is-info'"
+        :value="offlineImagesSavedRatio"
+        show-value
+      ></b-progress>
     </div>
     <div class="footer container is-max-desktop">
       <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
@@ -267,6 +288,16 @@ import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
   mixins: [deviceInfos, emoji, tts, lang, sharers, navbar],
   computed: {
+    isOfflineReady() {
+      return this.offlineReadyProgress == 0;
+    },
+    offlineImagesSavedRatio() {
+      return (
+        ((this.offlineReadyTotal - this.offlineReadyProgress) /
+          this.offlineReadyTotal) *
+        100
+      );
+    },
     getMailingList() {
       return this.$store.getters.getUser.mailingList?.length;
     },
@@ -286,6 +317,8 @@ export default {
   },
   data() {
     return {
+      offlineReadyTotal: null,
+      offlineReadyProgress: null,
       selected: {},
       loadingSave: false,
       showDirectSharerInputText: false,
@@ -365,6 +398,14 @@ export default {
     }
     this.mailingList = [...this.user.mailingList];
     this.displayedLanguage = this.localeCode();
+
+    const bc = new BroadcastChannel("offline-ready");
+    bc.onmessage = (event) => {
+      if (event.isTrusted) {
+        this.offlineReadyTotal = event.data.total;
+        this.offlineReadyProgress = event.data.progress;
+      }
+    };
   },
   methods: {
     async openAddGroupModal(group, index) {

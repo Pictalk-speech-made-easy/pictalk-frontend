@@ -215,6 +215,22 @@
             </b-dropdown>
           </b-tooltip>
           <b-tooltip
+            position="is-bottom"
+            multilined
+            size="is-small"
+            type="is-primary"
+            :label="$t('TooltipOffline')"
+            :delay="1000"
+            :triggers="['hover']"
+          >
+            <b-button
+              disabled
+              :type="isOfflineReady ? 'is-success' : 'is-info'"
+              icon-left="cloud-download"
+              >{{ Math.floor(offlineImagesSavedRatio) }}%</b-button
+            >
+          </b-tooltip>
+          <b-tooltip
             v-if="this.$route.path.includes('pictalk')"
             position="is-bottom"
             multilined
@@ -231,6 +247,7 @@
               @click="goToAccount()"
             />
           </b-tooltip>
+
           <b-tooltip
             position="is-bottom"
             multilined
@@ -259,13 +276,6 @@
             <b-button type="is-light" icon-right="logout" @click="onLogout" />
           </b-tooltip>
         </div>
-      </b-navbar-item>
-      <b-navbar-item tag="div">
-        <h3>Downloaded pictograms for the offline mode:</h3>
-        <b-progress
-          :type="isOfflineReady ? 'is-success' : 'is-info'"
-          :value="offlineImagesSavedRatio"
-        ></b-progress>
       </b-navbar-item>
     </template>
   </b-navbar>

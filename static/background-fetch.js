@@ -83,6 +83,7 @@ async function checkMissingPictos(self, token) {
         })
       ));
       allPictosAndCollections = allPictosAndCollections.map((resp) => resp?.url);
+      totalPictoImages = allPictosAndCollections.length;
       allPictosAndCollections.forEach((cacheRequest) => {
         if (toFetchImages.indexOf(cacheRequest) != -1) {
           toFetchImages[toFetchImages.indexOf(cacheRequest)] = toFetchImages[toFetchImages.length - 1];
@@ -92,7 +93,6 @@ async function checkMissingPictos(self, token) {
       const filteredToFetchImages = toFetchImages.filter(element => {
         return element !== undefined;
       });
-      totalPictoImages = filteredToFetchImages.length;
       resolve(filteredToFetchImages);
     }).catch((err) => {
       reject(err);
