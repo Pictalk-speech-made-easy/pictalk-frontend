@@ -215,6 +215,22 @@
             </b-dropdown>
           </b-tooltip>
           <b-tooltip
+            position="is-bottom"
+            multilined
+            size="is-small"
+            type="is-primary"
+            :label="$t('TooltipOffline')"
+            :delay="1000"
+            :triggers="['hover']"
+          >
+            <b-button
+              disabled
+              :type="isOfflineReady ? 'is-success' : 'is-info'"
+              icon-left="cloud-download"
+              >{{ Math.floor(offlineImagesSavedRatio) }}%</b-button
+            >
+          </b-tooltip>
+          <b-tooltip
             v-if="this.$route.path.includes('pictalk')"
             position="is-bottom"
             multilined
@@ -231,6 +247,7 @@
               @click="goToAccount()"
             />
           </b-tooltip>
+
           <b-tooltip
             position="is-bottom"
             multilined
@@ -290,11 +307,22 @@ export default {
   components: {
     PictoSteps,
   },
+  created() {
+    const bc = new BroadcastChannel("offline-ready");
+    bc.onmessage = (event) => {
+      if (event.isTrusted) {
+        this.offlineReadyTotal = event.data.total;
+        this.offlineReadyProgress = event.data.progress;
+      }
+    };
+  },
   data() {
     return {
       notificationsCount: 0,
       intervalId: null,
       fits: false,
+      offlineReadyTotal: null,
+      offlineReadyProgress: null,
     };
   },
   destroyed() {
@@ -332,6 +360,16 @@ export default {
     }, 15000);
   },
   computed: {
+    isOfflineReady() {
+      return this.offlineReadyProgress == 0;
+    },
+    offlineImagesSavedRatio() {
+      return (
+        ((this.offlineReadyTotal - this.offlineReadyProgress) /
+          this.offlineReadyTotal) *
+        100
+      );
+    },
     getUserNotifications() {
       return this.$store.getters.getUser.notifications;
     },
