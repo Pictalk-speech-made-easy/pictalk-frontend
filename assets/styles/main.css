@@ -50,6 +50,35 @@ html {
   margin-right: 1em;
 }
 
+.modal-card-head {
+  padding: 1vmin
+}
+
+.modal-card-foot {
+  padding: 1vmin
+}
+
+.modal-card {
+  max-width: 960px;
+  max-height: 95vh;
+  min-width: min(65vw, 960px);
+  min-height: 57vh;
+}
+
+.field.has-addons {
+  justify-content: center;
+}
+
+@media screen and (max-width:768px) {
+  .modal-card {
+    max-width: 960px;
+    max-height: 95vh;
+    min-width: min(65vw, 960px);
+    min-height: 75vh;
+  }
+}
+
+
 @media screen and (max-width:560px) {
   .is-size-5 {
     text-align: left;

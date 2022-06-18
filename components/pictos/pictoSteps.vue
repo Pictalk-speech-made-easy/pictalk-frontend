@@ -1,7 +1,7 @@
 <template>
   <form action>
     <div class="modal-card" style="width: auto">
-      <header class="modal-card-head" style="padding: 2%">
+      <header class="modal-card-head">
         <b-button
           class="button"
           type="is-danger"
@@ -246,13 +246,7 @@
             ></canvas>
             <img :src="dynamicSrc" style="display: none" id="image" />
             <img v-if="!rendered" :src="dynamicSrc" class="optionImage" />
-            <b-field
-              style="
-                display: flex;
-                justify-content: center;
-                padding-top: 0.8rem;
-              "
-            >
+            <b-field style="padding-top: 0.8rem">
               <b-switch
                 v-model="options.cross.enabled"
                 type="is-success"
@@ -446,7 +440,7 @@
           </b-step-item>
         </b-steps>
       </section>
-      <footer class="modal-card-foot" style="padding: 2%">
+      <footer class="modal-card-foot">
         <div class="container">
           <div class="columns is-mobile is-full">
             <div class="column is-one-quarter">
@@ -1254,5 +1248,9 @@ export default {
 }
 .optionSwitch {
   padding-right: 0.3rem;
+}
+.has-addons {
+  display: flex;
+  justify-content: center;
 }
 </style>

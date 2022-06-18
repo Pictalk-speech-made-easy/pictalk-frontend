@@ -1,7 +1,7 @@
 <template>
   <form action @keyup.enter="onSubmit()">
     <div class="modal-card" style="width: auto">
-      <header class="modal-card-head" style="padding: 2%">
+      <header class="modal-card-head">
         <b-button
           class="button"
           type="is-danger"
@@ -32,7 +32,7 @@
         </b-field>
         <a href="/changePassword">{{ $t("ForgotPswd") }}</a>
       </section>
-      <footer class="modal-card-foot" style="padding: 2%">
+      <footer class="modal-card-foot">
         <b-button class="is-primary" :loading="loading" @click="onSubmit">{{
           $t("LogIn")
         }}</b-button>

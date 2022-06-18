@@ -1,7 +1,7 @@
 <template>
 	<form action>
 		<div class="modal-card" style="width: auto">
-			<header class="modal-card-head" style="padding: 2%">
+			<header class="modal-card-head" >
 				<b-button
 					class="button"
 					type="is-danger"
@@ -207,7 +207,7 @@
 				<br />
 
 			</section>
-			<footer class="modal-card-foot" style="padding: 2%">
+			<footer class="modal-card-foot" >
 				<div class="container">
 				<div class="columns is-mobile is-full">
 					<div class="column is-one-quarter">
