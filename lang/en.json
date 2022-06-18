@@ -1,4 +1,6 @@
 {
+  "RequiredInputs": "Please provide all the required inputs",
+  "Send": "Send",
   "Pitch": "Pitch of the voice",
   "Rate": "Rate of speech",
   "Negation": "Negation",

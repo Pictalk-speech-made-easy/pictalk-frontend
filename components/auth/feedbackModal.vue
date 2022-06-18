@@ -1,6 +1,6 @@
 <template>
-  <div class="modal-card" style="width: auto">
-    <header class="modal-card-head" style="padding: 2%">
+  <div class="modal-card">
+    <header class="modal-card-head">
       <b-button
         class="button"
         type="is-danger"
@@ -11,45 +11,52 @@
     </header>
     <section class="modal-card-body">
       <b-field :label="$t('FeedbackTitle')">
-        <b-input v-model="title"></b-input>
+        <b-input v-model="title" required></b-input>
       </b-field>
       <b-field :label="$t('FeedbackContact')">
-        <b-input v-model="contact"></b-input>
+        <b-input v-model="contact" required></b-input>
       </b-field>
       <b-field :label="$t('FeedbackDescription')">
-        <b-input type="textarea" v-model="description"></b-input>
+        <b-input type="textarea" v-model="description" lazy required></b-input>
       </b-field>
       <b-button class="is-text" @click="toggleDebugInfos()">{{
         $t("FeedbackToggle")
       }}</b-button>
-      <div v-if="showDebugInfos">
-        <h2 class="subtitle is-size-5">{{ $t("FeedbackDeviceInfo") }}</h2>
+      <div v-if="showDebugInfos" style="margin-top: 0.85rem">
+        <h2 class="subtitle is-size-5 headers">
+          {{ $t("FeedbackDeviceInfo") }}
+        </h2>
         <div class="scrollableDiv">
           {{ getDeviceInfo() }}
           {{ getUserAgent }}
         </div>
         <br />
-        <h2 class="subtitle is-size-5">{{ $t("FeedbackVuex") }}</h2>
+        <h2 class="subtitle is-size-5 headers">{{ $t("FeedbackVuex") }}</h2>
         <div class="scrollableDiv">
           {{ getFilteredLocalStorage }}
         </div>
         <br />
-        <h2 class="subtitle is-size-5">{{ $t("FeedbackVoices") }}</h2>
+        <h2 class="subtitle is-size-5 headers">{{ $t("FeedbackVoices") }}</h2>
         <div class="scrollableDiv">
           {{ getVoices }}
         </div>
         <br />
       </div>
     </section>
-    <footer class="modal-card-foot" style="padding: 2%">
+    <footer class="modal-card-foot">
       <div class="container">
         <b-button
-          expanded
+          style="
+            width: 50%;
+            display: flex;
+            margin-right: auto;
+            margin-left: auto;
+          "
           class="is-info"
-          icon-left="content-save"
+          icon-right="check"
           :loading="loadingSave"
           @click="save()"
-          >{{ $t("Save") }}</b-button
+          >{{ $t("Send") }}</b-button
         >
       </div>
     </footer>
@@ -88,27 +95,35 @@ export default {
       this.showDebugInfos = !this.showDebugInfos;
     },
     async save() {
-      this.loadingSave = true;
-      try {
-        const res = await axios.post("/feedback", {
-          title: this.title,
-          description: this.description,
-          contact: this.contact,
-          vuex: JSON.stringify(this.getFilteredLocalStorage),
-          voices: JSON.stringify(this.getVoices),
-          deviceInfos: this.getDeviceInfo(),
-        });
+      if (this.title != "" || this.contact != "" || this.description != "") {
+        try {
+          this.loadingSave = true;
+          const res = await axios.post("/feedback", {
+            title: this.title,
+            description: this.description,
+            contact: this.contact,
+            vuex: JSON.stringify(this.getFilteredLocalStorage),
+            voices: JSON.stringify(this.getVoices),
+            deviceInfos: this.getDeviceInfo(),
+          });
+          this.loadingSave = false;
+          this.$parent.close();
+          this.$buefy.toast.open({
+            message: this.$t("FeedbackCreatedSucess"),
+            type: "is-success",
+          });
+        } catch (err) {
+          console.log(err);
+          this.loadingSave = false;
+          this.$buefy.toast.open({
+            message: this.$t("SomeThingBadHappened"),
+            type: "is-danger",
+          });
+        }
+      } else {
         this.loadingSave = false;
-        this.$parent.close();
         this.$buefy.toast.open({
-          message: this.$t("FeedbackCreatedSucess"),
-          type: "is-success",
-        });
-      } catch (err) {
-        console.log(err);
-        this.loadingSave = false;
-        this.$buefy.toast.open({
-          message: this.$t("SomeThingBadHappened"),
+          message: this.$t("RequiredInputs"),
           type: "is-danger",
         });
       }
@@ -128,7 +143,15 @@ export default {
 </script>
 <style scoped>
 .scrollableDiv {
+  border: solid;
+  border-width: 1px;
+  border-color: #00000040;
+  background-color: #f5f5f5;
   max-height: 20vh;
   overflow: scroll;
+}
+.headers {
+  margin-bottom: 0.5rem;
+  padding: 0.4rem;
 }
 </style>
