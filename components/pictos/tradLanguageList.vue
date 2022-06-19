@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card" style="width: auto">
+  <div class="modal-card">
     <section class="modal-card-body">
       <div class="columns is-mobile is-multiline is-centered">
         <div v-for="language in languages" class="column">

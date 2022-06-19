@@ -1,6 +1,6 @@
 <template>
 	<form action>
-		<div class="modal-card" style="width: auto">
+		<div class="modal-card" >
 			<header class="modal-card-head" >
 				<b-button
 					class="button"
