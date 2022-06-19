@@ -1,6 +1,6 @@
 <template>
   <form action @keyup.enter="onSubmit()">
-    <div class="modal-card">
+    <div class="modal-card" style="min-height: 30vh">
       <header class="modal-card-head">
         <b-button
           class="button"
