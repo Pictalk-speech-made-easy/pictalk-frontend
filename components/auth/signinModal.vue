@@ -14,6 +14,7 @@
         <b-field :label="$t('Email')">
           <b-input
             type="email"
+            lazy
             maxlength="64"
             v-model="username"
             :placeholder="$t('PlaceHolderEmail')"
@@ -24,6 +25,7 @@
         <b-field :label="$t('Password')">
           <b-input
             type="password"
+            lazy
             v-model="password"
             password-reveal
             :placeholder="$t('PlaceHolderPassword')"
