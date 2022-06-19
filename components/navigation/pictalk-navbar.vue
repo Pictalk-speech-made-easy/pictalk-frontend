@@ -2,19 +2,37 @@
   <b-navbar fixed-top>
     <template slot="brand">
       <b-navbar-item
-        style="padding: 0%; padding-right: 10px; padding-left: 20px"
+        style="padding: 0%; padding-right: 1px; padding-left: 1vw"
         @click="eraseSpeech()"
       >
         <img
+          style="margin-right: 0.5vw"
           v-if="fits"
           src="~/assets/logo_compressed.png"
           alt="Logo of a web app that help speach-disabled people"
         />
         <img
+          style="margin-right: 0.5vw"
           v-if="!fits"
           src="~/assets/small_logo.jpg"
           alt="Logo of a web app that help speach-disabled people"
         />
+        <div
+          class="downloadDiv"
+          :style="
+            percent == 100
+              ? 'border-color: #48C78E; color: #48C78E;'
+              : 'border-color: #3e8ed0; color: #3e8ed0;'
+          "
+        >
+          <b-icon
+            style="margin-left: 0px; max-width: 28px; margin-top: 1px"
+            :type="percent == 100 ? 'is-success' : 'is-info'"
+            icon="cloud-download"
+            size="is-medium"
+          ></b-icon>
+          {{ percentage }}
+        </div>
       </b-navbar-item>
       <div
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
@@ -214,22 +232,7 @@
               </b-dropdown-item>
             </b-dropdown>
           </b-tooltip>
-          <b-tooltip
-            position="is-bottom"
-            multilined
-            size="is-small"
-            type="is-primary"
-            :label="$t('TooltipOffline')"
-            :delay="1000"
-            :triggers="['hover']"
-          >
-            <b-button
-              disabled
-              :type="isOfflineReady ? 'is-success' : 'is-info'"
-              icon-left="cloud-download"
-              >{{ Math.floor(offlineImagesSavedRatio) }}%</b-button
-            >
-          </b-tooltip>
+
           <b-tooltip
             v-if="this.$route.path.includes('pictalk')"
             position="is-bottom"
@@ -318,6 +321,7 @@ export default {
   },
   data() {
     return {
+      percent: -1,
       notificationsCount: 0,
       intervalId: null,
       fits: false,
@@ -360,6 +364,10 @@ export default {
     }, 15000);
   },
   computed: {
+    percentage() {
+      this.percent = Math.floor(this.offlineImagesSavedRatio);
+      return this.percent >= 0 && this.percent < 100 ? this.percent + "%" : "";
+    },
     isOfflineReady() {
       return this.offlineReadyProgress == 0;
     },
@@ -412,7 +420,9 @@ export default {
       });
     },
     fitsBigger() {
-      this.fits = window.innerWidth > 767;
+      this.fits =
+        window.innerWidth > 767 &&
+        !(window.innerWidth > 1023 && window.innerWidth < 1160);
     },
     getCollectionFromId(id) {
       const index = this.$store.getters.getCollections.findIndex(
@@ -678,5 +688,19 @@ export default {
 }
 .lessPadding {
   padding: 0.38rem;
+}
+.downloadDiv {
+  border: solid;
+  border-width: 1px;
+  border-radius: 20px;
+  min-width: 40px;
+  max-width: 20vw;
+  height: 40px;
+
+  padding-left: 5px;
+  padding-right: 10px;
+  align-items: center;
+  display: flex;
+  font-size: 0.85em;
 }
 </style>
