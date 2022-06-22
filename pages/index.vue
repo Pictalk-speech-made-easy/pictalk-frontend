@@ -227,6 +227,7 @@ export default {
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
+        canCancel: ["escape", "x"],
       });
     },
   },

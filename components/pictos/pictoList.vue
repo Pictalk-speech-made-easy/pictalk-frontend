@@ -41,11 +41,10 @@
 <script >
 import picto from "@/components/pictos/picto";
 import lang from "@/mixins/lang";
-import enforcedSecurity from "@/mixins/enforcedSecurity";
 import links from "@/mixins/links";
 export default {
   name: "pictoList",
-  mixins: [lang, enforcedSecurity, links],
+  mixins: [lang, links],
   components: {
     picto,
   },

@@ -121,11 +121,10 @@
 import lang from "@/mixins/lang";
 import navbar from "@/mixins/navbar";
 import emoji from "@/mixins/emoji";
-import enforcedSecurity from "@/mixins/enforcedSecurity";
 import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
 export default {
-  mixins: [lang, emoji, navbar, enforcedSecurity],
+  mixins: [lang, emoji, navbar],
   data() {
     return {
       trueValue: true,
@@ -183,6 +182,7 @@ export default {
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
+        canCancel: ["escape", "x"],
       });
     },
     openSignUpModal() {

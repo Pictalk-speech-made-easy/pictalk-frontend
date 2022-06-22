@@ -302,13 +302,14 @@
 import lang from "@/mixins/lang";
 import axios from "axios";
 import navbar from "@/mixins/navbar";
-import enforcedSecurity from "@/mixins/enforcedSecurity";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import feedbackModal from "@/components/auth/feedbackModal";
+import Security from "@/components/auth/securityModal";
 export default {
-  mixins: [lang, navbar, enforcedSecurity],
+  mixins: [lang, navbar],
   components: {
     PictoSteps,
+    Security,
   },
   created() {
     const bc = new BroadcastChannel("offline-ready");
@@ -417,6 +418,7 @@ export default {
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
+        canCancel: ["escape", "x"],
       });
     },
     fitsBigger() {
@@ -438,7 +440,13 @@ export default {
         });
       } else {
         if (this.$store.getters.getUser.settings.securityMode) {
-          this.goToAdminWithEnforced();
+          this.goToAdminWithEnforced({
+            path: this.$route.path,
+            query: {
+              ...this.$route.query,
+              isAdmin: true,
+            },
+          });
         } else {
           this.$router.push({
             path: this.$route.path,
@@ -450,20 +458,18 @@ export default {
         }
       }
     },
-    goToAdminWithEnforced() {
-      let postFunction = function (t) {
-        t.$router.push({
-          path: t.$route.path,
-          query: {
-            ...t.$route.query,
-            isAdmin: true,
-          },
-        });
-        if (!t.$route.query.isAdmin) {
-          t.$buefy.toast.open(t.$t("SupervisorModeSuccess"));
-        }
-      };
-      this.enforcedSecurityMinor(postFunction);
+    goToAdminWithEnforced(path) {
+      this.$buefy.modal.open({
+        parent: this,
+        component: Security,
+        hasModalCard: true,
+        props: {
+          path: path,
+        },
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
     },
     addPicto(isPicto) {
       this.$buefy.modal.open({
@@ -639,14 +645,7 @@ export default {
       if (this.admin) {
         this.$router.push("/account" + this.admin);
       } else {
-        if (this.$store.getters.getUser.settings.securityMode) {
-          let postFunction = function (t) {
-            t.$router.push("/account");
-          };
-          this.enforcedSecurityMinor(postFunction);
-        } else {
-          this.$router.push("/account");
-        }
+        this.goToAdminWithEnforced({ path: "/account" + this.admin });
       }
     },
   },
