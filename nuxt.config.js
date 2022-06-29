@@ -179,6 +179,11 @@ export default {
     Sitemap: 'https://www.pictalk.org/sitemap.xml'
   },
   pwa: {
+    icon: {
+      src: "https://www.pictalk.org/icon.png",
+      sizes: [256, 512],
+      type: "image/png",
+    },
     workbox: {
       /*
       dev: true,
@@ -205,7 +210,6 @@ export default {
         src: "https://www.pictalk.org/icon.png",
         sizes: "512x512",
         type: "image/png",
-        purpose: "any"
       }],
       screenshots: [
         {
