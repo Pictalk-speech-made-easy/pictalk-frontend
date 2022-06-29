@@ -181,7 +181,7 @@ export default {
   pwa: {
     icon: {
       src: "https://www.pictalk.org/icon.png",
-      sizes: [256, 512],
+      sizes: [512],
       type: "image/png",
     },
     workbox: {
