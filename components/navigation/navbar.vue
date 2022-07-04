@@ -121,11 +121,11 @@
 import lang from "@/mixins/lang";
 import navbar from "@/mixins/navbar";
 import emoji from "@/mixins/emoji";
-import enforcedSecurity from "@/mixins/enforcedSecurity";
 import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
+import Security from "@/components/auth/securityModal";
 export default {
-  mixins: [lang, emoji, navbar, enforcedSecurity],
+  mixins: [lang, emoji, navbar],
   data() {
     return {
       trueValue: true,
@@ -136,6 +136,7 @@ export default {
   components: {
     signin,
     signup,
+    Security,
   },
   destroyed() {
     window.removeEventListener("resize", this.fitsBigger);

@@ -302,12 +302,11 @@
 import lang from "@/mixins/lang";
 import axios from "axios";
 import navbar from "@/mixins/navbar";
-import enforcedSecurity from "@/mixins/enforcedSecurity";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import feedbackModal from "@/components/auth/feedbackModal";
 import Security from "@/components/auth/securityModal";
 export default {
-  mixins: [lang, navbar, enforcedSecurity],
+  mixins: [lang, navbar],
   components: {
     PictoSteps,
     Security,
@@ -460,12 +459,15 @@ export default {
       }
     },
     goToAdminWithEnforced(path) {
+      let cb = function (t) {
+        t.$router.push(path);
+      };
       this.$buefy.modal.open({
         parent: this,
         component: Security,
         hasModalCard: true,
         props: {
-          path: path,
+          callback: cb,
         },
         customClass: "custom-class custom-class-2",
         trapFocus: true,
@@ -643,7 +645,7 @@ export default {
       }
     },
     goToAccount() {
-      if (this.admin) {
+      if (this.admin || !this.$store.getters.getUser.settings.securityMode) {
         this.$router.push("/account" + this.admin);
       } else {
         this.goToAdminWithEnforced({ path: "/account" + this.admin });

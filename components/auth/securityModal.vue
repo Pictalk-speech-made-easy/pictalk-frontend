@@ -38,8 +38,8 @@
 export default {
   name: "Security",
   props: {
-    path: {
-      type: Object,
+    callback: {
+      type: Function,
       required: true,
     },
   },
@@ -57,9 +57,8 @@ export default {
   methods: {
     evaluate() {
       if (this.number == this.a + this.b) {
-        this.$buefy.toast.open(this.$t("SupervisorModeSuccess"));
         this.$parent.close();
-        this.$router.push(this.path);
+        this.callback(this);
       } else {
         this.$parent.close();
       }
