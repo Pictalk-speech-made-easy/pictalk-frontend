@@ -121,10 +121,11 @@
 import lang from "@/mixins/lang";
 import navbar from "@/mixins/navbar";
 import emoji from "@/mixins/emoji";
+import enforcedSecurity from "@/mixins/enforcedSecurity";
 import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
 export default {
-  mixins: [lang, emoji, navbar],
+  mixins: [lang, emoji, navbar, enforcedSecurity],
   data() {
     return {
       trueValue: true,

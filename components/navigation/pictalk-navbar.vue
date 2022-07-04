@@ -302,11 +302,12 @@
 import lang from "@/mixins/lang";
 import axios from "axios";
 import navbar from "@/mixins/navbar";
+import enforcedSecurity from "@/mixins/enforcedSecurity";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import feedbackModal from "@/components/auth/feedbackModal";
 import Security from "@/components/auth/securityModal";
 export default {
-  mixins: [lang, navbar],
+  mixins: [lang, navbar, enforcedSecurity],
   components: {
     PictoSteps,
     Security,
