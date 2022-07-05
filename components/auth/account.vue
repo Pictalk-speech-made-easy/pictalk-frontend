@@ -284,7 +284,7 @@ import tts from "@/mixins/tts";
 import lang from "@/mixins/lang";
 import sharers from "@/mixins/sharers";
 import navbar from "@/mixins/navbar";
-import { convertToSimpleLanguage } from "@/utils/utils";
+import { convertToSimpleLanguage, isObject, mergeDeep } from "@/utils/utils";
 export default {
   mixins: [deviceInfos, emoji, tts, lang, sharers, navbar],
   computed: {
@@ -453,7 +453,8 @@ export default {
       if (languageLang != undefined) {
         language[languageLang] = device;
         if (Object.keys(this.user.language)[0] == languageLang) {
-          editedLanguage = Object.assign(JSON.parse(JSON.stringify(language)));
+          editedLanguage = this.user.language;
+          mergeDeep(editedLanguage, language);
         } else {
           const languagesIndex = Object.keys(this.user.languages).find(
             (language) => language == languageLang
