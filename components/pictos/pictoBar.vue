@@ -65,7 +65,7 @@
           v-for="(picto, index) in pictosWithoutSilent"
           :key="index"
           :src="picto.image"
-          :class="wordIndex >= index? 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd animations': 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd lowBrightness'"
+          :class="(animation? (wordIndex >= index? 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd animations': 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd lowBrightness') : 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd')"
         ></img>
       </div>
     </div>
@@ -117,6 +117,16 @@ export default {
         }
       }
       return chars;
+    },
+    testBoundaryEventSupport() {
+      if (this.voiceURI != "") {
+        let synthesis = new SpeechSynthesisUtterance();
+        synthesis.volume = 0;
+        synthesis.addEventListener("boundary", (event) => {
+          this.animation = true;
+        });
+        this.pronounce("a", this.getUserLang, this.voiceURI, 1, 1, synthesis);
+      }
     },
     async copyPictosToClipboardLegacy(pictos) {
       const message = this.getText(pictos);
@@ -366,11 +376,16 @@ export default {
         element.scrollLeft = element.scrollWidth;
       }, 125);
     },
+    voiceURI: function () {
+      this.animation = false;
+      this.testBoundaryEventSupport();
+    },
   },
   data() {
     return {
       chars: [],
       wordIndex: 0,
+      animation: false,
       synthesis: null,
       vocalize: false,
       adminMode: false,
