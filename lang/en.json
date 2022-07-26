@@ -331,5 +331,20 @@
   "FeedbackVuex": "Vuex",
   "FeedbackVoices": "Voices",
   "FeedbackCreatedSucess": "Feedback submited with success !",
-  "TooltipFeedback": "Submit any feedback"
+  "TooltipFeedback": "Submit any feedback",
+  "FeedbackBlocking": "Is the issue blocking ?",
+  "FeedbackActionSelectPictos": "Pictograms or collections",
+  "FeedbackActionSelectPictosValuesCreation": "Creation",
+  "FeedbackActionSelectPictosValuesModification": "Edition",
+  "FeedbackActionSelectPictosValuesCopy": "Copy and paste",
+  "FeedbackActionSelectPictosValuesPrint": "Print",
+  "FeedbackActionSelectInscription": "Inscription and Tutorial",
+  "FeedbackActionSelectInscriptionValuesInscription": "Inscription",
+  "FeedbackActionSelectInscriptionValuesTutorial": "Tutorial",
+  "FeedbackActionSelectVoices": "Voices",
+  "FeedbackActionSelectVoicesValuesVoice": "Voice",
+  "FeedbackActionSelectVoicesValuesLanguage": "Language",
+  "FeedbackActionSelectOther": "Other",
+  "FeedbackActionSelectOtherValuesOther": "Other",
+  "FeedbackEvolution": "Evolution"
 }

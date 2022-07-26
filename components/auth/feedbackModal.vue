@@ -16,8 +16,53 @@
       <b-field :label="$t('FeedbackContact')">
         <b-input v-model="contact" required></b-input>
       </b-field>
+      <b-field :label="$t('FeedbackBlocking')">
+        <b-checkbox v-model="blocking" required></b-checkbox>
+      </b-field>
+      <b-select v-model="action" icon="bug" required>
+        <optgroup :label="$t('FeedbackActionSelectPictos')">
+          <option value="creation">
+            {{ $t("FeedbackActionSelectPictosValuesCreation") }}
+          </option>
+          <option value="modification">
+            {{ $t("FeedbackActionSelectPictosValuesModification") }}
+          </option>
+          <option value="copy">
+            {{ $t("FeedbackActionSelectPictosValuesCopy") }}
+          </option>
+          <option value="print">
+            {{ $t("FeedbackActionSelectPictosValuesPrint") }}
+          </option>
+        </optgroup>
+
+        <optgroup :label="$t('FeedbackActionSelectInscription')">
+          <option value="inscription">
+            {{ $t("FeedbackActionSelectInscriptionValuesInscription") }}
+          </option>
+          <option value="tutorial">
+            {{ $t("FeedbackActionSelectInscriptionValuesTutorial") }}
+          </option>
+        </optgroup>
+
+        <optgroup :label="$t('FeedbackActionSelectVoices')">
+          <option value="voice">
+            {{ $t("FeedbackActionSelectVoicesValuesVoice") }}
+          </option>
+          <option value="language">
+            {{ $t("FeedbackActionSelectVoicesValuesLanguage") }}
+          </option>
+        </optgroup>
+        <optgroup :label="$t('FeedbackActionSelectOther')">
+          <option value="other">
+            {{ $t("FeedbackActionSelectOtherValuesOther") }}
+          </option>
+        </optgroup>
+      </b-select>
       <b-field :label="$t('FeedbackDescription')">
         <b-input type="textarea" v-model="description" lazy required></b-input>
+      </b-field>
+      <b-field :label="$t('FeedbackEvolution')">
+        <b-input type="textarea" v-model="evolution"></b-input>
       </b-field>
       <b-button class="is-text" @click="toggleDebugInfos()">{{
         $t("FeedbackToggle")
@@ -95,13 +140,22 @@ export default {
       this.showDebugInfos = !this.showDebugInfos;
     },
     async save() {
-      if (this.title != "" || this.contact != "" || this.description != "") {
+      if (
+        this.title != "" ||
+        this.contact != "" ||
+        this.description != "" ||
+        this.action != "" ||
+        this.blocking != ""
+      ) {
         try {
           this.loadingSave = true;
           const res = await axios.post("/feedback", {
             title: this.title,
             description: this.description,
             contact: this.contact,
+            blocking: JSON.stringify(this.blocking),
+            evolution: this.evolution,
+            action: this.action,
             vuex: JSON.stringify(this.getFilteredLocalStorage),
             voices: JSON.stringify(this.getVoices),
             deviceInfos: this.getDeviceInfo(),
@@ -137,6 +191,9 @@ export default {
       title: "",
       description: "",
       contact: "",
+      action: "other",
+      blocking: false,
+      evolution: "",
     };
   },
 };
