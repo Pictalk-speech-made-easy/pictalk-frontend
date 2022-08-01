@@ -10,6 +10,7 @@
     </header>
     <section class="modal-card-body">
       <b-field
+        @keyup.native.enter="evaluate()"
         :label="
           $t('SupervisorModeQuestion') + ' :  ' + `${this.a} + ${this.b} ?`
         "
