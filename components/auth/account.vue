@@ -29,6 +29,39 @@
               password-reveal
             ></b-input>
           </b-field>
+          <b-icon icon="cloud-download"></b-icon>
+          <!-- Si
+          breakpoint
+          mobile
+          alors
+          ne
+          pas
+          restreindre
+          la
+          width.
+          Sinon
+          la
+          restreindre
+          à
+          (petit)
+           -->
+          <b-progress
+            :type="isOfflineReady ? 'is-success' : 'is-info'"
+            :value="offlineImagesSavedRatio"
+            show-value
+          ></b-progress>
+          <p v-if="offlineImagesSavedRatio == 100">
+            {{ $t("ReadyOffline") }} ✈️
+          </p>
+          <p v-if="offlineReadyTotal">
+            <b>{{ offlineReadyTotal }}</b> {{ $t("DownloadedImages") }}<br />
+          </p>
+          <p v-else>
+            {{ $t("NoStorage") }}
+          </p>
+          <p v-if="storage != '0B'">
+            {{ $t("StorageUsage") }} <b>{{ storage }}</b>
+          </p>
           <hr />
         </b-tab-item>
         <b-tab-item icon="translate">
@@ -239,27 +272,6 @@
           <hr />
         </b-tab-item>
       </b-tabs>
-      <b-icon icon="cloud-download"></b-icon>
-      <!-- Si
-          breakpoint
-          mobile
-          alors
-          ne
-          pas
-          restreindre
-          la
-          width.
-          Sinon
-          la
-          restreindre
-          à
-          (petit)
-           -->
-      <b-progress
-        :type="isOfflineReady ? 'is-success' : 'is-info'"
-        :value="offlineImagesSavedRatio"
-        show-value
-      ></b-progress>
     </div>
     <div class="footer container is-max-desktop">
       <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
@@ -338,6 +350,7 @@ export default {
       displayedLanguage: "",
       data: [],
       tabStep: 0,
+      storage: "0B",
       columns: [
         {
           field: "username",
@@ -391,7 +404,7 @@ export default {
       this.initialization = false;
     }
   },
-  created() {
+  async created() {
     this.directSharers = [...this.user.directSharers];
     for (let sharer of this.directSharers) {
       this.directSharersObj.push({ username: sharer });
@@ -406,6 +419,16 @@ export default {
         this.offlineReadyProgress = event.data.progress;
       }
     };
+    if ("storage" in navigator && "estimate" in navigator.storage) {
+      const usedStorage = (await navigator.storage.estimate()).usage;
+      if (usedStorage >= 1e6) {
+        this.storage = `${(usedStorage / 1e6).toFixed(1)}MB`;
+      } else if (usedStorage >= 1e3) {
+        this.storage = `${(usedStorage / 1e3).toFixed(1)}KB`;
+      } else {
+        this.storage = `${usedStorage}B`;
+      }
+    }
   },
   methods: {
     async openAddGroupModal(group, index) {

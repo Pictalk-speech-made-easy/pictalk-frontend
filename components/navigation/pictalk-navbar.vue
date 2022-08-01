@@ -1,38 +1,51 @@
 <template>
   <b-navbar fixed-top>
     <template slot="brand">
-      <b-navbar-item
-        style="padding: 0%; padding-right: 1px; padding-left: 1vw"
-        @click="eraseSpeech()"
-      >
+      <b-navbar-item style="padding: 0%; padding-right: 1px; padding-left: 1vw">
         <img
           style="margin-right: 0.5vw"
           v-if="fits"
           src="~/assets/logo_compressed.png"
           alt="Logo of a web app that help speach-disabled people"
+          @click="eraseSpeech()"
         />
         <img
           style="margin-right: 0.5vw"
           v-if="!fits"
           src="~/assets/small_logo.jpg"
           alt="Logo of a web app that help speach-disabled people"
+          @click="eraseSpeech()"
         />
-        <div
-          class="downloadDiv"
-          :style="
-            percent == 100
-              ? 'border-color: #48C78E; color: #48C78E;'
-              : 'border-color: #3e8ed0; color: #3e8ed0;'
-          "
+        <b-tooltip
+          position="is-right"
+          type="is-dark"
+          :triggers="['hover', 'click']"
         >
-          <b-icon
-            style="margin-left: 0px; max-width: 28px; margin-top: 1px"
-            :type="percent == 100 ? 'is-success' : 'is-info'"
-            icon="cloud-download"
-            size="is-medium"
-          ></b-icon>
-          {{ percentage }}
-        </div>
+          <div
+            class="downloadDiv"
+            :style="
+              percent == 100
+                ? 'border-color: #48C78E; color: #48C78E;'
+                : 'border-color: #3e8ed0; color: #3e8ed0;'
+            "
+          >
+            <b-icon
+              style="margin-left: 0px; max-width: 28px; margin-top: 1px"
+              :type="percent == 100 ? 'is-success' : 'is-info'"
+              icon="cloud-download"
+              size="is-medium"
+            ></b-icon>
+            {{ percentage }}
+          </div>
+          <template v-slot:content>
+            <p v-if="!offlineReadyTotal">
+              {{ $t("NoStorage") }}
+            </p>
+            <p v-if="offlineImagesSavedRatio == 100">
+              {{ $t("ReadyOffline") }} ✈️
+            </p>
+          </template>
+        </b-tooltip>
       </b-navbar-item>
       <div
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
@@ -311,7 +324,7 @@ export default {
     PictoSteps,
     Security,
   },
-  created() {
+  async created() {
     const bc = new BroadcastChannel("offline-ready");
     bc.onmessage = (event) => {
       if (event.isTrusted) {
