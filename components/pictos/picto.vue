@@ -21,8 +21,8 @@
       {{ picto.meaning[getUserLang] }}
     </div>
     <div
-      v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
-      class="adminMenu adminoption columns"
+      v-show="$route.query.isAdmin && !publicMode && !sidebarMode"
+      class="adminMenu adminoption columns smallMargin"
     >
       <b-dropdown aria-role="menu" class="column noMargin is-mobile">
         <template #trigger="{ active }">
@@ -117,10 +117,10 @@
       </div>
     </div>
     <div
-      v-if="
+      v-show="
         publicMode && $store.getters.getUser && $store.getters.isAuthenticated
       "
-      class="adminMenu adminoption columns"
+      class="adminMenu adminoption columns smallMargin"
     >
       <div class="column noMargin is-mobile">
         <b-button
@@ -396,7 +396,6 @@ export default {
 }
 .noMargin {
   padding: 0%;
-  padding-bottom: 1rem;
 }
 .meaning {
   font-size: 1rem;
@@ -411,5 +410,8 @@ export default {
   padding: 0.6rem;
   padding-top: 0.1rem;
   padding-bottom: 0.1rem;
+}
+.smallMargin {
+  margin-bottom: 2px;
 }
 </style>
