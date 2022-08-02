@@ -17,6 +17,7 @@
           @click="eraseSpeech()"
         />
         <b-tooltip
+          style="margin-right: 3px"
           position="is-right"
           type="is-dark"
           :triggers="['hover', 'click']"
