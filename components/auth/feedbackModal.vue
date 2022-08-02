@@ -10,54 +10,74 @@
       <p align="center" class="modal-card-title">{{ $t("Feedback") }}</p>
     </header>
     <section class="modal-card-body">
-      <b-field :label="$t('FeedbackTitle')">
-        <b-input v-model="title" required></b-input>
-      </b-field>
       <b-field :label="$t('FeedbackContact')">
         <b-input v-model="contact" required></b-input>
       </b-field>
-      <b-field :label="$t('FeedbackBlocking')">
-        <b-checkbox v-model="blocking" required></b-checkbox>
+      <b-field :label="$t('FeedbackTitle')">
+        <b-input v-model="title" required></b-input>
       </b-field>
-      <b-select v-model="action" icon="bug" required>
-        <optgroup :label="$t('FeedbackActionSelectPictos')">
-          <option value="creation">
-            {{ $t("FeedbackActionSelectPictosValuesCreation") }}
-          </option>
-          <option value="modification">
-            {{ $t("FeedbackActionSelectPictosValuesModification") }}
-          </option>
-          <option value="copy">
-            {{ $t("FeedbackActionSelectPictosValuesCopy") }}
-          </option>
-          <option value="print">
-            {{ $t("FeedbackActionSelectPictosValuesPrint") }}
-          </option>
-        </optgroup>
+      <b-field :label="$t('FeedbackType')">
+        <div class="columns is-multiline is-mobile">
+          <b-select
+            class="column"
+            style="flex-grow: 0; padding-bottom: 0.25rem"
+            v-model="action"
+            required
+          >
+            <optgroup :label="$t('FeedbackActionSelectPictos')">
+              <option value="creation">
+                {{ $t("FeedbackActionSelectPictosValuesCreation") }}
+              </option>
+              <option value="modification">
+                {{ $t("FeedbackActionSelectPictosValuesModification") }}
+              </option>
+              <option value="copy">
+                {{ $t("FeedbackActionSelectPictosValuesCopy") }}
+              </option>
+              <option value="print">
+                {{ $t("FeedbackActionSelectPictosValuesPrint") }}
+              </option>
+            </optgroup>
 
-        <optgroup :label="$t('FeedbackActionSelectInscription')">
-          <option value="inscription">
-            {{ $t("FeedbackActionSelectInscriptionValuesInscription") }}
-          </option>
-          <option value="tutorial">
-            {{ $t("FeedbackActionSelectInscriptionValuesTutorial") }}
-          </option>
-        </optgroup>
+            <optgroup :label="$t('FeedbackActionSelectInscription')">
+              <option value="inscription">
+                {{ $t("FeedbackActionSelectInscriptionValuesInscription") }}
+              </option>
+              <option value="tutorial">
+                {{ $t("FeedbackActionSelectInscriptionValuesTutorial") }}
+              </option>
+            </optgroup>
 
-        <optgroup :label="$t('FeedbackActionSelectVoices')">
-          <option value="voice">
-            {{ $t("FeedbackActionSelectVoicesValuesVoice") }}
-          </option>
-          <option value="language">
-            {{ $t("FeedbackActionSelectVoicesValuesLanguage") }}
-          </option>
-        </optgroup>
-        <optgroup :label="$t('FeedbackActionSelectOther')">
-          <option value="other">
-            {{ $t("FeedbackActionSelectOtherValuesOther") }}
-          </option>
-        </optgroup>
-      </b-select>
+            <optgroup :label="$t('FeedbackActionSelectVoices')">
+              <option value="voice">
+                {{ $t("FeedbackActionSelectVoicesValuesVoice") }}
+              </option>
+              <option value="language">
+                {{ $t("FeedbackActionSelectVoicesValuesLanguage") }}
+              </option>
+            </optgroup>
+            <optgroup :label="$t('FeedbackActionSelectOther')">
+              <option value="other">
+                {{ $t("FeedbackActionSelectOtherValuesOther") }}
+              </option>
+            </optgroup>
+          </b-select>
+          <div
+            class="column"
+            style="
+              flex-grow: 0;
+              display: flex;
+              align-self: end;
+              padding-top: 0.25rem;
+            "
+          >
+            <p style="padding-right: 0.25rem; min-width: 165px">
+              {{ $t("FeedbackBlocking") }}
+            </p>
+            <b-checkbox v-model="blocking" required></b-checkbox>
+          </div>
+        </div>
+      </b-field>
       <b-field :label="$t('FeedbackDescription')">
         <b-input type="textarea" v-model="description" lazy required></b-input>
       </b-field>
@@ -113,6 +133,9 @@ import tts from "@/mixins/tts";
 import axios from "axios";
 export default {
   mixins: [deviceInfos, tts],
+  created() {
+    this.contact = this.$store.getters.getUser.username;
+  },
   computed: {
     getUserAgent() {
       return window.navigator.userAgent;
@@ -210,5 +233,8 @@ export default {
 .headers {
   margin-bottom: 0.5rem;
   padding: 0.4rem;
+}
+.leftAlign {
+  display: inline-block;
 }
 </style>
