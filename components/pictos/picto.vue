@@ -21,7 +21,7 @@
       {{ picto.meaning[getUserLang] }}
     </div>
     <div
-      v-show="$route.query.isAdmin && !publicMode && !sidebarMode"
+      v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
       class="adminMenu adminoption columns smallMargin"
     >
       <b-dropdown aria-role="menu" class="column noMargin is-mobile">
@@ -117,7 +117,7 @@
       </div>
     </div>
     <div
-      v-show="
+      v-if="
         publicMode && $store.getters.getUser && $store.getters.isAuthenticated
       "
       class="adminMenu adminoption columns smallMargin"
