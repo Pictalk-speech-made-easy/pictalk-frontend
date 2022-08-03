@@ -181,6 +181,7 @@
             />
           </b-field>
           <b-table
+            v-if="directSharers.length > 0"
             :focusable="true"
             :data="directSharersObj"
             :columns="columns"
@@ -203,9 +204,9 @@
             icon-left="delete"
             @click="removeFromSharers()"
           />
-          <hr />
+          <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("Groups") }}</p>
-          <b-field>
+          <b-field style="margin-bottom: 0.15rem">
             <div class="columns is-multiline is-mobile">
               <div
                 class="
@@ -220,8 +221,12 @@
                 v-for="(group, index) in mailingList"
               >
                 <div class="card-content lessPadding">
-                  <div class="media">
-                    <div class="media-left" v-if="group.icon">
+                  <div class="media" style="margin-bottom: 0.25rem">
+                    <div
+                      class="media-left"
+                      v-if="group.icon"
+                      style="max-width: 16px; margin-right: 12px"
+                    >
                       <b-icon :icon="group.icon" />
                     </div>
                     <div class="media-content" style="overflow-y: hidden">
@@ -230,7 +235,7 @@
                       </p>
                     </div>
                   </div>
-                  <div class="groupUsers">
+                  <div class="groupUsers" style="margin-bottom: 15px">
                     <div
                       style="overflow-x: hidden"
                       v-for="username in group.users"
@@ -238,25 +243,33 @@
                       {{ username }}
                     </div>
                   </div>
-                </div>
-                <div class="columns is-mobile is-centered">
-                  <div class="column">
-                    <b-button
-                      type="is-danger"
-                      expanded
-                      style="max-width: 90px"
-                      icon-right="delete"
-                      @click="mailingList.splice(index, 1)"
-                    />
-                  </div>
-                  <div class="column">
-                    <b-button
-                      type="is-info"
-                      expanded
-                      style="max-width: 90px"
-                      icon-right="pencil"
-                      @click="openAddGroupModal(group, index)"
-                    />
+                  <div class="columns is-mobile is-centered">
+                    <div
+                      class="column"
+                      style="
+                        padding: 0.2rem;
+                        margin-left: 0.4rem;
+                        margin-right: 0.8rem;
+                        flex-grow: 0;
+                      "
+                    >
+                      <b-button
+                        type="is-danger"
+                        expanded
+                        style="width: 50px"
+                        icon-right="delete"
+                        @click="deleteGroup(mailingList, index)"
+                      />
+                    </div>
+                    <div class="column" style="padding: 0.2rem">
+                      <b-button
+                        type="is-info"
+                        expanded
+                        style="width: 50px"
+                        icon-right="pencil"
+                        @click="openAddGroupModal(group, index)"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -264,6 +277,7 @@
           </b-field>
           <br />
           <b-button
+            style="margin-bottom: 45px"
             type="is-success"
             class="actionButtons"
             icon-left="plus"
@@ -296,6 +310,7 @@ import tts from "@/mixins/tts";
 import lang from "@/mixins/lang";
 import sharers from "@/mixins/sharers";
 import navbar from "@/mixins/navbar";
+import Security from "@/components/auth/securityModal";
 import { convertToSimpleLanguage, isObject, mergeDeep } from "@/utils/utils";
 export default {
   mixins: [deviceInfos, emoji, tts, lang, sharers, navbar],
@@ -431,6 +446,22 @@ export default {
     }
   },
   methods: {
+    deleteGroup(mailingList, index) {
+      let cb = function () {
+        mailingList.splice(index, 1);
+      };
+      this.$buefy.modal.open({
+        parent: this,
+        component: Security,
+        hasModalCard: true,
+        props: {
+          callback: cb,
+        },
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+    },
     async openAddGroupModal(group, index) {
       this.$buefy.modal.open({
         parent: this,
@@ -574,7 +605,7 @@ export default {
   box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .groupUsers {
-  max-height: 100px;
+  height: 100px;
   overflow-y: scroll;
 }
 ::-webkit-scrollbar {
