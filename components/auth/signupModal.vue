@@ -115,8 +115,7 @@
           <div class="contenant columns is-mobile" style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
             <div v-for="bundle in publicBundles" class="column is-4" style="padding: 2px">
                 <div  @click="selectPublicBundle(bundle.id)">
-                  <b-image class="has-background" :style="bundle.id == selectedBundle ? 'opacity:100%;' : 'opacity:50%;'" :src="bundle.image"></b-image>
-                  {{selectedBundle}}
+                  <b-image class="has-background" :style="bundle.id == selectedBundle ? 'opacity:100%;' : 'opacity:60%; filter: grayscale(60%);'" :src="bundle.image"></b-image>
               </div>
             </div>
           </div>
@@ -330,7 +329,7 @@ export default {
   beforeUpdate() {
     this.initialization = false;
   },
-  created() {
+  async created() {
     if (this.recoverCode) {
       this.notSignedUp = false;
       this.maxStep = 3;
@@ -338,7 +337,7 @@ export default {
       this.username = this.credentials.username;
       this.password = this.credentials.password;
     }
-    this.$store.dispatch("getPublicBundles");
+    await this.$store.dispatch("getPublicBundles");
     this.selectedBundle = this.$store.getters.getPublicBundles[0].id;
   },
   methods: {
