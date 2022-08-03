@@ -115,7 +115,8 @@
           <div class="contenant columns is-mobile" style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
             <div v-for="bundle in publicBundles" class="column is-4" style="padding: 2px">
                 <div  @click="selectPublicBundle(bundle.id)">
-                  <b-image :class="bundle.id == selectedBundle ? 'has-background-selected' : 'has-background'" :src="bundle.image"/>
+                  <b-image class="has-background" :style="bundle.id == selectedBundle ? 'opacity:100%;' : 'opacity:50%;'" :src="bundle.image"></b-image>
+                  {{selectedBundle}}
               </div>
             </div>
           </div>
@@ -338,6 +339,7 @@ export default {
       this.password = this.credentials.password;
     }
     this.$store.dispatch("getPublicBundles");
+    this.selectedBundle = this.$store.getters.getPublicBundles[0].id;
   },
   methods: {
     getBundleLevelById(id) {
@@ -588,16 +590,9 @@ export default {
   width: 100%;
 }
 .has-background {
-  opacity: 60%;
   border-radius: 3px;
   -webkit-box-shadow: 1px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 1px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
   box-shadow: 1px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
-}
-.has-background-selected {
-  border: solid;
-  border-width: 4px;
-  border-color: #ff5757;
-  border-radius: 3px;
 }
 </style>
