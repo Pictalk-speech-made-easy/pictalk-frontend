@@ -64,7 +64,7 @@
           <b-button
             :expanded="true"
             type="is-warning"
-            icon-left="content-copy"
+            icon-left="vector-arrange-below"
             :label="$t('CopyPicto')"
             @click="setCopyCollectionId(picto.id, !picto.collection)"
           />
@@ -73,7 +73,7 @@
           <b-button
             :expanded="true"
             type="is-dark"
-            icon-left="image-move"
+            icon-left="vector-link"
             :label="$t('LinkPicto')"
             @click="setShortcutCollectionId(picto.id, !picto.collection)"
           />
