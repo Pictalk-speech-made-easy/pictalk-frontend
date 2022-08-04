@@ -537,6 +537,7 @@ export default {
     dynamicSrc() {
       if (this.file.url) {
         return window.webkitURL.createObjectURL(this.file);
+        dynamicSrc;
       }
     },
     classCreateOrEdit() {
@@ -622,8 +623,18 @@ export default {
       deep: true,
     },
   },
-  created() {
+  async created() {
     this.languageSelectorSpeech = this.getUserLang;
+    if (this.picto) {
+      try {
+        const response = await fetch(this.picto.image);
+        const blob = await response.blob();
+        this.file = new File([blob], "edited.jpg", { type: blob.type });
+        this.file.url = this.picto.image;
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
   methods: {
     getVoiceURIFromLanguage(language) {
