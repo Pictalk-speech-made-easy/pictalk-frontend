@@ -332,8 +332,8 @@ export default {
   async created() {
     if (this.recoverCode) {
       this.notSignedUp = false;
-      this.maxStep = 3;
-      this.activeStep = 3;
+      this.maxStep = 4;
+      this.activeStep = 4;
       this.username = this.credentials.username;
       this.password = this.credentials.password;
     }
