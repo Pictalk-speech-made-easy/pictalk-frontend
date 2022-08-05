@@ -101,9 +101,18 @@ export default {
     getText(pictos) {
       let speech = "";
       for (let index = 0; index < pictos.length - 1; index++) {
-        speech = speech + pictos[index].speech[this.getUserLang] + " ";
+        speech =
+          speech +
+          (pictos[index].count > 1 ? pictos[index].count : "") +
+          pictos[index].speech[this.getUserLang] +
+          " ";
       }
-      speech = speech + pictos[pictos.length - 1].speech[this.getUserLang];
+      speech =
+        speech +
+        (pictos[pictos.length - 1].count > 1
+          ? pictos[pictos.length - 1].count
+          : "") +
+        pictos[pictos.length - 1].speech[this.getUserLang];
       return speech;
     },
     getChars(pictos) {
@@ -112,7 +121,10 @@ export default {
       for (let index = 0; index < pictos.length; index++) {
         if (pictos[index].speech[this.getUserLang].length > 0) {
           speechLength =
-            pictos[index].speech[this.getUserLang].length + 1 + speechLength;
+            pictos[index].speech[this.getUserLang].length +
+            1 +
+            speechLength +
+            (pictos[index].count > 1 ? 1 : 0);
           chars.push(speechLength);
         }
       }
