@@ -625,7 +625,7 @@ export default {
   },
   async created() {
     this.languageSelectorSpeech = this.getUserLang;
-    if (this.picto) {
+    if (this.picto.image) {
       try {
         const response = await fetch(this.picto.image);
         const blob = await response.blob();
