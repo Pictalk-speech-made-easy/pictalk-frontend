@@ -338,7 +338,7 @@ export default {
           let unstarredItems = [];
           sortedItems = this.sorting(collectionList, pictos);
           for (let item of sortedItems) {
-            if (item.starred) {
+            if (item?.starred) {
               starredItems.push(item);
             } else {
               unstarredItems.push(item);

@@ -187,7 +187,7 @@
             />
           </b-tooltip>
           <b-tooltip
-            v-if="notificationsCount != 0"
+            v-if="getUserNotifications.length != 0"
             position="is-bottom"
             multilined
             size="is-small"
@@ -337,7 +337,6 @@ export default {
   data() {
     return {
       percent: -1,
-      notificationsCount: 0,
       intervalId: null,
       fits: false,
       offlineReadyTotal: null,
@@ -354,22 +353,7 @@ export default {
     this.intervalId = setInterval(async () => {
       if (window.navigator.onLine) {
         try {
-          const notificationsRequest = await axios.get("/user/notification");
-          if (notificationsRequest.status == 200) {
-            const notifications = notificationsRequest.data;
-            if (notifications?.length != this.notificationsCount) {
-              this.$store.dispatch("downloadCollections");
-              this.notificationsCount = notifications?.length;
-            }
-            notifications?.forEach((notification) => {
-              if (notification.meaning) {
-                notification.meaning = JSON.parse(notification?.meaning);
-              }
-            });
-            return notifications;
-          } else {
-            return [];
-          }
+          this.$store.dispatch("getNotifications");
         } catch (err) {
           console.log(err);
           clearInterval(this.intervalId);
@@ -603,12 +587,12 @@ export default {
     },
     getNotificationMeaning(notification) {
       if (notification.meaning) {
-        const meaning = notification?.meaning[this.getUserLang];
+        const meaning = notification.meaning[this.getUserLang];
         if (meaning) {
           return meaning;
         } else {
           const lang = Object.keys(notification.meaning)[0];
-          return notification?.meaning[lang];
+          return notification.meaning[lang];
         }
       } else {
         return "";
@@ -636,7 +620,6 @@ export default {
     },
     deleteUserNotifications() {
       this.$store.dispatch("deleteNotifications");
-      this.notificationsCount = 0;
     },
     eraseSpeech() {
       this.$store.commit("eraseSpeech");

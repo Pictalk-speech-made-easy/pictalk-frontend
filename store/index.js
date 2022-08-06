@@ -583,6 +583,36 @@ export const actions = {
     })).data;
     return images;
   },
+  async getNotifications(vuexContext) {
+    const notificationsRequest = await axios.get("/user/notification");
+    if (notificationsRequest.status == 200) {
+      const notifications = notificationsRequest.data;
+      if (notifications?.length != vuexContext.getters.getUser.notifications.length) {
+        vuexContext.dispatch("downloadCollections");
+      }
+      notifications?.forEach(async (notification) => {
+        if (notification.meaning) {
+          notification.meaning = JSON.parse(notification?.meaning);
+        }
+        if (notification.affected) {
+          if (!getCollectionFromId(vuexContext, parseInt(notification.affected, 10))) {
+            var res = await axios.get("/collection/find/" + parseInt(notification.affected, 10));
+            parseAndUpdateEntireCollection(vuexContext, res.data);
+          }
+        }
+      });
+      // Mettre les notifications dans user
+      let user = { ...vuexContext.getters.getUser };
+      user.notifications = notifications;
+      vuexContext.commit("editUser", {
+        ...vuexContext.getters.getUser,
+        notifications: notifications,
+      });
+
+      // DL les nouvelles collections
+      return notifications;
+    }
+  }
 }
 export const getters = {
   getCollections(state) {

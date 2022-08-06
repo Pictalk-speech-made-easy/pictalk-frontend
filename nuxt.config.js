@@ -65,6 +65,7 @@ export default {
   sentry: {
     dsn: "https://6afdc113742e4c309b61a3bd6a64b06b@o1135783.ingest.sentry.io/6187341",
     config: {
+      environment: process.env.NODE_ENV !== 'production' ? 'development' : 'production',
       lazy: true
       // https://docs.sentry.io/platforms/javascript/guides/vue/configuration/options/
     },
