@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card" style="min-height: 30vh; min-width: 20vw">
+  <div class="modal-card" style="min-height: 10vh; min-width: 20vw">
     <header class="modal-card-head">
       <b-button
         class="button"
