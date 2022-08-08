@@ -1,19 +1,96 @@
 <template>
-  <div
-    style="
-      max-width: 960px;
-      display: block;
-      margin-right: auto;
-      margin-left: auto;
-      padding: 1vmax;
-    "
-  >
-    <p style="text-align: center">
-      <b class="is-size-4">
-        {{ $t("TutorialTitle1") }}
-      </b>
-    </p>
-    <div>
+  <div style="display: flex">
+    <div
+      class="hiddenMobile"
+      style="
+        min-width: 140px;
+        margin-left: 20px;
+        position: sticky;
+        top: 0;
+        max-height: 90vh;
+      "
+    >
+      <hr />
+      <a href="#basics"
+        ><b class="is-size-6 contrast">{{ $t("TutorialTitle1") }}</b></a
+      >
+      <hr style="margin: 4px" />
+      <a href="#fundamentals"
+        ><b class="is-size-6 contrast">{{ $t("TutorialTitle2") }}</b></a
+      >
+      <a href="#speechbar"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef1") }}</p></a
+      >
+      <a href="#action_menu"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef2") }}</p></a
+      >
+      <a href="#create"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef3") }}</p></a
+      >
+      <a href="#edit"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef4") }}</p></a
+      >
+      <a href="#delete"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef5") }}</p></a
+      >
+      <a href="#star"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef6") }}</p></a
+      >
+      <hr style="margin: 4px" />
+      <a href="#advanced"
+        ><b class="is-size-6 contrast">{{ $t("TutorialTitle3") }}</b></a
+      >
+      <a href="#linked_duplicate"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef7") }}</p></a
+      >
+      <a href="#distinct_copy"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef8") }}</p></a
+      >
+      <a href="#image_options"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef9") }}</p></a
+      >
+      <hr style="margin: 4px" />
+      <a href="#sharing"
+        ><b class="is-size-6 contrast">{{ $t("TutorialTitle4") }}</b></a
+      >
+      <a href="#create_group"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef10") }}</p></a
+      >
+      <a href="#share_group"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef11") }}</p></a
+      >
+      <hr style="margin: 4px" />
+      <a href="#application_settings"
+        ><b class="is-size-6 contrast">{{ $t("TutorialTitle5") }}</b></a
+      >
+      <a href="#voices"
+        ><p class="is-size-6 darker">{{ $t("TutorialRef12") }}</p></a
+      >
+      <hr style="margin: 4px" />
+      <a href="#offline"
+        ><b class="is-size-6 contrast">{{ $t("TutorialTitle6") }}</b></a
+      >
+      <hr style="margin: 4px" />
+      <a href="#public"
+        ><b class="is-size-6 contrast">{{ $t("TutorialTitle7") }}</b></a
+      >
+      <hr style="margin: 4px" />
+    </div>
+    <div
+      style="
+        max-width: 960px;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 1vmax;
+      "
+    >
+      <p style="text-align: center" id="basics">
+        <b class="is-size-4">
+          {{ $t("TutorialTitle1") }}
+        </b>
+      </p>
+
       <p class="text is-size-5 notification">
         {{ $t("Tutorial1") }}
       </p>
@@ -58,17 +135,25 @@
         ></video>
       </div>
       <hr />
-
-      <p class="text is-size-5 notification">
-        {{ $t("Tutorial5") }}
+      <p style="text-align: center" id="fundamentals">
+        <b class="is-size-4">
+          {{ $t("TutorialTitle2") }}
+        </b>
       </p>
-      <b-image
-        class="image"
-        lazy
-        :srcset="require('@/assets/pictoBar.png').srcSet"
-        alt="image of a pictogram sentence"
-        style="aspect-ratio: 563/94; max-height: 10vh"
-      ></b-image>
+      <div id="speechbar">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial5") }}
+        </p>
+      </div>
+      <div class="video-wrapper">
+        <b-image
+          class="image"
+          lazy
+          :srcset="require('@/assets/pictoBar.png').srcSet"
+          alt="image of a pictogram sentence"
+          style="aspect-ratio: 563/94; min-height: 8vh; max-width: 98vw"
+        ></b-image>
+      </div>
       <p class="text is-size-5 notification">
         <b-button
           type="is-success"
@@ -105,10 +190,11 @@
         ></b-button>
         {{ $t("Tutorial9") }}
       </p>
-      <hr />
-      <p class="text is-size-5 notification">
-        {{ $t("Tutorial10") }}
-      </p>
+      <div id="action_menu">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial10") }}
+        </p>
+      </div>
       <div class="video-wrapper">
         <video
           style="justify-content: center"
@@ -136,9 +222,11 @@
           </div>
         </div>
       </div>
-      <p class="text is-size-5 notification" style="margin-top: 0px">
-        {{ $t("Tutorial11") }}
-      </p>
+      <div id="create">
+        <p class="text is-size-5 notification" style="margin-top: 0px">
+          {{ $t("Tutorial11") }}
+        </p>
+      </div>
       <div class="video-wrapper">
         <video
           style="justify-content: center"
@@ -149,9 +237,11 @@
           :src="require('@/static/3creation.mp4')"
         ></video>
       </div>
-      <p class="text is-size-5 notification">
-        {{ $t("Tutorial12") }}
-      </p>
+      <div id="edit">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial12") }}
+        </p>
+      </div>
       <div class="video-wrapper">
         <video
           style="justify-content: center"
@@ -162,9 +252,11 @@
           :src="require('@/static/4edit.mp4')"
         ></video>
       </div>
-      <p class="text is-size-5 notification">
-        {{ $t("Tutorial13") }}
-      </p>
+      <div id="delete">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial13") }}
+        </p>
+      </div>
       <div class="video-wrapper">
         <video
           style="justify-content: center"
@@ -175,9 +267,11 @@
           :src="require('@/static/5delete.mp4')"
         ></video>
       </div>
-      <p class="text is-size-5 notification">
-        {{ $t("Tutorial14") }}
-      </p>
+      <div id="star">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial14") }}
+        </p>
+      </div>
       <div class="video-wrapper">
         <video
           style="justify-content: center"
@@ -188,16 +282,195 @@
           :src="require('@/static/6star.mp4')"
         ></video>
       </div>
+      <hr />
+      <p style="text-align: center" id="advanced">
+        <b class="is-size-4">
+          {{ $t("TutorialTitle3") }}
+        </b>
+      </p>
+      <div id="linked_duplicate">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial15") }}
+        </p>
+      </div>
+      <div class="video-wrapper">
+        <video
+          style="justify-content: center"
+          class="video"
+          controls
+          loop
+          alt="creating a pictogram in Pictalk"
+          :src="require('@/static/7linkedDuplicate.mp4')"
+        ></video>
+      </div>
+      <div id="distinct_copy">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial16") }}
+        </p>
+      </div>
+      <div class="video-wrapper">
+        <video
+          style="justify-content: center"
+          class="video"
+          controls
+          loop
+          alt="creating a pictogram in Pictalk"
+          :src="require('@/static/8distinctCopy.mp4')"
+        ></video>
+      </div>
+      <div id="image_options">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial17") }}
+        </p>
+      </div>
+      <div class="video-wrapper">
+        <video
+          style="justify-content: center"
+          class="video"
+          controls
+          loop
+          alt="creating a pictogram in Pictalk"
+          :src="require('@/static/9advancedOptions.mp4')"
+        ></video>
+      </div>
+      <hr />
+      <div id="sharing">
+        <p style="text-align: center">
+          <b class="is-size-4">
+            {{ $t("TutorialTitle4") }}
+          </b>
+        </p>
+      </div>
+      <div id="create_group">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial23") }}
+        </p>
+      </div>
+      <div class="video-wrapper">
+        <video
+          style="justify-content: center"
+          class="video"
+          controls
+          loop
+          alt="creating a pictogram in Pictalk"
+          :src="require('@/static/10groupCreate.mp4')"
+        ></video>
+      </div>
+      <div id="share_group">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial24") }}
+          <b-button
+            type="is-primary is-light"
+            icon-right="page-layout-sidebar-right"
+            style="width: 2rem; height: 2rem"
+          ></b-button>
+        </p>
+      </div>
+      <div class="video-wrapper">
+        <video
+          style="justify-content: center"
+          class="video"
+          controls
+          loop
+          alt="creating a pictogram in Pictalk"
+          :src="require('@/static/11groupShare.mp4')"
+        ></video>
+      </div>
+      <hr />
+      <p style="text-align: center" id="application_settings">
+        <b class="is-size-4">
+          {{ $t("TutorialTitle5") }}
+        </b>
+      </p>
+      <div id="voices">
+        <p class="text is-size-5 notification">
+          {{ $t("Tutorial20") }}
+        </p>
+      </div>
+      <div class="video-wrapper">
+        <b-image
+          class="image"
+          lazy
+          :srcset="require('@/assets/voiceSettings.png').srcSet"
+          alt="screenshot of the voice app settings"
+          style="
+            aspect-ratio: 644/545;
+            width: 96%;
+            max-width: 545px;
+            margin-top: 10px;
+          "
+        ></b-image>
+      </div>
+      <hr />
+      <p style="text-align: center" id="offline">
+        <b class="is-size-4">
+          {{ $t("TutorialTitle6") }}
+        </b>
+      </p>
+      <p class="text is-size-5 notification">
+        {{ $t("Tutorial18") }}
+      </p>
+      <div class="video-wrapper">
+        <b-image
+          class="image"
+          lazy
+          :srcset="require('@/assets/downloadIndicatorFull.png').srcSet"
+          alt="screenshot of a download indicator at 100%"
+          style="
+            aspect-ratio: 7/1;
+            height: 7vh;
+            max-height: 70px;
+            margin-top: 1rem;
+          "
+        ></b-image>
+      </div>
+      <p class="text is-size-5 notification">
+        {{ $t("Tutorial19") }}
+      </p>
+      <div class="video-wrapper">
+        <b-image
+          class="image"
+          lazy
+          :srcset="require('@/assets/downloadedImages.png').srcSet"
+          alt="screenshot of a download indicator at 100%"
+          style="
+            aspect-ratio: 3/1;
+            height: 17vh;
+            max-height: 200px;
+            margin-top: 1rem;
+          "
+        ></b-image>
+      </div>
+      <hr />
+      <p style="text-align: center" id="public">
+        <b class="is-size-4">
+          {{ $t("TutorialTitle7") }}
+        </b>
+      </p>
+      <p class="text is-size-5 notification">
+        {{ $t("Tutorial21") }}
+        <b-button
+          type="is-success is-light"
+          icon-right="web"
+          style="
+            width: 2rem;
+            height: 2rem;
+            border: solid;
+            border-width: 1px;
+            border-color: #48c78e;
+          "
+        ></b-button>
+        {{ $t("Tutorial22") }}
+      </p>
+      <hr />
+      <b-button
+        class="endButton"
+        type="is-success"
+        :label="$t('TutorialSkip')"
+        @click="toPictalk()"
+      >
+      </b-button>
     </div>
-    <hr />
-
-    <b-button
-      class="endButton"
-      type="is-success"
-      :label="$t('TutorialSkip')"
-      @click="toPictalk()"
-    >
-    </b-button>
   </div>
 </template>
 <script >
@@ -225,7 +498,6 @@ export default {
 </script>
 <style scoped>
 .endButton {
-  bottom: 1%;
   display: flex;
   margin-left: auto;
   margin-right: auto;
@@ -239,7 +511,7 @@ export default {
 }
 .video {
   max-width: 676px;
-  max-height: 75vh;
+  max-height: min(75vh, 720px);
   aspect-ratio: 676/900;
 }
 .video-wrapper {
@@ -248,7 +520,7 @@ export default {
 }
 .text {
   min-width: 280px;
-  margin-top: 2vh;
+  margin-top: 1vh;
   margin-bottom: 2px;
   padding: 1vmax;
 }
@@ -278,5 +550,27 @@ export default {
   margin-right: 1vw;
   margin-top: 5px;
   height: 44px;
+}
+.contrast {
+  color: #ee0000;
+}
+.darker {
+  color: #4a4a4a;
+}
+:target:before {
+  content: "";
+  display: block;
+  height: 50px;
+  margin: -50px 0 0;
+}
+@media screen and (max-width: 960px) {
+  .hiddenMobile {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .hiddenMobile {
+  }
 }
 </style>

@@ -180,6 +180,10 @@ export default {
             id: collection.id,
             collections: collection.pictos,
           });
+          const notif = this.$buefy.toast.open({
+            message: this.$t("PublicCopy"),
+            type: "is-success",
+          });
         } catch (err) {
           throw new Error(
             "Could not add shortcut to root collection: " +
@@ -192,6 +196,10 @@ export default {
           await this.$store.dispatch("editCollection", {
             id: collection.id,
             collections: collection.collections,
+          });
+          const notif = this.$buefy.toast.open({
+            message: this.$t("PublicCopy"),
+            type: "is-success",
           });
         } catch (err) {
           throw new Error(
