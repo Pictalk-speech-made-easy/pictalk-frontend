@@ -568,9 +568,4 @@ export default {
     display: none;
   }
 }
-
-@media screen and (min-width: 960px) {
-  .hiddenMobile {
-  }
-}
 </style>
