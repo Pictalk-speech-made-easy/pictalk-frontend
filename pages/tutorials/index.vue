@@ -149,7 +149,7 @@
         <b-image
           class="image"
           lazy
-          :srcset="require('@/assets/pictoBar.png').srcSet"
+          :srcset="require('@/assets/pictobar.png').srcSet"
           alt="image of a pictogram sentence"
           style="aspect-ratio: 563/94; min-height: 8vh; max-width: 98vw"
         ></b-image>
