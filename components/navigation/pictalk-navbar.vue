@@ -215,27 +215,32 @@
                 <div
                   v-for="notification in getUserNotifications"
                   :key="notification.operation + Math.random()"
-                  class="notification lessPadding"
+                  class="card lessPadding"
                   @click="notificationGoToCollectionOrReturn(notification)"
                 >
-                  <b-field expanded>
-                    <b-icon
-                      :icon="notificationIcon(notification)"
-                      size="is-medium"
-                      :type="notificationType(notification)"
-                    />
-
-                    <p align="center" style="width: 100%">
-                      {{ notification.username }}
-                    </p>
-                  </b-field>
-                  <div v-if="notification.operation == 'share'">
-                    {{ $t("SharedWithYou") }}
+                  <div class="card-content lessPadding">
+                    <div class="media">
+                      <div class="media-left">
+                        <figure class="image is-48x48">
+                          <img
+                            :src="getNotificationImage(notification)"
+                            alt="Placeholder image"
+                          />
+                        </figure>
+                      </div>
+                      <div class="media-content lessPadding">
+                        <p class="title is-6">
+                          <b-icon
+                            :icon="notificationIcon(notification)"
+                            size="is-big"
+                            :type="notificationType(notification)"
+                          />
+                          {{ getNotificationMeaning(notification) }}
+                        </p>
+                        <p class="subtitle is-6">{{ notification.username }}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div v-if="notification.operation == 'unshare'">
-                    {{ $t("UnsharedWithYou") }}
-                  </div>
-                  {{ getNotificationMeaning(notification) }}
                 </div>
                 <b-button
                   class="is-danger center"
@@ -409,6 +414,10 @@ export default {
     },
   },
   methods: {
+    getNotificationImage(notification) {
+      return this.getCollectionFromId(parseInt(notification.affected, 10))
+        ?.image;
+    },
     openFeedbackModal() {
       this.$buefy.modal.open({
         parent: this,
