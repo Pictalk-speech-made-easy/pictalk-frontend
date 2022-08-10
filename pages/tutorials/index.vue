@@ -502,7 +502,7 @@ export default {
   box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .video {
-  max-width: 676px;
+  max-width: min(676px, 98vw);
   max-height: min(75vh, 720px);
   aspect-ratio: 676/900;
 }
