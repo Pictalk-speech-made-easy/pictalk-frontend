@@ -1,15 +1,6 @@
 <template>
   <div style="display: flex">
-    <div
-      class="hiddenMobile"
-      style="
-        min-width: 140px;
-        margin-left: 20px;
-        position: sticky;
-        top: 0;
-        max-height: 90vh;
-      "
-    >
+    <div class="hiddenMobile">
       <hr />
       <a href="#basics"
         ><b class="is-size-6 contrast">{{ $t("TutorialTitle1") }}</b></a
@@ -78,6 +69,7 @@
     </div>
     <div
       style="
+        width: 100vw;
         max-width: 960px;
         display: block;
         margin-right: auto;
@@ -566,6 +558,15 @@ export default {
 @media screen and (max-width: 960px) {
   .hiddenMobile {
     display: none;
+  }
+}
+@media screen and (min-width: 960px) {
+  .hiddenMobile {
+    min-width: 140px;
+    margin-left: 20px;
+    position: sticky;
+    top: 0;
+    max-height: 90vh;
   }
 }
 </style>
