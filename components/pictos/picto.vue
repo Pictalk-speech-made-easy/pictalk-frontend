@@ -6,7 +6,7 @@
         : 'containing has-background notification',
     ]"
   >
-    <div style="width: 87%; aspect-ratio: 1/1">
+    <div style="width: 87%">
       <img
         class="image"
         :src="picto.image"
@@ -395,6 +395,8 @@ export default {
 }
 .image {
   margin: auto;
+  aspect-ratio: 1/1;
+  object-fit: contain;
 }
 .adminMenu {
   align-self: center;

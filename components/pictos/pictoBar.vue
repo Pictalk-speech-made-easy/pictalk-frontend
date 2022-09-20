@@ -437,6 +437,8 @@ export default {
 .topImage {
   margin-bottom: 1vh;
   padding: 2px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
 }
 .notification {
   background-color: var(--bg-color);
