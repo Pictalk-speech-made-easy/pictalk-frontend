@@ -706,6 +706,13 @@ export default {
               this.picto.speech[language] = "";
             }
           });
+        this.picto.meaning[this.getUserLang] =
+          this.picto.meaning[this.getUserLang].trim();
+        this.picto.speech[this.getUserLang] = this.picto.speech[
+          this.getUserLang
+        ]
+          ? this.picto.speech[this.getUserLang].trim()
+          : "";
         if (this.create || this.traductionNeeded()) {
           await Promise.all(
             this.getAllUserLanguages
