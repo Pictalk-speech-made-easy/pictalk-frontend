@@ -210,7 +210,7 @@
                 aria-role="menu-item"
                 :focusable="false"
                 custom
-                class="lessPadding"
+                class="lessPadding limitHeight"
               >
                 <div
                   v-for="notification in getUserNotifications"
@@ -229,7 +229,7 @@
                         </figure>
                       </div>
                       <div class="media-content lessPadding">
-                        <p class="title is-6">
+                        <p class="title is-6 notifTitle">
                           <b-icon
                             :icon="notificationIcon(notification)"
                             size="is-big"
@@ -237,7 +237,15 @@
                           />
                           {{ getNotificationMeaning(notification) }}
                         </p>
-                        <p class="subtitle is-6">{{ notification.username }}</p>
+                        <a
+                          :href="'mailto:' + notification.username"
+                          class="subtitle is-6 mailto"
+                          >{{
+                            notification.username
+                              .split("@")[0]
+                              .replace(".", " ")
+                          }}</a
+                        >
                       </div>
                     </div>
                   </div>
@@ -319,7 +327,6 @@
 </template>
 <script>
 import lang from "@/mixins/lang";
-import axios from "axios";
 import navbar from "@/mixins/navbar";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import feedbackModal from "@/components/auth/feedbackModal";
@@ -668,6 +675,18 @@ export default {
   .b-tooltip {
     margin-bottom: 0.5em;
   }
+}
+.notifTitle {
+  margin-bottom: 2px;
+}
+.mailto {
+  color: #ee0000;
+  text-decoration: underline;
+}
+.limitHeight {
+  max-height: 60vh;
+  overflow-y: auto;
+  min-width: 260px;
 }
 .lock {
   border: solid;
