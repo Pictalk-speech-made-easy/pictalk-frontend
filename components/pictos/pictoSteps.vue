@@ -535,9 +535,8 @@ export default {
   },
   computed: {
     dynamicSrc() {
-      if (this.file.url) {
+      if (this.file.name) {
         return window.webkitURL.createObjectURL(this.file);
-        dynamicSrc;
       }
     },
     classCreateOrEdit() {
