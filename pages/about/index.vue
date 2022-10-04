@@ -24,6 +24,26 @@
                 alt="photo of Adrianos SIDIRAS GALANTE"
               />
             </figure>
+            <figure
+              style="padding: 1vw; aspect-ratio: 1/1"
+              class="image is-128x128"
+            >
+              <img
+                class="is-rounded"
+                src="https://avatars.githubusercontent.com/u/91186350?s=400&u=fae6e777f5af5cbfe99c2a73d11ca2fae53e49fb&v=4"
+                alt="photo of Clément Ibrahim Baroudi"
+              />
+            </figure>
+            <figure
+              style="padding: 1vw; aspect-ratio: 1/1"
+              class="image is-128x128"
+            >
+              <img
+                class="is-rounded"
+                src="https://avatars.githubusercontent.com/u/91621093?v=4"
+                alt="photo of Guillemine Allavena"
+              />
+            </figure>
           </div>
 
           <br />
@@ -55,7 +75,7 @@
     </body>
   </div>
 </template>
-<script >
+<script>
 export default {
   head() {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
