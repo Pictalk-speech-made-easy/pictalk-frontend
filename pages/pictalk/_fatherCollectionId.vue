@@ -584,25 +584,25 @@ export default {
   padding-left: 0vw;
   margin: 0%;
   /* Firefox */
-  height: -moz-calc(100vh - 56px);
+  height: -moz-calc(100vh - 54px);
   /* WebKit */
-  height: -webkit-calc(100vh - 56px);
+  height: -webkit-calc(100vh - 54px);
   /* Opera */
-  height: -o-calc(100vh - 56px);
+  height: -o-calc(100vh - 54px);
   /* Standard */
-  height: calc(100vh - 56px);
+  height: calc(100vh - 54px);
   width: 100vw;
 }
 @media screen and (min-width: 1024px) {
   .noscroll {
     /* Firefox */
-    height: -moz-calc(100vh - 68px);
+    height: -moz-calc(100vh - 64px);
     /* WebKit */
-    height: -webkit-calc(100vh - 68px);
+    height: -webkit-calc(100vh - 64px);
     /* Opera */
-    height: -o-calc(100vh - 68px);
+    height: -o-calc(100vh - 64px);
     /* Standard */
-    height: calc(100vh - 68px);
+    height: calc(100vh - 64px);
   }
 }
 .has-background {

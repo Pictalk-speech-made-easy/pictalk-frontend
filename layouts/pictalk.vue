@@ -71,11 +71,11 @@ export default {
 }
 
 .margins {
-  margin: 11px;
+  margin: 10px;
 }
 @media screen and (min-width: 1024px) {
   .margins {
-    margin: 17px;
+    margin: 16px;
   }
 }
 </style>
