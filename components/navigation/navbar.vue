@@ -3,9 +3,12 @@
     <b-navbar fixed-top>
       <template slot="brand">
         <b-navbar-item
-          tag="nuxt-link"
-          to="/"
-          style="padding: 0%; padding-right: 1vw; padding-left: 1vw"
+          style="
+            padding: 0%;
+            padding-right: 1vw;
+            padding-left: 1vw;
+            pointer-events: none;
+          "
         >
           <img
             v-if="fits"
@@ -18,29 +21,6 @@
             v-if="!fits"
             src="~/assets/small_logo.jpg"
             alt="Logo of a web app that help speach-disabled people"
-          />
-        </b-navbar-item>
-        <b-navbar-item
-          :style="
-            this.$route.path.includes('public')
-              ? 'display:none'
-              : 'padding-left: 0%; padding-right: 0%'
-          "
-        >
-          <b-input
-            class="searchSection"
-            v-model="search"
-            aria-label="search input"
-            :placeholder="$t('SearchPictoPlaceholder')"
-            clearable
-            @keyup.native.enter="searchPicto()"
-          >
-          </b-input>
-          <b-button
-            aria-label="search button"
-            type="is-info"
-            @click="searchPicto()"
-            icon-right="magnify"
           />
         </b-navbar-item>
       </template>

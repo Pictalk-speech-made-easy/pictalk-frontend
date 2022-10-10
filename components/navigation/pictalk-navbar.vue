@@ -1,20 +1,25 @@
 <template>
   <b-navbar fixed-top>
     <template slot="brand">
-      <b-navbar-item style="padding: 0%; padding-right: 1px; padding-left: 1vw">
+      <b-navbar-item
+        style="
+          padding: 0%;
+          padding-right: 1px;
+          padding-left: 1vw;
+          pointer-events: none;
+        "
+      >
         <img
           style="margin-right: 0.5vw"
           v-if="fits"
           src="~/assets/logo_compressed.png"
           alt="Logo of a web app that help speach-disabled people"
-          @click="eraseSpeech()"
         />
         <img
           style="margin-right: 0.5vw"
           v-if="!fits"
           src="~/assets/small_logo.jpg"
           alt="Logo of a web app that help speach-disabled people"
-          @click="eraseSpeech()"
         />
         <b-tooltip
           style="margin-right: 3px"
