@@ -101,6 +101,6 @@ html {
   border: solid;
   border-width: 0;
   border-bottom-width: 1px;
-  border-color: rgb(221, 221, 221);
-  box-shadow: 0px 1px 3px rgb(160, 160, 160);
+  border-color: #888;
+  box-shadow: 0px 0px 6px #555;
 }
