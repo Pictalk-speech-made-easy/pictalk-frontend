@@ -69,8 +69,14 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .margins {
-  margin: 15px;
+  margin: 11px;
+}
+@media screen and (min-width: 1024px) {
+  .margins {
+    margin: 17px;
+  }
 }
 </style>
 
