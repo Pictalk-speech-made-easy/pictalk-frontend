@@ -96,3 +96,11 @@ html {
     text-align: justify
   }
 }
+
+.navbar {
+  border: solid;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-color: rgb(221, 221, 221);
+  box-shadow: 0px 1px 3px rgb(160, 160, 160);
+}
