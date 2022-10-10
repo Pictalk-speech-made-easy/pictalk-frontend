@@ -556,24 +556,25 @@ export default {
   margin: -50px 0 0;
 }
 .hiddenMobile {
-  border: solid;
-  border-width: 0;
-  border-bottom-width: 1px;
   border-color: rgb(221, 221, 221);
-  box-shadow: 4px 0px 3px -2px rgb(160 160 160);
+  box-shadow: 0px 0px 10px rgb(160 160 160);
+
+  min-width: 140px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 12px;
+  background-color: #f5f5f5;
+  /* border: solid; */
+  /* border-color: #555555f0; */
+  position: -webkit-sticky;
+  margin-left: 0.5rem;
+  position: sticky;
+  top: 35px;
+  max-height: 90vh;
 }
 @media screen and (max-width: 960px) {
   .hiddenMobile {
     display: none;
-  }
-}
-@media screen and (min-width: 960px) {
-  .hiddenMobile {
-    min-width: 140px;
-    margin-left: 20px;
-    position: sticky;
-    top: 0;
-    max-height: 90vh;
   }
 }
 </style>
