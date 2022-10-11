@@ -156,7 +156,7 @@
               icon-right="web"
               tag="nuxt-link"
               to="/public"
-              style="border: solid; border-width: 1px; border-color: #48c78e"
+              class="buttonBorder"
             />
           </b-tooltip>
           <b-tooltip
@@ -169,10 +169,11 @@
             :triggers="['hover']"
           >
             <b-button
-              type="is-primary is-light"
+              type="is-success is-light"
               icon-right="folder-account"
               :to="sharedLink"
               tag="nuxt-link"
+              class="buttonBorder"
             />
           </b-tooltip>
           <b-tooltip
@@ -185,10 +186,11 @@
             :triggers="['hover']"
           >
             <b-button
-              type="is-primary is-light"
+              type="is-success is-light"
               icon-right="page-layout-sidebar-right"
               :to="sidebarLink"
               tag="nuxt-link"
+              class="buttonBorder"
             />
           </b-tooltip>
           <b-tooltip
@@ -762,5 +764,10 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
+}
+.buttonBorder {
+  border: solid;
+  border-width: 1px;
+  border-color: #48c78e;
 }
 </style>
