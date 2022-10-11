@@ -214,8 +214,28 @@ export default {
       }],
       screenshots: [
         {
-          src: "https://www.pictalk.org/pwaSearch.webp",
-          sizes: "320x698",
+          src: "https://www.pictalk.org/screenshots/sentence.webp",
+          sizes: "488x1055",
+          type: "image/webp"
+        },
+        {
+          src: "https://www.pictalk.org/screenshots/speak.webp",
+          sizes: "488x1055",
+          type: "image/webp"
+        },
+        {
+          src: "https://www.pictalk.org/screenshots/search.webp",
+          sizes: "488x1055",
+          type: "image/webp"
+        },
+        {
+          src: "https://www.pictalk.org/screenshots/edition.webp",
+          sizes: "488x1055",
+          type: "image/webp"
+        },
+        {
+          src: "https://www.pictalk.org/screenshots/tutorial.webp",
+          sizes: "488x1055",
           type: "image/webp"
         },
         {
