@@ -711,7 +711,8 @@ export default {
   text-decoration: underline;
 }
 .limitHeight {
-  max-height: 60vh;
+  height: 80vh;
+  max-height: 600px;
   overflow-y: auto;
   min-width: 260px;
 }
