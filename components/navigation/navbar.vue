@@ -26,20 +26,12 @@
       </template>
       <template slot="start">
         <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/pictograms"
-          >{{ $t("Pictograms") }} 👐</b-navbar-item
+        <b-navbar-item tag="nuxt-link" to="/news"
+          >{{ $t("News") }} &#127881;</b-navbar-item
         >
-        <b-navbar-dropdown collapsible :label="$t('More')">
-          <b-navbar-item tag="nuxt-link" to="/about">{{
-            $t("Infos")
-          }}</b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/contact"
-            >{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
-          >
-          <b-navbar-item tag="nuxt-link" to="/news"
-            >{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
-          >
-        </b-navbar-dropdown>
+        <b-navbar-item tag="nuxt-link" to="/informations"
+          >{{ $t("Informations") }} 👐</b-navbar-item
+        >
       </template>
       <template slot="end">
         <b-navbar-dropdown collapsible :label="getEmoji(localeIso())">
