@@ -1,5 +1,5 @@
 export function convertToSimpleLanguage(language) {
-  return language?.replace(/[^a-z]/g, "");
+  return language?.replace(/[^a-z]/g, "").substring(0, 2);
 };
 
 export function isObject(item) {
