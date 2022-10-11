@@ -557,7 +557,7 @@ export default {
 }
 .hiddenMobile {
   border-color: rgb(221, 221, 221);
-  box-shadow: 0px 0px 10px rgb(160 160 160);
+  box-shadow: 0px 0px 6px rgb(160 160 160);
 
   min-width: 140px;
   padding-left: 1rem;
