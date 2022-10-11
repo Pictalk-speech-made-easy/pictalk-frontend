@@ -1,21 +1,24 @@
 <template>
-  <div>
-    <div
-      class="taggbox"
-      style="width: 100%; height: 100%"
-      data-widget-id="110606"
-      data-tags="false"
-    ></div>
-    <script
-      src="https://widget.taggbox.com/embed-lite.min.js"
-      type="text/javascript"
-    ></script>
+  <div class="container">
+    <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
+    <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
+    <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
+    <iframe
+      src="https://widget.taggbox.com/110606"
+      style="width: 100%; height: 600px; border: none"
+    ></iframe>
   </div>
 </template>
 <script >
 export default {
+  mounted() {
+    document.querySelector("iframe").onload = () => {
+      this.newsCharged = true;
+    };
+  },
   data() {
     return {
+      newsCharged: false,
       done: true,
     };
   },
