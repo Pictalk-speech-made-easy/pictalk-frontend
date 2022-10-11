@@ -106,6 +106,7 @@
       </div>
     </template>
     <template slot="start">
+      <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
       <b-navbar-item tag="nuxt-link" to="/tutorials"
         >{{ $t("Tutorial") }} 🚀</b-navbar-item
       >
