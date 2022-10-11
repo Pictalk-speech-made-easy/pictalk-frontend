@@ -220,37 +220,40 @@
                 <div
                   v-for="notification in getUserNotifications"
                   :key="notification.operation + Math.random()"
-                  class="card lessPadding"
-                  @click="notificationGoToCollectionOrReturn(notification)"
+                  class="card lessPadding notification"
                 >
-                  <div class="card-content lessPadding">
+                  <div class="card-content noPadding">
                     <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-48x48">
+                      <div class="media-content noPadding centered">
+                        <p class="title is-6 notifTitle">
+                          <a
+                            :href="'mailto:' + notification.username"
+                            class="subtitle is-6 mailto"
+                            >{{
+                              notification.username
+                                .split("@")[0]
+                                .replace(".", " ")
+                            }}</a
+                          >
+                          {{ notificationText(notification) }}
+                        </p>
+                        <figure class="image is-64x64">
                           <img
+                            @click="
+                              notificationGoToCollectionOrReturn(notification)
+                            "
                             :src="getNotificationImage(notification)"
                             alt="Placeholder image"
                           />
                         </figure>
-                      </div>
-                      <div class="media-content lessPadding">
-                        <p class="title is-6 notifTitle">
-                          <b-icon
+                        <p class="title is-6 notifTitle greyback">
+                          <!--<b-icon
                             :icon="notificationIcon(notification)"
                             size="is-big"
                             :type="notificationType(notification)"
-                          />
+                          />-->
                           {{ getNotificationMeaning(notification) }}
                         </p>
-                        <a
-                          :href="'mailto:' + notification.username"
-                          class="subtitle is-6 mailto"
-                          >{{
-                            notification.username
-                              .split("@")[0]
-                              .replace(".", " ")
-                          }}</a
-                        >
                       </div>
                     </div>
                   </div>
@@ -639,6 +642,18 @@ export default {
         return "is-light";
       }
     },
+    notificationText(notif) {
+      if (notif.operation == "share") {
+        return this.$t("Shared");
+      } else if (notif.operation == "unshare") {
+        return this.$t("UnShared");
+      } else if (notif.operation == "modified") {
+        return this.$t("ModifyRights");
+      } else {
+        return this.$t("Changed");
+      }
+    },
+
     deleteUserNotifications() {
       this.$store.dispatch("deleteNotifications");
     },
@@ -682,10 +697,15 @@ export default {
   }
 }
 .notifTitle {
-  margin-bottom: 2px;
+  margin-bottom: 0.5em;
+}
+.greyback {
+  background-color: #f5f5f5;
+  padding: 0.2em;
+  border-radius: 2px;
 }
 .mailto {
-  color: #ee0000;
+  color: #ee0000 !important;
   text-decoration: underline;
 }
 .limitHeight {
@@ -734,5 +754,13 @@ export default {
   align-items: center;
   display: flex;
   font-size: 0.85em;
+}
+.notification {
+  margin: 0.6rem;
+}
+.centered {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 </style>
