@@ -25,9 +25,7 @@
         </b-navbar-item>
       </template>
       <template slot="start">
-        <b-navbar-item v-if="$route.path != '/'" tag="nuxt-link" to="/">
-          {{ $t("Home") }}</b-navbar-item
-        >
+        <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
         <b-navbar-item tag="nuxt-link" to="/pictograms"
           >{{ $t("Pictograms") }} 👐</b-navbar-item
         >
