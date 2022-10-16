@@ -57,29 +57,24 @@
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
       >
-        <div
+        <b-dropdown
+          :mobile-modal="false"
           v-if="$route.query.isAdmin && !checkCopyCollectionId"
-          class="column noPadding"
+          trap-focus
+          :triggers="['click']"
+          aria-role="list"
         >
-          <b-button
-            class="addButton"
-            type="is-success"
-            @click="addPicto(true)"
-            icon-right="image"
-          />
-        </div>
-        <div
-          v-if="$route.query.isAdmin && !checkCopyCollectionId"
-          class="column noPadding"
-        >
-          <b-button
-            class="addButton"
-            type="is-primary"
-            @click="addPicto(false)"
-            icon-right="folder-table"
-          />
-        </div>
+          <template #trigger>
+            <b-button label="Create" type="is-success" icon-right="plus" />
+          </template>
 
+          <b-dropdown-item @click="addPicto(true)" aria-role="listitem"
+            >{{ $t("Pictogram") }} <b-icon icon="image"
+          /></b-dropdown-item>
+          <b-dropdown-item @click="addPicto(false)" aria-role="listitem"
+            >{{ $t("Collection") }} <b-icon icon="folder-table"
+          /></b-dropdown-item>
+        </b-dropdown>
         <div
           v-if="checkCopyCollectionId && $route.query.isAdmin"
           class="column noPadding"
