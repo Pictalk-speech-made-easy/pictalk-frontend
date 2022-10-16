@@ -399,5 +399,10 @@
   "AreHealthPro": "You are a health professional and want to help out ?",
   "AreHealthProText": "You have communication learning skills or work in the health care system ? You can suggest modifications or improvements of Pictalk. You can also help us by working on the 'Public' collections.",
   "AreParticular": "You are a parent or just want to help ?",
-  "AreParticularText": "Talk about Pictalk around you and give us some visibility ! You can of course suggest modifications help us financialy."
+  "AreParticularText": "Talk about Pictalk around you and give us some visibility ! You can of course suggest modifications help us financialy.",
+  "INSALyonSponsoring": "La fondation INSA Lyon, à travers le Coups de pouce passions a fourni une aide de 1000€",
+  "DigitalOceanSponsoring": "Hébergeur de notre serveur, Digital Ocean à subventionné à hauteur de 250€ nos coûts de fonctionnement informatiques",
+  "Adapei69Sponsoring": "L'adapei 69 nous aide à améliorer et tester notre application. Nous bénéficions de leurs précieux conseils et expertise.",
+  "ARASAACSponsoring": "L'association espagnole ARASAAC nous fournit gratuitement leur base de pictogrammes. Sans leur Pictogrammes, Pictalk ne serait pas le même aujourd'hui."
+
 }

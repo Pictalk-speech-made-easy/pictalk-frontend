@@ -79,7 +79,7 @@
               rounded
             ></b-image>
             <p class="title is-4">{{ list.title }}</p>
-            <p class="title is-6">{{ list.description }}</p>
+            <p class="subtitle is-6">{{ list.description }}</p>
           </div>
         </template>
       </b-carousel-list>
@@ -92,7 +92,7 @@
         <h5 class="title is-size-5 is-size-5-mobile">
           {{ $t("AreDevelopper") }}
         </h5>
-        <div class="columns">
+        <div class="columns is-vcentered">
           <b-image
             lazy
             alt="two people lifting the earth"
@@ -116,7 +116,7 @@
         <h5 class="title is-size-5 is-size-5-mobile">
           {{ $t("AreHealthPro") }}
         </h5>
-        <div class="columns">
+        <div class="columns is-vcentered">
           <b-image
             lazy
             class="column"
@@ -132,7 +132,7 @@
         <h5 class="title is-size-5 is-size-5-mobile">
           {{ $t("AreParticular") }}
         </h5>
-        <div class="columns">
+        <div class="columns is-vcentered">
           <b-image
             lazy
             class="column"
@@ -155,15 +155,13 @@ export default {
       items: [
         {
           title: "Fondation INSA Lyon",
-          description:
-            "La fondation INSA Lyon, à travers le Coups de pouce passions a fourni une aide de 1000€",
+          description: this.$t("INSALyonSponsoring"),
           image:
             "https://best.insa-lyon.org/sites/best.insa-lyon.org/files/fondateurs/insa_lyon_foundation.png",
         },
         {
           title: "Digital Ocean",
-          description:
-            "Hébergeur de notre serveur, Digital Ocean à subventionné à hauteur de 250€ nos coûts de fonctionnement informatiques",
+          description: this.$t("DigitalOceanSponsoring"),
           image:
             "https://www.vectorlogo.zone/logos/digitalocean/digitalocean-ar21.png",
         },
@@ -171,35 +169,13 @@ export default {
           title: "Adapei 69",
           image:
             "https://espacecolab.adapei69.fr/wp-content/uploads/2020/09/LOGO-ADAPEI_couleur-768x249.jpg",
-          description:
-            "L'adapei 69 nous aide à améliorer et tester notre application. Nous bénéficions de leurs précieux conseils et expertise.",
+          description: this.$t("Adapei69Sponsoring"),
         },
         {
           title: "ARASAAC",
           image:
             "https://aulaabierta.arasaac.org/wp-content/uploads/2020/03/logo_ARASAAC_texto_negro_fondo_transparente.png",
-          description:
-            "L'association espagnole ARASAAC nous fournit gratuitement leur base de pictogrammes. Sans leur Pictogrammes, Pictalk ne serait pas le même aujourd'hui.",
-        },
-        {
-          title: "Slide 5",
-          image: "https://buefy.org/static/img/placeholder-1280x960.png",
-          rating: 5,
-        },
-        {
-          title: "Slide 6",
-          image: "https://buefy.org/static/img/placeholder-1280x960.png",
-          rating: 4,
-        },
-        {
-          title: "Slide 7",
-          image: "https://buefy.org/static/img/placeholder-1280x960.png",
-          rating: 2.7,
-        },
-        {
-          title: "Slide 8",
-          image: "https://buefy.org/static/img/placeholder-1280x960.png",
-          rating: 1.5,
+          description: this.$t("ARASAACSponsoring"),
         },
       ],
     };
