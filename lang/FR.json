@@ -418,5 +418,9 @@
   "FeedbackActionSelectVoicesValuesLanguage": "Langue",
   "FeedbackActionSelectOther": "Autre",
   "FeedbackActionSelectOtherValuesOther": "Autre",
-  "FeedbackEvolution": "Evolution"
+  "FeedbackEvolution": "Evolution",
+  "INSALyonSponsoring": "La fondation INSA Lyon, à travers le Coups de pouce passions a fourni une aide de 1000€",
+  "DigitalOceanSponsoring": "Hébergeur de notre serveur, Digital Ocean à subventionné à hauteur de 250€ nos coûts de fonctionnement informatiques",
+  "Adapei69Sponsoring": "L'adapei 69 nous aide à améliorer et tester notre application. Nous bénéficions de leurs précieux conseils et expertise.",
+  "ARASAACSponsoring": "L'association espagnole ARASAAC nous fournit gratuitement leur base de pictogrammes. Sans leur Pictogrammes, Pictalk ne serait pas le même aujourd'hui."
 }

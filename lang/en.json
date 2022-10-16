@@ -400,9 +400,14 @@
   "AreHealthProText": "You have communication learning skills or work in the health care system ? You can suggest modifications or improvements of Pictalk. You can also help us by working on the 'Public' collections.",
   "AreParticular": "You are a parent or just want to help ?",
   "AreParticularText": "Talk about Pictalk around you and give us some visibility ! You can of course suggest modifications help us financialy.",
-  "INSALyonSponsoring": "La fondation INSA Lyon, à travers le Coups de pouce passions a fourni une aide de 1000€",
-  "DigitalOceanSponsoring": "Hébergeur de notre serveur, Digital Ocean à subventionné à hauteur de 250€ nos coûts de fonctionnement informatiques",
-  "Adapei69Sponsoring": "L'adapei 69 nous aide à améliorer et tester notre application. Nous bénéficions de leurs précieux conseils et expertise.",
-  "ARASAACSponsoring": "L'association espagnole ARASAAC nous fournit gratuitement leur base de pictogrammes. Sans leur Pictogrammes, Pictalk ne serait pas le même aujourd'hui."
-
+  "DonationUsage": "Donation Usage",
+  "DonationInformatics": "Informatics",
+  "DonationInformaticsText": "Hosting of the Pictalk website",
+  "DonationBank": "Bank and insurance",
+  "DonationBankText": "Mandatory if we want to run our non-profit organization.",
+  "DonationOther": "Other",
+  "DonationOtherText": "Domain name, Security and other puctual services",
+  "DonationGoals": "If we would have more money we would...",
+  "DonationGoalsText1": "Pay an orthophonist to help us build the public collections. Public collections are an essential entry point to new users. Having nice and numerous bundles of pictograms will help new users start using Pictalk and will inspire them.",
+  "DonationGoalsText2": "Hire a developper in order to relieve the pressure put on our small team and to improve Pictalk. One person more could help us presenting Pictalk to new establishements and to accompany new users."
 }
