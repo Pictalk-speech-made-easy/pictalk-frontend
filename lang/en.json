@@ -388,5 +388,16 @@
   "FeedbackActionSelectVoicesValuesLanguage": "Language",
   "FeedbackActionSelectOther": "Other",
   "FeedbackActionSelectOtherValuesOther": "Other",
-  "FeedbackEvolution": "Evolution"
+  "FeedbackEvolution": "Evolution",
+  "AlexInfos": "I started developping Pictalk in 2020. I love helping others out and developing.",
+  "AdriInfos": "",
+  "ClementInfos": "",
+  "GuillemineInfos": "",
+  "HowContribute": "How to contribute",
+  "AreDevelopper": "You are a developer and want to help out ?",
+  "AreDevelopperText": "If you are a developper and want to help us out ? Go to our Github page and pick an issue ! Clone our repo and do a pull request once the code is complete. You can also create an issue if you want to make a suggestion.",
+  "AreHealthPro": "You are a health professional and want to help out ?",
+  "AreHealthProText": "You have communication learning skills or work in the health care system ? You can suggest modifications or improvements of Pictalk. You can also help us by working on the 'Public' collections.",
+  "AreParticular": "You are a parent or just want to help ?",
+  "AreParticularText": "Talk about Pictalk around you and give us some visibility ! You can of course suggest modifications help us financialy."
 }

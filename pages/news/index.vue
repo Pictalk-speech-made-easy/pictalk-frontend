@@ -1,12 +1,17 @@
 <template>
-  <div class="container">
-    <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
-    <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
-    <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
-    <iframe
-      src="https://widget.taggbox.com/110606"
-      style="width: 100%; height: 600px; border: none"
-    ></iframe>
+  <div>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">{{ $t("News") }}</h1>
+        <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
+        <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
+        <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
+        <iframe
+          src="https://widget.taggbox.com/110606"
+          style="width: 100%; height: 50vh; border: none"
+        ></iframe>
+      </div>
+    </section>
   </div>
 </template>
 <script >

@@ -8,3 +8,13 @@
     X-Content-Type-Options = "nosniff"
     cache-control = '''
     max-age=31536000'''
+
+[context.production.environment]
+API_ENDPOINT = "https://api.pictalk.org"
+
+[context.staging.environment]
+API_ENDPOINT = "https://apidev.pictalk.org"`
+
+# no API server exists for other branches, but code will still want a URL here so need to set a "default"
+[context.branch-deploy.environment]
+API_ENDPOINT = "https://apidev.pictalk.org"
