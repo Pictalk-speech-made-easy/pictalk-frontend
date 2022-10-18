@@ -596,13 +596,13 @@ export default {
 @media screen and (min-width: 1024px) {
   .noscroll {
     /* Firefox */
-    height: -moz-calc(100vh - 64px);
+    height: -moz-calc(100vh - 66px);
     /* WebKit */
-    height: -webkit-calc(100vh - 64px);
+    height: -webkit-calc(100vh - 66px);
     /* Opera */
-    height: -o-calc(100vh - 64px);
+    height: -o-calc(100vh - 66px);
     /* Standard */
-    height: calc(100vh - 64px);
+    height: calc(100vh - 66px);
   }
 }
 .has-background {
