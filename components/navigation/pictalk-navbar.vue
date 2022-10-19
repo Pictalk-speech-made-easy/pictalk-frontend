@@ -58,12 +58,11 @@
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
       >
-      <div class="column noPadding">
+      <div v-if="$route.query.isAdmin && !checkCopyCollectionId" class="column noPadding dropdown">
         <b-dropdown
           id="nav-create"
-          class="column dropdown"
+          class="column"
           :mobile-modal="false"
-          v-if="$route.query.isAdmin && !checkCopyCollectionId"
           trap-focus
           :triggers="['click']"
           aria-role="list"
@@ -77,43 +76,44 @@
               ><b>{{ $t("Create") }}</b></b-button
             >
           </template>
-
           <b-dropdown-item
             class="verticalPadding"
             @click="addPicto(true)"
             aria-role="listitem"
-            ><b>{{ $t("Pictogram") }}</b> <b-icon icon="image"
-          /></b-dropdown-item>
+            ><b>{{ $t("Pictogram") }}</b> <b-icon icon="image"/>
+          </b-dropdown-item>
           <b-dropdown-item
             class="verticalPadding"
             @click="addPicto(false)"
             aria-role="listitem"
             ><b>{{ $t("Collection") }}</b> <b-icon icon="folder-table"
-          /></b-dropdown-item>
+          />
+          </b-dropdown-item>
         </b-dropdown>
-        </div>
-        <div
-          v-if="checkCopyCollectionId && $route.query.isAdmin"
-          class="column noPadding"
-        >
-          <b-button
-            class="addButton rounded"
-            @click="copyCollection()"
-            type="is-info"
-            icon-right="content-paste"
-          />
-        </div>
+      </div>
+        
+      <div
+        v-if="checkCopyCollectionId && $route.query.isAdmin"
+        class="column noPadding"
+      >
+        <b-button
+          class="addButton rounded"
+          @click="copyCollection()"
+          type="is-info"
+          icon-right="content-paste"
+        />
+      </div>
 
-        <div class="column noPadding">
-          <b-button
-            class="lock rounded"
-            expanded
-            type="is-warning"
-            :focused="Boolean($route.query.isAdmin)"
-            @click="adminModeChoose()"
-            :icon-right="iconIsAdmin"
-          />
-        </div>
+      <div class="column noPadding">
+        <b-button
+          class="lock rounded"
+          type="is-warning"
+          :focused="Boolean($route.query.isAdmin)"
+          @click="adminModeChoose()"
+          :icon-right="iconIsAdmin"
+        />
+      </div>
+      
       </div>
     </template>
     <template slot="start">
@@ -721,10 +721,14 @@ export default {
   min-width: 260px;
 }
 .lock {
+  width: 100%;
+  display: flex;
   border: solid;
   border-color: #4c4329;
   border-width: 1px;
   height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .addButton {
   border: solid;
