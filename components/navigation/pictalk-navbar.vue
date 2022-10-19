@@ -57,8 +57,10 @@
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
       >
+      <div class="column noPadding">
         <b-dropdown
-          :mobile-modal="false"
+
+          :mobile-modal="true"
           v-if="$route.query.isAdmin && !checkCopyCollectionId"
           trap-focus
           :triggers="['click']"
@@ -69,12 +71,13 @@
           </template>
 
           <b-dropdown-item @click="addPicto(true)" aria-role="listitem"
-            >{{ $t("Pictogram") }} <b-icon icon="image"
+            ><b>{{ $t("Pictogram") }} </b><b-icon icon="image"
           /></b-dropdown-item>
           <b-dropdown-item @click="addPicto(false)" aria-role="listitem"
-            >{{ $t("Collection") }} <b-icon icon="folder-table"
+            ><b>{{ $t("Collection") }}</b> <b-icon icon="folder-table"
           /></b-dropdown-item>
         </b-dropdown>
+        </div>
         <div
           v-if="checkCopyCollectionId && $route.query.isAdmin"
           class="column noPadding"
@@ -101,22 +104,11 @@
       </div>
     </template>
     <template slot="start">
-      <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
-      <b-navbar-item tag="nuxt-link" to="/tutorials"
-        >{{ $t("Tutorial") }} 🚀</b-navbar-item
-      >
-      <b-navbar-dropdown collapsible label="Info">
-        <b-navbar-item tag="nuxt-link" to="/about">{{
-          $t("Infos")
-        }}</b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/contact"
-          >{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
+      <b-navbar-item tag="nuxt-link" to="/news"
+          >{{ $t("News") }} &#127881;</b-navbar-item
         >
-        <b-navbar-item tag="nuxt-link" to="/pictograms"
-          >{{ $t("Pictograms") }} 👐</b-navbar-item
-        >
-        <b-navbar-item tag="nuxt-link" to="/news"
-          >{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
+        <b-navbar-item tag="nuxt-link" to="/informations"
+          >{{ $t("Informations") }} 👐</b-navbar-item
         >
       </b-navbar-dropdown>
     </template>
