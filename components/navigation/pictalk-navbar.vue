@@ -110,6 +110,9 @@
         <b-navbar-item tag="nuxt-link" to="/informations"
           >{{ $t("Informations") }} 👐</b-navbar-item
         >
+        <b-navbar-item tag="nuxt-link" to="/tutorials"
+          >{{ $t("Tutorial") }} 👐</b-navbar-item
+        >
       </b-navbar-dropdown>
     </template>
     <template slot="end">
