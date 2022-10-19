@@ -64,7 +64,7 @@
           class="column"
           :mobile-modal="false"
           trap-focus
-          :triggers="['click']"
+          :triggers="['click', 'hover']"
           aria-role="list"
         >
           <template #trigger>
