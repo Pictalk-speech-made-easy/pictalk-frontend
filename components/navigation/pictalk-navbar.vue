@@ -21,7 +21,8 @@
           src="~/assets/small_logo.jpg"
           alt="Logo of a web app that help speach-disabled people"
         />
-        <b-tooltip
+        <!--<b-tooltip
+          v-if="$route.query.isAdmin"
           style="margin-right: 3px"
           position="is-right"
           type="is-dark"
@@ -51,13 +52,15 @@
               {{ $t("ReadyOffline") }} ✈️
             </p>
           </template>
-        </b-tooltip>
+        </b-tooltip>-->
       </b-navbar-item>
       <div
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
       >
         <b-dropdown
+          id="nav-create"
+          class="column dropdown"
           :mobile-modal="false"
           v-if="$route.query.isAdmin && !checkCopyCollectionId"
           trap-focus
@@ -65,14 +68,26 @@
           aria-role="list"
         >
           <template #trigger>
-            <b-button label="Create" type="is-success" icon-right="plus" />
+            <b-button
+              class="dropdown-button rounded"
+              type="is-success"
+              icon-right="plus"
+              expanded
+              ><b>{{ $t("Create") }}</b></b-button
+            >
           </template>
 
-          <b-dropdown-item @click="addPicto(true)" aria-role="listitem"
-            >{{ $t("Pictogram") }} <b-icon icon="image"
+          <b-dropdown-item
+            class="verticalPadding"
+            @click="addPicto(true)"
+            aria-role="listitem"
+            ><b>{{ $t("Pictogram") }}</b> <b-icon icon="image"
           /></b-dropdown-item>
-          <b-dropdown-item @click="addPicto(false)" aria-role="listitem"
-            >{{ $t("Collection") }} <b-icon icon="folder-table"
+          <b-dropdown-item
+            class="verticalPadding"
+            @click="addPicto(false)"
+            aria-role="listitem"
+            ><b>{{ $t("Collection") }}</b> <b-icon icon="folder-table"
           /></b-dropdown-item>
         </b-dropdown>
         <div
@@ -80,7 +95,7 @@
           class="column noPadding"
         >
           <b-button
-            class="addButton"
+            class="addButton rounded"
             @click="copyCollection()"
             type="is-info"
             icon-right="content-paste"
@@ -89,8 +104,7 @@
 
         <div class="column noPadding">
           <b-button
-            class="lock"
-            :rounded="!$route.query.isAdmin"
+            class="lock rounded"
             expanded
             type="is-warning"
             :focused="Boolean($route.query.isAdmin)"
@@ -766,5 +780,20 @@ export default {
   border: solid;
   border-width: 1px;
   border-color: #48c78e;
+}
+.dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dropdown-button {
+  height: 44px;
+}
+.verticalPadding {
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+}
+.rounded {
+  border-radius: 24px;
 }
 </style>
