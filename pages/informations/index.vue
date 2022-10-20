@@ -5,7 +5,7 @@
         {{ $t("Informations") }}
       </h1>
       <h2 class="title is-size-3 is-size-3-mobile">{{ $t("Team") }}</h2>
- 
+
 
       <div class="columns is-multiline is-mobile is-centered">
         <div class="column is-6-mobile is-6-tablette profile">
@@ -150,6 +150,13 @@
           </div>
         </div>
       </div>
+    </section>
+    <section class="section">
+      <h2 class="title is-size-3 is-size-3-mobile">
+        {{ $t("Contact") }}
+      </h2>
+      {{$t("ContactText12")}}
+      <a href="mailto:alex@pictalk.org">alex@pictalk.org</a>.
     </section>
   </div>
 </template>
