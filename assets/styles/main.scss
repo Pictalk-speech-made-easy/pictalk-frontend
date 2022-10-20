@@ -4,7 +4,7 @@
 $primary: #ff5757;
 $primary-invert: #ffffff;
 
-//$navbar-breakpoint: 1272px;
+$navbar-breakpoint: 1216px;
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 /*$colors: ("white": ($white,
     $black),
@@ -32,7 +32,7 @@ $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
-$navbar-item-img-max-height: 3rem;
+$navbar-item-img-max-height: 2rem;
 $navbar-height: 2.0rem;
 // Import Bulma and Buefy styles
 //@import "~bulma/sass/utilities/_all";

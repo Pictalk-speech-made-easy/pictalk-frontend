@@ -743,7 +743,7 @@ export default {
   max-width: 260px;
   margin-left: 1vw;
   margin-right: 1vw;
-  margin-top: 5px;
+  margin-top: 4px;
   height: 44px;
 }
 .noPadding {

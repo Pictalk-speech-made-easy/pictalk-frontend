@@ -116,3 +116,36 @@ html {
 div.dropdown-trigger {
   width: 100%;
 }
+
+.navbar-menu {
+  height: 52px;
+}
+
+.navbar-menu.is-active {
+  height: auto;
+}
+
+.buttons .button {
+  margin-bottom: 0px;
+}
+
+.navbar-item img {
+  max-height: 44px;
+}
+
+::-webkit-scrollbar {
+  width: 0.9vw;
+  max-width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: #ffffff00;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ff5757;
+  border-radius: 10px;
+}

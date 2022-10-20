@@ -73,10 +73,5 @@ export default {
 .margins {
   margin: 10px;
 }
-@media screen and (min-width: 1024px) {
-  .margins {
-    margin: 16px;
-  }
-}
 </style>
 

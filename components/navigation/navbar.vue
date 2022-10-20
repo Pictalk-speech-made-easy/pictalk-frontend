@@ -43,7 +43,7 @@
           >
         </b-navbar-dropdown>
         <b-navbar-item tag="div">
-          <div class="buttons">
+          <div class="buttons bottomOffset">
             <b-button
               v-if="!isLogged"
               @click="openSignInModal()"
@@ -177,6 +177,9 @@ export default {
 }
 .noPadding {
   padding: 0%;
+}
+.bottomOffset {
+  margin-bottom: 0px;
 }
 </style>
 
