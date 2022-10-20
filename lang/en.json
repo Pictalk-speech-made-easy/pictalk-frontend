@@ -406,8 +406,12 @@
   "DonationBank": "Bank and insurance",
   "DonationBankText": "Mandatory if we want to run our non-profit organization.",
   "DonationOther": "Other",
-  "DonationOtherText": "Domain name, Security and other puctual services",
+  "DonationOtherText": "Domain name, Security and other ponctual services",
   "DonationGoals": "If we would have more money we would...",
   "DonationGoalsText1": "Pay an orthophonist to help us build the public collections. Public collections are an essential entry point to new users. Having nice and numerous bundles of pictograms will help new users start using Pictalk and will inspire them.",
-  "DonationGoalsText2": "Hire a developper in order to relieve the pressure put on our small team and to improve Pictalk. One person more could help us presenting Pictalk to new establishements and to accompany new users."
+  "DonationGoalsText2": "Hire a developper in order to relieve the pressure put on our small team and to improve Pictalk. One person more could help us presenting Pictalk to new establishements and to accompany new users.",
+  "News": "News",
+  "Informations": "Informations",
+  "Partners": "Partners",
+  "Team": "Team"
 }
