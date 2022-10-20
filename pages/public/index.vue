@@ -163,7 +163,7 @@ export default {
   border-width: 1px;
   border-color: #3e8ed0;
   width: 30vw;
-  min-width: 200px;
+  min-width: 240px;
   max-width: 450px;
 }
 </style>

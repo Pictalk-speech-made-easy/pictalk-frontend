@@ -44,8 +44,7 @@
         </b-carousel-item>
     </b-carousel>
 		</div>
-		<br>
-		<div class="container is-max-widescreen">
+		<!-- <div class="container is-max-widescreen">
 		<div class="columns is-mobile">
 			<div class="column is-one-quarter-fullhd is-one-third-widescreen is-one-third-tablet is-half-mobile">
 				<div class="box">
@@ -68,7 +67,7 @@
 				</div>
 			</div>
 		</div>
-		</div>
+		</div> -->
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">

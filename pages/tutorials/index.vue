@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex">
     <div class="hiddenMobile">
-      <hr />
+      <br />
       <a href="#basics"
         ><b class="is-size-6 contrast">{{ $t("TutorialTitle1") }}</b></a
       >
@@ -555,18 +555,26 @@ export default {
   height: 50px;
   margin: -50px 0 0;
 }
+.hiddenMobile {
+  border-color: rgb(221, 221, 221);
+  box-shadow: 0px 0px 6px rgb(160 160 160);
+
+  min-width: 140px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 12px;
+  background-color: #f5f5f5;
+  /* border: solid; */
+  /* border-color: #555555f0; */
+  position: -webkit-sticky;
+  margin-left: 0.5rem;
+  position: sticky;
+  top: 35px;
+  max-height: 90vh;
+}
 @media screen and (max-width: 960px) {
   .hiddenMobile {
     display: none;
-  }
-}
-@media screen and (min-width: 960px) {
-  .hiddenMobile {
-    min-width: 140px;
-    margin-left: 20px;
-    position: sticky;
-    top: 0;
-    max-height: 90vh;
   }
 }
 </style>

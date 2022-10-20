@@ -3,9 +3,12 @@
     <b-navbar fixed-top>
       <template slot="brand">
         <b-navbar-item
-          tag="nuxt-link"
-          to="/"
-          style="padding: 0%; padding-right: 1vw; padding-left: 1vw"
+          style="
+            padding: 0%;
+            padding-right: 1vw;
+            padding-left: 1vw;
+            pointer-events: none;
+          "
         >
           <img
             v-if="fits"
@@ -20,48 +23,15 @@
             alt="Logo of a web app that help speach-disabled people"
           />
         </b-navbar-item>
-        <b-navbar-item
-          :style="
-            this.$route.path.includes('public')
-              ? 'display:none'
-              : 'padding-left: 0%; padding-right: 0%'
-          "
-        >
-          <b-input
-            class="searchSection"
-            v-model="search"
-            aria-label="search input"
-            :placeholder="$t('SearchPictoPlaceholder')"
-            clearable
-            @keyup.native.enter="searchPicto()"
-          >
-          </b-input>
-          <b-button
-            aria-label="search button"
-            type="is-info"
-            @click="searchPicto()"
-            icon-right="magnify"
-          />
-        </b-navbar-item>
       </template>
       <template slot="start">
-        <b-navbar-item v-if="$route.path != '/'" tag="nuxt-link" to="/">
-          {{ $t("Home") }}</b-navbar-item
+        <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
+        <b-navbar-item tag="nuxt-link" to="/news"
+          >{{ $t("News") }} &#127881;</b-navbar-item
         >
-        <b-navbar-item tag="nuxt-link" to="/pictograms"
-          >{{ $t("Pictograms") }} 👐</b-navbar-item
+        <b-navbar-item tag="nuxt-link" to="/informations"
+          >{{ $t("Informations") }} 👐</b-navbar-item
         >
-        <b-navbar-dropdown collapsible :label="$t('More')">
-          <b-navbar-item tag="nuxt-link" to="/about">{{
-            $t("Infos")
-          }}</b-navbar-item>
-          <b-navbar-item tag="nuxt-link" to="/contact"
-            >{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
-          >
-          <b-navbar-item tag="nuxt-link" to="/news"
-            >{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
-          >
-        </b-navbar-dropdown>
       </template>
       <template slot="end">
         <b-navbar-dropdown collapsible :label="getEmoji(localeIso())">
@@ -73,7 +43,7 @@
           >
         </b-navbar-dropdown>
         <b-navbar-item tag="div">
-          <div class="buttons">
+          <div class="buttons bottomOffset">
             <b-button
               v-if="!isLogged"
               @click="openSignInModal()"
@@ -207,6 +177,9 @@ export default {
 }
 .noPadding {
   padding: 0%;
+}
+.bottomOffset {
+  margin-bottom: 0px;
 }
 </style>
 

@@ -46,6 +46,8 @@
         />
       </div>
     </div>
+    {{ $t("ContactText13") }}
+    <a href="mailto:alex@pictalk.org">alex@pictalk.org</a>
     <div style="height: 10vh; max-height: 80px" />
   </div>
 </template>

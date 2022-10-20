@@ -69,8 +69,9 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .margins {
-  margin: 15px;
+  margin: 10px;
 }
 </style>
 

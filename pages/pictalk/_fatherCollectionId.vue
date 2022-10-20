@@ -562,35 +562,19 @@ export default {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* width */
-::-webkit-scrollbar {
-  width: 0.9vw;
-  max-width: 10px;
-}
 
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: #ffffff00;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #ff5757;
-  border-radius: 10px;
-}
 .noscroll {
   padding-right: 0vw;
   padding-left: 0vw;
   margin: 0%;
   /* Firefox */
-  height: -moz-calc(100vh - 64px);
+  height: -moz-calc(100vh - 54px);
   /* WebKit */
-  height: -webkit-calc(100vh - 64px);
+  height: -webkit-calc(100vh - 54px);
   /* Opera */
-  height: -o-calc(100vh - 64px);
+  height: -o-calc(100vh - 54px);
   /* Standard */
-  height: calc(100vh - 64px);
+  height: calc(100vh - 54px);
   width: 100vw;
 }
 .has-background {

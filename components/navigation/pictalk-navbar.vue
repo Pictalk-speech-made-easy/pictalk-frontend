@@ -1,22 +1,28 @@
 <template>
   <b-navbar fixed-top>
     <template slot="brand">
-      <b-navbar-item style="padding: 0%; padding-right: 1px; padding-left: 1vw">
+      <b-navbar-item
+        style="
+          padding: 0%;
+          padding-right: 1px;
+          padding-left: 1vw;
+          pointer-events: none;
+        "
+      >
         <img
           style="margin-right: 0.5vw"
           v-if="fits"
           src="~/assets/logo_compressed.png"
           alt="Logo of a web app that help speach-disabled people"
-          @click="eraseSpeech()"
         />
         <img
           style="margin-right: 0.5vw"
           v-if="!fits"
           src="~/assets/small_logo.jpg"
           alt="Logo of a web app that help speach-disabled people"
-          @click="eraseSpeech()"
         />
-        <b-tooltip
+        <!--<b-tooltip
+          v-if="$route.query.isAdmin"
           style="margin-right: 3px"
           position="is-right"
           type="is-dark"
@@ -46,7 +52,7 @@
               {{ $t("ReadyOffline") }} ✈️
             </p>
           </template>
-        </b-tooltip>
+        </b-tooltip>-->
       </b-navbar-item>
       <div
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
@@ -54,25 +60,38 @@
       >
         <div
           v-if="$route.query.isAdmin && !checkCopyCollectionId"
-          class="column noPadding"
+          class="column noPadding dropdown"
         >
-          <b-button
-            class="addButton"
-            type="is-success"
-            @click="addPicto(true)"
-            icon-right="image"
-          />
-        </div>
-        <div
-          v-if="$route.query.isAdmin && !checkCopyCollectionId"
-          class="column noPadding"
-        >
-          <b-button
-            class="addButton"
-            type="is-primary"
-            @click="addPicto(false)"
-            icon-right="folder-table"
-          />
+          <b-dropdown
+            id="nav-create"
+            class="column"
+            :mobile-modal="false"
+            trap-focus
+            :triggers="['click', 'hover']"
+            aria-role="list"
+          >
+            <template #trigger>
+              <b-button
+                class="dropdown-button rounded"
+                type="is-success"
+                icon-right="plus"
+                expanded
+                ><b>{{ $t("Create") }}</b></b-button
+              >
+            </template>
+            <b-dropdown-item
+              class="verticalPadding"
+              @click="addPicto(true)"
+              aria-role="listitem"
+              ><b>{{ $t("Pictogram") }}</b> <b-icon icon="image" />
+            </b-dropdown-item>
+            <b-dropdown-item
+              class="verticalPadding"
+              @click="addPicto(false)"
+              aria-role="listitem"
+              ><b>{{ $t("Collection") }}</b> <b-icon icon="folder-table" />
+            </b-dropdown-item>
+          </b-dropdown>
         </div>
 
         <div
@@ -80,18 +99,27 @@
           class="column noPadding"
         >
           <b-button
-            class="addButton"
+            class="addButton rounded"
             @click="copyCollection()"
             type="is-info"
             icon-right="content-paste"
           />
         </div>
-
-        <div class="column noPadding">
+        <div
+          v-if="checkCopyCollectionId && $route.query.isAdmin"
+          class="column noPadding"
+        >
           <b-button
-            class="lock"
-            :rounded="!$route.query.isAdmin"
-            expanded
+            class="addButton rounded"
+            @click="cancelCopy()"
+            type="is-light"
+            icon-right="close"
+          />
+        </div>
+
+        <div v-if="!checkCopyCollectionId" class="column noPadding">
+          <b-button
+            class="lock rounded"
             type="is-warning"
             :focused="Boolean($route.query.isAdmin)"
             @click="adminModeChoose()"
@@ -101,23 +129,18 @@
       </div>
     </template>
     <template slot="start">
+      <b-navbar-dropdown :label="$t('Menu')">
+        <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
+        <b-navbar-item tag="nuxt-link" to="/news"
+          >{{ $t("News") }} &#127881;</b-navbar-item
+        >
+        <b-navbar-item tag="nuxt-link" to="/informations"
+          >{{ $t("Informations") }} 👐</b-navbar-item
+        >
+      </b-navbar-dropdown>
       <b-navbar-item tag="nuxt-link" to="/tutorials"
         >{{ $t("Tutorial") }} 🚀</b-navbar-item
       >
-      <b-navbar-dropdown collapsible label="Info">
-        <b-navbar-item tag="nuxt-link" to="/about">{{
-          $t("Infos")
-        }}</b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/contact"
-          >{{ $t("BugsAndSuggestions") }} 👨‍💻</b-navbar-item
-        >
-        <b-navbar-item tag="nuxt-link" to="/pictograms"
-          >{{ $t("Pictograms") }} 👐</b-navbar-item
-        >
-        <b-navbar-item tag="nuxt-link" to="/news"
-          >{{ $t("NewsAndUpdates") }} &#127881;</b-navbar-item
-        >
-      </b-navbar-dropdown>
     </template>
     <template slot="end">
       <b-navbar-item tag="div">
@@ -151,7 +174,7 @@
               icon-right="web"
               tag="nuxt-link"
               to="/public"
-              style="border: solid; border-width: 1px; border-color: #48c78e"
+              class="buttonBorder"
             />
           </b-tooltip>
           <b-tooltip
@@ -164,10 +187,11 @@
             :triggers="['hover']"
           >
             <b-button
-              type="is-primary is-light"
+              type="is-success is-light"
               icon-right="folder-account"
               :to="sharedLink"
               tag="nuxt-link"
+              class="buttonBorder"
             />
           </b-tooltip>
           <b-tooltip
@@ -180,10 +204,11 @@
             :triggers="['hover']"
           >
             <b-button
-              type="is-primary is-light"
+              type="is-success is-light"
               icon-right="page-layout-sidebar-right"
               :to="sidebarLink"
               tag="nuxt-link"
+              class="buttonBorder"
             />
           </b-tooltip>
           <b-tooltip
@@ -215,37 +240,40 @@
                 <div
                   v-for="notification in getUserNotifications"
                   :key="notification.operation + Math.random()"
-                  class="card lessPadding"
-                  @click="notificationGoToCollectionOrReturn(notification)"
+                  class="card lessPadding notification"
                 >
-                  <div class="card-content lessPadding">
+                  <div class="card-content noPadding">
                     <div class="media">
-                      <div class="media-left">
-                        <figure class="image is-48x48">
+                      <div class="media-content noPadding centered">
+                        <p class="title is-6 notifTitle">
+                          <a
+                            :href="'mailto:' + notification.username"
+                            class="subtitle is-6 mailto"
+                            >{{
+                              notification.username
+                                .split("@")[0]
+                                .replace(".", " ")
+                            }}</a
+                          >
+                          {{ notificationText(notification) }}
+                        </p>
+                        <figure class="image is-64x64">
                           <img
+                            @click="
+                              notificationGoToCollectionOrReturn(notification)
+                            "
                             :src="getNotificationImage(notification)"
                             alt="Placeholder image"
                           />
                         </figure>
-                      </div>
-                      <div class="media-content lessPadding">
-                        <p class="title is-6 notifTitle">
-                          <b-icon
+                        <p class="title is-6 notifTitle greyback">
+                          <!--<b-icon
                             :icon="notificationIcon(notification)"
                             size="is-big"
                             :type="notificationType(notification)"
-                          />
+                          />-->
                           {{ getNotificationMeaning(notification) }}
                         </p>
-                        <a
-                          :href="'mailto:' + notification.username"
-                          class="subtitle is-6 mailto"
-                          >{{
-                            notification.username
-                              .split("@")[0]
-                              .replace(".", " ")
-                          }}</a
-                        >
                       </div>
                     </div>
                   </div>
@@ -421,6 +449,9 @@ export default {
     },
   },
   methods: {
+    cancelCopy() {
+      this.$store.commit("resetCopyCollectionId");
+    },
     getNotificationImage(notification) {
       return this.getCollectionFromId(parseInt(notification.affected, 10))
         ?.image;
@@ -634,6 +665,18 @@ export default {
         return "is-light";
       }
     },
+    notificationText(notif) {
+      if (notif.operation == "share") {
+        return this.$t("Shared");
+      } else if (notif.operation == "unshare") {
+        return this.$t("UnShared");
+      } else if (notif.operation == "modified") {
+        return this.$t("ModifyRights");
+      } else {
+        return this.$t("Changed");
+      }
+    },
+
     deleteUserNotifications() {
       this.$store.dispatch("deleteNotifications");
     },
@@ -677,22 +720,32 @@ export default {
   }
 }
 .notifTitle {
-  margin-bottom: 2px;
+  margin-bottom: 0.5em;
+}
+.greyback {
+  background-color: #f5f5f5;
+  padding: 0.2em;
+  border-radius: 2px;
 }
 .mailto {
-  color: #ee0000;
+  color: #ee0000 !important;
   text-decoration: underline;
 }
 .limitHeight {
-  max-height: 60vh;
+  height: 80vh;
+  max-height: 600px;
   overflow-y: auto;
   min-width: 260px;
 }
 .lock {
+  width: 100%;
+  display: flex;
   border: solid;
   border-color: #4c4329;
   border-width: 1px;
   height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .addButton {
   border: solid;
@@ -707,7 +760,7 @@ export default {
   max-width: 260px;
   margin-left: 1vw;
   margin-right: 1vw;
-  margin-top: 5px;
+  margin-top: 4px;
   height: 44px;
 }
 .noPadding {
@@ -729,5 +782,33 @@ export default {
   align-items: center;
   display: flex;
   font-size: 0.85em;
+}
+.notification {
+  margin: 0.6rem;
+}
+.centered {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.buttonBorder {
+  border: solid;
+  border-width: 1px;
+  border-color: #48c78e;
+}
+.dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dropdown-button {
+  height: 44px;
+}
+.verticalPadding {
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
+}
+.rounded {
+  border-radius: 24px;
 }
 </style>
