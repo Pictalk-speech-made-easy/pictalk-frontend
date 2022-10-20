@@ -29,7 +29,7 @@
               rounded
             ></b-image>
             <h5 class="centered is-size-5 is-size-5-mobile">
-              {{ $t("DonationInformatics") }}: 50€
+              {{ $t("DonationInformatics") }}: 30€
             </h5>
             <div class="centered">{{ $t("DonationInformaticsText") }}</div>
           </div>
