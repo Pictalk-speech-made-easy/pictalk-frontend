@@ -105,8 +105,19 @@
             icon-right="content-paste"
           />
         </div>
+        <div
+          v-if="checkCopyCollectionId && $route.query.isAdmin"
+          class="column noPadding"
+        >
+          <b-button
+            class="addButton rounded"
+            @click="cancelCopy()"
+            type="is-light"
+            icon-right="close"
+          />
+        </div>
 
-        <div class="column noPadding">
+        <div v-if="!checkCopyCollectionId" class="column noPadding">
           <b-button
             class="lock rounded"
             type="is-warning"
@@ -438,6 +449,9 @@ export default {
     },
   },
   methods: {
+    cancelCopy() {
+      this.$store.commit("resetCopyCollectionId");
+    },
     getNotificationImage(notification) {
       return this.getCollectionFromId(parseInt(notification.affected, 10))
         ?.image;
