@@ -22,7 +22,7 @@
             <img
               class="subcard-img"
               loading="lazy"
-              src="https://www.aomei.fr/assets/images/misc/pa-server.png"
+              :srcset="require('@/assets/servers.png').srcSet"
               alt="drawing of servers to illustrate the costs of running Pictalk application"
             ></img>
             <h5 class="centered is-size-5 is-size-5-mobile">
@@ -34,7 +34,7 @@
             <img
               class="subcard-img"
               loading="lazy"
-              src="https://media.istockphoto.com/vectors/bank-building-isolated-on-white-background-vector-illustration-flat-vector-id900791430?k=20&m=900791430&s=612x612&w=0&h=IKTkhxiIwAL6-HMfm9tfW6ti2e4V2roX2IgpUUrbLME="
+              :srcset="require('@/assets/bank.jpg').srcSet"
               alt="drawing of a bank, to illustrate the fees Pictalk pays to have an open bank account and be able to receive donations"
             ></img>
             <h5 class="centered is-size-5 is-size-5-mobile">
@@ -46,7 +46,7 @@
             <img
               class="subcard-img"
               loading="lazy"
-              src="https://cdn.iconscout.com/icon/free/png-256/box-with-stuff-2349406-1955397.png"
+              :srcset="require('@/assets/box.png').srcSet"
               alt="drawing of a folder with various items, illustrating the fact that we have other fees to pay, such as domain name etc"
             ></img>
             <h5 class="centered is-size-5 is-size-5-mobile">
@@ -63,7 +63,7 @@
             <img
               loading="lazy"
               alt="drawing of woman teaching letters to a child"
-              src="https://img.freepik.com/vecteurs-libre/illustration-orthophonie-creative_23-2149237023.jpg?w=2000"
+              :srcset="require('@/assets/learn.webp').srcSet"
               class="subcard-img bigger"
             ></img>
             <div class="subcard-text margin-text is-size-5">
@@ -76,7 +76,7 @@
             <img
               loading="lazy"
               alt="drawing of a person working with a computer"
-              src="https://tim-tek.com/wp-content/uploads/2020/08/developer-working-Converti-1170x700.png"
+              :srcset="require('@/assets/dev.webp').srcSet"
               class="subcard-img bigger"
             ></img>
             <div class="subcard-text margin-text is-size-5">
