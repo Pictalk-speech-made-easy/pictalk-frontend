@@ -26,53 +26,7 @@
       </p>
     </div>
     <br />
-    <div class="columns is-centered is-mobile">
-      <div class="column centerImage">
-        <a href="https://www.instagram.com/pictalk_speech_made_easy/">
-          <b-image
-            lazy
-            :responsive="false"
-            :srcset="require('@/assets/instagram.png').srcSet"
-            alt="Instagram"
-            custom-class="imgpixelslimitvw portrait grayscale"
-          />
-        </a>
-      </div>
-      <div class="column centerImage">
-        <a href="https://www.facebook.com/profile.php?id=100086626416882">
-          <b-image
-            lazy
-            :responsive="false"
-            :srcset="require('@/assets/facebook.png').srcSet"
-            alt="Facebook"
-            custom-class="imgpixelslimitvw portrait grayscale"
-          />
-        </a>
-      </div>
-      <div class="column centerImage">
-        <a href="https://www.linkedin.com/company/88954834/">
-          <b-image
-            lazy
-            :responsive="false"
-            :srcset="require('@/assets/linkedin.png').srcSet"
-            alt="Linkedin"
-            custom-class="imgpixelslimitvw portrait grayscale"
-          />
-        </a>
-      </div>
-      <div class="column centerImage">
-        <a href="mailto:alex@pictalk.org">
-          <b-image
-            lazy
-            :responsive="false"
-            :srcset="require('@/assets/email.png').srcSet"
-            alt="Mail"
-            custom-class="imgpixelslimitvw portrait grayscale"
-          />
-        </a>
-      </div>
-    </div>
-    <div class="columns is-centered is-mobile" style="aspect-ratio: 6/1">
+    <div class="columns is-centered is-mobile social-media">
       <div class="column centerImage">
         <b-image
           lazy
@@ -92,11 +46,79 @@
         />
       </div>
     </div>
+    <div class="social-media gradiant rounded">
+      <div class="columns is-centered is-mobile whitebg rounded">
+        <div class="column centerImage">
+          <a href="https://www.instagram.com/pictalk_speech_made_easy/">
+            <b-image
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/instagram.png').srcSet"
+              alt="Instagram"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+        <div class="column centerImage">
+          <a href="https://www.facebook.com/profile.php?id=100086626416882">
+            <b-image
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/facebook.png').srcSet"
+              alt="Facebook"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+        <div class="column centerImage">
+          <a href="https://www.linkedin.com/company/88954834/">
+            <b-image
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/linkedin.png').srcSet"
+              alt="Linkedin"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+        <div class="column centerImage">
+          <a href="mailto:alex@pictalk.org">
+            <b-image
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/email.png').srcSet"
+              alt="Mail"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
 .footers {
   padding: 2rem;
+}
+.social-media {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.gradiant {
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 87, 87, 1) 60%,
+    rgba(131, 151, 255, 1) 100%
+  );
+  padding: 0.95em;
+  box-shadow: 1px 1px 10px 1px #ccc;
+}
+.whitebg {
+  background-color: #fff;
+}
+.rounded {
+  border-radius: 50px;
 }
 </style>
 <style>
