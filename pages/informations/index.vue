@@ -74,10 +74,8 @@
               <img
                 class="subcard-img fit-img"
                 loading="lazy"
-                :src="list.image"
-              :placeholder="
-                require('@/assets/Contact_compressed.png').placeholder
-              "
+                :srcset="list.image"
+                :placeholder="list.placeholder"
                 alt="logo of our partner"
               ></img></a>
               <h5 class="centered is-size-5 is-size-5-mobile">
@@ -180,28 +178,29 @@ export default {
         {
           title: "Fondation INSA Lyon",
           description: this.$t("INSALyonSponsoring"),
-          image:
-            "https://best.insa-lyon.org/sites/best.insa-lyon.org/files/fondateurs/insa_lyon_foundation.png",
+          image: require("@/assets/logo-insa_lyon_foundation.png").srcSet,
+          placeholder: require("@/assets/logo-insa_lyon_foundation.png")
+            .placeholder,
           url: "https://fondation.insa-lyon.fr/",
         },
         {
           title: "Digital Ocean",
           description: this.$t("DigitalOceanSponsoring"),
-          image:
-            "https://www.vectorlogo.zone/logos/digitalocean/digitalocean-ar21.png",
+          image: require("@/assets/logo-digitalocean.png").srcSet,
+          placeholder: require("@/assets/logo-digitalocean.png").placeholder,
           url: "https://www.digitalocean.com/",
         },
         {
           title: "Adapei 69",
-          image:
-            "https://espacecolab.adapei69.fr/wp-content/uploads/2020/09/LOGO-ADAPEI_couleur-768x249.jpg",
+          image: require("@/assets/logo-ADAPEI.jpg").srcSet,
+          placeholder: require("@/assets/logo-ADAPEI.jpg").placeholder,
           description: this.$t("Adapei69Sponsoring"),
           url: "https://www.adapei69.fr/",
         },
         {
           title: "ARASAAC",
-          image:
-            "https://aulaabierta.arasaac.org/wp-content/uploads/2020/03/logo_ARASAAC_texto_negro_fondo_transparente.png",
+          image: require("@/assets/logo-ARASAAC.png").srcSet,
+          placeholder: require("@/assets/logo-ARASAAC.png").placeholder,
           description: this.$t("ARASAACSponsoring"),
           url: "https://arasaac.org/",
         },

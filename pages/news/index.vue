@@ -23,6 +23,7 @@
               class="subcard-img"
               loading="lazy"
               :srcset="require('@/assets/servers.png').srcSet"
+              :placeholder="require('@/assets/servers.png').placeholder"
               alt="drawing of servers to illustrate the costs of running Pictalk application"
             ></img>
             <h5 class="centered is-size-5 is-size-5-mobile">
@@ -35,6 +36,7 @@
               class="subcard-img"
               loading="lazy"
               :srcset="require('@/assets/bank.jpg').srcSet"
+              :placeholder="require('@/assets/bank.jpg').placeholder"
               alt="drawing of a bank, to illustrate the fees Pictalk pays to have an open bank account and be able to receive donations"
             ></img>
             <h5 class="centered is-size-5 is-size-5-mobile">
@@ -47,6 +49,7 @@
               class="subcard-img"
               loading="lazy"
               :srcset="require('@/assets/box.png').srcSet"
+              :placeholder="require('@/assets/box.png').placeholder"
               alt="drawing of a folder with various items, illustrating the fact that we have other fees to pay, such as domain name etc"
             ></img>
             <h5 class="centered is-size-5 is-size-5-mobile">
@@ -64,6 +67,7 @@
               loading="lazy"
               alt="drawing of woman teaching letters to a child"
               :srcset="require('@/assets/learn.webp').srcSet"
+              :placeholder="require('@/assets/learn.webp').placeholder"
               class="subcard-img bigger"
             ></img>
             <div class="subcard-text margin-text is-size-5">
@@ -77,6 +81,7 @@
               loading="lazy"
               alt="drawing of a person working with a computer"
               :srcset="require('@/assets/dev.webp').srcSet"
+              :placeholder="require('@/assets/dev.webp').placeholder"
               class="subcard-img bigger"
             ></img>
             <div class="subcard-text margin-text is-size-5">
