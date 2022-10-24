@@ -738,7 +738,7 @@ export default {
   min-width: 260px;
 }
 .lock {
-  width: 100%;
+  width: 90%;
   display: flex;
   border: solid;
   border-color: #4c4329;
