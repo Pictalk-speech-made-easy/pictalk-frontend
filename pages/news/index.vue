@@ -128,7 +128,7 @@ export default {
 </script>
 <style scoped>
 .section {
-  padding: 6vw;
+  padding: 1em;
   padding-top: 0rem;
   padding-bottom: 3rem;
 }
@@ -138,7 +138,7 @@ export default {
   align-items: center;
   justify-content: flex-start;
   flex-basis: auto;
-  padding: 1em;
+  padding: 0.75em;
 }
 .subcard-row {
   flex-direction: row;
