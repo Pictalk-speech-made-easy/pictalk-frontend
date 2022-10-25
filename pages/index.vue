@@ -2,13 +2,21 @@
 	<div>
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
 		<div class="container is-max-widescreen">
-			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" :interval="15000">
+			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" indicator indicator-position="is-top">
         <b-carousel-item class="containing">
             <b-image style="aspect-ratio: 16/9;" alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
         :placeholder="require('@/assets/pictalk_index.png').placeholder"
 				:lazy="false"
 				></b-image>
+        </b-carousel-item>
+        <b-carousel-item v-if="this.getUserLang == 'fr'" class="containing">
+          <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 100%" alt="video of Alex talking about pictalk"
+          :src="require('@/static/pictalk.mp4')"
+          controls
+          muted
+          :poster="require('@/assets/pictalk-video-poster.webp')"
+          ></video>
         </b-carousel-item>
 				 <b-carousel-item class="containing">
             <b-image style="aspect-ratio: 16/9;" alt="screenshots of the Pictalk application running on different devices"
@@ -179,10 +187,16 @@
 <script >
 import signup from "@/components/auth/signupModal";
 import deviceInfos from "@/mixins/deviceInfos";
+import lang from "@/mixins/lang";
 export default {
-  mixins: [deviceInfos],
+  mixins: [deviceInfos, lang],
   components: {
     signup,
+  },
+  data() {
+    return {
+      carouselAutoplay: true,
+    };
   },
   head() {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
@@ -215,6 +229,37 @@ export default {
           path: "/public/" + "346",
         });
       }
+    }
+  },
+  mounted() {
+    if (this.getUserLang == "fr") {
+      const video = document.getElementById("pictalk-video");
+      video.addEventListener("ended", () => {
+        console.log("video ended!");
+        this.carouselAutoplay = true;
+      });
+      video.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        video.muted = !video.muted;
+        console.log("clicked!");
+      });
+
+      let observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.intersectionRatio !== 1) {
+              video.pause();
+              this.carouselAutoplay = true;
+            } else {
+              video.play();
+              this.carouselAutoplay = false;
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+      observer.observe(video);
     }
   },
   middleware: ["check-auth"],
