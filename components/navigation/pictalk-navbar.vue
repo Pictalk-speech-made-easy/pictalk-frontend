@@ -467,9 +467,7 @@ export default {
       });
     },
     fitsBigger() {
-      this.fits =
-        window.innerWidth > 767 &&
-        !(window.innerWidth > 1023 && window.innerWidth < 1160);
+      this.fits = window.innerWidth > 560;
     },
     getCollectionFromId(id) {
       const index = this.$store.getters.getCollections.findIndex(

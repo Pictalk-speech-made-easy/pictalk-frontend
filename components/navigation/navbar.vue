@@ -11,26 +11,37 @@
           "
         >
           <img
-            v-if="fits"
             src="~/assets/logo_compressed.png"
             alt="Logo of a web app that help speach-disabled people"
             height="100px"
             width="150px"
           />
-          <img
-            v-if="!fits"
-            src="~/assets/small_logo.jpg"
-            alt="Logo of a web app that help speach-disabled people"
-          />
         </b-navbar-item>
       </template>
       <template slot="start">
-        <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/news"
+        <b-navbar-item id="index" tag="nuxt-link" to="/" :class="navtabs.index">
+          {{ $t("Home") }}</b-navbar-item
+        >
+        <b-navbar-item
+          id="news"
+          tag="nuxt-link"
+          to="/news"
+          :class="navtabs.news"
           >{{ $t("News") }} &#127881;</b-navbar-item
         >
-        <b-navbar-item tag="nuxt-link" to="/informations"
+        <b-navbar-item
+          id="informations"
+          tag="nuxt-link"
+          to="/informations"
+          :class="navtabs.informations"
           >{{ $t("Informations") }} 👐</b-navbar-item
+        >
+        <b-navbar-item
+          id="tutorials"
+          tag="nuxt-link"
+          to="/tutorials"
+          :class="navtabs.tutorials"
+          >{{ $t("Tutorial") }} 🚀</b-navbar-item
         >
       </template>
       <template slot="end">
@@ -100,20 +111,29 @@ export default {
     return {
       trueValue: true,
       search: "",
-      fits: false,
+      navtabs: {
+        index: "unfocus",
+        news: "unfocus",
+        informations: "unfocus",
+        tutorials: "unfocus",
+      },
     };
+  },
+  watch: {
+    $route(to, from) {
+      console.log(to.name, from.name);
+      this.navtabs[to.name] = "focus";
+      this.navtabs[from.name] = "unfocus";
+    },
   },
   components: {
     signin,
     signup,
     Security,
   },
-  destroyed() {
-    window.removeEventListener("resize", this.fitsBigger);
-  },
+
   mounted() {
-    this.fitsBigger();
-    window.addEventListener("resize", this.fitsBigger);
+    this.navtabs[this.$route.name] = "focus";
   },
   computed: {
     getFilteredPictoList() {
@@ -141,11 +161,6 @@ export default {
         path: `/public`,
         query: { ...this.$route.query, search: this.search },
       });
-    },
-    fitsBigger() {
-      this.fits =
-        window.innerWidth > 767 &&
-        !(window.innerWidth > 1023 && window.innerWidth < 1215);
     },
     openSignInModal() {
       this.$buefy.modal.open({
@@ -180,6 +195,21 @@ export default {
 }
 .bottomOffset {
   margin-bottom: 0px;
+}
+.tab {
+  transition: 500ms;
+}
+.unfocus {
+  filter: grayscale(1);
+}
+.unfocus:hover {
+  filter: grayscale(0);
+  color: #ff5757;
+}
+.focus {
+  filter: grayscale(0);
+  color: #ff5757;
+  background-color: #fafafa;
 }
 </style>
 
