@@ -196,6 +196,7 @@ export default {
   data() {
     return {
       carouselAutoplay: true,
+      ended: false,
     };
   },
   head() {
@@ -235,14 +236,13 @@ export default {
     if (this.getUserLang == "fr") {
       const video = document.getElementById("pictalk-video");
       video.addEventListener("ended", () => {
-        console.log("video ended!");
         this.carouselAutoplay = true;
+        this.ended = true;
       });
       video.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
         video.muted = !video.muted;
-        console.log("clicked!");
       });
 
       let observer = new IntersectionObserver(
@@ -252,8 +252,10 @@ export default {
               video.pause();
               this.carouselAutoplay = true;
             } else {
-              video.play();
-              this.carouselAutoplay = false;
+              if (this.ended == false) {
+                video.play();
+                this.carouselAutoplay = false;
+              }
             }
           });
         },
