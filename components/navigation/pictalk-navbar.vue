@@ -10,13 +10,15 @@
         "
       >
         <img
-          style="margin-right: 0.5vw"
           v-if="fits"
           src="~/assets/logo_compressed.png"
           alt="Logo of a web app that help speach-disabled people"
+          height="44px"
+          style="aspect-ratio: 411 / 130; margin-right: 0.5vw"
         />
         <img
-          style="margin-right: 0.5vw"
+          style="aspect-ratio: 1 / 1; margin-right: 0.5vw"
+          height="44px"
           v-if="!fits"
           src="~/assets/small_logo.jpg"
           alt="Logo of a web app that help speach-disabled people"

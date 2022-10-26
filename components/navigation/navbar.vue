@@ -13,8 +13,8 @@
           <img
             src="~/assets/logo_compressed.png"
             alt="Logo of a web app that help speach-disabled people"
-            height="100px"
-            width="150px"
+            height="48px"
+            style="aspect-ratio: 411 / 130"
           />
         </b-navbar-item>
       </template>
