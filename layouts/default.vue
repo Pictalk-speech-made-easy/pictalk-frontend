@@ -3,7 +3,7 @@
     <navbar />
     <hr style="margin: 20px" />
     <nuxt />
-    <hr />
+    <hr style="margin: 1.2rem 0" />
     <footerPictalk />
   </div>
 </template>
