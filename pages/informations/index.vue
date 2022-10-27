@@ -72,10 +72,9 @@
             <div class="column subcard">
               <a :href="list.url">
               <img
-                class="subcard-img fit-img"
+                class="subcard-img fit-img partner-logo"
                 loading="lazy"
                 :srcset="list.image"
-                :placeholder="list.placeholder"
                 alt="logo of our partner"
               ></img></a>
               <h5 class="centered is-size-5 is-size-5-mobile">
@@ -96,13 +95,14 @@
       </h5>
       <div class="card">
         <div class="subcard subcard-row">
+          <div class="subcard-img bigger placeholder" :style="`background-image: url(${require('@/assets/webdev.png').placeholder})`">
           <img
             loading="lazy"
             alt="two people lifting the earth"
             :srcset="require('@/assets/webdev.png').srcSet"
             :placeholder="require('@/assets/webdev.png').placeholder"
             class="subcard-img bigger"
-          ></img>
+          ></img></div>
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreDevelopperText") }} <br />
             <br />Github:
@@ -119,13 +119,13 @@
       </h5>
       <div class="card">
         <div class="subcard subcard-row">
+          <div class="subcard-img bigger placeholder" :style="`background-image: url(${require('@/assets/healthpro.png').placeholder})`">
           <img
             loading="lazy"
             alt="two people lifting the earth"
             :srcset="require('@/assets/healthpro.png').srcSet"
-          :placeholder="require('@/assets/healthpro.png').placeholder"
             class="subcard-img bigger"
-          ></img>
+          ></img></div>
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreHealthProText") }}
           </div>
@@ -136,13 +136,13 @@
       </h5>
       <div class="card">
         <div class="subcard subcard-row">
+          <div class="subcard-img bigger placeholder" :style="`background-image: url(${require('@/assets/individual.png').placeholder})`">
           <img
             loading="lazy"
             alt="two people lifting the earth"
             :srcset="require('@/assets/individual.png').srcSet"
-            :placeholder="require('@/assets/individual.png').placeholder"
             class="subcard-img bigger"
-          ></img>
+          ></img></div>
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreParticularText") }}
           </div>
@@ -259,12 +259,19 @@ export default {
   border-radius: 100px;
   margin-bottom: 00.5em;
 }
+.partner-logo {
+  aspect-ratio: 3 / 2;
+  height: 125px;
+}
 .fit-img {
   object-fit: contain;
 }
 .bigger {
-  max-height: 30vmin;
-  min-height: 200px;
+  min-height: 30vmin;
+}
+.placeholder {
+  background-size: cover;
+  background-position: center;
 }
 .centered {
   text-align: center;
