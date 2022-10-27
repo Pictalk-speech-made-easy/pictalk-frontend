@@ -136,6 +136,7 @@ div.dropdown-trigger {
 ::-webkit-scrollbar {
   width: 0.9vw;
   max-width: 10px;
+  max-height: 8px;
 }
 
 /* Track */
