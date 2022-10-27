@@ -7,7 +7,7 @@
             <b-image
               lazy
               :responsive="false"
-              :srcset="require('@/assets/instagram.png').srcSet"
+              :srcset="require('@/assets/instagram.webp').srcSet"
               alt="Instagram"
               custom-class="imgpixelslimitvw portrait grayscale"
             />
@@ -18,7 +18,7 @@
             <b-image
               lazy
               :responsive="false"
-              :srcset="require('@/assets/facebook.png').srcSet"
+              :srcset="require('@/assets/facebook.webp').srcSet"
               alt="Facebook"
               custom-class="imgpixelslimitvw portrait grayscale"
             />
@@ -29,7 +29,7 @@
             <b-image
               lazy
               :responsive="false"
-              :srcset="require('@/assets/linkedin.png').srcSet"
+              :srcset="require('@/assets/linkedin.webp').srcSet"
               alt="Linkedin"
               custom-class="imgpixelslimitvw portrait grayscale"
             />
@@ -40,7 +40,7 @@
             <b-image
               lazy
               :responsive="false"
-              :srcset="require('@/assets/email.png').srcSet"
+              :srcset="require('@/assets/email.webp').srcSet"
               alt="Mail"
               custom-class="imgpixelslimitvw portrait grayscale"
             />
@@ -77,7 +77,7 @@
     <div class="columns is-centered is-mobile social-media">
       <div class="column centerImage">
         <b-image
-          lazy
+          :lazy="true"
           :responsive="false"
           :srcset="require('@/assets/InsaFondation.png').srcSet"
           alt="logo of Fondation INSA Lyon "
@@ -86,7 +86,7 @@
       </div>
       <div class="column centerImage">
         <b-image
-          lazy
+          :lazy="true"
           :responsive="false"
           :srcset="require('@/assets/DigitalOcean.png').srcSet"
           alt="Logo of DigitalOcean"
@@ -111,6 +111,7 @@
     rgba(255, 87, 87, 1) 60%,
     rgba(131, 151, 255, 1) 100%
   );
+  height: 72px;
   padding: 0.95em;
   margin-top: -1.5rem;
   margin-bottom: 1.5em;
