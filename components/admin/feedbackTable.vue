@@ -93,6 +93,25 @@
               {{ props.row.voices }}
             </div>
             <br />
+            <b-dropdown aria-role="list">
+              <template #trigger="{ active }">
+                <b-button
+                  :label="$t('FeedbackType')"
+                  type="is-primary"
+                  :icon-right="active ? 'menu-up' : 'menu-down'"
+                />
+              </template>
+              <b-dropdown-item
+                v-for="state in feedbackStateEnum.filter(
+                  (state) => state != props.row.state
+                )"
+                :key="state"
+                @click="editFeedback(props.row, state)"
+                aria-role="listitem"
+                :value="state"
+                >{{ state }}</b-dropdown-item
+              >
+            </b-dropdown>
           </div>
         </article>
       </template>
@@ -101,28 +120,14 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      data: [
-        {
-          id: 1,
-          title: "Test 1",
-          date: Date.now(),
-          blocking: true,
-          contact: "alex@pictalk.org",
-          action: "action",
-          description: "test description",
-          evolution: "azer",
-          vuex: "vuex",
-          voices: "voices",
-          deviceInfos: "deviceInfos",
-          state: "State",
-        },
-      ],
       defaultOpenedDetails: [1],
       showDetailIcon: true,
       useTransition: false,
+      feedbackStateEnum: ["OPENED", "INPROGRESS", "ONHOLD", "COMPLETE"],
     };
   },
   props: {
@@ -135,6 +140,18 @@ export default {
     transitionName() {
       if (this.useTransition) {
         return "fade";
+      }
+    },
+  },
+  methods: {
+    async editFeedback(feedback, stateValue) {
+      try {
+        feedback.state = stateValue;
+        feedback.blocking = String(feedback.blocking);
+        await axios.put(`/feedback/${feedback.id}`, feedback);
+        return;
+      } catch (error) {
+        console.log("error ", error);
       }
     },
   },
