@@ -148,6 +148,24 @@
       <b-navbar-item tag="div">
         <div class="buttons b-tooltips">
           <b-tooltip
+            v-if="$store.getters.getUser.admin"
+            position="is-bottom"
+            multilined
+            size="is-small"
+            type="is-primary"
+            :label="$t('TooltipAdmin')"
+            :delay="1000"
+            :triggers="['hover']"
+          >
+            <b-button
+              type="is-success is-light"
+              icon-right="poll"
+              tag="nuxt-link"
+              to="/administration"
+              class="buttonBorder"
+            />
+          </b-tooltip>
+          <b-tooltip
             position="is-bottom"
             multilined
             size="is-small"
