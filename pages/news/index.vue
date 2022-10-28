@@ -15,6 +15,43 @@
       <div class="container">
         <h1 class="title">{{ $t("Donations") }}</h1>
         <h3 class="title is-size-4 is-size-4-mobile headings">
+          {{ $t("YourDonations") }}
+        </h3>
+        <div class="columns card">
+          <div class="column subcard slot3">
+            <b class="is-size-5 centeredtext">{{$t('OurDonators')}}</b>
+            <div id="container">
+    <span id="text1"></span>
+    <span id="text2"></span>
+</div>
+
+<svg id="filters">
+    <defs>
+        <filter id="threshold">
+            <feColorMatrix in="SourceGraphic" type="matrix" values=
+                 "1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 255 -100" />
+        </filter>
+    </defs>
+</svg>
+            <!--
+            <div class="donators">
+            <b v-for="(donator, index) in donators" :key="index" class="is-size-6 donator-name">{{donator}}</b>
+            </div>
+            -->
+          </div>
+          <div class="column subcard slot3">
+            <b class="is-size-5 centeredtext">{{$t('thanksDonations')}}</b>
+            <b class="donation-amount">{{donationAmount}}€</b>
+          </div>
+          <div class="column subcard slot3">
+            <b class="is-size-5 centeredtext">{{$t('MakeDonations')}}</b> 
+            <img :srcset="require('@/assets/donation.webp').srcSet" class="subcard-img"loading="lazy"></img>      
+          </div>
+        </div>
+        <h3 class="title is-size-4 is-size-4-mobile headings">
           {{ $t("DonationUsage") }}
         </h3>
         <div class="columns card">
@@ -94,16 +131,100 @@
   </div>
 </template>
 <script >
+import axios from "axios";
 export default {
-  mounted() {
+  async mounted() {
     document.querySelector("iframe").onload = () => {
       this.newsCharged = true;
     };
+    const res = await axios.get("/extras/amounts");
+    if (res.status == 200) {
+      this.donationAmount = res.data.amount;
+      this.donators = res.data.donators;
+    }
+    //by @DotOnion https://alvarotrigo.com/blog/css-text-animations/
+    const texts = this.donators;
+    const elts = {
+      text1: document.getElementById("text1"),
+      text2: document.getElementById("text2"),
+    };
+
+    const morphTime = 1.0;
+    const cooldownTime = 0.75;
+
+    let textIndex = texts.length - 1;
+    let time = new Date();
+    let morph = 0;
+    let cooldown = cooldownTime;
+
+    elts.text1.textContent = texts[textIndex % texts.length];
+    elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+
+    function doMorph() {
+      morph -= cooldown;
+      cooldown = 0;
+
+      let fraction = morph / morphTime;
+
+      if (fraction > 1) {
+        cooldown = cooldownTime;
+        fraction = 1;
+      }
+
+      setMorph(fraction);
+    }
+
+    function setMorph(fraction) {
+      elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+      elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+
+      fraction = 1 - fraction;
+      elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+      elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+
+      elts.text1.textContent = texts[textIndex % texts.length];
+      elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+    }
+
+    function doCooldown() {
+      morph = 0;
+
+      elts.text2.style.filter = "";
+      elts.text2.style.opacity = "100%";
+
+      elts.text1.style.filter = "";
+      elts.text1.style.opacity = "0%";
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      let newTime = new Date();
+      let shouldIncrementIndex = cooldown > 0;
+      let dt = (newTime - time) / 1000;
+      time = newTime;
+
+      cooldown -= dt;
+
+      if (cooldown <= 0) {
+        if (shouldIncrementIndex) {
+          textIndex++;
+        }
+
+        doMorph();
+      } else {
+        doCooldown();
+      }
+    }
+
+    animate();
   },
   data() {
     return {
       newsCharged: false,
       done: true,
+      donationAmount: "",
+      donators: [],
     };
   },
   head() {
@@ -127,10 +248,25 @@ export default {
 };
 </script>
 <style scoped>
+.donators {
+  margin-top: 0.75em;
+  display: flex;
+  flex-direction: column;
+  max-height: 14em;
+  overflow-y: auto;
+  padding: 0.75em 2em;
+  border-radius: 24px;
+}
+.donator-name {
+  text-shadow: 0px 1px 1px #777;
+}
 .section {
   padding: 1em;
   padding-top: 0rem;
   padding-bottom: 3rem;
+}
+.centeredtext {
+  text-align: center;
 }
 .subcard {
   display: flex;
@@ -157,7 +293,8 @@ export default {
 .subcard-img {
   border-radius: 12px;
   aspect-ratio: 1 / 1;
-  height: 20vh;
+  height: 20vmin;
+  max-height: 200px;
   object-fit: cover;
 }
 .bigger {
@@ -190,5 +327,60 @@ export default {
   margin: 0%;
   height: 50vh;
   background-color: #f5f5f5;
+}
+.donation-amount {
+  font-size: clamp(1em, 12vw, 10em);
+  max-height: 200px;
+  margin-top: clamp(-0.3em, -5vw, -0.1em);
+  background: linear-gradient(
+    45deg,
+    rgba(131, 151, 255, 1) 20%,
+    rgba(255, 87, 87, 1) 45%,
+    rgba(255, 87, 87, 1) 55%,
+    rgba(131, 151, 255, 1) 80%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+body {
+  margin: 0px;
+}
+
+#container {
+  position: absolute;
+  margin-top: clamp(7em, 6vw, 8em);
+  width: 100vw;
+  height: 80pt;
+  top: 0;
+  bottom: 0;
+  filter: url(#threshold) blur(0.6px);
+}
+#text1,
+#text2 {
+  position: absolute;
+  width: 100%;
+  display: inline-block;
+  font-family: "Raleway", sans-serif;
+  font-weight: 1000;
+  font-size: clamp(1em, 4vw, 4em);
+  text-align: center;
+  user-select: none;
+  color: #ff5757;
+}
+@media screen and (max-width: 768px) {
+  #text1,
+  #text2 {
+    font-size: 14vw;
+  }
+  #container {
+    margin-top: calc(100px - 7vw);
+  }
+  .donation-amount {
+    font-size: 20vw;
+  }
+  .subcard-img {
+    height: 20vh;
+  }
 }
 </style>
