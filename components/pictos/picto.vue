@@ -395,6 +395,7 @@ export default {
 }
 .image {
   margin: auto;
+  border-radius: 6px;
   aspect-ratio: 1/1;
   object-fit: contain;
 }
