@@ -4,7 +4,8 @@
       :data="feedbacks"
       ref="table"
       paginated
-      per-page="5"
+      :current-page.sync="page"
+      :per-page="perPage"
       :opened-detailed="defaultOpenedDetails"
       detailed
       detail-key="id"
@@ -14,6 +15,14 @@
       aria-previous-label="Previous page"
       aria-page-label="Page"
       aria-current-label="Current page"
+      :loading="loading"
+      backend-pagination
+      :total="total"
+      @page-change="onPageChange"
+      backend-sorting
+      :default-sort-direction="defaultSortOrder"
+      :default-sort="[sortField, sortOrder]"
+      @sort="onSort"
     >
       <b-table-column field="id" label="ID" width="40" numeric v-slot="props">
         {{ props.row.id }}
@@ -122,9 +131,27 @@
 <script>
 import axios from "axios";
 export default {
+  async fetch() {
+    try {
+      this.loading = true;
+      var res = await axios.get(`/feedback?page=1&per_page=${this.perPage}`);
+      this.feedbacks = res.data.feedbacks;
+      this.total = res.data.total_count;
+      this.loading = false;
+      return res;
+    } catch (error) {
+      console.log("error ", error);
+    }
+  },
   data() {
     return {
-      defaultOpenedDetails: [1],
+      page: 1,
+      perPage: 5,
+      total: 0,
+      loading: false,
+      sortField: "vote_count",
+      sortOrder: "desc",
+      defaultSortOrder: "desc",
       showDetailIcon: true,
       useTransition: false,
       feedbackStateEnum: ["OPENED", "INPROGRESS", "ONHOLD", "COMPLETE"],
@@ -144,6 +171,31 @@ export default {
     },
   },
   methods: {
+    async loadAsyncData() {
+      try {
+        var res = await axios.get(
+          `/feedback?page=${this.page}&per_page=${this.perPage}&sortField=${
+            this.sortField
+          }&sortOrder=${String(this.sortOrder).toUpperCase()}`
+        );
+        this.total = res.data.total_count;
+        this.feedbacks = res.data.feedbacks;
+        return res;
+      } catch (error) {
+        console.log("error ", error);
+      }
+    },
+    onPageChange(page) {
+      this.page = page;
+      this.loadAsyncData();
+    },
+
+    onSort(field, order) {
+      this.sortField = field;
+      this.sortOrder = order;
+      this.loadAsyncData();
+    },
+
     async editFeedback(feedback, stateValue) {
       try {
         feedback.state = stateValue;
