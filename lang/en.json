@@ -244,8 +244,8 @@
   "MoreImages": "Search for more images",
   "MoreItems": "Search for more items",
   "NoResults": "No images found for : ",
-  "SharingButton": "Add friends that use Pictalk",
-  "SharingExplanation": "Pictograms shared by your friends will apprear directly in your home screen and not only your 'Shared with me' collection",
+  "SharingButton": "Add content creator subscription",
+  "SharingExplanation": "Pictograms shared by those content creators will apprear directly in your home screen and not only your 'Shared with me' collection",
   "TitleAbout": "About",
   "DescriptionMetaAbout": "Wan't to know more about us ?",
   "TitleContact": "Contact",
@@ -418,5 +418,10 @@
   "News": "News",
   "Informations": "Informations",
   "Partners": "Partners",
-  "Team": "Team"
+  "Team": "Team",
+  "SignupDirectSharer": "Content creator subscription",
+  "SignupDirectSharerText": "Caution, you will automatically receive in your personnal space collections shared by following users: ",
+  "SignupDirectSharerRemove": "Remove subscription",
+  "AccountDirectSharer": "Share your content creator link",
+  "AccountDirectSharerText": "Share this link to a non existing Pictalk user. When signin up, you will automatically be added to his content creator subscriptions."
 }

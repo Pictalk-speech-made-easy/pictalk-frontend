@@ -205,6 +205,16 @@
             @click="removeFromSharers()"
           />
           <hr style="margin-top: 8px; margin-bottom: 8px" />
+          <p class="title is-4">{{ $t("AccountDirectSharer") }}</p>
+          <p class="subtitle is-6">{{ $t("AccountDirectSharerText") }}</p>
+          <br />
+          <div class="box">
+            <b>{{
+              "http://localhost:3000?directsharer=" +
+              $store.getters.getUser.username
+            }}</b>
+          </div>
+          <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("Groups") }}</p>
           <b-field style="margin-bottom: 0.15rem">
             <div class="columns is-multiline is-mobile">
