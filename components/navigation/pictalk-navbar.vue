@@ -325,7 +325,7 @@
               @click="goToAccount()"
             />
           </b-tooltip>
-
+          <!--
           <b-tooltip
             position="is-bottom"
             multilined
@@ -342,6 +342,7 @@
               icon-right="help-circle"
             />
           </b-tooltip>
+          -->
           <b-tooltip
             position="is-bottom"
             multilined

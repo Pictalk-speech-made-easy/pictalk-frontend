@@ -5,6 +5,7 @@
         <div class="column centerImage">
           <a href="https://www.instagram.com/pictalk_speech_made_easy/">
             <b-image
+              style="height: 42px"
               lazy
               :responsive="false"
               :srcset="require('@/assets/instagram.webp').srcSet"
@@ -16,6 +17,7 @@
         <div class="column centerImage">
           <a href="https://www.facebook.com/profile.php?id=100086626416882">
             <b-image
+              style="height: 42px"
               lazy
               :responsive="false"
               :srcset="require('@/assets/facebook.webp').srcSet"
@@ -27,6 +29,7 @@
         <div class="column centerImage">
           <a href="https://www.linkedin.com/company/88954834/">
             <b-image
+              style="height: 42px"
               lazy
               :responsive="false"
               :srcset="require('@/assets/linkedin.webp').srcSet"
@@ -38,6 +41,7 @@
         <div class="column centerImage">
           <a href="mailto:alex@pictalk.org">
             <b-image
+              style="height: 42px"
               lazy
               :responsive="false"
               :srcset="require('@/assets/email.webp').srcSet"
@@ -101,6 +105,7 @@
   padding: 2rem;
 }
 .social-media {
+  margin-top: 10px;
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
