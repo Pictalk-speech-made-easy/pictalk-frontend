@@ -217,6 +217,10 @@ export default {
     };
   },
   created() {
+    if (this.directSharerUrlEncoded) {
+      this.openSignUpModal();
+      return;
+    }
     if (this.$route.query.standalone) {
       if (this.$store.getters.getUser.username) {
         this.$router.push({
@@ -278,6 +282,9 @@ export default {
     },
   },
   computed: {
+    directSharerUrlEncoded() {
+      return this.$route.query.directsharer;
+    },
     isAppleDevice() {
       return (
         this.getOSInfo() == "Mac/iOS" ||

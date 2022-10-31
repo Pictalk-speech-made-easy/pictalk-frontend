@@ -60,6 +60,17 @@
 						v-model="passwordConfirmation"
 					></b-input>
 				</b-field>
+        <div v-if="directSharerUrlEncoded" class="box">
+          <h2 class="subtitle" align="center">{{ $t("DirectSharer") }}</h2>
+          {{ $t('SignupDirectSharerText')}}
+          <div v-if="isArraydirectSharerUrlEncoded">
+          <div  v-for="directsharer in directSharerUrlEncoded">
+          <b>{{ directsharer }}</b>
+          </div>
+          </div>
+          <div v-else><b>{{ directSharerUrlEncoded }}</b></div>
+          <b-button class="is-danger" icon-left="delete" @click="removeDirectSharer()">{{$t('SignupDirectSharerRemove')}}</b-button>
+        </div>
 				</b-step-item>
         <b-step-item clickable :label="$t('Language')" icon="translate">
 					<div class="contenant">
@@ -325,9 +336,19 @@ export default {
         });
       }
     },
+    directSharerUrlEncoded() {
+      return this.$route.query.directsharer;
+    },
+    isArraydirectSharerUrlEncoded() {
+      console.log(Array.isArray(this.$route.query.directsharer));
+      return Array.isArray(this.$route.query.directsharer);
+    },
   },
-  beforeUpdate() {
+  async beforeUpdate() {
     this.initialization = false;
+    if (!this.$store.getters.getPublicBundles) {
+      await this.$store.dispatch("getPublicBundles");
+    }
   },
   async created() {
     if (this.recoverCode) {
@@ -340,9 +361,15 @@ export default {
     await this.$store.dispatch("getPublicBundles");
     this.selectedBundle = this.$store.getters.getPublicBundles[0].id;
   },
+  async updated() {},
   methods: {
+    removeDirectSharer() {
+      this.$router.push({
+        query: { ...this.$route.query, directsharer: undefined },
+      });
+    },
     getBundleLevelById(id) {
-      return this.$store.getters.getPublicBundles.filter(
+      return this.$store.getters.getPublicBundles?.filter(
         (publicBundle) => publicBundle.id == id
       )[0]?.level;
     },
@@ -396,6 +423,13 @@ export default {
       let device = {};
       let language = {};
       let languages = {};
+      if (this.directSharerUrlEncoded) {
+        if (this.isArraydirectSharerUrlEncoded) {
+          this.directSharers = this.directSharerUrlEncoded;
+        } else {
+          this.directSharers = [this.directSharerUrlEncoded];
+        }
+      }
       device[this.getDeviceInfo()] = {
         voiceURI: this.voiceURI,
         pitch: "",
