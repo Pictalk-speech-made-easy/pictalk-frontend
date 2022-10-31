@@ -457,5 +457,11 @@
   "YourDonations": "Your donations",
   "MakeDonations": "Faites un don à Pictalk 😄",
   "thanksDonations": "Toute l'équipe vous remercie pour vos dons 😍 !",
-  "OurDonators": "Donateurs du mois 🥳"
+  "OurDonators": "Donateurs du mois 🥳",
+  "AdriInfos": "Salut, je suis follement amoureux du développement web et je veux que mon petit frère parle 🔥💯.",
+  "SignupDirectSharer": "Abonnement des créateurs de contenu",
+  "SignupDirectSharerText": "Attention, vous recevrez automatiquement dans votre espace personnel les collections partagées par les utilisateurs suivants :",
+  "SignupDirectSharerRemove": "Supprimer l'abonnement",
+  "AccountDirectSharer": "Partagez le lien de votre créateur de contenu",
+  "AccountDirectSharerText": "Partagez ce lien avec un utilisateur Pictalk non existant. En vous inscrivant, vous serez automatiquement ajouté à ses abonnements de créateur de contenu."
 }
