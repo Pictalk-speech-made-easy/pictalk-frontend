@@ -218,6 +218,9 @@ export default {
 .centered {
   text-align: center;
 }
+a{
+  color: #ee0000;
+}
 .img-centered {
   display: block;
   margin-left: auto;

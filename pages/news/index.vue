@@ -139,8 +139,14 @@ export default {
     };
     const res = await axios.get("/extras/amounts");
     if (res.status == 200) {
-      this.donationAmount = res.data.amount;
-      this.donators = res.data.donators;
+      if(res.data.amount!=0){
+        this.donationAmount = res.data.amount;
+        this.donators = res.data.donators;
+      } else {
+        this.donationAmount = res.data.pastAmount;
+        this.donators = res.data.pastDonators;
+      }
+      
     }
     //by @DotOnion https://alvarotrigo.com/blog/css-text-animations/
     const texts = this.donators;
