@@ -150,3 +150,6 @@ div.dropdown-trigger {
   background: #ff5757;
   border-radius: 10px;
 }
+.slightly-rounded {
+  border-radius: 4px;
+}

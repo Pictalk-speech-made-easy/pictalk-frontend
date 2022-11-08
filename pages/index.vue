@@ -8,14 +8,16 @@
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
         :placeholder="require('@/assets/pictalk_index.png').placeholder"
 				:lazy="false"
+        custom-class="slightly-rounded"
 				></b-image>
         </b-carousel-item>
         <b-carousel-item v-if="this.getUserLang == 'fr'" class="containing">
-          <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 100%" alt="video of Alex talking about pictalk"
+          <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 99.1%;" alt="video of Alex talking about pictalk"
           :src="require('@/static/pictalk.mp4')"
           controls
           muted
           :poster="require('@/assets/pictalk-video-poster.webp')"
+          class="slightly-rounded"
           ></video>
         </b-carousel-item>
 				 <b-carousel-item class="containing">
@@ -23,6 +25,7 @@
 				:srcset="require('@/assets/Usages.png').srcSet"
         :placeholder="require('@/assets/Usages.png').placeholder"
 				:lazy="true"
+        custom-class="slightly-rounded"
 				></b-image>
 				<section class="centeredBottomLeftText">
                     <div class="has-text-centered">
@@ -43,6 +46,7 @@
 				:srcset="require('@/assets/Share_demo.png').srcSet"
         :placeholder="require('@/assets/Share_demo.png').placeholder"
 				:lazy="true"
+        custom-class="slightly-rounded"
 				></b-image>
 				<section class="centeredBottomLeftTextAndBitRight">
                     <div class="has-text-centered">
