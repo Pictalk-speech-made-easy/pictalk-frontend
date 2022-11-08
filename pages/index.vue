@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<meta http-equiv="refresh" content="0; URL=https://www.pictalk.org" />
 		<div class="container">
 				<b-image alt="A little boy talking thanks to Pictalk" 
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
@@ -145,14 +146,14 @@
 </template>
 <script>
 import signup from "@/components/auth/signupModal";
-import popup from "@/components/navigation/pictalkV2"
+//import popup from "@/components/navigation/pictalkV2"
 
 export default {
+	middleware: ["redirect" , "check-auth"],
 	components: {
 		signup,
-		popup
+		//popup
 	},
-	middleware: ["check-auth"],
 	methods: {
 		openSignUpModal() {
 			this.$buefy.modal.open({
@@ -164,6 +165,7 @@ export default {
 			});
 		},
 	},
+	/*
 	mounted() {
 		this.$buefy.modal.open({
 				parent: this,
@@ -173,6 +175,7 @@ export default {
 				trapFocus: true,
 			});
 	}
+	*/
 };
 </script>
 <style scoped>
