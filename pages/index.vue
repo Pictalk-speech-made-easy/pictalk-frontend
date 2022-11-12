@@ -358,5 +358,9 @@ export default {
 }
 .isPictalkColor {
   color: #ff5757;
+  font-size: 2em;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 0.15em;
 }
 </style>
