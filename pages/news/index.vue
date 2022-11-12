@@ -6,7 +6,10 @@
         <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
         <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
         <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
-        <iframe class="card iframe" src="https://widget.taggbox.com/110606"></iframe>
+        <iframe
+          class="card iframe"
+          src="https://widget.taggbox.com/110606"
+        ></iframe>
       </div>
     </section>
     <section class="section">
@@ -47,12 +50,21 @@
             <b class="donation-amount">{{ donationAmount }}€</b>
           </div>
           <div class="column subcard slot3">
-            <b class="is-size-5 centeredtext">{{ $t("MakeDonations") }}</b>
-            <img
-              :srcset="require('@/assets/donation.webp').srcSet"
-              class="subcard-img"
-              loading="lazy"
-            />
+            <a
+              class="fancy-link"
+              href="https://www.helloasso.com/associations/pictalk-speech-made-easy/formulaires/1"
+            >
+              <b class="is-size-5 centeredtext">{{ $t("MakeDonations") }}</b>
+            </a>
+            <a
+              href="https://www.helloasso.com/associations/pictalk-speech-made-easy/formulaires/1"
+            >
+              <img
+                :srcset="require('@/assets/donation.webp').srcSet"
+                class="subcard-img donation-img"
+                loading="lazy"
+              />
+            </a>
           </div>
         </div>
         <h3 class="title is-size-4 is-size-4-mobile headings">
@@ -104,7 +116,9 @@
           <div class="column subcard slot3">
             <div
               class="subcard-img placeholder"
-              :style="`background-image: url(${require('@/assets/box.png').placeholder})`"
+              :style="`background-image: url(${
+                require('@/assets/box.png').placeholder
+              })`"
             >
               <img
                 class="subcard-img"
@@ -193,8 +207,8 @@ export default {
       text2: document.getElementById("text2"),
     };
 
-    const morphTime = 1.0;
-    const cooldownTime = 0.75;
+    const morphTime = 1;
+    const cooldownTime = 5;
 
     let textIndex = texts.length - 1;
     let time = new Date();
@@ -268,7 +282,7 @@ export default {
       newsCharged: false,
       done: true,
       donationAmount: "",
-      donators: [],
+      donators: [""],
     };
   },
   head() {
@@ -433,6 +447,13 @@ body {
   text-align: center;
   user-select: none;
   color: #ff5757;
+}
+.donation-img {
+  transition: 300ms ease;
+}
+.donation-img:hover {
+  filter: brightness(0.85);
+  scale: 0.85;
 }
 
 @media screen and (max-width: 768px) {
