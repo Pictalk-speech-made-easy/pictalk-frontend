@@ -171,3 +171,7 @@ div.dropdown-trigger {
 .fancy-link:hover {
   background-size: 100% 3px;
 }
+.mdi-arrow-left{
+  rotate: 180deg;
+  margin-top: 3px;
+}

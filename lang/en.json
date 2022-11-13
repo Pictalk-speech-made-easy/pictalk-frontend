@@ -82,6 +82,8 @@
   "CreateCollection": "Create collection",
   "Name": "Name",
   "Color": "Color",
+  "Editor": "Edition mode",
+  "Viewer": "Lock",
   "NameNotice": "Text to be displayed...",
   "ColorNotice": "Color of the bottom bar inside the collection",
   "ClickToUpload": "Click to upload",

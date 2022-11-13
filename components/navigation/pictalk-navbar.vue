@@ -125,7 +125,9 @@
             type="is-warning"
             :focused="Boolean($route.query.isAdmin)"
             @click="adminModeChoose()"
-            :icon-right="iconIsAdmin"
+            :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
+            :icon-left="iconIsAdmin"
+            :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
           />
         </div>
       </div>
