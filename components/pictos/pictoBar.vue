@@ -244,9 +244,7 @@ export default {
         } else {
           if (pictalkSpeech.length <= 1) {
             if (this.publicMode) {
-              this.$router.push(
-                "/public/" + pictalkSpeech[0]?.fatherCollectionId
-              );
+              this.$router.push("/public/346");
             } else {
               if (this.$store.getters.getRootId) {
                 this.$router.push({
@@ -279,12 +277,7 @@ export default {
     },
     eraseSpeech() {
       if (this.publicMode) {
-        const pictalkSpeech = this.$store.getters.getSpeech.filter(
-          (picto) => !picto.sidebar && picto.collection
-        );
-        if (pictalkSpeech.length >= 1) {
-          this.$router.push("/public/" + pictalkSpeech[0]?.fatherCollectionId);
-        }
+        this.$router.push("/public/346");
         this.$store.commit("eraseSpeech");
       } else {
         this.$store.commit("eraseSpeech");
