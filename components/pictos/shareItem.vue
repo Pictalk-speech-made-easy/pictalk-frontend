@@ -99,17 +99,16 @@
                 </div>
               </div>
             </div>
+            <b-button
+              style="margin-bottom: 45px"
+              type="is-success"
+              class="actionButtons"
+              icon-left="plus"
+              @click="openAddGroupModal()"
+              expanded
+              >{{ $t("CreateNewGroup") }}</b-button
+            >
           </div>
-          <b-tooltip :label="$t('CreateGroups')" :triggers="['hover']">
-            <b-image
-              v-if="groups.length == 0"
-              lazy
-              class="center"
-              :srcset="require('@/assets/NoGroups.png').srcSet"
-              alt="a group of person crossed out with a red cross"
-              style="width: 50%; aspect-ratio: 1/1"
-            ></b-image>
-          </b-tooltip>
         </b-field>
       </div>
     </section>
@@ -117,17 +116,12 @@
       <b-button class="button" type="button" @click="$parent.close()">{{
         $t("Close")
       }}</b-button>
-      <b-button
-        class="button is-primary"
-        :loading="loading"
-        @click="onSubmitted()"
-        >{{ $t("Share") }}</b-button
-      >
     </footer>
   </div>
 </template>
 <script >
 import sharers from "@/mixins/sharers";
+import addGroupModal from "@/components/auth/addGroupModal";
 export default {
   mixins: [sharers],
   props: {
@@ -176,7 +170,7 @@ export default {
         access: "1",
       })
     );
-    this.groups = this.getGroups;
+    this.getGroups();
     let found;
     this.collaborators.forEach((coll) => {
       found = false;
@@ -217,16 +211,35 @@ export default {
         (collaborator) => collaborator.access == "1"
       );
     },
-    getGroups() {
-      return JSON.parse(
-        JSON.stringify(this.$store.getters.getUser.mailingList)
-      );
-    },
+
     getSharedGroups() {
       return this.groups.filter((group) => this.isGroupShared(group));
     },
   },
   methods: {
+    getGroups() {
+      this.groups = JSON.parse(
+        JSON.stringify(this.$store.getters.getUser.mailingList)
+      );
+    },
+    async openAddGroupModal(group, index) {
+      const modal = this.$buefy.modal.open({
+        parent: this,
+        component: addGroupModal,
+        props: {
+          group: group,
+          index: index,
+          mailingList: [...this.$store.getters.getUser.mailingList],
+        },
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+      modal.$on("close", () => {
+        this.getGroups();
+      });
+    },
     async pushToCollaborators() {
       const index = this.SharersObj.map((collaborator) => {
         return collaborator.username;
@@ -266,6 +279,7 @@ export default {
               access: "1",
             });
           }
+          this.onSubmitted();
         } else {
           this.$buefy.toast.open({
             message: this.$t("NotShareYourself"),
@@ -312,6 +326,7 @@ export default {
       selectedGroup.selected = !selectedGroup?.selected;
       this.groups.push("");
       this.groups.pop();
+      this.onSubmitted();
     },
     async onSubmitted() {
       this.loading = true;
@@ -376,7 +391,6 @@ export default {
           message: this.$t("UpdatedSharers"),
           type: "is-success",
         });
-        this.$parent.close();
       } catch (err) {
         console.log(err);
         this.$buefy.toast.open({
