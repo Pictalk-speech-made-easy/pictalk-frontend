@@ -396,6 +396,18 @@ export default {
         this.offlineReadyProgress = event.data.progress;
       }
     };
+    this.$store.dispatch("getNotifications");
+    this.intervalId = setInterval(async () => {
+      if (window.navigator.onLine) {
+        try {
+          this.$store.dispatch("getNotifications");
+        } catch (err) {
+          console.log(err);
+          clearInterval(this.intervalId);
+          return [];
+        }
+      }
+    }, 15000);
   },
   data() {
     return {
@@ -413,17 +425,6 @@ export default {
   mounted() {
     this.fitsBigger();
     window.addEventListener("resize", this.fitsBigger);
-    this.intervalId = setInterval(async () => {
-      if (window.navigator.onLine) {
-        try {
-          this.$store.dispatch("getNotifications");
-        } catch (err) {
-          console.log(err);
-          clearInterval(this.intervalId);
-          return [];
-        }
-      }
-    }, 15000);
   },
   computed: {
     percentage() {
