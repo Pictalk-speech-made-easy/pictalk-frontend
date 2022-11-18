@@ -655,7 +655,7 @@ export default {
     },
     getNotificationMeaning(notification) {
       if (notification.meaning) {
-        const meaning = notification.meaning[this.getUserLang];
+        let meaning = notification.meaning[this.getUserLang];
         if (meaning) {
           return meaning;
         } else {
