@@ -234,7 +234,7 @@
             />
           </b-tooltip>
           <b-tooltip
-            v-if="getUserNotifications.length != 0"
+            v-if="getUserNotifications().length != 0"
             position="is-bottom"
             multilined
             size="is-small"
@@ -260,7 +260,7 @@
                 class="lessPadding limitHeight"
               >
                 <div
-                  v-for="notification in getUserNotifications"
+                  v-for="notification in getUserNotifications()"
                   :key="notification.operation + Math.random()"
                   class="card lessPadding notification"
                 >
@@ -400,7 +400,16 @@ export default {
     this.intervalId = setInterval(async () => {
       if (window.navigator.onLine) {
         try {
-          this.$store.dispatch("getNotifications");
+          let notifCount = this.$store.getters.getUser.notifications.length;
+          await this.$store.dispatch("getNotifications");
+          console.log(notifCount);
+          console.log(this.$store.getters.getUser.notifications.length);
+          if (notifCount < this.$store.getters.getUser.notifications.length) {
+            this.$buefy.notification.open({
+              message: this.$t("UnreadNotifications"),
+              type: "is-info",
+            });
+          }
         } catch (err) {
           console.log(err);
           clearInterval(this.intervalId);
@@ -441,9 +450,7 @@ export default {
         100
       );
     },
-    getUserNotifications() {
-      return this.$store.getters.getUser.notifications;
-    },
+
     iconIsAdmin() {
       return this.$route.query.isAdmin ? "lock-open-variant" : "lock";
     },
@@ -473,6 +480,9 @@ export default {
     },
   },
   methods: {
+    getUserNotifications() {
+      return this.$store.getters.getUser.notifications;
+    },
     cancelCopy() {
       this.$store.commit("resetCopyCollectionId");
     },
