@@ -547,9 +547,16 @@ export default {
   margin: 0%;
 }
 .lessPadding {
-  padding: 0.45rem;
   padding-top: 0.7rem;
-  padding-left: 0.5rem;
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+}
+@media screen and (min-width: 1408px) {
+  .lessPadding {
+    padding-top: 0.7rem;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+  }
 }
 
 .sidebar {
