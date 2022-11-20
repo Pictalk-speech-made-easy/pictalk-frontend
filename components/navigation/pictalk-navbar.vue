@@ -402,8 +402,6 @@ export default {
         try {
           let notifCount = this.$store.getters.getUser.notifications.length;
           await this.$store.dispatch("getNotifications");
-          console.log(notifCount);
-          console.log(this.$store.getters.getUser.notifications.length);
           if (notifCount < this.$store.getters.getUser.notifications.length) {
             this.$buefy.notification.open({
               message: this.$t("UnreadNotifications"),

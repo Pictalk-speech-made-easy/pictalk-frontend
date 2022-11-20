@@ -68,9 +68,7 @@
               <div>
                 <div
                   :class="[
-                    isGroupSelected(group) || isGroupShared(group)
-                      ? 'card has-background'
-                      : 'card',
+                    isGroupSelected(group) ? 'card has-background' : 'card',
                   ]"
                 >
                   <div class="card-content">
@@ -88,6 +86,7 @@
                       </div>
                     </div>
                     <b-select
+                      @input="changeGroupMode(group)"
                       v-if="group.selected"
                       v-model="group.mode"
                       required
@@ -99,17 +98,17 @@
                 </div>
               </div>
             </div>
-            <b-button
-              style="margin-bottom: 45px"
-              type="is-success"
-              class="actionButtons"
-              icon-left="plus"
-              @click="openAddGroupModal()"
-              expanded
-              >{{ $t("CreateNewGroup") }}</b-button
-            >
           </div>
         </b-field>
+        <b-button
+          style="margin-bottom: 45px"
+          type="is-success"
+          class="actionButtons"
+          icon-left="plus"
+          @click="openAddGroupModal()"
+          expanded
+          >{{ $t("CreateNewGroup") }}</b-button
+        >
       </div>
     </section>
     <footer class="modal-card-foot">
@@ -132,7 +131,6 @@ export default {
   },
   data() {
     return {
-      collaborators: [],
       selectedGroups: [],
       loneCollaborators: [],
       groups: [],
@@ -156,46 +154,68 @@ export default {
     };
   },
   mounted() {
-    this.picto.viewers.forEach((viewer) =>
-      this.collaborators.push({
+    this.getGroups();
+    this.picto.viewers.forEach((viewer) => {
+      let collaborator = {
         username: viewer,
         mode: "viewer",
         access: "1",
-      })
-    );
-    this.picto.editors.forEach((editor) =>
-      this.collaborators.push({
-        username: editor,
-        mode: "editor",
-        access: "1",
-      })
-    );
-    this.getGroups();
-    let found;
-    this.collaborators.forEach((coll) => {
-      found = false;
+      };
+      let found = false;
       this.groups.forEach((group) => {
-        if (group.users.indexOf(coll.username) != -1) {
+        if (group.users.indexOf(viewer) != -1) {
           found = true;
-          if (!group.foundUserCount) {
-            group.foundUserCount = 0;
+          if (!group.foundViewerCount) {
+            group.foundViewerCount = 0;
           }
-          group.foundUserCount += 1;
+          group.foundViewerCount += 1;
         }
       });
       if (!found) {
-        this.loneCollaborators.push(coll);
+        this.loneCollaborators.push(collaborator);
         this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
           return {
             username: loneCollaborator.username,
             mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
+            modeRaw: this.mode,
+          };
+        });
+      }
+    });
+    this.picto.editors.forEach((editor) => {
+      let collaborator = {
+        username: editor,
+        mode: "editor",
+        access: "1",
+      };
+      let found = false;
+      this.groups.forEach((group) => {
+        if (group.users.indexOf(editor) != -1) {
+          found = true;
+          if (!group.foundEditorCount) {
+            group.foundEditorCount = 0;
+          }
+          group.foundEditorCount += 1;
+        }
+      });
+      if (!found) {
+        this.loneCollaborators.push(collaborator);
+        this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
+          return {
+            username: loneCollaborator.username,
+            mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
+            modeRaw: this.mode,
           };
         });
       }
     });
     this.groups.map((group) => {
-      if (this.isGroupShared(group)) {
+      if (this.isGroupSharedEditor(group) || this.isGroupSharedViewer(group)) {
         group.selected = true;
+        group.mode = this.isGroupSharedEditor(group) ? "editor" : "viewer";
+        console.log(group);
+      } else {
+        group.mode = "viewer";
       }
       return group;
     });
@@ -206,17 +226,15 @@ export default {
         (collaborator) => collaborator.access == "1"
       );
     },
-    getTrueAccessCollaborators() {
-      return this.collaborators.filter(
-        (collaborator) => collaborator.access == "1"
-      );
-    },
-
     getSharedGroups() {
-      return this.groups.filter((group) => this.isGroupShared(group));
+      return this.groups.filter((group) => group.selected);
     },
   },
   methods: {
+    triggerGroups() {
+      this.groups.push("");
+      this.groups.pop();
+    },
     getGroups() {
       this.groups = JSON.parse(
         JSON.stringify(this.$store.getters.getUser.mailingList)
@@ -244,11 +262,6 @@ export default {
       const index = this.SharersObj.map((collaborator) => {
         return collaborator.username;
       }).indexOf(this.addSharer);
-      const indexCollab = this.loneCollaborators
-        .map((collaborator) => {
-          return collaborator.username;
-        })
-        .indexOf(this.addSharer);
       if (
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
           this.addSharer
@@ -259,27 +272,21 @@ export default {
             this.SharersObj[index] = {
               username: this.addSharer,
               mode: this.mode === "viewer" ? "👁️" : "✏️",
+              modeRaw: this.mode,
             };
           } else {
             this.SharersObj.push({
               username: this.addSharer,
               mode: this.mode === "viewer" ? "👁️" : "✏️",
+              modeRaw: this.mode,
             });
           }
-          if (indexCollab !== -1) {
-            this.loneCollaborators[indexCollab] = {
-              username: this.addSharer,
-              mode: this.mode,
-              access: "1",
-            };
-          } else {
-            this.loneCollaborators.push({
-              username: this.addSharer,
-              mode: this.mode,
-              access: "1",
-            });
-          }
-          this.onSubmitted();
+          await this.$store.dispatch("shareCollection", {
+            collectionId: this.picto.id,
+            usernames: [this.addSharer],
+            role: this.mode,
+            access: 1,
+          });
         } else {
           this.$buefy.toast.open({
             message: this.$t("NotShareYourself"),
@@ -295,109 +302,51 @@ export default {
         });
       }
     },
-    removeFromCollaborators() {
+    async removeFromCollaborators() {
       const index = this.SharersObj.map((collaborator) => {
         return collaborator.username;
       }).indexOf(this.selected.username);
-      const indexCollab = this.loneCollaborators
-        .map((collaborator) => {
-          return collaborator.username;
-        })
-        .indexOf(this.selected.username);
-
+      await this.$store.dispatch("shareCollection", {
+        collectionId: this.picto.id,
+        usernames: [this.selected.username],
+        role: this.SharersObj[index].modeRaw,
+        access: 0,
+      });
       if (index !== -1) {
         this.SharersObj.splice(index, 1);
-      }
-      if (indexCollab !== -1) {
-        this.loneCollaborators[indexCollab] = {
-          username: this.selected.username,
-          mode: this.mode,
-          access: "0",
-        };
       }
     },
     isGroupSelected(group) {
       return group.selected;
     },
-    isGroupShared(group) {
-      return group.foundUserCount == group.users.length;
+    isGroupSharedViewer(group) {
+      return group.foundViewerCount == group.users.length;
     },
-    addOrRemoveGroupToSelected(selectedGroup) {
+    isGroupSharedEditor(group) {
+      return group.foundEditorCount == group.users.length;
+    },
+    async addOrRemoveGroupToSelected(selectedGroup) {
+      this.loading = true;
       selectedGroup.selected = !selectedGroup?.selected;
+      await this.$store.dispatch("shareCollection", {
+        collectionId: this.picto.id,
+        usernames: selectedGroup.users,
+        role: selectedGroup.mode,
+        access: String(selectedGroup.selected | 0),
+      });
+      this.loading = false;
       this.groups.push("");
       this.groups.pop();
-      this.onSubmitted();
+      //this.onSubmitted();
     },
-    async onSubmitted() {
+    async changeGroupMode(selectedGroup) {
       this.loading = true;
-      try {
-        const sharedGroups = this.getSharedGroups.concat(
-          this.groups.filter((group) => group.selected)
-        );
-        const editorUsernameArray = sharedGroups
-          .filter((group) => group.mode == "editor")
-          .map((group) => group.users)
-          .concat(
-            this.loneCollaborators
-              .filter((coll) => coll.mode == "editor")
-              .map((coll) => coll.username)
-          )
-          .flat();
-        if (editorUsernameArray.length != 0) {
-          await this.$store.dispatch("shareCollection", {
-            collectionId: this.picto.id,
-            usernames: editorUsernameArray,
-            role: "editor",
-            access: "1",
-          });
-        }
-
-        const viewerUsernameArray = sharedGroups
-          .filter((group) => group.mode == "viewer")
-          .map((group) => group.users)
-          .concat(
-            this.loneCollaborators
-              .filter((coll) => coll.mode == "viewer")
-              .map((coll) => coll.username)
-          )
-          .flat();
-        if (viewerUsernameArray.length != 0) {
-          await this.$store.dispatch("shareCollection", {
-            collectionId: this.picto.id,
-            usernames: viewerUsernameArray,
-            role: "viewer",
-            access: "1",
-          });
-        }
-
-        const deletedUsernameArray = sharedGroups
-          .filter((group) => !group.selected)
-          .map((group) => group.users)
-          .concat(
-            this.loneCollaborators
-              .filter((coll) => coll.access == "0")
-              .map((coll) => coll.username)
-          )
-          .flat();
-        if (deletedUsernameArray.length != 0) {
-          await this.$store.dispatch("shareCollection", {
-            collectionId: this.picto.id,
-            usernames: deletedUsernameArray,
-            role: "viewer",
-            access: "0",
-          });
-        }
-        this.$buefy.toast.open({
-          message: this.$t("UpdatedSharers"),
-          type: "is-success",
-        });
-      } catch (err) {
-        console.log(err);
-        this.$buefy.toast.open({
-          message: this.$t("SomeThingBadHappened"),
-          type: "is-danger",
-        });
-      }
+      await this.$store.dispatch("shareCollection", {
+        collectionId: this.picto.id,
+        usernames: selectedGroup.users,
+        role: selectedGroup.mode,
+        access: String(selectedGroup.selected | 0),
+      });
       this.loading = false;
     },
   },
@@ -405,6 +354,7 @@ export default {
 </script>
 <style scoped>
 .has-background {
+  background: #ffe2e2;
   border: solid;
   border-width: 2px;
   border-color: #ff5757;
