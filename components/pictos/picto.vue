@@ -24,7 +24,7 @@
       v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
       class="adminMenu adminoption columns smallMargin"
     >
-      <b-dropdown aria-role="menu" class="column noMargin is-mobile">
+      <b-dropdown aria-role="menu" class="column noMargin is-mobile menu">
         <template #trigger="{ active }">
           <b-button
             type="is-info"

@@ -425,5 +425,10 @@
   "SignupDirectSharerText": "Caution, you will automatically receive in your personnal space collections shared by following users: ",
   "SignupDirectSharerRemove": "Remove subscription",
   "AccountDirectSharer": "Share your content creator link",
-  "AccountDirectSharerText": "Share this link to a non existing Pictalk user. When signin up, you will automatically be added to his content creator subscriptions."
+  "AccountDirectSharerText": "Share this link to a non existing Pictalk user. When signin up, you will automatically be added to his content creator subscriptions.",
+  "MyHome": "Home collection",
+  "MyShared": "Shared with me",
+  "MySidebar": "My sidebar",
+  "PublicCollections": "Community collections",
+  "AnotherSpace": "Go to another space"
 }

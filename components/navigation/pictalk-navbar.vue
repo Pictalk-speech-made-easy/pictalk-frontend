@@ -149,24 +149,13 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons b-tooltips">
-          <b-tooltip
-            v-if="$store.getters.getUser.admin"
-            position="is-bottom"
-            multilined
-            size="is-small"
-            type="is-primary"
-            :label="$t('TooltipAdmin')"
-            :delay="1000"
-            :triggers="['hover']"
-          >
-            <b-button
-              type="is-success is-light"
-              icon-right="poll"
-              tag="nuxt-link"
-              to="/administration"
-              class="buttonBorder"
-            />
-          </b-tooltip>
+          <b-button
+            type="is-success is-light"
+            icon-right="poll"
+            tag="nuxt-link"
+            to="/administration"
+          />
+
           <b-tooltip
             position="is-bottom"
             multilined
@@ -177,62 +166,13 @@
             :triggers="['hover']"
           >
             <b-button
-              type="is-primary"
-              @click="eraseSpeech()"
-              icon-right="home"
+              @click="openModeModal()"
+              :icon-left="icon"
+              :class="'modeButton ' + colorClass"
+              icon-right="menu-down"
             />
           </b-tooltip>
-          <b-tooltip
-            position="is-bottom"
-            multilined
-            size="is-small"
-            type="is-primary"
-            :label="$t('TooltipPublic')"
-            :delay="1000"
-            :triggers="['hover']"
-          >
-            <b-button
-              type="is-success is-light"
-              icon-right="web"
-              tag="nuxt-link"
-              to="/public"
-              class="buttonBorder"
-            />
-          </b-tooltip>
-          <b-tooltip
-            position="is-bottom"
-            multilined
-            size="is-small"
-            type="is-primary"
-            :label="$t('TooltipShared')"
-            :delay="1000"
-            :triggers="['hover']"
-          >
-            <b-button
-              type="is-success is-light"
-              icon-right="folder-account"
-              :to="sharedLink"
-              tag="nuxt-link"
-              class="buttonBorder"
-            />
-          </b-tooltip>
-          <b-tooltip
-            position="is-bottom"
-            multilined
-            size="is-small"
-            type="is-primary"
-            :label="$t('TooltipSidebar')"
-            :delay="1000"
-            :triggers="['hover']"
-          >
-            <b-button
-              type="is-success is-light"
-              icon-right="page-layout-sidebar-right"
-              :to="sidebarLink"
-              tag="nuxt-link"
-              class="buttonBorder"
-            />
-          </b-tooltip>
+
           <b-tooltip
             v-if="getUserNotifications.length != 0"
             position="is-bottom"
@@ -382,6 +322,7 @@ import navbar from "@/mixins/navbar";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import feedbackModal from "@/components/auth/feedbackModal";
 import Security from "@/components/auth/securityModal";
+import modeModal from "@/components/navigation/modeModal.vue";
 export default {
   mixins: [lang, navbar],
   components: {
@@ -399,6 +340,8 @@ export default {
   },
   data() {
     return {
+      icon: "",
+      colorClass: "",
       percent: -1,
       intervalId: null,
       fits: false,
@@ -424,6 +367,42 @@ export default {
         }
       }
     }, 15000);
+    if (this.$route.path.includes("pictalk")) {
+      this.icon = "home";
+      this.colorClass = "mainColor";
+    }
+    if (this.$route.path.includes("public")) {
+      this.icon = "web";
+      this.colorClass = "publicColor";
+    }
+    if (this.$route.path.includes(this.sharedLink)) {
+      this.icon = "folder-account";
+      this.colorClass = "sharedColor";
+    }
+    if (this.$route.path.includes(this.sidebarLink)) {
+      this.icon = "page-layout-sidebar-right";
+      this.colorClass = "sidebarColor";
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if (to.path.includes("pictalk")) {
+        this.icon = "home";
+        this.colorClass = "mainColor";
+      }
+      if (to.path.includes("public")) {
+        this.icon = "web";
+        this.colorClass = "publicColor";
+      }
+      if (to.path.includes(this.sharedLink)) {
+        this.icon = "folder-account";
+        this.colorClass = "sharedColor";
+      }
+      if (to.path.includes(this.sidebarLink)) {
+        this.icon = "page-layout-sidebar-right";
+        this.colorClass = "sidebarColor";
+      }
+    },
   },
   computed: {
     percentage() {
@@ -483,6 +462,16 @@ export default {
       this.$buefy.modal.open({
         parent: this,
         component: feedbackModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+    },
+    openModeModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: modeModal,
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
@@ -701,26 +690,7 @@ export default {
     deleteUserNotifications() {
       this.$store.dispatch("deleteNotifications");
     },
-    eraseSpeech() {
-      this.$store.commit("eraseSpeech");
-      if (this.$store.getters.getRootId) {
-        this.$router.push({
-          path: "/pictalk/" + this.$store.getters.getRootId,
-          query: {
-            isAdmin: this.$route.query.isAdmin,
-            sidebarPictoId: this.$store.getters.getSidebarId,
-          },
-        });
-      } else {
-        this.$router.push({
-          path: "/pictalk",
-          query: {
-            isAdmin: this.$route.query.isAdmin,
-            sidebarPictoId: this.$store.getters.getSidebarId,
-          },
-        });
-      }
-    },
+
     goToAccount() {
       if (this.admin || !this.$store.getters.getUser.settings.securityMode) {
         this.$router.push("/account" + this.admin);
@@ -812,11 +782,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
-.buttonBorder {
-  border: solid;
-  border-width: 1px;
-  border-color: #48c78e;
-}
+
 .dropdown {
   display: flex;
   align-items: center;
@@ -831,5 +797,12 @@ export default {
 }
 .rounded {
   border-radius: 24px;
+}
+.modeButton {
+  color: white;
+  border-color: transparent;
+}
+.modeButton:hover {
+  color: #f1f1f1;
 }
 </style>

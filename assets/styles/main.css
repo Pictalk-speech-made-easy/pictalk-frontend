@@ -73,10 +73,11 @@ html {
   scroll-behavior: smooth;
 }
 @media screen and (min-width:1408px) {
-  .dropdown-menu {
+  div.adminoption > .dropdown > .dropdown-menu {
     left: -105% !important;
     width: 165px;
     min-width: 0px !important;
+    padding-top: 0px;
   }
 }
 @media screen and (max-width:768px) {
@@ -115,9 +116,10 @@ html {
   margin-top: 24px;
 }
 
-.dropdown-menu {
+div.adminoption > .dropdown > .dropdown-menu {
   box-shadow: 0px 0px 10px rgb(160 160 160);
   left: -140%;
+  padding-top: 0px;
 }
 
 div.dropdown-trigger {
@@ -185,4 +187,16 @@ div.dropdown-trigger {
 .dropdown-item{
   padding-right: 1em !important;
   padding-left: 1em !important;
+}
+.mainColor{
+  background-color: #ff4a4a;
+}
+.publicColor {
+  background-color:#22bd22;
+}
+.sharedColor {
+  background-color: cornflowerblue;
+}
+.sidebarColor {
+  background-color: #ef9500;
 }
