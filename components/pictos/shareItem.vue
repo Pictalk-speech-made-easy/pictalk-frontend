@@ -13,102 +13,117 @@
     </header>
     <section class="modal-card-body">
       <div>
-        <b-field>
-          <b-input
-            v-model="addSharer"
-            expanded
-            :placeholder="$t('PlaceHolderEmail')"
-            type="email"
-            maxlength="64"
-          ></b-input>
-          <b-select v-model="mode" required>
-            <option value="editor">✏️</option>
-            <option value="viewer">👁️</option>
-          </b-select>
+        <div class="lightbackground">
+          <p class="subtitle centeredText">{{ $t("ShareAddSomeone") }}:</p>
+          <b-field>
+            <b-input
+              v-model="addSharer"
+              expanded
+              :placeholder="$t('PlaceHolderEmail')"
+              type="email"
+              maxlength="64"
+            ></b-input>
+            <b-select v-model="mode" required>
+              <option value="editor">✏️</option>
+              <option value="viewer">👁️</option>
+            </b-select>
+            <b-button
+              type="is-success"
+              icon-right="plus"
+              @click="pushToCollaborators()"
+            />
+          </b-field>
+        </div>
+        <div class="lightbackground">
+          <p class="subtitle centeredText">{{ $t("ShareWhoHasAccess") }}?</p>
+          <b-table
+            v-if="SharersObj.length > 0"
+            :focusable="true"
+            :data="SharersObj"
+            :columns="columns"
+            :selected.sync="selected"
+            :mobile-cards="false"
+          >
+          </b-table>
+          <br />
           <b-button
-            type="is-success"
-            icon-right="plus"
-            @click="pushToCollaborators()"
+            v-if="
+              loneCollaborators
+                .map((Sharer) => {
+                  return Sharer.username;
+                })
+                .indexOf(selected.username) !== -1
+            "
+            class="fourWidth"
+            type="is-danger"
+            icon-left="delete"
+            @click="removeFromCollaborators()"
           />
-        </b-field>
-        <b-table
-          v-if="loneCollaborators.length > 0"
-          :focusable="true"
-          :data="SharersObj"
-          :columns="columns"
-          :selected.sync="selected"
-          :mobile-cards="false"
-        >
-        </b-table>
-        <br />
-        <b-button
-          v-if="
-            loneCollaborators
-              .map((Sharer) => {
-                return Sharer.username;
-              })
-              .indexOf(selected.username) !== -1
-          "
-          class="fourWidth"
-          type="is-danger"
-          icon-left="delete"
-          @click="removeFromCollaborators()"
-        />
-        <hr v-if="SharersObj.length > 0" />
-        <b-field :label="$t('Groups')">
-          <div v-if="groups.length != 0" class="columns is-multiline is-mobile">
+        </div>
+
+        <div class="lightbackground">
+          <p class="subtitle centeredText">{{ $t("ShareAddGroup") }}:</p>
+          <b-field :label="$t('Groups')">
             <div
-              v-for="(group, index) in groups"
-              class="
-                column
-                lessPadding
-                is-6-mobile is-6-tablet is-6-desktop is-6-widescreen is-6-fullhd
-              "
+              v-if="groups.length != 0"
+              class="columns is-multiline is-mobile"
             >
-              <div>
-                <div
-                  :class="[
-                    isGroupSelected(group) ? 'card has-background' : 'card',
-                  ]"
-                >
-                  <div class="card-content">
-                    <div
-                      class="media"
-                      @click="addOrRemoveGroupToSelected(group)"
-                    >
-                      <div v-if="group.icon" class="media-left">
-                        <b-icon :icon="group.icon" />
+              <div
+                v-for="(group, index) in groups"
+                class="
+                  column
+                  lessPadding
+                  is-6-mobile
+                  is-6-tablet
+                  is-6-desktop
+                  is-6-widescreen
+                  is-6-fullhd
+                "
+              >
+                <div>
+                  <div
+                    :class="[
+                      isGroupSelected(group) ? 'card has-background' : 'card',
+                    ]"
+                  >
+                    <div class="card-content">
+                      <div
+                        class="media"
+                        @click="addOrRemoveGroupToSelected(group)"
+                      >
+                        <div v-if="group.icon" class="media-left">
+                          <b-icon :icon="group.icon" />
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-6">
+                            {{ group.name }}
+                          </p>
+                        </div>
                       </div>
-                      <div class="media-content">
-                        <p class="title is-6">
-                          {{ group.name }}
-                        </p>
-                      </div>
+                      <b-select
+                        @input="changeGroupMode(group)"
+                        v-if="group.selected"
+                        v-model="group.mode"
+                        required
+                      >
+                        <option value="viewer">👁️</option>
+                        <option value="editor">✏️</option>
+                      </b-select>
                     </div>
-                    <b-select
-                      @input="changeGroupMode(group)"
-                      v-if="group.selected"
-                      v-model="group.mode"
-                      required
-                    >
-                      <option value="viewer">👁️</option>
-                      <option value="editor">✏️</option>
-                    </b-select>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </b-field>
-        <b-button
-          style="margin-bottom: 45px"
-          type="is-success"
-          class="actionButtons"
-          icon-left="plus"
-          @click="openAddGroupModal()"
-          expanded
-          >{{ $t("CreateNewGroup") }}</b-button
-        >
+          </b-field>
+
+          <b-button
+            type="is-success"
+            class="actionButtons"
+            icon-left="plus"
+            @click="openAddGroupModal()"
+            >{{ $t("CreateNewGroup") }}</b-button
+          >
+        </div>
       </div>
     </section>
     <footer class="modal-card-foot">
@@ -365,5 +380,26 @@ export default {
 }
 .fourWidth {
   width: 39%;
+}
+.centeredText {
+  text-align: center;
+}
+.subtitle {
+  margin-bottom: 0.75em;
+}
+.actionButtons {
+  display: flex;
+  margin: 2em auto 0.5em auto;
+  width: 50%;
+  min-width: 230px;
+}
+.lightbackground {
+  background-color: #fcfcfc;
+  padding: 1em;
+  border-radius: 12px;
+  margin: 0.5em 0;
+  border: solid;
+  border-color: #00000020;
+  border-width: 1px;
 }
 </style>

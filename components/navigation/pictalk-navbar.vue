@@ -248,6 +248,7 @@
               aria-role="menu"
               trap-focus
               append-to-body
+              class="notificationsdrop"
               ><template #trigger>
                 <a class="navbar-item" role="button">
                   <b-icon icon="bell-alert"></b-icon>
@@ -763,10 +764,8 @@ export default {
   text-decoration: underline;
 }
 .limitHeight {
-  height: 80vh;
   max-height: 600px;
   overflow-y: auto;
-  min-width: 260px;
 }
 .lock {
   width: 90%;
