@@ -483,6 +483,7 @@ export default {
     },
     cancelCopy() {
       this.$store.commit("resetCopyCollectionId");
+      this.$store.commit("resetShortcutCollectionId");
     },
     getNotificationImage(notification) {
       return this.getCollectionFromId(parseInt(notification.affected, 10))
