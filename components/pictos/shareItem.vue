@@ -37,28 +37,37 @@
         <div class="lightbackground">
           <p class="subtitle centeredText">{{ $t("ShareWhoHasAccess") }}?</p>
           <b-table
+            :striped="true"
+            :narrowed="true"
+            :hoverable="true"
             v-if="SharersObj.length > 0"
-            :focusable="true"
             :data="SharersObj"
             :columns="columns"
-            :selected.sync="selected"
             :mobile-cards="false"
+            :checked-rows.sync="selected"
+            checkable
+            checkbox-position="left"
+            checkbox-type="is-danger"
           >
           </b-table>
-          <br />
-          <b-button
-            v-if="
-              loneCollaborators
-                .map((Sharer) => {
-                  return Sharer.username;
-                })
-                .indexOf(selected.username) !== -1
-            "
-            class="fourWidth"
-            type="is-danger"
-            icon-left="delete"
-            @click="removeFromCollaborators()"
-          />
+          <div class="selectedOptions" v-if="selected.length > 0">
+            <b-button
+              class="roundedbtn"
+              type="is-danger"
+              icon-left="delete"
+              @click="removeFromCollaborators()"
+            />
+            <b-select
+              style="margin-left: auto"
+              class="roundedbtn"
+              v-model="modeSelect"
+              required
+              @input="changeModeOfSelectedUsers()"
+            >
+              <option value="viewer">👁️</option>
+              <option value="editor">✏️</option>
+            </b-select>
+          </div>
         </div>
 
         <div class="lightbackground">
@@ -80,36 +89,49 @@
                   is-6-fullhd
                 "
               >
-                <div>
+                <div
+                  :class="
+                    selectedGroups.indexOf(index) >= 0
+                      ? 'card has-background rounder'
+                      : 'card rounder'
+                  "
+                >
                   <div
-                    :class="[
-                      isGroupSelected(group) ? 'card has-background' : 'card',
-                    ]"
+                    class="card-content smallerbottompadding"
+                    @click="GroupToSelected(index)"
                   >
-                    <div class="card-content">
-                      <div
-                        class="media"
-                        @click="addOrRemoveGroupToSelected(group)"
-                      >
-                        <div v-if="group.icon" class="media-left">
-                          <b-icon :icon="group.icon" />
-                        </div>
-                        <div class="media-content">
-                          <p class="title is-6">
-                            {{ group.name }}
-                          </p>
-                        </div>
+                    <div class="media shrinked">
+                      <div v-if="group.icon" class="media-left">
+                        <b-icon :icon="group.icon" />
                       </div>
-                      <b-select
-                        @input="changeGroupMode(group)"
-                        v-if="group.selected"
-                        v-model="group.mode"
-                        required
-                      >
-                        <option value="viewer">👁️</option>
-                        <option value="editor">✏️</option>
-                      </b-select>
+                      <p class="title is-6 noScrolling">
+                        {{ group.name }}
+                      </p>
                     </div>
+                    <div class="limitheight">
+                      <p
+                        v-for="(user, index) in group.users"
+                        class="is-size-6 limitwidth"
+                      >
+                        {{
+                          collaboratorsNames.indexOf(user) >= 0 ? "✅" : "❌"
+                        }}
+                        {{ user }}
+                      </p>
+                    </div>
+                  </div>
+                  <div v-if="!groupStatus(group).full" class="addmissing">
+                    <b-button
+                      type="is-success"
+                      :loading="loading === index"
+                      class="roundedbtn"
+                      @click="addMissing(index)"
+                      >{{ $t("AddMissing") }}</b-button
+                    >
+                    <b-select class="roundedbtn" v-model="group.mode" required>
+                      <option value="viewer">👁️</option>
+                      <option value="editor">✏️</option>
+                    </b-select>
                   </div>
                 </div>
               </div>
@@ -118,7 +140,7 @@
 
           <b-button
             type="is-success"
-            class="actionButtons"
+            class="actionButtons roundedbtn"
             icon-left="plus"
             @click="openAddGroupModal()"
             >{{ $t("CreateNewGroup") }}</b-button
@@ -146,11 +168,14 @@ export default {
   },
   data() {
     return {
-      selectedGroups: [],
       loneCollaborators: [],
+      collaboratorsNames: [],
       groups: [],
+      groupsStatus: [],
       mode: "viewer",
-      selected: {},
+      modeSelect: "viewer",
+      selected: [],
+      selectedGroups: [],
       loading: false,
       SharersObj: [],
       addSharer: "",
@@ -170,70 +195,19 @@ export default {
   },
   mounted() {
     this.getGroups();
+    console.log(this.groups);
     this.picto.viewers.forEach((viewer) => {
-      let collaborator = {
-        username: viewer,
-        mode: "viewer",
-        access: "1",
-      };
-      let found = false;
-      this.groups.forEach((group) => {
-        if (group.users.indexOf(viewer) != -1) {
-          found = true;
-          if (!group.foundViewerCount) {
-            group.foundViewerCount = 0;
-          }
-          group.foundViewerCount += 1;
-        }
-      });
-      if (!found) {
-        this.loneCollaborators.push(collaborator);
-        this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
-          return {
-            username: loneCollaborator.username,
-            mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
-            modeRaw: this.mode,
-          };
-        });
-      }
+      this.addUserToList(viewer);
+      this.collaboratorsNames.push(viewer);
     });
     this.picto.editors.forEach((editor) => {
-      let collaborator = {
-        username: editor,
-        mode: "editor",
-        access: "1",
-      };
-      let found = false;
-      this.groups.forEach((group) => {
-        if (group.users.indexOf(editor) != -1) {
-          found = true;
-          if (!group.foundEditorCount) {
-            group.foundEditorCount = 0;
-          }
-          group.foundEditorCount += 1;
-        }
-      });
-      if (!found) {
-        this.loneCollaborators.push(collaborator);
-        this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
-          return {
-            username: loneCollaborator.username,
-            mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
-            modeRaw: this.mode,
-          };
-        });
-      }
+      this.addUserToList(editor);
+      this.collaboratorsNames.push(editor);
     });
-    this.groups.map((group) => {
-      if (this.isGroupSharedEditor(group) || this.isGroupSharedViewer(group)) {
-        group.selected = true;
-        group.mode = this.isGroupSharedEditor(group) ? "editor" : "viewer";
-        console.log(group);
-      } else {
-        group.mode = "viewer";
-      }
-      return group;
-    });
+    for (let group of this.groups) {
+      this.groupsStatus.push(this.groupStatus(group));
+      group.mode = "viewer";
+    }
   },
   computed: {
     getLoneCollaborators() {
@@ -241,11 +215,42 @@ export default {
         (collaborator) => collaborator.access == "1"
       );
     },
-    getSharedGroups() {
-      return this.groups.filter((group) => group.selected);
-    },
   },
   methods: {
+    changeModeOfSelectedUsers() {},
+    groupStatus(group) {
+      let present = [],
+        missing = [],
+        full = false;
+      for (let user of group.users) {
+        if (this.collaboratorsNames.indexOf(user) >= 0) {
+          present.push(user);
+        } else {
+          missing.push(user);
+        }
+      }
+      if (missing.length == 0) {
+        full = true;
+      }
+      return { full, present, missing };
+    },
+    addUserToList(user) {
+      let collaborator = {
+        username: user,
+        mode: "viewer",
+        access: "1",
+      };
+      // push user to the colaborators list that lists all users disregarding rights on item
+      this.loneCollaborators.push(collaborator);
+      // map user to a table input
+      this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
+        return {
+          username: loneCollaborator.username,
+          mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
+          modeRaw: this.mode,
+        };
+      });
+    },
     triggerGroups() {
       this.groups.push("");
       this.groups.pop();
@@ -331,23 +336,37 @@ export default {
         this.SharersObj.splice(index, 1);
       }
     },
-    isGroupSelected(group) {
-      return group.selected;
+    GroupToSelected(index) {
+      console.log(this.groups[index].users);
+      const present = this.selectedGroups.indexOf(index);
+      if (present >= 0) {
+        for (let user of this.groups[index].users) {
+          for (let i = 0; i < this.selected.length; i++) {
+            console.log(i);
+            if (this.selected[i].username == user) {
+              this.selected.splice(i, 1);
+            }
+          }
+        }
+        this.selectedGroups.splice(present, 1);
+      } else {
+        for (let user of this.groups[index].users) {
+          for (let i = 0; i < this.SharersObj.length; i++) {
+            if (this.SharersObj[i].username == user) {
+              this.selected.push(this.SharersObj[i]);
+            }
+          }
+        }
+        this.selectedGroups.push(index);
+      }
     },
-    isGroupSharedViewer(group) {
-      return group.foundViewerCount == group.users.length;
-    },
-    isGroupSharedEditor(group) {
-      return group.foundEditorCount == group.users.length;
-    },
-    async addOrRemoveGroupToSelected(selectedGroup) {
-      this.loading = true;
-      selectedGroup.selected = !selectedGroup?.selected;
+    async addMissing(index) {
+      this.loading = index;
       await this.$store.dispatch("shareCollection", {
         collectionId: this.picto.id,
-        usernames: selectedGroup.users,
-        role: selectedGroup.mode,
-        access: String(selectedGroup.selected | 0),
+        usernames: this.groupsStatus[index].missing,
+        role: this.groups[index].mode,
+        access: "1",
       });
       this.loading = false;
       this.groups.push("");
@@ -369,7 +388,6 @@ export default {
 </script>
 <style scoped>
 .has-background {
-  background: #ffe2e2;
   border: solid;
   border-width: 2px;
   border-color: #ff5757;
@@ -401,5 +419,40 @@ export default {
   border: solid;
   border-color: #00000020;
   border-width: 1px;
+}
+.noScrolling {
+  overflow-y: hidden;
+}
+.limitheight {
+  height: 85px;
+  overflow-y: auto;
+}
+.limitwidth {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: clip;
+}
+.shrinked {
+  margin-bottom: 0.5em !important;
+}
+.rounder {
+  border-radius: 12px;
+}
+.roundedbtn {
+  border-radius: 24px;
+}
+.addmissing {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1em;
+  gap: 0.5em;
+}
+.smallerbottompadding {
+  padding-bottom: 0.5em;
+}
+.selectedOptions {
+  display: flex;
+  justify-content: right;
+  margin-top: 1em;
 }
 </style>

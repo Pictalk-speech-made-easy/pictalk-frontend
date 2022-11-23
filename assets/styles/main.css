@@ -187,3 +187,6 @@ div.dropdown-trigger {
   rotate: 180deg;
   margin-top: 3px;
 }
+div.roundedbtn > span.select > select {
+  border-radius: 24px;  
+}
