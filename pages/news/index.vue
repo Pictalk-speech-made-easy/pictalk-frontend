@@ -201,7 +201,8 @@ export default {
       }
     }
     //by @DotOnion https://alvarotrigo.com/blog/css-text-animations/
-    const texts = this.donators;
+    const texts = this.donators ? this.donators : [];
+    console.log(texts);
     const elts = {
       text1: document.getElementById("text1"),
       text2: document.getElementById("text2"),
@@ -282,7 +283,7 @@ export default {
       newsCharged: false,
       done: true,
       donationAmount: "",
-      donators: [""],
+      donators: [],
     };
   },
   head() {
