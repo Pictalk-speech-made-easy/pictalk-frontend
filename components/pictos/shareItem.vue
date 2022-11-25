@@ -12,6 +12,8 @@
       </p>
     </header>
     <section class="modal-card-body">
+      {{ sharersDict }}
+      {{ selected }}
       <div>
         <div class="lightbackground">
           <p class="subtitle centeredText">{{ $t("ShareAddSomeone") }}:</p>
@@ -40,12 +42,13 @@
             :striped="true"
             :narrowed="true"
             :hoverable="true"
-            v-if="SharersObj.length > 0"
-            :data="SharersObj"
+            v-if="sharersDictToObj.length > 0"
+            :data="sharersDictToObj"
             :columns="columns"
             :mobile-cards="false"
             :checked-rows.sync="selected"
             checkable
+            :custom-is-checked="(a, b) => a.username == b.username"
             checkbox-position="left"
             checkbox-type="is-danger"
           >
@@ -113,9 +116,7 @@
                         v-for="(user, index) in group.users"
                         class="is-size-6 limitwidth"
                       >
-                        {{
-                          collaboratorsNames.indexOf(user) >= 0 ? "✅" : "❌"
-                        }}
+                        {{ user in sharersDict ? "✅" : "❌" }}
                         {{ user }}
                       </p>
                     </div>
@@ -169,7 +170,6 @@ export default {
   data() {
     return {
       loneCollaborators: [],
-      collaboratorsNames: [],
       groups: [],
       groupsStatus: [],
       mode: "viewer",
@@ -177,7 +177,7 @@ export default {
       selected: [],
       selectedGroups: [],
       loading: false,
-      SharersObj: [],
+      sharersDict: [],
       addSharer: "",
       columns: [
         {
@@ -193,16 +193,31 @@ export default {
       ],
     };
   },
-  mounted() {
+  watch: {
+    groups: function () {
+      for (let group of this.groups) {
+        this.groupsStatus.push(this.groupStatus(group));
+        group.mode = "viewer";
+      }
+    },
+    sharersDict: {
+      deep: true,
+      handler: function () {
+        this.groupsStatus = [];
+        for (let group of this.groups) {
+          this.groupsStatus.push(this.groupStatus(group));
+          group.mode = "viewer";
+        }
+      },
+    },
+  },
+  created() {
     this.getGroups();
-    console.log(this.groups);
     this.picto.viewers.forEach((viewer) => {
-      this.addUserToList(viewer);
-      this.collaboratorsNames.push(viewer);
+      this.addUserToList(viewer, "viewer");
     });
     this.picto.editors.forEach((editor) => {
-      this.addUserToList(editor);
-      this.collaboratorsNames.push(editor);
+      this.addUserToList(editor, "editor");
     });
     for (let group of this.groups) {
       this.groupsStatus.push(this.groupStatus(group));
@@ -215,6 +230,14 @@ export default {
         (collaborator) => collaborator.access == "1"
       );
     },
+    sharersDictToObj() {
+      return Object.keys(this.sharersDict).map((key) => {
+        return {
+          username: key,
+          mode: this.sharersDict[key].mode === "viewer" ? "👁️" : "✏️",
+        };
+      });
+    },
   },
   methods: {
     changeModeOfSelectedUsers() {},
@@ -223,7 +246,7 @@ export default {
         missing = [],
         full = false;
       for (let user of group.users) {
-        if (this.collaboratorsNames.indexOf(user) >= 0) {
+        if (user in this.sharersDict) {
           present.push(user);
         } else {
           missing.push(user);
@@ -234,22 +257,19 @@ export default {
       }
       return { full, present, missing };
     },
-    addUserToList(user) {
+    addUserToList(user, modeRaw) {
       let collaborator = {
         username: user,
-        mode: "viewer",
+        mode: modeRaw,
         access: "1",
       };
       // push user to the colaborators list that lists all users disregarding rights on item
       this.loneCollaborators.push(collaborator);
       // map user to a table input
-      this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
-        return {
-          username: loneCollaborator.username,
-          mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
-          modeRaw: this.mode,
-        };
-      });
+      this.sharersDict[user] = {
+        username: user,
+        mode: modeRaw,
+      };
     },
     triggerGroups() {
       this.groups.push("");
@@ -279,28 +299,16 @@ export default {
       });
     },
     async pushToCollaborators() {
-      const index = this.SharersObj.map((collaborator) => {
-        return collaborator.username;
-      }).indexOf(this.addSharer);
       if (
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
           this.addSharer
         )
       ) {
         if (this.addSharer != this.$store.getters.getUser.username) {
-          if (index !== -1) {
-            this.SharersObj[index] = {
-              username: this.addSharer,
-              mode: this.mode === "viewer" ? "👁️" : "✏️",
-              modeRaw: this.mode,
-            };
-          } else {
-            this.SharersObj.push({
-              username: this.addSharer,
-              mode: this.mode === "viewer" ? "👁️" : "✏️",
-              modeRaw: this.mode,
-            });
-          }
+          this.sharersDict[this.addSharer] = {
+            username: this.addSharer,
+            mode: this.mode,
+          };
           await this.$store.dispatch("shareCollection", {
             collectionId: this.picto.id,
             usernames: [this.addSharer],
@@ -323,18 +331,38 @@ export default {
       }
     },
     async removeFromCollaborators() {
-      const index = this.SharersObj.map((collaborator) => {
-        return collaborator.username;
-      }).indexOf(this.selected.username);
-      await this.$store.dispatch("shareCollection", {
-        collectionId: this.picto.id,
-        usernames: [this.selected.username],
-        role: this.SharersObj[index].modeRaw,
-        access: 0,
-      });
-      if (index !== -1) {
-        this.SharersObj.splice(index, 1);
+      let toRemoveViewers = [];
+      let toRemoveEditors = [];
+      for (let i = 0; i < this.selected.length; i++) {
+        if (this.selected[i]?.mode == "👁️") {
+          toRemoveViewers.push(this.selected[i]?.username);
+        } else {
+          toRemoveEditors.push(this.selected[i]?.username);
+        }
       }
+      if (toRemoveViewers.length != 0) {
+        await this.$store.dispatch("shareCollection", {
+          collectionId: this.picto.id,
+          usernames: toRemoveViewers,
+          role: "viewer",
+          access: 0,
+        });
+      }
+      if (toRemoveEditors.length != 0) {
+        await this.$store.dispatch("shareCollection", {
+          collectionId: this.picto.id,
+          usernames: toRemoveEditors,
+          role: "editor",
+          access: 0,
+        });
+      }
+      for (let i = 0; i < this.selected.length; i++) {
+        delete this.sharersDict[this.selected[i].username];
+      }
+      this.sharersDict = { ...sharersDict };
+      // if (index !== -1) {
+      //   this.SharersObj.splice(index, 1);
+      // }
     },
     GroupToSelected(index) {
       console.log(this.groups[index].users);
@@ -351,17 +379,18 @@ export default {
         this.selectedGroups.splice(present, 1);
       } else {
         for (let user of this.groups[index].users) {
-          for (let i = 0; i < this.SharersObj.length; i++) {
-            if (this.SharersObj[i].username == user) {
-              this.selected.push(this.SharersObj[i]);
-            }
+          if (user in this.sharersDict) {
+            this.selected.push({
+              username: this.sharersDict[user].username,
+              mode: this.sharersDict[user].mode === "viewer" ? "👁️" : "✏️",
+            });
           }
         }
         this.selectedGroups.push(index);
       }
     },
     async addMissing(index) {
-      this.loading = index;
+      this.loading = true;
       await this.$store.dispatch("shareCollection", {
         collectionId: this.picto.id,
         usernames: this.groupsStatus[index].missing,
@@ -369,6 +398,12 @@ export default {
         access: "1",
       });
       this.loading = false;
+      const mode = this.groups[index].mode;
+      this.groupsStatus[index].missing.forEach(
+        (username) =>
+          (this.sharersDict[username] = { username: username, mode: mode })
+      );
+      this.sharersDict = { ...this.sharersDict };
       this.groups.push("");
       this.groups.pop();
       //this.onSubmitted();

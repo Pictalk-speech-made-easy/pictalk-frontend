@@ -397,7 +397,11 @@ export default {
         this.offlineReadyProgress = event.data.progress;
       }
     };
-    this.$store.dispatch("getNotifications");
+    if (window.navigator.onLine) {
+      try {
+        this.$store.dispatch("getNotifications");
+      } catch (err) {}
+    }
     this.intervalId = setInterval(async () => {
       if (window.navigator.onLine) {
         try {
