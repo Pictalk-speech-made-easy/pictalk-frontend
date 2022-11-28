@@ -379,5 +379,7 @@
   "SignupDirectSharerRemove": "Remove subscription",
   "AccountDirectSharer": "Share your content creator link",
   "AccountDirectSharerText": "Share this link to a non existing Pictalk user. When signin up, you will automatically be added to his content creator subscriptions.",
-  "UnreadNotifications": "You have unread notifications"
+  "UnreadNotifications": "You have unread notifications",
+  "AuthorizationError": "There was an authorization error sharing the collection",
+  "BadRequest": "Bad request"
 }

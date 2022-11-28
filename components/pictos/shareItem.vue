@@ -12,8 +12,6 @@
       </p>
     </header>
     <section class="modal-card-body">
-      {{ sharersDict }}
-      {{ selected }}
       <div>
         <div class="lightbackground">
           <p class="subtitle centeredText">{{ $t("ShareAddSomeone") }}:</p>
@@ -26,7 +24,9 @@
               maxlength="64"
             ></b-input>
             <b-select v-model="mode" required>
-              <option value="editor">✏️</option>
+              <option v-if="canShareWithEditorPermissions" value="editor">
+                ✏️
+              </option>
               <option value="viewer">👁️</option>
             </b-select>
             <b-button
@@ -131,7 +131,12 @@
                     >
                     <b-select class="roundedbtn" v-model="group.mode" required>
                       <option value="viewer">👁️</option>
-                      <option value="editor">✏️</option>
+                      <option
+                        v-if="canShareWithEditorPermissions"
+                        value="editor"
+                      >
+                        ✏️
+                      </option>
                     </b-select>
                   </div>
                 </div>
@@ -169,7 +174,6 @@ export default {
   },
   data() {
     return {
-      loneCollaborators: [],
       groups: [],
       groupsStatus: [],
       mode: "viewer",
@@ -225,9 +229,10 @@ export default {
     }
   },
   computed: {
-    getLoneCollaborators() {
-      return this.loneCollaborators.filter(
-        (collaborator) => collaborator.access == "1"
+    canShareWithEditorPermissions() {
+      return (
+        this.picto.userId == this.$store.getters.getUser.id ||
+        this.picto.editors.indexOf(this.$store.getters.getUser.username) !== -1
       );
     },
     sharersDictToObj() {
@@ -240,7 +245,6 @@ export default {
     },
   },
   methods: {
-    changeModeOfSelectedUsers() {},
     groupStatus(group) {
       let present = [],
         missing = [],
@@ -258,14 +262,6 @@ export default {
       return { full, present, missing };
     },
     addUserToList(user, modeRaw) {
-      let collaborator = {
-        username: user,
-        mode: modeRaw,
-        access: "1",
-      };
-      // push user to the colaborators list that lists all users disregarding rights on item
-      this.loneCollaborators.push(collaborator);
-      // map user to a table input
       this.sharersDict[user] = {
         username: user,
         mode: modeRaw,
@@ -305,16 +301,46 @@ export default {
         )
       ) {
         if (this.addSharer != this.$store.getters.getUser.username) {
-          this.sharersDict[this.addSharer] = {
-            username: this.addSharer,
-            mode: this.mode,
-          };
-          await this.$store.dispatch("shareCollection", {
-            collectionId: this.picto.id,
-            usernames: [this.addSharer],
-            role: this.mode,
-            access: 1,
-          });
+          try {
+            let collection = await this.$store.dispatch("shareCollection", {
+              collectionId: this.picto.id,
+              usernames: [this.addSharer],
+              role: this.mode,
+              access: 1,
+            });
+            if (
+              (this.mode == "viewer" &&
+                collection.viewers.indexOf(this.addSharer) !== -1) ||
+              (this.mode == "editor" &&
+                collection.editors.indexOf(this.addSharer) !== -1)
+            ) {
+              this.sharersDict[this.addSharer] = {
+                username: this.addSharer,
+                mode: this.mode,
+              };
+              this.sharersDict = { ...this.sharersDict };
+            }
+          } catch (err) {
+            if (err?.response?.status == 401) {
+              this.$buefy.toast.open({
+                message: this.$t("AuthorizationError"),
+                position: "is-top",
+                type: "is-danger",
+              });
+            } else if (err?.response?.status == 400) {
+              this.$buefy.toast.open({
+                message: this.$t("BadRequest"),
+                position: "is-top",
+                type: "is-danger",
+              });
+            } else {
+              this.$buefy.toast.open({
+                message: this.$t("SomeThingBadHappened"),
+                position: "is-top",
+                type: "is-danger",
+              });
+            }
+          }
         } else {
           this.$buefy.toast.open({
             message: this.$t("NotShareYourself"),
@@ -341,25 +367,77 @@ export default {
         }
       }
       if (toRemoveViewers.length != 0) {
-        await this.$store.dispatch("shareCollection", {
-          collectionId: this.picto.id,
-          usernames: toRemoveViewers,
-          role: "viewer",
-          access: 0,
-        });
+        try {
+          let collection = await this.$store.dispatch("shareCollection", {
+            collectionId: this.picto.id,
+            usernames: toRemoveViewers,
+            role: "viewer",
+            access: 0,
+          });
+          for (let i = 0; i < toRemoveViewers.length; i++) {
+            if (collection.viewers.indexOf(toRemoveViewers[i]) == -1) {
+              delete this.sharersDict[toRemoveViewers[i]];
+            }
+          }
+        } catch (err) {
+          if (err?.response?.status == 401) {
+            this.$buefy.toast.open({
+              message: this.$t("AuthorizationError"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          } else if (err?.response?.status == 400) {
+            this.$buefy.toast.open({
+              message: this.$t("BadRequest"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          } else {
+            this.$buefy.toast.open({
+              message: this.$t("SomeThingBadHappened"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          }
+        }
       }
       if (toRemoveEditors.length != 0) {
-        await this.$store.dispatch("shareCollection", {
-          collectionId: this.picto.id,
-          usernames: toRemoveEditors,
-          role: "editor",
-          access: 0,
-        });
+        try {
+          let collection = await this.$store.dispatch("shareCollection", {
+            collectionId: this.picto.id,
+            usernames: toRemoveEditors,
+            role: "editor",
+            access: 0,
+          });
+          for (let i = 0; i < toRemoveEditors.length; i++) {
+            if (collection.editors.indexOf(toRemoveEditors[i]) == -1) {
+              delete this.sharersDict[toRemoveEditors[i]];
+            }
+          }
+        } catch (err) {
+          if (err?.response?.status == 401) {
+            this.$buefy.toast.open({
+              message: this.$t("AuthorizationError"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          } else if (err?.response?.status == 400) {
+            this.$buefy.toast.open({
+              message: this.$t("BadRequest"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          } else {
+            this.$buefy.toast.open({
+              message: this.$t("SomeThingBadHappened"),
+              position: "is-top",
+              type: "is-danger",
+            });
+          }
+        }
       }
-      for (let i = 0; i < this.selected.length; i++) {
-        delete this.sharersDict[this.selected[i].username];
-      }
-      this.sharersDict = { ...sharersDict };
+
+      this.sharersDict = { ...this.sharersDict };
       // if (index !== -1) {
       //   this.SharersObj.splice(index, 1);
       // }
@@ -391,19 +469,46 @@ export default {
     },
     async addMissing(index) {
       this.loading = true;
-      await this.$store.dispatch("shareCollection", {
-        collectionId: this.picto.id,
-        usernames: this.groupsStatus[index].missing,
-        role: this.groups[index].mode,
-        access: "1",
-      });
-      this.loading = false;
-      const mode = this.groups[index].mode;
-      this.groupsStatus[index].missing.forEach(
-        (username) =>
-          (this.sharersDict[username] = { username: username, mode: mode })
-      );
+      try {
+        let collection = await this.$store.dispatch("shareCollection", {
+          collectionId: this.picto.id,
+          usernames: this.groupsStatus[index].missing,
+          role: this.groups[index].mode,
+          access: "1",
+        });
+        this.loading = false;
+        const mode = this.groups[index].mode;
+        this.groupsStatus[index].missing.forEach((username) => {
+          if (
+            (mode == "viewer" && collection.viewers.indexOf(username) !== -1) ||
+            (mode == "editor" && collection.editors.indexOf(username) !== -1)
+          )
+            this.sharersDict[username] = { username: username, mode: mode };
+        });
+      } catch (err) {
+        if (err?.response?.status == 401) {
+          this.$buefy.toast.open({
+            message: this.$t("AuthorizationError"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        } else if (err?.response?.status == 400) {
+          this.$buefy.toast.open({
+            message: this.$t("BadRequest"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        } else {
+          this.$buefy.toast.open({
+            message: this.$t("SomeThingBadHappened"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        }
+      }
+
       this.sharersDict = { ...this.sharersDict };
+      // TODO Freshly created group has undefined usernames
       this.groups.push("");
       this.groups.pop();
       //this.onSubmitted();

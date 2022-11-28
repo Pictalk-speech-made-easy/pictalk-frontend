@@ -569,6 +569,7 @@ export const actions = {
     if (sharedCollection) {
       parseAndUpdateEntireCollection(vuexContext, sharedCollection);
     }
+    return sharedCollection;
   },
   async deleteNotifications(vuexContext) {
     const notifications = (await axios.delete('/user/notification')).data;

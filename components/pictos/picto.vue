@@ -44,7 +44,7 @@
           </b-dropdown-item>
           <b-dropdown-item aria-role="listitem">
             <b-button
-              :disabled="!isOnline"
+              :disabled="!isOnline || !isToUser"
               :expanded="true"
               type="is-danger"
               icon-left="delete"
@@ -52,7 +52,10 @@
               @click="deletePicto()"
             />
           </b-dropdown-item>
-          <b-dropdown-item v-if="!(isEditor || isToUser)" aria-role="listitem">
+          <b-dropdown-item
+            v-if="!(isEditor || isToUser || isViewer) && picto.collection"
+            aria-role="listitem"
+          >
             <b-button
               :expanded="true"
               type="is-success"
@@ -61,7 +64,10 @@
               @click="setCopyCollectionId(picto.id, !picto.collection)"
             />
           </b-dropdown-item>
-          <b-dropdown-item v-if="isEditor || isToUser" aria-role="listitem">
+          <b-dropdown-item
+            v-if="(isEditor || isToUser || isViewer) && picto.collection"
+            aria-role="listitem"
+          >
             <b-button
               :expanded="true"
               type="is-warning"
@@ -70,7 +76,10 @@
               @click="setCopyCollectionId(picto.id, !picto.collection)"
             />
           </b-dropdown-item>
-          <b-dropdown-item v-if="isEditor || isToUser" aria-role="listitem">
+          <b-dropdown-item
+            v-if="(isEditor || isToUser || isViewer) && picto.collection"
+            aria-role="listitem"
+          >
             <b-button
               :expanded="true"
               type="is-dark"
@@ -80,7 +89,7 @@
             />
           </b-dropdown-item>
           <b-dropdown-item
-            v-if="picto.collection && isToUser"
+            v-if="picto.collection && (isToUser || isViewer || isEditor)"
             aria-role="listitem"
           >
             <b-button
@@ -108,6 +117,7 @@
 
         <div class="column noMargin is-mobile" v-if="picto.starred == true">
           <b-button
+            :disabled="!(isToUser || isEditor) || !isOnline"
             type="is-success"
             icon-right="star"
             @click="alternateStar()"
@@ -115,6 +125,7 @@
         </div>
         <div class="column noMargin is-mobile" v-else>
           <b-button
+            :disabled="!(isToUser || isEditor) || !isOnline"
             type="is-light"
             icon-right="star"
             @click="alternateStar()"
@@ -129,6 +140,7 @@
       >
         <div class="column noMargin is-mobile">
           <b-button
+            :disabled="!isOnline"
             type="is-success"
             icon-right="plus"
             @click="
