@@ -401,9 +401,10 @@ export default {
 }
 
 .iframe {
-  width: 100%;
-  margin: 0%;
-  height: 50vh;
+  display: flex;
+  margin: 0 auto;
+  width: 85%;
+  height: 57.5vh;
   background-color: #f5f5f5;
 }
 
