@@ -65,7 +65,7 @@
               class="roundedbtn"
               v-model="modeSelect"
               required
-              @input="changeModeOfSelectedUsers()"
+              @input="changeSelectedMode()"
             >
               <option value="viewer">👁️</option>
               <option value="editor">✏️</option>
@@ -177,7 +177,7 @@ export default {
       groups: [],
       groupsStatus: [],
       mode: "viewer",
-      modeSelect: "viewer",
+      modeSelect: "",
       selected: [],
       selectedGroups: [],
       loading: false,
@@ -513,15 +513,40 @@ export default {
       this.groups.pop();
       //this.onSubmitted();
     },
-    async changeGroupMode(selectedGroup) {
-      this.loading = true;
-      await this.$store.dispatch("shareCollection", {
-        collectionId: this.picto.id,
-        usernames: selectedGroup.users,
-        role: selectedGroup.mode,
-        access: String(selectedGroup.selected | 0),
-      });
-      this.loading = false;
+    async changeSelectedMode() {
+      try {
+        let collection = await this.$store.dispatch("shareCollection", {
+          collectionId: this.picto.id,
+          usernames: this.selected.map((user) => {
+            return user.username;
+          }),
+          role: this.modeSelect,
+          access: "1",
+        });
+
+        this.loading = false;
+      } catch (err) {
+        console.log(err);
+        if (err?.response?.status == 401) {
+          this.$buefy.toast.open({
+            message: this.$t("AuthorizationError"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        } else if (err?.response?.status == 400) {
+          this.$buefy.toast.open({
+            message: this.$t("BadRequest"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        } else {
+          this.$buefy.toast.open({
+            message: this.$t("SomeThingBadHappened"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        }
+      }
     },
   },
 };
