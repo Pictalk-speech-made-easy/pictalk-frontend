@@ -8,71 +8,61 @@
 
       <div class="columns is-multiline is-mobile is-centered">
         <div class="column is-6-mobile is-6-tablette profile">
-          <img
-            class="subcard-img fit-img portrait"
-            loading="lazy"
-            src="https://avatars0.githubusercontent.com/u/45072484?s=460&u=319a46de82b5b32ade7afb1807dec076bd6a925f&v=4"
-            alt="Photo of Alexandros"
-          />
+          <a href="https://github.com/Ratatinator97" target="blank">
+            <img class="subcard-img fit-img portrait" loading="lazy"
+              src="https://avatars0.githubusercontent.com/u/45072484" alt="Photo of Alexandros" />
+          </a>
           <h5 class="centered is-size-5 is-size-5-mobile"><b>Alex</b></h5>
           <div class="centered">{{ $t("AlexInfos") }}</div>
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <img
-            class="subcard-img fit-img portrait"
-            loading="lazy"
-            src="https://avatars.githubusercontent.com/u/52712038?v=4"
-            alt="Photo of Adri"
-          />
+          <a href="https://github.com/UnlikelyBuddy1" target="blank">
+            <img class="subcard-img fit-img portrait" loading="lazy"
+              src="https://avatars.githubusercontent.com/u/52712038" alt="Photo of Adri" />
+          </a>
           <h5 class="centered is-size-5 is-size-5-mobile"><b>Adri</b></h5>
           <div class="centered">{{ $t("AdriInfos") }}</div>
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <img
-            class="subcard-img fit-img portrait"
-            loading="lazy"
-            src="https://avatars.githubusercontent.com/u/91186350?s=400&u=fae6e777f5af5cbfe99c2a73d11ca2fae53e49fb&v=4"
-            alt="Photo of Clement"
-          />
+          <a href="https://github.com/clementbaroudi" target="blank">
+            <img class="subcard-img fit-img portrait" loading="lazy"
+              src="https://avatars.githubusercontent.com/u/91186350" alt="Photo of Clement" />
+          </a>
           <h5 class="centered is-size-5 is-size-5-mobile"><b>Clement</b></h5>
           <div class="centered">{{ $t("ClementInfos") }}</div>
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <img
-            class="subcard-img fit-img portrait"
-            loading="lazy"
-            src="https://avatars.githubusercontent.com/u/91621093?v=4"
-            alt="Photo of Guillemine"
-          />
+          <a href="https://github.com/GuillemineA" target="blank">
+            <img class="subcard-img fit-img portrait" loading="lazy"
+              src="https://avatars.githubusercontent.com/u/91621093" alt="Photo of Guillemine" />
+          </a>
           <h5 class="centered is-size-5 is-size-5-mobile"><b>Guillemine</b></h5>
           <div class="centered is-size-5">{{ $t("GuillemineInfos") }}</div>
+        </div>
+
+        <div class="column is-6-mobile is-6-tablette profile">
+          <a href="https://github.com/Armand31" target="blank">
+            <img class="subcard-img fit-img portrait" loading="lazy"
+              src="https://avatars.githubusercontent.com/u/59603970" alt="Photo of Armand" />
+          </a>
+          <h5 class="centered is-size-5 is-size-5-mobile"><b>Armand</b></h5>
+          <div class="centered is-size-5">{{ $t("ArmandInfos") }}</div>
         </div>
       </div>
     </section>
     <section class="section">
       <h2 class="title is-size-3 is-size-3-mobile">{{ $t("Partners") }}</h2>
-      <b-carousel-list
-        v-model="test"
-        :data="items"
-        :items-to-show="1.5"
-        :breakpoints="breakpoints"
-        autoplay
-        repeat
-        class="card partners"
-      >
+      <b-carousel-list v-model="test" :data="items" :items-to-show="1.5" :breakpoints="breakpoints" autoplay repeat
+        class="card partners">
         <template #item="list">
           <div class="">
             <div class="column subcard">
               <a :href="list.url">
-                <img
-                  class="subcard-img fit-img partner-logo"
-                  loading="lazy"
-                  :srcset="list.image"
-                  alt="logo of our partner"
-              /></a>
+                <img class="subcard-img fit-img partner-logo" loading="lazy" :srcset="list.image"
+                  alt="logo of our partner" /></a>
               <h5 class="centered is-size-5 is-size-5-mobile">
                 <b>{{ list.title }}</b>
               </h5>
@@ -93,26 +83,16 @@
       </h5>
       <div class="card">
         <div class="subcard subcard-row">
-          <div
-            class="subcard-img bigger placeholder"
-            :style="`background-image: url(${
-              require('@/assets/webdev.png').placeholder
-            })`"
-          >
-            <img
-              loading="lazy"
-              alt="two people lifting the earth"
-              :srcset="require('@/assets/webdev.png').srcSet"
-              :placeholder="require('@/assets/webdev.png').placeholder"
-              class="subcard-img bigger"
-            />
+          <div class="subcard-img bigger placeholder" :style="`background-image: url(${require('@/assets/webdev.png').placeholder
+          })`">
+            <img loading="lazy" alt="two people lifting the earth" :srcset="require('@/assets/webdev.png').srcSet"
+              :placeholder="require('@/assets/webdev.png').placeholder" class="subcard-img bigger" />
           </div>
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreDevelopperText") }} <br />
             <br />Github:
             <a href="https://github.com/Pictalk-speech-made-easy/pictalk-frontend">
-              https://github.com/Pictalk-speech-made-easy/pictalk-frontend</a
-            >
+              https://github.com/Pictalk-speech-made-easy/pictalk-frontend</a>
           </div>
         </div>
       </div>
@@ -121,18 +101,10 @@
       </h5>
       <div class="card">
         <div class="subcard subcard-row">
-          <div
-            class="subcard-img bigger placeholder"
-            :style="`background-image: url(${
-              require('@/assets/healthpro.png').placeholder
-            })`"
-          >
-            <img
-              loading="lazy"
-              alt="two people lifting the earth"
-              :srcset="require('@/assets/healthpro.png').srcSet"
-              class="subcard-img bigger"
-            />
+          <div class="subcard-img bigger placeholder" :style="`background-image: url(${require('@/assets/healthpro.png').placeholder
+          })`">
+            <img loading="lazy" alt="two people lifting the earth" :srcset="require('@/assets/healthpro.png').srcSet"
+              class="subcard-img bigger" />
           </div>
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreHealthProText") }}
@@ -144,18 +116,10 @@
       </h5>
       <div class="card">
         <div class="subcard subcard-row">
-          <div
-            class="subcard-img bigger placeholder"
-            :style="`background-image: url(${
-              require('@/assets/individual.png').placeholder
-            })`"
-          >
-            <img
-              loading="lazy"
-              alt="two people lifting the earth"
-              :srcset="require('@/assets/individual.png').srcSet"
-              class="subcard-img bigger"
-            />
+          <div class="subcard-img bigger placeholder" :style="`background-image: url(${require('@/assets/individual.png').placeholder
+          })`">
+            <img loading="lazy" alt="two people lifting the earth" :srcset="require('@/assets/individual.png').srcSet"
+              class="subcard-img bigger" />
           </div>
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreParticularText") }}
