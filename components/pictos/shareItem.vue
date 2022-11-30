@@ -65,11 +65,16 @@
               class="roundedbtn"
               v-model="modeSelect"
               required
-              @input="changeSelectedMode()"
+              @input="changeSelectedMode"
             >
               <option value="viewer">👁️</option>
-              <option value="editor">✏️</option>
-            </b-select>
+              <option v-if="canShareWithEditorPermissions" value="editor">
+                ✏️
+              </option>
+              <option v-if="modeSelect == 'mixed'" value="mixed">
+                👁️/✏️
+              </option></b-select
+            >
           </div>
         </div>
 
@@ -177,7 +182,6 @@ export default {
       groups: [],
       groupsStatus: [],
       mode: "viewer",
-      modeSelect: "",
       selected: [],
       selectedGroups: [],
       loading: false,
@@ -229,6 +233,18 @@ export default {
     }
   },
   computed: {
+    modeSelect() {
+      const sharingModes = this.selected.map((user) => user.modeRaw);
+      const isViewer = sharingModes.indexOf("viewer");
+      const isEditor = sharingModes.indexOf("editor");
+      if (isViewer !== -1 && isEditor == -1) {
+        return "viewer";
+      } else if (isViewer == -1 && isEditor !== -1) {
+        return "editor";
+      } else if (isViewer !== -1 && isEditor !== -1) {
+        return "mixed";
+      }
+    },
     canShareWithEditorPermissions() {
       return (
         this.picto.userId == this.$store.getters.getUser.id ||
@@ -240,6 +256,7 @@ export default {
         return {
           username: key,
           mode: this.sharersDict[key].mode === "viewer" ? "👁️" : "✏️",
+          modeRaw: this.sharersDict[key].mode,
         };
       });
     },
@@ -513,18 +530,38 @@ export default {
       this.groups.pop();
       //this.onSubmitted();
     },
-    async changeSelectedMode() {
+    async changeSelectedMode(mode) {
+      this.loading = true;
       try {
         let collection = await this.$store.dispatch("shareCollection", {
           collectionId: this.picto.id,
           usernames: this.selected.map((user) => {
             return user.username;
           }),
-          role: this.modeSelect,
+          role: mode,
           access: "1",
         });
-
-        this.loading = false;
+        this.selected.forEach((selected) => {
+          if (
+            mode == "editor" &&
+            collection.editors.indexOf(selected.username) !== -1
+          ) {
+            this.sharersDict[selected.username] = {
+              username: selected.username,
+              mode: mode,
+            };
+          }
+          if (
+            mode == "viewer" &&
+            collection.viewers.indexOf(selected.username) !== -1
+          ) {
+            this.sharersDict[selected.username] = {
+              username: selected.username,
+              mode: mode,
+            };
+          }
+        });
+        this.sharersDict = { ...this.sharersDict };
       } catch (err) {
         console.log(err);
         if (err?.response?.status == 401) {
@@ -547,6 +584,7 @@ export default {
           });
         }
       }
+      this.loading = false;
     },
   },
 };
