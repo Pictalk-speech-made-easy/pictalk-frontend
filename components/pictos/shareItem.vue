@@ -203,6 +203,7 @@ export default {
   },
   watch: {
     groups: function () {
+      this.groupsStatus = [];
       for (let group of this.groups) {
         this.groupsStatus.push(this.groupStatus(group));
         group.mode = "viewer";
@@ -292,6 +293,7 @@ export default {
       this.groups = JSON.parse(
         JSON.stringify(this.$store.getters.getUser.mailingList)
       );
+      this.triggerGroups();
     },
     async openAddGroupModal(group, index) {
       const modal = this.$buefy.modal.open({
@@ -336,26 +338,16 @@ export default {
                 mode: this.mode,
               };
               this.sharersDict = { ...this.sharersDict };
+            } else {
+              this.displayNotSharedNotification([this.addSharer]);
             }
           } catch (err) {
             if (err?.response?.status == 401) {
-              this.$buefy.toast.open({
-                message: this.$t("AuthorizationError"),
-                position: "is-top",
-                type: "is-danger",
-              });
+              this.displayNotAuthorizedNotification();
             } else if (err?.response?.status == 400) {
-              this.$buefy.toast.open({
-                message: this.$t("BadRequest"),
-                position: "is-top",
-                type: "is-danger",
-              });
+              this.displayErrorOccurredNotification();
             } else {
-              this.$buefy.toast.open({
-                message: this.$t("SomeThingBadHappened"),
-                position: "is-top",
-                type: "is-danger",
-              });
+              this.displayErrorOccurredNotification();
             }
           }
         } else {
@@ -460,12 +452,10 @@ export default {
       // }
     },
     GroupToSelected(index) {
-      console.log(this.groups[index].users);
       const present = this.selectedGroups.indexOf(index);
       if (present >= 0) {
         for (let user of this.groups[index].users) {
           for (let i = 0; i < this.selected.length; i++) {
-            console.log(i);
             if (this.selected[i].username == user) {
               this.selected.splice(i, 1);
             }
@@ -487,6 +477,7 @@ export default {
     async addMissing(index) {
       this.loading = true;
       try {
+        let notSharedUsers = [];
         let collection = await this.$store.dispatch("shareCollection", {
           collectionId: this.picto.id,
           usernames: this.groupsStatus[index].missing,
@@ -499,9 +490,15 @@ export default {
           if (
             (mode == "viewer" && collection.viewers.indexOf(username) !== -1) ||
             (mode == "editor" && collection.editors.indexOf(username) !== -1)
-          )
+          ) {
             this.sharersDict[username] = { username: username, mode: mode };
+          } else {
+            notSharedUsers.push(username);
+          }
         });
+        if (notSharedUsers.length > 0) {
+          this.displayNotSharedNotification(notSharedUsers);
+        }
       } catch (err) {
         if (err?.response?.status == 401) {
           this.$buefy.toast.open({
@@ -585,6 +582,44 @@ export default {
         }
       }
       this.loading = false;
+    },
+    displayNotAuthorizedNotification() {
+      this.$buefy.notification.open({
+        duration: 4500,
+        message: this.$t("AuthorizationError"),
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true,
+        iconSize: "is-small",
+        icon: "account-alert",
+      });
+    },
+    displayErrorOccurredNotification() {
+      this.$buefy.notification.open({
+        duration: 4500,
+        message: this.$t("SomethingBadHappened"),
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true,
+        iconSize: "is-small",
+        icon: "account-alert",
+      });
+    },
+    displayNotSharedNotification(users) {
+      this.$buefy.notification.open({
+        duration: 4500,
+        message:
+          this.$t("CouldNotShare") +
+          users.reduce(
+            (accumulator, currentValue) => accumulator + currentValue + ", ",
+            " : "
+          ),
+        position: "is-top-right",
+        type: "is-warning",
+        hasIcon: true,
+        iconSize: "is-small",
+        icon: "account-alert",
+      });
     },
   },
 };

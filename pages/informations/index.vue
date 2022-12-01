@@ -110,7 +110,9 @@
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreDevelopperText") }} <br />
             <br />Github:
-            <a href="https://github.com/Pictalk-speech-made-easy/pictalk-frontend">
+            <a
+              href="https://github.com/Pictalk-speech-made-easy/pictalk-frontend"
+            >
               https://github.com/Pictalk-speech-made-easy/pictalk-frontend</a
             >
           </div>
@@ -159,6 +161,14 @@
           </div>
           <div class="subcard-text margin-text is-size-5">
             {{ $t("AreParticularText") }}
+            {{ $t("CanTranslateText") }}
+            <br />
+            <br />
+            Weblate:
+            <a
+              href="https://translate.home.asidiras.dev/projects/pictalk/frontend/"
+              >https://translate.home.asidiras.dev</a
+            >
           </div>
         </div>
       </div>
@@ -193,7 +203,8 @@ export default {
           title: "Fondation INSA Lyon",
           description: this.$t("INSALyonSponsoring"),
           image: require("@/assets/logo-insa_lyon_foundation.png").srcSet,
-          placeholder: require("@/assets/logo-insa_lyon_foundation.png").placeholder,
+          placeholder: require("@/assets/logo-insa_lyon_foundation.png")
+            .placeholder,
           url: "https://fondation.insa-lyon.fr/",
         },
         {

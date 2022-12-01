@@ -381,5 +381,6 @@
   "AccountDirectSharerText": "Share this link to a non existing Pictalk user. When signin up, you will automatically be added to his content creator subscriptions.",
   "UnreadNotifications": "You have unread notifications",
   "AuthorizationError": "There was an authorization error sharing the collection",
-  "BadRequest": "Bad request"
+  "CouldNotShare": "Could not share the collection to some users (they may be invalid) ",
+  "CanTranslateText": "You can also help us translate the application languages. The translations are mostly automated and they may be incorrect. Everyone is welcomed to correct or add another language to Pictalk."
 }
