@@ -173,13 +173,6 @@
         </div>
       </div>
     </section>
-    <section class="section">
-      <h2 class="title is-size-3 is-size-3-mobile">
-        {{ $t("Contact") }}
-      </h2>
-      {{ $t("ContactText12") }}
-      <a href="mailto:alex@pictalk.org">alex@pictalk.org</a>.
-    </section>
   </div>
 </template>
 
