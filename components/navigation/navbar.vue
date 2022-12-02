@@ -3,11 +3,12 @@
     <b-navbar fixed-top>
       <template slot="brand">
         <b-navbar-item
+          tag="nuxt-link"
+          to="/"
           style="
             padding: 0%;
             padding-right: 1vw;
             padding-left: 1vw;
-            pointer-events: none;
           "
         >
           <img

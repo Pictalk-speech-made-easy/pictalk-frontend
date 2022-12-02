@@ -2,11 +2,12 @@
   <b-navbar fixed-top>
     <template slot="brand">
       <b-navbar-item
+        tag="nuxt-link"
+        to="/"
         style="
           padding: 0%;
-          padding-right: 1px;
-          padding-left: 1vw;
-          pointer-events: none;
+          padding-right: 1px; 
+          padding-left: 1vw; 
         "
       >
         <img
@@ -212,18 +213,14 @@
                             :href="'mailto:' + notification.username"
                             class="subtitle is-6 mailto"
                             >{{
-                              notification.username
-                                .split("@")[0]
-                                .replace(".", " ")
+                              notification.username.split("@")[0].replace(".", " ")
                             }}</a
                           >
                           {{ notificationText(notification) }}
                         </p>
                         <figure class="image is-64x64">
                           <img
-                            @click="
-                              notificationGoToCollectionOrReturn(notification)
-                            "
+                            @click="notificationGoToCollectionOrReturn(notification)"
                             :src="getNotificationImage(notification)"
                             alt="Placeholder image"
                           />
@@ -294,11 +291,7 @@
             :delay="1000"
             :triggers="['hover']"
           >
-            <b-button
-              type="is-warning"
-              icon-right="bug"
-              @click="openFeedbackModal()"
-            />
+            <b-button type="is-warning" icon-right="bug" @click="openFeedbackModal()" />
           </b-tooltip>
           <b-tooltip
             position="is-bottom"
@@ -414,8 +407,7 @@ export default {
     },
     offlineImagesSavedRatio() {
       return (
-        ((this.offlineReadyTotal - this.offlineReadyProgress) /
-          this.offlineReadyTotal) *
+        ((this.offlineReadyTotal - this.offlineReadyProgress) / this.offlineReadyTotal) *
         100
       );
     },
@@ -455,8 +447,7 @@ export default {
       this.$store.commit("resetCopyCollectionId");
     },
     getNotificationImage(notification) {
-      return this.getCollectionFromId(parseInt(notification.affected, 10))
-        ?.image;
+      return this.getCollectionFromId(parseInt(notification.affected, 10))?.image;
     },
     openFeedbackModal() {
       this.$buefy.modal.open({
@@ -553,14 +544,10 @@ export default {
             */
             $nuxt.$emit("resyncPictoList");
           } else {
-            const copiedCollection = await this.$store.dispatch(
-              "copyCollectionById",
-              {
-                collectionId:
-                  this.$store.getters.getCopyCollectionId.collectionId,
-                fatherCollectionId: this.$route.params.fatherCollectionId,
-              }
-            );
+            const copiedCollection = await this.$store.dispatch("copyCollectionById", {
+              collectionId: this.$store.getters.getCopyCollectionId.collectionId,
+              fatherCollectionId: this.$route.params.fatherCollectionId,
+            });
             //$nuxt.$emit("addPictogram", copiedCollection);
             $nuxt.$emit("resyncPictoList");
           }
@@ -630,10 +617,7 @@ export default {
       }
     },
     notificationGoToCollectionOrReturn(notification) {
-      if (
-        notification.operation == "unshare" ||
-        notification.type != "collection"
-      ) {
+      if (notification.operation == "unshare" || notification.type != "collection") {
         return;
       } else {
         this.$router.push({
