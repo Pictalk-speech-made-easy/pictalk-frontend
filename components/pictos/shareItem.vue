@@ -344,6 +344,8 @@ export default {
           } catch (err) {
             if (err?.response?.status == 401) {
               this.displayNotAuthorizedNotification();
+            } else if (err?.response?.status == 403) {
+              this.displayNotSharedNotification([this.addSharer]);
             } else if (err?.response?.status == 400) {
               this.displayErrorOccurredNotification();
             } else {
@@ -390,23 +392,11 @@ export default {
           }
         } catch (err) {
           if (err?.response?.status == 401) {
-            this.$buefy.toast.open({
-              message: this.$t("AuthorizationError"),
-              position: "is-top",
-              type: "is-danger",
-            });
+            this.displayNotAuthorizedNotification();
           } else if (err?.response?.status == 400) {
-            this.$buefy.toast.open({
-              message: this.$t("BadRequest"),
-              position: "is-top",
-              type: "is-danger",
-            });
+            this.displayErrorOccurredNotification();
           } else {
-            this.$buefy.toast.open({
-              message: this.$t("SomeThingBadHappened"),
-              position: "is-top",
-              type: "is-danger",
-            });
+            this.displayErrorOccurredNotification();
           }
         }
       }
@@ -425,23 +415,11 @@ export default {
           }
         } catch (err) {
           if (err?.response?.status == 401) {
-            this.$buefy.toast.open({
-              message: this.$t("AuthorizationError"),
-              position: "is-top",
-              type: "is-danger",
-            });
+            this.displayNotAuthorizedNotification();
           } else if (err?.response?.status == 400) {
-            this.$buefy.toast.open({
-              message: this.$t("BadRequest"),
-              position: "is-top",
-              type: "is-danger",
-            });
+            this.displayErrorOccurredNotification();
           } else {
-            this.$buefy.toast.open({
-              message: this.$t("SomeThingBadHappened"),
-              position: "is-top",
-              type: "is-danger",
-            });
+            this.displayErrorOccurredNotification();
           }
         }
       }
@@ -501,23 +479,13 @@ export default {
         }
       } catch (err) {
         if (err?.response?.status == 401) {
-          this.$buefy.toast.open({
-            message: this.$t("AuthorizationError"),
-            position: "is-top",
-            type: "is-danger",
-          });
+          this.displayNotAuthorizedNotification();
+        } else if (err?.response?.status == 403) {
+          this.displayNotSharedNotification(this.groupsStatus[index].missing);
         } else if (err?.response?.status == 400) {
-          this.$buefy.toast.open({
-            message: this.$t("BadRequest"),
-            position: "is-top",
-            type: "is-danger",
-          });
+          this.displayErrorOccurredNotification();
         } else {
-          this.$buefy.toast.open({
-            message: this.$t("SomeThingBadHappened"),
-            position: "is-top",
-            type: "is-danger",
-          });
+          this.displayErrorOccurredNotification();
         }
       }
 
