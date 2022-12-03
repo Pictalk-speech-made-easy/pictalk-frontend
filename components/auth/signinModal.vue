@@ -63,6 +63,7 @@ export default {
         });
         if (res.status == 201) {
           await this.$store.dispatch("getUser");
+
           this.$parent.close();
           this.$router.push({
             path: "/pictalk/" + this.$store.getters.getRootId,
@@ -70,13 +71,12 @@ export default {
               sidebarPictoId: this.$store.getters.getSidebarId,
             },
           });
-          const notif = this.$buefy.toast.open({
-            message: this.$t("Welcome"),
-
-            type: "is-info",
-            hasIcon: true,
-            iconSize: "is-small",
-          });
+          if (this.$store.getters.getUser.notifications) {
+            this.$buefy.notification.open({
+              message: this.$t("UnreadNotifications"),
+              type: "is-info",
+            });
+          }
         }
       } catch (error) {
         if (error.response) {

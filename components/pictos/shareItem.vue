@@ -13,121 +13,162 @@
     </header>
     <section class="modal-card-body">
       <div>
-        <b-field>
-          <b-input
-            v-model="addSharer"
-            expanded
-            :placeholder="$t('PlaceHolderEmail')"
-            type="email"
-            maxlength="64"
-          ></b-input>
-          <b-select v-model="mode" required>
-            <option value="editor">✏️</option>
-            <option value="viewer">👁️</option>
-          </b-select>
-          <b-button
-            type="is-success"
-            icon-right="plus"
-            @click="pushToCollaborators()"
-          />
-        </b-field>
-        <b-table
-          v-if="loneCollaborators.length > 0"
-          :focusable="true"
-          :data="SharersObj"
-          :columns="columns"
-          :selected.sync="selected"
-          :mobile-cards="false"
-        >
-        </b-table>
-        <br />
-        <b-button
-          v-if="
-            loneCollaborators
-              .map((Sharer) => {
-                return Sharer.username;
-              })
-              .indexOf(selected.username) !== -1
-          "
-          class="fourWidth"
-          type="is-danger"
-          icon-left="delete"
-          @click="removeFromCollaborators()"
-        />
-        <hr v-if="SharersObj.length > 0" />
-        <b-field :label="$t('Groups')">
-          <div v-if="groups.length != 0" class="columns is-multiline is-mobile">
-            <div
-              v-for="(group, index) in groups"
-              class="
-                column
-                lessPadding
-                is-6-mobile is-6-tablet is-6-desktop is-6-widescreen is-6-fullhd
-              "
+        <div class="lightbackground">
+          <p class="subtitle centeredText">{{ $t("ShareAddSomeone") }}:</p>
+          <b-field>
+            <b-input
+              v-model="addSharer"
+              expanded
+              :placeholder="$t('PlaceHolderEmail')"
+              type="email"
+              maxlength="64"
+            ></b-input>
+            <b-select v-model="mode" required>
+              <option v-if="canShareWithEditorPermissions" value="editor">
+                ✏️
+              </option>
+              <option value="viewer">👁️</option>
+            </b-select>
+            <b-button
+              type="is-success"
+              icon-right="plus"
+              @click="pushToCollaborators()"
+            />
+          </b-field>
+        </div>
+        <div class="lightbackground">
+          <p class="subtitle centeredText">{{ $t("ShareWhoHasAccess") }}?</p>
+          <b-table
+            :striped="true"
+            :narrowed="true"
+            :hoverable="true"
+            v-if="sharersDictToObj.length > 0"
+            :data="sharersDictToObj"
+            :columns="columns"
+            :mobile-cards="false"
+            :checked-rows.sync="selected"
+            checkable
+            :custom-is-checked="(a, b) => a.username == b.username"
+            checkbox-position="left"
+            checkbox-type="is-danger"
+          >
+          </b-table>
+          <div class="selectedOptions" v-if="selected.length > 0">
+            <b-button
+              class="roundedbtn"
+              type="is-danger"
+              icon-left="delete"
+              @click="removeFromCollaborators()"
+            />
+            <b-select
+              style="margin-left: auto"
+              class="roundedbtn"
+              v-model="modeSelect"
+              required
+              @input="changeSelectedMode"
             >
-              <div>
+              <option value="viewer">👁️</option>
+              <option v-if="canShareWithEditorPermissions" value="editor">
+                ✏️
+              </option>
+              <option v-if="modeSelect == 'mixed'" value="mixed">
+                👁️/✏️
+              </option></b-select
+            >
+          </div>
+        </div>
+
+        <div class="lightbackground">
+          <p class="subtitle centeredText">{{ $t("ShareAddGroup") }}:</p>
+          <b-field :label="$t('Groups')">
+            <div
+              v-if="groups.length != 0"
+              class="columns is-multiline is-mobile"
+            >
+              <div
+                v-for="(group, index) in groups"
+                class="
+                  column
+                  lessPadding
+                  is-6-mobile
+                  is-6-tablet
+                  is-6-desktop
+                  is-6-widescreen
+                  is-6-fullhd
+                "
+              >
                 <div
-                  :class="[
-                    isGroupSelected(group) || isGroupShared(group)
-                      ? 'card has-background'
-                      : 'card',
-                  ]"
+                  :class="
+                    selectedGroups.indexOf(index) >= 0
+                      ? 'card has-background rounder'
+                      : 'card rounder'
+                  "
                 >
-                  <div class="card-content">
-                    <div
-                      class="media"
-                      @click="addOrRemoveGroupToSelected(group)"
-                    >
+                  <div
+                    class="card-content smallerbottompadding"
+                    @click="GroupToSelected(index)"
+                  >
+                    <div class="media shrinked">
                       <div v-if="group.icon" class="media-left">
                         <b-icon :icon="group.icon" />
                       </div>
-                      <div class="media-content">
-                        <p class="title is-6">
-                          {{ group.name }}
-                        </p>
-                      </div>
+                      <p class="title is-6 noScrolling">
+                        {{ group.name }}
+                      </p>
                     </div>
-                    <b-select
-                      v-if="group.selected"
-                      v-model="group.mode"
-                      required
+                    <div class="limitheight">
+                      <p
+                        v-for="(user, index) in group.users"
+                        class="is-size-6 limitwidth"
+                      >
+                        {{ user in sharersDict ? "✅" : "❌" }}
+                        {{ user }}
+                      </p>
+                    </div>
+                  </div>
+                  <div v-if="!groupStatus(group).full" class="addmissing">
+                    <b-button
+                      type="is-success"
+                      :loading="loading === index"
+                      class="roundedbtn"
+                      @click="addMissing(index)"
+                      >{{ $t("AddMissing") }}</b-button
                     >
+                    <b-select class="roundedbtn" v-model="group.mode" required>
                       <option value="viewer">👁️</option>
-                      <option value="editor">✏️</option>
+                      <option
+                        v-if="canShareWithEditorPermissions"
+                        value="editor"
+                      >
+                        ✏️
+                      </option>
                     </b-select>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <b-tooltip :label="$t('CreateGroups')" :triggers="['hover']">
-            <b-image
-              v-if="groups.length == 0"
-              lazy
-              class="center"
-              :srcset="require('@/assets/NoGroups.png').srcSet"
-              alt="a group of person crossed out with a red cross"
-              style="width: 50%; aspect-ratio: 1/1"
-            ></b-image>
-          </b-tooltip>
-        </b-field>
+          </b-field>
+
+          <b-button
+            type="is-success"
+            class="actionButtons roundedbtn"
+            icon-left="plus"
+            @click="openAddGroupModal()"
+            >{{ $t("CreateNewGroup") }}</b-button
+          >
+        </div>
       </div>
     </section>
     <footer class="modal-card-foot">
       <b-button class="button" type="button" @click="$parent.close()">{{
         $t("Close")
       }}</b-button>
-      <b-button
-        class="button is-primary"
-        :loading="loading"
-        @click="onSubmitted()"
-        >{{ $t("Share") }}</b-button
-      >
     </footer>
   </div>
 </template>
 <script >
 import sharers from "@/mixins/sharers";
+import addGroupModal from "@/components/auth/addGroupModal";
 export default {
   mixins: [sharers],
   props: {
@@ -138,14 +179,13 @@ export default {
   },
   data() {
     return {
-      collaborators: [],
-      selectedGroups: [],
-      loneCollaborators: [],
       groups: [],
+      groupsStatus: [],
       mode: "viewer",
-      selected: {},
+      selected: [],
+      selectedGroups: [],
       loading: false,
-      SharersObj: [],
+      sharersDict: [],
       addSharer: "",
       columns: [
         {
@@ -161,110 +201,156 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.picto.viewers.forEach((viewer) =>
-      this.collaborators.push({
-        username: viewer,
-        mode: "viewer",
-        access: "1",
-      })
-    );
-    this.picto.editors.forEach((editor) =>
-      this.collaborators.push({
-        username: editor,
-        mode: "editor",
-        access: "1",
-      })
-    );
-    this.groups = this.getGroups;
-    let found;
-    this.collaborators.forEach((coll) => {
-      found = false;
-      this.groups.forEach((group) => {
-        if (group.users.indexOf(coll.username) != -1) {
-          found = true;
-          if (!group.foundUserCount) {
-            group.foundUserCount = 0;
-          }
-          group.foundUserCount += 1;
+  watch: {
+    groups: function () {
+      this.groupsStatus = [];
+      for (let group of this.groups) {
+        this.groupsStatus.push(this.groupStatus(group));
+        group.mode = "viewer";
+      }
+    },
+    sharersDict: {
+      deep: true,
+      handler: function () {
+        this.groupsStatus = [];
+        for (let group of this.groups) {
+          this.groupsStatus.push(this.groupStatus(group));
+          group.mode = "viewer";
         }
-      });
-      if (!found) {
-        this.loneCollaborators.push(coll);
-        this.SharersObj = this.loneCollaborators.map((loneCollaborator) => {
-          return {
-            username: loneCollaborator.username,
-            mode: loneCollaborator.mode === "viewer" ? "👁️" : "✏️",
-          };
-        });
-      }
+      },
+    },
+  },
+  created() {
+    this.getGroups();
+    this.picto.viewers.forEach((viewer) => {
+      this.addUserToList(viewer, "viewer");
     });
-    this.groups.map((group) => {
-      if (this.isGroupShared(group)) {
-        group.selected = true;
-      }
-      return group;
+    this.picto.editors.forEach((editor) => {
+      this.addUserToList(editor, "editor");
     });
+    for (let group of this.groups) {
+      this.groupsStatus.push(this.groupStatus(group));
+      group.mode = "viewer";
+    }
   },
   computed: {
-    getLoneCollaborators() {
-      return this.loneCollaborators.filter(
-        (collaborator) => collaborator.access == "1"
+    modeSelect() {
+      const sharingModes = this.selected.map((user) => user.modeRaw);
+      const isViewer = sharingModes.indexOf("viewer");
+      const isEditor = sharingModes.indexOf("editor");
+      if (isViewer !== -1 && isEditor == -1) {
+        return "viewer";
+      } else if (isViewer == -1 && isEditor !== -1) {
+        return "editor";
+      } else if (isViewer !== -1 && isEditor !== -1) {
+        return "mixed";
+      }
+    },
+    canShareWithEditorPermissions() {
+      return (
+        this.picto.userId == this.$store.getters.getUser.id ||
+        this.picto.editors.indexOf(this.$store.getters.getUser.username) !== -1
       );
     },
-    getTrueAccessCollaborators() {
-      return this.collaborators.filter(
-        (collaborator) => collaborator.access == "1"
-      );
-    },
-    getGroups() {
-      return JSON.parse(
-        JSON.stringify(this.$store.getters.getUser.mailingList)
-      );
-    },
-    getSharedGroups() {
-      return this.groups.filter((group) => this.isGroupShared(group));
+    sharersDictToObj() {
+      return Object.keys(this.sharersDict).map((key) => {
+        return {
+          username: key,
+          mode: this.sharersDict[key].mode === "viewer" ? "👁️" : "✏️",
+          modeRaw: this.sharersDict[key].mode,
+        };
+      });
     },
   },
   methods: {
+    groupStatus(group) {
+      let present = [],
+        missing = [],
+        full = false;
+      for (let user of group.users) {
+        if (user in this.sharersDict) {
+          present.push(user);
+        } else {
+          missing.push(user);
+        }
+      }
+      if (missing.length == 0) {
+        full = true;
+      }
+      return { full, present, missing };
+    },
+    addUserToList(user, modeRaw) {
+      this.sharersDict[user] = {
+        username: user,
+        mode: modeRaw,
+      };
+    },
+    triggerGroups() {
+      this.groups.push("");
+      this.groups.pop();
+    },
+    getGroups() {
+      this.groups = JSON.parse(
+        JSON.stringify(this.$store.getters.getUser.mailingList)
+      );
+      this.triggerGroups();
+    },
+    async openAddGroupModal(group, index) {
+      const modal = this.$buefy.modal.open({
+        parent: this,
+        component: addGroupModal,
+        props: {
+          group: group,
+          index: index,
+          mailingList: [...this.$store.getters.getUser.mailingList],
+        },
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+      modal.$on("close", () => {
+        this.getGroups();
+      });
+    },
     async pushToCollaborators() {
-      const index = this.SharersObj.map((collaborator) => {
-        return collaborator.username;
-      }).indexOf(this.addSharer);
-      const indexCollab = this.loneCollaborators
-        .map((collaborator) => {
-          return collaborator.username;
-        })
-        .indexOf(this.addSharer);
       if (
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
           this.addSharer
         )
       ) {
         if (this.addSharer != this.$store.getters.getUser.username) {
-          if (index !== -1) {
-            this.SharersObj[index] = {
-              username: this.addSharer,
-              mode: this.mode === "viewer" ? "👁️" : "✏️",
-            };
-          } else {
-            this.SharersObj.push({
-              username: this.addSharer,
-              mode: this.mode === "viewer" ? "👁️" : "✏️",
+          try {
+            let collection = await this.$store.dispatch("shareCollection", {
+              collectionId: this.picto.id,
+              usernames: [this.addSharer],
+              role: this.mode,
+              access: 1,
             });
-          }
-          if (indexCollab !== -1) {
-            this.loneCollaborators[indexCollab] = {
-              username: this.addSharer,
-              mode: this.mode,
-              access: "1",
-            };
-          } else {
-            this.loneCollaborators.push({
-              username: this.addSharer,
-              mode: this.mode,
-              access: "1",
-            });
+            if (
+              (this.mode == "viewer" &&
+                collection.viewers.indexOf(this.addSharer) !== -1) ||
+              (this.mode == "editor" &&
+                collection.editors.indexOf(this.addSharer) !== -1)
+            ) {
+              this.sharersDict[this.addSharer] = {
+                username: this.addSharer,
+                mode: this.mode,
+              };
+              this.sharersDict = { ...this.sharersDict };
+            } else {
+              this.displayNotSharedNotification([this.addSharer]);
+            }
+          } catch (err) {
+            if (err?.response?.status == 401) {
+              this.displayNotAuthorizedNotification();
+            } else if (err?.response?.status == 403) {
+              this.displayNotSharedNotification([this.addSharer]);
+            } else if (err?.response?.status == 400) {
+              this.displayErrorOccurredNotification();
+            } else {
+              this.displayErrorOccurredNotification();
+            }
           }
         } else {
           this.$buefy.toast.open({
@@ -281,110 +367,227 @@ export default {
         });
       }
     },
-    removeFromCollaborators() {
-      const index = this.SharersObj.map((collaborator) => {
-        return collaborator.username;
-      }).indexOf(this.selected.username);
-      const indexCollab = this.loneCollaborators
-        .map((collaborator) => {
-          return collaborator.username;
-        })
-        .indexOf(this.selected.username);
+    async removeFromCollaborators() {
+      let toRemoveViewers = [];
+      let toRemoveEditors = [];
+      for (let i = 0; i < this.selected.length; i++) {
+        if (this.selected[i]?.mode == "👁️") {
+          toRemoveViewers.push(this.selected[i]?.username);
+        } else {
+          toRemoveEditors.push(this.selected[i]?.username);
+        }
+      }
+      if (toRemoveViewers.length != 0) {
+        try {
+          let collection = await this.$store.dispatch("shareCollection", {
+            collectionId: this.picto.id,
+            usernames: toRemoveViewers,
+            role: "viewer",
+            access: 0,
+          });
+          for (let i = 0; i < toRemoveViewers.length; i++) {
+            if (collection.viewers.indexOf(toRemoveViewers[i]) == -1) {
+              delete this.sharersDict[toRemoveViewers[i]];
+            }
+          }
+        } catch (err) {
+          if (err?.response?.status == 401) {
+            this.displayNotAuthorizedNotification();
+          } else if (err?.response?.status == 400) {
+            this.displayErrorOccurredNotification();
+          } else {
+            this.displayErrorOccurredNotification();
+          }
+        }
+      }
+      if (toRemoveEditors.length != 0) {
+        try {
+          let collection = await this.$store.dispatch("shareCollection", {
+            collectionId: this.picto.id,
+            usernames: toRemoveEditors,
+            role: "editor",
+            access: 0,
+          });
+          for (let i = 0; i < toRemoveEditors.length; i++) {
+            if (collection.editors.indexOf(toRemoveEditors[i]) == -1) {
+              delete this.sharersDict[toRemoveEditors[i]];
+            }
+          }
+        } catch (err) {
+          if (err?.response?.status == 401) {
+            this.displayNotAuthorizedNotification();
+          } else if (err?.response?.status == 400) {
+            this.displayErrorOccurredNotification();
+          } else {
+            this.displayErrorOccurredNotification();
+          }
+        }
+      }
 
-      if (index !== -1) {
-        this.SharersObj.splice(index, 1);
+      this.sharersDict = { ...this.sharersDict };
+      // if (index !== -1) {
+      //   this.SharersObj.splice(index, 1);
+      // }
+    },
+    GroupToSelected(index) {
+      const present = this.selectedGroups.indexOf(index);
+      if (present >= 0) {
+        for (let user of this.groups[index].users) {
+          for (let i = 0; i < this.selected.length; i++) {
+            if (this.selected[i].username == user) {
+              this.selected.splice(i, 1);
+            }
+          }
+        }
+        this.selectedGroups.splice(present, 1);
+      } else {
+        for (let user of this.groups[index].users) {
+          if (user in this.sharersDict) {
+            this.selected.push({
+              username: this.sharersDict[user].username,
+              mode: this.sharersDict[user].mode === "viewer" ? "👁️" : "✏️",
+            });
+          }
+        }
+        this.selectedGroups.push(index);
       }
-      if (indexCollab !== -1) {
-        this.loneCollaborators[indexCollab] = {
-          username: this.selected.username,
-          mode: this.mode,
-          access: "0",
-        };
-      }
     },
-    isGroupSelected(group) {
-      return group.selected;
-    },
-    isGroupShared(group) {
-      return group.foundUserCount == group.users.length;
-    },
-    addOrRemoveGroupToSelected(selectedGroup) {
-      selectedGroup.selected = !selectedGroup?.selected;
-      this.groups.push("");
-      this.groups.pop();
-    },
-    async onSubmitted() {
+    async addMissing(index) {
       this.loading = true;
       try {
-        const sharedGroups = this.getSharedGroups.concat(
-          this.groups.filter((group) => group.selected)
-        );
-        const editorUsernameArray = sharedGroups
-          .filter((group) => group.mode == "editor")
-          .map((group) => group.users)
-          .concat(
-            this.loneCollaborators
-              .filter((coll) => coll.mode == "editor")
-              .map((coll) => coll.username)
-          )
-          .flat();
-        if (editorUsernameArray.length != 0) {
-          await this.$store.dispatch("shareCollection", {
-            collectionId: this.picto.id,
-            usernames: editorUsernameArray,
-            role: "editor",
-            access: "1",
-          });
-        }
-
-        const viewerUsernameArray = sharedGroups
-          .filter((group) => group.mode == "viewer")
-          .map((group) => group.users)
-          .concat(
-            this.loneCollaborators
-              .filter((coll) => coll.mode == "viewer")
-              .map((coll) => coll.username)
-          )
-          .flat();
-        if (viewerUsernameArray.length != 0) {
-          await this.$store.dispatch("shareCollection", {
-            collectionId: this.picto.id,
-            usernames: viewerUsernameArray,
-            role: "viewer",
-            access: "1",
-          });
-        }
-
-        const deletedUsernameArray = sharedGroups
-          .filter((group) => !group.selected)
-          .map((group) => group.users)
-          .concat(
-            this.loneCollaborators
-              .filter((coll) => coll.access == "0")
-              .map((coll) => coll.username)
-          )
-          .flat();
-        if (deletedUsernameArray.length != 0) {
-          await this.$store.dispatch("shareCollection", {
-            collectionId: this.picto.id,
-            usernames: deletedUsernameArray,
-            role: "viewer",
-            access: "0",
-          });
-        }
-        this.$buefy.toast.open({
-          message: this.$t("UpdatedSharers"),
-          type: "is-success",
+        let notSharedUsers = [];
+        let collection = await this.$store.dispatch("shareCollection", {
+          collectionId: this.picto.id,
+          usernames: this.groupsStatus[index].missing,
+          role: this.groups[index].mode,
+          access: "1",
         });
-        this.$parent.close();
+        this.loading = false;
+        const mode = this.groups[index].mode;
+        this.groupsStatus[index].missing.forEach((username) => {
+          if (
+            (mode == "viewer" && collection.viewers.indexOf(username) !== -1) ||
+            (mode == "editor" && collection.editors.indexOf(username) !== -1)
+          ) {
+            this.sharersDict[username] = { username: username, mode: mode };
+          } else {
+            notSharedUsers.push(username);
+          }
+        });
+        if (notSharedUsers.length > 0) {
+          this.displayNotSharedNotification(notSharedUsers);
+        }
+      } catch (err) {
+        if (err?.response?.status == 401) {
+          this.displayNotAuthorizedNotification();
+        } else if (err?.response?.status == 403) {
+          this.displayNotSharedNotification(this.groupsStatus[index].missing);
+        } else if (err?.response?.status == 400) {
+          this.displayErrorOccurredNotification();
+        } else {
+          this.displayErrorOccurredNotification();
+        }
+      }
+
+      this.sharersDict = { ...this.sharersDict };
+      // TODO Freshly created group has undefined usernames
+      this.groups.push("");
+      this.groups.pop();
+      //this.onSubmitted();
+    },
+    async changeSelectedMode(mode) {
+      this.loading = true;
+      try {
+        let collection = await this.$store.dispatch("shareCollection", {
+          collectionId: this.picto.id,
+          usernames: this.selected.map((user) => {
+            return user.username;
+          }),
+          role: mode,
+          access: "1",
+        });
+        this.selected.forEach((selected) => {
+          if (
+            mode == "editor" &&
+            collection.editors.indexOf(selected.username) !== -1
+          ) {
+            this.sharersDict[selected.username] = {
+              username: selected.username,
+              mode: mode,
+            };
+          }
+          if (
+            mode == "viewer" &&
+            collection.viewers.indexOf(selected.username) !== -1
+          ) {
+            this.sharersDict[selected.username] = {
+              username: selected.username,
+              mode: mode,
+            };
+          }
+        });
+        this.sharersDict = { ...this.sharersDict };
       } catch (err) {
         console.log(err);
-        this.$buefy.toast.open({
-          message: this.$t("SomeThingBadHappened"),
-          type: "is-danger",
-        });
+        if (err?.response?.status == 401) {
+          this.$buefy.toast.open({
+            message: this.$t("AuthorizationError"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        } else if (err?.response?.status == 400) {
+          this.$buefy.toast.open({
+            message: this.$t("BadRequest"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        } else {
+          this.$buefy.toast.open({
+            message: this.$t("SomeThingBadHappened"),
+            position: "is-top",
+            type: "is-danger",
+          });
+        }
       }
       this.loading = false;
+    },
+    displayNotAuthorizedNotification() {
+      this.$buefy.notification.open({
+        duration: 4500,
+        message: this.$t("AuthorizationError"),
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true,
+        iconSize: "is-small",
+        icon: "account-alert",
+      });
+    },
+    displayErrorOccurredNotification() {
+      this.$buefy.notification.open({
+        duration: 4500,
+        message: this.$t("SomethingBadHappened"),
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true,
+        iconSize: "is-small",
+        icon: "account-alert",
+      });
+    },
+    displayNotSharedNotification(users) {
+      this.$buefy.notification.open({
+        duration: 4500,
+        message:
+          this.$t("CouldNotShare") +
+          users.reduce(
+            (accumulator, currentValue) => accumulator + currentValue + ", ",
+            " : "
+          ),
+        position: "is-top-right",
+        type: "is-warning",
+        hasIcon: true,
+        iconSize: "is-small",
+        icon: "account-alert",
+      });
     },
   },
 };
@@ -401,5 +604,61 @@ export default {
 }
 .fourWidth {
   width: 39%;
+}
+.centeredText {
+  text-align: center;
+}
+.subtitle {
+  margin-bottom: 0.75em;
+}
+.actionButtons {
+  display: flex;
+  margin: 2em auto 0.5em auto;
+  width: 50%;
+  min-width: 230px;
+}
+.lightbackground {
+  background-color: #fcfcfc;
+  padding: 1em;
+  border-radius: 12px;
+  margin: 0.5em 0;
+  border: solid;
+  border-color: #00000020;
+  border-width: 1px;
+}
+.noScrolling {
+  overflow-y: hidden;
+}
+.limitheight {
+  height: 85px;
+  overflow-y: auto;
+}
+.limitwidth {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: clip;
+}
+.shrinked {
+  margin-bottom: 0.5em !important;
+}
+.rounder {
+  border-radius: 12px;
+}
+.roundedbtn {
+  border-radius: 24px;
+}
+.addmissing {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1em;
+  gap: 0.5em;
+}
+.smallerbottompadding {
+  padding-bottom: 0.5em;
+}
+.selectedOptions {
+  display: flex;
+  justify-content: right;
+  margin-top: 1em;
 }
 </style>

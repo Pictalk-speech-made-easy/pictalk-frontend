@@ -201,7 +201,8 @@ export default {
       }
     }
     //by @DotOnion https://alvarotrigo.com/blog/css-text-animations/
-    const texts = this.donators;
+    const texts = this.donators ? this.donators : [];
+    console.log(texts);
     const elts = {
       text1: document.getElementById("text1"),
       text2: document.getElementById("text2"),
@@ -282,7 +283,7 @@ export default {
       newsCharged: false,
       done: true,
       donationAmount: "",
-      donators: [""],
+      donators: [],
     };
   },
   head() {
@@ -400,9 +401,10 @@ export default {
 }
 
 .iframe {
-  width: 100%;
-  margin: 0%;
-  height: 50vh;
+  display: flex;
+  margin: 0 auto;
+  width: 85%;
+  height: 57.5vh;
   background-color: #f5f5f5;
 }
 

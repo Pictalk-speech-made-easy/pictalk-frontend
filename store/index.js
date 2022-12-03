@@ -460,6 +460,7 @@ export const actions = {
     if (user.mailingList) {
       user.mailingList = JSON.parse(user.mailingList);
     }
+    user.notifications.forEach((notification) => notification.meaning = JSON.parse(notification.meaning))
     vuexContext.commit("editUser", user);
   },
   async editUser(vuexContext, user) {
@@ -568,6 +569,7 @@ export const actions = {
     if (sharedCollection) {
       parseAndUpdateEntireCollection(vuexContext, sharedCollection);
     }
+    return sharedCollection;
   },
   async deleteNotifications(vuexContext) {
     const notifications = (await axios.delete('/user/notification')).data;
