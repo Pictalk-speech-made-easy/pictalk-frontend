@@ -357,7 +357,7 @@ export default {
 					return [];
 				}
 			}
-		}, 15000);
+		}, 60000);
 	},
 	data() {
 		return {
@@ -377,17 +377,6 @@ export default {
 	mounted() {
 		this.fitsBigger();
 		window.addEventListener("resize", this.fitsBigger);
-		this.intervalId = setInterval(async () => {
-			if (window.navigator.onLine) {
-				try {
-					this.$store.dispatch("getNotifications");
-				} catch (err) {
-					console.log(err);
-					clearInterval(this.intervalId);
-					return [];
-				}
-			}
-		}, 15000);
 		if (this.$route.path.includes("pictalk")) {
 			this.icon = "home";
 			this.colorClass = "mainColor";
