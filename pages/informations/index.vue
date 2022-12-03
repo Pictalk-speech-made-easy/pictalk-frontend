@@ -307,7 +307,7 @@ a {
 }
 
 .portrait {
-	border-radius: 100px;
+	border-radius: 50%;
 	margin-bottom: 00.5em;
 }
 
