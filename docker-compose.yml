@@ -1,0 +1,17 @@
+version: '3.7' 
+services:
+
+  frontend:
+    build: 
+      context: .
+      dockerfile : ./dockerfiles/Dockerfile_Vue
+    volumes:
+      - ./:/app # Useful for hot reload
+    ports:
+      - 3000:3000
+    working_dir: /app
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile_Nest
