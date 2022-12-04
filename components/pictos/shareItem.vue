@@ -370,6 +370,7 @@ export default {
     async removeFromCollaborators() {
       let toRemoveViewers = [];
       let toRemoveEditors = [];
+      let usernameSelectedIndex;
       for (let i = 0; i < this.selected.length; i++) {
         if (this.selected[i]?.mode == "👁️") {
           toRemoveViewers.push(this.selected[i]?.username);
@@ -388,6 +389,12 @@ export default {
           for (let i = 0; i < toRemoveViewers.length; i++) {
             if (collection.viewers.indexOf(toRemoveViewers[i]) == -1) {
               delete this.sharersDict[toRemoveViewers[i]];
+              usernameSelectedIndex = this.selected
+                .map((selected) => selected.username)
+                .indexOf(toRemoveViewers[i]);
+              if (usernameSelectedIndex !== -1) {
+                this.selected.splice(usernameSelectedIndex, 1);
+              }
             }
           }
         } catch (err) {
@@ -411,6 +418,12 @@ export default {
           for (let i = 0; i < toRemoveEditors.length; i++) {
             if (collection.editors.indexOf(toRemoveEditors[i]) == -1) {
               delete this.sharersDict[toRemoveEditors[i]];
+              usernameSelectedIndex = this.selected
+                .map((selected) => selected.username)
+                .indexOf(toRemoveEditors[i]);
+              if (usernameSelectedIndex !== -1) {
+                this.selected.splice(usernameSelectedIndex, 1);
+              }
             }
           }
         } catch (err) {
