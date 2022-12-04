@@ -5,13 +5,38 @@ services:
     build: 
       context: .
       dockerfile : ./dockerfiles/Dockerfile_Vue
+    image: pictalk-frontend  
     volumes:
       - ./:/app # Useful for hot reload
     ports:
       - 3000:3000
     working_dir: /app
 
-  backend:
+  database:
     build:
       context: .
-      dockerfile: ./dockerfiles/Dockerfile_Nest
+      dockerfile: ./dockerfiles/Dockerfile_PostgreSQL
+    image: pictalk-database
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pictalk
+    volumes:
+      - data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build:
+      context: ../Pictalk-API-v2/
+      dockerfile: Dockerfile_Nest
+    image: pictalk-backend
+    volumes:
+      - ../Pictalk-API-v2/:/app 
+    ports:
+      - 3001:3001
+    depends_on: 
+      - database
+    restart: always
+    working_dir: /app
+
+volumes:
+  data:
