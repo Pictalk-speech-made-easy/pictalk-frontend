@@ -153,6 +153,9 @@ export default {
     window.removeEventListener("offline", this.lostConnectivityNotification);
   },
   computed: {
+    homeLink() {
+      return this.$route.path;
+    },
     isOnLine() {
       return window.navigator.onLine;
     },
@@ -383,6 +386,12 @@ export default {
         iconSize: "is-small",
         icon: "airplane",
       });
+      if (this.$route.query.isAdmin) {
+        this.$router.push({
+          path: this.homeLink,
+          query: { ...this.$route.query, isAdmin: undefined },
+        });
+      }
     },
     async fetchCollection(collectionId) {
       const collection = this.getCollectionFromId(collectionId);
