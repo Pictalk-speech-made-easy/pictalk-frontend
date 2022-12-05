@@ -1,2 +1,0 @@
-FROM postgres:15.1 as dev
-USER postgres
