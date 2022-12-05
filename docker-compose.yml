@@ -8,6 +8,7 @@ services:
     image: pictalk-frontend  
     volumes:
       - ./:/app # Useful for hot reload
+      - /app/node_modules # Does not sync node_modules
     ports:
       - 3000:3000
     working_dir: /app
@@ -30,7 +31,8 @@ services:
       dockerfile: Dockerfile_Nest
     image: pictalk-backend
     volumes:
-      - ../Pictalk-API-v2/:/app 
+      - ../Pictalk-API-v2/:/app # Useful for hot reload
+      - /app/node_modules # Does not sync node_modules
     ports:
       - 3001:3001
     depends_on: 
