@@ -1,7 +1,8 @@
 FROM node:16 as dev
 WORKDIR /app
 COPY ./package*.json ./
-RUN npm install 
+RUN apt-get install yarn
+RUN yarn install 
 COPY ./ ./
 EXPOSE 3000
 ENTRYPOINT ["npm", "run", "dev"] 
