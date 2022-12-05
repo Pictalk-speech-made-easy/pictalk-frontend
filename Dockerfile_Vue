@@ -1,7 +1,8 @@
 FROM node:16-bullseye as dev
 WORKDIR /app
 COPY ./package*.json ./
-RUN npm install 
+RUN npm install
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
 COPY ./ ./
 EXPOSE 3000
 ENTRYPOINT ["npm", "run", "dev"] 
