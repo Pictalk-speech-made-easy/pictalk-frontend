@@ -1,8 +1,7 @@
-FROM node:16 as dev
+FROM node:16-bullseye as dev
 WORKDIR /app
 COPY ./package*.json ./
-RUN apt-get install yarn
-RUN yarn install 
+RUN npm install 
 COPY ./ ./
 EXPOSE 3000
 ENTRYPOINT ["npm", "run", "dev"] 
