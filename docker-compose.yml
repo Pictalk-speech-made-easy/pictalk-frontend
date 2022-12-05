@@ -1,11 +1,11 @@
-version: '3.7' 
+version: '3.7'
 services:
 
   frontend:
-    build: 
+    build:
       context: .
-      dockerfile : ./dockerfiles/Dockerfile_Vue
-    image: pictalk-frontend  
+      dockerfile: ./Dockerfile_Vue
+    image: pictalk-frontend
     volumes:
       - ./:/app # Useful for hot reload
       - /app/node_modules # Does not sync node_modules
@@ -16,7 +16,7 @@ services:
   database:
     build:
       context: .
-      dockerfile: ./dockerfiles/Dockerfile_PostgreSQL
+      dockerfile: ./Dockerfile_PostgreSQL
     image: pictalk-database
     environment:
       POSTGRES_PASSWORD: postgres
@@ -35,7 +35,7 @@ services:
       - /app/node_modules # Does not sync node_modules
     ports:
       - 3001:3001
-    depends_on: 
+    depends_on:
       - database
     restart: always
     working_dir: /app
