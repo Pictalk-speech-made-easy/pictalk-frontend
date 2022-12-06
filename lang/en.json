@@ -389,5 +389,9 @@
   "UnreadNotifications": "You have unread notifications",
   "AuthorizationError": "There was an authorization error sharing the collection",
   "CouldNotShare": "Could not share the collection to some users (they may be invalid) ",
-  "CanTranslateText": "You can also help us translate the application languages. The translations are mostly automated and they may be incorrect. Everyone is welcomed to correct or add another language to Pictalk."
+  "CanTranslateText": "You can also help us translate the application languages. The translations are mostly automated and they may be incorrect. Everyone is welcomed to correct or add another language to Pictalk.",
+  "INSALyonSponsoring":"The INSA Lyon foundation helped us with 1000€ donation support",
+  "DigitalOceanSponsoring":"Hosters of our server, Digital Ocean supported us with 250€",
+  "Adapei69Sponsoring":"The Adapei69 helps us improving and testing Pictalk. We benefit from their precious tips and knowledge",
+  "ARASAACSponsoring":"The ARASAAC non-profit organization provides us free and open source pictograms"
 }
