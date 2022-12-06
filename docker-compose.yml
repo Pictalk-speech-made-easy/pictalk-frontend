@@ -1,0 +1,59 @@
+version: '3.7'
+services:
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile_Vue
+    image: pictalk-frontend
+    volumes:
+      - ./:/app # Useful for hot reload
+      - /app/node_modules # Does not sync node_modules
+    ports:
+      - 3000:3000
+    working_dir: /app
+
+  database:
+    container_name: postgres-db
+    build:
+      context: ../Pictalk-API-v2/
+      dockerfile: Dockerfile_PostgreSQL
+    image: pictalk-database
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pictalk
+    volumes:
+      - data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build:
+      context: ../Pictalk-API-v2/
+      dockerfile: Dockerfile_Nest
+    image: pictalk-backend
+    volumes:
+      - ../Pictalk-API-v2/:/app # Useful for hot reload
+      - /app/node_modules # Does not sync node_modules
+    ports:
+      - 3001:3001
+    depends_on:
+      - database
+    restart: always
+    working_dir: /app
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  data:
+  pgadmin-data:
