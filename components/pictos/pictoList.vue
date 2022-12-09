@@ -20,6 +20,7 @@
         :picto="picto"
         :publicMode="publicMode"
         :sidebarMode="sidebar"
+        :ref="picto.collection ? 'dragCollection' : 'dragPictogram'"
       />
 
       <div

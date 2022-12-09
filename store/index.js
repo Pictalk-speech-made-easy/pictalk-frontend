@@ -180,6 +180,30 @@ export const mutations = {
   }
 };
 export const actions = {
+
+  async moveToCollection(vuexContext, { moveToCollectionDto, fatherCollectionId }) {
+    const targetEditedCollection = (await axios
+      .put(`/collection/move/${fatherCollectionId}`, moveToCollectionDto)).data
+    vuexContext.commit('editCollection', {
+      ...targetEditedCollection,
+      createdDate: targetEditedCollection.createdDate,
+      updatedDate: targetEditedCollection.updatedDate,
+      collections: targetEditedCollection.collections.map((colle) => parseAndUpdateEntireCollection(vuexContext, colle)),
+      pictos: targetEditedCollection.pictos.map((pict) => parseAndUpdatePictogram(vuexContext, pict)),
+    });
+    // ------- Add the new collection or pictogram to the target collection
+
+    if (moveToCollectionDto.sourceCollecionId) {
+      const collectionIndex = vuexContext.getters.getCollections.findIndex((col) => col.id == moveToCollectionDto.sourceCollecionId);
+      const collection = vuexContext.getters.getCollections[collectionIndex];
+      vuexContext.commit('addCollection', { ...collection, fatherCollectionId: moveToCollectionDto.targetCollecionId });
+    } else if (moveToCollectionDto.sourcePictoId) {
+      const pictoIndex = vuexContext.getters.getPictos.findIndex((picto) => picto.id == moveToCollectionDto.sourcePictoId);
+      const picto = vuexContext.getters.getCollections[pictoIndex];
+      vuexContext.commit('addPicto', { ...picto, fatherCollectionId: moveToCollectionDto.targetCollecionId });
+    }
+
+  },
   resetCollections(vuexContext) {
     vuexContext.commit("resetCollections");
   },
