@@ -3,9 +3,11 @@
     <div
       :id="picto.id"
       :collection="picto.collection"
-      draggable="true"
+      :draggable="
+        !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
+      "
       v-on="
-        picto.collection
+        picto.collection && !publicMode && !sidebarMode && $route.query.isAdmin
           ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
           : {}
       "
