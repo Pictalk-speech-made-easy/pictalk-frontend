@@ -192,7 +192,7 @@ export default {
     };
     const res = await axios.get("/extras/amounts");
     if (res.status == 200) {
-      if (res.data.amount != 0) {
+      if (res.data?.amount && res.data?.amount != 0) {
         this.donationAmount = res.data.amount;
         this.donators = res.data.donators;
       } else {
@@ -284,26 +284,6 @@ export default {
       done: true,
       donationAmount: "",
       donators: [],
-    };
-  },
-  head() {
-    const i18nHead = this.$nuxtI18nHead({
-      addSeoAttributes: true,
-    });
-    return {
-      htmlAttrs: {
-        title: this.$t("TitleNews"),
-        ...i18nHead.htmlAttrs,
-      },
-      title: this.$t("TitleNews"),
-      meta: [
-        {
-          hid: "descriptionNews",
-          name: "description",
-          content: this.$t("DescriptionNews"),
-        },
-        ...i18nHead.meta,
-      ],
     };
   },
 };
