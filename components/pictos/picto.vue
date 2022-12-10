@@ -2,9 +2,12 @@
   <div class="pictowrapper">
     <div
       :id="picto.id"
+      v-longpress="complementHasLongPress"
       :collection="picto.collection"
       :draggable="
-        !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
+        !publicMode && !sidebarMode && $route.query.isAdmin && hasLongPress
+          ? true
+          : false
       "
       v-on="
         picto.collection && !publicMode && !sidebarMode && $route.query.isAdmin
@@ -12,11 +15,12 @@
           : {}
       "
       @dragstart="onDragStart"
-      :class="[
-        !picto.collection
-          ? 'containing notification pictobackground pictogram'
-          : 'containing notification pictobackground pictogram has-background',
-      ]"
+      @dragend="onDragEnd"
+      :class="{
+        'has-background': picto.collection,
+        isDraggable: hasLongPress,
+        'containing notification pictobackground pictogram': true,
+      }"
     >
       <div style="width: 100%">
         <img
@@ -179,6 +183,7 @@ export default {
   },
   data() {
     return {
+      hasLongPress: false,
       publishLoad: false,
     };
   },
@@ -199,6 +204,10 @@ export default {
     },
   },
   methods: {
+    complementHasLongPress() {
+      this.hasLongPress = true;
+      document.getElementById(this.picto.id).click();
+    },
     onDragOver(ev) {
       ev.preventDefault();
       ev.dataTransfer.dropEffect = "move";
@@ -208,6 +217,7 @@ export default {
     },
     async onDrop(ev) {
       ev.preventDefault();
+      this.hasLongPress = false;
       const targetId = ev.target.offsetParent.id;
       const data = JSON.parse(ev.dataTransfer.getData("text/plain"));
       console.log(
@@ -233,11 +243,12 @@ export default {
         });
       }
     },
+    onDragEnd(ev) {
+      this.hasLongPress = false;
+    },
     onDragStart(ev) {
       // Add different types of drag data
       ev.dataTransfer.dropEffect = "move";
-      console.log(ev.target);
-      console.log(ev.target.getAttribute("collection"));
       ev.dataTransfer.setData(
         "text/plain",
         JSON.stringify({
@@ -245,6 +256,7 @@ export default {
           isCollection: ev.target.getAttribute("collection"),
         })
       );
+      this.hasLongPress = false;
     },
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
       let collection = JSON.parse(
@@ -508,5 +520,35 @@ export default {
 }
 .pictowrapper {
   padding: 3px;
+}
+.isDraggable {
+  animation: isDraggableAnimation 2s ease 0s infinite normal forwards;
+}
+@keyframes isDraggableAnimation {
+  0%,
+  100% {
+    transform: translateX(0%);
+    transform-origin: 50% 50%;
+  }
+
+  15% {
+    transform: translateX(-30px) rotate(-6deg);
+  }
+
+  30% {
+    transform: translateX(15px) rotate(6deg);
+  }
+
+  45% {
+    transform: translateX(-15px) rotate(-3.6deg);
+  }
+
+  60% {
+    transform: translateX(9px) rotate(2.4deg);
+  }
+
+  75% {
+    transform: translateX(-6px) rotate(-1.2deg);
+  }
 }
 </style>
