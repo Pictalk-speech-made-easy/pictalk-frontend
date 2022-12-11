@@ -460,7 +460,11 @@ export const actions = {
     if (user.mailingList) {
       user.mailingList = JSON.parse(user.mailingList);
     }
-    user.notifications.forEach((notification) => notification.meaning = JSON.parse(notification.meaning))
+    user.notifications.forEach((notification) => {
+      if (notification.meaning != "") {
+        notification.meaning = JSON.parse(notification.meaning)
+      }
+    });
     vuexContext.commit("editUser", user);
   },
   async editUser(vuexContext, user) {
