@@ -75,7 +75,7 @@
             >
               <option
                 v-for="locale in $i18n.locales"
-                :key="locale.code + locale.iso"
+                :key="locale.code + locale.iso + Math.random()"
                 :value="locale.code"
               >
                 {{ getEmoji(locale.iso) }}
@@ -93,7 +93,7 @@
               <option
                 v-for="voice in loadedVoicesWithFilter"
                 :value="voice.voiceURI"
-                :key="voice.voiceURI + voice.name"
+                :key="voice.voiceURI + voice.name + Math.random()"
               >
                 {{ getEmoji(voice.lang) }} {{ voice.name }}
               </option>
