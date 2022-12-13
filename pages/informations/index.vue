@@ -66,7 +66,7 @@
               loading="lazy"
               src="https://media.licdn.com/dms/image/C4E03AQHDp97wzqJgfw/profile-displayphoto-shrink_200_200/0/1605956157273?e=1676505600&v=beta&t=uP13MeHuR8KARIyKzd35fWGZjpzd2cf2x3JnMDFxCJM"
               alt="Photo of Armand"
-            />
+            /> 
           </a>
           <h5 class="centered is-size-5 is-size-5-mobile"><b>Armand</b></h5>
           <div class="centered">{{ $t("ArmandInfos") }}</div>
