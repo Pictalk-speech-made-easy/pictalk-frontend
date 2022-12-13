@@ -30,4 +30,4 @@ jobs:
     - run: npm run build --if-present
     #- run: npm test
     #- run: npm run dev
-    - run: npn run generate
+    - run: npm run generate
