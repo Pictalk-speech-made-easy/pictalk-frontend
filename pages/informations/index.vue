@@ -64,7 +64,7 @@
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
-              src="https://avatars.githubusercontent.com/u/59603970"
+              src="https://media.licdn.com/dms/image/C4E03AQHDp97wzqJgfw/profile-displayphoto-shrink_200_200/0/1605956157273?e=1676505600&v=beta&t=uP13MeHuR8KARIyKzd35fWGZjpzd2cf2x3JnMDFxCJM"
               alt="Photo of Armand"
             />
           </a>
