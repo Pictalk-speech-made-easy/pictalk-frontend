@@ -205,8 +205,10 @@ export default {
   },
   methods: {
     complementHasLongPress() {
-      this.hasLongPress = true;
-      document.getElementById(this.picto.id).click();
+      if (this.$route.query.isAdmin && !this.publicMode && !this.sidebarMode) {
+        this.hasLongPress = true;
+        document.getElementById(this.picto.id).click();
+      }
     },
     onDragOver(ev) {
       ev.preventDefault();
