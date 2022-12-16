@@ -2,6 +2,7 @@ version: '3.7'
 services:
 
   frontend:
+    container_name: pictalk-frontend
     build:
       context: .
       dockerfile: ./Dockerfile_Vue
@@ -14,7 +15,7 @@ services:
     working_dir: /app
 
   database:
-    container_name: postgres-db
+    container_name: pictalk-database
     build:
       context: ../Pictalk-API-v2/
       dockerfile: Dockerfile_PostgreSQL
@@ -23,10 +24,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: pictalk
     volumes:
-      - data:/var/lib/postgresql/data
+      - pictalk-database:/var/lib/postgresql/data
     restart: always
 
   backend:
+    container_name: pictalk-backend
     build:
       context: ../Pictalk-API-v2/
       dockerfile: Dockerfile_Nest
@@ -42,7 +44,7 @@ services:
     working_dir: /app
 
   pgadmin:
-    container_name: pgadmin4
+    container_name: pictalk-pgadmin 
     image: dpage/pgadmin4:latest
     restart: always
     environment:
@@ -52,8 +54,8 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - pgadmin-data:/var/lib/pgadmin
+      - pictalk-pgadmin-data:/var/lib/pgadmin
 
 volumes:
-  data:
-  pgadmin-data:
+  pictalk-database:
+  pictalk-pgadmin-data:

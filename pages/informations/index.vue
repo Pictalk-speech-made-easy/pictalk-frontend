@@ -8,7 +8,7 @@
 
       <div class="columns is-multiline is-mobile is-centered">
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://github.com/Ratatinator97" target="blank">
+          <a href="https://www.linkedin.com/in/alexandros-sidiras-galante/" target="blank">
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -21,7 +21,7 @@
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://github.com/UnlikelyBuddy1" target="blank">
+          <a href="https://www.linkedin.com/in/adrianos-sidiras-galante-0a0779221/" target="blank">
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -34,7 +34,7 @@
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://github.com/clementbaroudi" target="blank">
+          <a href="https://www.linkedin.com/in/clement-baroudi/" target="blank">
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -47,7 +47,7 @@
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://github.com/GuillemineA" target="blank">
+          <a href="https://www.linkedin.com/in/guillemine-allavena-7ab385226/" target="blank">
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -60,7 +60,7 @@
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://github.com/Armand31" target="blank">
+          <a href="https://www.linkedin.com/in/armand-prioreschi/" target="blank">
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
