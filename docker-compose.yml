@@ -31,6 +31,8 @@ services:
       context: ../Pictalk-API-v2/
       dockerfile: Dockerfile_Nest
     image: pictalk-backend
+    environment:
+      DB_URL: database
     volumes:
       - ../Pictalk-API-v2/:/app # Useful for hot reload
       - /app/node_modules # Does not sync node_modules
