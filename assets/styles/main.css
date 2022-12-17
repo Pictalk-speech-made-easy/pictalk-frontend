@@ -186,7 +186,7 @@ div.dropdown-trigger {
   background-size: 0% 3px;
   background-repeat: no-repeat;
   background-position: left bottom;
-  transition: background-size 600ms ease;
+  transition: background-size 450ms;
 }
 .fancy-link:hover {
   background-size: 100% 3px;

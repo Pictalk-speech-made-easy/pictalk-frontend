@@ -21,24 +21,9 @@
         <div class="columns card">
           <div class="column subcard slot3">
             <b class="is-size-5 centeredtext">{{ $t("OurDonators") }}</b>
-            <div id="container">
-              <span id="text1"></span>
-              <span id="text2"></span>
+            <div class="donators-wrapper">
+              <p id="donator-name" class="donator-name">{{ donator }}</p>
             </div>
-            <svg id="filters">
-              <defs>
-                <filter id="threshold">
-                  <feColorMatrix
-                    in="SourceGraphic"
-                    type="matrix"
-                    values="1 0 0 0 0
-                  0 1 0 0 0
-                  0 0 1 0 0
-                  0 0 0 255 -100"
-                  />
-                </filter>
-              </defs>
-            </svg>
             <!--
             <div class="donators">
             <b v-for="(donator, index) in donators" :key="index" class="is-size-6 donator-name">{{donator}}</b>
@@ -199,84 +184,8 @@ export default {
         this.donationAmount = res.data.pastAmount;
         this.donators = res.data.pastDonators;
       }
+      this.cycleDonators();
     }
-    //by @DotOnion https://alvarotrigo.com/blog/css-text-animations/
-    const texts = this.donators ? this.donators : [];
-    console.log(texts);
-    const elts = {
-      text1: document.getElementById("text1"),
-      text2: document.getElementById("text2"),
-    };
-
-    const morphTime = 1;
-    const cooldownTime = 5;
-
-    let textIndex = texts.length - 1;
-    let time = new Date();
-    let morph = 0;
-    let cooldown = cooldownTime;
-
-    elts.text1.textContent = texts[textIndex % texts.length];
-    elts.text2.textContent = texts[(textIndex + 1) % texts.length];
-
-    function doMorph() {
-      morph -= cooldown;
-      cooldown = 0;
-
-      let fraction = morph / morphTime;
-
-      if (fraction > 1) {
-        cooldown = cooldownTime;
-        fraction = 1;
-      }
-
-      setMorph(fraction);
-    }
-
-    function setMorph(fraction) {
-      elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-      elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
-
-      fraction = 1 - fraction;
-      elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-      elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
-
-      elts.text1.textContent = texts[textIndex % texts.length];
-      elts.text2.textContent = texts[(textIndex + 1) % texts.length];
-    }
-
-    function doCooldown() {
-      morph = 0;
-
-      elts.text2.style.filter = "";
-      elts.text2.style.opacity = "100%";
-
-      elts.text1.style.filter = "";
-      elts.text1.style.opacity = "0%";
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      let newTime = new Date();
-      let shouldIncrementIndex = cooldown > 0;
-      let dt = (newTime - time) / 1000;
-      time = newTime;
-
-      cooldown -= dt;
-
-      if (cooldown <= 0) {
-        if (shouldIncrementIndex) {
-          textIndex++;
-        }
-
-        doMorph();
-      } else {
-        doCooldown();
-      }
-    }
-
-    animate();
   },
   data() {
     return {
@@ -284,7 +193,17 @@ export default {
       done: true,
       donationAmount: "",
       donators: [],
+      donator: "",
     };
+  },
+  methods: {
+    cycleDonators() {
+      if (this.donators.length > 0) {
+        this.donator = this.donators.shift();
+        this.donators.push(this.donator);
+      }
+      setTimeout(this.cycleDonators, 5000);
+    },
   },
 };
 </script>
@@ -418,24 +337,28 @@ body {
   filter: url(#threshold) blur(0.6px);
 }
 
-#text1,
-#text2 {
-  position: absolute;
+.donator-name {
   width: 100%;
   display: inline-block;
   font-family: "Raleway", sans-serif;
   font-weight: 1000;
-  font-size: clamp(1em, 4vw, 4em);
+  font-size: min(2.5em, 5vmax);
   text-align: center;
   user-select: none;
   color: #ff5757;
+  filter: blur(0.6px);
+}
+.donators-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 .donation-img {
   transition: 300ms ease;
 }
 .donation-img:hover {
   filter: brightness(0.85);
-  scale: 0.85;
+  scale: 0.92;
 }
 
 @media screen and (max-width: 768px) {
