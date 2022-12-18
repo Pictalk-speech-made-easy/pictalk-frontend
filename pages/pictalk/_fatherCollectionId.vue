@@ -111,8 +111,8 @@
     </div>
     <div class="contenant">
       <pictoBar
-        v-if="loadSpeech.length != 0"
-        class="pictobar sidebar"
+        :style="loadSpeech.length != 0 ? 'bottom: 2px' : 'bottom: -8vh'"
+        class="pictobar sidebar slide-up"
         :pictos="loadSpeech"
         :collectionColor="collectionColor"
       />
@@ -535,6 +535,9 @@ export default {
 };
 </script>
 <style scoped>
+.slide-up {
+  transition: 200ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+}
 .pictobar {
   bottom: 2px;
   margin: 0 auto;
