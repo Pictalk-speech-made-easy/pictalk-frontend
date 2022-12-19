@@ -104,7 +104,7 @@
 					<h2 class="title">{{ $t('Communicate')}}</h2>
 					<div class="columns">
 						<div class="column">
-					<p class="is-size-5 notification column" align="justify">
+					<p class="is-size-5 notification" align="justify">
 						<b-image style="aspect-ratio: 16/9" lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
         :placeholder="require('@/assets/IRL.png').placeholder"
@@ -115,7 +115,7 @@
 					</div>
 					<br>
 					<div class="column">
-					<p class="is-size-5 notification " align="justify">
+					<p class="is-size-5 notification" align="justify">
 						<b-image style="aspect-ratio: 5/11; width: 25%;" class="center" lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/whatsapp.png').srcSet"
         :placeholder="require('@/assets/whatsapp.png').placeholder"
@@ -362,5 +362,10 @@ export default {
   background-color: #f5f5f5;
   border-radius: 6px;
   padding: 0.15em;
+}
+.notification {
+  color: #111;
+  background-color: #f0f4fa;
+  border-radius: 12px;
 }
 </style>

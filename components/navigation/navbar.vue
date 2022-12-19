@@ -5,11 +5,7 @@
         <b-navbar-item
           tag="nuxt-link"
           to="/"
-          style="
-            padding: 0%;
-            padding-right: 1vw;
-            padding-left: 1vw;
-          "
+          style="padding: 0%; padding-right: 1vw; padding-left: 1vw"
         >
           <img
             src="~/assets/logo_compressed.png"
@@ -21,28 +17,28 @@
       </template>
       <template slot="start">
         <b-navbar-item id="index" tag="nuxt-link" to="/" :class="navtabs.index">
-          {{ $t("Home") }}</b-navbar-item
+          <b class="bolder">{{ $t("Home") }}</b></b-navbar-item
         >
         <b-navbar-item
           id="news"
           tag="nuxt-link"
           to="/news"
           :class="navtabs.news"
-          >{{ $t("News") }} &#127881;</b-navbar-item
+          ><b class="bolder">{{ $t("News") }}</b> &#127881;</b-navbar-item
         >
         <b-navbar-item
           id="informations"
           tag="nuxt-link"
           to="/informations"
           :class="navtabs.informations"
-          >{{ $t("Informations") }} 👐</b-navbar-item
+          ><b class="bolder">{{ $t("Informations") }}</b> 👐</b-navbar-item
         >
         <b-navbar-item
           id="tutorials"
           tag="nuxt-link"
           to="/tutorials"
           :class="navtabs.tutorials"
-          >{{ $t("Tutorial") }} 🚀</b-navbar-item
+          ><b class="bolder">{{ $t("Tutorial") }}</b> 🚀</b-navbar-item
         >
       </template>
       <template slot="end">
@@ -57,6 +53,7 @@
         <b-navbar-item tag="div">
           <div class="buttons bottomOffset">
             <b-button
+              class="bolder"
               v-if="!isLogged"
               @click="openSignInModal()"
               type="is-primary"
@@ -64,6 +61,7 @@
             >
             <b-button
               v-else
+              class="bolder"
               tag="nuxt-link"
               :to="pictalkHome"
               type="is-primary"
@@ -71,6 +69,7 @@
             ></b-button>
 
             <b-button
+              class="bolder"
               v-if="!isLogged"
               @click="openSignUpModal()"
               type="is-success"
@@ -84,6 +83,7 @@
               @click="onLogout"
             />
             <b-button
+              class="bolder"
               outlined
               v-if="!isLogged"
               tag="nuxt-link"
@@ -205,12 +205,16 @@ export default {
 }
 .unfocus:hover {
   filter: grayscale(0);
-  color: #ff5757;
+  color: #ee0000;
 }
 .focus {
   filter: grayscale(0);
-  color: #ff5757;
-  background-color: #fafafa;
+  color: #ee0000;
+  border: solid #ff5757;
+  border-width: 0px 0px 2px 0px;
+}
+.bolder {
+  font-weight: 600;
 }
 </style>
 
