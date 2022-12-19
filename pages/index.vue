@@ -84,11 +84,11 @@
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">{{ $t('HomeTitle1')}}</h1>
-					<p class="is-size-5 notification" align="justify">
+					<p class="is-size-5 notification spacing" align="justify">
 						{{ $t('HomeText1')}}
 					</p>
 					<h1 class="title">{{ $t('HomeTitle2')}}</h1>
-					<p class="is-size-5 notification" align="justify">
+					<p class="is-size-5 notification spacing" align="justify">
 						{{ $t('HomeText2')}}
 					</p>
 					<h1 class="title">{{ $t('HomeTitle3')}}</h1>

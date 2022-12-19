@@ -214,3 +214,6 @@ div.dropdown-trigger {
 div.roundedbtn > span.select > select {
   border-radius: 24px;
 }
+.spacing{
+  margin-bottom: 4em !important;
+}
