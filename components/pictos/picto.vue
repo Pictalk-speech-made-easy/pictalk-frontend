@@ -1,24 +1,28 @@
 <template>
-  <div class="pictowrapper">
+  <div :class="{ pictowrapper: true, bigger: dragEvent == 0 }">
+    <div
+      :draggable="
+        !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
+      "
+      @dragstart="onDragStart"
+      @dragend="onDragEnd"
+      class="dragbutton"
+    >
+      <b-icon icon="drag"></b-icon>
+    </div>
     <div
       :id="picto.id"
       v-longpress="complementHasLongPress"
       :collection="picto.collection"
-      :draggable="
-        !publicMode && !sidebarMode && $route.query.isAdmin && hasLongPress
-          ? true
-          : false
-      "
       v-on="
         picto.collection && !publicMode && !sidebarMode && $route.query.isAdmin
           ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
           : {}
       "
-      @dragstart="onDragStart"
-      @dragend="onDragEnd"
       :class="{
         'has-background': picto.collection,
-        isDraggable: hasLongPress,
+        shaking: hasLongPress,
+        'drop-area': dragEvent && picto.collection,
         'containing notification pictobackground pictogram': true,
       }"
     >
@@ -181,10 +185,16 @@ export default {
   components: {
     PictoSteps,
   },
+  watch: {
+    hasLongPress: function (actual, prev) {
+      document.getElementById(this.picto.id).click();
+    },
+  },
   data() {
     return {
       hasLongPress: false,
       publishLoad: false,
+      dragImage: undefined,
     };
   },
   props: {
@@ -202,20 +212,34 @@ export default {
       required: false,
       default: () => false,
     },
+    dragEvent: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     complementHasLongPress() {
       if (this.$route.query.isAdmin && !this.publicMode && !this.sidebarMode) {
         this.hasLongPress = true;
-        document.getElementById(this.picto.id).click();
       }
     },
     onDragOver(ev) {
       ev.preventDefault();
+      //set transfer image little
+      this.dragImage = document.getElementById(this.dragEvent);
+      console.log(this.dragImage);
+      document.getElementById(this.picto.id).classList.add("dragOverZone");
+
+      this.dragImage.classList.add("dragOverElement");
+      ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
       ev.dataTransfer.dropEffect = "move";
     },
     onDragLeave(ev) {
       ev.preventDefault();
+      document.getElementById(this.picto.id).classList.remove("dragOverZone");
+      this.dragImage = document.getElementById(this.dragEvent);
+      this.dragImage.classList.remove("dragOverElement");
+      ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
     async onDrop(ev) {
       ev.preventDefault();
@@ -246,18 +270,24 @@ export default {
       }
     },
     onDragEnd(ev) {
+      this.$emit("onDragEvent");
+      ev.dataTransfer.clearData("text/plain");
       this.hasLongPress = false;
     },
     onDragStart(ev) {
+      console.log(ev);
       // Add different types of drag data
+      this.$emit("onDragEvent", this.picto.id);
       ev.dataTransfer.dropEffect = "move";
       ev.dataTransfer.setData(
         "text/plain",
         JSON.stringify({
-          id: ev.target.id,
-          isCollection: ev.target.getAttribute("collection"),
+          id: this.picto.id,
+          isCollection: this.picto.collection,
         })
       );
+      this.dragImage = ev.target.parentElement.lastChild;
+      ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
       this.hasLongPress = false;
     },
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
@@ -522,8 +552,9 @@ export default {
 }
 .pictowrapper {
   padding: 3px;
+  position: relative;
 }
-.isDraggable {
+.shaking {
   animation: isDraggableAnimation 2s ease 0s infinite normal forwards;
 }
 @keyframes isDraggableAnimation {
@@ -552,5 +583,35 @@ export default {
   75% {
     transform: translateX(-6px) rotate(-1.2deg);
   }
+}
+.dragbutton {
+  top: 0;
+  right: 0;
+  position: absolute;
+  display: block;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 1px solid rgb(0, 115, 255);
+  background-color: aqua;
+  z-index: 1;
+}
+
+.drop-area {
+  box-shadow: 0 0 50px 15px #48abe0;
+}
+.bigger {
+  transition: transform 0.2s; /* Animation */
+}
+.bigger:hover {
+  transform: scale(1.02);
+}
+.dragOverZone {
+  transition: transform 0.2s; /* Animation */
+  transform: scale(1.1);
+}
+.dragOverElement {
+  transition: transform 0.2s; /* Animation */
+  transform: scale(0.9);
 }
 </style>
