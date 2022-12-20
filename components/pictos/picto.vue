@@ -18,8 +18,9 @@
       <b-icon icon="drag"></b-icon>
     </div>
     <div
+      @oncontextmenu="preventLongTap"
+      @taphold="preventLongTap"
       :id="picto.id"
-      v-longpress="complementHasLongPress"
       :collection="picto.collection"
       v-on="
         picto.collection && !publicMode && !sidebarMode && $route.query.isAdmin
@@ -28,15 +29,16 @@
       "
       :class="{
         'has-background': picto.collection,
-        shaking: hasLongPress,
         'drop-area': dragEvent && picto.collection,
-        'containing notification pictobackground pictogram': true,
+        'containing notification pictobackground pictogram preventDialog': true,
       }"
     >
       <div style="width: 100%">
         <img
+          @oncontextmenu="preventLongTap"
+          @taphold="preventLongTap"
           draggable="false"
-          class="image"
+          class="image preventDialog"
           :src="picto.image"
           :alt="picto.meaning[getUserLang]"
           @click="addToSpeech()"
@@ -192,15 +194,9 @@ export default {
   components: {
     PictoSteps,
   },
-  watch: {
-    hasLongPress: function (actual, prev) {
-      console.log("");
-      document.getElementById(this.picto.id).click();
-    },
-  },
+  watch: {},
   data() {
     return {
-      hasLongPress: false,
       publishLoad: false,
       dragImage: undefined,
     };
@@ -226,10 +222,10 @@ export default {
     },
   },
   methods: {
-    complementHasLongPress() {
-      if (this.$route.query.isAdmin && !this.publicMode && !this.sidebarMode) {
-        this.hasLongPress = true;
-      }
+    preventLongTap(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      return false;
     },
     onDragOver(ev) {
       ev.preventDefault();
@@ -251,7 +247,6 @@ export default {
     },
     async onDrop(ev) {
       ev.preventDefault();
-      this.hasLongPress = false;
       const targetId = ev.target.offsetParent.id;
       const data = JSON.parse(ev.dataTransfer.getData("text/plain"));
       console.log(
@@ -280,7 +275,6 @@ export default {
     onDragEnd(ev) {
       this.$emit("onDragEvent");
       ev.dataTransfer.clearData("text/plain");
-      this.hasLongPress = false;
     },
     onDragStart(ev) {
       console.log(ev);
@@ -296,7 +290,6 @@ export default {
       );
       this.dragImage = ev.target.parentElement.lastChild;
       ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
-      this.hasLongPress = false;
     },
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
       let collection = JSON.parse(
@@ -621,5 +614,8 @@ export default {
 .dragOverElement {
   transition: transform 0.2s; /* Animation */
   transform: scale(0.9);
+}
+.preventDialog {
+  -webkit-touch-callout: none !important;
 }
 </style>
