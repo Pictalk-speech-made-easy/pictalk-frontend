@@ -1,6 +1,13 @@
 <template>
-  <div :class="{ pictowrapper: true, bigger: dragEvent == 0 }">
+  <div
+    :class="{
+      pictowrapper: true,
+      bigger:
+        dragEvent == 0 && !publicMode && !sidebarMode && $route.query.isAdmin,
+    }"
+  >
     <div
+      v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
       :draggable="
         !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
       "
@@ -230,16 +237,16 @@ export default {
       console.log(this.dragImage);
       document.getElementById(this.picto.id).classList.add("dragOverZone");
 
-      this.dragImage.classList.add("dragOverElement");
-      ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
+      //this.dragImage.classList.add("dragOverElement");
+      //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
       ev.dataTransfer.dropEffect = "move";
     },
     onDragLeave(ev) {
       ev.preventDefault();
       document.getElementById(this.picto.id).classList.remove("dragOverZone");
       this.dragImage = document.getElementById(this.dragEvent);
-      this.dragImage.classList.remove("dragOverElement");
-      ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
+      //this.dragImage.classList.remove("dragOverElement");
+      //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
     async onDrop(ev) {
       ev.preventDefault();
@@ -254,8 +261,8 @@ export default {
       try {
         await this.$store.dispatch("moveToCollection", {
           moveToCollectionDto: {
-            ...(!data.isCollection && { sourcePictoId: data.id }),
-            ...(data.isCollection && { sourceCollecionId: data.id }),
+            ...(!data.isCollection && { sourcePictoId: String(data.id) }),
+            ...(data.isCollection && { sourceCollecionId: String(data.id) }),
             targetCollecionId: targetId,
           },
           fatherCollectionId: parseInt(this.$route.params.fatherCollectionId),
