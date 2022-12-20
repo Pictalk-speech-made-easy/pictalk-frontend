@@ -194,6 +194,7 @@ export default {
   },
   watch: {
     hasLongPress: function (actual, prev) {
+      console.log("");
       document.getElementById(this.picto.id).click();
     },
   },
