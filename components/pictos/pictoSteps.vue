@@ -909,7 +909,7 @@ export default {
       this.page = 1;
       let promises = [];
       try {
-        const arasaacData = axios
+        let arasaacData = axios
           .get(
             `https://api.arasaac.org/api/pictograms/${this.getUserLang}/search/${pictoSearch}`
           )
@@ -929,28 +929,27 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-          });
-
-        const arasaacDataSymbo = axios
-          .get(
-            `https://symbotalkapiv1.azurewebsites.net/search/?name=${pictoSearch}&lang=${this.getUserLang}&repo=arasaac&limit=10`
-          )
-          .then((arasaacDataSymbo) => {
-            arasaacDataSymbo = arasaacDataSymbo.data;
-            if (arasaacDataSymbo != "no result") {
-              for (let i = 0; i < arasaacDataSymbo?.length; i++) {
-                this.images.unshift({
-                  src: arasaacDataSymbo[i].image_url,
-                  title: arasaacDataSymbo[i].translations[0].tName,
-                  download: arasaacDataSymbo[i].image_url,
-                  source: "arasaac-symbotalk",
-                  author: arasaacDataSymbo[i].author,
-                });
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(error);
+            arasaacData = axios
+              .get(
+                `https://symbotalkapiv1.azurewebsites.net/search/?name=${pictoSearch}&lang=${this.getUserLang}&repo=arasaac&limit=10`
+              )
+              .then((arasaacData) => {
+                arasaacData = arasaacData.data;
+                if (arasaacData != "no result") {
+                  for (let i = 0; i < arasaacData?.length; i++) {
+                    this.images.unshift({
+                      src: arasaacData[i].image_url,
+                      title: arasaacData[i].translations[0].tName,
+                      download: arasaacData[i].image_url,
+                      source: "arasaac-symbotalk",
+                      author: arasaacData[i].author,
+                    });
+                  }
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           });
 
         const scleraData = axios
@@ -1020,7 +1019,7 @@ export default {
           });
 
         promises.push(arasaacData);
-        promises.push(arasaacDataSymbo);
+        promises.push(arasaacData);
         promises.push(scleraData);
         promises.push(tawasolData);
         promises.push(mulberryData);
