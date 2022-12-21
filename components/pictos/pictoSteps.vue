@@ -65,9 +65,9 @@
                   column
                   is-one-third-mobile
                   is-one-quarter-tablet
-                  is-one-quarter-desktop
-                  is-one-quarter-widescreen
-                  is-one-quarter-fullhd
+                  is-2-desktop
+                  is-2-widescreen
+                  is-2-fullhd
                   containing
                   has-background
                 "
@@ -561,7 +561,7 @@ export default {
   data() {
     return {
       page: 1,
-      imgLimit: 12,
+      imgLimit: 24,
       pictoSearch: "",
       activeStep: 0,
       languages: [],
@@ -916,7 +916,7 @@ export default {
           .then((arasaacData) => {
             arasaacData = arasaacData.data;
             for (let i = 0; i < arasaacData?.length; i++) {
-              this.images.push({
+              this.images.unshift({
                 src: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
                 title: arasaacData[i]["keywords"][0]
                   ? arasaacData[i]["keywords"][0]["keyword"]
@@ -925,6 +925,28 @@ export default {
                 source: "arasaac",
                 author: "",
               });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        const arasaacDataSymbo = axios
+          .get(
+            `https://symbotalkapiv1.azurewebsites.net/search/?name=${pictoSearch}&lang=${this.getUserLang}&repo=arasaac&limit=10`
+          )
+          .then((arasaacDataSymbo) => {
+            arasaacDataSymbo = arasaacDataSymbo.data;
+            if (arasaacDataSymbo != "no result") {
+              for (let i = 0; i < arasaacDataSymbo?.length; i++) {
+                this.images.unshift({
+                  src: arasaacDataSymbo[i].image_url,
+                  title: arasaacDataSymbo[i].translations[0].tName,
+                  download: arasaacDataSymbo[i].image_url,
+                  source: "arasaac-symbotalk",
+                  author: arasaacDataSymbo[i].author,
+                });
+              }
             }
           })
           .catch((error) => {
@@ -998,6 +1020,7 @@ export default {
           });
 
         promises.push(arasaacData);
+        promises.push(arasaacDataSymbo);
         promises.push(scleraData);
         promises.push(tawasolData);
         promises.push(mulberryData);
