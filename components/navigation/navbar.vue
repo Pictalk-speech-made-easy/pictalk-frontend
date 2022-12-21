@@ -216,5 +216,17 @@ export default {
 .bolder {
   font-weight: 600;
 }
+.buttons {
+  gap: 5px;
+}
+.buttons > .button {
+  margin-right: 0.15rem !important;
+}
+
+@media screen and (max-width: 1215px) {
+  .focus {
+    border-width: 0px 0px 0px 6px;
+  }
+}
 </style>
 

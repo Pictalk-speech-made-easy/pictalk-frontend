@@ -2,7 +2,7 @@
 	<div>
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
 		<div class="container is-max-widescreen">
-			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" indicator indicator-position="is-top">
+			<b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top" :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" >
         <b-carousel-item class="containing">
             <b-image style="aspect-ratio: 16/9;" alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
@@ -247,12 +247,12 @@ export default {
         this.carouselAutoplay = true;
         this.ended = true;
       });
-      video.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        video.muted = !video.muted;
+      video.addEventListener("play", () => {
+        this.carouselAutoplay = false;
       });
-
+      video.addEventListener("pause", () => {
+        this.carouselAutoplay = true;
+      });
       let observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -364,8 +364,8 @@ export default {
   padding: 0.15em;
 }
 .notification {
-  color: #111;
-  background-color: #f0f4fa;
+  color: #4a4a4a;
+  background-color: #edf1f5;
   border-radius: 12px;
 }
 </style>

@@ -215,5 +215,10 @@ div.roundedbtn > span.select > select {
   border-radius: 24px;
 }
 .spacing{
-  margin-bottom: 2em !important;
+  margin-bottom: 2.5rem !important;
+}
+@media screen and (max-width: 1023px) {
+  .slightly-rounded {
+    border-radius: 0px;
+  }
 }

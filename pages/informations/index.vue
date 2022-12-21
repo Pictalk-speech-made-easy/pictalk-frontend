@@ -8,7 +8,10 @@
 
       <div class="columns is-multiline is-mobile is-centered">
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://www.linkedin.com/in/alexandros-sidiras-galante/" target="blank">
+          <a
+            href="https://www.linkedin.com/in/alexandros-sidiras-galante/"
+            target="blank"
+          >
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -21,7 +24,10 @@
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://www.linkedin.com/in/adrianos-sidiras-galante-0a0779221/" target="blank">
+          <a
+            href="https://www.linkedin.com/in/adrianos-sidiras-galante-0a0779221/"
+            target="blank"
+          >
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -47,7 +53,10 @@
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://www.linkedin.com/in/guillemine-allavena-7ab385226/" target="blank">
+          <a
+            href="https://www.linkedin.com/in/guillemine-allavena-7ab385226/"
+            target="blank"
+          >
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -60,20 +69,26 @@
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://www.linkedin.com/in/armand-prioreschi/" target="blank">
+          <a
+            href="https://www.linkedin.com/in/armand-prioreschi/"
+            target="blank"
+          >
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
               src="https://media.licdn.com/dms/image/C4E03AQHDp97wzqJgfw/profile-displayphoto-shrink_200_200/0/1605956157273?e=1676505600&v=beta&t=uP13MeHuR8KARIyKzd35fWGZjpzd2cf2x3JnMDFxCJM"
               alt="Photo of Armand"
-            /> 
+            />
           </a>
           <h5 class="centered is-size-5 is-size-5-mobile"><b>Armand</b></h5>
           <div class="centered">{{ $t("ArmandInfos") }}</div>
         </div>
 
         <div class="column is-6-mobile is-6-tablette profile">
-          <a href="https://ch4rlin3chamois32.wixsite.com/monportfolio" target="blank">
+          <a
+            href="https://ch4rlin3chamois32.wixsite.com/monportfolio"
+            target="blank"
+          >
             <img
               class="subcard-img fit-img portrait"
               loading="lazy"
@@ -229,22 +244,21 @@ export default {
         {
           title: "Fondation INSA Lyon",
           description: this.$t("INSALyonSponsoring"),
-          image: require("@/assets/logo-insa_lyon_foundation.png").srcSet,
-          placeholder: require("@/assets/logo-insa_lyon_foundation.png")
-            .placeholder,
+          image: require("@/assets/InsaFondation.png").srcSet,
+          placeholder: require("@/assets/InsaFondation.png").placeholder,
           url: "https://fondation.insa-lyon.fr/",
         },
         {
           title: "Digital Ocean",
           description: this.$t("DigitalOceanSponsoring"),
-          image: require("@/assets/logo-digitalocean.png").srcSet,
-          placeholder: require("@/assets/logo-digitalocean.png").placeholder,
+          image: require("@/assets/DigitalOcean.png").srcSet,
+          placeholder: require("@/assets/DigitalOcean.png").placeholder,
           url: "https://www.digitalocean.com/",
         },
         {
           title: "Adapei 69",
-          image: require("@/assets/logo-ADAPEI.jpg").srcSet,
-          placeholder: require("@/assets/logo-ADAPEI.jpg").placeholder,
+          image: require("@/assets/ADAPEI.png").srcSet,
+          placeholder: require("@/assets/ADAPEI.png").placeholder,
           description: this.$t("Adapei69Sponsoring"),
           url: "https://www.adapei69.fr/",
         },
@@ -310,6 +324,7 @@ a {
 .card {
   margin: 2vw;
   border-radius: 12px;
+  background-color: #edf1f5;
 }
 
 .subcard-img {

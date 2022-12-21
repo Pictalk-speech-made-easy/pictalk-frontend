@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="section">
-      <div>
+      <div class="container">
         <h1 class="title">{{ $t("News") }}</h1>
         <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
         <b-skeleton animated width="80%" :active="!newsCharged"></b-skeleton>
@@ -45,7 +45,7 @@
               href="https://www.helloasso.com/associations/pictalk-speech-made-easy/formulaires/1"
             >
               <img
-                :srcset="require('@/assets/donation.webp').srcSet"
+                :srcset="require('@/assets/donation.png').srcSet"
                 class="subcard-img donation-img"
                 loading="lazy"
               />
@@ -81,13 +81,13 @@
             <div
               class="subcard-img placeholder"
               :style="`background-image: url(${
-                require('@/assets/bank.jpg').placeholder
+                require('@/assets/bank.png').placeholder
               })`"
             >
               <img
                 class="subcard-img"
                 loading="lazy"
-                :srcset="require('@/assets/bank.jpg').srcSet"
+                :srcset="require('@/assets/bank.png').srcSet"
                 alt="drawing of a bank, to illustrate the fees Pictalk pays to have an open bank account and be able to receive donations"
               />
             </div>
@@ -128,13 +128,13 @@
             <div
               class="subcard-img bigger placeholder"
               :style="`background-image: url(${
-                require('@/assets/learn.webp').placeholder
+                require('@/assets/learn.png').placeholder
               })`"
             >
               <img
                 loading="lazy"
                 alt="drawing of woman teaching letters to a child"
-                :srcset="require('@/assets/learn.webp').srcSet"
+                :srcset="require('@/assets/learn.png').srcSet"
                 class="subcard-img bigger"
               />
             </div>
@@ -258,6 +258,7 @@ export default {
 .card {
   margin: 2vw;
   border-radius: 12px;
+  background-color: #edf1f5;
 }
 
 .subcard-img {
@@ -302,7 +303,7 @@ export default {
 .iframe {
   display: flex;
   margin: 0 auto;
-  width: 85%;
+  width: 100%;
   height: 57.5vh;
   background-color: #f5f5f5;
 }
