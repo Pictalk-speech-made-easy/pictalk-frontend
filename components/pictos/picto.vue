@@ -268,7 +268,7 @@ export default {
       if (!this.timer && this.isDropZone) {
         this.timer = setTimeout(() => {
           this.addToSpeech();
-        }, 3000);
+        }, 1000);
       }
       if (this.picto.id != this.dragndropId && this.isDropZone) {
         document.getElementById(this.picto.id)?.classList?.add("dragOverZone");
@@ -656,9 +656,7 @@ export default {
 .bigger {
   transition: transform 0.2s; /* Animation */
 }
-.bigger:hover {
-  transform: scale(1.02);
-}
+
 .dragOverZone {
   transition: transform 0.2s; /* Animation */
   transform: scale(1.1);

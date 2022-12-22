@@ -356,6 +356,15 @@ export default {
       }
     });
   },
+  created() {
+    this.$nuxt.$on("removeSpeech", () => {
+      if (
+        this.$route.params.fatherCollectionId != this.$store.getters.getRootId
+      ) {
+        this.removeSpeech(false);
+      }
+    });
+  },
   components: {
     miniPicto: miniPicto,
   },

@@ -35,6 +35,13 @@
       ></div>
     </div>
 
+    <div
+      class="drag-return"
+      v-on="{ dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }"
+    ></div>
+    <div id="return" class="return">
+      <b-icon icon="chevron-left" class="return-icon" />
+    </div>
     <div class="filler"></div>
   </div>
 </template>
@@ -49,9 +56,33 @@ export default {
     picto,
   },
   data() {
-    return {};
+    return {
+      timer: 0,
+    };
   },
-  methods: {},
+  methods: {
+    onDragOver(ev) {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = "move";
+      const goBack = document.getElementById("return");
+      goBack.style.transform = "scale(1.5)";
+      goBack.style.left = "5vw";
+      if (!this.timer) {
+        this.timer = setTimeout(() => {
+          console.log("remitting nuxt event");
+          $nuxt.$emit("removeSpeech");
+        }, 1000);
+      }
+    },
+    onDragLeave(ev) {
+      ev.preventDefault();
+      this.timer = clearTimeout(this.timer);
+      const goBack = document.getElementById("return");
+      goBack.style.transform = "scale(0)";
+      goBack.style.left = "10px";
+    },
+    onDrop(ev) {},
+  },
   props: {
     pictos: {
       type: Array,
@@ -73,9 +104,18 @@ export default {
       default: () => true,
     },
   },
+
   computed: {
     getFilteredPictoList() {
       return this.pictos.filter((picto) => picto?.meaning[this.getUserLang]);
+    },
+    isDropZone() {
+      return (
+        this.dragndropId && (this.isEditor || this.isToUser) && this.isOnline
+      );
+    },
+    dragndropId() {
+      return this.$store.getters.getDragndrop?.draggedPictoId;
     },
   },
 };
@@ -87,5 +127,32 @@ export default {
 }
 .filler {
   padding-bottom: 30vh;
+}
+.drag-return {
+  position: fixed;
+  width: 15px;
+  height: calc(100vh - 52px);
+  left: 0px;
+  top: 52px;
+  background: #00000000;
+}
+.return {
+  position: fixed;
+  width: 5vmax;
+  height: 5vmax;
+  top: 50vh;
+  left: 10px;
+  background-color: #ff5757;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 500ms ease;
+  transform: scale(0);
+  box-shadow: 2px 2px 7px #00000090;
+}
+.return-icon {
+  color: white;
+  font-size: xxx-large;
 }
 </style>
