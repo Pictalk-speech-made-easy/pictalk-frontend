@@ -3,7 +3,7 @@
     :class="{
       pictowrapper: true,
       bigger:
-        dragEvent == 0 && !publicMode && !sidebarMode && $route.query.isAdmin,
+        !dragndropId && !publicMode && !sidebarMode && $route.query.isAdmin,
     }"
   >
     <div
@@ -23,13 +23,17 @@
       :id="picto.id"
       :collection="picto.collection"
       v-on="
-        picto.collection && !publicMode && !sidebarMode && $route.query.isAdmin
+        picto.collection &&
+        !publicMode &&
+        !sidebarMode &&
+        $route.query.isAdmin &&
+        isDropZone
           ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
           : {}
       "
       :class="{
         'has-background': picto.collection,
-        'drop-area': dragEvent && picto.collection,
+        'drop-area': isDropZone,
         'containing notification pictobackground pictogram preventDialog': true,
       }"
     >
@@ -197,6 +201,7 @@ export default {
   watch: {},
   data() {
     return {
+      timer: 0,
       publishLoad: false,
       dragImage: undefined,
     };
@@ -216,12 +221,42 @@ export default {
       required: false,
       default: () => false,
     },
-    dragEvent: {
-      type: Number,
-      required: true,
-    },
   },
   methods: {
+    async moveToCollection(targetId, data) {
+      if (data.draggedPictoId != targetId) {
+        try {
+          console.log(
+            `moving ${data.draggedPictoId} ${data.isCollection} is  into ${targetId}`
+          );
+          await this.$store.dispatch("moveToCollection", {
+            moveToCollectionDto: {
+              ...(!data.isCollection && {
+                sourcePictoId: Number(data.draggedPictoId),
+              }),
+              ...(data.isCollection && {
+                sourceCollectionId: Number(data.draggedPictoId),
+              }),
+              targetCollectionId: Number(targetId),
+            },
+            fatherCollectionId: Number(data.fatherCollectionId),
+          });
+          $nuxt.$emit("resyncPictoList");
+        } catch (error) {
+          if (error?.response?.status == 401) {
+            const notif = this.$buefy.toast.open({
+              message: this.$t("NotAuthorized"),
+              type: "is-danger",
+            });
+          } else if (error?.response?.status == 500) {
+            const notif = this.$buefy.toast.open({
+              message: this.$t("SomethingBadHappened"),
+              type: "is-danger",
+            });
+          }
+        }
+      }
+    },
     preventLongTap(ev) {
       ev.preventDefault();
       ev.stopPropagation();
@@ -230,56 +265,61 @@ export default {
     onDragOver(ev) {
       ev.preventDefault();
       //set transfer image little
-      this.dragImage = document.getElementById(this.dragEvent);
-      console.log(this.dragImage);
-      document.getElementById(this.picto.id).classList.add("dragOverZone");
+      if (!this.timer && this.isDropZone) {
+        this.timer = setTimeout(() => {
+          this.addToSpeech();
+        }, 3000);
+      }
+      if (this.picto.id != this.dragndropId && this.isDropZone) {
+        document.getElementById(this.picto.id)?.classList?.add("dragOverZone");
+      }
 
+      // this.dragImage = document.getElementById(this.dragEvent);
+      // console.log(this.dragImage);
       //this.dragImage.classList.add("dragOverElement");
       //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
       ev.dataTransfer.dropEffect = "move";
     },
     onDragLeave(ev) {
       ev.preventDefault();
-      document.getElementById(this.picto.id).classList.remove("dragOverZone");
-      this.dragImage = document.getElementById(this.dragEvent);
+      this.timer = clearTimeout(this.timer);
+      if (this.picto.id != this.dragndropId && this.isDropZone) {
+        document
+          .getElementById(this.picto.id)
+          ?.classList?.remove("dragOverZone");
+      }
+      this.dragImage = document.getElementById(this.dragndropId);
       //this.dragImage.classList.remove("dragOverElement");
       //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
     async onDrop(ev) {
       ev.preventDefault();
       const targetId = ev.target.offsetParent.id;
-      const data = JSON.parse(ev.dataTransfer.getData("text/plain"));
-      console.log(
-        `moving ${data.id} ${data.isCollection} is  into ${targetId}`
-      );
-      console.log("onDrop");
       // Call the store action
-      try {
-        await this.$store.dispatch("moveToCollection", {
-          moveToCollectionDto: {
-            ...(!data.isCollection && { sourcePictoId: String(data.id) }),
-            ...(data.isCollection && { sourceCollecionId: String(data.id) }),
-            targetCollecionId: targetId,
-          },
-          fatherCollectionId: parseInt(this.$route.params.fatherCollectionId),
-        });
-        $nuxt.$emit("resyncPictoList");
-      } catch (e) {
-        console.log(e);
-        const notif = this.$buefy.toast.open({
-          message: this.$t("PublicCopy"),
-          type: "is-danger",
-        });
-      }
+      await this.moveToCollection(targetId, this.$store.getters.getDragndrop);
     },
-    onDragEnd(ev) {
-      this.$emit("onDragEvent");
+    async onDragEnd(ev) {
+      if (
+        this.$store.getters.getDragndrop.fatherCollectionId !=
+        parseInt(this.$route.params.fatherCollectionId)
+      ) {
+        await this.moveToCollection(
+          parseInt(this.$route.params.fatherCollectionId),
+          this.$store.getters.getDragndrop
+        );
+      }
+      this.$store.commit("setDragndrop", null);
       ev.dataTransfer.clearData("text/plain");
+      clearTimeout(this.timer);
     },
     onDragStart(ev) {
-      console.log(ev);
       // Add different types of drag data
-      this.$emit("onDragEvent", this.picto.id);
+      this.$store.commit("setDragndrop", {
+        draggedPictoId: this.picto.id,
+        fatherCollectionId: parseInt(this.$route.params.fatherCollectionId),
+        isCollection: this.picto.collection,
+      });
+
       ev.dataTransfer.dropEffect = "move";
       ev.dataTransfer.setData(
         "text/plain",
@@ -467,6 +507,18 @@ export default {
     },
   },
   computed: {
+    isDropZone() {
+      return (
+        this.dragndropId &&
+        this.picto.collection &&
+        this.picto.id != this.dragndropId &&
+        (this.isEditor || this.isToUser) &&
+        this.isOnline
+      );
+    },
+    dragndropId() {
+      return this.$store.getters.getDragndrop?.draggedPictoId;
+    },
     pictoLink() {
       return this.publicMode
         ? String("/public/" + this.picto.id)

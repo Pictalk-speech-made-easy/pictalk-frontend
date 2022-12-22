@@ -20,9 +20,7 @@
         :picto="picto"
         :publicMode="publicMode"
         :sidebarMode="sidebar"
-        :dragEvent="dragEvent"
         :ref="picto.collection ? 'dragCollection' : 'dragPictogram'"
-        @onDragEvent="onDragEvent"
       />
 
       <div
@@ -51,20 +49,9 @@ export default {
     picto,
   },
   data() {
-    return {
-      dragEvent: false,
-    };
+    return {};
   },
-  methods: {
-    onDragEvent(id) {
-      console.log("onDragEvent");
-      if (!id) {
-        this.dragEvent = 0;
-      } else {
-        this.dragEvent = id;
-      }
-    },
-  },
+  methods: {},
   props: {
     pictos: {
       type: Array,
