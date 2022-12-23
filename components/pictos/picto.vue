@@ -11,7 +11,9 @@
     }"
   >
     <div
-      v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
+      v-if="
+        !publicMode && !sidebarMode && $route.query.isAdmin && !isTouchDevice
+      "
       :draggable="
         !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
       "
@@ -22,8 +24,6 @@
       <b-icon icon="drag"></b-icon>
     </div>
     <div
-      @oncontextmenu="preventLongTap"
-      @taphold="preventLongTap"
       :id="picto.id"
       :collection="picto.collection"
       v-on="
@@ -43,10 +43,13 @@
     >
       <div style="width: 100%">
         <img
-          @oncontextmenu="preventLongTap"
-          @taphold="preventLongTap"
-          draggable="false"
-          class="image preventDialog"
+          v-on="
+            isTouchDevice ? { dragstart: onDragStart, dragend: onDragEnd } : {}
+          "
+          :draggable="
+            !publicMode && !sidebarMode && $route.query.isAdmin && isTouchDevice
+          "
+          class="image"
           :src="picto.image"
           :alt="picto.meaning[getUserLang]"
           @click="addToSpeech()"
@@ -261,13 +264,9 @@ export default {
         }
       }
     },
-    preventLongTap(ev) {
-      ev.preventDefault();
-      ev.stopPropagation();
-      return false;
-    },
     onDragOver(ev) {
       ev.preventDefault();
+      ev.dataTransfer.dropEffect = "move";
       //set transfer image little
       if (!this.timer && this.isDropZone) {
         this.timer = setTimeout(() => {
@@ -282,7 +281,6 @@ export default {
       // console.log(this.dragImage);
       //this.dragImage.classList.add("dragOverElement");
       //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
-      ev.dataTransfer.dropEffect = "move";
     },
     onDragLeave(ev) {
       ev.preventDefault();
@@ -303,7 +301,6 @@ export default {
       if (this.$store.getters.getDragndrop) {
         await this.moveToCollection(targetId, this.$store.getters.getDragndrop);
         this.$store.commit("setDragndrop", null);
-        ev.dataTransfer.clearData("text/plain");
         this.timer = clearTimeout(this.timer);
       }
     },
@@ -317,12 +314,12 @@ export default {
           parseInt(this.$route.params.fatherCollectionId),
           this.$store.getters.getDragndrop
         );
+        this.$store.commit("setDragndrop", null);
       }
-      this.$store.commit("setDragndrop", null);
-      ev.dataTransfer.clearData("text/plain");
       this.timer = clearTimeout(this.timer);
     },
     onDragStart(ev) {
+      ev.dataTransfer.clearData();
       // Add different types of drag data
       this.$store.commit("setDragndrop", {
         draggedPictoId: this.picto.id,
@@ -517,6 +514,13 @@ export default {
     },
   },
   computed: {
+    isTouchDevice() {
+      return (
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0
+      );
+    },
     isDropZone() {
       return (
         this.dragndropId &&
