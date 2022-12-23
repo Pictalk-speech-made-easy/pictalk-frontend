@@ -204,6 +204,13 @@ export default {
         this.synthesis
       );
     },
+    triggerRemoveSpeechDrag() {
+      if (
+        this.$route.params.fatherCollectionId != this.$store.getters.getRootId
+      ) {
+        this.removeSpeech(true);
+      }
+    },
     removeSpeech(erase) {
       const pictoSpeech = this.$store.getters.getSpeech;
       const pictalkSpeech = this.$store.getters.getSpeech.filter(
@@ -357,13 +364,10 @@ export default {
     });
   },
   created() {
-    this.$nuxt.$on("removeSpeech", () => {
-      if (
-        this.$route.params.fatherCollectionId != this.$store.getters.getRootId
-      ) {
-        this.removeSpeech(false);
-      }
-    });
+    this.$nuxt.$on("removeSpeechDrag", this.triggerRemoveSpeechDrag);
+  },
+  beforeDestroy() {
+    this.$nuxt.$off("removeSpeechDrag");
   },
   components: {
     miniPicto: miniPicto,

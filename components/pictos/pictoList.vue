@@ -69,8 +69,7 @@ export default {
       goBack.style.left = "5vw";
       if (!this.timer) {
         this.timer = setTimeout(() => {
-          console.log("remitting nuxt event");
-          $nuxt.$emit("removeSpeech");
+          this.$nuxt.$emit("removeSpeechDrag");
         }, 1000);
       }
     },
@@ -104,7 +103,6 @@ export default {
       default: () => true,
     },
   },
-
   computed: {
     getFilteredPictoList() {
       return this.pictos.filter((picto) => picto?.meaning[this.getUserLang]);

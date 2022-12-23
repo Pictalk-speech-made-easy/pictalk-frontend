@@ -151,6 +151,7 @@ export default {
   destroyed() {
     window.removeEventListener("online", this.refreshPictos);
     window.removeEventListener("offline", this.lostConnectivityNotification);
+    this.$nuxt.$off("resyncPictoList");
   },
   computed: {
     homeLink() {

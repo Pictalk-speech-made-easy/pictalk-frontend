@@ -99,11 +99,14 @@ export const mutations = {
       const collectionIndex = state.collections.findIndex(
         collection => collection.id === picto.fatherCollectionId
       );
+      console.log(collectionIndex);
       if (collectionIndex !== -1) {
         const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
           pct => pct.id === picto.id
         );
+        console.log(pictoIndex);
         if (collectionIndex !== -1 && pictoIndex == -1) {
+          console.log("push picto into collection");
           state.collections[collectionIndex].pictos.push(picto);
         }
       }
@@ -216,7 +219,7 @@ export const actions = {
       vuexContext.commit('addCollection', { ...collection, fatherCollectionId: moveToCollectionDto.targetCollectionId });
     } else if (moveToCollectionDto.sourcePictoId) {
       const pictoIndex = vuexContext.getters.getPictos.findIndex((picto) => picto.id == moveToCollectionDto.sourcePictoId);
-      const picto = vuexContext.getters.getCollections[pictoIndex];
+      const picto = vuexContext.getters.getPictos[pictoIndex];
       vuexContext.commit('addPicto', { ...picto, fatherCollectionId: moveToCollectionDto.targetCollectionId });
     }
 

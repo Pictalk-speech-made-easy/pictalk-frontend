@@ -3,7 +3,11 @@
     :class="{
       pictowrapper: true,
       bigger:
-        !dragndropId && !publicMode && !sidebarMode && $route.query.isAdmin,
+        !dragndropId &&
+        !publicMode &&
+        !sidebarMode &&
+        $route.query.isAdmin &&
+        false,
     }"
   >
     <div
@@ -268,7 +272,7 @@ export default {
       if (!this.timer && this.isDropZone) {
         this.timer = setTimeout(() => {
           this.addToSpeech();
-        }, 1000);
+        }, 1500);
       }
       if (this.picto.id != this.dragndropId && this.isDropZone) {
         document.getElementById(this.picto.id)?.classList?.add("dragOverZone");
@@ -296,12 +300,18 @@ export default {
       ev.preventDefault();
       const targetId = ev.target.offsetParent.id;
       // Call the store action
-      await this.moveToCollection(targetId, this.$store.getters.getDragndrop);
+      if (this.$store.getters.getDragndrop) {
+        await this.moveToCollection(targetId, this.$store.getters.getDragndrop);
+        this.$store.commit("setDragndrop", null);
+        ev.dataTransfer.clearData("text/plain");
+        this.timer = clearTimeout(this.timer);
+      }
     },
     async onDragEnd(ev) {
       if (
+        this.$store.getters.getDragndrop &&
         this.$store.getters.getDragndrop.fatherCollectionId !=
-        parseInt(this.$route.params.fatherCollectionId)
+          parseInt(this.$route.params.fatherCollectionId)
       ) {
         await this.moveToCollection(
           parseInt(this.$route.params.fatherCollectionId),
@@ -310,7 +320,7 @@ export default {
       }
       this.$store.commit("setDragndrop", null);
       ev.dataTransfer.clearData("text/plain");
-      clearTimeout(this.timer);
+      this.timer = clearTimeout(this.timer);
     },
     onDragStart(ev) {
       // Add different types of drag data
