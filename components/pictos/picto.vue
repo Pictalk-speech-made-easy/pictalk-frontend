@@ -9,6 +9,10 @@
         $route.query.isAdmin &&
         false,
     }"
+    v-on="isTouchDevice ? { dragstart: onDragStart, dragend: onDragEnd } : {}"
+    :draggable="
+      !publicMode && !sidebarMode && $route.query.isAdmin && isTouchDevice
+    "
   >
     <div
       v-if="
@@ -43,12 +47,7 @@
     >
       <div style="width: 100%">
         <img
-          v-on="
-            isTouchDevice ? { dragstart: onDragStart, dragend: onDragEnd } : {}
-          "
-          :draggable="
-            !publicMode && !sidebarMode && $route.query.isAdmin && isTouchDevice
-          "
+          draggable="false"
           class="image"
           :src="picto.image"
           :alt="picto.meaning[getUserLang]"
