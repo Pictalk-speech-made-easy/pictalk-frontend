@@ -11,17 +11,6 @@
     }"
   >
     <div
-      v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
-      :draggable="
-        !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
-      "
-      @dragstart="onDragStart"
-      @dragend="onDragEnd"
-      class="dragbutton"
-    >
-      <b-icon icon="drag"></b-icon>
-    </div>
-    <div
       :id="picto.id"
       :collection="picto.collection"
       v-on="
@@ -50,6 +39,15 @@
           crossorigin="anonymous"
           :style="`border: solid; border-color: ${this.picto.color}`"
         />
+        <div
+          v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
+          :draggable="
+            !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
+          "
+          @dragstart="onDragStart"
+          @dragend="onDragEnd"
+          class="dragbutton"
+        ></div>
       </div>
       <div class="meaning">
         {{ picto.meaning[getUserLang] }}
@@ -645,16 +643,15 @@ export default {
   }
 }
 .dragbutton {
-  top: 0;
-  left: 0;
+  top: 0.6rem;
+  left: 0.6rem;
   position: absolute;
   display: block;
-  height: 60%;
-  width: 100%;
+  width: calc(100% - 1.2rem);
   border-radius: 4px;
-  /* border: 1px solid rgb(0, 115, 255); */
-  background-color: #00000090;
+  background-color: #00000000;
   z-index: 1;
+  aspect-ratio: 1 / 1;
 }
 
 .drop-area {
