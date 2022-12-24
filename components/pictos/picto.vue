@@ -9,15 +9,9 @@
         $route.query.isAdmin &&
         false,
     }"
-    v-on="isTouchDevice ? { dragstart: onDragStart, dragend: onDragEnd } : {}"
-    :draggable="
-      !publicMode && !sidebarMode && $route.query.isAdmin && isTouchDevice
-    "
   >
     <div
-      v-if="
-        !publicMode && !sidebarMode && $route.query.isAdmin && !isTouchDevice
-      "
+      v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
       :draggable="
         !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
       "
@@ -652,14 +646,14 @@ export default {
 }
 .dragbutton {
   top: 0;
-  right: 0;
+  left: 0;
   position: absolute;
   display: block;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  border: 1px solid rgb(0, 115, 255);
-  background-color: aqua;
+  height: 60%;
+  width: 100%;
+  border-radius: 4px;
+  /* border: 1px solid rgb(0, 115, 255); */
+  background-color: #00000090;
   z-index: 1;
 }
 
