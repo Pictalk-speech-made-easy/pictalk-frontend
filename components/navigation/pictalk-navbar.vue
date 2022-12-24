@@ -505,6 +505,7 @@ export default {
     },
     adminModeChoose() {
       if (this.admin) {
+        this.$store.commit("setDragndrop", null);
         this.$router.push({
           path: this.homeLink,
           query: { ...this.$route.query, isAdmin: undefined },

@@ -518,6 +518,7 @@ export default {
         this.picto.collection &&
         this.picto.id != this.dragndropId &&
         (this.isEditor || this.isToUser) &&
+        $route.query.isAdmin &&
         this.isOnline
       );
     },
