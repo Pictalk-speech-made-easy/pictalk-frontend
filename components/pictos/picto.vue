@@ -326,7 +326,8 @@ export default {
           isCollection: this.picto.collection,
         })
       );
-      this.dragImage = ev.target.parentElement.lastChild;
+      console.log(ev);
+      this.dragImage = ev.target.offsetParent;
       ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
@@ -518,7 +519,7 @@ export default {
         this.picto.collection &&
         this.picto.id != this.dragndropId &&
         (this.isEditor || this.isToUser) &&
-        $route.query.isAdmin &&
+        this.$route.query.isAdmin &&
         this.isOnline
       );
     },
