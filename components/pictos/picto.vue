@@ -10,6 +10,7 @@
         false,
     }"
   >
+    {{ dragndropId }}
     <div
       :id="picto.id"
       :collection="picto.collection"
@@ -305,6 +306,8 @@ export default {
           parseInt(this.$route.params.fatherCollectionId),
           this.$store.getters.getDragndrop
         );
+      }
+      if (this.$store.getters.getDragndrop) {
         this.$store.commit("setDragndrop", null);
       }
       this.timer = clearTimeout(this.timer);
