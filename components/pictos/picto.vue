@@ -47,6 +47,7 @@
           @dragstart="onDragStart"
           @dragend="onDragEnd"
           class="dragbutton"
+          @click="addToSpeech()"
         ></div>
       </div>
       <div class="meaning">
