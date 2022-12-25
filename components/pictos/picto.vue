@@ -10,7 +10,6 @@
         false,
     }"
   >
-    {{ dragndropId }}
     <div
       :id="picto.id"
       :collection="picto.collection"
@@ -225,9 +224,6 @@ export default {
     async moveToCollection(targetId, data) {
       if (data.draggedPictoId != targetId) {
         try {
-          console.log(
-            `moving ${data.draggedPictoId} ${data.isCollection} is  into ${targetId}`
-          );
           await this.$store.dispatch("moveToCollection", {
             moveToCollectionDto: {
               ...(!data.isCollection && {
@@ -291,8 +287,9 @@ export default {
       const targetId = ev.target.offsetParent.id;
       // Call the store action
       if (this.$store.getters.getDragndrop) {
-        await this.moveToCollection(targetId, this.$store.getters.getDragndrop);
-        this.$store.commit("setDragndrop", null);
+        const dragndrop = this.$store.getters.getDragndrop;
+        this.$store.commit("setDragndrop", undefined);
+        await this.moveToCollection(targetId, dragndrop);
         this.timer = clearTimeout(this.timer);
       }
     },
@@ -302,13 +299,17 @@ export default {
         this.$store.getters.getDragndrop.fatherCollectionId !=
           parseInt(this.$route.params.fatherCollectionId)
       ) {
+        const dragndrop = this.$store.getters.getDragndrop;
+        if (this.$store.getters.getDragndrop) {
+          this.$store.commit("setDragndrop", undefined);
+        }
         await this.moveToCollection(
           parseInt(this.$route.params.fatherCollectionId),
-          this.$store.getters.getDragndrop
+          dragndrop
         );
       }
       if (this.$store.getters.getDragndrop) {
-        this.$store.commit("setDragndrop", null);
+        this.$store.commit("setDragndrop", undefined);
       }
       this.timer = clearTimeout(this.timer);
     },
@@ -329,7 +330,6 @@ export default {
           isCollection: this.picto.collection,
         })
       );
-      console.log(ev);
       this.dragImage = ev.target.offsetParent;
       ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
