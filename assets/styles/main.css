@@ -222,3 +222,7 @@ div.roundedbtn > span.select > select {
     border-radius: 0px;
   }
 }
+.b-skeleton > .b-skeleton-item {
+  background: linear-gradient(90deg, rgb(219, 219, 219, 0.5) 25%, rgba(219, 219, 219, 0.25) 50%, rgb(219, 219, 219, 0.5) 75%);
+  background-size: 400% 100%;
+}

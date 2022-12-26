@@ -192,7 +192,9 @@ export default {
     const images = document.getElementsByClassName("image");
     for (let image of images) {
       image.addEventListener("load", () => {
-        image.nextElementSibling.style.display = "none";
+        if (image.nextElementSibling) {
+          image.nextElementSibling.style.display = "none";
+        }
       });
     }
   },
@@ -464,7 +466,7 @@ export default {
   width: calc(100% - 1.2rem);
   aspect-ratio: 1 / 1;
   position: absolute;
-  top: -100%;
+  top: 0.6rem;
 }
 .skeleton-wrapper {
   width: 100%;
