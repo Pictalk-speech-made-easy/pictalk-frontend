@@ -11,15 +11,16 @@
 					src="~/assets/logo_compressed.png"
 					alt="Logo of a web app that help speach-disabled people"
 					height="44px"
-					style="aspect-ratio: 411 / 130; margin-right: 0.5vw"
+					style="aspect-ratio: 411 / 130; margin-right: 0.5em"
 				/>
 				<img
-					style="aspect-ratio: 1 / 1; margin-right: 0.5vw"
+					style="aspect-ratio: 1 / 1; margin-right: 0.5em"
 					height="44px"
 					v-if="!fits"
-					src="~/assets/small_logo.jpg"
+					src="~/assets/small_logo.png"
 					alt="Logo of a web app that help speach-disabled people"
 				/>
+
 				<!--<b-tooltip
           v-if="$route.query.isAdmin"
           style="margin-right: 3px"
@@ -53,6 +54,7 @@
           </template>
         </b-tooltip>-->
 			</b-navbar-item>
+			<p class="version">{{ $config.clientVersion }}</p>
 			<div
 				:style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
 				class="columns is-mobile margins"
@@ -814,5 +816,13 @@ export default {
 }
 .modeButton:hover {
 	color: #f1f1f1;
+}
+.version {
+	display: flex;
+	align-items: flex-end;
+	font-size: 00.65em;
+	margin-bottom: 2px;
+	margin-left: -2em;
+	width: 5px;
 }
 </style>

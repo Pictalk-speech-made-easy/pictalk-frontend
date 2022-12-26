@@ -1,3 +1,4 @@
+import pkg from './package.json'
 export default {
   ssr: false,
   target: 'static',
@@ -8,7 +9,8 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    apiURL: process.env.API_URL || "http://localhost:3001"
+    apiURL: process.env.API_URL || "http://localhost:3001",
+    clientVersion: pkg.version,
   },
   generate: {
     fallback: true
