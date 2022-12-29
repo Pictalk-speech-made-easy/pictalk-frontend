@@ -512,13 +512,6 @@ export default {
     },
   },
   computed: {
-    isTouchDevice() {
-      return (
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        navigator.msMaxTouchPoints > 0
-      );
-    },
     isDropZone() {
       return (
         this.dragndropId &&
@@ -557,7 +550,6 @@ export default {
     isOnline() {
       return window.navigator.onLine;
     },
-    isAdmin() {},
   },
 };
 </script>

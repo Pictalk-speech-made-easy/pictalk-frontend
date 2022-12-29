@@ -99,14 +99,11 @@ export const mutations = {
       const collectionIndex = state.collections.findIndex(
         collection => collection.id === picto.fatherCollectionId
       );
-      console.log(collectionIndex);
       if (collectionIndex !== -1) {
         const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
           pct => pct.id === picto.id
         );
-        console.log(pictoIndex);
         if (collectionIndex !== -1 && pictoIndex == -1) {
-          console.log("push picto into collection");
           state.collections[collectionIndex].pictos.push(picto);
         }
       }
