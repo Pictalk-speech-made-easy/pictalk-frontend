@@ -36,6 +36,7 @@
     </div>
 
     <div
+      v-if="canReturn"
       class="drag-return"
       v-on="{ dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }"
     ></div>
@@ -114,6 +115,12 @@ export default {
     },
     dragndropId() {
       return this.$store.getters.getDragndrop?.draggedPictoId;
+    },
+    canReturn() {
+      return (
+        this.$store.getters.getRootId !=
+        parseInt(this.$route.params.fatherCollectionId)
+      );
     },
   },
 };
