@@ -25,7 +25,7 @@
       :class="{
         'has-background': picto.collection,
         'drop-area': isDropZone,
-        'containing notification pictobackground pictogram preventDialog': true,
+        'containing notification pictobackground pictogram grabbable': true,
       }"
     >
       <div style="width: 100%">
@@ -332,6 +332,7 @@ export default {
           isCollection: this.picto.collection,
         })
       );
+      ev.target.style.cursor = "grab";
       this.dragImage = ev.target.offsetParent;
       ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
@@ -632,7 +633,7 @@ export default {
 }
 
 .drop-area {
-  box-shadow: 0 0 50px 15px #48abe0;
+  box-shadow: 0 0 2px 2px #ea6868;
 }
 .bigger {
   transition: transform 0.2s; /* Animation */
@@ -646,8 +647,17 @@ export default {
   transition: transform 0.2s; /* Animation */
   transform: scale(0.9);
 }
-.preventDialog {
-  cursor: move;
-  -webkit-touch-callout: none !important;
+.grabbable {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }
 </style>
