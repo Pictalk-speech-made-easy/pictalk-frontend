@@ -208,6 +208,17 @@ export default {
       if (
         this.$route.params.fatherCollectionId != this.$store.getters.getRootId
       ) {
+        // Remove until previous pictalk collection
+        const pictalkSpeech = this.$store.getters.getSpeech.filter(
+          (picto) => !picto.sidebar && picto.collection
+        );
+        while (
+          this.$store.getters.getSpeech[
+            this.$store.getters.getSpeech.length - 1
+          ]?.id != pictalkSpeech[pictalkSpeech.length - 1]?.id
+        ) {
+          this.removeSpeech(true);
+        }
         this.removeSpeech(true);
       }
     },
