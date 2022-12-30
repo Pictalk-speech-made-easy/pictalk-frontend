@@ -164,7 +164,7 @@
         <b-tab-item style="width: 100%" icon="account-group">
           <br />
           <p class="title is-4">
-            {{ $t("SharingButton") }}
+            {{ $t("AccountSupervisorAdd") }}
           </p>
           <b-field>
             <b-input
@@ -205,8 +205,8 @@
             @click="removeFromSharers()"
           />
           <hr style="margin-top: 8px; margin-bottom: 8px" />
-          <p class="title is-4">{{ $t("AccountDirectSharer") }}</p>
-          <p class="subtitle is-6">{{ $t("AccountDirectSharerText") }}</p>
+          <p class="title is-4">{{ $t("AccountSupervisor") }}</p>
+          <p class="subtitle is-6">{{ $t("AccountSupervisorText") }}</p>
           <br />
           <div class="box">
             <b>{{

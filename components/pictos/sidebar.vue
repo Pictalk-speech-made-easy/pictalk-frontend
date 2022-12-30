@@ -61,7 +61,6 @@ export default {
         .slice(0, prevSidebarPictoIndex)
         .reverse()
         .findIndex((picto) => picto.collection);
-      console.log(prevSidebarPictoIndex);
       if (prevSidebarPictoIndex == -1) {
         if (this.publicMode) {
           this.$router.push("/public/");

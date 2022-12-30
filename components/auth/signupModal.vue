@@ -61,15 +61,15 @@
 					></b-input>
 				</b-field>
         <div v-if="directSharerUrlEncoded" class="box">
-          <h2 class="subtitle" align="center">{{ $t("DirectSharer") }}</h2>
-          {{ $t('SignupDirectSharerText')}}
+          <h2 class="subtitle" align="center">{{ $t("SignupSupervisor") }}</h2>
+          {{ $t('SignupSupervisorText')}}
           <div v-if="isArraydirectSharerUrlEncoded">
           <div  v-for="directsharer in directSharerUrlEncoded">
           <b>{{ directsharer }}</b>
           </div>
           </div>
           <div v-else><b>{{ directSharerUrlEncoded }}</b></div>
-          <b-button class="is-danger" icon-left="delete" @click="removeDirectSharer()">{{$t('SignupDirectSharerRemove')}}</b-button>
+          <b-button class="is-danger" icon-left="delete" @click="removeDirectSharer()">{{$t('SignupSupervisorRemove')}}</b-button>
         </div>
 				</b-step-item>
         <b-step-item clickable :label="$t('Language')" icon="translate">
