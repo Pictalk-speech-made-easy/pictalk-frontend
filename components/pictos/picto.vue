@@ -25,7 +25,8 @@
       :class="{
         'has-background': picto.collection,
         'drop-area': isDropZone,
-        'containing notification pictobackground pictogram grabbable': true,
+        'containing notification pictobackground pictogram': true,
+        grabbable: !publicMode && !sidebarMode && $route.query.isAdmin,
       }"
     >
       <div style="width: 100%">
