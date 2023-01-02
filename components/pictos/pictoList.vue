@@ -36,7 +36,7 @@
     </div>
 
     <div
-      v-if="canReturn"
+      v-if="canReturn && dragndropId"
       class="drag-return"
       v-on="{ dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }"
     ></div>
@@ -136,10 +136,15 @@ export default {
 .drag-return {
   position: fixed;
   width: 35px;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 64px);
   left: 0px;
-  top: 52px;
-  background: #00000000;
+  top: 58px;
+  background: #00000020;
+  border-radius: 0px 24px 24px 0px;
+  z-index: 2 !important;
+  border: solid;
+  border-color: #00000020;
+  border-width: 2px;
 }
 .return {
   position: fixed;
