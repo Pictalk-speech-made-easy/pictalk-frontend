@@ -71,7 +71,7 @@ export default {
               sidebarPictoId: this.$store.getters.getSidebarId,
             },
           });
-          if (this.$store.getters.getUser.notifications) {
+          if (this.$store.getters.getUser.notifications.length != 0) {
             this.$buefy.notification.open({
               message: this.$t("UnreadNotifications"),
               type: "is-info",

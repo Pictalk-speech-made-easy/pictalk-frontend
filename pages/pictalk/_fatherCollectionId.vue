@@ -155,6 +155,7 @@ export default {
   destroyed() {
     window.removeEventListener("online", this.refreshPictos);
     window.removeEventListener("offline", this.lostConnectivityNotification);
+    this.$nuxt.$off("resyncPictoList");
   },
   computed: {
     homeLink() {
@@ -361,7 +362,7 @@ export default {
     sorting(collections, pictos) {
       let unsortedItems = collections.concat(pictos);
       let sortedItems = unsortedItems.sort(function (itemA, itemB) {
-        return new Date(itemB.createdDate) - new Date(itemA.createdDate);
+        return new Date(itemA.createdDate) - new Date(itemB.createdDate);
       });
       return sortedItems;
     },

@@ -186,7 +186,11 @@
             />
           </div>
           <div class="subcard-text margin-text is-size-5">
-            {{ $t("AreHealthProText") }}
+            {{ $t("AreHealthProText") }} <br />
+            {{ $t("AreHealthProTextContributionGuide") }}
+            <a href="https://drive.home.asidiras.dev/s/tewn5968JxY9WaJ">
+              https://drive.home.asidiras.dev/s/tewn5968JxY9WaJ</a
+            >
           </div>
         </div>
       </div>

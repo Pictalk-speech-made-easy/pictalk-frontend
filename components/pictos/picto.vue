@@ -1,14 +1,37 @@
 <template>
-  <div class="pictowrapper">
+  <div
+    :class="{
+      pictowrapper: true,
+      bigger:
+        !dragndropId &&
+        !publicMode &&
+        !sidebarMode &&
+        $route.query.isAdmin &&
+        false,
+    }"
+  >
     <div
-      :class="[
-        !picto.collection
-          ? 'containing notification pictobackground pictogram'
-          : 'containing  notification pictobackground pictogram has-background',
-      ]"
+      :id="picto.id"
+      :collection="picto.collection"
+      v-on="
+        picto.collection &&
+        !publicMode &&
+        !sidebarMode &&
+        $route.query.isAdmin &&
+        isDropZone
+          ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
+          : {}
+      "
+      :class="{
+        'has-background': picto.collection,
+        'drop-area': isDropZone,
+        'containing notification pictobackground pictogram': true,
+        grabbable: !publicMode && !sidebarMode && $route.query.isAdmin,
+      }"
     >
       <div id="pictogram-image-wrapper" style="width: 100%">
         <img
+          draggable="false"
           class="image"
           :src="picto.image"
           :alt="picto.meaning[getUserLang]"
@@ -17,6 +40,16 @@
           crossorigin="anonymous"
           :style="`border: solid; border-color: ${this.picto.color}`"
         />
+        <div
+          v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
+          :draggable="
+            !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
+          "
+          @dragstart="onDragStart"
+          @dragend="onDragEnd"
+          class="dragbutton"
+          @click="addToSpeech()"
+        ></div>
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
       <div class="meaning">
@@ -166,9 +199,12 @@ export default {
   components: {
     PictoSteps,
   },
+  watch: {},
   data() {
     return {
+      timer: 0,
       publishLoad: false,
+      dragImage: undefined,
       skeleton: true,
     };
   },
@@ -199,6 +235,120 @@ export default {
     }
   },
   methods: {
+    async moveToCollection(targetId, data) {
+      if (data.draggedPictoId != targetId) {
+        try {
+          await this.$store.dispatch("moveToCollection", {
+            moveToCollectionDto: {
+              ...(!data.isCollection && {
+                sourcePictoId: Number(data.draggedPictoId),
+              }),
+              ...(data.isCollection && {
+                sourceCollectionId: Number(data.draggedPictoId),
+              }),
+              targetCollectionId: Number(targetId),
+            },
+            fatherCollectionId: Number(data.fatherCollectionId),
+          });
+          $nuxt.$emit("resyncPictoList");
+        } catch (error) {
+          if (error?.response?.status == 401) {
+            const notif = this.$buefy.toast.open({
+              message: this.$t("NotAuthorized"),
+              type: "is-danger",
+            });
+          } else if (error?.response?.status == 500) {
+            const notif = this.$buefy.toast.open({
+              message: this.$t("SomethingBadHappened"),
+              type: "is-danger",
+            });
+          }
+        }
+      }
+    },
+    onDragOver(ev) {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = "move";
+      //set transfer image little
+      if (!this.timer && this.isDropZone) {
+        this.timer = setTimeout(() => {
+          this.addToSpeech();
+        }, 1500);
+      }
+      if (this.picto.id != this.dragndropId && this.isDropZone) {
+        document.getElementById(this.picto.id)?.classList?.add("dragOverZone");
+      }
+
+      // this.dragImage = document.getElementById(this.dragEvent);
+      // console.log(this.dragImage);
+      //this.dragImage.classList.add("dragOverElement");
+      //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
+    },
+    onDragLeave(ev) {
+      ev.preventDefault();
+      this.timer = clearTimeout(this.timer);
+      if (this.picto.id != this.dragndropId && this.isDropZone) {
+        document
+          .getElementById(this.picto.id)
+          ?.classList?.remove("dragOverZone");
+      }
+      this.dragImage = document.getElementById(this.dragndropId);
+      //this.dragImage.classList.remove("dragOverElement");
+      //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
+    },
+    async onDrop(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const targetId = ev.target.offsetParent.id;
+      // Call the store action
+      if (this.$store.getters.getDragndrop) {
+        const dragndrop = this.$store.getters.getDragndrop;
+        this.$store.commit("setDragndrop", undefined);
+        await this.moveToCollection(targetId, dragndrop);
+        this.timer = clearTimeout(this.timer);
+      }
+    },
+    async onDragEnd(ev) {
+      if (
+        this.$store.getters.getDragndrop &&
+        this.$store.getters.getDragndrop.fatherCollectionId !=
+          parseInt(this.$route.params.fatherCollectionId)
+      ) {
+        const dragndrop = this.$store.getters.getDragndrop;
+        if (this.$store.getters.getDragndrop) {
+          this.$store.commit("setDragndrop", undefined);
+        }
+        await this.moveToCollection(
+          parseInt(this.$route.params.fatherCollectionId),
+          dragndrop
+        );
+      }
+      if (this.$store.getters.getDragndrop) {
+        this.$store.commit("setDragndrop", undefined);
+      }
+      this.timer = clearTimeout(this.timer);
+    },
+    onDragStart(ev) {
+      ev.dataTransfer.clearData();
+      // Add different types of drag data
+      this.$store.commit("setDragndrop", {
+        draggedPictoId: this.picto.id,
+        fatherCollectionId: parseInt(this.$route.params.fatherCollectionId),
+        isCollection: this.picto.collection,
+      });
+
+      ev.dataTransfer.dropEffect = "move";
+      ev.dataTransfer.setData(
+        "text/plain",
+        JSON.stringify({
+          id: this.picto.id,
+          isCollection: this.picto.collection,
+        })
+      );
+      ev.target.style.cursor = "grab";
+      this.dragImage = ev.target.offsetParent;
+      ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
+    },
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
       let collection = JSON.parse(
         JSON.stringify(this.getCollectionFromId(this.$store.getters.getRootId))
@@ -375,6 +525,20 @@ export default {
     },
   },
   computed: {
+    isDropZone() {
+      return (
+        this.dragndropId &&
+        this.picto.collection &&
+        this.picto.id != this.dragndropId &&
+        (this.isEditor || this.isToUser) &&
+        this.$route.query.isAdmin &&
+        this.isOnline &&
+        !this.sidebarMode
+      );
+    },
+    dragndropId() {
+      return this.$store.getters.getDragndrop?.draggedPictoId;
+    },
     pictoLink() {
       return this.publicMode
         ? String("/public/" + this.picto.id)
@@ -400,7 +564,6 @@ export default {
     isOnline() {
       return window.navigator.onLine;
     },
-    isAdmin() {},
   },
 };
 </script>
@@ -461,6 +624,47 @@ export default {
 }
 .pictowrapper {
   padding: 3px;
+  position: relative;
+}
+.dragbutton {
+  top: 0.6rem;
+  left: 0.6rem;
+  position: absolute;
+  display: block;
+  width: calc(100% - 1.2rem);
+  border-radius: 4px;
+  background-color: #00000000;
+  z-index: 1;
+  aspect-ratio: 1 / 1;
+}
+
+.drop-area {
+  box-shadow: 0 0 3px 3px hsl(150, 90%, 45%);
+}
+.bigger {
+  transition: transform 0.2s; /* Animation */
+}
+
+.dragOverZone {
+  transition: transform 0.2s; /* Animation */
+  transform: scale(1.1);
+}
+.dragOverElement {
+  transition: transform 0.2s; /* Animation */
+  transform: scale(0.9);
+}
+.grabbable {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }
 #pictogram-image-wrapper > .b-skeleton.is-animated {
   width: calc(100% - 1.2rem);

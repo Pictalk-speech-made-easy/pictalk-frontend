@@ -17,6 +17,7 @@ export const state = () => ({
   shortcutCollectionId: null,
   temporaryLanguage: null,
   publicBundles: null,
+  dragndrop: null,
 });
 
 export const mutations = {
@@ -32,6 +33,7 @@ export const mutations = {
     state.sidebarId = null;
     state.temporaryLanguage = null;
     state.publicBundles = null;
+    state.dragndrop = null;
   },
   async setPublicBundles(state, bundles) {
     state.publicBundles = bundles;
@@ -177,9 +179,48 @@ export const mutations = {
   },
   addMailingList(state, mailingList) {
     state.user.mailingList.push(mailingList);
+  },
+  setDragndrop(state, dragndrop) {
+    state.dragndrop = dragndrop;
   }
 };
 export const actions = {
+  async moveToCollection(vuexContext, { moveToCollectionDto, fatherCollectionId }) {
+    await axios
+      .put(`/collection/move/${fatherCollectionId}`,
+        {
+          ...(moveToCollectionDto.sourcePictoId && {
+            sourcePictoId: String(moveToCollectionDto.sourcePictoId),
+          }),
+          ...(moveToCollectionDto.sourceCollectionId && {
+            sourceCollectionId: String(moveToCollectionDto.sourceCollectionId),
+          }),
+          targetCollectionId: String(moveToCollectionDto.targetCollectionId),
+        }
+      );
+
+    //parseAndUpdateEntireCollection(vuexContext, fatherCollection);
+    const fatherCollectionIndex = vuexContext.getters.getCollections.findIndex((col) => col.id == fatherCollectionId);
+    const fatherCollection = vuexContext.getters.getCollections[fatherCollectionIndex];
+    if (moveToCollectionDto.sourceCollectionId) {
+      fatherCollection.collections.splice(fatherCollection.collections.findIndex((col) => col.id == moveToCollectionDto.sourceCollectionId), 1)
+    } else if (moveToCollectionDto.sourcePictoId) {
+      fatherCollection.pictos.splice(fatherCollection.pictos.findIndex((col) => col.id == moveToCollectionDto.sourcePictoId), 1)
+    }
+    vuexContext.commit('editCollection', { ...fatherCollection });
+    // ------- Add the new collection or pictogram to the target collection
+
+    if (moveToCollectionDto.sourceCollectionId) {
+      const collectionIndex = vuexContext.getters.getCollections.findIndex((col) => col.id == moveToCollectionDto.sourceCollectionId);
+      const collection = vuexContext.getters.getCollections[collectionIndex];
+      vuexContext.commit('addCollection', { ...collection, fatherCollectionId: moveToCollectionDto.targetCollectionId });
+    } else if (moveToCollectionDto.sourcePictoId) {
+      const pictoIndex = vuexContext.getters.getPictos.findIndex((picto) => picto.id == moveToCollectionDto.sourcePictoId);
+      const picto = vuexContext.getters.getPictos[pictoIndex];
+      vuexContext.commit('addPicto', { ...picto, fatherCollectionId: moveToCollectionDto.targetCollectionId });
+    }
+
+  },
   resetCollections(vuexContext) {
     vuexContext.commit("resetCollections");
   },
@@ -662,6 +703,9 @@ export const getters = {
   },
   getPublicBundles(state) {
     return state.publicBundles;
+  },
+  getDragndrop(state) {
+    return state.dragndrop;
   }
 };
 

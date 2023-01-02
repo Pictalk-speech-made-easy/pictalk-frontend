@@ -22,4 +22,5 @@
         "**/venv/**": true,
         "env-*": true
       },
+      "nuxt.isNuxtApp": true,
 }

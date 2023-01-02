@@ -802,7 +802,6 @@ export default {
           $nuxt.$emit("resyncPictoList");
           this.$parent.close();
         } else {
-          console.log(this.picto.speech);
           await this.$store.dispatch(
             isCollection ? "editCollection" : "editPicto",
             {

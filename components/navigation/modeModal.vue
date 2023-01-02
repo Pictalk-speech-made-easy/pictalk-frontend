@@ -68,6 +68,9 @@ export default {
     },
   },
   computed: {
+    admin() {
+      return this.$route.query.isAdmin ? "?isAdmin=true" : "";
+    },
     sharedLink() {
       return "/pictalk/" + this.$store.getters.getSharedId + this.admin;
     },

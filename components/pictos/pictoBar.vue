@@ -204,6 +204,24 @@ export default {
         this.synthesis
       );
     },
+    triggerRemoveSpeechDrag() {
+      if (
+        this.$route.params.fatherCollectionId != this.$store.getters.getRootId
+      ) {
+        // Remove until previous pictalk collection
+        const pictalkSpeech = this.$store.getters.getSpeech.filter(
+          (picto) => !picto.sidebar && picto.collection
+        );
+        while (
+          this.$store.getters.getSpeech[
+            this.$store.getters.getSpeech.length - 1
+          ]?.id != pictalkSpeech[pictalkSpeech.length - 1]?.id
+        ) {
+          this.removeSpeech(true);
+        }
+        this.removeSpeech(true);
+      }
+    },
     removeSpeech(erase) {
       const pictoSpeech = this.$store.getters.getSpeech;
       const pictalkSpeech = this.$store.getters.getSpeech.filter(
@@ -355,6 +373,12 @@ export default {
         this.wordIndex = this.wordIndex + 1;
       }
     });
+  },
+  created() {
+    this.$nuxt.$on("removeSpeechDrag", this.triggerRemoveSpeechDrag);
+  },
+  beforeDestroy() {
+    this.$nuxt.$off("removeSpeechDrag");
   },
   components: {
     miniPicto: miniPicto,
