@@ -40,6 +40,7 @@
           crossorigin="anonymous"
           :style="`border: solid; border-color: ${this.picto.color}`"
         />
+        <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
         <div
           v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
           :draggable="
@@ -50,7 +51,6 @@
           class="dragbutton"
           @click="addToSpeech()"
         ></div>
-        <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
       <div class="meaning">
         {{ picto.meaning[getUserLang] }}
