@@ -381,6 +381,7 @@
   "SignupSupervisorRemove": "Rimuovere il supervisore",
   "AccountSupervisor": "Condividi il link del tuo supervisore",
   "AccountSupervisorText": "Condividete questo link a un utente Pictalk non esistente. Quando ti iscrivi, sarai automaticamente aggiunto al suo elenco di supervisori.",
+  "CharlineInfos": "Sono Charline",
   "MyHome": "Collezione casa",
   "MyShared": "Condiviso con me",
   "MySidebar": "La mia barra laterale",
@@ -390,7 +391,7 @@
   "AuthorizationError": "Si è verificato un errore di autorizzazione nella condivisione della raccolta",
   "CouldNotShare": "Impossibile condividere la raccolta con alcuni utenti (potrebbero essere non validi)",
   "CanTranslateText": "Potete anche aiutarci a tradurre le lingue dell'applicazione. Le traduzioni sono per lo più automatizzate e possono essere errate. Tutti sono invitati a correggere o aggiungere un'altra lingua a Pictalk.",
-  "INSALyonSponsoring": "La fondazione INSA di Lione ci ha aiutati con una donazione di 1000€.",
+  "INSALyonSponsoring": "La Fondazione INSA di Lione ci ha aiutati con una donazione di 1000€.",
   "DigitalOceanSponsoring": "L'hoster del nostro server, Digital Ocean, ci ha supportato con 250€.",
   "Adapei69Sponsoring": "Adapei69 ci aiuta a migliorare e testare Pictalk. Beneficiamo dei loro preziosi consigli e delle loro conoscenze",
   "ARASAACSponsoring": "L'organizzazione no-profit ARASAAC ci fornisce pittogrammi gratuiti e open source"

@@ -29,7 +29,7 @@
         grabbable: !publicMode && !sidebarMode && $route.query.isAdmin,
       }"
     >
-      <div style="width: 100%">
+      <div id="pictogram-image-wrapper" style="width: 100%">
         <img
           draggable="false"
           class="image"
@@ -50,6 +50,7 @@
           class="dragbutton"
           @click="addToSpeech()"
         ></div>
+        <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
       <div class="meaning">
         {{ picto.meaning[getUserLang] }}
@@ -204,6 +205,7 @@ export default {
       timer: 0,
       publishLoad: false,
       dragImage: undefined,
+      skeleton: true,
     };
   },
   props: {
@@ -221,6 +223,16 @@ export default {
       required: false,
       default: () => false,
     },
+  },
+  mounted() {
+    const images = document.getElementsByClassName("image");
+    for (let image of images) {
+      image.addEventListener("load", () => {
+        if (image.nextElementSibling) {
+          image.nextElementSibling.style.display = "none";
+        }
+      });
+    }
   },
   methods: {
     async moveToCollection(targetId, data) {
@@ -653,5 +665,15 @@ export default {
   cursor: grabbing;
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
+}
+#pictogram-image-wrapper > .b-skeleton.is-animated {
+  width: calc(100% - 1.2rem);
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  top: 0.6rem;
+}
+.skeleton-wrapper {
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="containing">
+  <div class="containing pops-up">
     <div class="numberContainer">
       <img class="image" style :src="image" crossorigin="anonymous" />
       <div v-if="pictoCount > 1" class="centeredText">
@@ -25,6 +25,19 @@ export default {
 };
 </script>
 <style scoped>
+.pops-up {
+  animation-name: pop;
+  animation-duration: 125ms;
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes pop {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .containing {
   display: flex;
   position: relative;

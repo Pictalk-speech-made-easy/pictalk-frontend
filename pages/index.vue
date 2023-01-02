@@ -2,7 +2,7 @@
 	<div>
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
 		<div class="container is-max-widescreen">
-			<b-carousel :pause-info="false" :progress="false" :indicator="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" indicator indicator-position="is-top">
+			<b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top" :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" >
         <b-carousel-item class="containing">
             <b-image style="aspect-ratio: 16/9;" alt="A little boy talking thanks to Pictalk"
 				:srcset="require('@/assets/pictalk_index.png').srcSet"
@@ -84,11 +84,11 @@
 			<div class="hero-body">
 				<div class="container">
 					<h1 class="title">{{ $t('HomeTitle1')}}</h1>
-					<p class="is-size-5 notification" align="justify">
+					<p class="is-size-5 notification spacing" align="justify">
 						{{ $t('HomeText1')}}
 					</p>
 					<h1 class="title">{{ $t('HomeTitle2')}}</h1>
-					<p class="is-size-5 notification" align="justify">
+					<p class="is-size-5 notification spacing" align="justify">
 						{{ $t('HomeText2')}}
 					</p>
 					<h1 class="title">{{ $t('HomeTitle3')}}</h1>
@@ -104,7 +104,7 @@
 					<h2 class="title">{{ $t('Communicate')}}</h2>
 					<div class="columns">
 						<div class="column">
-					<p class="is-size-5 notification column" align="justify">
+					<p class="is-size-5 notification" align="justify">
 						<b-image style="aspect-ratio: 16/9" lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
 				:srcset="require('@/assets/IRL.png').srcSet"
         :placeholder="require('@/assets/IRL.png').placeholder"
@@ -115,7 +115,7 @@
 					</div>
 					<br>
 					<div class="column">
-					<p class="is-size-5 notification " align="justify">
+					<p class="is-size-5 notification" align="justify">
 						<b-image style="aspect-ratio: 5/11; width: 25%;" class="center" lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/whatsapp.png').srcSet"
         :placeholder="require('@/assets/whatsapp.png').placeholder"
@@ -247,12 +247,12 @@ export default {
         this.carouselAutoplay = true;
         this.ended = true;
       });
-      video.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        video.muted = !video.muted;
+      video.addEventListener("play", () => {
+        this.carouselAutoplay = false;
       });
-
+      video.addEventListener("pause", () => {
+        this.carouselAutoplay = true;
+      });
       let observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -362,5 +362,10 @@ export default {
   background-color: #f5f5f5;
   border-radius: 6px;
   padding: 0.15em;
+}
+.notification {
+  color: #4a4a4a;
+  background-color: #edf1f5;
+  border-radius: 12px;
 }
 </style>

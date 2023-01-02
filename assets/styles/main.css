@@ -171,7 +171,7 @@ div.dropdown-trigger {
   border-radius: 10px;
 }
 .slightly-rounded {
-  border-radius: 4px;
+  border-radius: 12px;
 }
 .fancy-link {
   background-image: linear-gradient(
@@ -186,7 +186,7 @@ div.dropdown-trigger {
   background-size: 0% 3px;
   background-repeat: no-repeat;
   background-position: left bottom;
-  transition: background-size 600ms ease;
+  transition: background-size 450ms;
 }
 .fancy-link:hover {
   background-size: 100% 3px;
@@ -213,4 +213,16 @@ div.dropdown-trigger {
 }
 div.roundedbtn > span.select > select {
   border-radius: 24px;
+}
+.spacing{
+  margin-bottom: 2.5rem !important;
+}
+@media screen and (max-width: 1023px) {
+  .slightly-rounded {
+    border-radius: 0px;
+  }
+}
+.b-skeleton > .b-skeleton-item {
+  background: linear-gradient(90deg, rgb(219, 219, 219, 0.5) 25%, rgba(219, 219, 219, 0.25) 50%, rgb(219, 219, 219, 0.5) 75%);
+  background-size: 400% 100%;
 }

@@ -65,9 +65,9 @@
                   column
                   is-one-third-mobile
                   is-one-quarter-tablet
-                  is-one-quarter-desktop
-                  is-one-quarter-widescreen
-                  is-one-quarter-fullhd
+                  is-2-desktop
+                  is-2-widescreen
+                  is-2-fullhd
                   containing
                   has-background
                 "
@@ -561,7 +561,7 @@ export default {
   data() {
     return {
       page: 1,
-      imgLimit: 12,
+      imgLimit: 24,
       pictoSearch: "",
       activeStep: 0,
       languages: [],
@@ -908,14 +908,14 @@ export default {
       this.page = 1;
       let promises = [];
       try {
-        const arasaacData = axios
+        let arasaacData = axios
           .get(
             `https://api.arasaac.org/api/pictograms/${this.getUserLang}/search/${pictoSearch}`
           )
           .then((arasaacData) => {
             arasaacData = arasaacData.data;
             for (let i = 0; i < arasaacData?.length; i++) {
-              this.images.push({
+              this.images.unshift({
                 src: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
                 title: arasaacData[i]["keywords"][0]
                   ? arasaacData[i]["keywords"][0]["keyword"]
@@ -928,6 +928,27 @@ export default {
           })
           .catch((error) => {
             console.log(error);
+            arasaacData = axios
+              .get(
+                `https://symbotalkapiv1.azurewebsites.net/search/?name=${pictoSearch}&lang=${this.getUserLang}&repo=arasaac&limit=10`
+              )
+              .then((arasaacData) => {
+                arasaacData = arasaacData.data;
+                if (arasaacData != "no result") {
+                  for (let i = 0; i < arasaacData?.length; i++) {
+                    this.images.unshift({
+                      src: arasaacData[i].image_url,
+                      title: arasaacData[i].translations[0].tName,
+                      download: arasaacData[i].image_url,
+                      source: "arasaac-symbotalk",
+                      author: arasaacData[i].author,
+                    });
+                  }
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           });
 
         const scleraData = axios
@@ -996,6 +1017,7 @@ export default {
             console.log(error);
           });
 
+        promises.push(arasaacData);
         promises.push(arasaacData);
         promises.push(scleraData);
         promises.push(tawasolData);

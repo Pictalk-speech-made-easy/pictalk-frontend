@@ -477,6 +477,7 @@ export default {
   overflow-x: auto;
   scrollbar-width: thin;
   scroll-behavior: smooth;
+  overflow-y: hidden;
 }
 .buttonBorder {
   border: solid;
