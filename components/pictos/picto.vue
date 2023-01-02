@@ -520,7 +520,8 @@ export default {
         this.picto.id != this.dragndropId &&
         (this.isEditor || this.isToUser) &&
         this.$route.query.isAdmin &&
-        this.isOnline
+        this.isOnline &&
+        !this.sidebarMode
       );
     },
     dragndropId() {
@@ -626,7 +627,7 @@ export default {
 }
 
 .drop-area {
-  box-shadow: 0 0 2px 2px #ea6868;
+  box-shadow: 0 0 3px 3px hsl(150, 90%, 45%);
 }
 .bigger {
   transition: transform 0.2s; /* Animation */
