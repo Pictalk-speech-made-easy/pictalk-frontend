@@ -135,7 +135,7 @@ export default {
 }
 .drag-return {
   position: fixed;
-  width: 15px;
+  width: 35px;
   height: calc(100vh - 52px);
   left: 0px;
   top: 52px;
