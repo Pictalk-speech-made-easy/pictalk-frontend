@@ -14,6 +14,21 @@
               $t("EnforcedSecurityMode")
             }}</b-switch>
           </b-field>
+          <b-field :label="$t('PronounceShowDelay')">
+            <b-slider lazy v-model="user.settings.pronounceShowDelay" :min="0" :max="10" ticks>
+              <b-slider-tick :value="0">{{$t('PronounceShowDelay0')}}</b-slider-tick>
+              <template v-for="i in 10">
+                    <b-slider-tick :value="i" :key="'slider'+i">+{{ i }}s</b-slider-tick>
+                </template>
+            </b-slider>
+          </b-field>
+          <b-field :label="$t('PronounceShowSize')">
+            <b-slider lazy v-model="user.settings.pronounceShowSize" :min="0" :max="2" :tooltip="false" ticks>
+              <b-slider-tick :value="0"><b-icon icon="image" size="is-small" ></b-icon></b-slider-tick>
+              <b-slider-tick :value="1"><b-icon icon="image" size="is-medium" ></b-icon></b-slider-tick>
+              <b-slider-tick :value="2"><b-icon icon="image" size="is-large" ></b-icon></b-slider-tick>
+            </b-slider>
+          </b-field>
           <!-- <b-field>
             <b-switch v-model="user.settings.travelMode">{{
               $t("TravelerMode")
