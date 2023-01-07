@@ -22,6 +22,7 @@
                 </template>
             </b-slider>
           </b-field>
+          <br>
           <b-field :label="$t('PronounceShowSize')">
             <b-slider lazy v-model="user.settings.pronounceShowSize" :min="0" :max="2" :tooltip="false" ticks>
               <b-slider-tick :value="0"><b-icon style="transform: scale(1)" icon="image" ></b-icon></b-slider-tick>
