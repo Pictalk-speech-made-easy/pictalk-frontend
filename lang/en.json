@@ -396,5 +396,6 @@
   "Adapei69Sponsoring": "The Adapei69 helps us improving and testing Pictalk. We benefit from their precious tips and knowledge",
   "ARASAACSponsoring": "The ARASAAC non-profit organization provides us free and open source pictograms",
   "PronounceShowDelay": "Additional showing sentence time",
-  "PronounceShowDelay0": "Sentence time"
+  "PronounceShowDelay0": "Sentence time",
+  "PronounceShowSize": "Size of pictograms during speaking time"
 }
