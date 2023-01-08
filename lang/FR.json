@@ -394,5 +394,8 @@
   "PublicCollections": "Collections communautaires",
   "UnreadNotifications": "Vous avez des notifications non lues",
   "CouldNotShare": "Impossible de partager la collection avec certains utilisateurs (ils ne sont peut-être pas valides). ",
-  "CharlineInfos": "Je m'appelle Charline"
+  "CharlineInfos": "Je m'appelle Charline",
+  "PronounceShowDelay": "Durée additionnelle de l'affichage de la phrase",
+  "PronounceShowDelay0": "Durée de la phrase",
+  "PronounceShowSize": "Taille des pictogrammes pendant l'affichage de la phrase"
 }
