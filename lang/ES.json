@@ -394,5 +394,8 @@
   "INSALyonSponsoring": "La fundación INSA Lyon nos ha ayudado con una donación de 1000",
   "DigitalOceanSponsoring": "Hosters de nuestro servidor, Digital Ocean nos apoyó con 250 €.",
   "Adapei69Sponsoring": "El Adapei69 nos ayuda a mejorar y probar Pictalk. Nos beneficiamos de sus valiosos consejos y conocimientos",
-  "ARASAACSponsoring": "La organización sin ánimo de lucro ARASAAC nos proporciona pictogramas gratuitos y de código abierto"
+  "ARASAACSponsoring": "La organización sin ánimo de lucro ARASAAC nos proporciona pictogramas gratuitos y de código abierto",
+  "PronounceShowDelay": "Tiempo adicional de visualización de la frase",
+  "PronounceShowDelay0": "Tiempo de la pronunciación de la frase",
+  "PronounceShowSize": "Tamaño de los pictogramas durante la visualización de la frase"
 }
