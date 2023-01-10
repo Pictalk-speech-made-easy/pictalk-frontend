@@ -148,22 +148,14 @@
             />
           </b-dropdown-item>
         </b-dropdown>
-
-        <div class="column noMargin is-mobile" v-if="picto.starred == true">
+        <div class="column noMargin is-mobile">
           <b-button
             :disabled="!(isToUser || isEditor) || !isOnline"
-            type="is-success"
-            icon-right="star"
+            :style="colorPriority"
             @click="alternateStar()"
-          />
-        </div>
-        <div class="column noMargin is-mobile" v-else>
-          <b-button
-            :disabled="!(isToUser || isEditor) || !isOnline"
-            type="is-light"
-            icon-right="star"
-            @click="alternateStar()"
-          />
+          >
+          {{showPriorityOrStarred}}
+          </b-button>
         </div>
       </div>
       <div
@@ -494,13 +486,24 @@ export default {
     },
     async alternateStar() {
       try {
+        if (this.picto.starred === true) {
+          this.picto.priority = 1;
+        } else if (this.picto.starred === false) {
+          this.picto.priority = 10;
+        }
+
+        if (this.picto.priority == 10) {
+          this.picto.priority = 1
+        } else {
+          this.picto.priority = this.picto.priority+1;
+        }
         await this.$store.dispatch(
           this.picto.collection
             ? "alternateCollectionStar"
             : "alternatePictoStar",
           {
             ...this.picto,
-            starred: !this.picto.starred,
+            priority: this.picto.priority,
           }
         );
         $nuxt.$emit("resyncPictoList");
@@ -525,6 +528,38 @@ export default {
     },
   },
   computed: {
+    showPriorityOrStarred() {
+      if (this.picto.priority) {
+        return this.picto.priority
+      } else {
+        return this.picto.starred === true ? 1 : 10
+      }
+    },
+    colorPriority() {
+      let colorPrio = "#ff4a4a";
+       if (this.picto.priority === 1) {
+        colorPrio = "#ff4a4a";
+      } else if (this.picto.priority === 2) {
+        colorPrio = "#ff4a4a";
+      } else if (this.picto.priority === 3) {
+        colorPrio = "#432aa8"
+      } else if (this.picto.priority === 4) {
+        colorPrio = "#448cce"
+      } else if (this.picto.priority === 5) {
+        colorPrio = "#3b477b"
+      } else if (this.picto.priority === 6) {
+        colorPrio = "#fbd3a4"
+      } else if (this.picto.priority === 7) {
+        colorPrio = "#b716c4"
+      } else if (this.picto.priority === 8) {
+        colorPrio = "#065141"
+      } else if (this.picto.priority === 9) {
+        colorPrio = "#af3b2d"
+      } else if (this.picto.priority === 10) {
+        colorPrio = "#edece6"
+      }
+      return `background-color: ${colorPrio}`
+    },
     isDropZone() {
       return (
         this.dragndropId &&

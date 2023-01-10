@@ -805,7 +805,7 @@ export default {
           await this.$store.dispatch(
             isCollection ? "editCollection" : "editPicto",
             {
-              starred: this.picto.starred,
+              priority: this.picto.priority,
               id: this.picto.id,
               collection: isCollection,
               speech: this.picto.speech,
