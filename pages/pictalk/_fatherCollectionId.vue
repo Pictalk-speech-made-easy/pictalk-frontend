@@ -342,17 +342,15 @@ export default {
         });
         if (pictos && collectionList) {
           let sortedItems = [];
-          let starredItems = [];
-          let unstarredItems = [];
           sortedItems = this.sorting(collectionList, pictos);
-          for (let item of sortedItems) {
-            if (item?.starred) {
-              starredItems.push(item);
-            } else {
-              unstarredItems.push(item);
+          sortedItems.map((picto) => {
+            if (picto.starred === true) {
+              picto.priority = 1;
+            } else if (picto.starred === false) {
+              picto.priority = 10;
             }
-          }
-          return starredItems.concat(unstarredItems);
+          });
+          return sortedItems.sort((a, b) => a.priority - b.priority);
         } else {
           return [];
         }

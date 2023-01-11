@@ -83,6 +83,7 @@ export const mutations = {
       editedCollections = new Array(editedCollections);
     }
     for (let editedCollection of editedCollections) {
+      editedCollection.starred = undefined;
       const collectionIndex = state.collections.findIndex(
         collection => collection.id === editedCollection.id
       );
@@ -115,6 +116,7 @@ export const mutations = {
       editedPictos = new Array(editedPictos);
     }
     for (let editedPicto of editedPictos) {
+      editedPicto.starred = undefined;
       const pictoIndex = state.pictos.findIndex(
         picto => picto.id === editedPicto.id
       );
@@ -257,7 +259,7 @@ export const actions = {
       image: axios.defaults.baseURL + "/image/pictalk/" + newPicto.image,
       fatherCollectionId: picto.fatherCollectionId,
       id: newPicto.id,
-      starred: JSON.parse(newPicto.starred),
+      priority: JSON.parse(newPicto.priority),
       editors: newPicto.editors,
       viewers: newPicto.viewers,
       public: newPicto.public,
@@ -273,7 +275,7 @@ export const actions = {
     formData.append("meaning", JSON.stringify(picto.meaning));
     formData.append("color", picto.color);
     formData.append("share", picto.shared);
-    formData.append("starred", picto.starred);
+    formData.append("priority", picto.priority);
     //formData.append("collectionIds", picto.collectionIds);
     if (picto.image) {
       formData.append("image", picto.image);
@@ -295,7 +297,7 @@ export const actions = {
       image: axios.defaults.baseURL + "/image/pictalk/" + editedPicto.image,
       fatherCollectionId: picto.fatherCollectionId,
       id: picto.id,
-      starred: JSON.parse(editedPicto.starred),
+      priority: JSON.parse(editedPicto.priority),
       editors: editedPicto.editors,
       viewers: editedPicto.viewers,
       public: editedPicto.public,
@@ -311,7 +313,7 @@ export const actions = {
   },
   async alternatePictoStar(vuexContext, picto) {
     let formData = new FormData();
-    formData.append("starred", picto.starred);
+    formData.append("priority", picto.priority);
     const editedPicto = (await axios
       .put("/picto/" + picto.id, formData, {
         headers: {
@@ -319,13 +321,13 @@ export const actions = {
         }
       })).data;
     vuexContext.commit("editPicto", {
-      starred: JSON.parse(editedPicto.starred),
+      priority: JSON.parse(editedPicto.priority),
       id: editedPicto.id
     });
   },
   async alternateCollectionStar(vuexContext, collection) {
     let formData = new FormData();
-    formData.append("starred", collection.starred);
+    formData.append("priority", collection.priority);
     const editedCollection = (await axios
       .put("/collection/" + collection.id, formData, {
         headers: {
@@ -333,7 +335,7 @@ export const actions = {
         }
       })).data;
     vuexContext.commit("editCollection", {
-      starred: JSON.parse(editedCollection.starred),
+      priority: JSON.parse(editedCollection.priority),
       id: editedCollection.id
     });
   },
@@ -366,7 +368,7 @@ export const actions = {
       viewers: newCollection.viewers ? newCollection.viewers : [],
       editors: newCollection.editors ? newCollection.editors : [],
       id: newCollection.id,
-      starred: JSON.parse(newCollection.starred),
+      priority: JSON.parse(newCollection.priority),
       createdDate: newCollection.createdDate,
       updatedDate: newCollection.updatedDate
     };
@@ -393,8 +395,8 @@ export const actions = {
     if (collection.share) {
       formData.append("share", collection.share);
     }
-    if (collection.starred) {
-      formData.append("starred", collection.starred);
+    if (collection.priority) {
+      formData.append("priority", collection.priority);
     }
     if (collection.image) {
       formData.append("image", collection.image);
@@ -410,7 +412,7 @@ export const actions = {
       ...editedCollection,
       ...(editedCollection.meaning && { meaning: JSON.parse(editedCollection.meaning) }),
       ...(editedCollection.speech && { speech: JSON.parse(editedCollection.speech) }),
-      ...(editedCollection.starred && { starred: JSON.parse(editedCollection.starred) }),
+      ...(editedCollection.priority && { priority: JSON.parse(editedCollection.priority) }),
       image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
       createdDate: editedCollection.createdDate,
       updatedDate: editedCollection.updatedDate,
