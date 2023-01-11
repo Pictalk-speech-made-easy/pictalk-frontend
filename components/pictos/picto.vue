@@ -154,7 +154,7 @@
             :style="colorPriority"
             @click="alternateStar()"
           >
-          {{showPriorityOrStarred}}
+          <b>{{showPriorityOrStarred}}</b>
           </b-button>
         </div>
       </div>
@@ -536,27 +536,27 @@ export default {
       }
     },
     colorPriority() {
-      let colorPrio = "#ff4a4a";
+      let colorPrio = "#FF5757";
        if (this.picto.priority === 1) {
-        colorPrio = "#ff4a4a";
+        colorPrio = "#FF9494";
       } else if (this.picto.priority === 2) {
-        colorPrio = "#ff4a4a";
+        colorPrio = "#FFB3B3";
       } else if (this.picto.priority === 3) {
-        colorPrio = "#432aa8"
+        colorPrio = "#FFCDC8"
       } else if (this.picto.priority === 4) {
-        colorPrio = "#448cce"
+        colorPrio = "#86ADC6"
       } else if (this.picto.priority === 5) {
-        colorPrio = "#3b477b"
+        colorPrio = "#ACC9D8"
       } else if (this.picto.priority === 6) {
-        colorPrio = "#fbd3a4"
+        colorPrio = "#C8DBE5"
       } else if (this.picto.priority === 7) {
-        colorPrio = "#b716c4"
+        colorPrio = "#22BD22"
       } else if (this.picto.priority === 8) {
-        colorPrio = "#065141"
+        colorPrio = "#75DE75"
       } else if (this.picto.priority === 9) {
-        colorPrio = "#af3b2d"
+        colorPrio = "#C7FFC7"
       } else if (this.picto.priority === 10) {
-        colorPrio = "#edece6"
+        colorPrio = "#ffffff"
       }
       return `background-color: ${colorPrio}`
     },
