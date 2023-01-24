@@ -43,6 +43,7 @@
 
             <b-field :label="$t('Search')">
               <b-input
+                data-cy="picto-steps-search-input"
                 type="text"
                 v-model="pictoSearch"
                 :placeholder="$t('SearchNotice')"
@@ -51,6 +52,7 @@
                 @keyup.native.enter="pictoExtractImg(pictoSearch)"
               ></b-input>
               <b-button
+                data-cy="picto-steps-search-button"
                 focused
                 type="is-info"
                 icon-right="magnify"
@@ -454,6 +456,7 @@
             </div>
             <div class="column is-half">
               <b-button
+                data-cy="picto-steps-create-edit-pictogram-button"
                 expanded
                 v-if="isPicto"
                 :disabled="
@@ -470,6 +473,7 @@
               >
               </b-button>
               <b-button
+                data-cy="picto-steps-create-edit-collection-button"
                 expanded
                 v-if="!isPicto"
                 :class="classCreateOrEdit"

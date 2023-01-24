@@ -9,7 +9,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "analyze": "nuxt build --analyze"
+    "analyze": "nuxt build --analyze",
+    "cypress:open": "cypress open"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^7.2.0",
@@ -19,6 +20,7 @@
     "@nuxtjs/sitemap": "^2.4.0",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
+    "cypress": "^12.3.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-loader": "^4.0.2",
