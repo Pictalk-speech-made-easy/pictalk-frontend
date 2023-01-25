@@ -33,6 +33,7 @@
         "
       >
         <b-input
+        data-cy="delete-picto-meaning"
           v-model="meaningOrName"
           :placeholder="object.meaning[getUserLang]"
           @keyup.native.enter="onSubmitted(meaningOrName)"
@@ -44,6 +45,7 @@
         $t("Close")
       }}</b-button>
       <b-button
+        data-cy="delete-picto-button"
         class="button is-primary"
         :loading="loading"
         @click="onSubmitted(meaningOrName)"

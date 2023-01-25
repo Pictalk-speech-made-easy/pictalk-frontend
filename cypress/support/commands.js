@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -39,6 +40,33 @@ Cypress.Commands.add(
       cy.wait('@getRoot');
       cy.url().should('contain', '/pictalk/')
       cy.url().should('contain', '?sidebarPictoId=');
+    });
+  }
+)
+Cypress.Commands.add(
+  'createCollection',
+  () => {
+    cy.window().then(window => {
+      cy.intercept('POST', '/collection').as('addCollection');
+      cy.fixture('images/logo.jpg').then(async (logo) => {
+        const blob = Cypress.Blob.base64StringToBlob(logo, 'image/png')
+        const uploadedImage = new File([blob], 'logo.jpg', { type: 'image/jpg' });
+        const collectionToCreate = {
+          collection: true,
+          speech: { "fr": "bonjour", "es": "Hola" },
+          meaning: { "fr": "bonjour", "es": "Hola" },
+          color: "#F1F1F1",
+          share: 1,
+          fatherCollectionId: parseInt(
+            window.$nuxt.$route.params.fatherCollectionId,
+            10
+          ),
+          image: uploadedImage,
+        };
+        const createdCollection = window.$nuxt.$store.dispatch('addCollection', collectionToCreate);
+        cy.wait('@addCollection');
+        return await createdCollection;
+      });
     });
   }
 )

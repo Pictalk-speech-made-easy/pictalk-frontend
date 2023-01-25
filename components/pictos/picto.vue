@@ -1,5 +1,6 @@
 <template>
   <div
+    :data-cy="'cy-'+picto.id"
     :class="{
       pictowrapper: true,
       bigger:
@@ -59,15 +60,17 @@
         v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
         class="adminMenu adminoption columns smallMargin"
       >
-        <b-dropdown aria-role="menu" class="column noMargin is-mobile">
+        <b-dropdown  aria-role="menu" class="column noMargin is-mobile">
           <template #trigger="{ active }">
             <b-button
+            data-cy="picto-action-dropdown"
               type="is-info"
               :icon-right="active ? 'menu-up' : 'menu-down'"
             />
           </template>
           <b-dropdown-item aria-role="listitem">
             <b-button
+              data-cy="picto-action-dropdown-edit"
               :disabled="!(isEditor || isToUser) || !isOnline"
               type="is-info"
               icon-left="pencil"
@@ -78,6 +81,7 @@
           </b-dropdown-item>
           <b-dropdown-item aria-role="listitem">
             <b-button
+              data-cy="picto-action-dropdown-delete"
               :disabled="!isOnline || !isToUser"
               :expanded="true"
               type="is-danger"

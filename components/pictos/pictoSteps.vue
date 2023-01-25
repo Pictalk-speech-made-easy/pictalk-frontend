@@ -193,6 +193,7 @@
             </h1>
             <b-field :label="$t('Speech')">
               <b-input
+                data-cy="picto-steps-speech-input"
                 type="text"
                 v-model="picto.speech[languageSelectorSpeech]"
                 :placeholder="$t('SpeechNotice')"
@@ -222,6 +223,7 @@
             </b-field>
             <b-field :label="$t('Meaning')">
               <b-input
+                data-cy="picto-steps-meaning-input"
                 type="text"
                 v-model="picto.meaning[languageSelectorSpeech]"
                 :placeholder="$t('MeaningNotice')"
