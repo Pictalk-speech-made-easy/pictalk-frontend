@@ -915,7 +915,7 @@ export default {
           .then((arasaacData) => {
             arasaacData = arasaacData.data;
             for (let i = 0; i < arasaacData?.length; i++) {
-              this.images.unshift({
+              this.images.push({
                 src: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
                 title: arasaacData[i]["keywords"][0]
                   ? arasaacData[i]["keywords"][0]["keyword"]
