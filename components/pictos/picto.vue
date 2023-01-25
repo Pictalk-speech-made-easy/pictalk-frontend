@@ -30,6 +30,35 @@
       }"
     >
       <div id="pictogram-image-wrapper" style="width: 100%">
+        <div class="actions">
+          <div class="head-actions">
+            <b-icon class="action-icon" icon="drag"></b-icon>
+            <b-icon class="action-icon" icon="dots-vertical"></b-icon>
+          </div>
+
+          <div class="main-actions">
+            <b-icon
+              class="action-icon"
+              style="justify-self: end"
+              icon="pencil"
+            ></b-icon>
+            <b-icon
+              class="action-icon"
+              style="justify-self: start"
+              icon="delete"
+            ></b-icon>
+            <b-icon
+              class="action-icon"
+              style="justify-self: end"
+              icon="vector-arrange-below"
+            ></b-icon>
+            <b-icon
+              class="action-icon"
+              style="justify-self: start"
+              icon="vector-link"
+            ></b-icon>
+          </div>
+        </div>
         <img
           draggable="false"
           class="image"
@@ -154,7 +183,7 @@
             :style="colorPriority"
             @click="alternateStar()"
           >
-          <b>{{showPriorityOrStarred}}</b>
+            <b>{{ showPriorityOrStarred }}</b>
           </b-button>
         </div>
       </div>
@@ -493,9 +522,9 @@ export default {
         }
 
         if (this.picto.priority == 10) {
-          this.picto.priority = 1
+          this.picto.priority = 1;
         } else {
-          this.picto.priority = this.picto.priority+1;
+          this.picto.priority = this.picto.priority + 1;
         }
         await this.$store.dispatch(
           this.picto.collection
@@ -530,35 +559,35 @@ export default {
   computed: {
     showPriorityOrStarred() {
       if (this.picto.priority) {
-        return this.picto.priority
+        return this.picto.priority;
       } else {
-        return this.picto.starred === true ? 1 : 10
+        return this.picto.starred === true ? 1 : 10;
       }
     },
     colorPriority() {
       let colorPrio = "#FF5757";
-       if (this.picto.priority === 1) {
+      if (this.picto.priority === 1) {
         colorPrio = "#FF9494";
       } else if (this.picto.priority === 2) {
         colorPrio = "#FFB3B3";
       } else if (this.picto.priority === 3) {
-        colorPrio = "#FFCDC8"
+        colorPrio = "#FFCDC8";
       } else if (this.picto.priority === 4) {
-        colorPrio = "#86ADC6"
+        colorPrio = "#86ADC6";
       } else if (this.picto.priority === 5) {
-        colorPrio = "#ACC9D8"
+        colorPrio = "#ACC9D8";
       } else if (this.picto.priority === 6) {
-        colorPrio = "#C8DBE5"
+        colorPrio = "#C8DBE5";
       } else if (this.picto.priority === 7) {
-        colorPrio = "#22BD22"
+        colorPrio = "#22BD22";
       } else if (this.picto.priority === 8) {
-        colorPrio = "#75DE75"
+        colorPrio = "#75DE75";
       } else if (this.picto.priority === 9) {
-        colorPrio = "#C7FFC7"
+        colorPrio = "#C7FFC7";
       } else if (this.picto.priority === 10) {
-        colorPrio = "#ffffff"
+        colorPrio = "#ffffff";
       }
-      return `background-color: ${colorPrio}`
+      return `background-color: ${colorPrio}`;
     },
     isDropZone() {
       return (
@@ -608,6 +637,39 @@ export default {
   border-color: #000000 !important;
   border-style: solid !important;
 }
+.main-actions {
+  color: white;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 2.5vmin;
+  column-gap: 2.5vmin;
+}
+.action-icon {
+  font-size: 3.5vmin;
+}
+.head-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  align-self: baseline;
+}
+.actions {
+  background-color: rgba(0, 0, 0, 0.35);
+  width: calc(100% - 1.2rem);
+  position: absolute;
+  color: white;
+  z-index: 2;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+}
+
 .containing {
   display: flex;
   flex-direction: column;
@@ -656,10 +718,22 @@ export default {
   border-width: 1px;
   border-radius: 12px;
   border-color: #00000014;
+  background-color: white;
 }
 .pictowrapper {
   padding: 3px;
   position: relative;
+  transition: 0.2s ease-in-out;
+}
+.pictowrapper:hover {
+  transition-delay: 0.5s;
+  transform: scale(1.1);
+  z-index: 999;
+}
+.pictowrapper:hover > .pictogram > #pictogram-image-wrapper > .actions {
+  transition-delay: 0.5s;
+  opacity: 1;
+  pointer-events: all;
 }
 .dragbutton {
   top: 0.6rem;
