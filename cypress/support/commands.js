@@ -63,9 +63,14 @@ Cypress.Commands.add(
           ),
           image: uploadedImage,
         };
-        const createdCollection = window.$nuxt.$store.dispatch('addCollection', collectionToCreate);
+        let createdCollection = await window.$nuxt.$store.dispatch('addCollection', collectionToCreate);
         cy.wait('@addCollection');
-        return await createdCollection;
+        const index = window.$nuxt.$store.getters.getCollections.findIndex(
+          (collection) => collection.id === createdCollection.id
+        );
+        expect(index).not.to.eq(-1);
+        window.$nuxt.$emit("resyncPictoList");
+        return createdCollection;
       });
     });
   }
