@@ -29,17 +29,27 @@ Cypress.Commands.add(
   (username = Cypress.env('username'), password = Cypress.env('password')) => {
 
     cy.visit('/') // Load the app in order `cy.window` to work
-    cy.window().then(window => {
+    cy.window().then(async window => {
       cy.intercept('POST', '/auth/signin').as('signin');
       cy.intercept('GET', '/user/notification').as('getNotifications');
       cy.intercept('GET', '/user/root').as('getRoot');
+      cy.intercept('GET', '/collection/find/*').as('findCollection');
       window.$nuxt.$store.dispatch('authenticateUser', { username, password });
       cy.wait('@signin');
       cy.visit('/pictalk');
       cy.wait('@getNotifications');
-      cy.wait('@getRoot');
+      cy.wait('@getRoot').then((interception) => {
+        const bodyLength = interception.response.body.length;
+        if (bodyLength === 0) {
+          cy.get('[data-cy=cypress-emptyCollection]')
+        } else {
+          cy.get('[data-cy=cypress-pictoList]')
+        }
+      });
+      cy.wait('@findCollection');
       cy.url().should('contain', '/pictalk/')
       cy.url().should('contain', '?sidebarPictoId=');
+
     });
   }
 )
