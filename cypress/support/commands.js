@@ -70,3 +70,11 @@ Cypress.Commands.add(
     });
   }
 )
+// Cypress command to delete a picto
+Cypress.Commands.add('deleteCollection', (collectionId, fatherCollectionId) => {
+  cy.window().then(window => {
+    cy.intercept('DELETE', '/collection/' + '?collectionId=' + collectionId + '&fatherId=' + fatherCollectionId).as('deleteCollection');
+    window.$nuxt.$store.dispatch('removeCollection', { collectionId, fatherCollectionId });
+    cy.wait('@deleteCollection');
+  });
+})

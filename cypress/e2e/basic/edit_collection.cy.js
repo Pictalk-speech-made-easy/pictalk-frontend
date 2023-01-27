@@ -13,6 +13,12 @@ describe('Edits a collection', () => {
       cy.get('[data-cy="picto-steps-meaning-input"]').type("Edited");
       cy.get('[data-cy="picto-steps-create-edit-collection-button"]').click();
       cy.get('[data-cy="cy-' + createdCollection.id + '"]').contains('Edited')
+      cy.window().then((window) => {
+        cy.deleteCollection(createdCollection.id, parseInt(
+          window.$nuxt.$route.params.fatherCollectionId,
+          10
+        ));
+      });
     });
   });
 });
