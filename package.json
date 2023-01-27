@@ -8,6 +8,7 @@
     "dev": "nuxt -H 0.0.0.0",
     "build": "nuxt build",
     "start": "nuxt start",
+    "build:start": "npm run build && npm run start",
     "generate": "nuxt generate",
     "analyze": "nuxt build --analyze",
     "cypress:open": "cypress open"
