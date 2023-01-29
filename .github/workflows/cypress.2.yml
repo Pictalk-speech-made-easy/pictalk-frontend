@@ -30,7 +30,7 @@ jobs:
         with:
           name: dist
           if-no-files-found: error
-          path: 
+          path: |
             dist
             cypress
             cypress.config.js
@@ -55,7 +55,7 @@ jobs:
         with:
           name: dist
           if-no-files-found: error
-          path: 
+          path: |
             dist
             cypress
             cypress.config.js
@@ -84,7 +84,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: 
+          path: |
             dist
             cypress
             cypress.config.js
@@ -141,7 +141,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: 
+          path: |
             dist
             cypress
             cypress.config.js
@@ -189,7 +189,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: 
+          path: |
             dist
             cypress
             cypress.config.js
@@ -236,7 +236,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: 
+          path: |
             dist
             cypress
             cypress.config.js
@@ -281,7 +281,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: 
+          path: |
             dist
             cypress
             cypress.config.js
