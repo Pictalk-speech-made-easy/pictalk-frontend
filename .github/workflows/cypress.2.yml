@@ -5,9 +5,9 @@ on:
     branches-ignore:
       - "renovate/**"
 env:
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          API_URL: ${{ env.API_URL }}
+    CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+    CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+    API_URL: ${{ env.API_URL }}
 jobs:
   install:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
       - run: echo $API_URL
       - run: ls
       - run: ls ..
-      - run: API_URL=$API_URL npm run generate
+      - run: npm run generate
 
       - name: Save dist folder
         uses: actions/upload-artifact@v3
