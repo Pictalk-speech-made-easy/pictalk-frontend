@@ -26,7 +26,7 @@ import * as fs from 'fs';
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add(
   'login',
-  (username = Cypress.env('username'), password = Cypress.env('password')) => {
+  (username = Cypress.env('USERNAME'), password = Cypress.env('PASSWORD')) => {
 
     cy.visit('/') // Load the app in order `cy.window` to work
     cy.window().then(async window => {

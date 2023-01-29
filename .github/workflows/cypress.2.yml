@@ -28,10 +28,6 @@ jobs:
       - run: npx cypress info
       - run: node --version
       - run: node -p 'os.cpus()'
-      - run: env
-      - run: echo $API_URL
-      - run: ls
-      - run: ls ..
       - run: npm run generate
 
       - name: Save dist folder
@@ -95,8 +91,7 @@ jobs:
 
       - name: Node info
         run: node -v
-      - name: List directory
-        run: ls
+        
       - name: __e Dir
         run: ls /__e
 
