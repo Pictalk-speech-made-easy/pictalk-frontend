@@ -24,6 +24,7 @@
       />
 
       <div
+        data-cy="cypress-empty-column"
         class="
           column
           is-one-third-mobile

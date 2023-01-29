@@ -44,9 +44,11 @@ Cypress.Commands.add(
           cy.get('[data-cy=cypress-emptyCollection]')
         } else {
           cy.get('[data-cy=cypress-pictoList]')
+          cy.wait('@findCollection');
+          cy.get('[data-cy=cypress-empty-column]');
+          cy.get('[data-cy^=cy-').should('not.have.length', 0);
         }
       });
-      cy.wait('@findCollection');
       cy.url().should('contain', '/pictalk/')
       cy.url().should('contain', '?sidebarPictoId=');
 
@@ -63,8 +65,8 @@ Cypress.Commands.add(
         const uploadedImage = new File([blob], 'logo.jpg', { type: 'image/jpg' });
         const collectionToCreate = {
           collection: true,
-          speech: { "fr": "bonjour", "es": "Hola" },
-          meaning: { "fr": "bonjour", "es": "Hola" },
+          speech: { "fr": "bonjour", "es": "Hola", "en": "Hello" },
+          meaning: { "fr": "bonjour", "es": "Hola", "en": "Hello" },
           color: "#F1F1F1",
           share: 1,
           fatherCollectionId: parseInt(
