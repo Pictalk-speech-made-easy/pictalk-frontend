@@ -1,11 +1,5 @@
 name: Cypress Tests
-on: 
-  push: 
-    branches:
-      - stable
-  pull_request:
-    branches:
-      - stable
+on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -21,6 +15,7 @@ jobs:
           start: npm run generate:start
           wait-on: 'http://localhost:3000' # Waits for above
           browser: chrome # Runs tests in Chrome
+          headed: true
           # Records to Cypress Cloud 
           # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record
           record: true
@@ -28,6 +23,7 @@ jobs:
         env:
           # For recording and parallelization to work you must set your CYPRESS_RECORD_KEY
           # in GitHub repo → Settings → Secrets → Actions
+          DEBUG: '@cypress/github-action'
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
