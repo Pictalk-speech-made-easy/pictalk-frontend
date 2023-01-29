@@ -32,22 +32,23 @@ Cypress.Commands.add(
     cy.window().then(async window => {
       cy.intercept('POST', '/auth/signin').as('signin');
       cy.intercept('GET', '/user/notification').as('getNotifications');
-      cy.intercept('GET', '/user/root').as('getRoot');
+      cy.intercept('GET', '/user/root', (req) => {
+        req.continue((res) => {
+          const bodyLength = res.body.length;
+          if (bodyLength === 0) {
+            cy.get('[data-cy=cypress-emptyCollection]')
+          } else {
+            cy.get('[data-cy=cypress-pictoList]')
+            cy.get('[data-cy=cypress-empty-column]');
+            cy.get('[data-cy^=cy-]', { timeout: 10000 }).should('not.have.length', 0);
+          }
+        })
+      }).as('getRoot');
       window.$nuxt.$store.dispatch('authenticateUser', { username, password });
       cy.wait('@signin');
       cy.visit('/pictalk');
-      cy.wait('@getNotifications');
-      cy.wait('@getRoot').then((interception) => {
-        const bodyLength = interception.response.body.length;
-        if (bodyLength === 0) {
-          cy.get('[data-cy=cypress-emptyCollection]')
-        } else {
-          cy.get('[data-cy=cypress-pictoList]')
-          cy.get('[data-cy=cypress-empty-column]');
-          cy.get('[data-cy^=cy-', { timeout: 10000 }).should('not.have.length', 0);
-        }
-      });
-      cy.url().should('contain', '/pictalk/')
+      cy.wait(['@getNotifications', '@getRoot']);
+      cy.url().should('contain', '/pictalk/');
       cy.url().should('contain', '?sidebarPictoId=');
 
     });

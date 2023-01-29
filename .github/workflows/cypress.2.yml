@@ -8,6 +8,8 @@ env:
     CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
     API_URL: ${{ vars.API_URL }}
+    CYPRESS_USERNAME: ${{ vars.CYPRESS_USERNAME }}
+    CYPRESS_PASSWORD: ${{ vars.CYPRESS_PASSWORD }}
 jobs:
   install:
     runs-on: ubuntu-latest
