@@ -25,12 +25,12 @@ jobs:
       - run: node -p 'os.cpus()'
       - run: npm run generate
 
-      - name: Save build folder
+      - name: Save dist folder
         uses: actions/upload-artifact@v3
         with:
           name: dist
           if-no-files-found: error
-          path: dist
+          path: ./
 
   install-windows:
     runs-on: windows-2019
@@ -47,12 +47,12 @@ jobs:
       - run: node -p 'os.cpus()'
       - run: npm run generate
 
-      - name: Save build folder
+      - name: Save dist folder
         uses: actions/upload-artifact@v3
         with:
           name: dist
           if-no-files-found: error
-          path: dist
+          path: ./
 
   ui-chrome-tests:
     timeout-minutes: 15
@@ -74,11 +74,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download the build folders
+      - name: Download the dist folders
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: dist
+          path: ./
 
       - name: Cypress info
         run: npx cypress info
@@ -128,11 +128,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download the build folders
+      - name: Download the dist folders
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: dist
+          path: ./
 
       - name: "UI Tests - Chrome - Mobile"
         uses: cypress-io/github-action@v5
@@ -173,11 +173,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download the build folders
+      - name: Download the dist folders
         uses: actions/download-artifact@v3
         with:
-          name: build
-          path: build
+          name: dist
+          path: ./
 
       - name: "UI Tests - Firefox"
         uses: cypress-io/github-action@v5
@@ -217,11 +217,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download the build folders
+      - name: Download the dist folders
         uses: actions/download-artifact@v3
         with:
-          name: build
-          path: build
+          name: dist
+          path: ./
 
       - name: "UI Tests - Firefox - Mobile"
         uses: cypress-io/github-action@v5
@@ -259,11 +259,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download the build folders
+      - name: Download the dist folders
         uses: actions/download-artifact@v3
         with:
-          name: build
-          path: build
+          name: dist
+          path: ./
 
       - name: "UI Tests - Electron - Windows"
         uses: cypress-io/github-action@v5
