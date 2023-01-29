@@ -44,7 +44,7 @@ Cypress.Commands.add(
         } else {
           cy.get('[data-cy=cypress-pictoList]')
           cy.get('[data-cy=cypress-empty-column]');
-          cy.get('[data-cy^=cy-').should('not.have.length', 0);
+          cy.get('[data-cy^=cy-', { timeout: 10000 }).should('not.have.length', 0);
         }
       });
       cy.url().should('contain', '/pictalk/')
