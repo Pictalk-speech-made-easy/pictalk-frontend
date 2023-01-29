@@ -7,7 +7,7 @@ on:
 env:
     CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-    API_URL: ${{ env.API_URL }}
+    API_URL: ${{ vars.API_URL }}
 jobs:
   install:
     runs-on: ubuntu-latest
