@@ -23,6 +23,8 @@ jobs:
       - run: npx cypress info
       - run: node --version
       - run: node -p 'os.cpus()'
+      - run: ls
+      - run: ls ..
       - run: npm run generate
 
       - name: Save dist folder
@@ -31,8 +33,10 @@ jobs:
           name: dist
           if-no-files-found: error
           path: |
-            ./
-            !./node_modules
+            .
+            !node_modules
+            !.git
+            !.nuxt
 
   install-windows:
     runs-on: windows-2019
@@ -55,8 +59,10 @@ jobs:
           name: dist
           if-no-files-found: error
           path: |
-            ./
-            !./node_modules
+            .
+            !node_modules
+            !.git
+            !.nuxt
   ui-chrome-tests:
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -82,14 +88,17 @@ jobs:
         with:
           name: dist
           path: |
-            ./
-            !./node_modules
+            .
+            !node_modules
+            !.git
+            !.nuxt
       - name: Cypress info
         run: npx cypress info
 
       - name: Node info
         run: node -v
-
+      - name: List directory
+        run: ls
       - name: __e Dir
         run: ls /__e
 
@@ -137,8 +146,10 @@ jobs:
         with:
           name: dist
           path: |
-            ./
-            !./node_modules
+            .
+            !node_modules
+            !.git
+            !.nuxt
       - name: "UI Tests - Chrome - Mobile"
         uses: cypress-io/github-action@v5
         with:
@@ -183,8 +194,10 @@ jobs:
         with:
           name: dist
           path: |
-            ./
-            !./node_modules
+            .
+            !node_modules
+            !.git
+            !.nuxt
       - name: "UI Tests - Firefox"
         uses: cypress-io/github-action@v5
         with:
@@ -228,8 +241,10 @@ jobs:
         with:
           name: dist
           path: |
-            ./
-            !./node_modules
+            .
+            !node_modules
+            !.git
+            !.nuxt
       - name: "UI Tests - Firefox - Mobile"
         uses: cypress-io/github-action@v5
         with:
@@ -271,8 +286,10 @@ jobs:
         with:
           name: dist
           path: |
-            ./
-            !./node_modules
+            .
+            !node_modules
+            !.git
+            !.nuxt
       - name: "UI Tests - Electron - Windows"
         uses: cypress-io/github-action@v5
         with:
