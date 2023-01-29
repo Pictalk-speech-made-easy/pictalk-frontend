@@ -94,13 +94,14 @@ jobs:
       - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start:cypress
+          start: npm run start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
           record: true
           parallel: true
           group: "UI - Chrome"
+          spec: cypress/e2e/**/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -139,13 +140,14 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           config: "viewportWidth=375,viewportHeight=667"
-          start: npm run start:cypress
+          start: npm run start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
           record: true
           parallel: true
           group: "UI - Chrome - Mobile"
+          spec: cypress/e2e/**/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -182,13 +184,14 @@ jobs:
       - name: "UI Tests - Firefox"
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start:cypress
+          start: npm run start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: firefox
           record: true
           parallel: true
           group: "UI - Firefox"
+          spec: cypress/e2e/**/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -226,12 +229,13 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           config: "viewportWidth=375,viewportHeight=667"
-          start: npm run start:cypress
+          start: npm run start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: firefox
           record: true
           parallel: true
+          spec: cypress/e2e/**/*.cy.js
           group: "UI - Firefox - Mobile"
           config-file: cypress.config.js
         env:
@@ -266,12 +270,13 @@ jobs:
       - name: "UI Tests - Electron - Windows"
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start:cypress
+          start: npm run start
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           record: true
           parallel: true
           group: "UI - Electron - Windows"
+          spec: cypress/e2e/**/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
