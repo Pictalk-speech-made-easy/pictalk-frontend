@@ -33,7 +33,6 @@ Cypress.Commands.add(
       cy.intercept('POST', '/auth/signin').as('signin');
       cy.intercept('GET', '/user/notification').as('getNotifications');
       cy.intercept('GET', '/user/root').as('getRoot');
-      cy.intercept('GET', '/collection/find/*').as('findCollection');
       window.$nuxt.$store.dispatch('authenticateUser', { username, password });
       cy.wait('@signin');
       cy.visit('/pictalk');
@@ -44,7 +43,6 @@ Cypress.Commands.add(
           cy.get('[data-cy=cypress-emptyCollection]')
         } else {
           cy.get('[data-cy=cypress-pictoList]')
-          cy.wait('@findCollection');
           cy.get('[data-cy=cypress-empty-column]');
           cy.get('[data-cy^=cy-').should('not.have.length', 0);
         }
