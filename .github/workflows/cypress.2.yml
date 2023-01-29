@@ -50,9 +50,9 @@ jobs:
       - name: Save build folder
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: dist
           if-no-files-found: error
-          path: build
+          path: dist
 
   ui-chrome-tests:
     timeout-minutes: 15
@@ -69,7 +69,7 @@ jobs:
       fail-fast: false
       matrix:
         # run copies of the current job in parallel
-        containers: [1, 2, 3, 4, 5]
+        containers: [1]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -99,7 +99,6 @@ jobs:
           record: true
           parallel: true
           group: "UI - Chrome"
-          spec: cypress/e2e/basic/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -124,7 +123,7 @@ jobs:
       fail-fast: false
       matrix:
         # run copies of the current job in parallel
-        containers: [1, 2, 3, 4, 5]
+        containers: [1]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -146,7 +145,6 @@ jobs:
           record: true
           parallel: true
           group: "UI - Chrome - Mobile"
-          spec: cypress/e2e/basic/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -170,7 +168,7 @@ jobs:
       fail-fast: false
       matrix:
         # run copies of the current job in parallel
-        containers: [1, 2, 3, 4, 5]
+        containers: [1]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -191,7 +189,6 @@ jobs:
           record: true
           parallel: true
           group: "UI - Firefox"
-          spec: cypress/e2e/basic/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -215,7 +212,7 @@ jobs:
       fail-fast: false
       matrix:
         # run copies of the current job in parallel
-        containers: [1, 2, 3, 4, 5]
+        containers: [1]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -237,7 +234,6 @@ jobs:
           record: true
           parallel: true
           group: "UI - Firefox - Mobile"
-          spec: cypress/e2e/basic/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
@@ -258,7 +254,7 @@ jobs:
       fail-fast: false
       matrix:
         # run copies of the current job in parallel
-        containers: [1, 2, 3, 4, 5]
+        containers: [1]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -278,7 +274,6 @@ jobs:
           record: true
           parallel: true
           group: "UI - Electron - Windows"
-          spec: cypress/e2e/basic/*.cy.js
           config-file: cypress.config.js
         env:
           CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
