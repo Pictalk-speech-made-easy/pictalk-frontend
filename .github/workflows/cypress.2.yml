@@ -30,7 +30,10 @@ jobs:
         with:
           name: dist
           if-no-files-found: error
-          path: ./
+          path: 
+            dist
+            cypress
+            cypress.config.js
 
   install-windows:
     runs-on: windows-2019
@@ -52,7 +55,10 @@ jobs:
         with:
           name: dist
           if-no-files-found: error
-          path: ./
+          path: 
+            dist
+            cypress
+            cypress.config.js
 
   ui-chrome-tests:
     timeout-minutes: 15
@@ -78,7 +84,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./
+          path: 
+            dist
+            cypress
+            cypress.config.js
 
       - name: Cypress info
         run: npx cypress info
@@ -132,7 +141,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./
+          path: 
+            dist
+            cypress
+            cypress.config.js
 
       - name: "UI Tests - Chrome - Mobile"
         uses: cypress-io/github-action@v5
@@ -177,7 +189,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./
+          path: 
+            dist
+            cypress
+            cypress.config.js
 
       - name: "UI Tests - Firefox"
         uses: cypress-io/github-action@v5
@@ -221,7 +236,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./
+          path: 
+            dist
+            cypress
+            cypress.config.js
 
       - name: "UI Tests - Firefox - Mobile"
         uses: cypress-io/github-action@v5
@@ -263,7 +281,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./
+          path: 
+            dist
+            cypress
+            cypress.config.js
 
       - name: "UI Tests - Electron - Windows"
         uses: cypress-io/github-action@v5
