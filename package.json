@@ -8,6 +8,7 @@
     "dev": "nuxt -H 0.0.0.0",
     "build": "nuxt build",
     "start": "nuxt start",
+    "start:cypress": "npm run start & cypress run",
     "generate:start": "API_URL=https://api.pictalk.org npm run generate && npm run start",
     "generate": "nuxt generate",
     "analyze": "nuxt build --analyze",

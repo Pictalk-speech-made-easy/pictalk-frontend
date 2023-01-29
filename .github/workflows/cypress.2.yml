@@ -94,7 +94,7 @@ jobs:
       - name: "UI Tests - Chrome"
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start
+          start: npm run start:cypress
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
@@ -139,7 +139,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           config: "viewportWidth=375,viewportHeight=667"
-          start: npm run start
+          start: npm run start:cypress
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
@@ -182,7 +182,7 @@ jobs:
       - name: "UI Tests - Firefox"
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start
+          start: npm run start:cypress
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: firefox
@@ -226,7 +226,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           config: "viewportWidth=375,viewportHeight=667"
-          start: npm run start
+          start: npm run start:cypress
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: firefox
@@ -266,7 +266,7 @@ jobs:
       - name: "UI Tests - Electron - Windows"
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start
+          start: npm run start:cypress
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           record: true
