@@ -53,6 +53,7 @@
         <b-navbar-item tag="div">
           <div class="buttons bottomOffset">
             <b-button
+            data-cy="navbar-signin-button"
               class="bolder"
               v-if="!isLogged"
               @click="openSignInModal()"
