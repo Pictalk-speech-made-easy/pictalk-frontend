@@ -67,7 +67,7 @@ export default {
       ev.dataTransfer.dropEffect = "move";
       const goBack = document.getElementById("return");
       goBack.style.transform = "scale(1.5)";
-      goBack.style.left = "5vw";
+      goBack.style.left = "100px";
       if (!this.timer) {
         this.timer = setTimeout(() => {
           this.$nuxt.$emit("removeSpeechDrag");

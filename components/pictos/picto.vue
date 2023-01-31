@@ -9,184 +9,135 @@
         $route.query.isAdmin &&
         false,
     }"
+    v-on="
+      picto.collection &&
+      !publicMode &&
+      !sidebarMode &&
+      $route.query.isAdmin &&
+      isDropZone
+        ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
+        : {}
+    "
   >
     <div
       :id="picto.id"
       :collection="picto.collection"
-      v-on="
-        picto.collection &&
-        !publicMode &&
-        !sidebarMode &&
-        $route.query.isAdmin &&
-        isDropZone
-          ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
-          : {}
-      "
       :class="{
         'has-background': picto.collection,
         'drop-area': isDropZone,
         'containing notification pictobackground pictogram': true,
-        grabbable: !publicMode && !sidebarMode && $route.query.isAdmin,
       }"
     >
       <div id="pictogram-image-wrapper" style="width: 100%">
-        <div class="actions">
-          <div class="head-actions">
-            <b-icon class="action-icon" icon="drag"></b-icon>
-            <b-icon class="action-icon" icon="dots-vertical"></b-icon>
+        <div
+          v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
+          class="actions"
+          @click.self="addToSpeech()"
+        >
+          <div
+            class="head-actions"
+            @click.self="addToSpeech()"
+            v-on="
+              picto.collection &&
+              !publicMode &&
+              !sidebarMode &&
+              $route.query.isAdmin &&
+              isDropZone
+                ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
+                : {}
+            "
+          >
+            <div
+              v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
+              :draggable="
+                !publicMode && !sidebarMode && $route.query.isAdmin
+                  ? true
+                  : false
+              "
+              @dragstart="onDragStart"
+              @dragend="onDragEnd"
+            >
+              <b-icon class="large-icon icon" icon="drag"></b-icon>
+            </div>
+
+            <div v-if="$route.query.isAdmin && !publicMode && !sidebarMode">
+              <div v-if="!dragndropId" @click="openActions()">
+                <b-icon class="medium-icon icon" icon="dots-vertical" />
+              </div>
+            </div>
+          </div>
+          <div
+            class="longpress"
+            v-long-press="350"
+            @long-press-start="onLongPressStart"
+            @click.self="addToSpeech()"
+          ></div>
+          <div
+            v-if="!dragndropId"
+            class="main-actions"
+            @click.self="addToSpeech()"
+          >
+            <div @click="editPicto()">
+              <b-icon
+                class="medium-icon icon"
+                style="justify-self: end; color: hsl(210, 100%, 75%)"
+                icon="pencil"
+              />
+            </div>
+            <div @click="setCopyCollectionId(picto.id, !picto.collection)">
+              <b-icon
+                class="medium-icon icon"
+                style="justify-self: end; color: hsl(45, 100%, 75%)"
+                icon="vector-arrange-below"
+              />
+            </div>
+            <div @click="setShortcutCollectionId(picto.id, !picto.collection)">
+              <b-icon
+                class="medium-icon icon"
+                style="justify-self: start; color: hsl(140, 100%, 75%)"
+                icon="vector-link"
+              />
+            </div>
+            <div @click="deletePicto()">
+              <b-icon
+                class="medium-icon icon"
+                style="justify-self: start; color: hsl(0, 100%, 75%)"
+                icon="delete"
+              />
+            </div>
           </div>
 
-          <div class="main-actions">
-            <b-icon
-              class="action-icon"
-              style="justify-self: end"
-              icon="pencil"
-            ></b-icon>
-            <b-icon
-              class="action-icon"
-              style="justify-self: start"
-              icon="delete"
-            ></b-icon>
-            <b-icon
-              class="action-icon"
-              style="justify-self: end"
-              icon="vector-arrange-below"
-            ></b-icon>
-            <b-icon
-              class="action-icon"
-              style="justify-self: start"
-              icon="vector-link"
-            ></b-icon>
+          <div
+            v-if="!dragndropId"
+            class="foot-actions"
+            @click.self="addToSpeech()"
+          >
+            <b-button
+              :disabled="!(isToUser || isEditor) || !isOnline"
+              :style="colorPriority"
+              @click="alternateStar()"
+              class="priority-button"
+            >
+              <b>{{ showPriorityOrStarred }}</b>
+            </b-button>
           </div>
         </div>
         <img
           draggable="false"
-          class="image"
+          :class="{ image: true, nopointerevents: $route.query.isAdmin }"
           :src="picto.image"
           :alt="picto.meaning[getUserLang]"
-          @click="addToSpeech()"
+          @click.self="addToSpeech()"
           width="100%"
           crossorigin="anonymous"
           :style="`border: solid; border-color: ${this.picto.color}`"
         />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
-        <div
-          v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
-          :draggable="
-            !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
-          "
-          @dragstart="onDragStart"
-          @dragend="onDragEnd"
-          class="dragbutton"
-          @click="addToSpeech()"
-        ></div>
       </div>
       <div class="meaning">
         {{ picto.meaning[getUserLang] }}
       </div>
-      <div
-        v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
-        class="adminMenu adminoption columns smallMargin"
-      >
-        <b-dropdown aria-role="menu" class="column noMargin is-mobile">
-          <template #trigger="{ active }">
-            <b-button
-              type="is-info"
-              :icon-right="active ? 'menu-up' : 'menu-down'"
-            />
-          </template>
-          <b-dropdown-item aria-role="listitem">
-            <b-button
-              :disabled="!(isEditor || isToUser) || !isOnline"
-              type="is-info"
-              icon-left="pencil"
-              :label="$t('EditPicto')"
-              :expanded="true"
-              @click="editPicto()"
-            />
-          </b-dropdown-item>
-          <b-dropdown-item aria-role="listitem">
-            <b-button
-              :disabled="!isOnline || !isToUser"
-              :expanded="true"
-              type="is-danger"
-              icon-left="delete"
-              :label="$t('DeletePicto')"
-              @click="deletePicto()"
-            />
-          </b-dropdown-item>
-          <b-dropdown-item
-            v-if="!(isEditor || isToUser || isViewer) && picto.collection"
-            aria-role="listitem"
-          >
-            <b-button
-              :expanded="true"
-              type="is-success"
-              icon-left="plus"
-              :label="$t('CopyPicto')"
-              @click="setCopyCollectionId(picto.id, !picto.collection)"
-            />
-          </b-dropdown-item>
-          <b-dropdown-item
-            v-if="(isEditor || isToUser || isViewer) && picto.collection"
-            aria-role="listitem"
-          >
-            <b-button
-              :expanded="true"
-              type="is-warning"
-              icon-left="vector-arrange-below"
-              :label="$t('CopyPicto')"
-              @click="setCopyCollectionId(picto.id, !picto.collection)"
-            />
-          </b-dropdown-item>
-          <b-dropdown-item
-            v-if="(isEditor || isToUser || isViewer) && picto.collection"
-            aria-role="listitem"
-          >
-            <b-button
-              :expanded="true"
-              type="is-dark"
-              icon-left="vector-link"
-              :label="$t('LinkPicto')"
-              @click="setShortcutCollectionId(picto.id, !picto.collection)"
-            />
-          </b-dropdown-item>
-          <b-dropdown-item
-            v-if="picto.collection && (isToUser || isViewer || isEditor)"
-            aria-role="listitem"
-          >
-            <b-button
-              :expanded="true"
-              type="is-success"
-              icon-left="share-variant"
-              :label="$t('SharePicto')"
-              @click="sharePicto()"
-            />
-          </b-dropdown-item>
-          <b-dropdown-item
-            v-if="picto.collection && this.$store.getters.getUser.admin"
-            aria-role="listitem"
-          >
-            <b-button
-              :expanded="true"
-              :loading="publishLoad"
-              :type="picto.public ? 'is-danger' : 'is-success'"
-              icon-left="web"
-              :label="picto.public ? $t('Unpublish') : $t('Publish')"
-              @click="publishPicto()"
-            />
-          </b-dropdown-item>
-        </b-dropdown>
-        <div class="column noMargin is-mobile">
-          <b-button
-            :disabled="!(isToUser || isEditor) || !isOnline"
-            :style="colorPriority"
-            @click="alternateStar()"
-          >
-            <b>{{ showPriorityOrStarred }}</b>
-          </b-button>
-        </div>
-      </div>
+
       <div
         v-if="
           publicMode && $store.getters.getUser && $store.getters.isAuthenticated
@@ -214,6 +165,8 @@ import deviceInfos from "@/mixins/deviceInfos";
 import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import shareItem from "@/components/pictos/shareItem";
+import pictoActions from "@/components/pictos/pictoActions";
+import LongPress from "vue-directive-long-press";
 export default {
   mixins: [lang, tts, deviceInfos],
   name: "picto",
@@ -255,7 +208,28 @@ export default {
       });
     }
   },
+  directives: {
+    "long-press": LongPress,
+  },
   methods: {
+    onLongPressStart() {
+      this.openActions();
+    },
+    openActions() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: pictoActions,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x", "outside"],
+        props: {
+          picto: this.picto,
+          publicMode: this.publicMode,
+          sidebarMode: this.sidebar,
+        },
+      });
+    },
     async moveToCollection(targetId, data) {
       if (data.draggedPictoId != targetId) {
         try {
@@ -357,8 +331,8 @@ export default {
         fatherCollectionId: parseInt(this.$route.params.fatherCollectionId),
         isCollection: this.picto.collection,
       });
-
       ev.dataTransfer.dropEffect = "move";
+      ev.dataTransfer.setDragImage(this.$el.querySelector("img"), 0, 0);
       ev.dataTransfer.setData(
         "text/plain",
         JSON.stringify({
@@ -368,7 +342,6 @@ export default {
       );
       ev.target.style.cursor = "grab";
       this.dragImage = ev.target.offsetParent;
-      ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
       let collection = JSON.parse(
@@ -565,29 +538,9 @@ export default {
       }
     },
     colorPriority() {
-      let colorPrio = "#FF5757";
-      if (this.picto.priority === 1) {
-        colorPrio = "#FF9494";
-      } else if (this.picto.priority === 2) {
-        colorPrio = "#FFB3B3";
-      } else if (this.picto.priority === 3) {
-        colorPrio = "#FFCDC8";
-      } else if (this.picto.priority === 4) {
-        colorPrio = "#86ADC6";
-      } else if (this.picto.priority === 5) {
-        colorPrio = "#ACC9D8";
-      } else if (this.picto.priority === 6) {
-        colorPrio = "#C8DBE5";
-      } else if (this.picto.priority === 7) {
-        colorPrio = "#22BD22";
-      } else if (this.picto.priority === 8) {
-        colorPrio = "#75DE75";
-      } else if (this.picto.priority === 9) {
-        colorPrio = "#C7FFC7";
-      } else if (this.picto.priority === 10) {
-        colorPrio = "#ffffff";
-      }
-      return `background-color: ${colorPrio}`;
+      return (
+        "color: hsl(" + (100 - this.showPriorityOrStarred * 10) + ", 100%, 60%)"
+      );
     },
     isDropZone() {
       return (
@@ -632,20 +585,45 @@ export default {
 };
 </script>
 <style scoped>
-.has-background {
-  box-shadow: 6px 6px 6px #00000060;
-  border-color: #000000 !important;
-  border-style: solid !important;
+.priority-button {
+  background-color: #ffffff00;
+  border: none;
+  font-size: 2.5em;
+  text-stroke: 1.5px black;
+  text-shadow: 0px 0px 16px #000000d0;
+  -webkit-text-stroke: 1.5px black;
+  padding: 0;
+  height: 40px;
+}
+
+.priority-button > span > b {
+  font-weight: 900 !important;
+}
+.priority-button:hover {
+  filter: brightness(1.2);
 }
 .main-actions {
   color: white;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 2.5vmin;
-  column-gap: 2.5vmin;
+  row-gap: 1rem;
+  column-gap: 1rem;
 }
-.action-icon {
-  font-size: 3.5vmin;
+.large-icon {
+  font-size: 2.75rem;
+}
+.medium-icon {
+  font-size: 1.75rem;
+}
+.icon {
+  text-shadow: 0px 0px 4px #000000d0;
+  -webkit-text-stroke: 0.5px black;
+  transition: 0.075s;
+  cursor: pointer;
+}
+.icon:hover {
+  text-shadow: 0px 0px 8px #000000;
+  filter: brightness(1.2);
 }
 .head-actions {
   display: flex;
@@ -655,9 +633,29 @@ export default {
   width: 100%;
   position: absolute;
   align-self: baseline;
+  padding: 6px;
+}
+.foot-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  align-self: flex-end;
+  padding: 6px;
+}
+.actions > :is(.main-actions, .head-actions) {
+  opacity: 0;
+}
+.actions:hover > :is(.main-actions, .head-actions) {
+  opacity: 1;
+}
+.actions:hover {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 .actions {
-  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 6px;
   width: calc(100% - 1.2rem);
   position: absolute;
   color: white;
@@ -666,10 +664,70 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0;
-  transition: 0.2s ease-in-out;
+  transition: 0.075s ease-in-out;
+}
+.dragbutton {
+  top: 0.6rem;
+  left: 0.6rem;
+  position: absolute;
+  display: block;
+  width: calc(100% - 1.2rem);
+  border-radius: 4px;
+  background-color: #00000000;
+  z-index: 1;
+  aspect-ratio: 1 / 1;
+}
+.longpress {
+  display: none;
 }
 
+@media (hover: none) {
+  .longpress {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: calc(100% - 2rem);
+  }
+  .nopointerevents {
+    pointer-events: none;
+  }
+  .actions > :is(.head-actions) {
+    opacity: 1;
+  }
+  .actions > :is(.main-actions, .foot-actions) {
+    display: none;
+  }
+  .actions:hover {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  .head-actions {
+    padding: 0px;
+    margin-top: -0.1rem;
+  }
+  .priority-button {
+    font-size: 1.75em;
+    height: 32px;
+    width: 32px;
+  }
+  .large-icon {
+    font-size: 2.5rem;
+  }
+  .medium-icon {
+    font-size: 1.75rem;
+  }
+  .icon {
+    text-shadow: 0px 0px 2px #000000d0;
+    -webkit-text-stroke: 1.25px black;
+    transition: 0.075s;
+    cursor: pointer;
+  }
+}
+.has-background {
+  box-shadow: 6px 6px 6px #00000060;
+  border-color: #000000 !important;
+  border-style: solid !important;
+}
 .containing {
   display: flex;
   flex-direction: column;
@@ -723,28 +781,14 @@ export default {
 .pictowrapper {
   padding: 3px;
   position: relative;
-  transition: 0.2s ease-in-out;
+  transition: 0.075s ease-in-out;
 }
 .pictowrapper:hover {
-  transition-delay: 0.5s;
-  transform: scale(1.1);
-  z-index: 999;
+  z-index: 3;
 }
 .pictowrapper:hover > .pictogram > #pictogram-image-wrapper > .actions {
-  transition-delay: 0.5s;
   opacity: 1;
   pointer-events: all;
-}
-.dragbutton {
-  top: 0.6rem;
-  left: 0.6rem;
-  position: absolute;
-  display: block;
-  width: calc(100% - 1.2rem);
-  border-radius: 4px;
-  background-color: #00000000;
-  z-index: 1;
-  aspect-ratio: 1 / 1;
 }
 
 .drop-area {
@@ -756,7 +800,7 @@ export default {
 
 .dragOverZone {
   transition: transform 0.2s; /* Animation */
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 .dragOverElement {
   transition: transform 0.2s; /* Animation */
