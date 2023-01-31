@@ -45,6 +45,7 @@
     "secure-ls": "^1.2.6",
     "sharp": "^0.29.3",
     "vuex-persistedstate": "^4.1.0",
-    "nuxt-matomo": "^1.2.4"
+    "nuxt-matomo": "^1.2.4",
+    "vue-directive-long-press": "^1.1.0"
   }
 }

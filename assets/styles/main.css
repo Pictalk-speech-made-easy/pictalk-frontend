@@ -21,6 +21,7 @@
 html {
   overflow-y: auto;
   overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .navbar-burger {
@@ -72,14 +73,16 @@ html {
 .wrapper {
   scroll-behavior: smooth;
 }
+
 @media screen and (min-width:1408px) {
-  div.adminoption > .dropdown > .dropdown-menu {
+  div.adminoption>.dropdown>.dropdown-menu {
     left: -105% !important;
     width: 165px;
     min-width: 0px !important;
     padding-top: 0px;
   }
 }
+
 @media screen and (max-width:768px) {
   .modal-card {
     max-width: 960px;
@@ -105,7 +108,7 @@ html {
 }
 
 @media screen and (min-width:1023px) {
-  div.notificationsdrop > .dropdown-menu {
+  div.notificationsdrop>.dropdown-menu {
     position: fixed !important;
     top: 32px !important;
     left: calc(100vw - 320px) !important;
@@ -127,7 +130,7 @@ html {
   margin-top: 24px;
 }
 
-div.adminoption > .dropdown > .dropdown-menu {
+div.adminoption>.dropdown>.dropdown-menu {
   box-shadow: 0px 0px 10px rgb(160 160 160);
   left: -140%;
   padding-top: 0px;
@@ -170,17 +173,17 @@ div.dropdown-trigger {
   background: #ff5757;
   border-radius: 10px;
 }
+
 .slightly-rounded {
   border-radius: 12px;
 }
+
 .fancy-link {
-  background-image: linear-gradient(
-    45deg,
-    rgba(131, 151, 255, 1) 20%,
-    rgba(255, 87, 87, 1) 45%,
-    rgba(255, 87, 87, 1) 55%,
-    rgba(131, 151, 255, 1) 80%
-  );
+  background-image: linear-gradient(45deg,
+      rgba(131, 151, 255, 1) 20%,
+      rgba(255, 87, 87, 1) 45%,
+      rgba(255, 87, 87, 1) 55%,
+      rgba(131, 151, 255, 1) 80%);
   color: #4a4a4a;
   text-decoration: none;
   background-size: 0% 3px;
@@ -188,41 +191,52 @@ div.dropdown-trigger {
   background-position: left bottom;
   transition: background-size 450ms;
 }
+
 .fancy-link:hover {
   background-size: 100% 3px;
 }
-.mdi-arrow-left{
+
+.mdi-arrow-left {
   rotate: 180deg;
   margin-top: 3px;
 }
-.dropdown-item{
+
+.dropdown-item {
   padding-right: 1em !important;
   padding-left: 1em !important;
 }
-.mainColor{
+
+.mainColor {
   background-color: #ff4a4a;
 }
+
 .publicColor {
-  background-color:#22bd22;
+  background-color: #22bd22;
 }
+
 .sharedColor {
   background-color: cornflowerblue;
 }
+
 .sidebarColor {
   background-color: #ef9500;
 }
-div.roundedbtn > span.select > select {
+
+div.roundedbtn>span.select>select {
   border-radius: 24px;
 }
-.spacing{
+
+.spacing {
   margin-bottom: 2.5rem !important;
 }
+
 @media screen and (max-width: 1023px) {
   .slightly-rounded {
     border-radius: 0px;
   }
 }
-.b-skeleton > .b-skeleton-item {
+
+.b-skeleton>.b-skeleton-item {
   background: linear-gradient(90deg, rgb(219, 219, 219, 0.5) 25%, rgba(219, 219, 219, 0.25) 50%, rgb(219, 219, 219, 0.5) 75%);
   background-size: 400% 100%;
 }
