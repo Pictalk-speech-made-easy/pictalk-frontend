@@ -87,19 +87,30 @@
           class="fullWidth modeButton"
         />
       </div>
-      <div class="option">
+      <div class="option priority-wrapper">
         <b-button
           :style="colorPriority"
-          :disabled="!(isEditor || isToUser) || !isOnline"
+          @click="alternateStar(false)"
+          class="priority-button priority-label"
+          label="-"
+        />
+        <b class="priority-label" :style="colorPriority">{{
+          showPriorityOrStarred
+        }}</b>
+        <b-button
+          :style="colorPriority"
           @click="alternateStar()"
-          class="priority-button fullWidth modeButton"
-          :label="showPriorityOrStarred"
+          class="priority-button priority-label"
+          label="+"
         />
       </div>
     </section>
   </div>
 </template>
 <script >
+import deleteItem from "@/components/pictos/deleteItem";
+import PictoSteps from "@/components/pictos/pictoSteps";
+import shareItem from "@/components/pictos/shareItem";
 export default {
   props: {
     picto: {
@@ -261,18 +272,22 @@ export default {
         canCancel: ["escape", "x"],
       });
     },
-    async alternateStar() {
+    async alternateStar(sign = true) {
       try {
         if (this.picto.starred === true) {
           this.picto.priority = 1;
         } else if (this.picto.starred === false) {
           this.picto.priority = 10;
         }
-
-        if (this.picto.priority == 10) {
-          this.picto.priority = 1;
-        } else {
+        if (sign) {
           this.picto.priority = this.picto.priority + 1;
+        } else {
+          this.picto.priority = this.picto.priority - 1;
+        }
+        if (this.picto.priority > 10) {
+          this.picto.priority = 1;
+        } else if (this.picto.priority < 1) {
+          this.picto.priority = 10;
         }
         await this.$store.dispatch(
           this.picto.collection
@@ -339,14 +354,35 @@ export default {
 </script>
 <style scoped>
 .priority-button {
-  font-size: 2.5rem !important;
-  text-stroke: 1.5px black;
-  -webkit-text-stroke: 1.5px black !important;
-  font-weight: 900 !important;
+  border: none;
+  border-radius: 0%;
+}
+.button:focus:not(:active),
+.button.is-focused:not(:active) {
+  box-shadow: none !important;
+}
+.priority-wrapper:hover {
+  box-shadow: 0px 0px 12px #00000090;
+}
+.priority-label {
   align-items: center !important;
   justify-content: center !important;
-  height: 2.5rem;
+  text-align: center;
   padding: 0px;
+  background-color: #ffffff00;
+  height: 100%;
+  width: 100%;
+  font-size: 2.25rem !important;
+  font-weight: 900 !important;
+  -webkit-text-stroke: 1.5px black !important;
+}
+.priority-wrapper {
+  background-color: #edf1f5;
+  padding: 0px !important;
+  margin: 0.3em 0;
+  border-radius: 6px;
+  border: 2px solid #666;
+  transition: all 0.05s;
 }
 .buttonBorder {
   border: solid;
