@@ -34,7 +34,11 @@
           class="actions"
           @click.self="addToSpeech()"
         >
+          <div class="offline subtitle" v-if="!isOnline">
+            {{ $t("LostConnectivity") }}<br />✈️❗
+          </div>
           <div
+            v-if="isOnline"
             class="head-actions"
             @click.self="addToSpeech()"
             v-on="
@@ -73,7 +77,7 @@
             @click.self="addToSpeech()"
           ></div>
           <div
-            v-if="!dragndropId"
+            v-if="!dragndropId && isOnline"
             class="main-actions"
             @click.self="addToSpeech()"
           >
@@ -108,14 +112,14 @@
           </div>
 
           <div
-            v-if="!dragndropId"
+            v-if="!dragndropId & isOnline"
             class="foot-actions"
             @click.self="addToSpeech()"
           >
             <b-button
               :disabled="!(isToUser || isEditor) || !isOnline"
               :style="colorPriority"
-              @click="alternateStar()"
+              @click="alternateStar(true, 2000)"
               class="priority-button"
             >
               <b>{{ showPriorityOrStarred }}</b>
@@ -486,18 +490,22 @@ export default {
         canCancel: ["escape", "x"],
       });
     },
-    async alternateStar() {
+    async alternateStar(sign = true, delay = 0) {
       try {
         if (this.picto.starred === true) {
           this.picto.priority = 1;
         } else if (this.picto.starred === false) {
           this.picto.priority = 10;
         }
-
-        if (this.picto.priority == 10) {
-          this.picto.priority = 1;
-        } else {
+        if (sign) {
           this.picto.priority = this.picto.priority + 1;
+        } else {
+          this.picto.priority = this.picto.priority - 1;
+        }
+        if (this.picto.priority > 10) {
+          this.picto.priority = 1;
+        } else if (this.picto.priority < 1) {
+          this.picto.priority = 10;
         }
         await this.$store.dispatch(
           this.picto.collection
@@ -508,7 +516,7 @@ export default {
             priority: this.picto.priority,
           }
         );
-        $nuxt.$emit("resyncPictoList");
+        $nuxt.$emit("resyncPictoList", delay);
       } catch (error) {
         console.log(error);
         const notif = this.$buefy.notification.open({
@@ -585,6 +593,15 @@ export default {
 };
 </script>
 <style scoped>
+.offline {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.button:focus:not(:active),
+.button.is-focused:not(:active) {
+  box-shadow: none !important;
+}
 .priority-button {
   background-color: #ffffff00;
   border: none;
@@ -645,10 +662,10 @@ export default {
   align-self: flex-end;
   padding: 6px;
 }
-.actions > :is(.main-actions, .head-actions) {
+.actions > :is(.main-actions, .head-actions, .offline) {
   opacity: 0;
 }
-.actions:hover > :is(.main-actions, .head-actions) {
+.actions:hover > :is(.main-actions, .head-actions, .offline) {
   opacity: 1;
 }
 .actions:hover {
@@ -681,7 +698,7 @@ export default {
   display: none;
 }
 
-@media (hover: none) {
+@media (any-pointer: coarse) {
   .longpress {
     display: block;
     position: absolute;
