@@ -132,6 +132,11 @@ import lang from "@/mixins/lang";
 export default {
   layout: "pictalk",
   mixins: [lang],
+  data: {
+    return: {
+      priority_timer: 0,
+    },
+  },
   components: {
     pictoList: pictoList,
     pictoBar: pictoBar,
@@ -148,8 +153,18 @@ export default {
   created() {
     window.addEventListener("online", this.refreshPictos);
     window.addEventListener("offline", this.lostConnectivityNotification);
-    this.$nuxt.$on("resyncPictoList", () => {
-      this.pictos = this.loadedPictos();
+    this.$nuxt.$on("resyncPictoList", (delay) => {
+      if (delay) {
+        if (this.priority_timer != 0) {
+          clearTimeout(this.priority_timer);
+          this.priority_timer = 0;
+        }
+        this.priority_timer = setTimeout(async () => {
+          this.pictos = this.loadedPictos();
+        }, delay);
+      } else {
+        this.pictos = this.loadedPictos();
+      }
     });
   },
   destroyed() {
