@@ -2,6 +2,7 @@
   <div class="modal-card small-card">
     <section class="modal-card-body">
       <p class="modal-card-title centered">{{ $t("PictoActions") }}</p>
+      <p v-if="!isOnline" class="subtitle">❗{{ $t("PictoActionsOffline") }}</p>
       <div class="option">
         <b-button
           :disabled="!(isEditor || isToUser) || !isOnline"
@@ -14,7 +15,7 @@
       </div>
       <div class="option">
         <b-button
-          :disabled="!isOnline || !isToUser"
+          :disabled="!(isEditor || isToUser) || !isOnline"
           style="background-color: hsl(0, 100%, 75%)"
           icon-left="delete"
           :label="$t('DeletePicto')"
@@ -27,6 +28,7 @@
         class="option"
       >
         <b-button
+          :disabled="!isOnline"
           style="background-color: hsl(210, 100%, 75%)"
           icon-left="plus"
           :label="$t('CopyPicto')"
@@ -39,6 +41,7 @@
         class="option"
       >
         <b-button
+          :disabled="!isOnline"
           style="background-color: hsl(45, 100%, 75%)"
           icon-left="vector-arrange-below"
           :label="$t('CopyPicto')"
@@ -51,6 +54,7 @@
         class="option"
       >
         <b-button
+          :disabled="!isOnline"
           style="background-color: hsl(140, 100%, 75%)"
           icon-left="vector-link"
           :label="$t('LinkPicto')"
@@ -63,6 +67,7 @@
         class="option"
       >
         <b-button
+          :disabled="!isOnline"
           style="background-color: hsl(270, 100%, 75%)"
           icon-left="share-variant"
           :label="$t('SharePicto')"
@@ -75,6 +80,7 @@
         class="option"
       >
         <b-button
+          :disabled="!isOnline"
           :loading="publishLoad"
           :style="
             picto.public
@@ -87,8 +93,11 @@
           class="fullWidth modeButton"
         />
       </div>
-      <div class="option priority-wrapper">
+      <div
+        :class="{ option: true, 'priority-wrapper': true, offline: !isOnline }"
+      >
         <b-button
+          :disabled="!isOnline"
           :style="colorPriority"
           @click="alternateStar(false)"
           class="priority-button priority-label"
@@ -98,6 +107,7 @@
           showPriorityOrStarred
         }}</b>
         <b-button
+          :disabled="!isOnline"
           :style="colorPriority"
           @click="alternateStar()"
           class="priority-button priority-label"
@@ -272,7 +282,7 @@ export default {
         canCancel: ["escape", "x"],
       });
     },
-    async alternateStar(sign = true) {
+    async alternateStar(sign = true, delay = 0) {
       try {
         if (this.picto.starred === true) {
           this.picto.priority = 1;
@@ -298,7 +308,7 @@ export default {
             priority: this.picto.priority,
           }
         );
-        $nuxt.$emit("resyncPictoList");
+        $nuxt.$emit("resyncPictoList", delay);
       } catch (error) {
         console.log(error);
         const notif = this.$buefy.notification.open({
@@ -332,6 +342,7 @@ export default {
       );
     },
     isOnline() {
+      console.log(window.navigator.onLine);
       return window.navigator.onLine;
     },
     showPriorityOrStarred() {
@@ -353,6 +364,9 @@ export default {
 };
 </script>
 <style scoped>
+.offline {
+  filter: opacity(0.5);
+}
 .priority-button {
   border: none;
   border-radius: 0%;
@@ -401,7 +415,7 @@ export default {
   transform: translate(-50%, -50%);
   max-width: 300px;
   min-width: 220px;
-  max-height: 450px;
+  max-height: 600px;
   min-height: 200px;
   border-radius: 12px;
 }
