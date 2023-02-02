@@ -6,7 +6,7 @@
       "
       style="padding-top: 9px"
     />
-    <div class="columns is-multiline is-mobile">
+    <div class="columns is-multiline is-mobile even">
       <picto
         :class="
           sidebar
@@ -127,6 +127,9 @@ export default {
 };
 </script>
 <style scoped>
+.even {
+  justify-content: space-between;
+}
 .margins {
   margin-left: 7px;
   margin-right: 7px;
