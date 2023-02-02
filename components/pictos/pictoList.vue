@@ -6,7 +6,7 @@
       "
       style="padding-top: 9px"
     />
-    <div class="columns is-multiline is-mobile">
+    <div class="columns is-multiline is-mobile even">
       <picto
         :class="
           sidebar
@@ -23,16 +23,7 @@
         :ref="picto.collection ? 'dragCollection' : 'dragPictogram'"
       />
 
-      <div
-        class="
-          column
-          is-one-third-mobile
-          is-one-quarter-tablet
-          is-one-quarter-desktop
-          is-one-quarter-widescreen
-          is-one-fifth-fullhd
-        "
-      ></div>
+      <div class="column"></div>
     </div>
 
     <div
@@ -126,6 +117,9 @@ export default {
 };
 </script>
 <style scoped>
+.even {
+  justify-content: space-between;
+}
 .margins {
   margin-left: 7px;
   margin-right: 7px;
