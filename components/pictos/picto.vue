@@ -272,8 +272,10 @@ export default {
           this.addToSpeech();
         }, 1500);
       }
-      if (this.picto.id != this.dragndropId && this.isDropZone) {
-        document.getElementById(this.picto.id)?.classList?.add("dragOverZone");
+      if (this.isDropZone) {
+        this.getDOMcollectionById(this.picto.id)?.classList?.add(
+          "dragOverZone"
+        );
       }
 
       // this.dragImage = document.getElementById(this.dragEvent);
@@ -284,10 +286,10 @@ export default {
     onDragLeave(ev) {
       ev.preventDefault();
       this.timer = clearTimeout(this.timer);
-      if (this.picto.id != this.dragndropId && this.isDropZone) {
-        document
-          .getElementById(this.picto.id)
-          ?.classList?.remove("dragOverZone");
+      if (this.isDropZone) {
+        this.getDOMcollectionById(this.picto.id)?.classList?.remove(
+          "dragOverZone"
+        );
       }
       this.dragImage = document.getElementById(this.dragndropId);
       //this.dragImage.classList.remove("dragOverElement");
@@ -351,18 +353,35 @@ export default {
       );
       return this.$store.getters.getCollections[index];
     },
+    getDOMcollectionById(id) {
+      return Array.from(document.querySelectorAll("div.has-background")).filter(
+        (e) => e.id == id
+      )[0];
+    },
   },
   computed: {
     isDropZone() {
-      return (
-        this.dragndropId &&
-        this.picto.collection &&
-        this.picto.id != this.dragndropId &&
-        (this.isEditor || this.isToUser) &&
-        this.$route.query.isAdmin &&
-        this.isOnline &&
-        !this.sidebarMode
-      );
+      if (!this.dragndropId) {
+        return false;
+      }
+      if (!this.picto.collection) {
+        return false;
+      }
+      if (this.picto.id == this.dragndropId && !this.picto.collection) {
+        return false;
+      }
+      if (!(this.isEditor || this.isToUser)) {
+      }
+      if (!this.$route.query.isAdmin) {
+        return false;
+      }
+      if (!this.isOnline) {
+        return false;
+      }
+      if (this.sidebarMode) {
+        return false;
+      }
+      return true;
     },
     dragndropId() {
       return this.$store.getters.getDragndrop?.draggedPictoId;
@@ -408,8 +427,8 @@ export default {
   color: white;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 1rem;
-  column-gap: 1rem;
+  row-gap: 0.75rem;
+  column-gap: 0.75rem;
 }
 .large-icon {
   font-size: 2.75rem;
