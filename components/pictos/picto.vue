@@ -546,7 +546,7 @@ export default {
     cursor: pointer;
   }
 }
-@media (any-pointer: none) {
+@media not (any-pointer: fine) {
   .longpress {
     display: block;
     position: absolute;
