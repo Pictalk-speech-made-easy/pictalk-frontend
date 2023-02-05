@@ -13,7 +13,6 @@
       <section class="modal-card-body">
         <b-field :label="$t('Email')">
           <b-input
-            data-cy="signin-email"
             type="email"
             lazy
             maxlength="64"
@@ -25,7 +24,6 @@
 
         <b-field :label="$t('Password')">
           <b-input
-            data-cy="signin-password"
             type="password"
             lazy
             v-model="password"
@@ -37,7 +35,7 @@
         <a href="/changePassword">{{ $t("ForgotPswd") }}</a>
       </section>
       <footer class="modal-card-foot">
-        <b-button data-cy="signin-signin" class="is-primary" :loading="loading" @click="onSubmit">{{
+        <b-button class="is-primary" :loading="loading" @click="onSubmit">{{
           $t("LogIn")
         }}</b-button>
       </footer>
