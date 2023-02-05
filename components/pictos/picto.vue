@@ -299,6 +299,7 @@ export default {
       if (this.$store.getters.getDragndrop) {
         const dragndrop = this.$store.getters.getDragndrop;
         this.$store.commit("setDragndrop", undefined);
+        this.timer = clearTimeout(this.timer);
         await this.moveToCollection(targetId, dragndrop);
         this.timer = clearTimeout(this.timer);
       }
