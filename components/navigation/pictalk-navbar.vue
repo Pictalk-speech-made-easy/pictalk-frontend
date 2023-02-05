@@ -73,7 +73,6 @@
           >
             <template #trigger>
               <b-button
-                data-cy="pictalk-navbar-create-button"
                 class="dropdown-button rounded"
                 type="is-success"
                 icon-right="plus"
@@ -85,14 +84,12 @@
               class="verticalPadding"
               @click="addPicto(true)"
               aria-role="listitem"
-              data-cy="pictalk-navbar-create-pictogram-button"
               ><b>{{ $t("Pictogram") }}</b> <b-icon icon="image" />
             </b-dropdown-item>
             <b-dropdown-item
               class="verticalPadding"
               @click="addPicto(false)"
               aria-role="listitem"
-              data-cy="pictalk-navbar-create-collection-button"
               ><b>{{ $t("Collection") }}</b> <b-icon icon="folder-table" />
             </b-dropdown-item>
           </b-dropdown>
@@ -123,7 +120,6 @@
 
         <div v-if="!checkCopyCollectionId" class="column noPadding">
           <b-button
-            data-cy="pictalk-navbar-admin-button"
             class="lock rounded"
             type="is-warning"
             :focused="Boolean($route.query.isAdmin)"

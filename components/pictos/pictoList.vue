@@ -22,17 +22,8 @@
         :sidebarMode="sidebar"
         :ref="picto.collection ? 'dragCollection' : 'dragPictogram'"
       />
-      <div
-        data-cy="cypress-empty-column"
-        class="
-          column
-          is-one-third-mobile
-          is-one-quarter-tablet
-          is-one-quarter-desktop
-          is-one-quarter-widescreen
-          is-one-fifth-fullhd
-        "
-      ></div>
+
+      <div class="column"></div>
     </div>
 
     <div
