@@ -563,7 +563,7 @@ export default {
   max-height: 20%;
   position: fixed;
   max-width: 767px;
-  z-index: 2;
+  z-index: 4;
 }
 .contenant {
   display: flex;
