@@ -72,7 +72,7 @@ export default {
       if (!this.timer) {
         this.timer = setTimeout(() => {
           this.$nuxt.$emit("removeSpeechDrag");
-        }, 1000);
+        }, 600);
       }
     },
     onDragLeave(ev) {
