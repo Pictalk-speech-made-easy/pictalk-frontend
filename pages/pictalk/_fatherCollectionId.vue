@@ -23,6 +23,7 @@
           </b-message>
 
           <b-image
+            data-cy="cypress-emptyCollection"
             style="aspect-ratio: 1/1"
             class="emptyCollection2"
             lazy
@@ -32,6 +33,7 @@
         </div>
 
         <pictoList
+          data-cy="cypress-pictoList"
           :pictos="pictos"
           :sidebar="false"
           :sidebarUsed="
@@ -42,6 +44,7 @@
         />
         <div v-else>
           <b-image
+            data-cy="cypress-noConnection"
             style="aspect-ratio: 1/1"
             class="partialCollection"
             lazy

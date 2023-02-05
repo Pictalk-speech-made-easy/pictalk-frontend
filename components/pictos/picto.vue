@@ -1,5 +1,6 @@
 <template>
   <div
+    :data-cy="'cy-'+picto.id"
     :class="{
       pictowrapper: true,
       bigger:
@@ -136,6 +137,125 @@
           :style="`border: solid; border-color: ${this.picto.color}`"
         />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
+        <div
+          v-if="!publicMode && !sidebarMode && $route.query.isAdmin"
+          :draggable="
+            !publicMode && !sidebarMode && $route.query.isAdmin ? true : false
+          "
+          @dragstart="onDragStart"
+          @dragend="onDragEnd"
+          class="dragbutton"
+          @click="addToSpeech()"
+        ></div>
+      </div>
+      <div class="meaning">
+        {{ picto.meaning[getUserLang] }}
+      </div>
+      <div
+        v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
+        class="adminMenu adminoption columns smallMargin"
+      >
+        <b-dropdown  aria-role="menu" class="column noMargin is-mobile">
+          <template #trigger="{ active }">
+            <b-button
+            data-cy="picto-action-dropdown"
+              type="is-info"
+              :icon-right="active ? 'menu-up' : 'menu-down'"
+            />
+          </template>
+          <b-dropdown-item aria-role="listitem">
+            <b-button
+              data-cy="picto-action-dropdown-edit"
+              :disabled="!(isEditor || isToUser) || !isOnline"
+              type="is-info"
+              icon-left="pencil"
+              :label="$t('EditPicto')"
+              :expanded="true"
+              @click="editPicto()"
+            />
+          </b-dropdown-item>
+          <b-dropdown-item aria-role="listitem">
+            <b-button
+              data-cy="picto-action-dropdown-delete"
+              :disabled="!isOnline || !isToUser"
+              :expanded="true"
+              type="is-danger"
+              icon-left="delete"
+              :label="$t('DeletePicto')"
+              @click="deletePicto()"
+            />
+          </b-dropdown-item>
+          <b-dropdown-item
+            v-if="!(isEditor || isToUser || isViewer) && picto.collection"
+            aria-role="listitem"
+          >
+            <b-button
+              :expanded="true"
+              type="is-success"
+              icon-left="plus"
+              :label="$t('CopyPicto')"
+              @click="setCopyCollectionId(picto.id, !picto.collection)"
+            />
+          </b-dropdown-item>
+          <b-dropdown-item
+            v-if="(isEditor || isToUser || isViewer) && picto.collection"
+            aria-role="listitem"
+          >
+            <b-button
+              :expanded="true"
+              type="is-warning"
+              icon-left="vector-arrange-below"
+              :label="$t('CopyPicto')"
+              @click="setCopyCollectionId(picto.id, !picto.collection)"
+            />
+          </b-dropdown-item>
+          <b-dropdown-item
+            v-if="(isEditor || isToUser || isViewer) && picto.collection"
+            aria-role="listitem"
+          >
+            <b-button
+              :expanded="true"
+              type="is-dark"
+              icon-left="vector-link"
+              :label="$t('LinkPicto')"
+              @click="setShortcutCollectionId(picto.id, !picto.collection)"
+            />
+          </b-dropdown-item>
+          <b-dropdown-item
+            v-if="picto.collection && (isToUser || isViewer || isEditor)"
+            aria-role="listitem"
+          >
+            <b-button
+              :expanded="true"
+              type="is-success"
+              icon-left="share-variant"
+              :label="$t('SharePicto')"
+              @click="sharePicto()"
+            />
+          </b-dropdown-item>
+          <b-dropdown-item
+            v-if="picto.collection && this.$store.getters.getUser.admin"
+            aria-role="listitem"
+          >
+            <b-button
+              :expanded="true"
+              :loading="publishLoad"
+              :type="picto.public ? 'is-danger' : 'is-success'"
+              icon-left="web"
+              :label="picto.public ? $t('Unpublish') : $t('Publish')"
+              @click="publishPicto()"
+            />
+          </b-dropdown-item>
+        </b-dropdown>
+        <div class="column noMargin is-mobile">
+          <b-button
+            :disabled="!(isToUser || isEditor) || !isOnline"
+            :style="colorPriority"
+            @click="alternateStar()"
+          >
+          <b>{{showPriorityOrStarred}}</b>
+          </b-button>
+        </div>
       </div>
       <div class="meaning">{{ picto.meaning[getUserLang] }}</div>
 
