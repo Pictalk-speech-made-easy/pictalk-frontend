@@ -276,16 +276,10 @@ export default {
         this.getDOMcollectionById(this.picto.id)?.classList?.add(
           "dragOverZone"
         );
-        console.log("display none");
         document.querySelectorAll(".head-actions").forEach((element) => {
           element.style.display = "none";
         });
       }
-
-      // this.dragImage = document.getElementById(this.dragEvent);
-      // console.log(this.dragImage);
-      //this.dragImage.classList.add("dragOverElement");
-      //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
     onDragLeave(ev) {
       ev.preventDefault();
@@ -296,8 +290,6 @@ export default {
         );
       }
       this.dragImage = document.getElementById(this.dragndropId);
-      //this.dragImage.classList.remove("dragOverElement");
-      //ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
     },
     async onDrop(ev) {
       ev.preventDefault();
@@ -312,7 +304,6 @@ export default {
       }
     },
     async onDragEnd(ev) {
-      console.log("display flex");
       document.querySelectorAll("div.head-actions").forEach((element) => {
         element.style.display = "flex";
       });
