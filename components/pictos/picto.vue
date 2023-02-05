@@ -276,6 +276,10 @@ export default {
         this.getDOMcollectionById(this.picto.id)?.classList?.add(
           "dragOverZone"
         );
+        console.log("display none");
+        document.querySelectorAll(".head-actions").forEach((element) => {
+          element.style.display = "none";
+        });
       }
 
       // this.dragImage = document.getElementById(this.dragEvent);
@@ -308,6 +312,10 @@ export default {
       }
     },
     async onDragEnd(ev) {
+      console.log("display flex");
+      document.querySelectorAll("div.head-actions").forEach((element) => {
+        element.style.display = "flex";
+      });
       if (
         this.$store.getters.getDragndrop &&
         this.$store.getters.getDragndrop.fatherCollectionId !=
