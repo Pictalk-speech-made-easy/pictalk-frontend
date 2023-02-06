@@ -335,13 +335,15 @@ export default {
     Security,
   },
   async created() {
-    const bc = new BroadcastChannel("offline-ready");
-    bc.onmessage = (event) => {
-      if (event.isTrusted) {
-        this.offlineReadyTotal = event.data.total;
-        this.offlineReadyProgress = event.data.progress;
-      }
-    };
+    if ('BroadcastChannel' in window) {
+      const bc = new BroadcastChannel("offline-ready");
+      bc.onmessage = (event) => {
+        if (event.isTrusted) {
+          this.offlineReadyTotal = event.data.total;
+          this.offlineReadyProgress = event.data.progress;
+        }
+      };
+    }
     if (window.navigator.onLine) {
       try {
         await this.$store.dispatch("getNotifications");
