@@ -347,9 +347,9 @@ export default {
           let sortedItems = [];
           sortedItems = this.sorting(collectionList, pictos);
           sortedItems.map((picto) => {
-            if (picto.starred === true) {
+            if (picto?.starred === true) {
               picto.priority = 1;
-            } else if (picto.starred === false) {
+            } else if (picto?.starred === false) {
               picto.priority = 10;
             }
           });
