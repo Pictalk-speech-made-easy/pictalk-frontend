@@ -17,7 +17,6 @@ export default {
       intervalId: null,
     };
   },
-  middleware: ["axios"],
   async created() {
     if ('BroadcastChannel' in window) {
       const bc2 = new BroadcastChannel("sync");
