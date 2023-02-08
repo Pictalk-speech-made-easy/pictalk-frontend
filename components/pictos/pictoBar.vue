@@ -347,13 +347,13 @@ export default {
       if (!this.$store.getters.getUser.settings?.pronounceShowSize) {
         return 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd';
       }
-      if (this.$store.getters.getUser.settings.pronounceShowSize == 0) {
+      if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
         return 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd';
       }
-      else if (this.$store.getters.getUser.settings.pronounceShowSize == 1) {
+      else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
         return 'topImage column is-4-mobile is-3-tablet is-3-desktop is-3-widescreen is-3-fullhd';
       }
-      else if (this.$store.getters.getUser.settings.pronounceShowSize == 2) {
+      else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
         return 'topImage column is-6-mobile is-4-tablet is-4-desktop is-4-widescreen is-4-fullhd';
       }
     },
