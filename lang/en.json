@@ -397,5 +397,7 @@
   "ARASAACSponsoring": "The ARASAAC non-profit organization provides us free and open source pictograms",
   "PronounceShowDelay": "Additional showing sentence time",
   "PronounceShowDelay0": "Sentence time",
-  "PronounceShowSize": "Size of pictograms during speaking time"
+  "PronounceShowSize": "Size of pictograms during speaking time",
+  "PictoStepsErrorTraduction": "Error while translating the pictogram",
+  "PictoStepsCreationError": "Error while trying to create the collection or pictogram"
 }
