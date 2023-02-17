@@ -27,6 +27,9 @@ export default {
         if (language.includes("ro") || language.includes("RO")) {
           return String.fromCodePoint(0x1F1F7, 0x1F1F4) + " " + "Română";
         }
+        if (language.includes("ar") || language.includes("AR")) {
+          return String.fromCodePoint(0x1F1F8, 0x1F1E6) + " " + "اللغة العربية";
+        }
       }
       return language;
     },
