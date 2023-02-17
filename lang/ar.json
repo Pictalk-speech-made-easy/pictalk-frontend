@@ -151,5 +151,6 @@
     "PasswordValidationMessage": "ما لا يقل عن حرف واحد كبير ورقم واحد وكلمة مرور لا تقل عن 8",
     "ChangePassword": "تغيير كلمة المرور",
     "PasswordEmpty": "كلمة المرور فارغة",
-    "ChangePasswordSuccess": "تم إرسال طلب تغيير كلمة المرور بنجاح"
+    "ChangePasswordSuccess": "تم إرسال طلب تغيير كلمة المرور بنجاح",
+    "DownloadedImages": "يتم تخزين الصور في جهازك"
 }
