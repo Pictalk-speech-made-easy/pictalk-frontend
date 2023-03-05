@@ -175,17 +175,19 @@ export default {
     document.querySelector("iframe").onload = () => {
       this.newsCharged = true;
     };
-    const res = await axios.get("/extras/amounts");
-    if (res.status == 200) {
-      if (res.data?.amount && res.data?.amount != 0) {
-        this.donationAmount = res.data.amount;
-        this.donators = res.data.donators;
-      } else {
-        this.donationAmount = res.data.pastAmount;
-        this.donators = res.data.pastDonators;
+    try {
+      const res = await axios.get("/extras/amounts");
+      if (res.status == 200) {
+        if (res.data?.amount && res.data?.amount != 0) {
+          this.donationAmount = res.data.amount;
+          this.donators = res.data.donators;
+        } else {
+          this.donationAmount = res.data.pastAmount;
+          this.donators = res.data.pastDonators;
+        }
+        this.cycleDonators();
       }
-      this.cycleDonators();
-    }
+    } catch (err) {}
   },
   data() {
     return {
