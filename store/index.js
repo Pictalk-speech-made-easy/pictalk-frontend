@@ -227,11 +227,15 @@ export const actions = {
     vuexContext.commit("resetCollections");
   },
   async getPublicBundles(vuexContext) {
-    let publicBundles = (await axios.get('/collection/levels')).data;
-    publicBundles = Object.keys(publicBundles).map((key) => { parseAndUpdateEntireCollection(vuexContext, publicBundles[key]); return { id: publicBundles[key].id, level: key } });
-    //publicBundles = publicBundles.map((bundle) => { parseAndUpdateEntireCollection(vuexContext, bundle); bundle.level = bundle; return bundle.id; });
-    vuexContext.commit('setPublicBundles', publicBundles);
-    return publicBundles;
+    try {
+      let publicBundles = (await axios.get('/collection/levels')).data;
+      publicBundles = Object.keys(publicBundles).map((key) => { parseAndUpdateEntireCollection(vuexContext, publicBundles[key]); return { id: publicBundles[key].id, level: key } });
+      //publicBundles = publicBundles.map((bundle) => { parseAndUpdateEntireCollection(vuexContext, bundle); bundle.level = bundle; return bundle.id; });
+      vuexContext.commit('setPublicBundles', publicBundles);
+      return publicBundles;
+    } catch (err) {
+      console.log(err)
+    }
   },
   async addPicto(vuexContext, picto) {
     let formData = new FormData();
