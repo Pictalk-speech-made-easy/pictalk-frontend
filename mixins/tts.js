@@ -2,8 +2,9 @@ import frenchFries from "@/assets/frenchFries.json";
 import { convertToSimpleLanguage } from "@/utils/utils";
 import axios from "axios";
 import installOtherBrowserModal from "@/components/pictos/installOtherBrowserModal";
+import installVoiceModal from '@/components/pictos/installVoiceModal'
 export default {
-  component: [installOtherBrowserModal],
+  component: [installOtherBrowserModal, installVoiceModal],
   created: function () {
     const allVoicesObtained = new Promise(function (resolve, reject) {
       try {
@@ -93,10 +94,63 @@ export default {
     });
     allVoicesObtained.catch((err) => {
       this.$parent.close();
-      this.openInstallOtherBrowserModal();
+      if (this.detectBrowser() != "Chrome" || this.detectBrowser() != "Firefox" || this.detectBrowser() != "Safari") {
+        this.openInstallOtherBrowserModal();
+      } else {
+        this.openInstallVoicesModal();
+      }
     })
   },
   methods: {
+    detectBrowser() {
+      // Get the user-agent string
+      let userAgentString =
+        navigator.userAgent;
+
+      // Detect Chrome
+      let chromeAgent =
+        userAgentString.indexOf("Chrome") > -1;
+      // Detect Internet Explorer
+      let IExplorerAgent =
+        userAgentString.indexOf("MSIE") > -1 ||
+        userAgentString.indexOf("rv:") > -1;
+
+      // Detect Firefox
+      let firefoxAgent =
+        userAgentString.indexOf("Firefox") > -1;
+
+      // Detect Safari
+      let safariAgent =
+        userAgentString.indexOf("Safari") > -1;
+
+      // Discard Safari since it also matches Chrome
+      if ((chromeAgent) && (safariAgent))
+        safariAgent = false;
+
+      // Detect Opera
+      let operaAgent =
+        userAgentString.indexOf("OP") > -1;
+
+      // Discard Chrome since it also matches Opera     
+      if ((chromeAgent) && (operaAgent))
+        chromeAgent = false;
+
+      if (chromeAgent) { return "Chrome" }
+      if (IExplorerAgent) { return "IE" }
+      if (firefoxAgent) { return "Firefox" }
+      if (safariAgent) { return "Safari" }
+      if (operaAgent) { return "Opera" }
+    },
+    async openInstallVoicesModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: installVoiceModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+    },
     async openInstallOtherBrowserModal() {
       this.$buefy.modal.open({
         parent: this,
@@ -125,7 +179,7 @@ export default {
       }
     },
     async pronounce(speech, lang, voiceURI, pitch, rate, synthesis) {
-      if ("speechSynthesis" in window) {
+      if ("speechSynthesis" in window && this.voices?.length > 1) {
         if (synthesis) {
           var msg = synthesis;
         } else {
@@ -158,14 +212,7 @@ export default {
         }
         window.speechSynthesis.speak(msg);
       } else {
-        const notif = this.$buefy.notification.open({
-          duration: 4500,
-          message: this.$t("NoVoicesFound"),
-          position: "is-top-right",
-          type: "is-warning",
-          hasIcon: true,
-          iconSize: "is-small",
-        });
+        this.openInstallVoicesModal();
       }
     },
     async playSentenceInLanguage(lang, voiceURI, pitch, rate) {
