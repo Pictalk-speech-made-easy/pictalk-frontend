@@ -58,6 +58,7 @@ Cypress.Commands.add(
   'checkVoicesPopup',
   () => {
     if (!('speechSynthesis' in window) || window.speechSynthesis.getVoices().length <= 1) {
+      cy.log(window.speechSynthesis.getVoices());
       cy.get('[data-cy=cypress-installVoiceModal-close]').click();
     }
   }
