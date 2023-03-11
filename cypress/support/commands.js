@@ -57,14 +57,15 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'checkVoicesPopup',
   () => {
-    if (!('speechSynthesis' in window) || window.speechSynthesis.getVoices().length <= 1) {
+    let i = 0;
+    let voices = [];
+    while (i < 10 && voices.length < 1) {
+      voices = window.speechSynthesis.getVoices();
+      i++;
+      cy.wait(500)
+    }
+    if (!('speechSynthesis' in window) || voices <= 1) {
       cy.log(window.speechSynthesis.getVoices());
-      let i = 0;
-      while (i < 10 || voices.length < 1) {
-        voices = window.speechSynthesis.getVoices();
-        i++;
-        cy.wait(500)
-      }
       cy.get('[data-cy=cypress-installVoiceModal-close]').click();
     }
   }
