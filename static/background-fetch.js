@@ -8,8 +8,8 @@ var totalPictoImages = null;
 var authenticated = false;
 var broadcastProgressInterval = null;
 
-if (!('BackgroundFetchManager' in self)) {
-  console.log("Background manager not supported");
+if (!(typeof self.fetch === "function") && 'BroadcastChannel' in self) {
+  console.log("Fetch API not supported or BroadcastChannel not supported");
 } else {
   checkAuthenticated(self);
 }

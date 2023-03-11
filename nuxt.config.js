@@ -152,6 +152,12 @@ export default {
         iso: 'el-GR',
         name: 'Eλληνικά',
         file: 'el-EL.js'
+      },
+      {
+        code: 'ar',
+        iso: 'ar-SA',
+        name: 'اللغة العربية',
+        file: 'ar-SA.js'
       }
     ],
     lazy: true,

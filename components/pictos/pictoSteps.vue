@@ -75,7 +75,7 @@
                 v-for="picto in paginate"
                 :key="picto.src"
                 :webpicto="picto"
-                @uploadfile="uploadfile($event)"
+                @uploadfile="uploadfile($event, picto.pictohubId)"
               />
             </div>
 
@@ -561,6 +561,7 @@ export default {
   data() {
     return {
       page: 1,
+      pictohubId: undefined,
       imgLimit: 24,
       pictoSearch: "",
       activeStep: 0,
@@ -668,6 +669,7 @@ export default {
           message: this.$t("MeaningEmpty"),
           type: "is-danger",
         });
+        this.creationLoading = false;
         return;
       }
       if (this.create && !this.file.name) {
@@ -675,6 +677,7 @@ export default {
           message: this.$t("MissingImage"),
           type: "is-danger",
         });
+        this.creationLoading = false;
         return;
       }
       try {
@@ -731,6 +734,7 @@ export default {
                       this.picto.meaning[this.getUserLang] ==
                       this.picto.speech[this.getUserLang]
                     ) {
+                      try {
                       this.picto.meaning[language] = this.picto.speech[
                         language
                       ] = (
@@ -741,8 +745,12 @@ export default {
                         })
                       )?.data.translation;
                       resolve();
+                      } catch (error) {
+                        reject(error);
+                      }
                     } else {
                       if (this.picto.meaning[this.getUserLang]) {
+                        try {
                         this.picto.meaning[language] = (
                           await axios.post("/translation/", {
                             text: this.picto.meaning[this.getUserLang],
@@ -750,17 +758,24 @@ export default {
                             sourceLang: this.getUserLang,
                           })
                         )?.data.translation;
+                        } catch (error) {
+                          reject(error);
+                        }
                       } else {
                         this.picto.meaning[language] = "";
                       }
                       if (this.picto.speech[this.getUserLang]) {
-                        this.picto.speech[language] = (
-                          await axios.post("/translation/", {
-                            text: this.picto.meaning[this.getUserLang],
-                            targetLang: language,
-                            sourceLang: this.getUserLang,
-                          })
-                        )?.data.translation;
+                        try {
+                          this.picto.speech[language] = (
+                            await axios.post("/translation/", {
+                              text: this.picto.meaning[this.getUserLang],
+                              targetLang: language,
+                              sourceLang: this.getUserLang,
+                            })
+                          )?.data.translation;
+                        } catch (error) {
+                          reject(error);
+                        }
                       } else {
                         this.picto.speech[language] = "";
                       }
@@ -769,7 +784,7 @@ export default {
                   }
                 });
               })
-          );
+          )
         }
         if (Object.keys(this.picto.speech).length === 0) {
           this.picto.speech = { ...this.picto.meaning };
@@ -791,6 +806,7 @@ export default {
                 10
               ),
               image: cfile,
+              pictohubId: this.pictohubId,
             }
           );
           this.$buefy.toast.open({
@@ -817,6 +833,7 @@ export default {
                 10
               ),
               image: cfile,
+              ...(this.pictohubId && { pictohubId: this.pictohubId }),
             }
           );
           this.$buefy.toast.open({
@@ -825,14 +842,16 @@ export default {
               : this.$t("EditedPictogram"),
             type: "is-success",
           });
+          //$nuxt.$emit("resyncPictoList");
           this.$parent.close();
         }
       } catch (err) {
         console.log(err);
         this.$buefy.toast.open({
-          message: this.$t("SomeThingBadHappened"),
+          message: this.$t("PictoStepsCreationError"),
           type: "is-danger",
         });
+        this.creationLoading = false;
       }
       this.creationLoading = false;
       this.$emit("close");
@@ -882,6 +901,7 @@ export default {
             download: photo.download,
             source: photo.source,
             author: photo.author,
+            ...(photo.pictohubId && { pictohubId: photo.id }),
           });
         });
         if (webData.length === 0) {
@@ -923,6 +943,7 @@ export default {
                 download: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
                 source: "arasaac",
                 author: "",
+                pictohubId: arasaacData[i]["_id"],
               });
             }
           })
@@ -1040,7 +1061,7 @@ export default {
         }
       }
     },
-    uploadfile(file) {
+    uploadfile(file, pictohubId) {
       this.picto.speech[this.languageSelectorSpeech] = file.name
         .replaceAll("-", " ")
         .replace(/\.[^/.]+$/, "");
@@ -1049,6 +1070,9 @@ export default {
         .replace(/\.[^/.]+$/, "");
       this.file = file;
       this.activeStep = 1;
+      if (pictohubId) {
+        this.pictohubId = pictohubId;
+      }
     },
 
     discardfile() {

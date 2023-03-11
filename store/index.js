@@ -245,6 +245,9 @@ export const actions = {
     if (picto.color != 0) {
       formData.append("color", picto.color);
     }
+    if (picto.pictohubId) {
+      formData.append("pictohubId", picto.pictohubId);
+    }
     formData.append("share", picto.share);
     formData.append("fatherCollectionId", picto.fatherCollectionId);
     //formData.append("collectionIds", picto.collectionIds);
@@ -268,7 +271,8 @@ export const actions = {
       viewers: newPicto.viewers,
       public: newPicto.public,
       createdDate: newPicto.createdDate,
-      updatedDate: newPicto.updatedDate
+      updatedDate: newPicto.updatedDate,
+      ...(picto.pictohubId && { pictohubId: Number(picto.pictohubId) }),
     }
     vuexContext.commit("addPicto", editedNewPicto);
     return editedNewPicto;
@@ -280,6 +284,10 @@ export const actions = {
     formData.append("color", picto.color);
     formData.append("share", picto.shared);
     formData.append("priority", picto.priority);
+
+    if (picto.pictohubId) {
+      formData.append("pictohubId", picto.pictohubId);
+    }
     //formData.append("collectionIds", picto.collectionIds);
     if (picto.image) {
       formData.append("image", picto.image);
@@ -307,6 +315,7 @@ export const actions = {
       public: editedPicto.public,
       createdDate: editedPicto.createdDate,
       updatedDate: editedPicto.updatedDate,
+      ...(picto.pictohubId && { pictohubId: Number(picto.pictohubId) }),
     });
   },
   async removePicto(vuexContext, { pictoId, fatherCollectionId }) {
@@ -353,6 +362,11 @@ export const actions = {
     //formData.append("pictoIds", collection.pictoIds);
     formData.append("share", collection.share);
     formData.append("image", collection.image);
+
+    if (collection.pictohubId) {
+      formData.append("pictohubId", collection.pictohubId);
+    }
+
     const newCollection = (await axios
       .post("/collection", formData, {
         headers: {
@@ -374,7 +388,8 @@ export const actions = {
       id: newCollection.id,
       priority: JSON.parse(newCollection.priority),
       createdDate: newCollection.createdDate,
-      updatedDate: newCollection.updatedDate
+      updatedDate: newCollection.updatedDate,
+      ...(collection.pictohubId && { pictohubId: Number(collection.pictohubId) }),
     };
     vuexContext.commit("addCollection", editedNewCollection);
     return editedNewCollection;
@@ -384,6 +399,11 @@ export const actions = {
     if (collection.speech) {
       formData.append("speech", JSON.stringify(collection.speech));
     }
+
+    if (collection.pictohubId) {
+      formData.append("pictohubId", collection.pictohubId);
+    }
+
     if (collection.meaning) {
       formData.append("meaning", JSON.stringify(collection.meaning));
     }
@@ -422,6 +442,7 @@ export const actions = {
       updatedDate: editedCollection.updatedDate,
       collections: editedCollection.collections.map((colle) => parseAndUpdateEntireCollection(vuexContext, colle)),
       pictos: editedCollection.pictos.map((pict) => parseAndUpdatePictogram(vuexContext, pict)),
+      ...(collection.pictohubId && { pictohubId: Number(collection.pictohubId) }),
     });
   },
   async removeCollection(vuexContext, { collectionId, fatherCollectionId }) {

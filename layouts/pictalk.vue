@@ -17,9 +17,15 @@ export default {
       intervalId: null,
     };
   },
-  middleware: ["axios"],
   async created() {
-    const bc2 = new BroadcastChannel("sync");
+    if ('BroadcastChannel' in window) {
+      const bc2 = new BroadcastChannel("sync");
+      bc2.onmessage = (event) => {
+      if (event.isTrusted) {
+        this.$store.dispatch("downloadCollections", event.data.collections);
+      }
+    };
+    }
     if (!this.$store.getters.getUser.username) {
       try {
         await this.$store.dispatch("getUser");
@@ -39,11 +45,7 @@ export default {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
     }
-    bc2.onmessage = (event) => {
-      if (event.isTrusted) {
-        this.$store.dispatch("downloadCollections", event.data.collections);
-      }
-    };
+    
   },
   destroyed() {
     clearInterval(this.intervalId);

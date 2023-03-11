@@ -54,18 +54,20 @@ export default {
       this.voices = voices;
       this.loadingVoices = false;
       if (this.$store.getters.getUser.language) {
-        this.voiceURI =
-          this.$store.getters.getUser.language[this.getUserLang][
-            this.getDeviceInfo()
-          ]?.voiceURI;
-        this.pitch =
-          this.$store.getters.getUser.language[this.getUserLang][
-            this.getDeviceInfo()
-          ]?.pitch;
-        this.rate =
-          this.$store.getters.getUser.language[this.getUserLang][
-            this.getDeviceInfo()
-          ]?.rate;
+        if (this.$store.getters.getUser.language[this.getUserLang]) {
+          this.voiceURI =
+            this.$store.getters.getUser.language[this.getUserLang][
+              this.getDeviceInfo()
+            ]?.voiceURI;
+          this.pitch =
+            this.$store.getters.getUser.language[this.getUserLang][
+              this.getDeviceInfo()
+            ]?.pitch;
+          this.rate =
+            this.$store.getters.getUser.language[this.getUserLang][
+              this.getDeviceInfo()
+            ]?.rate;
+        }
         this.voiceURIs = Object.keys(this.$store.getters.getUser.languages).map((lang) => {
           let uri =
             this.$store.getters.getUser.languages[lang][this.getDeviceInfo()]?.voiceURI;

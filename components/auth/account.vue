@@ -452,14 +452,16 @@ export default {
     }
     this.mailingList = [...this.user.mailingList];
     this.displayedLanguage = this.localeCode();
-
-    const bc = new BroadcastChannel("offline-ready");
-    bc.onmessage = (event) => {
-      if (event.isTrusted) {
-        this.offlineReadyTotal = event.data.total;
-        this.offlineReadyProgress = event.data.progress;
-      }
-    };
+    if ('BroadcastChannel' in window) {
+      const bc = new BroadcastChannel("offline-ready");
+      bc.onmessage = (event) => {
+        if (event.isTrusted) {
+          this.offlineReadyTotal = event.data.total;
+          this.offlineReadyProgress = event.data.progress;
+        }
+      };
+    }
+  
     if ("storage" in navigator && "estimate" in navigator.storage) {
       const usedStorage = (await navigator.storage.estimate()).usage;
       if (usedStorage >= 1e6) {
