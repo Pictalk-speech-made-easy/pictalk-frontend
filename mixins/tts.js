@@ -21,7 +21,7 @@ export default {
                 } catch (err) {
                   reject(err);
                 }
-                if (!voices) {
+                if (!voices || voices.length <= 1) {
                   reject();
                 }
                 resolve(voices);
@@ -36,7 +36,7 @@ export default {
               } catch (err) {
                 reject(err);
               }
-              if (voices && voices?.length > 0) {
+              if (voices && voices?.length > 1) {
                 clearInterval(getVoicesInterval);
                 resolve(voices);
               }
@@ -93,7 +93,6 @@ export default {
       }
     });
     allVoicesObtained.catch((err) => {
-
     })
   },
   methods: {
@@ -172,7 +171,7 @@ export default {
       }
     },
     async pronounce(speech, lang, voiceURI, pitch, rate, synthesis) {
-      if ("speechSynthesis" in window && this.voices?.length > 1) {
+      if ("speechSynthesis" in window && window.speechSynthesis.getVoices()?.length > 1) {
         if (synthesis) {
           var msg = synthesis;
         } else {
