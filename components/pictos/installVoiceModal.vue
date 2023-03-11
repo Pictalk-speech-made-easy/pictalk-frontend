@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card">
+  <div data-cy="cypress-installVoiceModal" class="modal-card">
     <header class="modal-card-head">
       <p align="center" class="modal-card-title">
         {{ $t("NoVoiceAvailable") }}
@@ -9,7 +9,7 @@
       <installVoice></installVoice>
     </section>
     <footer class="modal-card-foot">
-      <b-button class="button" type="button" @click="$parent.close()">{{
+      <b-button data-cy="cypress-installVoiceModal-close" class="button" type="button" @click="$parent.close()">{{
         $t("Close")
       }}</b-button>
     </footer>
