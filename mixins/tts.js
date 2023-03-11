@@ -9,7 +9,7 @@ export default {
     const allVoicesObtained = new Promise(function (resolve, reject) {
       try {
         let voices = window.speechSynthesis.getVoices();
-        if (voices.length !== 0) {
+        if (voices.length > 1) {
           resolve(voices);
         } else {
           if (!window.safari) {
