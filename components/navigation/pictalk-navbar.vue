@@ -11,13 +11,13 @@
           src="~/assets/logo_compressed.png"
           alt="Logo of a web app that help speach-disabled people"
           height="44px"
-					style="aspect-ratio: 411 / 130; margin-right: 0.5em"
+          style="aspect-ratio: 411 / 130; margin-right: 0.5em"
         />
         <img
-					style="aspect-ratio: 1 / 1; margin-right: 0.5em"
+          style="aspect-ratio: 1 / 1; margin-right: 0.5em"
           height="44px"
           v-if="!fits"
-					src="~/assets/small_logo.png"
+          src="~/assets/small_logo.png"
           alt="Logo of a web app that help speach-disabled people"
         />
 
@@ -54,7 +54,7 @@
           </template>
         </b-tooltip>-->
       </b-navbar-item>
-			<p class="version">{{ $config.clientVersion }}</p>
+      <p class="version">{{ $config.clientVersion }}</p>
       <div
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
@@ -73,12 +73,11 @@
           >
             <template #trigger>
               <b-button
-                class="dropdown-button rounded"
-                type="is-success"
+                style="background-color: hsl(154, 100%, 65%)"
                 icon-right="plus"
-                expanded
-                ><b>{{ $t("Create") }}</b></b-button
-              >
+                :label="$t('Create')"
+                class="customButton"
+              />
             </template>
             <b-dropdown-item
               class="verticalPadding"
@@ -100,9 +99,9 @@
           class="column noPadding"
         >
           <b-button
-            class="addButton rounded"
+            class="customButton"
+            style="background-color: hsl(210, 100%, 60%); min-width: 80px"
             @click="copyCollection()"
-            type="is-info"
             icon-right="content-paste"
           />
         </div>
@@ -111,22 +110,24 @@
           class="column noPadding"
         >
           <b-button
-            class="addButton rounded"
+            class="customButton"
+            style="background-color: hsl(0, 0%, 96%); min-width: 80px"
             @click="cancelCopy()"
-            type="is-light"
             icon-right="close"
           />
         </div>
 
-        <div v-if="!checkCopyCollectionId" class="column noPadding">
+        <div
+          v-if="!checkCopyCollectionId || !$route.query.isAdmin"
+          class="column noPadding"
+        >
           <b-button
-            class="lock rounded"
-            type="is-warning"
-            :focused="Boolean($route.query.isAdmin)"
-            @click="adminModeChoose()"
+            style="background-color: hsl(44, 100%, 65%)"
             :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
             :icon-left="iconIsAdmin"
             :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
+            @click="adminModeChoose()"
+            class="fullWidth customButton"
           />
         </div>
       </div>
@@ -167,9 +168,10 @@
           >
             <b-button
               @click="openModeModal()"
-              :icon-left="icon"
-              :class="'modeButton ' + colorClass"
+              style="color: white"
               icon-right="menu-down"
+              :icon-left="icon"
+              :class="'customButton ' + colorClass"
             />
           </b-tooltip>
 
@@ -190,9 +192,11 @@
               append-to-body
               class="notificationsdrop"
               ><template #trigger>
-                <a class="navbar-item" role="button">
-                  <b-icon icon="bell-alert"></b-icon>
-                </a>
+                <b-button
+                  style="background-color: hsl(0, 100%, 100%); color: #ff5757"
+                  icon-right="bell-alert"
+                  class="customButton"
+                />
               </template>
               <b-dropdown-item
                 aria-role="menu-item"
@@ -262,10 +266,10 @@
             :triggers="['hover']"
           >
             <b-button
-              v-if="this.$route.path.includes('pictalk')"
-              type="is-info"
-              icon-right="cog"
+              style="background-color: hsl(207, 100%, 65%)"
               @click="goToAccount()"
+              icon-right="cog"
+              class="customButton"
             />
           </b-tooltip>
           <!--
@@ -296,8 +300,9 @@
             :triggers="['hover']"
           >
             <b-button
-              type="is-warning"
+              style="background-color: hsl(34, 100%, 55%)"
               icon-right="bug"
+              class="customButton"
               @click="openFeedbackModal()"
             />
           </b-tooltip>
@@ -310,7 +315,12 @@
             :delay="1000"
             :triggers="['hover']"
           >
-            <b-button type="is-light" icon-right="logout" @click="onLogout" />
+            <b-button
+              style="background-color: hsl(0, 100%, 100%)"
+              icon-right="logout"
+              class="customButton"
+              @click="onLogout"
+            />
           </b-tooltip>
         </div>
       </b-navbar-item>
@@ -765,13 +775,11 @@ export default {
   width: 95%;
 }
 .margins {
-  width: 50vw;
-  min-width: 130px;
-  max-width: 260px;
-  margin-left: 1vw;
+  margin-left: 20px;
   margin-right: 1vw;
   margin-top: 4px;
   height: 44px;
+  align-items: center;
 }
 .noPadding {
   padding: 0%;
@@ -817,6 +825,17 @@ export default {
 .rounded {
   border-radius: 24px;
 }
+.customButton {
+  font-size: clamp(0.8em, 4vw, 1.15em);
+  font-weight: 600;
+  color: #171717;
+  border: 2px solid #666;
+  transition: all 0.05s;
+  margin: 0 2px;
+}
+.customButton:hover {
+  box-shadow: 0px 0px 12px #00000090;
+}
 .modeButton {
   color: white;
   border-color: transparent;
@@ -825,11 +844,11 @@ export default {
   color: #f1f1f1;
 }
 .version {
-	display: flex;
-	align-items: flex-end;
-	font-size: 00.65em;
-	margin-bottom: 2px;
-	margin-left: -2em;
-	width: 5px;
+  display: flex;
+  align-items: flex-end;
+  font-size: 00.65em;
+  margin-bottom: 2px;
+  margin-left: -2em;
+  width: 5px;
 }
 </style>
