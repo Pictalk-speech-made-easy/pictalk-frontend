@@ -131,12 +131,14 @@ export default {
       return chars;
     },
     testBoundaryEventSupport() {
-      let synthesis = new SpeechSynthesisUtterance();
-      synthesis.volume = 0;
-      synthesis.addEventListener("boundary", (event) => {
-        this.animation = true;
-      });
-      this.pronounce("a", this.getUserLang, this.voiceURI, 1, 1, synthesis);
+      if (this.voiceURI != "") {
+        let synthesis = new SpeechSynthesisUtterance();
+        synthesis.volume = 0;
+        synthesis.addEventListener("boundary", (event) => {
+          this.animation = true;
+        });
+        this.pronounce("a", this.getUserLang, this.voiceURI, 1, 1, synthesis);
+      }
     },
     async copyPictosToClipboardLegacy(pictos) {
       const message = this.getText(pictos);
@@ -411,11 +413,21 @@ export default {
     },
   },
   watch: {
-    pictos: function () {
+    pictos: function (value) {
       setTimeout(() => {
         let element = document.getElementById("bar");
         element.scrollLeft = element.scrollWidth;
       }, 125);
+      if (this.$store.getters.getUser.settings?.pronounceClick && value.length > this.pictoLength) {
+        this.pronounce(
+          value[value.length -1].speech[this.getUserLang],
+          this.getUserLang,
+          this.voiceURI,
+          this.pitch,
+          this.rate
+        );
+      }
+      this.pictoLength = value.length
     },
     voiceURI: function () {
       this.animation = false;
@@ -432,6 +444,7 @@ export default {
       adminMode: false,
       voices: [],
       voiceURI: "",
+      pictoLength: 0,
     };
   },
 };

@@ -190,7 +190,7 @@ import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import shareItem from "@/components/pictos/shareItem";
 export default {
-  mixins: [lang, tts, deviceInfos],
+  mixins: [lang, deviceInfos],
   name: "picto",
   components: {
     PictoSteps,
@@ -418,15 +418,6 @@ export default {
             query: { ...this.$route.query },
           });
         }
-      }
-      if (this.$store.getters.getUser.settings?.pronounceClick) {
-        this.pronounce(
-          this.picto.speech[this.getUserLang],
-          this.getUserLang,
-          this.voiceURI,
-          this.pitch,
-          this.rate
-        );
       }
     },
     deletePicto() {
