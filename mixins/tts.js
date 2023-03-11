@@ -93,12 +93,7 @@ export default {
       }
     });
     allVoicesObtained.catch((err) => {
-      this.$parent.close();
-      if (this.detectBrowser() != "Chrome" || this.detectBrowser() != "Firefox" || this.detectBrowser() != "Safari") {
-        this.openInstallOtherBrowserModal();
-      } else {
-        this.openInstallVoicesModal();
-      }
+
     })
   },
   methods: {
@@ -112,9 +107,7 @@ export default {
         userAgentString.indexOf("Chrome") > -1;
       // Detect Internet Explorer
       let IExplorerAgent =
-        userAgentString.indexOf("MSIE") > -1 ||
-        userAgentString.indexOf("rv:") > -1;
-
+        userAgentString.indexOf("MSIE") > -1;
       // Detect Firefox
       let firefoxAgent =
         userAgentString.indexOf("Firefox") > -1;
@@ -212,7 +205,11 @@ export default {
         }
         window.speechSynthesis.speak(msg);
       } else {
-        this.openInstallVoicesModal();
+        if (this.detectBrowser() != "Chrome" || this.detectBrowser() != "Firefox" || this.detectBrowser() != "Safari") {
+          this.openInstallOtherBrowserModal();
+        } else {
+          this.openInstallVoicesModal();
+        }
       }
     },
     async playSentenceInLanguage(lang, voiceURI, pitch, rate) {
