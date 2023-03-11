@@ -205,7 +205,7 @@ export default {
         }
         window.speechSynthesis.speak(msg);
       } else {
-        if (this.detectBrowser() != "Chrome" || this.detectBrowser() != "Firefox" || this.detectBrowser() != "Safari") {
+        if (this.detectBrowser() != "Chrome" && this.detectBrowser() != "Firefox" && this.detectBrowser() != "Safari") {
           this.openInstallOtherBrowserModal();
         } else {
           this.openInstallVoicesModal();
