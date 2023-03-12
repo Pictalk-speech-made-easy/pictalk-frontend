@@ -12,7 +12,7 @@ export default {
         if (voices.length > 1) {
           resolve(voices);
         } else {
-          if (!window.safari) {
+          if (!window.safari && navigator.userAgent.indexOf("Firefox") == -1) {
             window.speechSynthesis.addEventListener(
               "voiceschanged",
               function () {
