@@ -65,13 +65,13 @@
         style="margin-left: 2vmax; margin-top: 2vmax; background-color: hsl(0, 100%, 65%); color: white"
         class="customButton"
       />
+      
       <div class="columns is-multiline is-mobile topColumns">
         <img
           v-for="(picto, index) in pictosWithoutSilent"
-          :key="'pronounceShow'+index"
+          :key="index"
           :src="picto.image"
-          :class="(animation? (wordIndex >= index? (pronounceShowSize+ 'animations'):(pronounceShowSize+'lowBrightness')) : pronounceShowSize)"
-        ></img>
+          :class="(animation? (wordIndex >= index? pronounceShowSize+' animations': pronounceShowSize+' lowBrightness') : pronounceShowSize)"></img>
       </div>
     </div>
   </div>
