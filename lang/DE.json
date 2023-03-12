@@ -399,5 +399,7 @@
     "PictoStepsErrorTraduction": "Fehler beim Übersetzen des Piktogramms",
     "PictoStepsCreationError": "Fehler beim Versuch, die Sammlung oder das Piktogramm zu erstellen",
     "PronounceShowDelay": "Zusätzliche Vorführung der Strafzeit",
-    "PronounceShowDelay0": "Zeit der Verurteilung"
+    "PronounceShowDelay0": "Zeit der Verurteilung",
+    "VerifiedEmail": "Korrekt verifizierte E-Mail",
+    "ErrorVerifiedEmail": "E-Mail kann nicht verifiziert werden"
 }
