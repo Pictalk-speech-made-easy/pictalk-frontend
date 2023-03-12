@@ -399,5 +399,7 @@
     "PronounceShowDelay": "Tempo aggiuntivo di dimostrazione della pena",
     "PronounceShowDelay0": "Tempo di condanna",
     "PictoStepsErrorTraduction": "Errore durante la traduzione del pittogramma",
-    "PictoStepsCreationError": "Errore durante il tentativo di creare la raccolta o il pittogramma"
+    "PictoStepsCreationError": "Errore durante il tentativo di creare la raccolta o il pittogramma",
+    "VerifiedEmail": "Email correttamente verificata",
+    "ErrorVerifiedEmail": "Impossibile verificare l'e-mail"
 }
