@@ -4,7 +4,6 @@ describe('Creates a collection', () => {
     // thus the visit will not start until the promise returned
     // by the application code inside the custom command "login" resolves
     cy.intercept('POST', '/collection').as('addCollection');
-    cy.checkVoicesPopup()
     cy.get('[data-cy="pictalk-navbar-admin-button"]').click();
     cy.get('[data-cy="pictalk-navbar-create-button"]').click();
     cy.get('[data-cy="pictalk-navbar-create-collection-button"]').click();

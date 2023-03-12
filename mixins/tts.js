@@ -44,7 +44,7 @@ export default {
                 clearInterval(getVoicesInterval);
                 reject("No voices found");
               }
-            }, 1000);
+            }, 200);
           }
         }
       } catch (err) {
@@ -93,11 +93,7 @@ export default {
       }
     });
     allVoicesObtained.catch((err) => {
-      if (this.detectBrowser() != "Chrome" && this.detectBrowser() != "Firefox" && this.detectBrowser() != "Safari") {
-        this.openInstallOtherBrowserModal();
-      } else {
-        this.openInstallVoicesModal();
-      }
+
     })
   },
   methods: {
@@ -176,7 +172,7 @@ export default {
       }
     },
     async pronounce(speech, lang, voiceURI, pitch, rate, synthesis) {
-      if ("speechSynthesis" in window) {
+      if ("speechSynthesis" in window && window.speechSynthesis.getVoices().length > 1) {
         if (synthesis) {
           var msg = synthesis;
         } else {

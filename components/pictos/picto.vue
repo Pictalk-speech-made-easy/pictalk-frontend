@@ -184,7 +184,6 @@
 </template>
 <script >
 import lang from "@/mixins/lang";
-import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
 import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
