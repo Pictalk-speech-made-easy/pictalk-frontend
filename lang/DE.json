@@ -401,5 +401,9 @@
     "PronounceShowDelay": "Zusätzliche Vorführung der Strafzeit",
     "PronounceShowDelay0": "Zeit der Verurteilung",
     "VerifiedEmail": "Korrekt verifizierte E-Mail",
-    "ErrorVerifiedEmail": "E-Mail kann nicht verifiziert werden"
+    "ErrorVerifiedEmail": "E-Mail kann nicht verifiziert werden",
+    "NoVoiceAvailable": "Keine Stimme auf Ihrem Gerät verfügbar",
+    "SignupNoVoiceText": "Sie können Pictalk immer noch verwenden, aber Sie werden die Sätze nicht hören können. Sie können weiterhin die Piktogramme zur Kommunikation verwenden. Pictalk funktioniert möglicherweise nicht wie gewohnt. Bitte installieren Sie eine Stimme mit Hilfe der folgenden Links:",
+    "SignupNoVoiceAll": "Für alle Arten von Geräten",
+    "SignupNoVoiceSamsung": "Für Samsung-Geräte"
 }
