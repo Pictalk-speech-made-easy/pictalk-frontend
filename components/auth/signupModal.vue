@@ -65,7 +65,7 @@
           {{ $t('SignupSupervisorText')}}
           <div v-if="isArraydirectSharerUrlEncoded">
           <div  v-for="directsharer in directSharerUrlEncoded">
-          <b>{{ directsharer }}</b>
+            <b>{{ directsharer }}</b>
           </div>
           </div>
           <div v-else><b>{{ directSharerUrlEncoded }}</b></div>
@@ -84,6 +84,7 @@
 				</div>
 					<b-field class="column" :label="$t('PrincipalVoice')">
 						<b-select
+              v-if="loadedVoices && loadedVoices.length > 1"
 							v-model="voiceURI"
 							:placeholder="$t('SelectVoice')"
 							required
@@ -99,6 +100,11 @@
 								{{getEmoji(voice.lang)}} {{voice.name}}
 							</option>
 						</b-select>
+            <div >
+              <div class="notification">
+                <installVoice></installVoice>
+              </div>
+            </div>
 					</b-field>
 					<b-button @click="showLanguages = !showLanguages" type="is-ghost">{{ $t('SpeakMoreLanguage')}}</b-button>
 					<b-field v-if="showLanguages" class="column" :label="$t('Voices')">
@@ -269,6 +275,7 @@
 </template>
 
 <script >
+import installVoice from "@/components/pictos/installVoice";
 import axios from "axios";
 import lang from "@/mixins/lang";
 import sharers from "@/mixins/sharers";
@@ -277,6 +284,9 @@ import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
 import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
+  components: {
+    installVoice,
+  },
   mixins: [deviceInfos, emoji, tts, lang, sharers],
   props: {
     recoverCode: {

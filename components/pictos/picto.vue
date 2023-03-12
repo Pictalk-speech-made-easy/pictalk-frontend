@@ -184,13 +184,12 @@
 </template>
 <script >
 import lang from "@/mixins/lang";
-import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
 import deleteItem from "@/components/pictos/deleteItem";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import shareItem from "@/components/pictos/shareItem";
 export default {
-  mixins: [lang, tts, deviceInfos],
+  mixins: [lang, deviceInfos],
   name: "picto",
   components: {
     PictoSteps,
@@ -418,15 +417,6 @@ export default {
             query: { ...this.$route.query },
           });
         }
-      }
-      if (this.$store.getters.getUser.settings?.pronounceClick) {
-        this.pronounce(
-          this.picto.speech[this.getUserLang],
-          this.getUserLang,
-          this.voiceURI,
-          this.pitch,
-          this.rate
-        );
       }
     },
     deletePicto() {

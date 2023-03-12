@@ -98,8 +98,11 @@
               </option>
             </b-select>
           </b-field>
+          <div v-if="loadedVoices && loadedVoices.length > 1">
           <b-field :label="$t('Voice')">
+            
             <b-select
+              
               v-model="voiceURI"
               placeholder="Select language"
               required
@@ -129,6 +132,8 @@
                 playSentenceInLanguage(getUserLang, voiceURI, pitch, rate)
               "
             ></b-button>
+            
+            
           </b-field>
           <b-field :label="$t('Pitch')">
             <b-slider
@@ -148,6 +153,12 @@
               ticks
             ></b-slider>
           </b-field>
+          </div>
+          <div v-else>
+              <div class="notification">
+                <installVoice></installVoice>
+            </div>
+          </div>
           <!--
           <b-button
             v-if="!displayVoicesOrMultiLingual"
@@ -329,6 +340,7 @@
   </div>
 </template>
 <script >
+import installVoice from "@/components/pictos/installVoice";
 import addGroupModal from "@/components/auth/addGroupModal";
 import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
@@ -340,6 +352,11 @@ import Security from "@/components/auth/securityModal";
 import { convertToSimpleLanguage, isObject, mergeDeep } from "@/utils/utils";
 export default {
   mixins: [deviceInfos, emoji, tts, lang, sharers, navbar],
+  components: {
+    installVoice,
+    addGroupModal,
+    Security,
+  },
   computed: {
     isOfflineReady() {
       return this.offlineReadyProgress == 0;
