@@ -399,5 +399,7 @@
   "PronounceShowDelay0": "Sentence time",
   "PronounceShowSize": "Size of pictograms during speaking time",
   "PictoStepsErrorTraduction": "Error while translating the pictogram",
-  "PictoStepsCreationError": "Error while trying to create the collection or pictogram"
+  "PictoStepsCreationError": "Error while trying to create the collection or pictogram",
+  "VerifiedEmail": "Correctly verified email",
+  "ErrorVerifiedEmail": "Cannot verify email"
 }
