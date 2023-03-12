@@ -138,14 +138,7 @@
         />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
-      <<<<<<< HEAD
-      <div class="meaning">
-        {{ picto.meaning[getUserLang] }}
-      </div>
-      =======
       <div class="meaning">{{ picto.meaning[getUserLang] }}</div>
-
-      >>>>>>> ce4f3ea32e299884809a2a233d08abe89b3cdf98
       <div
         v-if="
           publicMode && $store.getters.getUser && $store.getters.isAuthenticated
