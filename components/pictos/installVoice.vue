@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="title is-4">{{ $t('NoVoiceAvailable')}}</div>
+  <div class="title is-4">{{ $t('NoVoiceAvailable')}} ⛔</div>
   <div class="title is-6">{{ $t('SignupNoVoiceText')}}</div>
   <div class="title is-6">{{ $t('SignupNoVoiceAll')}}
     <br>
