@@ -399,5 +399,7 @@
     "PronounceShowDelay": "Πρόσθετος χρόνος προβολής της ποινής",
     "PronounceShowDelay0": "Χρόνος ποινής",
     "PictoStepsErrorTraduction": "Σφάλμα κατά τη μετάφραση του εικονογράμματος",
-    "PictoStepsCreationError": "Σφάλμα κατά την προσπάθεια δημιουργίας της συλλογής ή του εικονογράμματος"
+    "PictoStepsCreationError": "Σφάλμα κατά την προσπάθεια δημιουργίας της συλλογής ή του εικονογράμματος",
+    "VerifiedEmail": "Σωστά επαληθευμένο email",
+    "ErrorVerifiedEmail": "Δεν είναι δυνατή η επαλήθευση email"
 }
