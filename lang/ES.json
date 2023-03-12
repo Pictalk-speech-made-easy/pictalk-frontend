@@ -399,5 +399,7 @@
     "PronounceShowDelay0": "Tiempo de la pronunciación de la frase",
     "PronounceShowSize": "Tamaño de los pictogramas durante la visualización de la frase",
     "PictoStepsErrorTraduction": "Error al traducir el pictograma",
-    "PictoStepsCreationError": "Error al intentar crear la colección o pictograma"
+    "PictoStepsCreationError": "Error al intentar crear la colección o pictograma",
+    "VerifiedEmail": "Correo electrónico correctamente verificado",
+    "ErrorVerifiedEmail": "No se puede verificar el correo electrónico"
 }
