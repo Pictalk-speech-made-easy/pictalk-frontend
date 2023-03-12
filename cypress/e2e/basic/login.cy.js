@@ -12,7 +12,6 @@ describe('Logs in programmatically', () => {
     cy.get('[data-cy="signin-password"]').type('Alex1997');
     cy.get('[data-cy="signin-signin"] > span').click();
     cy.url().should('contain', '/pictalk')
-    cy.checkVoicesPopup()
     cy.get('[data-cy="pictalk-navbar-admin-button"]').should('be.visible')
     /* ==== End Cypress Studio ==== */
   });
