@@ -399,5 +399,7 @@
     "PronounceShowDelay": "Timp suplimentar de afișare a pedepsei",
     "PronounceShowDelay0": "Durata pedepsei",
     "PictoStepsErrorTraduction": "Eroare la traducerea pictogramei",
-    "PictoStepsCreationError": "Eroare la încercarea de a crea colecția sau pictograma"
+    "PictoStepsCreationError": "Eroare la încercarea de a crea colecția sau pictograma",
+    "VerifiedEmail": "E-mail verificat corect",
+    "ErrorVerifiedEmail": "Nu se poate verifica e-mailul"
 }
