@@ -401,5 +401,9 @@
     "PictoStepsErrorTraduction": "Erro durante a tradução do pictograma",
     "PictoStepsCreationError": "Erro ao tentar criar a colecção ou pictograma",
     "VerifiedEmail": "Correcto correio electrónico verificado",
-    "ErrorVerifiedEmail": "Não é possível verificar o e-mail"
+    "ErrorVerifiedEmail": "Não é possível verificar o e-mail",
+    "NoVoiceAvailable": "Não há voz disponível no seu dispositivo",
+    "SignupNoVoiceText": "Ainda pode usar o Pictalk, mas não conseguirá ouvir as frases. Ainda pode usar os pictogramas para comunicar. O Pictalk pode não funcionar como habitualmente. Por favor, instale uma voz com a ajuda dos seguintes links:",
+    "SignupNoVoiceAll": "Para todo o tipo de dispositivos",
+    "SignupNoVoiceSamsung": "Para dispositivos Samsung"
 }
