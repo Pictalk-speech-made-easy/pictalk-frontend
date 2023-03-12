@@ -399,5 +399,7 @@
     "PronounceShowDelay": "Tempo de sentença adicional",
     "PronounceShowDelay0": "Tempo de sentença",
     "PictoStepsErrorTraduction": "Erro durante a tradução do pictograma",
-    "PictoStepsCreationError": "Erro ao tentar criar a colecção ou pictograma"
+    "PictoStepsCreationError": "Erro ao tentar criar a colecção ou pictograma",
+    "VerifiedEmail": "Correcto correio electrónico verificado",
+    "ErrorVerifiedEmail": "Não é possível verificar o e-mail"
 }
