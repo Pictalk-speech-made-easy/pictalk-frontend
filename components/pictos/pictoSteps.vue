@@ -61,16 +61,7 @@
             <br id="searchText" />
             <div class="columns is-multiline is-mobile">
               <Webpicto
-                class="
-                  column
-                  is-one-third-mobile
-                  is-one-quarter-tablet
-                  is-2-desktop
-                  is-2-widescreen
-                  is-2-fullhd
-                  containing
-                  has-background
-                "
+                class="column is-one-third-mobile is-one-quarter-tablet is-2-desktop is-2-widescreen is-2-fullhd containing has-background"
                 style="aspect-ratio: 1/1"
                 v-for="picto in paginate"
                 :key="picto.src"
@@ -735,29 +726,29 @@ export default {
                       this.picto.speech[this.getUserLang]
                     ) {
                       try {
-                      this.picto.meaning[language] = this.picto.speech[
-                        language
-                      ] = (
-                        await axios.post("/translation/", {
-                          text: this.picto.meaning[this.getUserLang],
-                          targetLang: language,
-                          sourceLang: this.getUserLang,
-                        })
-                      )?.data.translation;
-                      resolve();
-                      } catch (error) {
-                        reject(error);
-                      }
-                    } else {
-                      if (this.picto.meaning[this.getUserLang]) {
-                        try {
-                        this.picto.meaning[language] = (
+                        this.picto.meaning[language] = this.picto.speech[
+                          language
+                        ] = (
                           await axios.post("/translation/", {
                             text: this.picto.meaning[this.getUserLang],
                             targetLang: language,
                             sourceLang: this.getUserLang,
                           })
                         )?.data.translation;
+                        resolve();
+                      } catch (error) {
+                        reject(error);
+                      }
+                    } else {
+                      if (this.picto.meaning[this.getUserLang]) {
+                        try {
+                          this.picto.meaning[language] = (
+                            await axios.post("/translation/", {
+                              text: this.picto.meaning[this.getUserLang],
+                              targetLang: language,
+                              sourceLang: this.getUserLang,
+                            })
+                          )?.data.translation;
                         } catch (error) {
                           reject(error);
                         }
@@ -784,7 +775,7 @@ export default {
                   }
                 });
               })
-          )
+          );
         }
         if (Object.keys(this.picto.speech).length === 0) {
           this.picto.speech = { ...this.picto.meaning };
@@ -935,7 +926,7 @@ export default {
           .then((arasaacData) => {
             arasaacData = arasaacData.data;
             for (let i = 0; i < arasaacData?.length; i++) {
-              this.images.unshift({
+              this.images.push({
                 src: `https://api.arasaac.org/api/pictograms/${arasaacData[i]["_id"]}?color=true&resolution=500&download=false`,
                 title: arasaacData[i]["keywords"][0]
                   ? arasaacData[i]["keywords"][0]["keyword"]
@@ -1038,7 +1029,6 @@ export default {
             console.log(error);
           });
 
-        promises.push(arasaacData);
         promises.push(arasaacData);
         promises.push(scleraData);
         promises.push(tawasolData);
