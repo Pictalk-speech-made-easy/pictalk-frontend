@@ -90,15 +90,6 @@ export default {
           });
         }
       }
-      if (this.$store.getters.getUser.settings?.pronounceClick) {
-        this.pronounce(
-          this.picto.speech[this.getUserLang],
-          this.getUserLang,
-          this.voiceURI,
-          this.pitch,
-          this.rate
-        );
-      }
     },
     deletePicto() {
       this.$buefy.modal.open({
