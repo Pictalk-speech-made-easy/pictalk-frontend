@@ -167,7 +167,7 @@ import pictoActions from "@/components/pictos/pictoActions";
 import LongPress from "vue-directive-long-press";
 import pictogram from "../../mixins/pictogram";
 export default {
-  mixins: [lang, deviceInfos],
+  mixins: [lang, deviceInfos, pictogram],
   name: "picto",
   components: {
     PictoSteps,

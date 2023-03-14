@@ -4,11 +4,10 @@ import shareItem from "@/components/pictos/shareItem";
 export default {
   data() {
     return {
-      isOnline: true,
+      publishLoad: false,
     }
   },
   created() {
-    this.isOnline = window.navigator.onLine;
     window.addEventListener('online', () => { this.isOnline = true; });
     window.addEventListener('offline', () => { this.isOnline = false; });
   },
@@ -231,5 +230,8 @@ export default {
         "color: hsl(" + (100 - this.showPriorityOrStarred * 10) + ", 100%, 60%)"
       );
     },
+    isOnline() {
+      return window.navigator.onLine;
+    }
   },
 }
