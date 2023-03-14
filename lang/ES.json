@@ -399,5 +399,11 @@
     "PronounceShowDelay0": "Tiempo de la pronunciación de la frase",
     "PronounceShowSize": "Tamaño de los pictogramas durante la visualización de la frase",
     "PictoStepsErrorTraduction": "Error al traducir el pictograma",
-    "PictoStepsCreationError": "Error al intentar crear la colección o pictograma"
+    "PictoStepsCreationError": "Error al intentar crear la colección o pictograma",
+    "VerifiedEmail": "Correo electrónico correctamente verificado",
+    "ErrorVerifiedEmail": "No se puede verificar el correo electrónico",
+    "NoVoiceAvailable": "No hay voz disponible en tu dispositivo",
+    "SignupNoVoiceText": "Puedes seguir utilizando Pictalk, pero no podrás oír las frases. Puedes seguir utilizando los pictogramas para comunicarte. Puede que Pictalk no funcione como de costumbre. Por favor, instala una voz con la ayuda de los siguientes enlaces:",
+    "SignupNoVoiceAll": "Para todo tipo de dispositivos",
+    "SignupNoVoiceSamsung": "Para dispositivos Samsung"
 }

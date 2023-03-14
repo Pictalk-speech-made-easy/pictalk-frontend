@@ -401,5 +401,11 @@
   "PronounceShowDelay0": "Sentence time",
   "PronounceShowSize": "Size of pictograms during speaking time",
   "PictoStepsErrorTraduction": "Error while translating the pictogram",
-  "PictoStepsCreationError": "Error while trying to create the collection or pictogram"
+  "PictoStepsCreationError": "Error while trying to create the collection or pictogram",
+  "NoVoiceAvailable": "No voice available in your device",
+  "SignupNoVoiceText": "You can still use Pictalk but you won't be able to hear the sentences. You can still use the pictograms to communicate. Pictalk may not function as usual. Please install a voice with the help of following links:",
+  "SignupNoVoiceAll": "For all kind of devices",
+  "SignupNoVoiceSamsung": "For Samsung devices",
+  "VerifiedEmail": "Correctly verified email",
+  "ErrorVerifiedEmail": "Cannot verify email"
 }

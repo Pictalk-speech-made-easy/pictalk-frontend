@@ -161,14 +161,13 @@
 </template>
 <script >
 import lang from "@/mixins/lang";
-import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import pictoActions from "@/components/pictos/pictoActions";
 import LongPress from "vue-directive-long-press";
 import pictogram from "../../mixins/pictogram";
 export default {
-  mixins: [lang, tts, deviceInfos, pictogram],
+  mixins: [lang, deviceInfos],
   name: "picto",
   components: {
     PictoSteps,
