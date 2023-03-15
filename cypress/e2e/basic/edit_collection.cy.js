@@ -4,7 +4,7 @@ describe('Edits a collection', () => {
     cy.createCollection().then((createdCollection) => {
       cy.get('[data-cy="pictalk-navbar-admin-button"]').click();
       cy.get('[data-cy="cy-' + createdCollection.id + '"]').find('[data-cy="picto-action-dropdown"]').click();
-      cy.get('[data-cy="cy-' + createdCollection.id + '"]').find('[data-cy="picto-action-dropdown-edit"]').click();
+      cy.get('[data-cy="picto-action-dropdown-edit"]').click();
       cy.get('[data-cy="picto-steps-search-input"]').clear('m');
       cy.get('[data-cy="picto-steps-search-input"]').type('manger');
       cy.get('[data-cy="picto-steps-search-button"]').click();
