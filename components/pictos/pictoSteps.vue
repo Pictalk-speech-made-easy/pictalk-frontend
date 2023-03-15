@@ -260,6 +260,11 @@
                 class="optionSwitch"
                 >{{ $t("Plural") }}</b-switch
               >
+              <b-button
+                icon-left="refresh"
+                :label="$t('Rotation')"
+                @click="rotateImg()"
+              ></b-button>
             </b-field>
             <div class="columns is-multiline is-mobile">
               <div
@@ -579,6 +584,7 @@ export default {
       voiceURIs: [],
       silent: false,
       rendered: false,
+      degree: 0,
       options: {
         arrow: {
           enabled: false,
@@ -954,7 +960,7 @@ export default {
                 arasaacData = arasaacData.data;
                 if (arasaacData != "no result") {
                   for (let i = 0; i < arasaacData?.length; i++) {
-                    this.images.unshift({
+                    this.images.push({
                       src: arasaacData[i].image_url,
                       title: arasaacData[i].translations[0].tName,
                       download: arasaacData[i].image_url,
@@ -1091,6 +1097,14 @@ export default {
       file.url = this.file.url;
       return file;
     },
+    rotateImg() {
+      this.degree = this.degree + 90;
+      if (this.degree >= 360) {
+        this.degree = 0;
+      }
+      this.draw();
+      // Save the current state of the canvas
+    },
     async draw() {
       this.rendered = true;
       let image = document.getElementById("image");
@@ -1099,7 +1113,16 @@ export default {
       canvas.width = size["width"];
       canvas.height = size["height"];
       let ctx = canvas.getContext("2d");
-      ctx.drawImage(image, 0, 0);
+      ctx.save();
+      // Translate the canvas to the center of the image
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      // Rotate the canvas by 45 degrees
+      ctx.rotate((this.degree * Math.PI) / 180);
+      // Draw the image onto the canvas, centered at (0, 0)
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      // Restore the canvas to its original state
+      ctx.restore();
+      //ctx.drawImage(image, 0, 0);
       this.rendered = true;
       if (this.options.arrow.enabled) {
         this.render(
