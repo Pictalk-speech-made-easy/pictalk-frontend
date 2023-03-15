@@ -74,6 +74,7 @@
             <template #trigger>
               <b-button
                 style="background-color: hsl(154, 100%, 65%)"
+                data-cy="pictalk-navbar-create-button"      
                 icon-right="plus"
                 :label="$t('Create')"
                 class="customButton"
@@ -83,12 +84,14 @@
               class="verticalPadding"
               @click="addPicto(true)"
               aria-role="listitem"
+              data-cy="pictalk-navbar-create-pictogram-button"
               ><b>{{ $t("Pictogram") }}</b> <b-icon icon="image" />
             </b-dropdown-item>
             <b-dropdown-item
               class="verticalPadding"
               @click="addPicto(false)"
               aria-role="listitem"
+              data-cy="pictalk-navbar-create-collection-button"
               ><b>{{ $t("Collection") }}</b> <b-icon icon="folder-table" />
             </b-dropdown-item>
           </b-dropdown>
@@ -123,6 +126,7 @@
         >
           <b-button
             style="background-color: hsl(44, 100%, 65%)"
+            data-cy="pictalk-navbar-admin-button"
             :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
             :icon-left="iconIsAdmin"
             :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"

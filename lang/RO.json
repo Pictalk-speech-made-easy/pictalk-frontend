@@ -399,5 +399,11 @@
     "PronounceShowDelay": "Timp suplimentar de afișare a pedepsei",
     "PronounceShowDelay0": "Durata pedepsei",
     "PictoStepsErrorTraduction": "Eroare la traducerea pictogramei",
-    "PictoStepsCreationError": "Eroare la încercarea de a crea colecția sau pictograma"
+    "PictoStepsCreationError": "Eroare la încercarea de a crea colecția sau pictograma",
+    "VerifiedEmail": "E-mail verificat corect",
+    "ErrorVerifiedEmail": "Nu se poate verifica e-mailul",
+    "NoVoiceAvailable": "Nu există voce disponibilă în dispozitivul dvs.",
+    "SignupNoVoiceText": "Puteți utiliza în continuare Pictalk, dar nu veți putea auzi propozițiile. Puteți folosi în continuare pictogramele pentru a comunica. Este posibil ca Pictalk să nu funcționeze ca de obicei. Vă rugăm să instalați o voce cu ajutorul următoarelor linkuri:",
+    "SignupNoVoiceAll": "Pentru toate tipurile de dispozitive",
+    "SignupNoVoiceSamsung": "Pentru dispozitivele Samsung"
 }

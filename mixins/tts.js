@@ -2,16 +2,17 @@ import frenchFries from "@/assets/frenchFries.json";
 import { convertToSimpleLanguage } from "@/utils/utils";
 import axios from "axios";
 import installOtherBrowserModal from "@/components/pictos/installOtherBrowserModal";
+import installVoiceModal from '@/components/pictos/installVoiceModal'
 export default {
-  component: [installOtherBrowserModal],
+  component: [installOtherBrowserModal, installVoiceModal],
   created: function () {
     const allVoicesObtained = new Promise(function (resolve, reject) {
       try {
         let voices = window.speechSynthesis.getVoices();
-        if (voices.length !== 0) {
+        if (voices.length > 1) {
           resolve(voices);
         } else {
-          if (!window.safari) {
+          if (!window.safari && navigator.userAgent.indexOf("Firefox") == -1) {
             window.speechSynthesis.addEventListener(
               "voiceschanged",
               function () {
@@ -20,7 +21,7 @@ export default {
                 } catch (err) {
                   reject(err);
                 }
-                if (!voices) {
+                if (!voices || voices.length <= 1) {
                   reject();
                 }
                 resolve(voices);
@@ -35,7 +36,7 @@ export default {
               } catch (err) {
                 reject(err);
               }
-              if (voices && voices?.length > 0) {
+              if (voices && voices?.length > 1) {
                 clearInterval(getVoicesInterval);
                 resolve(voices);
               }
@@ -43,7 +44,7 @@ export default {
                 clearInterval(getVoicesInterval);
                 reject("No voices found");
               }
-            }, 1000);
+            }, 200);
           }
         }
       } catch (err) {
@@ -92,11 +93,57 @@ export default {
       }
     });
     allVoicesObtained.catch((err) => {
-      this.$parent.close();
-      this.openInstallOtherBrowserModal();
+
     })
   },
   methods: {
+    detectBrowser() {
+      // Get the user-agent string
+      let userAgentString =
+        navigator.userAgent;
+
+      // Detect Chrome
+      let chromeAgent =
+        userAgentString.indexOf("Chrome") > -1;
+      // Detect Internet Explorer
+      let IExplorerAgent =
+        userAgentString.indexOf("MSIE") > -1;
+      // Detect Firefox
+      let firefoxAgent =
+        userAgentString.indexOf("Firefox") > -1;
+
+      // Detect Safari
+      let safariAgent =
+        userAgentString.indexOf("Safari") > -1;
+
+      // Discard Safari since it also matches Chrome
+      if ((chromeAgent) && (safariAgent))
+        safariAgent = false;
+
+      // Detect Opera
+      let operaAgent =
+        userAgentString.indexOf("OP") > -1;
+
+      // Discard Chrome since it also matches Opera     
+      if ((chromeAgent) && (operaAgent))
+        chromeAgent = false;
+
+      if (chromeAgent) { return "Chrome" }
+      if (IExplorerAgent) { return "IE" }
+      if (firefoxAgent) { return "Firefox" }
+      if (safariAgent) { return "Safari" }
+      if (operaAgent) { return "Opera" }
+    },
+    async openInstallVoicesModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: installVoiceModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+    },
     async openInstallOtherBrowserModal() {
       this.$buefy.modal.open({
         parent: this,
@@ -125,7 +172,7 @@ export default {
       }
     },
     async pronounce(speech, lang, voiceURI, pitch, rate, synthesis) {
-      if ("speechSynthesis" in window) {
+      if ("speechSynthesis" in window && window.speechSynthesis.getVoices().length > 1) {
         if (synthesis) {
           var msg = synthesis;
         } else {
@@ -158,14 +205,11 @@ export default {
         }
         window.speechSynthesis.speak(msg);
       } else {
-        const notif = this.$buefy.notification.open({
-          duration: 4500,
-          message: this.$t("NoVoicesFound"),
-          position: "is-top-right",
-          type: "is-warning",
-          hasIcon: true,
-          iconSize: "is-small",
-        });
+        if (this.detectBrowser() != "Chrome" && this.detectBrowser() != "Firefox" && this.detectBrowser() != "Safari") {
+          this.openInstallOtherBrowserModal();
+        } else {
+          this.openInstallVoicesModal();
+        }
       }
     },
     async playSentenceInLanguage(lang, voiceURI, pitch, rate) {

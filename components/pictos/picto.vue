@@ -65,7 +65,7 @@
               <b-icon class="large-icon icon" icon="drag"></b-icon>
             </div>
             <div v-if="$route.query.isAdmin && !publicMode && !sidebarMode">
-              <div v-if="!dragndropId" @click="openActions()">
+              <div data-cy="picto-action-dropdown" v-if="!dragndropId" @click="openActions()">
                 <b-icon class="medium-icon icon" icon="dots-vertical" />
               </div>
             </div>
@@ -161,14 +161,13 @@
 </template>
 <script >
 import lang from "@/mixins/lang";
-import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import pictoActions from "@/components/pictos/pictoActions";
 import LongPress from "vue-directive-long-press";
 import pictogram from "../../mixins/pictogram";
 export default {
-  mixins: [lang, tts, deviceInfos, pictogram],
+  mixins: [lang, deviceInfos, pictogram],
   name: "picto",
   components: {
     PictoSteps,

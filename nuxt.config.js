@@ -179,6 +179,7 @@ export default {
     '@nuxtjs/robots',
     '@nuxtjs/sentry',
     '@nuxtjs/i18n',
+    ['nuxt-matomo', { matomoUrl: '//matomo.home.asidiras.dev/', siteId: 1, cookies: false }]
   ],
   robots: {
     Disallow: [

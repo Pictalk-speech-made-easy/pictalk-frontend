@@ -189,6 +189,7 @@
 	</div>
 </template>
 <script >
+import axios from "axios";
 import signup from "@/components/auth/signupModal";
 import deviceInfos from "@/mixins/deviceInfos";
 import lang from "@/mixins/lang";
@@ -220,10 +221,35 @@ export default {
       ],
     };
   },
-  created() {
+  async created() {
     if (this.directSharerUrlEncoded) {
       this.openSignUpModal();
       return;
+    }
+    if (this.validationTokenUrlEncoded) {
+      try {
+        await axios.get(`/auth/validation/${this.validationTokenUrlEncoded}`)
+        const notif = this.$buefy.notification.open({
+            duration: 4500,
+            message: this.$t("VerifiedEmail"),
+            position: "is-top-right",
+            type: "is-success",
+            hasIcon: true,
+            iconSize: "is-small",
+            icon: "mail",
+          });
+      } catch (err) {
+        console.log(err);
+        const notif = this.$buefy.notification.open({
+            duration: 4500,
+            message: this.$t("ErrorVerifiedEmail"),
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            iconSize: "is-small",
+            icon: "key",
+          });
+      }
     }
     if (this.$route.query.standalone) {
       if (this.$store.getters.getUser.username) {
@@ -288,6 +314,9 @@ export default {
   computed: {
     directSharerUrlEncoded() {
       return this.$route.query.directsharer;
+    },
+    validationTokenUrlEncoded() {
+      return this.$route.query.validate;
     },
     isAppleDevice() {
       return (

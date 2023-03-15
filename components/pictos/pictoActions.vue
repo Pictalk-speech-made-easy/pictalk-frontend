@@ -5,6 +5,7 @@
       <p v-if="!isOnline" class="subtitle">❗{{ $t("PictoActionsOffline") }}</p>
       <div class="option">
         <b-button
+          data-cy="picto-action-dropdown-edit"
           :disabled="!(isEditor || isToUser) || !isOnline"
           style="background-color: hsl(210, 100%, 75%)"
           icon-left="pencil"
@@ -15,6 +16,7 @@
       </div>
       <div class="option">
         <b-button
+          data-cy="picto-action-dropdown-delete"
           :disabled="!(isEditor || isToUser) || !isOnline"
           style="background-color: hsl(0, 100%, 75%)"
           icon-left="delete"
