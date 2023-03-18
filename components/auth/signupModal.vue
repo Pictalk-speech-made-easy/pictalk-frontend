@@ -100,7 +100,7 @@
 								{{getEmoji(voice.lang)}} {{voice.name}}
 							</option>
 						</b-select>
-            <div >
+            <div v-else>
               <div class="notification">
                 <installVoice></installVoice>
               </div>
