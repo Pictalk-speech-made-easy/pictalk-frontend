@@ -43,8 +43,8 @@
         </b-carousel-item>
 				<b-carousel-item class="containing">
             <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
-				:srcset="require('@/assets/Share_demo.png').srcSet"
-        :placeholder="require('@/assets/Share_demo.png').placeholder"
+				:srcset="require('@/assets/Share.png').srcSet"
+        :placeholder="require('@/assets/Share.png').placeholder"
 				:lazy="true"
         custom-class="slightly-rounded"
 				></b-image>
