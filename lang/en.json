@@ -406,5 +406,5 @@
   "SignupNoVoiceSamsung": "For Samsung devices",
   "VerifiedEmail": "Correctly verified email",
   "ErrorVerifiedEmail": "Cannot verify email",
-  "NewVersionAvailable": "A new version of Pictalk is available"
+  "NewVersionAvailable": "A new version of Pictalk is available, this page will be refreshed in 5 seconds"
 }
