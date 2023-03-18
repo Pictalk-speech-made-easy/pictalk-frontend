@@ -405,5 +405,6 @@
     "NoVoiceAvailable": "Nessuna voce disponibile nel dispositivo",
     "SignupNoVoiceText": "È ancora possibile utilizzare Pictalk, ma non sarà possibile ascoltare le frasi. È comunque possibile utilizzare i pittogrammi per comunicare. Pictalk potrebbe non funzionare come al solito. Installare una voce con l'aiuto dei seguenti link:",
     "SignupNoVoiceAll": "Per tutti i tipi di dispositivi",
-    "SignupNoVoiceSamsung": "Per i dispositivi Samsung"
+    "SignupNoVoiceSamsung": "Per i dispositivi Samsung",
+    "NewVersionAvailable": "È disponibile una nuova versione di Pictalk"
 }
