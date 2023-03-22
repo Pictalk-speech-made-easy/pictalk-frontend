@@ -465,8 +465,8 @@ export const actions = {
     vuexContext.commit("setToken", res.data.accessToken);
     localStorage.setItem("token", res.data.accessToken);
     localStorage.setItem("tokenExpiration", expDate);
-    Cookie.set("jwt", res.data.accessToken, { sameSite: 'none', secure: true });
-    Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true });
+    Cookie.set("jwt", res.data.accessToken, { sameSite: 'none', secure: true, expirationDate: 604800 });
+    Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true, expirationDate: 604800 });
     return res;
   },
   initAuth(vuexContext, req) {
@@ -507,10 +507,10 @@ export const actions = {
       vuexContext.commit("setToken", token);
     }
     if (!Cookie.get('jwt') && token) {
-      Cookie.set("jwt", token, { sameSite: 'none', secure: true });
+      Cookie.set("jwt", token, { sameSite: 'none', secure: true, expirationDate: 604800 });
     }
     if (!Cookie.get('expirationDate') && expirationDate) {
-      Cookie.set("expirationDate", expirationDate, { sameSite: 'none', secure: true });
+      Cookie.set("expirationDate", expirationDate, { sameSite: 'none', secure: true, expirationDate: 604800 });
     }
   },
   logout(vuexContext) {
