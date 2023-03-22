@@ -408,5 +408,9 @@
   "SignupNoVoiceAll": "For all kind of devices",
   "SignupNoVoiceSamsung": "For Samsung devices",
   "VerifiedEmail": "Correctly verified email",
-  "ErrorVerifiedEmail": "Cannot verify email"
+  "ErrorVerifiedEmail": "Cannot verify email",
+  "TutorialsBasics": "The basics",
+  "TutorialsCreation": "Creation, edition and removal of pictograms and collections",
+  "TutorialsOrganizing": "Organization of pictograms and collections",
+  "FeedbackSocials": "If you need some help, you can also post a message on our social networks:"
 }
