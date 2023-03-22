@@ -506,6 +506,12 @@ export const actions = {
     if (token != vuexContext.getters.getToken) {
       vuexContext.commit("setToken", token);
     }
+    if (!Cookie.get('jwt') && token) {
+      Cookie.set("jwt", token, { sameSite: 'none', secure: true });
+    }
+    if (!Cookie.get('expirationDate') && expirationDate) {
+      Cookie.set("expirationDate", expirationDate, { sameSite: 'none', secure: true });
+    }
   },
   logout(vuexContext) {
     vuexContext.commit("clearToken");
