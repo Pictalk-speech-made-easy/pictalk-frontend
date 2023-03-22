@@ -5,7 +5,6 @@
         {{ $t("Informations") }}
       </h1>
       <h2 class="title is-size-3 is-size-3-mobile">{{ $t("Team") }}</h2>
-
       <div class="columns is-multiline is-mobile is-centered">
         <div class="column is-6-mobile is-6-tablette profile">
           <a
@@ -67,38 +66,8 @@
           <h5 class="centered is-size-5 is-size-5-mobile"><b>Guillemine</b></h5>
           <div class="centered">{{ $t("GuillemineInfos") }}</div>
         </div>
-
-        <div class="column is-6-mobile is-6-tablette profile">
-          <a
-            href="https://www.linkedin.com/in/armand-prioreschi/"
-            target="blank"
-          >
-            <img
-              class="subcard-img fit-img portrait"
-              loading="lazy"
-              src="https://media.licdn.com/dms/image/C4E03AQHDp97wzqJgfw/profile-displayphoto-shrink_200_200/0/1605956157273?e=1676505600&v=beta&t=uP13MeHuR8KARIyKzd35fWGZjpzd2cf2x3JnMDFxCJM"
-              alt="Photo of Armand"
-            />
-          </a>
-          <h5 class="centered is-size-5 is-size-5-mobile"><b>Armand</b></h5>
-          <div class="centered">{{ $t("ArmandInfos") }}</div>
-        </div>
-
-        <div class="column is-6-mobile is-6-tablette profile">
-          <a
-            href="https://ch4rlin3chamois32.wixsite.com/monportfolio"
-            target="blank"
-          >
-            <img
-              class="subcard-img fit-img portrait"
-              loading="lazy"
-              src="https://static.wixstatic.com/media/1609b5_8c53848b4b6445b5889a4e6c6c398b4a~mv2.jpg/v1/crop/x_0,y_385,w_1532,h_1574/fill/w_366,h_376,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/PSX_20220223_190243_edited.jpg"
-              alt="Photo of Charline"
-            />
-          </a>
-          <h5 class="centered is-size-5 is-size-5-mobile"><b>Charline</b></h5>
-          <div class="centered">{{ $t("CharlineInfos") }}</div>
-        </div>
+      <!-- Ajouter la team de test a l'I.M.E Le bouquet -->
+      <!-- Ajouter contributeurs github et secondaires vers la fin -->
       </div>
     </section>
     <section class="section">
