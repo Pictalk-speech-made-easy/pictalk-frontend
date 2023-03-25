@@ -260,12 +260,20 @@
                 class="optionSwitch"
                 >{{ $t("Plural") }}</b-switch
               >
+            </b-field>
+            <b-field>
               <b-button
                 icon-left="refresh"
                 :label="$t('Rotation')"
                 @click="rotateImg()"
               ></b-button>
+              <b-button
+                icon-left="refresh"
+                :label="$t('Rotation')"
+                @click="removeBackground()"
+              ></b-button>
             </b-field>
+
             <div class="columns is-multiline is-mobile">
               <div
                 v-if="options.cross.enabled"
@@ -1083,6 +1091,13 @@ export default {
     },
 
     canvasToFile() {
+      const blob = this.canvasToBlob();
+      let file = new File([blob], this.file.name, { type: blob.type });
+      file.url = this.file.url;
+      console.log(file);
+      return file;
+    },
+    canvasToBlob() {
       let canvas = document.getElementById("canvas");
       const dataURI = canvas.toDataURL();
       const byteString = atob(dataURI.split(",")[1]);
@@ -1093,9 +1108,29 @@ export default {
         ia[i] = byteString.charCodeAt(i);
       }
       const blob = new Blob([ab], { type: mimeString });
-      let file = new File([blob], this.file.name, { type: blob.type });
-      file.url = this.file.url;
-      return file;
+      return blob;
+    },
+    async removeBackground() {
+      const file = this.canvasToFile();
+      const formData = new FormData();
+      formData.append("file", file, "index.png");
+      formData.append("model", "u2net");
+      formData.append("a", false);
+      formData.append("af", 240);
+      formData.append("ab", 10);
+      formData.append("ae", 10);
+      formData.append("om", false);
+      formData.append("ppm", false);
+      const response = await axios.post(
+        "https://removebg.home.asidiras.dev/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response);
     },
     rotateImg() {
       this.degree = this.degree + 90;
