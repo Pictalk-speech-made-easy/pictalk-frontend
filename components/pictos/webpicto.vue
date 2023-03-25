@@ -9,7 +9,7 @@
       :triggers="['hover']"
     >
       <img id="svg" style="aspect-ratio: 1/1; max-height: 13vh;" loading="lazy" :src="webpicto.src"></img>
-      
+
       <template v-slot:content>
         {{ webpicto.source }}/{{ webpicto.author }}
       </template>
@@ -41,22 +41,11 @@ export default {
           canvas.width = 851;
           canvas.height = 851;
           let ctx = canvas.getContext("2d");
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
           let img = new Image();
           img.loading;
           img.onload = function () {
             ctx.drawImage(this, 0, 0);
-            let styled = document.createElement("canvas");
-            styled.width = canvas.width;
-            styled.height = canvas.height;
-            const styledCtx = styled.getContext("2d");
-            styledCtx.save();
-            styledCtx.fillStyle = "#ffffff";
-            styledCtx.fillRect(0, 0, canvas.width, canvas.height);
-            styledCtx.strokeRect(0, 0, canvas.width, canvas.height);
-            styledCtx.restore();
-            styledCtx.drawImage(canvas, 0, 0);
-            canvas = styled;
-            window.webkitURL.revokeObjectURL(url);
             const dataURI = canvas.toDataURL();
             const byteString = atob(dataURI.split(",")[1]);
             const mimeString = dataURI
@@ -78,7 +67,7 @@ export default {
         });
         this.createFileFromBlob(pngblob, "png", src);
       } else {
-        this.createFileFromBlob(response, "jpg", src);
+        this.createFileFromBlob(response, "png", src);
       }
     },
     createFileFromBlob(blob, type, url) {
