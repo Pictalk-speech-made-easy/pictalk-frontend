@@ -4,6 +4,16 @@ let pictogramList = [];
 
 const bc = new BroadcastChannel('offline-ready');
 const bc2 = new BroadcastChannel('sync');
+const bc3 = new BroadcastChannel('authenticated-webworker');
+bc3.postMessage("connected");
+let token;
+let expDate;
+bc3.onmessage = (event) => {
+  if (event.isTrusted) {
+    token = event.data.jwt;
+    tokenExp = event.data.progress;
+  }
+};
 var totalPictoImages = null;
 var authenticated = false;
 var broadcastProgressInterval = null;
@@ -20,9 +30,13 @@ function broadcastProgress() {
 
 async function checkAuthenticated(self) {
   console.log("Check Authenticated");
-  const cookies = await self.cookieStore.getAll();
-  const token = cookies.filter((c) => c.name == 'jwt')[0]?.value;
-  const tokenExp = cookies.filter((c) => c.name == 'expirationDate')[0]?.value;
+  let token;
+  let tokenExp;
+  if (self.cookieStore) {
+    const cookies = await self.cookieStore.getAll();
+    token = cookies.filter((c) => c.name == 'jwt')[0]?.value;
+    tokenExp = cookies.filter((c) => c.name == 'expirationDate')[0]?.value;
+  }
   if (new Date().getTime() < +tokenExp && token) {
     authenticated = true;
     broadcastProgressInterval = setInterval(function () {

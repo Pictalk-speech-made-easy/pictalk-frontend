@@ -353,6 +353,17 @@ export default {
           this.offlineReadyProgress = event.data.progress;
         }
       };
+      const bc1 = new BroadcastChannel("authenticated-webworker");
+      if (this.$store.getters.getJwtFromCookie && this.$store.getters.getJwtExpDateFromCookie) {
+        bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
+      }
+      bc1.onmessage = (event) => {
+        if (event.isTrusted) {
+          if (event.data === "authenticated") {
+            bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
+          }
+        }
+      };
     }
     if (window.navigator.onLine) {
       try {
