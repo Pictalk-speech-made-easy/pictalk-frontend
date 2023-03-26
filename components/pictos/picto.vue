@@ -141,7 +141,7 @@
           @click.self="addToSpeech()"
           width="100%"
           crossorigin="anonymous"
-          :style="`border: solid; border-color: ${this.picto.color}`"
+          :style="`border: solid; border-color: ${this.picto.color}; border-width: 10px;`"
         />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
