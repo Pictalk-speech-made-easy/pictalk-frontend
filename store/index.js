@@ -742,10 +742,10 @@ export const getters = {
     return state.dragndrop;
   },
   getJwtFromCookie(state) {
-    return Cookie.get("jwt");
+    return localStorage.getItem("token");
   },
   getJwtExpDateFromCookie(state) {
-    return Cookie.get("expirationDate");
+    return localStorage.getItem("tokenExpiration");
   },
 };
 

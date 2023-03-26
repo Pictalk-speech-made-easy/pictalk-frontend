@@ -354,10 +354,12 @@ export default {
         }
       };
       const bc1 = new BroadcastChannel("authenticated-webworker");
+      console.log("Posting message to webworker")
       if (this.$store.getters.getJwtFromCookie && this.$store.getters.getJwtExpDateFromCookie) {
         bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
       }
       bc1.onmessage = (event) => {
+        console.log("Received authenticated event from webworker")
         if (event.isTrusted) {
           if (event.data === "authenticated") {
             bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
