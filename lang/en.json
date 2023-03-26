@@ -135,6 +135,7 @@
   "ContactMe": "Contact Me",
   "BugReport": "Bug repport & Questions",
   "Help": "Help",
+  "Menu": "Menu",
   "HelpText1": "This button will bring you to your collections menu. It will delete the sentence you are writing.",
   "HelpText2": "This button will bring you to your account menu. The account menu let you change your email, language and password.",
   "HelpText3": "These buttons will allow you entering in supervisor mode and quit supervisor mode. Supervisor mode is required in order to modify, add or delete pictograms.",
@@ -412,5 +413,7 @@
   "TutorialsBasics": "The basics",
   "TutorialsCreation": "Creation, edition and removal of pictograms and collections",
   "TutorialsOrganizing": "Organization of pictograms and collections",
-  "FeedbackSocials": "If you need some help, you can also post a message on our social networks:"
+  "FeedbackSocials": "If you need some help, you can also post a message on our social networks:",
+  "Priority": "Ranking of the pictogram",
+  "DragAndDrop": "Drag and drop to other collections"
 }

@@ -65,7 +65,12 @@
               @dragstart="onDragStart"
               @dragend="onDragEnd"
             >
+            <b-tooltip
+                :label="$t('DragAndDrop')"
+                :delay="500"
+                position="is-bottom">
               <b-icon class="large-icon icon" icon="drag"></b-icon>
+            </b-tooltip>
             </div>
             <div v-if="$route.query.isAdmin && !publicMode && !sidebarMode">
               <div
@@ -73,7 +78,12 @@
                 v-if="!dragndropId"
                 @click="openActions()"
               >
+              <b-tooltip
+                :label="$t('Menu')"
+                :delay="500"
+                position="is-bottom">
                 <b-icon class="medium-icon icon" icon="dots-vertical" />
+              </b-tooltip>
               </div>
             </div>
           </div>
@@ -89,32 +99,52 @@
             @click.self="addToSpeech()"
           >
             <div @click="editPicto()">
+              <b-tooltip
+                :label="$t('Edit')"
+                :delay="500"
+                position="is-bottom">
               <b-icon
                 class="medium-icon icon"
                 style="justify-self: end; color: hsl(210, 100%, 75%)"
                 icon="pencil"
               />
+              </b-tooltip>
             </div>
             <div @click="setCopyCollectionId(picto.id, !picto.collection)">
+              <b-tooltip
+                :label="$t('CopyPicto')"
+                :delay="500"
+                position="is-bottom">
               <b-icon
                 class="medium-icon icon"
                 style="justify-self: end; color: hsl(45, 100%, 75%)"
                 icon="vector-arrange-below"
               />
+              </b-tooltip>
             </div>
             <div @click="setShortcutCollectionId(picto.id, !picto.collection)">
+              <b-tooltip
+                :label="$t('LinkPicto')"
+                :delay="500"
+                position="is-bottom">
               <b-icon
                 class="medium-icon icon"
                 style="justify-self: start; color: hsl(140, 100%, 75%)"
                 icon="vector-link"
               />
+              </b-tooltip>
             </div>
             <div @click="deletePicto()">
+              <b-tooltip
+                :label="$t('DeletePicto')"
+                :delay="500"
+                position="is-bottom">
               <b-icon
                 class="medium-icon icon"
                 style="justify-self: start; color: hsl(0, 100%, 75%)"
                 icon="delete"
               />
+              </b-tooltip>
             </div>
           </div>
 
@@ -123,6 +153,10 @@
             class="foot-actions"
             @click.self="addToSpeech()"
           >
+          <b-tooltip
+                :label="$t('Priority')"
+                :delay="500"
+                position="is-bottom">
             <b-button
               :disabled="!(isToUser || isEditor) || !isOnline"
               :style="colorPriority"
@@ -131,6 +165,7 @@
             >
               <b>{{ showPriorityOrStarred }}</b>
             </b-button>
+          </b-tooltip>
           </div>
         </div>
         <img
