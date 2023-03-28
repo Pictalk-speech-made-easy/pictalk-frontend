@@ -82,7 +82,7 @@
           <b-dropdown-item aria-role="listitem">
             <b-button
               data-cy="picto-action-dropdown-delete"
-              :disabled="!isOnline || !isToUser"
+              :disabled="!isOnline || !canDelete"
               :expanded="true"
               type="is-danger"
               icon-left="delete"
@@ -575,6 +575,9 @@ export default {
     },
     isToUser() {
       return this.$store.getters.getUser.id == this.picto.userId;
+    },
+    canDelete() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.userId == this.$store.getters.getUser.id;
     },
     isEditor() {
       return (
