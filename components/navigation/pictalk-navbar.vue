@@ -64,6 +64,7 @@
           class="column noPadding dropdown"
         >
           <b-dropdown
+            :disabled="!isEditorFatherId && !isToUserFatherId"
             id="nav-create"
             class="column"
             :mobile-modal="false"
@@ -73,6 +74,7 @@
           >
             <template #trigger>
               <b-button
+                :disabled="!isEditorFatherId && !isToUserFatherId"
                 style="background-color: hsl(154, 100%, 65%)"
                 data-cy="pictalk-navbar-create-button"      
                 icon-right="plus"
@@ -489,6 +491,14 @@ export default {
     sidebarLink() {
       return "/pictalk/" + this.$store.getters.getSidebarId + this.admin;
     },
+    isEditorFatherId() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.editors.find(
+          (editor) => editor == this.$store.getters.getUser.username
+        ) != undefined
+    },
+    isToUserFatherId() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10)).userId == this.$store.getters.getUser.id
+    }
   },
   methods: {
     isAdministrator() {

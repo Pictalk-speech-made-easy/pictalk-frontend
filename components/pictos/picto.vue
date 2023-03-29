@@ -98,50 +98,50 @@
             class="main-actions"
             @click.self="addToSpeech()"
           >
-            <div @click="editPicto()">
+            <div v-on="(isEditor || isToUser) && isOnline ? { click: editPicto } : {}">
               <b-tooltip
                 :label="$t('Edit')"
                 :delay="500"
                 position="is-bottom">
               <b-icon
                 class="medium-icon icon"
-                style="justify-self: end; color: hsl(210, 100%, 75%)"
+                v-bind:style="(isEditor || isToUser) && isOnline ? 'justify-self: end; color: hsl(210, 100%, 75%)' : 'justify-self: end; color: hsl(210, 100%, 75%); opacity: 0.5'"
                 icon="pencil"
               />
               </b-tooltip>
             </div>
-            <div @click="setCopyCollectionId(picto.id, !picto.collection)">
+            <div v-if="picto.collection" v-on="picto.collection && isOnline ? { click: () => setCopyCollectionId(picto.id, !picto.collection) } : {}">
               <b-tooltip
                 :label="$t('CopyPicto')"
                 :delay="500"
                 position="is-bottom">
               <b-icon
                 class="medium-icon icon"
-                style="justify-self: end; color: hsl(45, 100%, 75%)"
+                v-bind:style="picto.collection && isOnline ? 'justify-self: end; color: hsl(45, 100%, 75%)' : 'justify-self: end; color: hsl(45, 100%, 75%); opacity: 0.5'"
                 icon="vector-arrange-below"
               />
               </b-tooltip>
             </div>
-            <div @click="setShortcutCollectionId(picto.id, !picto.collection)">
+            <div v-if="picto.collection" v-on="(isEditor || isToUser || isViewer) && picto.collection && isOnline ? { click: () => setShortcutCollectionId(picto.id, !picto.collection) } : {}">
               <b-tooltip
                 :label="$t('LinkPicto')"
                 :delay="500"
                 position="is-bottom">
               <b-icon
                 class="medium-icon icon"
-                style="justify-self: start; color: hsl(140, 100%, 75%)"
+                v-bind:style="(isEditor || isToUser || isViewer) && picto.collection && isOnline ? 'justify-self: start; color: hsl(140, 100%, 75%)' : 'justify-self: start; color: hsl(140, 100%, 75%); opacity: 0.5'"
                 icon="vector-link"
               />
               </b-tooltip>
             </div>
-            <div @click="deletePicto()">
+            <div v-on="isOnline && canDelete ? {click:  deletePicto} : {}">
               <b-tooltip
                 :label="$t('DeletePicto')"
                 :delay="500"
                 position="is-bottom">
               <b-icon
                 class="medium-icon icon"
-                style="justify-self: start; color: hsl(0, 100%, 75%)"
+                v-bind:style="isOnline && canDelete ? 'justify-self: start; color: hsl(0, 100%, 75%)' : 'justify-self: start; color: hsl(0, 100%, 75%); opacity: 0.5'"
                 icon="delete"
               />
               </b-tooltip>
@@ -385,12 +385,6 @@ export default {
       );
       ev.target.style.cursor = "grab";
       this.dragImage = ev.target.offsetParent;
-    },
-    getCollectionFromId(id) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === id
-      );
-      return this.$store.getters.getCollections[index];
     },
     getDOMcollectionById(id) {
       return Array.from(document.querySelectorAll("div.has-background")).filter(
