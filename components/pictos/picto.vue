@@ -91,7 +91,7 @@
           </div>
           <div
             class="longpress"
-            v-long-press="350"
+            v-long-press="1000"
             @long-press-start="onLongPressStart"
             @click.self="addToSpeech()"
           ></div>
@@ -223,12 +223,22 @@
           @click.self="addToSpeech()"
           width="100%"
           crossorigin="anonymous"
-          v-bind:style="this.picto.color != '#ffffff00' ? `border: solid; border-color: ${this.picto.color}; border-width: 10px;` : ''"
+          v-bind:style="
+            this.picto.color != '#ffffff00'
+              ? `border: solid; border-color: ${this.picto.color}; border-width: 10px;`
+              : ''
+          "
         />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
-      <div class="meaning"
-      v-bind:style="customFontSize ? 'font-size: 1rem;' : 'font-size: 0.6rem;'">{{ picto.meaning[getUserLang] }}</div>
+      <div
+        class="meaning"
+        v-bind:style="
+          customFontSize ? 'font-size: 1rem;' : 'font-size: 0.6rem;'
+        "
+      >
+        {{ picto.meaning[getUserLang] }}
+      </div>
       <div
         v-if="
           publicMode && $store.getters.getUser && $store.getters.isAuthenticated
@@ -630,7 +640,7 @@ export default {
     cursor: pointer;
   }
 }
-@media (hover: none) and (pointer: coarse) {
+@media (pointer: coarse) and (hover: none) {
   .longpress {
     display: block;
     position: absolute;
