@@ -65,7 +65,11 @@
               <b-icon class="large-icon icon" icon="drag"></b-icon>
             </div>
             <div v-if="$route.query.isAdmin && !publicMode && !sidebarMode">
-              <div data-cy="picto-action-dropdown" v-if="!dragndropId" @click="openActions()">
+              <div
+                data-cy="picto-action-dropdown"
+                v-if="!dragndropId"
+                @click="openActions()"
+              >
                 <b-icon class="medium-icon icon" icon="dots-vertical" />
               </div>
             </div>
@@ -543,7 +547,7 @@ export default {
     cursor: pointer;
   }
 }
-@media not (any-pointer: fine) {
+@media (hover: none) and (pointer: coarse) {
   .longpress {
     display: block;
     position: absolute;
