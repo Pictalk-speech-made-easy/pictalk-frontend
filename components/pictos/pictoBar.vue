@@ -349,7 +349,7 @@ export default {
   },
   computed: {
     pronounceShowSize() {
-      if (!this.$store.getters.getUser.settings?.pronounceShowSize) {
+      if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
         return "topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd";
       }
       if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {

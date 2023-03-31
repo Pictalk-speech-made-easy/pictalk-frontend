@@ -176,11 +176,12 @@
           @click.self="addToSpeech()"
           width="100%"
           crossorigin="anonymous"
-          :style="`border: solid; border-color: ${this.picto.color}; border-width: 10px;`"
+          v-bind:style="this.picto.color != '#ffffff00' ? `border: solid; border-color: ${this.picto.color}; border-width: 10px;` : ''"
         />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
-      <div class="meaning">{{ picto.meaning[getUserLang] }}</div>
+      <div class="meaning"
+      v-bind:style="customFontSize ? 'font-size: 1rem;' : 'font-size: 0.6rem;'">{{ picto.meaning[getUserLang] }}</div>
       <div
         v-if="
           publicMode && $store.getters.getUser && $store.getters.isAuthenticated
@@ -393,6 +394,9 @@ export default {
     },
   },
   computed: {
+    customFontSize() {
+      return this.$store.getters.getUser.settings?.pronounceShowSize !== 0;
+    },
     isDropZone() {
       if (!this.dragndropId) {
         return false;
@@ -654,7 +658,6 @@ export default {
   padding: 0%;
 }
 .meaning {
-  font-size: 1rem;
   padding-bottom: 0.15rem;
   max-width: 100%;
   overflow-wrap: break-word;
@@ -730,7 +733,7 @@ export default {
 }
 @media screen and (max-width: 1023px) {
   .pictowrapper {
-    min-width: 105px;
+    min-width: 80px;
   }
 }
 </style>
