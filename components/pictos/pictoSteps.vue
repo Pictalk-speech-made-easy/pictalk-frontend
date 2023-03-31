@@ -267,11 +267,6 @@
                 :label="$t('Rotation')"
                 @click="rotateImg()"
               ></b-button>
-              <!-- <b-button
-                icon-left="refresh"
-                :label="$t('Rotation')"
-                @click="removeBackground()"
-              ></b-button> -->
             </b-field>
 
             <div class="columns is-multiline is-mobile">
@@ -1116,38 +1111,6 @@ export default {
       }
       const blob = new Blob([ab], { type: mimeString });
       return blob;
-    },
-    async removeBackground() {
-      const blob = await this.canvasToBlob();
-      const file = new File([blob], this.file.name, { type: blob.type });
-      console.log(file);
-      const formData = new FormData();
-      formData.append("file", blob, "index.png");
-      formData.append("model", "u2net");
-      formData.append("a", false);
-      formData.append("af", 240);
-      formData.append("ab", 10);
-      formData.append("ae", 10);
-      formData.append("om", false);
-      formData.append("ppm", false);
-      const response = await axios.post(
-        "https://removebg.home.asidiras.dev/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log(response.data)
-      const responseBlob = new Blob([response.data], {
-        type: 'image/jpeg' // or whatever your Content-Type is
-      });
-      
-      this.file = new File([responseBlob], this.file.name, {
-        type: response.data.type,
-      });
-      console.log(this.file);
     },
     rotateImg() {
       this.degree = this.degree + 90;
