@@ -135,6 +135,12 @@ export default {
         });
       }
     },
+    getCollectionFromId(id) {
+      const index = this.$store.getters.getCollections.findIndex(
+        (collection) => collection.id === id
+      );
+      return this.$store.getters.getCollections[index];
+    },
     editPicto() {
       this.$buefy.modal.open({
         parent: this,
@@ -192,6 +198,9 @@ export default {
     },
   },
   computed: {
+    canDelete() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.userId == this.$store.getters.getUser.id;
+    },
     isToUser() {
       return this.$store.getters.getUser.id == this.picto.userId;
     },

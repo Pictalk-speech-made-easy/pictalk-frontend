@@ -206,7 +206,7 @@ export default {
       },*/
       cachingExtensions: '@/plugins/workboxConfig.js',
       importScripts: [
-        'background-fetch.js'
+        'background-fetch2.js'
       ],
     },
     manifest: {

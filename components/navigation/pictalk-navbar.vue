@@ -3,7 +3,7 @@
     <template slot="brand">
       <b-navbar-item
         tag="nuxt-link"
-        to="/"
+        v-bind:to="$route.query.isAdmin ? '/': ''"
         style="padding: 0%; padding-right: 1px; padding-left: 1vw"
       >
         <img
@@ -64,6 +64,7 @@
           class="column noPadding dropdown"
         >
           <b-dropdown
+            :disabled="!isEditorFatherId && !isToUserFatherId"
             id="nav-create"
             class="column"
             :mobile-modal="false"
@@ -73,6 +74,7 @@
           >
             <template #trigger>
               <b-button
+                :disabled="!isEditorFatherId && !isToUserFatherId"
                 style="background-color: hsl(154, 100%, 65%)"
                 data-cy="pictalk-navbar-create-button"      
                 icon-right="plus"
@@ -119,25 +121,10 @@
             icon-right="close"
           />
         </div>
-
-        <div
-          v-if="!checkCopyCollectionId || !$route.query.isAdmin"
-          class="column noPadding"
-        >
-          <b-button
-            style="background-color: hsl(44, 100%, 65%)"
-            data-cy="pictalk-navbar-admin-button"
-            :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
-            :icon-left="iconIsAdmin"
-            :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
-            @click="adminModeChoose()"
-            class="fullWidth customButton"
-          />
-        </div>
       </div>
     </template>
     <template slot="start">
-      <b-navbar-dropdown :label="$t('Menu')">
+      <b-navbar-dropdown data-cy="pictalk-navbar-dropdown" :label="$t('Menu')">
         <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
         <b-navbar-item tag="nuxt-link" to="/news"
           >{{ $t("News") }} &#127881;</b-navbar-item
@@ -160,7 +147,30 @@
             tag="nuxt-link"
             to="/administration"
           />
-
+          <b-tooltip 
+          position="is-bottom"
+            multilined
+            size="is-small"
+            type="is-primary"
+            :label="$t('TooltipAdmin')"
+            :delay="1000"
+            :triggers="['hover']"
+            >
+          <div
+          v-if="!checkCopyCollectionId || !$route.query.isAdmin"
+          class="column noPadding"
+          >
+            <b-button
+              style="background-color: hsl(44, 100%, 65%)"
+              data-cy="pictalk-navbar-admin-button"
+              :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
+              :icon-left="iconIsAdmin"
+              :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
+              @click="adminModeChoose()"
+              class="fullWidth customButton"
+            />
+          </div>
+          </b-tooltip>
           <b-tooltip
             position="is-bottom"
             multilined
@@ -353,6 +363,19 @@ export default {
           this.offlineReadyProgress = event.data.progress;
         }
       };
+      const bc1 = new BroadcastChannel("authenticated-webworker");
+      console.log("Posting message to webworker")
+      if (this.$store.getters.getJwtFromCookie && this.$store.getters.getJwtExpDateFromCookie) {
+        bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
+      }
+      bc1.onmessage = (event) => {
+        console.log("Received authenticated event from webworker")
+        if (event.isTrusted) {
+          if (event.data === "authenticated") {
+            bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
+          }
+        }
+      };
     }
     if (window.navigator.onLine) {
       try {
@@ -476,6 +499,14 @@ export default {
     sidebarLink() {
       return "/pictalk/" + this.$store.getters.getSidebarId + this.admin;
     },
+    isEditorFatherId() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.editors.find(
+          (editor) => editor == this.$store.getters.getUser.username
+        ) != undefined
+    },
+    isToUserFatherId() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10)).userId == this.$store.getters.getUser.id
+    }
   },
   methods: {
     isAdministrator() {

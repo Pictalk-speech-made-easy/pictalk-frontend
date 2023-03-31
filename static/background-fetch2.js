@@ -4,6 +4,20 @@ let pictogramList = [];
 
 const bc = new BroadcastChannel('offline-ready');
 const bc2 = new BroadcastChannel('sync');
+const bc3 = new BroadcastChannel('authenticated-webworker');
+bc3.postMessage("authenticated");
+let token;
+let tokenExp;
+bc3.onmessage = (event) => {
+  console.log("Received message from navbar: " + event.data)
+  if (event.isTrusted) {
+    console.log("Received authenticated message from navbar: " + event.data);
+    console.log("Token: " + event.data.jwt);
+    console.log("TokenExp: " + event.data.expDate);
+    token = event.data.jwt;
+    tokenExp = event.data.expDate;
+  }
+};
 var totalPictoImages = null;
 var authenticated = false;
 var broadcastProgressInterval = null;
@@ -20,10 +34,19 @@ function broadcastProgress() {
 
 async function checkAuthenticated(self) {
   console.log("Check Authenticated");
-  const cookies = await self.cookieStore.getAll();
-  const token = cookies.filter((c) => c.name == 'jwt')[0]?.value;
-  const tokenExp = cookies.filter((c) => c.name == 'expirationDate')[0]?.value;
+  if (self.cookieStore) {
+    const cookies = await self.cookieStore.getAll();
+    if (cookies.filter((c) => c.name == 'jwt')[0]?.value) {
+      token = cookies.filter((c) => c.name == 'jwt')[0]?.value;
+    }
+    if (cookies.filter((c) => c.name == 'expirationDate')[0]?.value) {
+      tokenExp = cookies.filter((c) => c.name == 'expirationDate')[0]?.value;
+    }
+  }
+  console.log("Token: " + token)
+  console.log("TokenExp: " + tokenExp)
   if (new Date().getTime() < +tokenExp && token) {
+    console.log("Authenticated")
     authenticated = true;
     broadcastProgressInterval = setInterval(function () {
       broadcastProgress();
@@ -34,6 +57,7 @@ async function checkAuthenticated(self) {
       checkAuthenticated(self);
     }, 60000);
   } else {
+    console.log("Not authenticated")
     authenticated = false;
     clearInterval(broadcastProgressInterval);
     setTimeout(function () {

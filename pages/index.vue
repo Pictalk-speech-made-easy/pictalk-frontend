@@ -116,7 +116,7 @@
 					<br>
 					<div class="column">
 					<p class="is-size-5 notification" align="justify">
-						<b-image style="aspect-ratio: 5/11; width: 25%;" class="center" lazy alt="Sample image of a copied sentence"
+						<b-image style="aspect-ratio: 10/12; width: 60%;" class="center" lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/whatsapp.png').srcSet"
         :placeholder="require('@/assets/whatsapp.png').placeholder"
 				></b-image>

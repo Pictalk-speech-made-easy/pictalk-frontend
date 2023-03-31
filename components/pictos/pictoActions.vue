@@ -17,7 +17,7 @@
       <div class="option">
         <b-button
           data-cy="picto-action-dropdown-delete"
-          :disabled="!(isEditor || isToUser) || !isOnline"
+          :disabled="!canDelete || !isOnline"
           style="background-color: hsl(0, 100%, 75%)"
           icon-left="delete"
           :label="$t('DeletePicto')"

@@ -6,7 +6,7 @@
       "
       style="padding-top: 9px"
     />
-    <div class="columns is-multiline is-mobile even">
+    <div class="columns is-multiline is-mobile">
       <picto
         :class="
           sidebar
@@ -24,14 +24,7 @@
       />
       <div
         data-cy="cypress-empty-column"
-        class="
-          column
-          is-one-third-mobile
-          is-one-quarter-tablet
-          is-one-quarter-desktop
-          is-one-quarter-widescreen
-          is-one-fifth-fullhd
-        "
+        class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
       ></div>
     </div>
 

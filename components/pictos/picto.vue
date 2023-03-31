@@ -29,7 +29,10 @@
         'containing notification pictobackground pictogram': true,
       }"
     >
-      <div id="pictogram-image-wrapper" style="width: 100%">
+      <div
+        id="pictogram-image-wrapper"
+        :style="`width:100%; background-color:${this.picto.color}; border-radius:6px`"
+      >
         <div
           v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
           class="actions container"
@@ -62,7 +65,13 @@
               @dragstart="onDragStart"
               @dragend="onDragEnd"
             >
-              <b-icon class="large-icon icon" icon="drag"></b-icon>
+              <b-tooltip
+                :label="$t('DragAndDrop')"
+                :delay="500"
+                position="is-bottom"
+              >
+                <b-icon class="large-icon icon" icon="drag"></b-icon>
+              </b-tooltip>
             </div>
             <div v-if="$route.query.isAdmin && !publicMode && !sidebarMode">
               <div
@@ -70,7 +79,13 @@
                 v-if="!dragndropId"
                 @click="openActions()"
               >
-                <b-icon class="medium-icon icon" icon="dots-vertical" />
+                <b-tooltip
+                  :label="$t('Menu')"
+                  :delay="500"
+                  position="is-bottom"
+                >
+                  <b-icon class="medium-icon icon" icon="dots-vertical" />
+                </b-tooltip>
               </div>
             </div>
           </div>
@@ -85,33 +100,97 @@
             class="main-actions"
             @click.self="addToSpeech()"
           >
-            <div @click="editPicto()">
-              <b-icon
-                class="medium-icon icon"
-                style="justify-self: end; color: hsl(210, 100%, 75%)"
-                icon="pencil"
-              />
+            <div
+              v-on="
+                (isEditor || isToUser) && isOnline ? { click: editPicto } : {}
+              "
+            >
+              <b-tooltip :label="$t('Edit')" :delay="500" position="is-bottom">
+                <b-icon
+                  class="medium-icon icon"
+                  v-bind:style="
+                    (isEditor || isToUser) && isOnline
+                      ? 'justify-self: end; color: hsl(210, 100%, 75%)'
+                      : 'justify-self: end; color: hsl(210, 100%, 75%); opacity: 0.5'
+                  "
+                  icon="pencil"
+                />
+              </b-tooltip>
             </div>
-            <div @click="setCopyCollectionId(picto.id, !picto.collection)">
-              <b-icon
-                class="medium-icon icon"
-                style="justify-self: end; color: hsl(45, 100%, 75%)"
-                icon="vector-arrange-below"
-              />
+            <div
+              v-if="picto.collection"
+              v-on="
+                picto.collection && isOnline
+                  ? {
+                      click: () =>
+                        setCopyCollectionId(picto.id, !picto.collection),
+                    }
+                  : {}
+              "
+            >
+              <b-tooltip
+                :label="$t('CopyPicto')"
+                :delay="500"
+                position="is-bottom"
+              >
+                <b-icon
+                  class="medium-icon icon"
+                  v-bind:style="
+                    picto.collection && isOnline
+                      ? 'justify-self: end; color: hsl(45, 100%, 75%)'
+                      : 'justify-self: end; color: hsl(45, 100%, 75%); opacity: 0.5'
+                  "
+                  icon="vector-arrange-below"
+                />
+              </b-tooltip>
             </div>
-            <div @click="setShortcutCollectionId(picto.id, !picto.collection)">
-              <b-icon
-                class="medium-icon icon"
-                style="justify-self: start; color: hsl(140, 100%, 75%)"
-                icon="vector-link"
-              />
+            <div
+              v-if="picto.collection"
+              v-on="
+                (isEditor || isToUser || isViewer) &&
+                picto.collection &&
+                isOnline
+                  ? {
+                      click: () =>
+                        setShortcutCollectionId(picto.id, !picto.collection),
+                    }
+                  : {}
+              "
+            >
+              <b-tooltip
+                :label="$t('LinkPicto')"
+                :delay="500"
+                position="is-bottom"
+              >
+                <b-icon
+                  class="medium-icon icon"
+                  v-bind:style="
+                    (isEditor || isToUser || isViewer) &&
+                    picto.collection &&
+                    isOnline
+                      ? 'justify-self: start; color: hsl(140, 100%, 75%)'
+                      : 'justify-self: start; color: hsl(140, 100%, 75%); opacity: 0.5'
+                  "
+                  icon="vector-link"
+                />
+              </b-tooltip>
             </div>
-            <div @click="deletePicto()">
-              <b-icon
-                class="medium-icon icon"
-                style="justify-self: start; color: hsl(0, 100%, 75%)"
-                icon="delete"
-              />
+            <div v-on="isOnline && canDelete ? { click: deletePicto } : {}">
+              <b-tooltip
+                :label="$t('DeletePicto')"
+                :delay="500"
+                position="is-bottom"
+              >
+                <b-icon
+                  class="medium-icon icon"
+                  v-bind:style="
+                    isOnline && canDelete
+                      ? 'justify-self: start; color: hsl(0, 100%, 75%)'
+                      : 'justify-self: start; color: hsl(0, 100%, 75%); opacity: 0.5'
+                  "
+                  icon="delete"
+                />
+              </b-tooltip>
             </div>
           </div>
 
@@ -120,14 +199,20 @@
             class="foot-actions"
             @click.self="addToSpeech()"
           >
-            <b-button
-              :disabled="!(isToUser || isEditor) || !isOnline"
-              :style="colorPriority"
-              @click="alternateStar(true, 2000)"
-              class="priority-button"
+            <b-tooltip
+              :label="$t('Priority')"
+              :delay="500"
+              position="is-bottom"
             >
-              <b>{{ showPriorityOrStarred }}</b>
-            </b-button>
+              <b-button
+                :disabled="!(isToUser || isEditor) || !isOnline"
+                :style="colorPriority"
+                @click="alternateStar(true, 2000)"
+                class="priority-button"
+              >
+                <b>{{ showPriorityOrStarred }}</b>
+              </b-button>
+            </b-tooltip>
           </div>
         </div>
         <img
@@ -138,7 +223,7 @@
           @click.self="addToSpeech()"
           width="100%"
           crossorigin="anonymous"
-          :style="`border: solid; border-color: ${this.picto.color}`"
+          :style="`border: solid; border-color: ${this.picto.color}; border-width: 10px;`"
         />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
@@ -347,12 +432,6 @@ export default {
       );
       ev.target.style.cursor = "grab";
       this.dragImage = ev.target.offsetParent;
-    },
-    getCollectionFromId(id) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === id
-      );
-      return this.$store.getters.getCollections[index];
     },
     getDOMcollectionById(id) {
       return Array.from(document.querySelectorAll("div.has-background")).filter(

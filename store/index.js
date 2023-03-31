@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import Cookie from "js-cookie";
 import createPersistedState from 'vuex-persistedstate';
 export const strict = false;
@@ -739,7 +740,13 @@ export const getters = {
   },
   getDragndrop(state) {
     return state.dragndrop;
-  }
+  },
+  getJwtFromCookie(state) {
+    return localStorage.getItem("token");
+  },
+  getJwtExpDateFromCookie(state) {
+    return localStorage.getItem("tokenExpiration");
+  },
 };
 
 function parseAndUpdateEntireCollection(vuexContext, collection, download = false) {
