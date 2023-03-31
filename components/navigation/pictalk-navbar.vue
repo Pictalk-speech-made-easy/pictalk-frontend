@@ -3,7 +3,7 @@
     <template slot="brand">
       <b-navbar-item
         tag="nuxt-link"
-        to="/"
+        v-bind:to="$route.query.isAdmin ? '/': ''"
         style="padding: 0%; padding-right: 1px; padding-left: 1vw"
       >
         <img
@@ -121,21 +121,6 @@
             icon-right="close"
           />
         </div>
-
-        <div
-          v-if="!checkCopyCollectionId || !$route.query.isAdmin"
-          class="column noPadding"
-        >
-          <b-button
-            style="background-color: hsl(44, 100%, 65%)"
-            data-cy="pictalk-navbar-admin-button"
-            :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
-            :icon-left="iconIsAdmin"
-            :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
-            @click="adminModeChoose()"
-            class="fullWidth customButton"
-          />
-        </div>
       </div>
     </template>
     <template slot="start">
@@ -162,7 +147,30 @@
             tag="nuxt-link"
             to="/administration"
           />
-
+          <b-tooltip 
+          position="is-bottom"
+            multilined
+            size="is-small"
+            type="is-primary"
+            :label="$t('TooltipAdmin')"
+            :delay="1000"
+            :triggers="['hover']"
+            >
+          <div
+          v-if="!checkCopyCollectionId || !$route.query.isAdmin"
+          class="column noPadding"
+          >
+            <b-button
+              style="background-color: hsl(44, 100%, 65%)"
+              data-cy="pictalk-navbar-admin-button"
+              :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
+              :icon-left="iconIsAdmin"
+              :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
+              @click="adminModeChoose()"
+              class="fullWidth customButton"
+            />
+          </div>
+          </b-tooltip>
           <b-tooltip
             position="is-bottom"
             multilined
