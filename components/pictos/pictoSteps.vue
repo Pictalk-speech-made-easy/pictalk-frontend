@@ -267,11 +267,11 @@
                 :label="$t('Rotation')"
                 @click="rotateImg()"
               ></b-button>
-              <b-button
+              <!-- <b-button
                 icon-left="refresh"
                 :label="$t('Rotation')"
                 @click="removeBackground()"
-              ></b-button>
+              ></b-button> -->
             </b-field>
 
             <div class="columns is-multiline is-mobile">
@@ -670,7 +670,7 @@ export default {
       this.creationLoading = true;
       let cfile;
       if (this.rendered) {
-        this.file = this.canvasToFile();
+        this.file = await this.canvasToFile();
       }
       if (
         Object.values(this.picto.meaning).length == 0 ||
@@ -1102,7 +1102,6 @@ export default {
       const blob = this.canvasToBlob();
       let file = new File([blob], this.file.name, { type: blob.type });
       file.url = this.file.url;
-      console.log(file);
       return file;
     },
     canvasToBlob() {
@@ -1119,9 +1118,11 @@ export default {
       return blob;
     },
     async removeBackground() {
-      const file = this.canvasToFile();
+      const blob = await this.canvasToBlob();
+      const file = new File([blob], this.file.name, { type: blob.type });
+      console.log(file);
       const formData = new FormData();
-      formData.append("file", file, "index.png");
+      formData.append("file", blob, "index.png");
       formData.append("model", "u2net");
       formData.append("a", false);
       formData.append("af", 240);
@@ -1138,7 +1139,15 @@ export default {
           },
         }
       );
-      console.log(response);
+      console.log(response.data)
+      const responseBlob = new Blob([response.data], {
+        type: 'image/jpeg' // or whatever your Content-Type is
+      });
+      
+      this.file = new File([responseBlob], this.file.name, {
+        type: response.data.type,
+      });
+      console.log(this.file);
     },
     rotateImg() {
       this.degree = this.degree + 90;

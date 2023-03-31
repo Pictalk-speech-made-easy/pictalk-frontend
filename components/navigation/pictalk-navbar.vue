@@ -124,7 +124,7 @@
       </div>
     </template>
     <template slot="start">
-      <b-navbar-dropdown :label="$t('Menu')">
+      <b-navbar-dropdown data-cy="pictalk-navbar-dropdown" :label="$t('Menu')">
         <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
         <b-navbar-item tag="nuxt-link" to="/news"
           >{{ $t("News") }} &#127881;</b-navbar-item
