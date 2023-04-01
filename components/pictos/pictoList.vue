@@ -6,7 +6,7 @@
       "
       style="padding-top: 9px"
     />
-    <div class="columns is-multiline is-mobile">
+    <div class="columns is-multiline is-mobile even">
       <picto
         :class="
           sidebar
@@ -120,11 +120,11 @@ export default {
         return 'column is-one-third-mobile is-one-fifth-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd';
       }
       if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
-        return 'column is-one-quarter-mobile is-2-tablet is-1-desktop is-1-widescreen is-1-fullhd';
+        return 'column is-one-quarter-mobile is-one-fifth-tablet is-1-desktop is-1-widescreen is-1-fullhd';
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
-        return 'column is-one-third-mobile is-one-fifth-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd';
+        return 'column is-one-third-mobile is-one-quarter-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd';
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
-        return 'column is-half-mobile is-one-third-tablet is-one-fourth-desktop is-3-widescreen is-2-fullhd';
+        return 'column is-half-mobile is-one-third-tablet is-one-fourth-desktop is-one-fifth-widescreen is-2-fullhd';
       }
     }
   },
