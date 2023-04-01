@@ -90,12 +90,6 @@
             </div>
           </div>
           <div
-            class="longpress"
-            v-long-press="1000"
-            @long-press-start="onLongPressStart"
-            @click.self="addToSpeech()"
-          ></div>
-          <div
             v-if="!dragndropId && isOnline"
             class="main-actions"
             @click.self="addToSpeech()"
@@ -264,7 +258,6 @@ import lang from "@/mixins/lang";
 import deviceInfos from "@/mixins/deviceInfos";
 import PictoSteps from "@/components/pictos/pictoSteps";
 import pictoActions from "@/components/pictos/pictoActions";
-import LongPress from "vue-directive-long-press";
 import pictogram from "../../mixins/pictogram";
 export default {
   mixins: [lang, deviceInfos, pictogram],
@@ -307,13 +300,7 @@ export default {
       });
     }
   },
-  directives: {
-    "long-press": LongPress,
-  },
   methods: {
-    onLongPressStart() {
-      this.openActions();
-    },
     openActions() {
       this.$buefy.modal.open({
         parent: this,
@@ -592,20 +579,10 @@ export default {
   z-index: 1;
   aspect-ratio: 1 / 1;
 }
-.longpress {
-  display: none;
-}
 .container {
   container-type: inline-size;
 }
 @container (max-width: 150px) {
-  .longpress {
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    height: calc(100% - 2rem);
-  }
   .nopointerevents {
     pointer-events: none;
   }
@@ -641,13 +618,6 @@ export default {
   }
 }
 @media (pointer: coarse) and (hover: none) {
-  .longpress {
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    height: calc(100% - 2rem);
-  }
   .nopointerevents {
     pointer-events: none;
   }
