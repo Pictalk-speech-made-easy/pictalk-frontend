@@ -20,6 +20,7 @@
         />
         </b-tooltip>
       <b-navbar-item
+        v-if="!$route.query.isAdmin"
         class="logo"
         tag="nuxt-link"
         v-bind:to="$route.query.isAdmin ? '/': ''"
