@@ -486,17 +486,6 @@ export default {
 .button.is-focused:not(:active) {
   box-shadow: none !important;
 }
-.priority-button {
-  background-color: #ffffff00;
-  border: none;
-  font-size: 2.5em;
-  text-shadow: 0px 0px 16px #000000d0;
-  -webkit-text-stroke: 1.5px black;
-  padding: 0;
-  justify-content: end;
-  height: 40px;
-  width: 40px;
-}
 
 .priority-button > span > b {
   font-weight: 900 !important;
@@ -511,78 +500,8 @@ export default {
   row-gap: 0.75rem;
   column-gap: 0.75rem;
 }
-.large-icon {
-  font-size: 2.75rem;
-}
-.medium-icon {
-  font-size: 1.75rem;
-}
-.icon {
-  text-shadow: 0px 0px 4px #000000d0;
-  -webkit-text-stroke: 0.5px black;
-  transition: 0.075s;
-  cursor: pointer;
-}
-.icon:hover {
-  text-shadow: 0px 0px 8px #000000;
-  filter: brightness(1.2);
-}
-.head-actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  position: absolute;
-  align-self: baseline;
-  padding: 6px;
-}
-.foot-actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-  position: absolute;
-  align-self: flex-end;
-  padding: 6px;
-}
-.actions > :is(.main-actions, .head-actions, .offline) {
-  opacity: 0;
-}
-.actions:hover > :is(.main-actions, .head-actions, .offline) {
-  opacity: 1;
-}
-.actions:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-.actions {
-  border-radius: 6px;
-  width: calc(100% - 1.2rem);
-  position: absolute;
-  color: white;
-  z-index: 2;
-  aspect-ratio: 1/1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.075s ease-in-out;
-}
-.dragbutton {
-  top: 0.6rem;
-  left: 0.6rem;
-  position: absolute;
-  display: block;
-  width: calc(100% - 1.2rem);
-  border-radius: 4px;
-  background-color: #00000000;
-  z-index: 1;
-  aspect-ratio: 1 / 1;
-}
-.container {
-  container-type: inline-size;
-}
-@container (max-width: 150px) {
+
+@media (pointer: coarse) and (hover: none) {
   .nopointerevents {
     pointer-events: none;
   }
@@ -617,7 +536,93 @@ export default {
     cursor: pointer;
   }
 }
-@media (pointer: coarse) and (hover: none) {
+@media (pointer: fine) and (hover: hover) {
+  .actions > :is(.main-actions, .head-actions, .offline) {
+    opacity: 0;
+  }
+  .actions:hover > :is(.main-actions, .head-actions, .offline) {
+    opacity: 1;
+  }
+}
+.head-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  align-self: baseline;
+  padding: 6px;
+}
+.priority-button {
+  background-color: #ffffff00;
+  border: none;
+  font-size: 2.5em;
+  text-shadow: 0px 0px 16px #000000d0;
+  -webkit-text-stroke: 1.5px black;
+  padding: 0;
+  justify-content: end;
+  height: 40px;
+  width: 40px;
+}
+.large-icon {
+  font-size: 2.75rem;
+}
+.medium-icon {
+  font-size: 1.75rem;
+}
+.icon {
+  text-shadow: 0px 0px 4px #000000d0;
+  -webkit-text-stroke: 0.5px black;
+  transition: 0.075s;
+  cursor: pointer;
+}
+.icon:hover {
+  text-shadow: 0px 0px 8px #000000;
+  filter: brightness(1.2);
+}
+
+.foot-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  align-self: flex-end;
+  padding: 6px;
+}
+
+.actions:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.actions {
+  border-radius: 6px;
+  width: calc(100% - 1.2rem);
+  position: absolute;
+  color: white;
+  z-index: 2;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.075s ease-in-out;
+}
+.dragbutton {
+  top: 0.6rem;
+  left: 0.6rem;
+  position: absolute;
+  display: block;
+  width: calc(100% - 1.2rem);
+  border-radius: 4px;
+  background-color: #00000000;
+  z-index: 1;
+  aspect-ratio: 1 / 1;
+}
+.container {
+  container-type: inline-size;
+}
+@container (max-width: 150px) {
   .nopointerevents {
     pointer-events: none;
   }
