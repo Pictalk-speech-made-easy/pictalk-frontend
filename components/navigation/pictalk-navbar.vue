@@ -493,7 +493,7 @@ export default {
         ) != undefined
     },
     isToUserFatherId() {
-      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10)).userId == this.$store.getters.getUser.id
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.userId == this.$store.getters.getUser.id
     }
   },
   methods: {

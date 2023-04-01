@@ -212,7 +212,7 @@
         <img
           draggable="false"
           :class="{ image: true, nopointerevents: $route.query.isAdmin }"
-          :src="picto.image"
+          :srcset="pictoOrUndefinedImage"
           :alt="picto.meaning[getUserLang]"
           @click.self="addToSpeech()"
           width="100%"
@@ -438,6 +438,13 @@ export default {
     },
   },
   computed: {
+    pictoOrUndefinedImage() {
+      if (this.picto.image) {
+        return this.picto.image;
+      } else {
+        return require('@/assets/no_image.png').srcSet;
+      }
+    },
     customFontSize() {
       return this.$store.getters.getUser.settings?.pronounceShowSize !== 0;
     },
