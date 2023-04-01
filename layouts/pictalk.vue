@@ -45,7 +45,27 @@ export default {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
     }
-    
+    const workbox = await window.$workbox;
+    if (workbox) {
+      workbox.addEventListener('installed', (event) => {
+        // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
+        if (event.isUpdate) {
+          const notif = this.$buefy.notification.open({
+              duration: 4500,
+              message: this.$t("NewVersionAvailable"),
+              position: "is-top-right",
+              type: "is-success",
+              hasIcon: true,
+              iconSize: "is-small",
+              iconSize: "medium",
+              icon: "gift",
+            });
+          setTimeout(() => {
+            window.location.reload(true)
+          }, 4500);
+        }
+      });
+    }
   },
   destroyed() {
     clearInterval(this.intervalId);
