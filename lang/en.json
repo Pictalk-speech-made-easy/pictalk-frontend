@@ -376,5 +376,6 @@
   "DragAndDrop": "Drag and drop to other collections",
   "TutorialsSharing": "Sharing of pictograms and collections",
   "TutorialsSharingText": "In this tutorial you will learn how to share pictograms and collections. At the end of the video, you will know how to share a collection with other users and how to integrate shared collections to your own personnal space.",
-  "TooltipAdmin": "Switch to editor mode"
+  "TooltipAdmin": "Switch to editor mode",
+  "TooltipReturn": "Return without delete from sentence"
 }
