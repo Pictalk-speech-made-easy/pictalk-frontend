@@ -13,7 +13,7 @@
             ? 'column is-12-mobile is-6-tablet is-6-desktop is-4-widescreen is-3-fullhd'
             : sidebarUsed
             ? 'column is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-one-fifth-fullhd'
-            : 'column is-one-third-mobile is-one-fifth-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd'
+            : customPictoSize
         "
         v-for="(picto, index) in getFilteredPictoList"
         :key="index"
@@ -22,17 +22,9 @@
         :sidebarMode="sidebar"
         :ref="picto.collection ? 'dragCollection' : 'dragPictogram'"
       />
-
       <div
         data-cy="cypress-empty-column"
-        class="
-          column
-          is-one-third-mobile
-          is-one-quarter-tablet
-          is-one-quarter-desktop
-          is-one-quarter-widescreen
-          is-one-fifth-fullhd
-        "
+        class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
       ></div>
     </div>
 
@@ -68,11 +60,11 @@ export default {
       ev.dataTransfer.dropEffect = "move";
       const goBack = document.getElementById("return");
       goBack.style.transform = "scale(1.5)";
-      goBack.style.left = "5vw";
+      goBack.style.left = "100px";
       if (!this.timer) {
         this.timer = setTimeout(() => {
           this.$nuxt.$emit("removeSpeechDrag");
-        }, 1000);
+        }, 600);
       }
     },
     onDragLeave(ev) {
@@ -123,10 +115,25 @@ export default {
         parseInt(this.$route.params.fatherCollectionId)
       );
     },
+    customPictoSize() {
+      if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
+        return 'column is-one-third-mobile is-one-fifth-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd';
+      }
+      if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
+        return 'column is-one-quarter-mobile is-2-tablet is-1-desktop is-1-widescreen is-1-fullhd';
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
+        return 'column is-one-third-mobile is-one-fifth-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd';
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
+        return 'column is-half-mobile is-one-third-tablet is-one-fourth-desktop is-3-widescreen is-2-fullhd';
+      }
+    }
   },
 };
 </script>
 <style scoped>
+.even {
+  justify-content: space-between;
+}
 .margins {
   margin-left: 7px;
   margin-right: 7px;

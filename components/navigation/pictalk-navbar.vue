@@ -1,60 +1,45 @@
 <template>
   <b-navbar fixed-top>
     <template slot="brand">
+      <b-tooltip 
+        position="is-bottom"
+        multilined
+        size="is-small"
+        type="is-primary"
+        :label="$t('TooltipReturn')"
+        :delay="1000"
+        :triggers="['hover']"
+        style="margin-top: 3px"
+      >
+        <b-button
+            :disabled="parseInt($route.params.fatherCollectionId) == $store.getters.getUser.root"
+            class="customButton"
+            style="background-color: hsl(210, 100%, 60%); min-width: 80px"
+            @click="navigateToParentCollection()"
+            icon-right="arrow-left"
+        />
+        </b-tooltip>
       <b-navbar-item
+        class="logo"
         tag="nuxt-link"
-        to="/"
-        style="padding: 0%; padding-right: 1px; padding-left: 1vw"
+        v-bind:to="$route.query.isAdmin ? '/': ''"
+        style="padding: 0%; padding-right: 1px; padding-left: 1vw;"
       >
         <img
           v-if="fits"
           src="~/assets/logo_compressed.png"
           alt="Logo of a web app that help speach-disabled people"
           height="44px"
-					style="aspect-ratio: 411 / 130; margin-right: 0.5em"
+          style="aspect-ratio: 411 / 130; margin-right: 0.5em"
         />
         <img
-					style="aspect-ratio: 1 / 1; margin-right: 0.5em"
+          style="aspect-ratio: 1 / 1; margin-right: 0.5em"
           height="44px"
           v-if="!fits"
-					src="~/assets/small_logo.png"
+          src="~/assets/small_logo.png"
           alt="Logo of a web app that help speach-disabled people"
         />
-
-        <!--<b-tooltip
-          v-if="$route.query.isAdmin"
-          style="margin-right: 3px"
-          position="is-right"
-          type="is-dark"
-          :triggers="['hover', 'click']"
-        >
-          <div
-            class="downloadDiv"
-            :style="
-              percent == 100
-                ? 'border-color: #48C78E; color: #48C78E;'
-                : 'border-color: #3e8ed0; color: #3e8ed0;'
-            "
-          >
-            <b-icon
-              style="margin-left: 0px; max-width: 28px; margin-top: 1px"
-              :type="percent == 100 ? 'is-success' : 'is-info'"
-              icon="cloud-download"
-              size="is-medium"
-            ></b-icon>
-            {{ percentage }}
-          </div>
-          <template v-slot:content>
-            <p v-if="!offlineReadyTotal">
-              {{ $t("NoStorage") }}
-            </p>
-            <p v-if="offlineImagesSavedRatio == 100">
-              {{ $t("ReadyOffline") }} ✈️
-            </p>
-          </template>
-        </b-tooltip>-->
       </b-navbar-item>
-			<p class="version">{{ $config.clientVersion }}</p>
       <div
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
@@ -64,6 +49,7 @@
           class="column noPadding dropdown"
         >
           <b-dropdown
+            :disabled="!isEditorFatherId && !isToUserFatherId"
             id="nav-create"
             class="column"
             :mobile-modal="false"
@@ -73,13 +59,13 @@
           >
             <template #trigger>
               <b-button
-                data-cy="pictalk-navbar-create-button"
-                class="dropdown-button rounded"
-                type="is-success"
+                :disabled="!isEditorFatherId && !isToUserFatherId"
+                style="background-color: hsl(154, 100%, 65%)"
+                data-cy="pictalk-navbar-create-button"      
                 icon-right="plus"
-                expanded
-                ><b>{{ $t("Create") }}</b></b-button
-              >
+                :label="$t('Create')"
+                class="customButton"
+              />
             </template>
             <b-dropdown-item
               class="verticalPadding"
@@ -103,9 +89,9 @@
           class="column noPadding"
         >
           <b-button
-            class="addButton rounded"
+            class="customButton"
+            style="background-color: hsl(210, 100%, 60%); min-width: 80px"
             @click="copyCollection()"
-            type="is-info"
             icon-right="content-paste"
           />
         </div>
@@ -114,29 +100,16 @@
           class="column noPadding"
         >
           <b-button
-            class="addButton rounded"
+            class="customButton"
+            style="background-color: hsl(0, 0%, 96%); min-width: 80px"
             @click="cancelCopy()"
-            type="is-light"
             icon-right="close"
-          />
-        </div>
-
-        <div v-if="!checkCopyCollectionId" class="column noPadding">
-          <b-button
-            data-cy="pictalk-navbar-admin-button"
-            class="lock rounded"
-            type="is-warning"
-            :focused="Boolean($route.query.isAdmin)"
-            @click="adminModeChoose()"
-            :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
-            :icon-left="iconIsAdmin"
-            :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
           />
         </div>
       </div>
     </template>
     <template slot="start">
-      <b-navbar-dropdown :label="$t('Menu')">
+      <b-navbar-dropdown data-cy="pictalk-navbar-dropdown" :label="$t('Menu')">
         <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
         <b-navbar-item tag="nuxt-link" to="/news"
           >{{ $t("News") }} &#127881;</b-navbar-item
@@ -159,7 +132,29 @@
             tag="nuxt-link"
             to="/administration"
           />
-
+          <b-tooltip 
+          position="is-bottom"
+            multilined
+            size="is-small"
+            type="is-primary"
+            :label="$t('TooltipAdmin')"
+            :delay="1000"
+            :triggers="['hover']"
+            >
+          <div
+          v-if="!checkCopyCollectionId || !$route.query.isAdmin"
+          class="column noPadding"
+          >
+            <b-button
+              style="background-color: hsl(44, 100%, 65%)"
+              data-cy="pictalk-navbar-admin-button"
+              :icon-left="iconIsAdmin"
+              :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
+              @click="adminModeChoose()"
+              class="fullWidth customButton rotateArrow"
+            />
+          </div>
+          </b-tooltip>
           <b-tooltip
             position="is-bottom"
             multilined
@@ -171,9 +166,10 @@
           >
             <b-button
               @click="openModeModal()"
-              :icon-left="icon"
-              :class="'modeButton ' + colorClass"
+              style="color: white"
               icon-right="menu-down"
+              :icon-left="icon"
+              :class="'customButton ' + colorClass"
             />
           </b-tooltip>
 
@@ -194,9 +190,11 @@
               append-to-body
               class="notificationsdrop"
               ><template #trigger>
-                <a class="navbar-item" role="button">
-                  <b-icon icon="bell-alert"></b-icon>
-                </a>
+                <b-button
+                  style="background-color: hsl(0, 100%, 100%); color: #ff5757"
+                  icon-right="bell-alert"
+                  class="customButton"
+                />
               </template>
               <b-dropdown-item
                 aria-role="menu-item"
@@ -266,10 +264,10 @@
             :triggers="['hover']"
           >
             <b-button
-              v-if="this.$route.path.includes('pictalk')"
-              type="is-info"
-              icon-right="cog"
+              style="background-color: hsl(207, 100%, 65%)"
               @click="goToAccount()"
+              icon-right="cog"
+              class="customButton"
             />
           </b-tooltip>
           <!--
@@ -300,8 +298,9 @@
             :triggers="['hover']"
           >
             <b-button
-              type="is-warning"
+              style="background-color: hsl(34, 100%, 55%)"
               icon-right="bug"
+              class="customButton"
               @click="openFeedbackModal()"
             />
           </b-tooltip>
@@ -314,7 +313,12 @@
             :delay="1000"
             :triggers="['hover']"
           >
-            <b-button type="is-light" icon-right="logout" @click="onLogout" />
+            <b-button
+              style="background-color: hsl(0, 100%, 100%)"
+              icon-right="logout"
+              class="customButton"
+              @click="onLogout"
+            />
           </b-tooltip>
         </div>
       </b-navbar-item>
@@ -341,6 +345,19 @@ export default {
         if (event.isTrusted) {
           this.offlineReadyTotal = event.data.total;
           this.offlineReadyProgress = event.data.progress;
+        }
+      };
+      const bc1 = new BroadcastChannel("authenticated-webworker");
+      console.log("Posting message to webworker")
+      if (this.$store.getters.getJwtFromCookie && this.$store.getters.getJwtExpDateFromCookie) {
+        bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
+      }
+      bc1.onmessage = (event) => {
+        console.log("Received authenticated event from webworker")
+        if (event.isTrusted) {
+          if (event.data === "authenticated") {
+            bc1.postMessage({jwt: this.$store.getters.getJwtFromCookie, expDate: this.$store.getters.getJwtExpDateFromCookie});
+          }
         }
       };
     }
@@ -424,6 +441,9 @@ export default {
     },
   },
   computed: {
+    publicMode() {
+      return this.$route.path.includes("public");
+    },
     percentage() {
       this.percent = Math.floor(this.offlineImagesSavedRatio);
       return this.percent >= 0 && this.percent < 100 ? this.percent + "%" : "";
@@ -466,8 +486,44 @@ export default {
     sidebarLink() {
       return "/pictalk/" + this.$store.getters.getSidebarId + this.admin;
     },
+    isEditorFatherId() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.editors.find(
+          (editor) => editor == this.$store.getters.getUser.username
+        ) != undefined
+    },
+    isToUserFatherId() {
+      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10)).userId == this.$store.getters.getUser.id
+    }
   },
   methods: {
+    navigateToParentCollection() {
+      const speechCollectionArray = this.$store.getters.getSpeech.filter((picto) => !picto.sidebar && picto.collection);
+      const speechCollectionArrayBeforePosition = speechCollectionArray.slice(0, speechCollectionArray.findIndex((picto) => picto.id == parseInt(this.$route.params.fatherCollectionId)));
+      if (speechCollectionArrayBeforePosition.length < 1) {
+        if (this.publicMode) {
+          this.$router.push("/public/346");
+        } else {
+          if (this.$store.getters.getRootId) {
+            this.$router.push({
+              path: "/pictalk/" + this.$store.getters.getRootId,
+              query: { ...this.$route.query },
+            });
+          } else {
+            this.$router.push({
+              path: "/pictalk/",
+              query: { ...this.$route.query },
+            });
+          }
+        }
+      } else {
+        this.$router.push({
+          path:
+            (this.publicMode ? "/public/" : "/pictalk/") +
+            speechCollectionArrayBeforePosition[speechCollectionArrayBeforePosition.length - 1]?.id,
+          query: { ...this.$route.query },
+        });
+      }
+    },
     isAdministrator() {
       return this.$store.getters.getUser.admin;
     },
@@ -503,7 +559,7 @@ export default {
       });
     },
     fitsBigger() {
-      this.fits = window.innerWidth > 560;
+      this.fits = window.innerWidth > 600;
     },
     getCollectionFromId(id) {
       const index = this.$store.getters.getCollections.findIndex(
@@ -727,6 +783,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@media (min-width: 1216px) {
+  .logo {
+    left: 0;
+    transform: none;
+    position: relative;
+  }
+}
 .b-tooltips {
   .b-tooltip:not(:last-child) {
     margin-right: 0.5em;
@@ -769,13 +837,11 @@ export default {
   width: 95%;
 }
 .margins {
-  width: 50vw;
-  min-width: 130px;
-  max-width: 260px;
-  margin-left: 1vw;
+  margin-left: 20px;
   margin-right: 1vw;
   margin-top: 4px;
   height: 44px;
+  align-items: center;
 }
 .noPadding {
   padding: 0%;
@@ -821,6 +887,17 @@ export default {
 .rounded {
   border-radius: 24px;
 }
+.customButton {
+  font-size: clamp(0.8em, 4vw, 1.15em);
+  font-weight: 600;
+  color: #171717;
+  border: 2px solid #666;
+  transition: all 0.05s;
+  margin: 0 2px;
+}
+.customButton:hover {
+  box-shadow: 0px 0px 12px #00000090;
+}
 .modeButton {
   color: white;
   border-color: transparent;
@@ -829,11 +906,11 @@ export default {
   color: #f1f1f1;
 }
 .version {
-	display: flex;
-	align-items: flex-end;
-	font-size: 00.65em;
-	margin-bottom: 2px;
-	margin-left: -2em;
-	width: 5px;
+  display: flex;
+  align-items: flex-end;
+  font-size: 00.65em;
+  margin-bottom: 2px;
+  margin-left: -2em;
+  width: 5px;
 }
 </style>

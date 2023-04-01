@@ -63,16 +63,7 @@
             <br id="searchText" />
             <div class="columns is-multiline is-mobile">
               <Webpicto
-                class="
-                  column
-                  is-one-third-mobile
-                  is-one-quarter-tablet
-                  is-2-desktop
-                  is-2-widescreen
-                  is-2-fullhd
-                  containing
-                  has-background
-                "
+                class="column is-one-third-mobile is-one-quarter-tablet is-2-desktop is-2-widescreen is-2-fullhd containing has-background"
                 style="aspect-ratio: 1/1"
                 v-for="picto in paginate"
                 :key="picto.src"
@@ -270,6 +261,14 @@
                 >{{ $t("Plural") }}</b-switch
               >
             </b-field>
+            <b-field>
+              <b-button
+                icon-left="refresh"
+                :label="$t('Rotation')"
+                @click="rotateImg()"
+              ></b-button>
+            </b-field>
+
             <div class="columns is-multiline is-mobile">
               <div
                 v-if="options.cross.enabled"
@@ -588,6 +587,7 @@ export default {
       voiceURIs: [],
       silent: false,
       rendered: false,
+      degree: 0,
       options: {
         arrow: {
           enabled: false,
@@ -665,7 +665,7 @@ export default {
       this.creationLoading = true;
       let cfile;
       if (this.rendered) {
-        this.file = this.canvasToFile();
+        this.file = await this.canvasToFile();
       }
       if (
         Object.values(this.picto.meaning).length == 0 ||
@@ -695,17 +695,25 @@ export default {
             });
             return;
           }
-
-          const myNewFile = new File(
-            [this.file],
-            this.file.name.substr(0, this.file.name.lastIndexOf(".")) + ".jpg",
-            { type: this.file.type }
-          );
-          cfile = await jpegasus.compress(myNewFile, {
-            maxHeight: 300,
-            maxWidth: 300,
-            quality: 0.15,
-          });
+          if (
+            this.file?.url.includes("arasaac") ||
+            this.file?.url.includes("tawasol")
+          ) {
+            console.log(this.file);
+            cfile = this.file;
+          } else {
+            const myNewFile = new File(
+              [this.file],
+              this.file.name.substr(0, this.file.name.lastIndexOf(".")) +
+                ".jpg",
+              { type: this.file.type }
+            );
+            cfile = await jpegasus.compress(myNewFile, {
+              maxHeight: 300,
+              maxWidth: 300,
+              quality: 0.15,
+            });
+          }
         }
         this.getAllUserLanguages
           .map((languages) => languages.replace(/[^a-z]/g, ""))
@@ -741,29 +749,29 @@ export default {
                       this.picto.speech[this.getUserLang]
                     ) {
                       try {
-                      this.picto.meaning[language] = this.picto.speech[
-                        language
-                      ] = (
-                        await axios.post("/translation/", {
-                          text: this.picto.meaning[this.getUserLang],
-                          targetLang: language,
-                          sourceLang: this.getUserLang,
-                        })
-                      )?.data.translation;
-                      resolve();
-                      } catch (error) {
-                        reject(error);
-                      }
-                    } else {
-                      if (this.picto.meaning[this.getUserLang]) {
-                        try {
-                        this.picto.meaning[language] = (
+                        this.picto.meaning[language] = this.picto.speech[
+                          language
+                        ] = (
                           await axios.post("/translation/", {
                             text: this.picto.meaning[this.getUserLang],
                             targetLang: language,
                             sourceLang: this.getUserLang,
                           })
                         )?.data.translation;
+                        resolve();
+                      } catch (error) {
+                        reject(error);
+                      }
+                    } else {
+                      if (this.picto.meaning[this.getUserLang]) {
+                        try {
+                          this.picto.meaning[language] = (
+                            await axios.post("/translation/", {
+                              text: this.picto.meaning[this.getUserLang],
+                              targetLang: language,
+                              sourceLang: this.getUserLang,
+                            })
+                          )?.data.translation;
                         } catch (error) {
                           reject(error);
                         }
@@ -790,7 +798,7 @@ export default {
                   }
                 });
               })
-          )
+          );
         }
         if (Object.keys(this.picto.speech).length === 0) {
           this.picto.speech = { ...this.picto.meaning };
@@ -963,7 +971,7 @@ export default {
                 arasaacData = arasaacData.data;
                 if (arasaacData != "no result") {
                   for (let i = 0; i < arasaacData?.length; i++) {
-                    this.images.unshift({
+                    this.images.push({
                       src: arasaacData[i].image_url,
                       title: arasaacData[i].translations[0].tName,
                       download: arasaacData[i].image_url,
@@ -1045,7 +1053,6 @@ export default {
           });
 
         promises.push(arasaacData);
-        promises.push(arasaacData);
         promises.push(scleraData);
         promises.push(tawasolData);
         promises.push(mulberryData);
@@ -1087,6 +1094,12 @@ export default {
     },
 
     canvasToFile() {
+      const blob = this.canvasToBlob();
+      let file = new File([blob], this.file.name, { type: blob.type });
+      file.url = this.file.url;
+      return file;
+    },
+    canvasToBlob() {
       let canvas = document.getElementById("canvas");
       const dataURI = canvas.toDataURL();
       const byteString = atob(dataURI.split(",")[1]);
@@ -1097,9 +1110,15 @@ export default {
         ia[i] = byteString.charCodeAt(i);
       }
       const blob = new Blob([ab], { type: mimeString });
-      let file = new File([blob], this.file.name, { type: blob.type });
-      file.url = this.file.url;
-      return file;
+      return blob;
+    },
+    rotateImg() {
+      this.degree = this.degree + 90;
+      if (this.degree >= 360) {
+        this.degree = 0;
+      }
+      this.draw();
+      // Save the current state of the canvas
     },
     async draw() {
       this.rendered = true;
@@ -1109,7 +1128,16 @@ export default {
       canvas.width = size["width"];
       canvas.height = size["height"];
       let ctx = canvas.getContext("2d");
-      ctx.drawImage(image, 0, 0);
+      ctx.save();
+      // Translate the canvas to the center of the image
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      // Rotate the canvas by 45 degrees
+      ctx.rotate((this.degree * Math.PI) / 180);
+      // Draw the image onto the canvas, centered at (0, 0)
+      ctx.drawImage(image, -image.width / 2, -image.height / 2);
+      // Restore the canvas to its original state
+      ctx.restore();
+      //ctx.drawImage(image, 0, 0);
       this.rendered = true;
       if (this.options.arrow.enabled) {
         this.render(

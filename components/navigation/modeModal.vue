@@ -4,7 +4,8 @@
       <p class="subtitle centered">{{ $t("AnotherSpace") }}</p>
       <div class="option">
         <b-button
-          class="fullWidth modeButton mainColor"
+          style="background-color: hsl(0, 100%, 70%)"
+          class="fullWidth customButton"
           :label="$t('MyHome')"
           @click="GoToRoot()"
           icon-left="home"
@@ -12,26 +13,29 @@
       </div>
       <div class="option">
         <b-button
+          style="background-color: hsl(154, 100%, 70%)"
           :label="$t('PublicCollections')"
           @click="goTo('/public')"
           icon-left="web"
-          class="fullWidth modeButton publicColor"
+          class="fullWidth customButton"
         />
       </div>
       <div class="option">
         <b-button
+          style="background-color: hsl(210, 100%, 70%)"
           :label="$t('MyShared')"
           @click="goTo(sharedLink)"
           icon-left="folder-account"
-          class="fullWidth modeButton sharedColor"
+          class="fullWidth customButton"
         />
       </div>
       <div class="option">
         <b-button
+          style="background-color: hsl(45, 100%, 70%)"
           :label="$t('MySidebar')"
           @mousedown="goTo(sidebarLink)"
           icon-left="page-layout-sidebar-right"
-          class="fullWidth modeButton sidebarColor"
+          class="fullWidth customButton"
         />
       </div>
     </section>
@@ -84,6 +88,17 @@ export default {
 };
 </script>
 <style scoped>
+.customButton {
+  font-size: clamp(0.8em, 4vw, 1.15em);
+  font-weight: 600;
+  color: #171717;
+  border: 2px solid #666;
+  transition: all 0.05s;
+  margin: 0 2px;
+}
+.customButton:hover {
+  box-shadow: 0px 0px 12px #00000090;
+}
 .buttonBorder {
   border: solid;
   border-width: 1px;
@@ -99,7 +114,7 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  max-width: 300px;
+  max-width: 350px;
   min-width: 220px;
   max-height: 350px;
   min-height: 200px;

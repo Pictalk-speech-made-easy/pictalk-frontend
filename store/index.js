@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import Cookie from "js-cookie";
 import createPersistedState from 'vuex-persistedstate';
 export const strict = false;
@@ -227,11 +228,15 @@ export const actions = {
     vuexContext.commit("resetCollections");
   },
   async getPublicBundles(vuexContext) {
-    let publicBundles = (await axios.get('/collection/levels')).data;
-    publicBundles = Object.keys(publicBundles).map((key) => { parseAndUpdateEntireCollection(vuexContext, publicBundles[key]); return { id: publicBundles[key].id, level: key } });
-    //publicBundles = publicBundles.map((bundle) => { parseAndUpdateEntireCollection(vuexContext, bundle); bundle.level = bundle; return bundle.id; });
-    vuexContext.commit('setPublicBundles', publicBundles);
-    return publicBundles;
+    try {
+      let publicBundles = (await axios.get('/collection/levels')).data;
+      publicBundles = Object.keys(publicBundles).map((key) => { parseAndUpdateEntireCollection(vuexContext, publicBundles[key]); return { id: publicBundles[key].id, level: key } });
+      //publicBundles = publicBundles.map((bundle) => { parseAndUpdateEntireCollection(vuexContext, bundle); bundle.level = bundle; return bundle.id; });
+      vuexContext.commit('setPublicBundles', publicBundles);
+      return publicBundles;
+    } catch (err) {
+      console.log(err)
+    }
   },
   async addPicto(vuexContext, picto) {
     let formData = new FormData();
@@ -461,8 +466,8 @@ export const actions = {
     vuexContext.commit("setToken", res.data.accessToken);
     localStorage.setItem("token", res.data.accessToken);
     localStorage.setItem("tokenExpiration", expDate);
-    Cookie.set("jwt", res.data.accessToken, { sameSite: 'none', secure: true });
-    Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true });
+    Cookie.set("jwt", res.data.accessToken, { sameSite: 'none', secure: true, expires: 7 });
+    Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true, expires: 7 });
     return res;
   },
   initAuth(vuexContext, req) {
@@ -501,6 +506,12 @@ export const actions = {
     }
     if (token != vuexContext.getters.getToken) {
       vuexContext.commit("setToken", token);
+    }
+    if (!Cookie.get('jwt') && token) {
+      Cookie.set("jwt", token, { sameSite: 'none', secure: true, expires: 7 });
+    }
+    if (!Cookie.get('expirationDate') && expirationDate) {
+      Cookie.set("expirationDate", expirationDate, { sameSite: 'none', secure: true, expires: 7 });
     }
   },
   logout(vuexContext) {
@@ -729,7 +740,13 @@ export const getters = {
   },
   getDragndrop(state) {
     return state.dragndrop;
-  }
+  },
+  getJwtFromCookie(state) {
+    return localStorage.getItem("token");
+  },
+  getJwtExpDateFromCookie(state) {
+    return localStorage.getItem("tokenExpiration");
+  },
 };
 
 function parseAndUpdateEntireCollection(vuexContext, collection, download = false) {

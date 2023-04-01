@@ -43,8 +43,8 @@
         </b-carousel-item>
 				<b-carousel-item class="containing">
             <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
-				:srcset="require('@/assets/Share_demo.png').srcSet"
-        :placeholder="require('@/assets/Share_demo.png').placeholder"
+				:srcset="require('@/assets/Share.png').srcSet"
+        :placeholder="require('@/assets/Share.png').placeholder"
 				:lazy="true"
         custom-class="slightly-rounded"
 				></b-image>
@@ -116,7 +116,7 @@
 					<br>
 					<div class="column">
 					<p class="is-size-5 notification" align="justify">
-						<b-image style="aspect-ratio: 5/11; width: 25%;" class="center" lazy alt="Sample image of a copied sentence"
+						<b-image style="aspect-ratio: 10/12; width: 60%;" class="center" lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/whatsapp.png').srcSet"
         :placeholder="require('@/assets/whatsapp.png').placeholder"
 				></b-image>

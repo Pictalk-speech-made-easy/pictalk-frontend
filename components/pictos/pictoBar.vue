@@ -2,20 +2,18 @@
   <div class="notification columns is-mobile nopadding" :style="cssVars">
     <div class="column is-narrow nopadding">
       <b-button
-        inverted
-        type="is-danger"
+        style="background-color: hsl(0, 100%, 100%); color: #ff5757"
         icon-right="delete"
-        class="buttonBorder getsBigger"
-        @click="eraseSpeech()"
+        class="customButton  getsBigger"
+          @click="eraseSpeech()"
       />
     </div>
     <div class="column is-narrow nopadding">
       <b-button
-        inverted
-        type="is-danger"
+        style="background-color: hsl(0, 100%, 100%); color: #ff5757"
         icon-right="backspace"
-        class="buttonBorder getsBigger"
-        @click="removeSpeech(true)"
+        class="customButton  getsBigger"
+          @click="removeSpeech(true)"
       />
     </div>
     <div class="column" style="padding: 0%">
@@ -38,35 +36,42 @@
         >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button
       >
       <b-button
-        v-else
-        type="is-success"
-        class="getsBigger"
+      v-if="$store.getters.getTemporaryLanguage"
+        style="background-color: hsl(154, 70%, 55%)"
         icon-right="volume-high"
+        class="customButton getsBigger"
         @click="pictalk(pictos)"
-      ></b-button>
+      >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
+      <b-button
+      v-else
+        style="background-color: hsl(154, 70%, 55%)"
+        icon-right="volume-high"
+        class="customButton getsBigger"
+        @click="pictalk(pictos)"
+      />
     </div>
     <div class="column is-narrow nopadding">
       <b-button
-        class="getsBigger"
-        type="is-info"
+        style="background-color: hsl(210, 100%, 65%)"
         icon-right="content-copy"
+        class="customButton getsBigger"
         @click="copyPictosToClipboardBase(pictosWithoutSilent)"
       />
     </div>
     <div v-if="vocalize" class="onTop">
       <b-button
-        type="is-danger"
         icon-left="close"
         @click="vocalize = false"
-        style="margin-left: 2vmax; margin-top: 2vmax"
+        style="margin-left: 2vmax; margin-top: 2vmax; background-color: hsl(0, 100%, 65%); color: white"
+        class="customButton"
       />
+      
       <div class="columns is-multiline is-mobile topColumns">
         <img
           v-for="(picto, index) in pictosWithoutSilent"
-          :key="'pronounceShow'+index"
+          :key="index"
           :src="picto.image"
-          :class="(animation? (wordIndex >= index? (pronounceShowSize+ 'animations'):(pronounceShowSize+'lowBrightness')) : pronounceShowSize)"
-        ></img>
+          :class="(animation? (wordIndex >= index? pronounceShowSize+' animations': pronounceShowSize+' lowBrightness') : pronounceShowSize)"></img>
       </div>
     </div>
   </div>
@@ -344,17 +349,15 @@ export default {
   },
   computed: {
     pronounceShowSize() {
-      if (!this.$store.getters.getUser.settings?.pronounceShowSize) {
-        return 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd';
+      if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
+        return "topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd";
       }
       if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
-        return 'topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd';
-      }
-      else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
-        return 'topImage column is-4-mobile is-3-tablet is-3-desktop is-3-widescreen is-3-fullhd';
-      }
-      else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
-        return 'topImage column is-6-mobile is-4-tablet is-4-desktop is-4-widescreen is-4-fullhd';
+        return "topImage column is-3-mobile is-2-tablet is-2-desktop is-2-widescreen is-2-fullhd";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
+        return "topImage column is-4-mobile is-3-tablet is-3-desktop is-3-widescreen is-3-fullhd";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
+        return "topImage column is-6-mobile is-4-tablet is-4-desktop is-4-widescreen is-4-fullhd";
       }
     },
     cssVars() {
@@ -377,7 +380,7 @@ export default {
       setTimeout(() => {
         this.vocalize = false;
         this.wordIndex = 0;
-      }, this.$store.getters.getUser.settings?.pronounceShowDelay*1000 || 500);
+      }, this.$store.getters.getUser.settings?.pronounceShowDelay * 1000 || 500);
     });
     this.synthesis.addEventListener("boundary", (event) => {
       if (
@@ -450,6 +453,16 @@ export default {
 };
 </script>
 <style scoped>
+.customButton {
+  font-size: clamp(0.8em, 4vw, 1.15em);
+  font-weight: 600;
+  color: #171717;
+  border: 2px solid #666;
+  transition: all 0.05s;
+}
+.customButton:hover {
+  box-shadow: 0px 0px 12px #00000090;
+}
 .content {
   display: flex;
   align-items: flex-start;

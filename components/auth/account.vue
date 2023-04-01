@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container" style="max-width: 100%">
+      <p class="version">v{{ $config.clientVersion }}</p>
       <b-tabs expanded v-model="tabStep" type="is-toggle">
         <b-tab-item icon="tune">
           <br />
@@ -16,7 +17,7 @@
           </b-field>
           <b-field :label="$t('PronounceShowDelay')">
             <b-slider lazy v-model="user.settings.pronounceShowDelay" :min="0" :max="10" ticks>
-              <b-slider-tick :value="0">{{$t('PronounceShowDelay0')}}</b-slider-tick>
+              <b-slider-tick :value="0">+0s</b-slider-tick>
               <template v-for="i in 10">
                     <b-slider-tick :value="i" :key="'slider'+i">+{{ i }}s</b-slider-tick>
                 </template>
@@ -36,7 +37,7 @@
             }}</b-switch>
           </b-field> -->
           <br />
-          <b-field :label="$t('Password')">
+          <b-field :label="$t('ChangePassword')">
             <b-input
               v-model="user.password"
               placeholder="S0meExample!"

@@ -337,8 +337,9 @@ export default {
   },
   computed: {
     publicBundles() {
-      if (this.$store.getters.getPublicBundles) {
-        return this.$store.getters.getPublicBundles.map((bundle) => {
+      const publicBundles = this.$store.getters.getPublicBundles;
+      if (publicBundles) {
+        return publicBundles.map((bundle) => {
           const index = this.$store.getters.getCollections.findIndex(
             (collection) => collection.id === bundle.id
           );
@@ -369,7 +370,9 @@ export default {
       this.password = this.credentials.password;
     }
     await this.$store.dispatch("getPublicBundles");
-    this.selectedBundle = this.$store.getters.getPublicBundles[0].id;
+    this.selectedBundle = this.$store.getters.getPublicBundles
+      ? this.$store.getters.getPublicBundles[0].id
+      : null;
   },
   async updated() {},
   methods: {

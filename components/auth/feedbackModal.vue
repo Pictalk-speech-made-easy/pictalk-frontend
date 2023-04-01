@@ -10,6 +10,49 @@
       <p align="center" class="modal-card-title">{{ $t("Feedback") }}</p>
     </header>
     <section class="modal-card-body">
+      <b-notification :closable="false">
+        <div class="subtitle">
+        {{ $t("FeedbackSocials")}}
+        </div>
+        <div class="columns is-centered is-mobile whitebg rounded">
+        <div class="column centerImage">
+          <a href="https://www.instagram.com/pictalk_speech_made_easy/">
+            <b-image
+              style="height: 42px"
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/instagram.webp').srcSet"
+              alt="Instagram"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+        <div class="column centerImage">
+          <a href="https://www.facebook.com/profile.php?id=100086626416882">
+            <b-image
+              style="height: 42px"
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/facebook.webp').srcSet"
+              alt="Facebook"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+        <div class="column centerImage">
+          <a href="https://www.linkedin.com/company/88954834/">
+            <b-image
+              style="height: 42px"
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/linkedin.webp').srcSet"
+              alt="Linkedin"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+        </div>
+      </b-notification>
       <b-field :label="$t('FeedbackContact')">
         <b-input v-model="contact" required></b-input>
       </b-field>

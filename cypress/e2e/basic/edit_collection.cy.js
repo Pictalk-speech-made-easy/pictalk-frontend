@@ -2,9 +2,12 @@ describe('Edits a collection', () => {
   it('Edits a collection', function () {
     cy.login();
     cy.createCollection().then((createdCollection) => {
+      if (window && window.innerWidth < 1216) {
+        cy.get('[class="navbar-burger burger"]').click();
+      }
       cy.get('[data-cy="pictalk-navbar-admin-button"]').click();
       cy.get('[data-cy="cy-' + createdCollection.id + '"]').find('[data-cy="picto-action-dropdown"]').click();
-      cy.get('[data-cy="cy-' + createdCollection.id + '"]').find('[data-cy="picto-action-dropdown-edit"]').click();
+      cy.get('[data-cy="picto-action-dropdown-edit"]').click();
       cy.get('[data-cy="picto-steps-search-input"]').clear('m');
       cy.get('[data-cy="picto-steps-search-input"]').type('manger');
       cy.get('[data-cy="picto-steps-search-button"]').click();
