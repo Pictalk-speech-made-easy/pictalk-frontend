@@ -1,10 +1,29 @@
 <template>
   <b-navbar fixed-top>
     <template slot="brand">
+      <b-tooltip 
+        position="is-bottom"
+        multilined
+        size="is-small"
+        type="is-primary"
+        :label="$t('TooltipReturn')"
+        :delay="1000"
+        :triggers="['hover']"
+        style="margin-top: 3px"
+      >
+        <b-button
+            :disabled="parseInt($route.params.fatherCollectionId) == $store.getters.getUser.root"
+            class="customButton"
+            style="background-color: hsl(210, 100%, 60%); min-width: 80px"
+            @click="navigateToParentCollection()"
+            icon-right="arrow-left"
+        />
+        </b-tooltip>
       <b-navbar-item
+        class="logo"
         tag="nuxt-link"
         v-bind:to="$route.query.isAdmin ? '/': ''"
-        style="padding: 0%; padding-right: 1px; padding-left: 1vw"
+        style="padding: 0%; padding-right: 1px; padding-left: 1vw;"
       >
         <img
           v-if="fits"
@@ -20,41 +39,7 @@
           src="~/assets/small_logo.png"
           alt="Logo of a web app that help speach-disabled people"
         />
-
-        <!--<b-tooltip
-          v-if="$route.query.isAdmin"
-          style="margin-right: 3px"
-          position="is-right"
-          type="is-dark"
-          :triggers="['hover', 'click']"
-        >
-          <div
-            class="downloadDiv"
-            :style="
-              percent == 100
-                ? 'border-color: #48C78E; color: #48C78E;'
-                : 'border-color: #3e8ed0; color: #3e8ed0;'
-            "
-          >
-            <b-icon
-              style="margin-left: 0px; max-width: 28px; margin-top: 1px"
-              :type="percent == 100 ? 'is-success' : 'is-info'"
-              icon="cloud-download"
-              size="is-medium"
-            ></b-icon>
-            {{ percentage }}
-          </div>
-          <template v-slot:content>
-            <p v-if="!offlineReadyTotal">
-              {{ $t("NoStorage") }}
-            </p>
-            <p v-if="offlineImagesSavedRatio == 100">
-              {{ $t("ReadyOffline") }} ✈️
-            </p>
-          </template>
-        </b-tooltip>-->
       </b-navbar-item>
-      <p class="version">{{ $config.clientVersion }}</p>
       <div
         :style="this.$route.path.includes('pictalk') ? '' : 'display:none'"
         class="columns is-mobile margins"
@@ -163,11 +148,10 @@
             <b-button
               style="background-color: hsl(44, 100%, 65%)"
               data-cy="pictalk-navbar-admin-button"
-              :icon-right="$route.query.isAdmin ? '' : 'arrow-left'"
               :icon-left="iconIsAdmin"
               :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
               @click="adminModeChoose()"
-              class="fullWidth customButton"
+              class="fullWidth customButton rotateArrow"
             />
           </div>
           </b-tooltip>
@@ -457,6 +441,9 @@ export default {
     },
   },
   computed: {
+    publicMode() {
+      return this.$route.path.includes("public");
+    },
     percentage() {
       this.percent = Math.floor(this.offlineImagesSavedRatio);
       return this.percent >= 0 && this.percent < 100 ? this.percent + "%" : "";
@@ -509,6 +496,34 @@ export default {
     }
   },
   methods: {
+    navigateToParentCollection() {
+      const speechCollectionArray = this.$store.getters.getSpeech.filter((picto) => !picto.sidebar && picto.collection);
+      const speechCollectionArrayBeforePosition = speechCollectionArray.slice(0, speechCollectionArray.findIndex((picto) => picto.id == parseInt(this.$route.params.fatherCollectionId)));
+      if (speechCollectionArrayBeforePosition.length < 1) {
+        if (this.publicMode) {
+          this.$router.push("/public/346");
+        } else {
+          if (this.$store.getters.getRootId) {
+            this.$router.push({
+              path: "/pictalk/" + this.$store.getters.getRootId,
+              query: { ...this.$route.query },
+            });
+          } else {
+            this.$router.push({
+              path: "/pictalk/",
+              query: { ...this.$route.query },
+            });
+          }
+        }
+      } else {
+        this.$router.push({
+          path:
+            (this.publicMode ? "/public/" : "/pictalk/") +
+            speechCollectionArrayBeforePosition[speechCollectionArrayBeforePosition.length - 1]?.id,
+          query: { ...this.$route.query },
+        });
+      }
+    },
     isAdministrator() {
       return this.$store.getters.getUser.admin;
     },
@@ -544,7 +559,7 @@ export default {
       });
     },
     fitsBigger() {
-      this.fits = window.innerWidth > 560;
+      this.fits = window.innerWidth > 600;
     },
     getCollectionFromId(id) {
       const index = this.$store.getters.getCollections.findIndex(
@@ -768,6 +783,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@media (min-width: 1216px) {
+  .logo {
+    left: 0;
+    transform: none;
+    position: relative;
+  }
+}
 .b-tooltips {
   .b-tooltip:not(:last-child) {
     margin-right: 0.5em;

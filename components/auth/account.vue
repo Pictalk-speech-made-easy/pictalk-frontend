@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container" style="max-width: 100%">
+      <p class="version">v{{ $config.clientVersion }}</p>
       <b-tabs expanded v-model="tabStep" type="is-toggle">
         <b-tab-item icon="tune">
           <br />
