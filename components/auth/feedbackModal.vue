@@ -53,6 +53,21 @@
         </div>
         </div>
       </b-notification>
+      <b-notification :closable="false">
+      <div class="subtitle">
+        {{ $t("FeedbackSurvey")}}
+      </div>
+      <a href="https://limesurvey.home.asidiras.dev/index.php/699785?lang=fr ">
+        <b-image
+          class="centerImage"
+          lazy
+          :responsive="false"
+          src="https://limesurvey.home.asidiras.dev/tmp/assets/f328f486/logo.svg"
+          alt="Limesurvey"
+          custom-class="portrait grayscale"
+        />
+      </a>
+      </b-notification>
       <b-field :label="$t('FeedbackContact')">
         <b-input v-model="contact" required></b-input>
       </b-field>
@@ -279,5 +294,15 @@ export default {
 }
 .leftAlign {
   display: inline-block;
+}
+.centerImage {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.marginAuto {
+  margin: auto;
+  display: block;
 }
 </style>

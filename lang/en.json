@@ -378,5 +378,9 @@
   "TutorialsSharingText": "In this tutorial you will learn how to share pictograms and collections. At the end of the video, you will know how to share a collection with other users and how to integrate shared collections to your own personnal space.",
   "TooltipAdmin": "Switch to editor mode",
   "TooltipReturn": "Return without delete from sentence",
-  "NewVersionAvailable": "A new version of Pictalk is available, this page will be refreshed in 5 seconds"
+  "NewVersionAvailable": "A new version of Pictalk is available, this page will be refreshed in 5 seconds",
+  "FeedbackSurvey": "We would like to know how you use Pictalk. Please take 5 minutes to fill this survey. It will help us improve Pictalk.",
+  "PopupCreateAccount": "Why not start creating your own account ?",
+  "PopupCreateAccountText1": "You will be able to create your own collections and customize your voice ! You can start with the same collections as the public ones and then edit them.",
+  "PopupCreateAccountText2": "All for free 🥳"
 }

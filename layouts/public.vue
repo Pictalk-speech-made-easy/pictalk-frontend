@@ -8,11 +8,30 @@
 </template>
 <script >
 import navbar from "@/components/navigation/navbar";
+import popupModal from "@/components/auth/popupModal";
+import Cookie from "js-cookie";
 export default {
   components: {
     navbar,
   },
   created() {
+    // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
+    setTimeout(() => {
+      if (!Cookie.get('popup') && !this.$store.getters.isAuthenticated) {
+      this.$buefy.modal.open({
+        parent: this,
+        component: popupModal,
+        hasModalCard: true,
+        trapFocus: true,
+        canCancel: false,
+        onCancel: () => {
+          this.$buefy.modal.close();
+        },
+      });
+      Cookie.set('popup', true, { expires: 3 });
+    }
+    }, 30000);
+    
     if (
       this.$store.getters.isAuthenticated &&
       this.$store.getters.getUser &&

@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import Cookie from "js-cookie";
 import createPersistedState from 'vuex-persistedstate';
 export const strict = false;
