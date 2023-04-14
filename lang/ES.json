@@ -378,5 +378,16 @@
     "PictoActionsOffline": "Tienes que estar conectado para utilizar estas funciones",
     "Menu": "Menú",
     "TutorialsBasics": "Aspectos básicos",
-    "TutorialsBasicsText": "En este tutorial aprenderás a utilizar Pictalk. Te mostraremos cómo navegar entre colecciones y hacer una frase."
+    "TutorialsBasicsText": "En este tutorial aprenderás a utilizar Pictalk. Te mostraremos cómo navegar entre colecciones y hacer una frase.",
+    "FeedbackSurvey": "Nos gustaría saber cómo utilizas Pictalk. Tómate 5 minutos para rellenar esta encuesta. Nos ayudará a mejorar Pictalk.",
+    "PopupCreateAccount": "¿Por qué no empieza a crear su propia cuenta?",
+    "PopupCreateAccountText1": "Podrás crear tus propias colecciones y personalizar tu voz. Puedes empezar con las mismas colecciones que las públicas y luego editarlas.",
+    "PopupCreateAccountText2": "Todo gratis 🥳",
+    "ValidationMessageEmail": "Introduzca una dirección de correo electrónico válida",
+    "UseOfData3": "✅ No utilizamos cookies",
+    "ValidationMessagePassword": "Se requiere una contraseña con al menos una letra mayúscula y un número.",
+    "ValidationMessagePasswordConfirmation": "Las contraseñas no coinciden",
+    "UseOfData1": "✅ Los únicos datos que conservamos son los pictogramas que creas, puedes borrarlos en cualquier momento",
+    "UseOfData2": "✅ Como no tenemos ánimo de lucro, no comunicamos ni vendemos tus datos a nadie",
+    "UseOfData4": "✅ Puede eliminar su cuenta en cualquier momento"
 }
