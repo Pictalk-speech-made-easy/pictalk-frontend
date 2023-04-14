@@ -382,5 +382,12 @@
   "FeedbackSurvey": "We would like to know how you use Pictalk. Please take 5 minutes to fill this survey. It will help us improve Pictalk.",
   "PopupCreateAccount": "Why not start creating your own account ?",
   "PopupCreateAccountText1": "You will be able to create your own collections and customize your voice ! You can start with the same collections as the public ones and then edit them.",
-  "PopupCreateAccountText2": "All for free 🥳"
+  "PopupCreateAccountText2": "All for free 🥳",
+  "ValidationMessageEmail": "Please enter a valid email",
+  "ValidationMessagePassword": "A password with at least on capital letter and one number is required",
+  "ValidationMessagePasswordConfirmation": "The passwords do not match",
+  "UseOfData1": "✅ The only data we keep are the pictograms you create, you can delete them at any time",
+  "UseOfData2": "✅ As we are non profit, we do not communicate or sell your data to anyone",
+  "UseOfData3": "✅ We do not use cookies",
+  "UseOfData4": "✅ You can delete your account at any time"
 }

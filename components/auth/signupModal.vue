@@ -31,15 +31,19 @@
 				</div>
 					<b-field :label="$t('Email')">
 					<b-input
+            ref="email"
 						type="email"
             maxlength="64"
 						v-model="username"
 						:placeholder="$t('PlaceHolderEmail')"
 						required
+            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+            :validation-message="$t('ValidationMessageEmail')"
 					></b-input>
 				</b-field>
 				<b-field :label="$t('Password')">
 					<b-input
+            ref="password"
 						type="password"
 						v-model="password"
 						password-reveal
@@ -47,7 +51,7 @@
 						required
 						minlength="8"
 						pattern="((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-						validation-message="At least one captial letter, one digit and a password minimum length of 8"
+						:validation-message="$t('ValidationMessagePassword')"
 					></b-input>
 				</b-field>
 				<b-field :label="$t('ConfirmPassword')">
@@ -57,7 +61,9 @@
 						:placeholder="$t('PlaceHolderPassword')"
 						required
 						minlength="8"
+            :pattern="password.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')"
 						v-model="passwordConfirmation"
+            :validation-message="$t('ValidationMessagePasswordConfirmation')"
 					></b-input>
 				</b-field>
         <div v-if="directSharerUrlEncoded" class="box">
@@ -127,7 +133,7 @@
 							</option>
 						</b-select>
 					</b-field>
-				</b-step-item clickable>
+				</b-step-item>
         <b-step-item clickable :label="$t('StarterPack')" icon="web">
           <div class="contenant columns is-mobile" style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
             <div v-for="bundle in publicBundles" class="column is-4" style="padding: 2px">
@@ -161,6 +167,12 @@
 						style="width: 40%; aspect-ratio: 1/1"
           ></b-image>
 				  </div>
+          <b-notification :closable="false">
+            <p class="is-size-6">{{$t('UseOfData1')}}</p>
+            <p class="is-size-6">{{$t('UseOfData2')}}</p>
+            <p class="is-size-6">{{$t('UseOfData3')}}</p>
+            <p class="is-size-6">{{$t('UseOfData4')}}</p>
+          </b-notification>
 					<div style="display: flex; flex-dirrection : column; margin-bottom: 1em;">
 					<b-checkbox-button v-model="majority" :native-value="true" type="is-success">
             <b-icon v-if="majority" icon="check" style="margin-left: auto; margin-right: auto; border: solid; border-width: 1px; border-color: #4c43293f"></b-icon>
@@ -261,7 +273,7 @@
 						</div>
 						<div class="column is-one-quarter">
 							<b-button
-								class="center"
+                :class="isFormValid ? 'center glow' : 'center'"
 								:disabled="activeStep == maxStep"
 								@click="nextStep()"
 								icon-right="chevron-right"
@@ -286,6 +298,16 @@ import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
   components: {
     installVoice,
+  },
+  watch: {
+    step1Parameters: function () {
+      if (!this.$refs.email.checkHtml5Validity() || !this.$refs.password.checkHtml5Validity()) {
+        return
+      }
+      if (this.passwordConfirmation == this.password && this.password.length >= 8 &&  this.username && this.activeStep == 0) {
+        this.nextStep()
+      }
+    },
   },
   mixins: [deviceInfos, emoji, tts, lang, sharers],
   props: {
@@ -336,6 +358,21 @@ export default {
     };
   },
   computed: {
+    isFormValid() {
+      if (this.activeStep == 0) {
+        return this.passwordConfirmation == this.password && this.password.length >= 8 &&  this.username && this.$refs.email.checkHtml5Validity() && this.$refs.password.checkHtml5Validity()
+      }
+      else if (this.activeStep == 1) {
+        return this.voiceURI
+      } else if (this.activeStep == 2) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    step1Parameters() {
+          return `${this.username}|${this.password}|${this.passwordConfirmation}`;
+    },
     publicBundles() {
       const publicBundles = this.$store.getters.getPublicBundles;
       if (publicBundles) {
@@ -640,5 +677,10 @@ export default {
   -webkit-box-shadow: 1px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 1px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
   box-shadow: 1px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+.glow {
+  -webkit-box-shadow:0px 0px 10px 3px #ff5757;
+  -moz-box-shadow: 0px 0px 10px 3px #ff5757;
+  box-shadow: 0px 0px 10px 3px #ff5757;
 }
 </style>
