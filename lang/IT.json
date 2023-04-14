@@ -378,5 +378,16 @@
     "TutorialsSharing": "Condivisione di pittogrammi e collezioni",
     "TutorialsSharingText": "In questa esercitazione imparerete a condividere pittogrammi e collezioni. Alla fine del video, saprete come condividere una collezione con altri utenti e come integrare le collezioni condivise nel vostro spazio personale.",
     "TooltipAdmin": "Passare alla modalità editor",
-    "TooltipReturn": "Ritorno senza cancellazione dalla frase"
+    "TooltipReturn": "Ritorno senza cancellazione dalla frase",
+    "UseOfData3": "✅ Non utilizziamo cookie",
+    "UseOfData4": "È possibile cancellare il proprio account in qualsiasi momento.",
+    "ValidationMessageEmail": "Inserire un'e-mail valida",
+    "FeedbackSurvey": "Vorremmo sapere come utilizzate Pictalk. Vi preghiamo di dedicare 5 minuti per compilare questo sondaggio. Ci aiuterà a migliorare Pictalk.",
+    "PopupCreateAccount": "Perché non iniziare a creare il proprio account?",
+    "PopupCreateAccountText2": "Tutto gratis 🥳",
+    "PopupCreateAccountText1": "Potrete creare le vostre collezioni e personalizzare la vostra voce! È possibile iniziare con le stesse raccolte di quelle pubbliche e poi modificarle.",
+    "ValidationMessagePassword": "È richiesta una password con almeno una lettera maiuscola e un numero.",
+    "ValidationMessagePasswordConfirmation": "Le password non corrispondono",
+    "UseOfData1": "Gli unici dati che conserviamo sono i pittogrammi creati dall'utente, che può cancellarli in qualsiasi momento.",
+    "UseOfData2": "Poiché non abbiamo scopo di lucro, non comunichiamo né vendiamo i vostri dati a nessuno."
 }
