@@ -378,5 +378,16 @@
     "TutorialsSharingText": "În acest tutorial veți învăța cum să partajați pictograme și colecții. La finalul videoclipului, veți ști cum să partajați o colecție cu alți utilizatori și cum să integrați colecțiile partajate în spațiul personal.",
     "Rotation": "Rotiți",
     "PictoActions": "Acțiuni cu pictograme",
-    "PictoActionsOffline": "Trebuie să fiți online pentru a utiliza aceste funcții"
+    "PictoActionsOffline": "Trebuie să fiți online pentru a utiliza aceste funcții",
+    "FeedbackSurvey": "Am dori să știm cum folosiți Pictalk. Vă rugăm să acordați 5 minute pentru a completa acest sondaj. Acesta ne va ajuta să îmbunătățim Pictalk.",
+    "PopupCreateAccount": "De ce nu începeți să vă creați propriul cont?",
+    "PopupCreateAccountText2": "Totul gratuit 🥳",
+    "ValidationMessagePassword": "Este necesară o parolă cu cel puțin o literă majusculă și un număr.",
+    "PopupCreateAccountText1": "Veți putea să vă creați propriile colecții și să vă personalizați vocea! Puteți începe cu aceleași colecții ca și cele publice și apoi le puteți modifica.",
+    "ValidationMessageEmail": "Vă rugăm să introduceți un e-mail valid",
+    "ValidationMessagePasswordConfirmation": "Parolele nu se potrivesc",
+    "UseOfData1": "✅ Singurele date pe care le păstrăm sunt pictogramele pe care le creați, le puteți șterge în orice moment.",
+    "UseOfData2": "✅ Deoarece suntem non-profit, nu comunicăm și nu vindem datele dumneavoastră nimănui.",
+    "UseOfData3": "✅ Noi nu folosim cookie-uri",
+    "UseOfData4": "✅ Vă puteți șterge contul în orice moment"
 }
