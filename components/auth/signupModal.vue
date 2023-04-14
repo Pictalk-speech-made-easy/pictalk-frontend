@@ -274,7 +274,7 @@
 						<div class="column is-one-quarter">
 							<b-button
                 :class="isFormValid ? 'center glow' : 'center'"
-								:disabled="activeStep == maxStep"
+								:disabled="activeStep == maxStep || !isFormValid"
 								@click="nextStep()"
 								icon-right="chevron-right"
 							/>
