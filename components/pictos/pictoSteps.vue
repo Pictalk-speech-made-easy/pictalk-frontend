@@ -696,8 +696,8 @@ export default {
             return;
           }
           if (
-            this.file?.url.includes("arasaac") ||
-            this.file?.url.includes("tawasol")
+            this.file?.url?.includes("arasaac") ||
+            this.file?.url?.includes("tawasol")
           ) {
             console.log(this.file);
             cfile = this.file;
