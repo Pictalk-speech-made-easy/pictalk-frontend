@@ -52,36 +52,36 @@
 			<div class="hero-body">
 				<div class="container">
           <div class="columns is-mobile is-multiline">
-              <div class="column is-one-third  box">
+              <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
                 <div class="centerIcon"><b-icon icon="image" size="is-large"/></div>
-                <p class="subtitle is-5 feature-text">{{ $t('HomeFeature21') }}</p>
+                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature21') }}</p>
               </div>
-              <div class="column is-one-third box">
+              <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
                 <div class="centerIcon">
                 <b-icon icon="account-voice" size="is-large"></b-icon></div>
-                <p class="subtitle is-5 feature-text">{{ $t('HomeFeature22') }}</p> 
+                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature22') }}</p> 
             
             </div>
-              <div class="column is-one-third  box">
+              <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
                 <div class="centerIcon">
                 <b-icon icon="account-group" size="is-large"></b-icon></div>
-                <p class="subtitle is-5 feature-text">{{ $t('HomeFeature23') }}</p>
+                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature23') }}</p>
               </div>
         
-            <div class="column is-one-third  box">
+            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
               <div class="centerIcon">
               <b-icon icon="cloud-refresh" size="is-large"></b-icon></div>
-              <p class="subtitle is-5 feature-text">{{ $t('HomeFeature24') }}</p>
+              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature24') }}</p>
             </div>
-            <div class="column is-one-third box">
+            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
               <div class="centerIcon">
               <b-icon icon="tablet-cellphone" size="is-large"></b-icon></div>
-              <p class="subtitle is-5 feature-text">{{ $t('HomeFeature25') }}</p>
+              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature25') }}</p>
             </div>
-            <div class="column is-one-third box">
+            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
               <div class="centerIcon">
               <b-icon icon="currency-usd-off" size="is-large"></b-icon></div>
-              <p class="subtitle is-5 feature-text">{{ $t('HomeFeature26') }}</p>
+              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature26') }}</p>
             </div>
           </div>
           <div class="subtitle">{{ $t('TheyUsePictalk') }}</div>
@@ -228,23 +228,6 @@ export default {
     return {
       carouselAutoplay: true,
       ended: false,
-    };
-  },
-  head() {
-    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
-    return {
-      htmlAttrs: {
-        title: "Pictalk",
-        ...i18nHead.htmlAttrs,
-      },
-      meta: [
-        {
-          hid: "descriptionHome",
-          name: "description",
-          content: this.$t("Description"),
-        },
-        ...i18nHead.meta,
-      ],
     };
   },
   async created() {
