@@ -97,6 +97,15 @@
           custom-class="imgpixelslimit"
         />
       </div>
+      <div class="column centerImage">
+        <b-image
+          :lazy="true"
+          :responsive="false"
+          :srcset="require('@/assets/gandi.png').srcSet"
+          alt="Logo of Gandi"
+          custom-class="imgpixelslimit"
+        />
+      </div>
     </div>
   </div>
 </template>
