@@ -37,14 +37,11 @@ export default {
       href: 'https://www.pictalk.org'
     }],
     meta: [
-      { hid: 'keywords', name: 'keywords', content: 'AAC,pictograms,speech,text-to-speech,communication,online,translate,sentences,free,open-source' },
+      { hid: 'keywords', name: 'keywords', content: 'AAC,autism,pictograms,speech,text-to-speech,communication,online,translate,sentences,free,open-source' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language !' },
       { hid: 'url', name: 'url', content: 'https://www.pictalk.org' },
       { hid: 'image', name: 'image', content: 'https://www.pictalk.org/icon.png' },
       { hid: 'og-type', property: 'og:type', content: 'website' },
-      { hid: 'og-title', property: 'og:title', content: 'Pictalk AAC' },
-      { hid: 'og-desc', property: 'og:description', content: 'Pictalk is an app which aims to make speech easier for non-verbal people.' },
       { hid: 'og-url', property: 'og:url', content: 'https://www.pictalk.org' },
       { hid: 'og-image', property: 'og:image', content: 'https://www.pictalk.org/icon.png' },
     ]
@@ -102,7 +99,7 @@ export default {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       redirectOn: 'root',
-      alwaysRedirect: true
+      alwaysRedirect: false
     },
     locales: [
       {
@@ -211,11 +208,11 @@ export default {
     },
     manifest: {
       useWebmanifestExtension: 'true',
-      name: 'Pictalk',
-      short_name: "Pictalk",
+      name: 'Pictalk AAC: Pictogram speaking for Autism and others',
+      short_name: "Pictalk AAC",
       orientation: "any",
       lang: 'en',
-      description: 'Pictalk is an app which aims to make speech easier for non-verbal people.',
+      description: 'Parlez avec a des pictogrames, pour les personnes autistes et autres handicaps',
       theme_color: "#ff5757",
       background_color: "#ffffff",
       display: 'standalone',

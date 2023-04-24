@@ -51,43 +51,56 @@
     <section class="hero">
 			<div class="hero-body">
 				<div class="container">
-          <div class="tile is-ancestor">
-            <div class="tile is-parent">
-              <div class="tile is-child box">
-                <div class="title center"><b-icon custom-class="center" icon="image" size="is-large"/></div>
-                <p>{{ $t('HomeFeature21') }}</p>
+          <div class="columns is-mobile is-multiline">
+              <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
+                <div class="centerIcon"><b-icon icon="image" size="is-large"/></div>
+                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature21') }}</p>
               </div>
+              <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
+                <div class="centerIcon">
+                <b-icon icon="account-voice" size="is-large"></b-icon></div>
+                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature22') }}</p> 
+            
             </div>
-            <div class="tile is-parent">
-              <div class="tile is-child box">
-                <b-icon icon="account-voice" size="is-large"></b-icon>
-                {{ $t('HomeFeature22') }} 
+              <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
+                <div class="centerIcon">
+                <b-icon icon="account-group" size="is-large"></b-icon></div>
+                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature23') }}</p>
               </div>
+        
+            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
+              <div class="centerIcon">
+              <b-icon icon="cloud-refresh" size="is-large"></b-icon></div>
+              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature24') }}</p>
             </div>
-            <div class="tile is-parent">
-              <div class="tile is-child box">
-                <b-icon icon="account-group" size="is-large"></b-icon>
-                {{ $t('HomeFeature23') }}
-              </div>
+            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
+              <div class="centerIcon">
+              <b-icon icon="tablet-cellphone" size="is-large"></b-icon></div>
+              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature25') }}</p>
+            </div>
+            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
+              <div class="centerIcon">
+              <b-icon icon="currency-usd-off" size="is-large"></b-icon></div>
+              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature26') }}</p>
             </div>
           </div>
+          <div class="subtitle">{{ $t('TheyUsePictalk') }}</div>
           <div class="tile is-ancestor">
             <div class="tile is-parent">
-              <div class="tile is-child box">
-                <b-icon icon="cloud-refresh" size="is-large"></b-icon>
-                {{ $t('HomeFeature24') }}
-              </div>
+              <div class="tile is-child">
+                <div
+              class="subcard-img placeholder center"
+              :style="`background-image: url(${
+                require('@/assets/ADAPEI.png').placeholder
+              })`"
+            >
+              <img
+                class="subcard-img"
+                loading="lazy"
+                :srcset="require('@/assets/ADAPEI.png').srcSet"
+                alt="drawing of servers to illustrate the costs of running Pictalk application"
+              />
             </div>
-            <div class="tile is-parent">
-              <div class="tile is-child box">
-                <b-icon icon="tablet-cellphone" size="is-large"></b-icon>
-                {{ $t('HomeFeature25') }}
-              </div>
-            </div>
-            <div class="tile is-parent">
-              <div class="tile is-child box">
-                <b-icon icon="currency-usd-off" size="is-large"></b-icon>
-                {{ $t('HomeFeature26') }}
               </div>
             </div>
           </div>
@@ -217,23 +230,6 @@ export default {
       ended: false,
     };
   },
-  head() {
-    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
-    return {
-      htmlAttrs: {
-        title: "Pictalk",
-        ...i18nHead.htmlAttrs,
-      },
-      meta: [
-        {
-          hid: "descriptionHome",
-          name: "description",
-          content: this.$t("Description"),
-        },
-        ...i18nHead.meta,
-      ],
-    };
-  },
   async created() {
     if (this.directSharerUrlEncoded) {
       this.openSignUpModal();
@@ -345,6 +341,18 @@ export default {
 };
 </script>
 <style scoped>
+.subcard-img {
+  border-radius: 12px;
+  aspect-ratio: 83 / 27;
+  max-height: 20vh;
+  object-fit: cover;
+}
+
+.placeholder {
+  background-size: cover;
+  background-position: center;
+}
+
 .signup-button {
   position: absolute;
   top: 90%;
@@ -363,6 +371,11 @@ export default {
 }
 .box {
   padding: 0px;
+}
+
+.feature-text {
+  padding: 3px; 
+  text-align: center;
 }
 .center {
   display: block;
@@ -409,5 +422,9 @@ export default {
   color: #4a4a4a;
   background-color: #edf1f5;
   border-radius: 12px;
+}
+.centerIcon {
+  text-align: center;
+  font-size: 5rem;
 }
 </style>
