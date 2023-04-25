@@ -340,6 +340,7 @@ export default {
     Security,
   },
   async created() {
+    if (process.client) {
     if ('BroadcastChannel' in window) {
       const bc = new BroadcastChannel("offline-ready");
       bc.onmessage = (event) => {
@@ -385,6 +386,7 @@ export default {
         }
       }
     }, 60000);
+    }
   },
   data() {
     return {

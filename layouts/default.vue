@@ -19,6 +19,7 @@ export default {
         ...i18nHead.htmlAttrs,
         title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
       },
+      body: this.$t("DescriptionSEO"),
       title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
       meta: [
       ...i18nHead.meta,
@@ -67,15 +68,17 @@ export default {
   },
   middleware: ["axios"],
   created() {
-    if (
-      this.$store.getters.isAuthenticated &&
-      this.$store.getters.getUser &&
-      this.$store.getters.getUser.displayLanguage.match(/[a-z]{2}/g)
-    ) {
+    if (process.client){
       if (
-        this.$i18n.locale.code != this.$store.getters.getUser.displayLanguage
+        this.$store.getters.isAuthenticated &&
+        this.$store.getters.getUser &&
+        this.$store.getters.getUser.displayLanguage.match(/[a-z]{2}/g)
       ) {
-        this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
+        if (
+          this.$i18n.locale.code != this.$store.getters.getUser.displayLanguage
+        ) {
+          this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
+        }
       }
     }
   },

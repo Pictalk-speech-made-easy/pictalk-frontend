@@ -18,6 +18,7 @@ export default {
     };
   },
   async created() {
+    if (process.client){
     if ('BroadcastChannel' in window) {
       const bc2 = new BroadcastChannel("sync");
       bc2.onmessage = (event) => {
@@ -65,6 +66,7 @@ export default {
           }, 4500);
         }
       });
+    }
     }
   },
   destroyed() {

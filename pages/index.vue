@@ -4,47 +4,47 @@
 		<div class="container is-max-widescreen">
 			<b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top" :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" >
         <b-carousel-item class="containing">
-            <b-image style="aspect-ratio: 16/9;" alt="screenshots of the Pictalk application running on different devices"
-				:srcset="require('@/assets/Usages.png').srcSet"
-        :placeholder="require('@/assets/Usages.png').placeholder"
-				:lazy="true"
-        custom-class="slightly-rounded"
-				></b-image>
-				<section class="centeredBottomLeftText">
-                    <div class="has-text-centered">
-                        <div class="title is-3 isPictalkColor">{{$t('CreateDemo')}}</div>
-                    </div>
-                </section>
-								<section class="centeredBottomText">
-                    <div class="has-text-centered">
-                        <div class="title is-3 isPictalkColor">{{$t('TalkDemo')}}</div>
-                    </div>
-                </section>
-								<section class="centeredBottomRightText">
-                        <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{$t('CommunicateDemo')}}</div>
-                </section>
+          <b-image style="aspect-ratio: 16/9;" alt="screenshots of the Pictalk application running on different devices"
+            :srcset="require('@/assets/Usages.png').srcSet"
+            :placeholder="require('@/assets/Usages.png').placeholder"
+            :lazy="true"
+            custom-class="slightly-rounded"
+          />
+          <section class="centeredBottomLeftText">
+            <div class="has-text-centered">
+                <div class="title is-3 isPictalkColor">{{$t('CreateDemo')}}</div>
+            </div>
+          </section>
+          <section class="centeredBottomText">
+            <div class="has-text-centered">
+              <div class="title is-3 isPictalkColor">{{$t('TalkDemo')}}</div>
+            </div>
+          </section>
+          <section class="centeredBottomRightText">
+            <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{$t('CommunicateDemo')}}</div>
+          </section>
         </b-carousel-item>
         <b-carousel-item v-if="this.getUserLang == 'fr'" class="containing">
           <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 99.1%;" alt="video of Alex talking about pictalk"
-          :src="require('@/static/pictalk.mp4')"
-          controls
-          muted
-          :poster="require('@/assets/pictalk-video-poster.webp')"
-          class="slightly-rounded"
+            :src="require('@/static/pictalk.mp4')"
+            controls
+            muted
+            :poster="require('@/assets/pictalk-video-poster.webp')"
+            class="slightly-rounded"
           ></video>
         </b-carousel-item>
 				<b-carousel-item class="containing">
-            <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
-				:srcset="require('@/assets/Share.png').srcSet"
-        :placeholder="require('@/assets/Share.png').placeholder"
-				:lazy="true"
-        custom-class="slightly-rounded"
-				></b-image>
-				<section class="centeredBottomLeftTextAndBitRight">
-                    <div class="has-text-centered">
-                        <div class="title is-2 isPictalkColor">{{$t('ShareDemo')}}</div>
-                    </div>
-                </section>
+          <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
+            :srcset="require('@/assets/Share.png').srcSet"
+            :placeholder="require('@/assets/Share.png').placeholder"
+            :lazy="true"
+            custom-class="slightly-rounded"
+            ></b-image>
+				  <section class="centeredBottomLeftTextAndBitRight">
+            <div class="has-text-centered">
+                <div class="title is-2 isPictalkColor">{{$t('ShareDemo')}}</div>
+            </div>
+          </section>
         </b-carousel-item>
     </b-carousel>
 		</div>
@@ -100,60 +100,33 @@
 				</div>
 			</div>
 		</section>
-		<!-- <div class="container is-max-widescreen">
-		<div class="columns is-mobile">
-			<div class="column is-one-quarter-fullhd is-one-third-widescreen is-one-third-tablet is-half-mobile">
-				<div class="box">
-					<a href="https://youtu.be/vv2ktwpAijI">
-					<b-image style="aspect-ratio: 23/5" lazy alt="Yotube video link for the installation process."
-				:srcset="require('@/assets/youtube_install.png').srcSet"
-        :placeholder="require('@/assets/youtube_install.png').placeholder"
-				></b-image>
-					</a>
-				</div>
-			</div>
-			<div class="column is-one-quarter-fullhd is-one-third-widescreen is-one-third-tablet is-half-mobile">
-				<div class="box">
-					<a href="https://youtu.be/fDqxScdXlJw">
-					<b-image style="aspect-ratio: 23/5" lazy alt="Yotube video link for the tutorial in French."
-				:srcset="require('@/assets/video_tutorial.png').srcSet"
-        :placeholder="require('@/assets/video_tutorial.png').placeholder"
-				></b-image>
-					</a>
-				</div>
-			</div>
-		</div>
-		</div> -->
 		<section class="hero">
 			<div class="hero-body">
 				<div class="container">
 					<div class="columns">
 						<div class="column">
-					<p class="is-size-5 notification" align="justify">
-						<b-image style="aspect-ratio: 16/9" lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
-				:srcset="require('@/assets/IRL.png').srcSet"
-        :placeholder="require('@/assets/IRL.png').placeholder"
-				></b-image>
-				<br>
-				{{ $t('Communicate_IRL')}}
-					</p>
-					</div>
-					<br>
+              <div class="is-size-5 notification" align="justify">
+                <b-image style="aspect-ratio: 16/9" lazy alt="Image showing two people talking. One with Pictalk, the other by talking"
+                :srcset="require('@/assets/IRL.png').srcSet"
+                :placeholder="require('@/assets/IRL.png').placeholder"
+                />
+                {{ $t('Communicate_IRL')}}
+              </div>
+					  </div>
 					<div class="column">
-					<p class="is-size-5 notification" align="justify">
+					<div class="is-size-5 notification" align="justify">
 						<b-image style="aspect-ratio: 10/12; width: 60%;" class="center" lazy alt="Sample image of a copied sentence"
 				:srcset="require('@/assets/whatsapp.png').srcSet"
         :placeholder="require('@/assets/whatsapp.png').placeholder"
 				></b-image>
-				<br>
 				{{ $t('Communicate_Messages')}}
-					</p>
+					</div>
 					</div>
 					</div>
 				</div>
 			</div>
 		</section>
-    <div v-if="isAndroidDevice" class="container">
+    <div v-show="isAndroidDevice" class="container">
 			<a href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
 				<b-image
 					class="center"
@@ -164,7 +137,7 @@
 				></b-image>
 			</a>
 		</div>
-		<div v-if="isAppleDevice" class="container">
+		<div v-show="isAppleDevice" class="container">
 			<a href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
 				<b-image
 					class="center"
