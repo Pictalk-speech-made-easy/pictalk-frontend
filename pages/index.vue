@@ -7,7 +7,6 @@
           <b-image style="aspect-ratio: 16/9;" alt="screenshots of the Pictalk application running on different devices"
             :srcset="require('@/assets/Usages.png').srcSet"
             :placeholder="require('@/assets/Usages.png').placeholder"
-            :lazy="true"
             custom-class="slightly-rounded"
           />
           <section class="centeredBottomLeftText">
