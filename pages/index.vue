@@ -1,6 +1,14 @@
 <template>
 	<div>
     <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+    <div class="hidden-content">
+      <h1>
+        {{$t('TitleCompleteKeywords')}}
+      </h1>
+      <h2>
+        {{$t('DescriptionSEO')}}
+      </h2>
+    </div>
 		<div class="container is-max-widescreen">
 			<b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top" :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" >
         <b-carousel-item class="containing">
@@ -54,34 +62,34 @@
           <div class="columns is-mobile is-multiline">
               <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
                 <div class="centerIcon"><b-icon icon="image" size="is-large"/></div>
-                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature21') }}</p>
+                <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature21') }}</h2>
               </div>
               <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
                 <div class="centerIcon">
                 <b-icon icon="account-voice" size="is-large"></b-icon></div>
-                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature22') }}</p> 
+                <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature22') }}</h2> 
             
             </div>
               <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
                 <div class="centerIcon">
                 <b-icon icon="account-group" size="is-large"></b-icon></div>
-                <p class="subtitle is-6 feature-text">{{ $t('HomeFeature23') }}</p>
+                <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature23') }}</h2>
               </div>
         
             <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
               <div class="centerIcon">
               <b-icon icon="cloud-refresh" size="is-large"></b-icon></div>
-              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature24') }}</p>
+              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature24') }}</h2>
             </div>
             <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
               <div class="centerIcon">
               <b-icon icon="tablet-cellphone" size="is-large"></b-icon></div>
-              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature25') }}</p>
+              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature25') }}</h2>
             </div>
             <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
               <div class="centerIcon">
               <b-icon icon="currency-usd-off" size="is-large"></b-icon></div>
-              <p class="subtitle is-6 feature-text">{{ $t('HomeFeature26') }}</p>
+              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature26') }}</h2>
             </div>
           </div>
           <div class="subtitle">{{ $t('TheyUsePictalk') }}</div>
@@ -178,7 +186,7 @@
     <section class="hero">
 			<div class="hero-body">
 				<div class="container">
-					<h1 class="title">{{ $t('HomeTitle1')}}</h1>
+					<h2 class="title">{{ $t('HomeTitle1')}}</h2>
 					<p class="is-size-5 notification spacing" align="justify">
 						{{ $t('HomeText1')}}
 					</p>
@@ -415,5 +423,8 @@ export default {
 .centerIcon {
   text-align: center;
   font-size: 5rem;
+}
+.hidden-content {
+  display: none;
 }
 </style>
