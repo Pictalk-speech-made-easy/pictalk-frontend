@@ -8,6 +8,7 @@
             :srcset="require('@/assets/Usages.png').srcSet"
             :placeholder="require('@/assets/Usages.png').placeholder"
             custom-class="slightly-rounded"
+            :lazy="false"
           />
           <section class="centeredBottomLeftText">
             <div class="has-text-centered">
