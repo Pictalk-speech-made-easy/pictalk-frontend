@@ -131,7 +131,7 @@
             type="is-success is-light"
             icon-right="poll"
             tag="nuxt-link"
-            to="/administration"
+            to="/administration/"
           />
           <b-tooltip 
           position="is-bottom"

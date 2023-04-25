@@ -22,28 +22,29 @@
         <b-navbar-item
           id="news"
           tag="nuxt-link"
-          to="/news"
+          to="/news/"
           :class="navtabs.news"
           ><b class="bolder">{{ $t("News") }}</b> &#127881;</b-navbar-item
         >
         <b-navbar-item
           id="informations"
           tag="nuxt-link"
-          to="/informations"
+          to="/informations/"
           :class="navtabs.informations"
           ><b class="bolder">{{ $t("Informations") }}</b> 👐</b-navbar-item
         >
         <b-navbar-item
           id="tutorials"
           tag="nuxt-link"
-          to="/tutorials"
+          to="/tutorials/"
           :class="navtabs.tutorials"
           ><b class="bolder">{{ $t("Tutorial") }}</b> 🚀</b-navbar-item
         >
       </template>
       <template slot="end">
-        <b-navbar-dropdown collapsible :label="getEmoji(localeIso())">
+        <b-navbar-dropdown :tag="div" collapsible :label="getEmoji(localeIso())">
           <b-navbar-item
+            :tag="div"
             v-for="locale in availableLocales"
             :key="locale.code"
             @click.prevent.stop="$i18n.setLocale(locale.code)"
@@ -160,7 +161,7 @@ export default {
   methods: {
     searchPicto() {
       this.$router.push({
-        path: `/public`,
+        path: `/public/`,
         query: { ...this.$route.query, search: this.search },
       });
     },

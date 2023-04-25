@@ -20,7 +20,6 @@ export default {
         title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
       },
       title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
-      script: [{ innerHTML: '<h1>Test</h1>' }],
       meta: [
       ...i18nHead.meta,
         {

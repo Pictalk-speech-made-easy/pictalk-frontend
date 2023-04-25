@@ -15,7 +15,7 @@
         <b-button
           style="background-color: hsl(154, 100%, 70%)"
           :label="$t('PublicCollections')"
-          @click="goTo('/public')"
+          @click="goTo('/public/')"
           icon-left="web"
           class="fullWidth customButton"
         />

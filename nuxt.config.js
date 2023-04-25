@@ -27,7 +27,6 @@ export default {
   },
   head: {
     title: 'Pictalk AAC',
-    script: [{ innerHTML: '<h1>Test</h1>' }],
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
     link: [{
       rel: "icon",
@@ -100,7 +99,7 @@ export default {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       redirectOn: 'root',
-      alwaysRedirect: false
+      alwaysRedirect: true
     },
     locales: [
       {
