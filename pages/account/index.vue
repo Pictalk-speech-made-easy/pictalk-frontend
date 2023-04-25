@@ -2,7 +2,7 @@
   <div>
     <div class="container is-max-desktop" style="padding: 1rem">
       <body>
-        <section class="section" style="padding: 0%"
+        <section class="section" style="padding: 0%">
           <h1 class="title is-size-3-mobile">
             {{ $t("Settings") }}
           </h1>

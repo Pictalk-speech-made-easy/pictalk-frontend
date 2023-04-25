@@ -464,31 +464,29 @@ export default {
     }
   },
   async created() {
-    if (process.client) {
-      this.directSharers = [...this.user.directSharers];
-      for (let sharer of this.directSharers) {
-        this.directSharersObj.push({ username: sharer });
-      }
-      this.mailingList = [...this.user.mailingList];
-      this.displayedLanguage = this.localeCode();
-      if ('BroadcastChannel' in window) {
-        const bc = new BroadcastChannel("offline-ready");
-        bc.onmessage = (event) => {
-          if (event.isTrusted) {
-            this.offlineReadyTotal = event.data.total;
-            this.offlineReadyProgress = event.data.progress;
-          }
-        };
-      }
-      if ("storage" in navigator && "estimate" in navigator.storage) {
-        const usedStorage = (await navigator.storage.estimate()).usage;
-        if (usedStorage >= 1e6) {
-          this.storage = `${(usedStorage / 1e6).toFixed(1)}MB`;
-        } else if (usedStorage >= 1e3) {
-          this.storage = `${(usedStorage / 1e3).toFixed(1)}KB`;
-        } else {
-          this.storage = `${usedStorage}B`;
+    this.directSharers = [...this.user.directSharers];
+    for (let sharer of this.directSharers) {
+      this.directSharersObj.push({ username: sharer });
+    }
+    this.mailingList = [...this.user.mailingList];
+    this.displayedLanguage = this.localeCode();
+    if ('BroadcastChannel' in window) {
+      const bc = new BroadcastChannel("offline-ready");
+      bc.onmessage = (event) => {
+        if (event.isTrusted) {
+          this.offlineReadyTotal = event.data.total;
+          this.offlineReadyProgress = event.data.progress;
         }
+      };
+    }
+    if ("storage" in navigator && "estimate" in navigator.storage) {
+      const usedStorage = (await navigator.storage.estimate()).usage;
+      if (usedStorage >= 1e6) {
+        this.storage = `${(usedStorage / 1e6).toFixed(1)}MB`;
+      } else if (usedStorage >= 1e3) {
+        this.storage = `${(usedStorage / 1e3).toFixed(1)}KB`;
+      } else {
+        this.storage = `${usedStorage}B`;
       }
     }
   },

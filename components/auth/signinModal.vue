@@ -54,6 +54,7 @@ export default {
       loading: false,
     };
   },
+  middleware: ["axios"],
   methods: {
     async onSubmit() {
       this.loading = true;
