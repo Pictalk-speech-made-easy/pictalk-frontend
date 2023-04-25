@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export default function (context) {
   axios.interceptors.request.use((config) => {
-    console.log("axios interceptors")
     if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
       let token = localStorage.getItem('token');
       if (token) {
