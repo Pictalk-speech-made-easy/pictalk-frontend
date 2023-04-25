@@ -88,19 +88,12 @@
           <div class="tile is-ancestor">
             <div class="tile is-parent">
               <div class="tile is-child">
-                <div
-              class="subcard-img placeholder center"
-              :style="`background-image: url(${
-                require('@/assets/ADAPEI.png').placeholder
-              })`"
-            >
-              <img
-                class="subcard-img"
-                loading="lazy"
-                :srcset="require('@/assets/ADAPEI.png').srcSet"
-                alt="drawing of servers to illustrate the costs of running Pictalk application"
-              />
-            </div>
+                <b-image class="subcard-img center" alt="screenshots of the Pictalk application running on different devices"
+            :srcset="require('@/assets/ADAPEI.png').srcSet"
+            :placeholder="require('@/assets/ADAPEI.png').placeholder"
+            :lazy="true"
+				></b-image>
+                
               </div>
             </div>
           </div>
@@ -348,10 +341,6 @@ export default {
   object-fit: cover;
 }
 
-.placeholder {
-  background-size: cover;
-  background-position: center;
-}
 
 .signup-button {
   position: absolute;
