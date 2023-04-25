@@ -20,6 +20,7 @@ export default {
         title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
       },
       title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
+      script: [{ innerHTML: '<h1>Test</h1>' }],
       meta: [
       ...i18nHead.meta,
         {
@@ -42,6 +43,16 @@ export default {
           property: 'og:description', 
           content: this.$t("DescriptionSEO")
         },
+        {
+          hid: 'twitter-title',
+          property: 'twitter:title',
+          content: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`
+        },
+        {
+          hid: 'twitter-desc',
+          property: 'twitter:description',
+          content: this.$t("DescriptionSEO")
+        }
         
       ],
     };

@@ -27,6 +27,7 @@ export default {
   },
   head: {
     title: 'Pictalk AAC',
+    script: [{ innerHTML: '<h1>Test</h1>' }],
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
     link: [{
       rel: "icon",
@@ -208,7 +209,7 @@ export default {
     },
     manifest: {
       useWebmanifestExtension: 'true',
-      name: 'Pictalk AAC: Pictogram speaking for Autism and others',
+      name: 'Pictalk AAC: Communication pour autismes et plus ',
       short_name: "Pictalk AAC",
       orientation: "any",
       lang: 'en',

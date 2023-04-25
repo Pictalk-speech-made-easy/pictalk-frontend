@@ -182,11 +182,11 @@
 					<p class="is-size-5 notification spacing" align="justify">
 						{{ $t('HomeText1')}}
 					</p>
-					<h1 class="title">{{ $t('HomeTitle2')}}</h1>
+					<h2 class="title">{{ $t('HomeTitle2')}}</h2>
 					<p class="is-size-5 notification spacing" align="justify">
 						{{ $t('HomeText2')}}
 					</p>
-					<h1 class="title">{{ $t('HomeTitle3')}}</h1>
+					<h2 class="title">{{ $t('HomeTitle3')}}</h2>
 					<p class="is-size-5 notification" align="justify">
 						{{ $t('HomeText3')}}
 					</p>
