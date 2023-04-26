@@ -59,44 +59,44 @@
     <section class="hero">
 			<div class="hero-body">
 				<div class="container">
-          <div class="columns is-mobile is-multiline">
+          <div class="columns is-mobile is-multiline bg-icons bg-dotted">
               <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-                <div class="centerIcon"><b-icon icon="image" size="is-large"/></div>
+                <div class="centerIcon" style="color: #7aa0ff"><b-icon icon="image" size="is-large"/></div>
                 <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature21') }}</h2>
               </div>
               <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-                <div class="centerIcon">
+                <div class="centerIcon" style="color: #9884f0">
                 <b-icon icon="account-voice" size="is-large"></b-icon></div>
                 <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature22') }}</h2> 
             
             </div>
               <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-                <div class="centerIcon">
+                <div class="centerIcon" style="color: #db488f">
                 <b-icon icon="account-group" size="is-large"></b-icon></div>
                 <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature23') }}</h2>
               </div>
         
             <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon">
+              <div class="centerIcon" style="color: #ff7b29">
               <b-icon icon="cloud-refresh" size="is-large"></b-icon></div>
               <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature24') }}</h2>
             </div>
             <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon">
+              <div class="centerIcon" style="color: #ffbb29">
               <b-icon icon="tablet-cellphone" size="is-large"></b-icon></div>
               <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature25') }}</h2>
             </div>
             <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon">
+              <div class="centerIcon" style="color: #88d143">
               <b-icon icon="currency-usd-off" size="is-large"></b-icon></div>
               <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature26') }}</h2>
             </div>
           </div>
-          <div class="subtitle">{{ $t('TheyUsePictalk') }}</div>
+          <div class="subtitle usage-text">{{ $t('TheyUsePictalk') }} 😎</div>
           <div class="tile is-ancestor">
             <div class="tile is-parent">
               <div class="tile is-child">
-                <b-image class="subcard-img center" alt="screenshots of the Pictalk application running on different devices"
+                <b-image class="subcard-img center" alt="Logo of ADAPEI 69"
             :srcset="require('@/assets/ADAPEI.png').srcSet"
             :placeholder="require('@/assets/ADAPEI.png').placeholder"
             :lazy="true"
@@ -349,7 +349,11 @@ export default {
   object-fit: cover;
 }
 
-
+.bg-dotted{
+  background-image: radial-gradient(#00000020 2px, transparent 0);
+  background-size: 60px 60px;
+  background-position: -20px -20px;
+}
 .signup-button {
   position: absolute;
   top: 90%;
@@ -370,9 +374,22 @@ export default {
   padding: 0px;
 }
 
+.usage-text{
+  margin-top: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 .feature-text {
   padding: 3px; 
   text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+@media screen and (min-width: 768px) {
+  .feature-text {
+    font-size: 1rem;
+  }
 }
 .center {
   display: block;
@@ -420,9 +437,18 @@ export default {
   background-color: #edf1f5;
   border-radius: 12px;
 }
+
+.bg-icons{
+  background-color: #edf1f5;
+  border-radius: 12px;
+  padding: 0.3em;
+  border: solid 1px #00000020;
+}
 .centerIcon {
+  text-shadow: #00000070 2px 2px 3px;
+  -webkit-text-stroke: 1px #00000070;
   text-align: center;
-  font-size: 5rem;
+  font-size: clamp(3.5rem, 10vw, 5rem);
 }
 .hidden-content {
   display: none;
