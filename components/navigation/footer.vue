@@ -67,11 +67,11 @@
           >GNU</a
         >.
         {{ $t("TakeALook") }}
-        <nuxt-link to="/legal-infos/terms-of-use" class="morecontrast">{{
+        <nuxt-link to="/legal-infos/terms-of-use/" class="morecontrast">{{
           $t("TermsOfUse")
         }}</nuxt-link>
         {{ $t("And") }}
-        <nuxt-link to="/legal-infos/privacy-policy" class="morecontrast">{{
+        <nuxt-link to="/legal-infos/privacy-policy/" class="morecontrast">{{
           $t("PrivacyPolicy")
         }}</nuxt-link
         >. <b>PicTalk</b> {{ $t("ProjectBackedBy") }}
@@ -94,6 +94,15 @@
           :responsive="false"
           :srcset="require('@/assets/DigitalOcean.png').srcSet"
           alt="Logo of DigitalOcean"
+          custom-class="imgpixelslimit"
+        />
+      </div>
+      <div class="column centerImage">
+        <b-image
+          :lazy="true"
+          :responsive="false"
+          :srcset="require('@/assets/gandi.png').srcSet"
+          alt="Logo of Gandi"
           custom-class="imgpixelslimit"
         />
       </div>

@@ -12,6 +12,50 @@
 import navbar from "@/components/navigation/navbar";
 import footerPictalk from "@/components/navigation/footer";
 export default {
+  head() {
+    const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
+    return {
+      htmlAttrs: {
+        ...i18nHead.htmlAttrs,
+        title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
+      },
+      title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
+      meta: [
+      ...i18nHead.meta,
+        {
+          hid: "description",
+          name: "description",
+          content: this.$t("DescriptionSEO"),
+        },
+        {
+          hid: "title",
+          name: "title",
+          content: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`
+        },
+        { 
+          hid: 'og-title', 
+          property: 'og:title', 
+          content: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`
+        },
+        { 
+          hid: 'og-desc', 
+          property: 'og:description', 
+          content: this.$t("DescriptionSEO")
+        },
+        {
+          hid: 'twitter-title',
+          property: 'twitter:title',
+          content: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`
+        },
+        {
+          hid: 'twitter-desc',
+          property: 'twitter:description',
+          content: this.$t("DescriptionSEO")
+        }
+        
+      ],
+    };
+  },
   components: {
     navbar,
     footerPictalk,

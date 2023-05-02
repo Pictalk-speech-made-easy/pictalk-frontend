@@ -71,7 +71,7 @@
               />
             </div>
             <h5 class="centered is-size-5 is-size-5-mobile">
-              <b>{{ $t("DonationInformatics") }}: 30€</b>
+              <b>{{ $t("DonationInformatics") }}: {{ $t("DonationInformaticsAmount") }}</b>
             </h5>
             <div class="centered is-size-5 subcard-text">
               {{ $t("DonationInformaticsText") }}

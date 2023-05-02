@@ -187,11 +187,11 @@
 					</b-checkbox-button>
           <p>
           {{ $t("IHaveRead") }}
-						<nuxt-link to="/legal-infos/terms-of-use">{{
+						<nuxt-link to="/legal-infos/terms-of-use/">{{
 							$t("TermsOfUse")
 						}} </nuxt-link>
 						{{ $t("And") }}
-						<nuxt-link to="/legal-infos/privacy-policy">{{
+						<nuxt-link to="/legal-infos/privacy-policy/">{{
 							$t("PrivacyPolicy")
 						}}</nuxt-link
 						>.

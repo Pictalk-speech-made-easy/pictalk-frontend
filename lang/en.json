@@ -218,7 +218,7 @@
   "SharingExplanation": "Pictograms shared by those content creators will apprear directly in your home screen and not only your 'Shared with me' collection",
   "TitlePublic": "Public pictograms",
   "TitleTutorial": "Tutorial",
-  "DescriptionNews": "Pictalk development News,providing free speech for all. Based on AAC pictograms and TTS.",
+  "DescriptionNews": "Pictalk development news,providing free speech for all.",
   "DescriptionHelp": "Need help ? Basic features around Pictalk. Based on AAC pictograms and TTS.",
   "DescriptionTutorial": "New User ? This tutorial will get you right on tracks ! Based on AAC pictograms and TTS.",
   "DescriptionPublic": "Here you can find all of the free public AAC pictograms provided by generous individuals",
@@ -389,5 +389,16 @@
   "UseOfData1": "✅ The only data we keep are the pictograms you create, you can delete them at any time",
   "UseOfData2": "✅ As we are non profit, we do not communicate or sell your data to anyone",
   "UseOfData3": "✅ We do not use cookies",
-  "UseOfData4": "✅ You can delete your account at any time"
+  "UseOfData4": "✅ You can delete your account at any time",
+  "HomeFeature21": "Build infinite and custom pictogram collections",
+  "HomeFeature22": "Communicate and tune your own voice",
+  "HomeFeature23": "Collaborate and share your collections",
+  "HomeFeature24": "Access your account from anywhere",
+  "HomeFeature25": "Compatible with any device",
+  "HomeFeature26": "Free and open-source",
+  "DonationInformaticsAmount": "Free thanks to Gandi.net",
+  "GandiSponsoring": "Gandi.net helps us with a free access to powerful servers",
+  "TheyUsePictalk": "They use Pictalk",
+  "TitleCompleteKeywords": "Talk with pictograms for autisms and more",
+  "DescriptionSEO": "Pictalk helps people with physical or mental condition communicate with the help of pictograms and pictures. It can be: Autism, Down Syndrome, apraxia, stroke and others"
 }

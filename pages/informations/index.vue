@@ -214,20 +214,8 @@ export default {
       },
       test: 0,
       items: [
-        {
-          title: "Fondation INSA Lyon",
-          description: this.$t("INSALyonSponsoring"),
-          image: require("@/assets/InsaFondation.png").srcSet,
-          placeholder: require("@/assets/InsaFondation.png").placeholder,
-          url: "https://fondation.insa-lyon.fr/",
-        },
-        {
-          title: "Digital Ocean",
-          description: this.$t("DigitalOceanSponsoring"),
-          image: require("@/assets/DigitalOcean.png").srcSet,
-          placeholder: require("@/assets/DigitalOcean.png").placeholder,
-          url: "https://www.digitalocean.com/",
-        },
+        
+        
         {
           title: "Adapei 69",
           image: require("@/assets/ADAPEI.png").srcSet,
@@ -241,6 +229,27 @@ export default {
           placeholder: require("@/assets/logo-ARASAAC.png").placeholder,
           description: this.$t("ARASAACSponsoring"),
           url: "https://arasaac.org/",
+        },
+        {
+          title: "Gandi.net",
+          image: require("@/assets/gandi.png").srcSet,
+          placeholder: require("@/assets/gandi.png").placeholder,
+          description: this.$t("GandiSponsoring"),
+          url: "https://www.gandi.net/en-GB",
+        },
+        {
+          title: "Fondation INSA Lyon",
+          description: this.$t("INSALyonSponsoring"),
+          image: require("@/assets/InsaFondation.png").srcSet,
+          placeholder: require("@/assets/InsaFondation.png").placeholder,
+          url: "https://fondation.insa-lyon.fr/",
+        },
+        {
+          title: "Digital Ocean",
+          description: this.$t("DigitalOceanSponsoring"),
+          image: require("@/assets/DigitalOcean.png").srcSet,
+          placeholder: require("@/assets/DigitalOcean.png").placeholder,
+          url: "https://www.digitalocean.com/",
         },
       ],
     };
