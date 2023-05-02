@@ -206,7 +206,7 @@
     "SharingExplanation": "Pictogramas partilhados pelos seus amigos serão apreciados directamente no seu ecrã inicial e não apenas na sua colecção 'Partilhados comigo'.",
     "TitlePublic": "Pictogramas públicos",
     "TitleTutorial": "Tutorial",
-    "DescriptionNews": "Pictalk Development News,proporcionando liberdade de expressão para todos. Com base em pictogramas AAC e TTS.",
+    "DescriptionNews": "Notícias sobre o desenvolvimento do Pictalk, proporcionando liberdade de expressão a todos.",
     "DescriptionHelp": "Precisa de ajuda? Características básicas em torno de Pictalk. Baseado em pictogramas AAC e TTS.",
     "DescriptionTutorial": "Novo Utilizador ? Este tutorial vai pô-lo no caminho certo! Baseado em pictogramas AAC e TTS.",
     "DescriptionPublic": "Aqui pode encontrar todos os pictogramas AAC públicos gratuitos fornecidos por indivíduos generosos",
@@ -389,5 +389,16 @@
     "ValidationMessagePasswordConfirmation": "As palavras-passe não coincidem",
     "UseOfData1": "✅ Os únicos dados que guardamos são os pictogramas que cria, pode apagá-los a qualquer momento",
     "UseOfData2": "✅ Como não temos fins lucrativos, não comunicamos nem vendemos os seus dados a ninguém",
-    "UseOfData4": "✅ Pode apagar a sua conta em qualquer altura"
+    "UseOfData4": "✅ Pode apagar a sua conta em qualquer altura",
+    "HomeFeature21": "Criar colecções de pictogramas infinitas e personalizadas",
+    "HomeFeature22": "Comunicar e afinar a sua própria voz",
+    "HomeFeature23": "Colabore e partilhe as suas colecções",
+    "HomeFeature24": "Aceder à sua conta a partir de qualquer lugar",
+    "HomeFeature25": "Compatível com qualquer dispositivo",
+    "HomeFeature26": "Livre e de código aberto",
+    "DonationInformaticsAmount": "Gratuito graças a Gandi.net",
+    "GandiSponsoring": "Gandi.net ajuda-nos com um acesso gratuito a servidores potentes",
+    "TheyUsePictalk": "Utilizam o Pictalk",
+    "TitleCompleteKeywords": "Conversa com pictogramas para autismos e muito mais",
+    "DescriptionSEO": "O Pictalk ajuda as pessoas com problemas físicos ou mentais a comunicar com a ajuda de pictogramas e imagens. Pode ser: Autismo, Síndrome de Down, apraxia, AVC e outros"
 }
