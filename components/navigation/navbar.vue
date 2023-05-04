@@ -1,5 +1,6 @@
 <template>
   <div>
+    <client-only>
     <b-navbar fixed-top>
       <template slot="brand">
         <b-navbar-item
@@ -98,6 +99,7 @@
         </b-navbar-item>
       </template>
     </b-navbar>
+  </client-only>
   </div>
 </template>
 

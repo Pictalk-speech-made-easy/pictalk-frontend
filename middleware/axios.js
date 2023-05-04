@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export default function (context) {
   axios.interceptors.request.use((config) => {
     if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
@@ -13,6 +12,7 @@ export default function (context) {
     (error) => {
       return Promise.reject(error);
     });
+
   /*
 axios.interceptors.response.use((response) => {
   // If err 401 redirect to homepage with notifications
