@@ -16,9 +16,12 @@ export default {
   components: {
     navbar,
   },
+  destroyed() {
+    clearTimeout(this.showPopupTimeout);
+  },
   created() {
     // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
-    setTimeout(() => {
+    this.showPopupTimeout = setTimeout(() => {
       if (!Cookie.get('popup') && !this.$store.getters.isAuthenticated) {
       this.$buefy.modal.open({
         parent: this,

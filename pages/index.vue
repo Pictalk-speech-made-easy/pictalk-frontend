@@ -1,6 +1,5 @@
 <template>
 	<div>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
 		<div class="container is-max-widescreen">
 			<b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top" :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" >
         <b-carousel-item class="containing">
@@ -24,7 +23,8 @@
             <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{$t('CommunicateDemo')}}</div>
           </section>
         </b-carousel-item>
-        <b-carousel-item v-if="this.getUserLang == 'fr'" class="containing">
+        <client-only>
+        <b-carousel-item v-show="this.getUserLang == 'fr'" class="containing">
           <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 99.1%;" alt="video of Alex talking about pictalk"
             :src="require('@/static/pictalk.mp4')"
             controls
@@ -33,6 +33,7 @@
             class="slightly-rounded"
           ></video>
         </b-carousel-item>
+      </client-only>
 				<b-carousel-item class="containing">
           <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
             :srcset="require('@/assets/Share.png').srcSet"
@@ -242,35 +243,39 @@ export default {
     }
   },
   mounted() {
-    if (this.getUserLang == "fr") {
-      const video = document.getElementById("pictalk-video");
-      video.addEventListener("ended", () => {
-        this.carouselAutoplay = true;
-        this.ended = true;
-      });
-      video.addEventListener("play", () => {
-        this.carouselAutoplay = false;
-      });
-      video.addEventListener("pause", () => {
-        this.carouselAutoplay = true;
-      });
-      let observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.intersectionRatio !== 1) {
-              video.pause();
-              this.carouselAutoplay = true;
-            } else {
-              if (this.ended == false) {
-                video.play();
-                this.carouselAutoplay = false;
+    if (process.client) {
+      if (this.getUserLang == "fr") {
+        const video = document.getElementById("pictalk-video");
+        if (video) {
+        video.addEventListener("ended", () => {
+          this.carouselAutoplay = true;
+          this.ended = true;
+        });
+        video.addEventListener("play", () => {
+          this.carouselAutoplay = false;
+        });
+        video.addEventListener("pause", () => {
+          this.carouselAutoplay = true;
+        });
+        let observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.intersectionRatio !== 1) {
+                video.pause();
+                this.carouselAutoplay = true;
+              } else {
+                if (this.ended == false) {
+                  video.play();
+                  this.carouselAutoplay = false;
+                }
               }
-            }
-          });
-        },
-        { threshold: 0.2 }
-      );
-      observer.observe(video);
+            });
+          },
+          { threshold: 0.2 }
+        );
+        observer.observe(video);
+      }
+      }
     }
   },
   middleware: ["check-auth"],

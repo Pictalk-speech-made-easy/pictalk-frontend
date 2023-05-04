@@ -1,6 +1,5 @@
 <template>
   <div>
-    <client-only>
     <b-navbar fixed-top>
       <template slot="brand">
         <b-navbar-item
@@ -43,6 +42,7 @@
         >
       </template>
       <template slot="end">
+        <client-only>
         <b-navbar-dropdown tag="div" collapsible :label="getEmoji(localeIso())">
           <b-navbar-item
             href="#"
@@ -97,9 +97,9 @@
             >
           </div>
         </b-navbar-item>
+      </client-only>
       </template>
     </b-navbar>
-  </client-only>
   </div>
 </template>
 

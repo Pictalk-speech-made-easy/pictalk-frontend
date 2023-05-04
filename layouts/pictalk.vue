@@ -1,11 +1,14 @@
 <template>
-  <client-only>
-  <div class="wrapper">
-    <pictalkNavbar />
-    <hr class="margins" />
-    <nuxt />
-  </div>
+  <div>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+    <client-only>
+      <div class="wrapper">
+        <pictalkNavbar />
+        <hr class="margins" />
+        <nuxt />
+      </div>
   </client-only>
+</div>
 </template>
 <script >
 import pictalkNavbar from "@/components/navigation/pictalk-navbar";
