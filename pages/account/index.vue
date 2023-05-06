@@ -26,9 +26,9 @@ export default {
   },
   middleware: ["check-auth", "auth", "axios"],
   layout: "pictalk",
-  async asyncData(context) {
-    const user = context.store.getters.getUser;
-    const collections = context.store.getters.getCollections;
+  async fetch() {
+    const user = this.store.getters.getUser;
+    const collections = this.store.getters.getCollections;
     if (user.username) {
       return;
     } else {

@@ -32,6 +32,7 @@ export const mutations = {
     state.temporaryLanguage = null;
     state.publicBundles = null;
     state.dragndrop = null;
+    state.token = null;
   },
   async setPublicBundles(state, bundles) {
     state.publicBundles = bundles;

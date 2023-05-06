@@ -59,7 +59,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persist', ssr: false }],
+  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */
