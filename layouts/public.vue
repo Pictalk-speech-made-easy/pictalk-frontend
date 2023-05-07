@@ -14,9 +14,15 @@ export default {
   components: {
     navbar,
   },
+  data() {
+    return {
+      popupTimeout: null,
+    };
+  },
   created() {
     // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
-    setTimeout(() => {
+    console.log(this.popupTimeout);
+    this.popupTimeout = setTimeout(() => {
       if (!Cookie.get('popup') && !this.$store.getters.isAuthenticated) {
       this.$buefy.modal.open({
         parent: this,
@@ -31,7 +37,7 @@ export default {
       Cookie.set('popup', true, { expires: 3 });
     }
     }, 30000);
-    
+    console.log(this.popupTimeout);
     if (
       this.$store.getters.isAuthenticated &&
       this.$store.getters.getUser &&
@@ -43,6 +49,11 @@ export default {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
     }
+  },
+  destroyed() {
+    console.log(this.popupTimeout);
+    clearTimeout(this.popupTimeout);
+    console.log(this.popupTimeout);
   },
 };
 </script>
