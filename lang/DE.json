@@ -206,7 +206,7 @@
     "SharingExplanation": "Von Ihren Freunden geteilte Piktogramme erscheinen direkt auf Ihrem Startbildschirm und nicht nur in der Sammlung \"Mit mir geteilt\".",
     "TitlePublic": "Öffentliche Piktogramme",
     "TitleTutorial": "Tutorial",
-    "DescriptionNews": "Pictalk-Entwicklung Nachrichten, die freie Sprache für alle ermöglichen. Basierend auf Piktogrammen der Unterstützten Kommunikation und TTS.",
+    "DescriptionNews": "Pictalk Entwicklungsnachrichten, die freie Meinungsäußerung für alle ermöglichen.",
     "DescriptionHelp": "Brauchen Sie Hilfe? Grundlegende Funktionen rund um Pictalk. Basierend auf Piktogrammen der Unterstützten Kommunikation und TTS.",
     "DescriptionTutorial": "Neuer Benutzer? Dieses Tutorial wird Sie auf die richtige Spur bringen! Basierend auf AAC-Piktogrammen und TTS.",
     "DescriptionPublic": "Hier finden Sie alle kostenlosen öffentlichen Piktogramme der Unterstützten Kommunikation, die von großzügigen Einzelpersonen zur Verfügung gestellt wurden",
@@ -389,5 +389,16 @@
     "UseOfData1": "✅ Die einzigen Daten, die wir aufbewahren, sind die von Ihnen erstellten Piktogramme; Sie können sie jederzeit löschen.",
     "UseOfData2": "✅ Da wir nicht gewinnorientiert sind, werden wir Ihre Daten nicht an Dritte weitergeben oder verkaufen.",
     "UseOfData3": "✅ Wir verwenden keine Cookies",
-    "UseOfData4": "✅ Sie können Ihr Konto jederzeit löschen"
+    "UseOfData4": "✅ Sie können Ihr Konto jederzeit löschen",
+    "HomeFeature21": "Erstellen Sie unendliche und benutzerdefinierte Piktogrammsammlungen",
+    "HomeFeature22": "Kommunizieren Sie und stimmen Sie Ihre eigene Stimme ab",
+    "HomeFeature23": "Zusammenarbeit und gemeinsame Nutzung Ihrer Sammlungen",
+    "HomeFeature24": "Zugriff auf Ihr Konto von überall",
+    "HomeFeature25": "Kompatibel mit jedem Gerät",
+    "HomeFeature26": "Frei und Open-Source",
+    "DonationInformaticsAmount": "Kostenlos dank Gandi.net",
+    "GandiSponsoring": "Gandi.net hilft uns mit einem kostenlosen Zugang zu leistungsstarken Servern",
+    "TheyUsePictalk": "Sie verwenden Pictalk",
+    "TitleCompleteKeywords": "Gespräche mit Piktogrammen für Autismus und mehr",
+    "DescriptionSEO": "Pictalk hilft Menschen mit körperlichen oder geistigen Einschränkungen, mit Hilfe von Piktogrammen und Bildern zu kommunizieren. Das kann sein: Autismus, Down-Syndrom, Apraxie, Schlaganfall und andere"
 }

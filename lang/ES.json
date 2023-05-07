@@ -206,7 +206,7 @@
     "SharingExplanation": "Los pictogramas compartidos por tus amigos aparecerán directamente en tu pantalla de inicio y no sólo en tu colección de \"Compartidos conmigo\".",
     "TitlePublic": "Pictogramas públicos",
     "TitleTutorial": "Tutorial",
-    "DescriptionNews": "Desarrollo de Pictalk Noticias, proporcionando el habla libre para todos. Basado en pictogramas de CAA y TTS.",
+    "DescriptionNews": "Pictalk, noticias sobre desarrollo, libertad de expresión para todos.",
     "DescriptionHelp": "¿Necesitas ayuda? Características básicas de Pictalk. Basado en pictogramas AAC y TTS.",
     "DescriptionTutorial": "¿Nuevo usuario? ¡Este tutorial te pondrá en marcha! Basado en pictogramas AAC y TTS.",
     "DescriptionPublic": "Aquí puede encontrar todos los pictogramas públicos de CAA gratuitos proporcionados por personas generosas",
@@ -389,5 +389,16 @@
     "ValidationMessagePasswordConfirmation": "Las contraseñas no coinciden",
     "UseOfData1": "✅ Los únicos datos que conservamos son los pictogramas que creas, puedes borrarlos en cualquier momento",
     "UseOfData2": "✅ Como no tenemos ánimo de lucro, no comunicamos ni vendemos tus datos a nadie",
-    "UseOfData4": "✅ Puede eliminar su cuenta en cualquier momento"
+    "UseOfData4": "✅ Puede eliminar su cuenta en cualquier momento",
+    "HomeFeature21": "Construye colecciones de pictogramas infinitas y personalizadas",
+    "HomeFeature22": "Comunicar y afinar su propia voz",
+    "HomeFeature23": "Colabora y comparte tus colecciones",
+    "HomeFeature24": "Acceda a su cuenta desde cualquier lugar",
+    "HomeFeature25": "Compatible con cualquier dispositivo",
+    "HomeFeature26": "Gratuito y de código abierto",
+    "DonationInformaticsAmount": "Gratis gracias a Gandi.net",
+    "GandiSponsoring": "Gandi.net nos ayuda con un acceso gratuito a potentes servidores",
+    "TheyUsePictalk": "Utilizan Pictalk",
+    "TitleCompleteKeywords": "Hablar con pictogramas para autismos y más",
+    "DescriptionSEO": "Pictalk ayuda a las personas con problemas físicos o mentales a comunicarse con ayuda de pictogramas e imágenes. Pueden ser: Autismo, síndrome de Down, apraxia, ictus y otros."
 }

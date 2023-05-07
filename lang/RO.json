@@ -206,7 +206,7 @@
     "SharingExplanation": "Pictogramele partajate de prietenii tăi vor apărea direct pe ecranul de start și nu doar în colecția \"Împărtășit cu mine\".",
     "TitlePublic": "Pictograme publice",
     "TitleTutorial": "Tutorial",
-    "DescriptionNews": "Pictalk development News, care asigură libertatea de exprimare pentru toți. Bazat pe pictograme AAC și TTS.",
+    "DescriptionNews": "Știrile de dezvoltare Pictalk, care asigură libertatea de exprimare pentru toți.",
     "DescriptionHelp": "Aveți nevoie de ajutor? Caracteristici de bază în jurul Pictalk. Bazat pe pictograme AAC și TTS.",
     "DescriptionTutorial": "Utilizator nou ? Acest tutorial vă va pune pe drumul cel bun! Bazat pe pictograme AAC și TTS.",
     "DescriptionPublic": "Aici puteți găsi toate pictogramele AAC publice gratuite puse la dispoziție de persoane generoase.",
@@ -389,5 +389,16 @@
     "UseOfData1": "✅ Singurele date pe care le păstrăm sunt pictogramele pe care le creați, le puteți șterge în orice moment.",
     "UseOfData2": "✅ Deoarece suntem non-profit, nu comunicăm și nu vindem datele dumneavoastră nimănui.",
     "UseOfData3": "✅ Noi nu folosim cookie-uri",
-    "UseOfData4": "✅ Vă puteți șterge contul în orice moment"
+    "UseOfData4": "✅ Vă puteți șterge contul în orice moment",
+    "HomeFeature21": "Construiți colecții infinite și personalizate de pictograme",
+    "HomeFeature22": "Comunicați și acordați-vă propria voce",
+    "HomeFeature23": "Colaborați și partajați colecțiile dvs.",
+    "HomeFeature24": "Accesați contul dvs. de oriunde",
+    "HomeFeature25": "Compatibil cu orice dispozitiv",
+    "HomeFeature26": "Gratuit și open-source",
+    "DonationInformaticsAmount": "Gratuit datorită Gandi.net",
+    "GandiSponsoring": "Gandi.net ne ajută cu un acces gratuit la servere puternice",
+    "TheyUsePictalk": "Ei folosesc Pictalk",
+    "TitleCompleteKeywords": "Discuție cu pictograme pentru autism și nu numai",
+    "DescriptionSEO": "Pictalk ajută persoanele cu afecțiuni fizice sau mentale să comunice cu ajutorul pictogramelor și imaginilor. Acesta poate fi: autism, sindromul Down, apraxie, accident vascular cerebral și altele."
 }
