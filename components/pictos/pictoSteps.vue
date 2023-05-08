@@ -699,7 +699,6 @@ export default {
             this.file?.url?.includes("arasaac") ||
             this.file?.url?.includes("tawasol")
           ) {
-            console.log(this.file);
             cfile = this.file;
           } else {
             const myNewFile = new File(

@@ -1,6 +1,6 @@
 import pkg from './package.json'
 export default {
-  ssr: false,
+  ssr: true,
   target: 'static',
   server: {
     host: '0.0.0.0', // default: localhost,
@@ -26,7 +26,7 @@ export default {
 
   },
   head: {
-    title: 'Pictalk AAC',
+    title: 'Pictalk AAC: Communication pour autismes et plus',
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
     link: [{
       rel: "icon",
@@ -59,7 +59,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL"],
+  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -208,7 +208,7 @@ export default {
     },
     manifest: {
       useWebmanifestExtension: 'true',
-      name: 'Pictalk AAC: Communication pour autismes et plus ',
+      name: 'Pictalk AAC: Communication pour autismes et plus',
       short_name: "Pictalk AAC",
       orientation: "any",
       lang: 'en',
@@ -261,6 +261,8 @@ export default {
   build: {
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
-    }
+      config.resolve.symlinks = false;
+    },
+    transpile: ['merge-images-horizontally-with-text'],
   },
 };

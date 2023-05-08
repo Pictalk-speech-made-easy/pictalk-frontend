@@ -1,9 +1,11 @@
 <template>
   <div class="wrapper">
-    <navbar />
-    <hr style="margin: 20px" />
-    <nuxt />
-    <br />
+    <client-only>
+      <navbar />
+      <hr style="margin: 20px" />
+      <nuxt />
+      <br />
+    </client-only>
   </div>
 </template>
 <script >
@@ -13,6 +15,9 @@ import Cookie from "js-cookie";
 export default {
   components: {
     navbar,
+  },
+  destroyed() {
+    clearTimeout(this.showPopupTimeout);
   },
   data() {
     return {

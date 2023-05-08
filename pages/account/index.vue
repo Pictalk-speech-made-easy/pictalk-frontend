@@ -2,7 +2,7 @@
   <div>
     <div class="container is-max-desktop" style="padding: 1rem">
       <body>
-        <section class="section" style="padding: 0%"
+        <section class="section" style="padding: 0%">
           <h1 class="title is-size-3-mobile">
             {{ $t("Settings") }}
           </h1>
@@ -26,9 +26,9 @@ export default {
   },
   middleware: ["check-auth", "auth", "axios"],
   layout: "pictalk",
-  async asyncData(context) {
-    const user = context.store.getters.getUser;
-    const collections = context.store.getters.getCollections;
+  async fetch() {
+    const user = this.store.getters.getUser;
+    const collections = this.store.getters.getCollections;
     if (user.username) {
       return;
     } else {

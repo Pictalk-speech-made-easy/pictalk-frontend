@@ -1,9 +1,7 @@
-import Vue from 'vue';
 import axios from 'axios';
-
 export default function (context) {
   axios.interceptors.request.use((config) => {
-    if (process.client && !config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
+    if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
       let token = localStorage.getItem('token');
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
@@ -14,6 +12,7 @@ export default function (context) {
     (error) => {
       return Promise.reject(error);
     });
+
   /*
 axios.interceptors.response.use((response) => {
   // If err 401 redirect to homepage with notifications
@@ -27,6 +26,3 @@ axios.interceptors.response.use((response) => {
   }
 });*/
 }
-
-
-//Vue.use(axios);

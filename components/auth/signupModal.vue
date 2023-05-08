@@ -1,4 +1,5 @@
 <template>
+  <client-only>
 	<form action>
 		<div class="modal-card" >
 			<header class="modal-card-head" >
@@ -284,6 +285,7 @@
 			</footer>
 		</div>
 	</form>
+</client-only>
 </template>
 
 <script >

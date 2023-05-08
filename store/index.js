@@ -1,8 +1,6 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-import createPersistedState from 'vuex-persistedstate';
 export const strict = false;
-export const plugins = [createPersistedState()];
 export const state = () => ({
   collections: [],
   pictos: [],
@@ -34,6 +32,7 @@ export const mutations = {
     state.temporaryLanguage = null;
     state.publicBundles = null;
     state.dragndrop = null;
+    state.token = null;
   },
   async setPublicBundles(state, bundles) {
     state.publicBundles = bundles;
@@ -467,6 +466,20 @@ export const actions = {
     localStorage.setItem("tokenExpiration", expDate);
     Cookie.set("jwt", res.data.accessToken, { sameSite: 'none', secure: true, expires: 7 });
     Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true, expires: 7 });
+
+    axios.interceptors.request.use((config) => {
+      if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
+        let token = localStorage.getItem('token');
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+      }
+      return config;
+    },
+      (error) => {
+        return Promise.reject(error);
+      });
+
     return res;
   },
   initAuth(vuexContext, req) {

@@ -1,4 +1,5 @@
 <template>
+  <client-only>
   <form action @keyup.enter="onSubmit()">
     <div class="modal-card" style="min-height: 30vh">
       <header class="modal-card-head">
@@ -43,6 +44,7 @@
       </footer>
     </div>
   </form>
+</client-only>
 </template>
 <script >
 import signup from "@/components/auth/signupModal";
@@ -54,6 +56,7 @@ export default {
       loading: false,
     };
   },
+  middleware: ["axios"],
   methods: {
     async onSubmit() {
       this.loading = true;

@@ -479,7 +479,6 @@ export default {
         }
       };
     }
-  
     if ("storage" in navigator && "estimate" in navigator.storage) {
       const usedStorage = (await navigator.storage.estimate()).usage;
       if (usedStorage >= 1e6) {

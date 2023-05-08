@@ -39,6 +39,18 @@
           </a>
         </div>
         <div class="column centerImage">
+          <a href="https://www.youtube.com/channel/UCPb9icb_q3b0Kb4YhTLZqpA">
+            <b-image
+              style="height: 42px"
+              lazy
+              :responsive="false"
+              :srcset="require('@/assets/linkedin.webp').srcSet"
+              alt="Youtube logo"
+              custom-class="imgpixelslimitvw portrait grayscale"
+            />
+          </a>
+        </div>
+        <div class="column centerImage">
           <a href="mailto:alex@pictalk.org">
             <b-image
               style="height: 42px"

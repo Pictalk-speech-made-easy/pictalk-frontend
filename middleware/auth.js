@@ -1,5 +1,7 @@
 export default function (context) {
-  if (!context.store.getters.isAuthenticated) {
-    context.redirect('/');
+  if (process.client) {
+    if (!context.store.getters.isAuthenticated) {
+      context.redirect('/');
+    }
   }
 }
