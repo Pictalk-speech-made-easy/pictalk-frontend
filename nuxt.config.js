@@ -26,7 +26,7 @@ export default {
 
   },
   head: {
-    title: 'Pictalk AAC: Communication pour autismes et plus',
+    title: 'Pictalk AAC: Communication pour autisme et plus',
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
     link: [{
       rel: "icon",
@@ -168,7 +168,7 @@ export default {
   },
   modules: [
     // Doc: https://buefy.github.io/#/documentation
-    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons1.min.css", css: false }],
+    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons2.min.css", css: false }],
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
