@@ -11,12 +11,19 @@
 		<div class="container is-max-widescreen">
 			<b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top" :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay" >
         <b-carousel-item class="containing">
-          <b-image style="aspect-ratio: 16/9;" alt="screenshots of the Pictalk application running on different devices"
-            :srcset="require('@/assets/Usages.png').srcSet"
-            :placeholder="require('@/assets/Usages.png').placeholder"
-            custom-class="slightly-rounded"
-            :lazy="false"
-          />
+          <div
+              class="slightly-rounded placeholder"
+              :style="`aspect-ratio: 16/9; background-image: url(${
+                require('@/assets/Usages2.png').placeholder
+              })`"
+            >
+              <img
+                class="slightly-rounded"
+                loading="lazy"
+                :srcset="require('@/assets/Usages2.png').srcSet"
+                alt="screenshots of the Pictalk application running on different devices"
+              />
+            </div>
           <section class="centeredBottomLeftText">
             <div class="has-text-centered">
                 <div class="title is-3 isPictalkColor">{{$t('CreateDemo')}}</div>
@@ -430,5 +437,9 @@ export default {
 }
 .hidden-content {
   display: none;
+}
+.placeholder {
+  background-size: cover;
+  background-position: center;
 }
 </style>

@@ -168,7 +168,7 @@ export default {
   },
   modules: [
     // Doc: https://buefy.github.io/#/documentation
-    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons2.min.css", css: false }],
+    ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons3.min.css", css: false }],
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
