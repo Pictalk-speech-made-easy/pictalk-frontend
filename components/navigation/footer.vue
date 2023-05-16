@@ -44,7 +44,7 @@
               style="height: 42px"
               lazy
               :responsive="false"
-              :srcset="require('@/assets/linkedin.webp').srcSet"
+              :srcset="require('@/assets/video.png').srcSet"
               alt="Youtube logo"
               custom-class="imgpixelslimitvw portrait grayscale"
             />
