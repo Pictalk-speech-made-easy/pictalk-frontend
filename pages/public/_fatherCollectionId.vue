@@ -236,6 +236,7 @@ export default {
   max-height: 20%;
   position: fixed;
   max-width: 767px;
+  z-index: 4;
 }
 .filler {
   padding-bottom: 20%;
