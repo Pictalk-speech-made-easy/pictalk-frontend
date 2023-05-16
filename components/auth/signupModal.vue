@@ -394,12 +394,6 @@ export default {
       return Array.isArray(this.$route.query.directsharer);
     },
   },
-  async beforeUpdate() {
-    this.initialization = false;
-    if (!this.$store.getters.getPublicBundles) {
-      await this.$store.dispatch("getPublicBundles");
-    }
-  },
   async created() {
     if (this.recoverCode) {
       this.notSignedUp = false;
@@ -412,6 +406,10 @@ export default {
     this.selectedBundle = this.$store.getters.getPublicBundles
       ? this.$store.getters.getPublicBundles[0].id
       : null;
+    this.initialization = false;
+    if (!this.$store.getters.getPublicBundles) {
+      await this.$store.dispatch("getPublicBundles");
+    }
   },
   async updated() {},
   methods: {
