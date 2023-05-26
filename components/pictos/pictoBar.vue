@@ -416,21 +416,24 @@ export default {
     },
   },
   watch: {
-    pictos: function (value) {
-      setTimeout(() => {
-        let element = document.getElementById("bar");
-        element.scrollLeft = element.scrollWidth;
-      }, 125);
-      if (this.$store.getters.getUser.settings?.pronounceClick && value.length > this.pictoLength) {
-        this.pronounce(
-          value[value.length -1].speech[this.getUserLang],
-          this.getUserLang,
-          this.voiceURI,
-          this.pitch,
-          this.rate
-        );
+    pictos: {
+      deep: true,
+      handler (value) {
+        setTimeout(() => {
+          let element = document.getElementById("bar");
+          element.scrollLeft = element.scrollWidth;
+        }, 125);
+        if (this.$store.getters.getUser.settings?.pronounceClick && value.length >= this.pictoLength) {
+          this.pronounce(
+            value[value.length -1].speech[this.getUserLang],
+            this.getUserLang,
+            this.voiceURI,
+            this.pitch,
+            this.rate
+          );
+        }
+        this.pictoLength = value.length
       }
-      this.pictoLength = value.length
     },
     voiceURI: function () {
       this.animation = false;
