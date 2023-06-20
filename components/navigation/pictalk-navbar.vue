@@ -175,7 +175,7 @@
           </b-tooltip>
 
           <b-tooltip
-            v-if="getUserNotifications() && getUserNotifications().length != 0"
+            v-if="this.notifications.length != 0"
             position="is-bottom"
             multilined
             size="is-small"
@@ -204,7 +204,7 @@
                 class="lessPadding limitHeight"
               >
                 <div
-                  v-for="notification in getUserNotifications()"
+                  v-for="notification in this.notifications"
                   :key="notification.operation + Math.random()"
                   class="card lessPadding notification"
                 >
@@ -228,7 +228,7 @@
                             @click="
                               notificationGoToCollectionOrReturn(notification)
                             "
-                            :src="getNotificationImage(notification)"
+                            :src="notification.image"
                             alt="Placeholder image"
                           />
                         </figure>
@@ -363,11 +363,6 @@ export default {
         }
       };
     }
-    if (window.navigator.onLine) {
-      try {
-        await this.$store.dispatch("getNotifications");
-      } catch (err) {}
-    }
     this.intervalId = setInterval(async () => {
       if (window.navigator.onLine) {
         try {
@@ -388,6 +383,11 @@ export default {
     }, 60000);
     }
   },
+  async fetch() {
+    if (process.client) {
+      this.notifications = await this.$store.dispatch("getNotifications");
+    }
+  },
   data() {
     return {
       icon: "",
@@ -397,6 +397,7 @@ export default {
       fits: false,
       offlineReadyTotal: null,
       offlineReadyProgress: null,
+      notifications : [],
     };
   },
   destroyed() {
@@ -530,16 +531,9 @@ export default {
     isAdministrator() {
       return this.$store.getters.getUser.admin;
     },
-    getUserNotifications() {
-      return this.$store.getters.getUser.notifications;
-    },
     cancelCopy() {
       this.$store.commit("resetCopyCollectionId");
       this.$store.commit("resetShortcutCollectionId");
-    },
-    getNotificationImage(notification) {
-      return this.getCollectionFromId(parseInt(notification.affected, 10))
-        ?.image;
     },
     openFeedbackModal() {
       this.$buefy.modal.open({

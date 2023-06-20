@@ -2,6 +2,15 @@ import axios from "axios";
 import Cookie from "js-cookie";
 import { db } from "~/plugins/dexieDB";
 export const strict = false;
+axios.interceptors.request.use((config) => {
+  if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
+    let token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
 export const state = () => ({
   token: null,
   pictoSpeech: [],
@@ -656,17 +665,21 @@ export const actions = {
       if (notifications?.length != vuexContext.getters.getUser.notifications.length) {
         vuexContext.dispatch("downloadCollections");
       }
-      notifications?.forEach(async (notification) => {
-        if (notification.meaning) {
-          notification.meaning = JSON.parse(notification?.meaning);
-        }
-        if (notification.affected) {
-          if (!getCollectionFromId(vuexContext, parseInt(notification.affected, 10))) {
-            var res = await axios.get("/collection/find/" + parseInt(notification.affected, 10));
-            parseAndUpdateEntireCollection(vuexContext, res.data);
+      await Promise.all(notifications.map((notification) => {
+        return new Promise(async (resolve, reject) => {
+          if (notification.meaning) {
+            notification.meaning = JSON.parse(notification?.meaning);
           }
-        }
-      });
+          if (notification.affected) {
+            if (!await getCollectionFromId(vuexContext, parseInt(notification.affected, 10))) {
+              var res = await axios.get("/collection/find/" + parseInt(notification.affected, 10));
+              await parseAndUpdateEntireCollection(vuexContext, res.data);
+            }
+            notification.image = (await getCollectionFromId(vuexContext, parseInt(notification.affected, 10))).image;
+          }
+          resolve();
+        })
+      }));
       // Mettre les notifications dans user
       let user = { ...vuexContext.getters.getUser };
       user.notifications = notifications;
@@ -685,7 +698,6 @@ export const getters = {
     return db.collection.toArray();
   },
   getCollectionFromId: (state) => (id) => {
-    console.log(id);
     return db.collection.get(id);
   },
   getCollectionsFromFatherCollectionId: (state) => (fatherCollectionId) => {
@@ -747,12 +759,12 @@ export const getters = {
   },
 };
 
-function parseAndUpdateEntireCollection(vuexContext, collection, download = false) {
+async function parseAndUpdateEntireCollection(vuexContext, collection, download = false) {
   let pictosToEdit = [];
   let pictosTocreate = [];
   let collectionsToEdit = [];
   let collectionsToCreate = [];
-  let localCollection = getCollectionFromId(vuexContext, collection.id);
+  let localCollection = await getCollectionFromId(vuexContext, collection.id);
   let existsCollection = localCollection?.id == collection.id;
   let updateCollection = (localCollection?.updatedDate != collection.updatedDate) && existsCollection;
   const partialCollection = localCollection?.partial;
@@ -882,7 +894,7 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
   return { collectionsToCreate, collectionsToEdit, pictosTocreate, pictosToEdit };
 }
 
-function parseAndUpdatePictogram(vuexContext, picto) {
+async function parseAndUpdatePictogram(vuexContext, picto) {
   if (picto.image) {
     picto.image =
       axios.defaults.baseURL +
@@ -895,7 +907,7 @@ function parseAndUpdatePictogram(vuexContext, picto) {
   if (picto.speech) {
     picto.speech = JSON.parse(picto.speech);
   }
-  if (!getPictoFromId(vuexContext, picto.id)) {
+  if (!await getPictoFromId(vuexContext, picto.id)) {
     vuexContext.commit("addPicto", picto);
   } else {
     vuexContext.commit("editPicto", picto);
