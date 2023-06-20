@@ -1,9 +1,8 @@
 import axios from "axios";
 import Cookie from "js-cookie";
+import { db } from "~/plugins/dexieDB";
 export const strict = false;
 export const state = () => ({
-  collections: [],
-  pictos: [],
   token: null,
   pictoSpeech: [],
   public: [],
@@ -20,8 +19,6 @@ export const state = () => ({
 
 export const mutations = {
   resetStore(state) {
-    state.collections = [];
-    state.pictos = [];
     state.pictoSpeech = [];
     state.rootId = null;
     state.copyCollectionId = null;
@@ -55,89 +52,62 @@ export const mutations = {
     if (!Array.isArray(newCollections)) {
       newCollections = new Array(newCollections);
     }
-    for (let newCollection of newCollections) {
-      state.collections.push(newCollection);
-      const fatherCollectionIndex = state.collections.findIndex(
-        collection => collection.id === newCollection.fatherCollectionId
-      );
-      if (fatherCollectionIndex !== -1) {
-        const collectionIndex = state.collections[fatherCollectionIndex].collections.findIndex(
-          collection => collection.id === newCollection.fatherCollectionId
-        );
-        if (collectionIndex == -1) {
-          state.collections[fatherCollectionIndex].collections.push(newCollection);
-        }
-      }
-    }
+    // Dexie transition
+    db.collection.bulkPut(newCollections);
 
   },
   removeCollection(state, removedCollection) {
-    const collectionIndex = state.collections.findIndex(
-      collection => collection.id === removedCollection.id
-    );
-    state.collections.splice(collectionIndex, 1);
+    // Dexie transition
+    db.collection.delete(removedCollection.id);
   },
   editCollection(state, editedCollections) {
     if (!Array.isArray(editedCollections)) {
       editedCollections = new Array(editedCollections);
     }
-    for (let editedCollection of editedCollections) {
-      editedCollection.starred = undefined;
-      const collectionIndex = state.collections.findIndex(
-        collection => collection.id === editedCollection.id
-      );
-      Object.assign(state.collections[collectionIndex], editedCollection);
-      state.collections.push({});
-      state.collections.pop();
-    }
+    // Dexie transition
+    db.collection.bulkPut(editedCollections);
   },
   addPicto(state, pictos) {
     if (!Array.isArray(pictos)) {
       pictos = new Array(pictos);
     }
+    let collection;
     for (let picto of pictos) {
-      const collectionIndex = state.collections.findIndex(
-        collection => collection.id === picto.fatherCollectionId
-      );
-      if (collectionIndex !== -1) {
-        const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
+      collection = db.collection.get(picto.fatherCollectionId);
+      if (collection) {
+        const pictoIndex = collection.pictos.findIndex(
           pct => pct.id === picto.id
         );
-        if (collectionIndex !== -1 && pictoIndex == -1) {
-          state.collections[collectionIndex].pictos.push(picto);
+        if (collection && pictoIndex == -1) {
+          collection.pictos.push(picto);
+          db.collection.put(collection);
         }
       }
-      state.pictos.push(picto);
     }
+    // Dexie transition
+    db.pictogram.bulkPut(pictos);
   },
   editPicto(state, editedPictos) {
     if (!Array.isArray(editedPictos)) {
       editedPictos = new Array(editedPictos);
     }
-    for (let editedPicto of editedPictos) {
-      editedPicto.starred = undefined;
-      const pictoIndex = state.pictos.findIndex(
-        picto => picto.id === editedPicto.id
-      );
-      Object.assign(state.pictos[pictoIndex], editedPicto);
-      state.collections.push({});
-      state.collections.pop();
-    }
+    // Dexie transition
+    db.pictogram.bulkPut(editedPictos);
   },
   removePicto(state, { pictoId, fatherCollectionId }) {
-    const collectionIndex = state.collections.findIndex(
-      collection => collection.id === fatherCollectionId
-    );
-    const pictoIndex = state.collections[collectionIndex].pictos.findIndex(
-      picto => picto.id === pictoId
-    );
-    state.collections[collectionIndex].pictos.splice(pictoIndex, 1);
+    const collection = db.collection.get(fatherCollectionId);
+    collection.pictos.splice(pictoIndex, 1);
+    db.collection.put(collection);
+    // Dexie transition
+    db.pictogram.delete(pictoId);
   },
   resetCollections(state) {
-    state.collections = [];
+    // Dexie transition
+    db.collection.clear();
   },
   setCollections(state, collections) {
-    state.collections = collections;
+    // Dexie transition
+    db.collection.bulkPut(collections);
   },
   setToken(state, token) {
     state.token = token;
@@ -224,6 +194,9 @@ export const actions = {
   },
   resetCollections(vuexContext) {
     vuexContext.commit("resetCollections");
+
+    // Dexie transition
+    db.collection.clear();
   },
   async getPublicBundles(vuexContext) {
     try {
@@ -709,7 +682,14 @@ export const actions = {
 }
 export const getters = {
   getCollections(state) {
-    return state.collections;
+    return db.collection.toArray();
+  },
+  getCollectionFromId: (state) => (id) => {
+    console.log(id);
+    return db.collection.get(id);
+  },
+  getCollectionsFromFatherCollectionId: (state) => (fatherCollectionId) => {
+    return db.collection.where({ fatherCollectionId: fatherCollectionId }).toArray();
   },
   isAuthenticated(state) {
     return state.token != null;
@@ -738,8 +718,14 @@ export const getters = {
   getShortcutCollectionId(state) {
     return state.shortcutCollectionId;
   },
-  getPictos(state) {
-    return state.pictos;
+  async getPictos(state) {
+    return db.pictogram.toArray();
+  },
+  getPictoFromId: (state) => (id) => {
+    return db.pictogram.get(id);
+  },
+  getPictosFromFatherCollectionId: (state) => (fatherCollectionId) => {
+    return db.pictogram.where({ fatherCollectionId: fatherCollectionId }).toArray();
   },
   getPublicCollections(state) {
     return state.public;
@@ -918,10 +904,10 @@ function parseAndUpdatePictogram(vuexContext, picto) {
 }
 
 function getCollectionFromId(vuexContext, id) {
-  const index = vuexContext.getters.getCollections.findIndex((collection) => collection.id === id);
-  return vuexContext.getters.getCollections[index];
+  // Dexie transition 
+  return db.collection.get(id);
 }
 function getPictoFromId(vuexContext, id) {
-  const index = vuexContext.getters.getPictos.findIndex((picto) => picto.id === id);
-  return vuexContext.getters.getPictos[index];
+  // Dexie transition
+  return db.pictogram.get(id);
 }

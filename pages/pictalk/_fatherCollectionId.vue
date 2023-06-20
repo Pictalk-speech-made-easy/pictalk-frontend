@@ -138,7 +138,7 @@ export default {
   data: {
     return: {
       priority_timer: 0,
-    },
+    }
   },
   components: {
     pictoList: pictoList,
@@ -156,17 +156,17 @@ export default {
   created() {
     window.addEventListener("online", this.refreshPictos);
     window.addEventListener("offline", this.lostConnectivityNotification);
-    this.$nuxt.$on("resyncPictoList", (delay) => {
+    this.$nuxt.$on("resyncPictoList", async (delay) => {
       if (delay) {
         if (this.priority_timer != 0) {
           clearTimeout(this.priority_timer);
           this.priority_timer = 0;
         }
         this.priority_timer = setTimeout(async () => {
-          this.pictos = this.loadedPictos();
+          this.pictos = await this.loadedPictos();
         }, delay);
       } else {
-        this.pictos = this.loadedPictos();
+        this.pictos = await this.loadedPictos();
       }
     });
   },
@@ -183,41 +183,24 @@ export default {
       return window.navigator.onLine;
     },
     isSidebarUsed() {
-      return this.loadPictos(this.$store.getters.getSidebarId).length != 0;
+      return this.sidebarPictos.length != 0;
     },
     isSidebarPartial() {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) =>
-          collection.id === parseInt(this.$route.query.sidebarPictoId, 10)
-      );
-      return this.$store.getters.getCollections[index]?.partial;
+      return this.sidebarPictos?.partial;
     },
     isSidebarEmpty() {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) =>
-          collection.id === parseInt(this.$route.query.sidebarPictoId, 10)
-      );
       return (
-        this.$store.getters.getCollections[index]?.pictos.length == 0 &&
-        this.$store.getters.getCollections[index]?.collections.length == 0
+        this.sidebarPictos?.pictos.length == 0 &&
+        this.sidebarPictos?.collections.length == 0
       );
     },
     isPictoListPartial() {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) =>
-          collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-      return this.$store.getters.getCollections[index]?.partial;
+      return this.collection?.partial;
     },
     isPictoListEmpty() {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) =>
-          collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-      console.log();
       return (
-        this.$store.getters.getCollections[index]?.pictos.length == 0 &&
-        this.$store.getters.getCollections[index]?.collections.length == 0
+        this.collection?.pictos.length == 0 &&
+        this.collection?.collections.length == 0
       );
     },
     fitScreen() {
@@ -225,12 +208,6 @@ export default {
     },
     fitWidth() {
       return window.innerWidth;
-    },
-    displaySidebar() {
-      return (
-        parseInt(this.$route.params.fatherCollectionId, 10) !=
-        this.$store.getters.getSidebarId
-      );
     },
     loadSpeech() {
       return this.$store.getters.getSpeech;
@@ -243,12 +220,9 @@ export default {
       }
     },
     collectionColor() {
-      const collection = this.getCollectionFromId(
-        parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-      if (collection) {
-        if (collection.color) {
-          return collection.color;
+      if (this.collection) {
+        if (this.collection.color) {
+          return this.collection.color;
         } else {
           return "#f5f5f5";
         }
@@ -290,8 +264,6 @@ export default {
         query: query,
       });
     }
-    //this.pictos = this.loadedPictos();
-    //this.sidebarPictos = this.loadedSidebarPictos();
   },
   async fetch() {
     if (this.$route.params.fatherCollectionId) {
@@ -299,14 +271,15 @@ export default {
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     }
-    this.pictos = this.loadedPictos();
+
+    this.pictos = await this.loadedPictos();
 
     if (this.$route.query.sidebarPictoId) {
-      await this.fetchCollection(
+      this.collection = await this.fetchCollection(
         parseInt(this.$route.query.sidebarPictoId, 10)
       );
     }
-    this.sidebarPictos = this.loadedSidebarPictos();
+    this.sidebarPictos = await this.loadedSidebarPictos();
 
     const user = this.$store.getters.getUser;
     if (!user.username) {
@@ -346,38 +319,27 @@ export default {
         return this.loadPictos(this.$store.getters.getSidebarId);
       }
     },
-    loadPictos(fatherCollectionId) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === fatherCollectionId
-      );
-      const collection = this.$store.getters.getCollections[index];
-      if (collection) {
-        const collectionList = collection.collections.map((col) => {
-          return this.getCollectionFromId(col.id);
+    async loadPictos(fatherCollectionId) {
+      const collectionList = this.$store.getters.getCollectionsFromFatherCollectionId(fatherCollectionId);
+      const pictos = this.$store.getters.getPictosFromFatherCollectionId(fatherCollectionId);
+      let items = await Promise.all([collectionList, pictos]);
+      items = items[0].concat(items[1]) // Merge both arrays
+      if (items) {
+        let sortedItems = this.sorting(items);
+        sortedItems.map((picto) => {
+          if (picto?.starred === true) {
+            picto.priority = 1;
+          } else if (picto?.starred === false) {
+            picto.priority = 10;
+          }
         });
-        const pictos = collection.pictos.map((pict) => {
-          return this.getPictoFromId(pict.id);
-        });
-        if (pictos && collectionList) {
-          let sortedItems = [];
-          sortedItems = this.sorting(collectionList, pictos);
-          sortedItems.map((picto) => {
-            if (picto?.starred === true) {
-              picto.priority = 1;
-            } else if (picto?.starred === false) {
-              picto.priority = 10;
-            }
-          });
-          return sortedItems.sort((a, b) => a.priority - b.priority);
-        } else {
-          return [];
-        }
+        return sortedItems.sort((a, b) => a.priority - b.priority);
+      } else {
+        return [];
       }
-      return [];
     },
-    sorting(collections, pictos) {
-      let unsortedItems = collections.concat(pictos);
-      let sortedItems = unsortedItems.sort(function (itemA, itemB) {
+    sorting(items) {
+      let sortedItems = items.sort(function (itemA, itemB) {
         return new Date(itemA.createdDate) - new Date(itemB.createdDate);
       });
       return sortedItems;
@@ -385,17 +347,11 @@ export default {
     removeSpeech() {
       this.$store.commit("removeSpeech");
     },
-    getCollectionFromId(id) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === parseInt(id)
-      );
-      return this.$store.getters.getCollections[index];
+    async getCollectionFromId(id) {
+      return this.$store.getters.getCollectionFromId(id);
     },
-    getPictoFromId(id) {
-      const index = this.$store.getters.getPictos.findIndex(
-        (picto) => picto.id === id
-      );
-      return this.$store.getters.getPictos[index];
+    async getPictoFromId(id) {
+      return this.$store.getters.getPictoFromId(id);
     },
     lostConnectivityNotification() {
       const notif = this.$buefy.notification.open({
@@ -514,6 +470,7 @@ export default {
           console.log("error ", error);
         }
       }
+      return collection;
     },
     async refreshPictos() {
       try {
@@ -527,8 +484,8 @@ export default {
           icon: "refresh",
         });
         await this.$store.dispatch("downloadCollections");
-        this.pictos = this.loadedPictos();
-        this.sidebarPictos = this.loadedSidebarPictos();
+        this.pictos = await this.loadedPictos();
+        this.sidebarPictos = await this.loadedSidebarPictos();
         //TODO : refresh pictoList so that it displays new pictos and maybe count number of eddited and added in notification
         const notif = this.$buefy.notification.open({
           duration: 4500,

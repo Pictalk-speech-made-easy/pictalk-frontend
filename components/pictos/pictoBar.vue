@@ -423,7 +423,7 @@ export default {
           let element = document.getElementById("bar");
           element.scrollLeft = element.scrollWidth;
         }, 125);
-        if (this.$store.getters.getUser.settings?.pronounceClick && value.length >= this.pictoLength) {
+        if (this.$store.getters.getUser.settings?.pronounceClick && value.length > this.pictoLength) {
           this.pronounce(
             value[value.length -1].speech[this.getUserLang],
             this.getUserLang,

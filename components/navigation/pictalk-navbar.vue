@@ -564,11 +564,8 @@ export default {
     fitsBigger() {
       this.fits = window.innerWidth > 600;
     },
-    getCollectionFromId(id) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === id
-      );
-      return this.$store.getters.getCollections[index];
+    async getCollectionFromId(id) {
+      return this.$store.getters.getCollectionFromId(id)
     },
     adminModeChoose() {
       if (this.admin) {

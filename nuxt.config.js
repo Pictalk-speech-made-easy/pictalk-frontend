@@ -59,7 +59,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }],
+  plugins: [
+    "@/plugins/baseURL",
+    { src: '@/plugins/vuex-persistedstate', mode: 'client' },
+    { src: '@/plugins/dexieDB', mode: 'client' },
+    { src: '@/plugins/vueVirtualScroller', mode: 'client' },
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -176,7 +181,9 @@ export default {
     '@nuxtjs/robots',
     '@nuxtjs/sentry',
     '@nuxtjs/i18n',
-    ['nuxt-matomo', { matomoUrl: '//matomo.home.asidiras.dev/', siteId: 1, cookies: false }]
+    ['nuxt-matomo', { matomoUrl: '//matomo.home.asidiras.dev/', siteId: 1, cookies: false },
+      '@vueuse/nuxt',
+    ]
   ],
   robots: {
     Disallow: [
@@ -197,7 +204,7 @@ export default {
     workbox: {
       /*
       dev: true,
-
+  
       config: {
         debug: true
       },*/
@@ -262,6 +269,11 @@ export default {
     extend(config) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
       config.resolve.symlinks = false;
+      config.module.rules.push({
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      })
     },
     transpile: ['merge-images-horizontally-with-text'],
   },
