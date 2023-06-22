@@ -10,9 +10,9 @@
       <RecycleScroller
     class="scroller"
     :items="getFilteredPictoList"
-    :item-size="getItemSize"
-    :grid-items="getRowCount(getDeviceType)"
-    :item-secondary-size="getItemSize"
+    :item-size="getItemSize()"
+    :grid-items="getRowCount()"
+    :item-secondary-size="getItemSize()"
     key-field="id"
   >
   <template #default="{ item, index, active }">
@@ -66,6 +66,13 @@ export default {
     };
   },
   methods: {
+    getItemSize() {
+      console.log("triggered");
+      if (this.pictobar) {
+        return;
+      }
+      return document.getElementById("pictoList")?.clientWidth/this.getRowCount(this.getDeviceType());
+    },
     getRowCount(deviceType) {
       if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
         if (deviceType == 'mobile') {
@@ -118,6 +125,20 @@ export default {
         }
       }
     },
+    getDeviceType() {
+      console.log("getDeviceType")
+      if (document.getElementById("pictoList")?.clientWidth < 768){
+        return 'mobile';
+      } else if (document.getElementById("pictoList")?.clientWidth < 1024){
+        return 'tablet';
+      } else if (document.getElementById("pictoList")?.clientWidth < 1216){
+        return 'desktop';
+      } else if (document.getElementById("pictoList")?.clientWidth < 1408){
+        return 'widescreen';
+      } else {
+        return 'fullhd';
+      }
+    },
     onDragOver(ev) {
       ev.preventDefault();
       ev.dataTransfer.dropEffect = "move";
@@ -161,28 +182,6 @@ export default {
     },
   },
   computed: {
-    getItemSize() {
-      console.log("getItemSize")
-      if (this.pictobar) {
-        return;
-      }
-      return document.getElementById("pictoList")?.clientWidth/this.getRowCount(this.getDeviceType);
-    },
-    
-    getDeviceType() {
-      console.log("getDeviceType")
-      if (document.getElementById("pictoList")?.clientWidth < 768){
-        return 'mobile';
-      } else if (document.getElementById("pictoList")?.clientWidth < 1024){
-        return 'tablet';
-      } else if (document.getElementById("pictoList")?.clientWidth < 1216){
-        return 'desktop';
-      } else if (document.getElementById("pictoList")?.clientWidth < 1408){
-        return 'widescreen';
-      } else {
-        return 'fullhd';
-      }
-    },
     getFilteredPictoList() {
       return this.pictos.filter((picto) => picto?.meaning[this.getUserLang] || picto?.meaning == "");
     },
