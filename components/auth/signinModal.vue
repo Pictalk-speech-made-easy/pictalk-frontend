@@ -72,9 +72,6 @@ export default {
           this.$parent.close();
           this.$router.push({
             path: "/pictalk/" + this.$store.getters.getRootId,
-            query: {
-              sidebarPictoId: this.$store.getters.getSidebarId,
-            },
           });
           if (this.$store.getters.getUser.notifications.length != 0) {
             this.$buefy.notification.open({

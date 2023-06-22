@@ -70,6 +70,16 @@ export default {
       });
       this.$store.commit("resetCopyCollectionId");
     },
+    sidebarClick() {
+      if (this.picto.collection == true) {
+        this.$router.push({
+          path: this.pictoLink,
+          query: { ...this.$route.query },
+        });
+      } else {
+        this.addToSpeech();
+      }
+    },
     async addToSpeech() {
       this.$store.commit("addSpeech", {
         ...this.picto,
@@ -80,7 +90,6 @@ export default {
           this.$router.push({
             query: {
               ...this.$route.query,
-              sidebarPictoId: this.picto.id,
             },
           });
         } else {
@@ -135,11 +144,8 @@ export default {
         });
       }
     },
-    getCollectionFromId(id) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === id
-      );
-      return this.$store.getters.getCollections[index];
+    async getCollectionFromId(id) {
+      return this.$store.getters.getCollectionFromId(id);
     },
     editPicto() {
       this.$buefy.modal.open({

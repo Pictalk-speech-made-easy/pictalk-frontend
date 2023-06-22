@@ -490,13 +490,15 @@ export default {
     sidebarLink() {
       return "/pictalk/" + this.$store.getters.getSidebarId + this.admin;
     },
-    isEditorFatherId() {
-      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.editors.find(
+    async isEditorFatherId() {
+      const collection = await this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))
+      return collection?.editors.find(
           (editor) => editor == this.$store.getters.getUser.username
         ) != undefined
     },
-    isToUserFatherId() {
-      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.userId == this.$store.getters.getUser.id
+    async isToUserFatherId() {
+      const collection = await this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))
+      return collection?.userId == this.$store.getters.getUser.id
     }
   },
   methods: {

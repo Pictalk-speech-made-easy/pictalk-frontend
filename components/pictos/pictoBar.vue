@@ -245,7 +245,6 @@ export default {
                 this.$router.push({
                   query: {
                     isAdmin: this.$route.query.isAdmin,
-                    sidebarPictoId: this.$store.getters.getSidebarId,
                   },
                 });
               } else {
@@ -260,7 +259,6 @@ export default {
             this.$router.push({
               query: {
                 ...this.$route.query,
-                sidebarPictoId: sidebarSpeech[sidebarSpeech.length - 2]?.id,
               },
             });
           }
@@ -309,7 +307,6 @@ export default {
             path: "/pictalk/" + this.$store.getters.getRootId,
             query: {
               isAdmin: this.$route.query.isAdmin,
-              sidebarPictoId: this.$store.getters.getSidebarId,
             },
           });
         } else {
@@ -317,7 +314,6 @@ export default {
             path: "/pictalk",
             query: {
               isAdmin: this.$route.query.isAdmin,
-              sidebarPictoId: this.$store.getters.getSidebarId,
             },
           });
         }

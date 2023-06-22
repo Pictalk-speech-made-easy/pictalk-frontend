@@ -36,7 +36,7 @@
         <div
           v-if="$route.query.isAdmin && !publicMode && !sidebarMode"
           class="actions container"
-          @click.self="addToSpeech()"
+          @click.self="!sidebarMode ? addToSpeech() : sidebarClick()"
         >
           <div class="offline subtitle" v-if="!isOnline">
             <b-icon icon="web-cancel" />
@@ -44,7 +44,7 @@
           <div
             v-if="isOnline"
             class="head-actions"
-            @click.self="addToSpeech()"
+            @click.self="!sidebarMode ? addToSpeech() : sidebarClick()"
             v-on="
               picto.collection &&
               !publicMode &&
@@ -92,7 +92,7 @@
           <div
             v-if="!dragndropId && isOnline"
             class="main-actions"
-            @click.self="addToSpeech()"
+            @click.self="!sidebarMode ? addToSpeech() : sidebarClick()"
           >
             <div
               v-on="
@@ -191,7 +191,7 @@
           <div
             v-if="!dragndropId & isOnline"
             class="foot-actions"
-            @click.self="addToSpeech()"
+            @click.self="!sidebarMode ? addToSpeech() : sidebarClick()"
           >
             <b-tooltip
               :label="$t('Priority')"
@@ -214,7 +214,7 @@
           :class="{ image: true, nopointerevents: $route.query.isAdmin }"
           :srcset="pictoOrUndefinedImage"
           :alt="picto.meaning[getUserLang]"
-          @click.self="addToSpeech()"
+          @click.self="!sidebarMode ? addToSpeech() : sidebarClick()"
           width="100%"
           crossorigin="anonymous"
           v-bind:style="

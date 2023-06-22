@@ -50,7 +50,6 @@ export default {
           path: "/pictalk/" + this.$store.getters.getRootId,
           query: {
             isAdmin: this.$route.query.isAdmin,
-            sidebarPictoId: this.$store.getters.getSidebarId,
           },
         });
       } else {
@@ -58,7 +57,6 @@ export default {
           path: "/pictalk",
           query: {
             isAdmin: this.$route.query.isAdmin,
-            sidebarPictoId: this.$store.getters.getSidebarId,
           },
         });
       }

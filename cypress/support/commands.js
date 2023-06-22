@@ -49,7 +49,6 @@ Cypress.Commands.add(
       cy.visit('/pictalk');
       cy.wait(['@getNotifications', '@getRoot']);
       cy.url().should('contain', '/pictalk/');
-      cy.url().should('contain', '?sidebarPictoId=');
 
     });
   }

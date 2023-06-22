@@ -75,13 +75,6 @@
           lessPadding
         "
       >
-        <b-button
-          v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId"
-          @click="toSidebarHome"
-          class="onTop"
-          type="is-primary"
-          icon-left="undo"
-        />
         <b-image
           style="aspect-ratio: 1/1"
           v-if="sidebarPictos.length == 0 && !isSidebarPartial"
@@ -90,9 +83,6 @@
           alt="An empty cardboard box that represents an empty collection with no pictograms"
           :srcset="require('@/assets/EmptyCollection3.png').srcSet"
         />
-        <div
-          v-if="$route.query.sidebarPictoId != $store.getters.getSidebarId"
-        ></div>
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"
@@ -144,14 +134,6 @@ export default {
     pictoList: pictoList,
     pictoBar: pictoBar,
     sidebar: sidebar,
-  },
-  watch: {
-    async sidebarPictoId(sidebarId, previousId) {
-      if (sidebarId && sidebarId != previousId) {
-        await this.fetchCollection(sidebarId);
-        this.sidebarPictos = this.loadedSidebarPictos();
-      }
-    },
   },
   created() {
     window.addEventListener("online", this.refreshPictos);
@@ -212,13 +194,6 @@ export default {
     loadSpeech() {
       return this.$store.getters.getSpeech;
     },
-    sidebarPictoId() {
-      if (this.$route.query.sidebarPictoId) {
-        return this.$route.query.sidebarPictoId;
-      } else {
-        return this.$store.getters.getSidebarId;
-      }
-    },
     collectionColor() {
       if (this.collection) {
         if (this.collection.color) {
@@ -235,8 +210,7 @@ export default {
     let path;
     let query = { ...this.$route.query };
     if (
-      !this.$route.params.fatherCollectionId ||
-      !this.$route.query.sidebarPictoId
+      !this.$route.params.fatherCollectionId
     ) {
       if (!this.$route.params.fatherCollectionId) {
         if (this.$store.getters.getRootId) {
@@ -245,18 +219,6 @@ export default {
           var res = await axios.get("/user/root/");
           this.$store.commit("setRootId", res.data.id);
           path = "/pictalk/" + res.data.id;
-        }
-      }
-      if (!this.$route.query.sidebarPictoId) {
-        if (this.$store.getters.getSidebarId) {
-          query = {
-            ...this.$route.query,
-            sidebarPictoId: this.$store.getters.getSidebarId,
-          };
-        } else {
-          var res = await axios.get("/user/sider/");
-          this.$store.commit("setSidebarId", res.data.id);
-          query = { ...this.$route.query, sidebarPictoId: res.data.id };
         }
       }
       this.$router.push({
@@ -274,13 +236,11 @@ export default {
 
     this.pictos = await this.loadedPictos();
 
-    if (this.$route.query.sidebarPictoId) {
-      this.collection = await this.fetchCollection(
-        parseInt(this.$route.query.sidebarPictoId, 10)
-      );
+    if (this.$store.getters.getSidebarId ) {
+      await this.fetchCollection(this.$store.getters.getSidebarId);
     }
     this.sidebarPictos = await this.loadedSidebarPictos();
-
+    
     const user = this.$store.getters.getUser;
     if (!user.username) {
       try {
@@ -299,25 +259,13 @@ export default {
     };
   },
   methods: {
-    toSidebarHome() {
-      this.$router.push({
-        query: {
-          ...this.$route.query,
-          sidebarPictoId: this.$store.getters.getSidebarId,
-        },
-      });
-    },
     loadedPictos() {
       return this.loadPictos(
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     },
     loadedSidebarPictos() {
-      if (this.$route.query.sidebarPictoId) {
-        return this.loadPictos(parseInt(this.$route.query.sidebarPictoId, 10));
-      } else {
-        return this.loadPictos(this.$store.getters.getSidebarId);
-      }
+      return this.loadPictos(this.$store.getters.getSidebarId);
     },
     async loadPictos(fatherCollectionId) {
       const collectionList = this.$store.getters.getCollectionsFromFatherCollectionId(fatherCollectionId);

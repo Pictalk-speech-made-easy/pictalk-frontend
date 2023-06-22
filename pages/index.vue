@@ -246,9 +246,6 @@ export default {
       if (this.$store.getters.getUser.username) {
         this.$router.push({
           path: "/pictalk/" + this.$store.getters.getRootId,
-          query: {
-            sidebarPictoId: this.$store.getters.getSidebarId,
-          },
         });
       } else {
         this.$router.push({

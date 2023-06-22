@@ -2,7 +2,7 @@
   <div class="margins">
     <div
       v-if="
-        sidebar && !($route.query.sidebarPictoId != $store.getters.getSidebarId)
+        sidebar
       "
       style="padding-top: 9px"
     />
@@ -68,62 +68,70 @@ export default {
   methods: {
     getItemSize() {
       console.log("triggered");
-      if (this.pictobar) {
-        return;
+      if (this.sidebar) {
+        return (document.getElementById("pictoList")?.clientWidth/3)/this.getRowCount(this.getDeviceType());
       }
       return document.getElementById("pictoList")?.clientWidth/this.getRowCount(this.getDeviceType());
     },
     getRowCount(deviceType) {
+      if (this.sidebar) {
+        return 1;
+      }
+      let rowNumber;
       if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
         if (deviceType == 'mobile') {
-          return 3;
+          rowNumber = 3;
         } else if (deviceType == 'tablet') {
-          return 4;
+          rowNumber = 4;
         } else if (deviceType == 'desktop') {
-          return 5;
+          rowNumber = 5;
         } else if (deviceType == 'widescreen') {
-          return 6;
+          rowNumber = 6;
         } else {
-          return 6;
+          rowNumber = 6;
         }
       }
       if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
         if (deviceType == 'mobile') {
-          return 4;
+          rowNumber = 4;
         } else if (deviceType == 'tablet') {
-          return 5;
+          rowNumber = 5;
         } else if (deviceType == 'desktop') {
-          return 6;
+          rowNumber = 6;
         } else if (deviceType == 'widescreen') {
-          return 6;
+          rowNumber = 6;
         } else {
-          return 6;
+          rowNumber = 6;
         }
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
         if (deviceType == 'mobile') {
-          return 3;
+          rowNumber = 3;
         } else if (deviceType == 'tablet') {
-          return 4;
+          rowNumber = 4;
         } else if (deviceType == 'desktop') {
-          return 5;
+          rowNumber = 5;
         } else if (deviceType == 'widescreen') {
-          return 6;
+          rowNumber = 6;
         } else {
-          return 6;
+          rowNumber = 6;
         }
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
         if (deviceType == 'mobile') {
-          return 2;
+          rowNumber = 2;
         } else if (deviceType == 'tablet') {
-          return 3;
+          rowNumber = 3;
         } else if (deviceType == 'desktop') {
-          return 4;
+          rowNumber = 4;
         } else if (deviceType == 'widescreen') {
-          return 5;
+          rowNumber = 5;
         } else {
-          return 5;
+          rowNumber = 5;
         }
       }
+      if (this.sidebarUsed) {
+        // Minimize the number of rows in order to display correctly the sidebar
+      }
+      return rowNumber;
     },
     getDeviceType() {
       console.log("getDeviceType")

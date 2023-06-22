@@ -76,13 +76,13 @@ export const mutations = {
     // Dexie transition
     db.collection.bulkPut(editedCollections);
   },
-  addPicto(state, pictos) {
+  async addPicto(state, pictos) {
     if (!Array.isArray(pictos)) {
       pictos = new Array(pictos);
     }
     let collection;
     for (let picto of pictos) {
-      collection = db.collection.get(picto.fatherCollectionId);
+      collection = await db.collection.get(picto.fatherCollectionId);
       if (collection) {
         const pictoIndex = collection.pictos.findIndex(
           pct => pct.id === picto.id
@@ -103,8 +103,8 @@ export const mutations = {
     // Dexie transition
     db.pictogram.bulkPut(editedPictos);
   },
-  removePicto(state, { pictoId, fatherCollectionId }) {
-    const collection = db.collection.get(fatherCollectionId);
+  async removePicto(state, { pictoId, fatherCollectionId }) {
+    const collection = await db.collection.get(fatherCollectionId);
     collection.pictos.splice(pictoIndex, 1);
     db.collection.put(collection);
     // Dexie transition
