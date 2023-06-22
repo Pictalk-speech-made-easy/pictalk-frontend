@@ -6,7 +6,16 @@
       "
       style="padding-top: 9px"
     />
-    <div class="columns is-multiline is-mobile even">
+    <div id="pictoList" class="even">
+      <RecycleScroller
+    class="scroller"
+    :items="getFilteredPictoList"
+    :item-size="getItemSize"
+    :grid-items="getRowCount(getDeviceType)"
+    :item-secondary-size="getItemSize"
+    key-field="id"
+  >
+  <template #default="{ item, index, active }">
       <picto
         :class="
           sidebar
@@ -15,17 +24,17 @@
             ? 'column is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-one-fifth-fullhd'
             : customPictoSize
         "
-        v-for="(picto, index) in getFilteredPictoList"
-        :key="index"
-        :picto="picto"
+        :picto="item"
         :publicMode="publicMode"
         :sidebarMode="sidebar"
-        :ref="picto.collection ? 'dragCollection' : 'dragPictogram'"
+        :ref="item?.collection ? 'dragCollection' : 'dragPictogram'"
       />
       <div
         data-cy="cypress-empty-column"
         class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
       ></div>
+    </template>
+      </RecycleScroller>
     </div>
 
     <div
@@ -43,11 +52,13 @@
 import picto from "@/components/pictos/picto";
 import lang from "@/mixins/lang";
 import links from "@/mixins/links";
+import { RecycleScroller } from "vue-virtual-scroller";
 export default {
   name: "pictoList",
   mixins: [lang, links],
   components: {
     picto,
+    RecycleScroller
   },
   data() {
     return {
@@ -55,6 +66,58 @@ export default {
     };
   },
   methods: {
+    getRowCount(deviceType) {
+      if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
+        if (deviceType == 'mobile') {
+          return 3;
+        } else if (deviceType == 'tablet') {
+          return 4;
+        } else if (deviceType == 'desktop') {
+          return 5;
+        } else if (deviceType == 'widescreen') {
+          return 6;
+        } else {
+          return 6;
+        }
+      }
+      if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
+        if (deviceType == 'mobile') {
+          return 4;
+        } else if (deviceType == 'tablet') {
+          return 5;
+        } else if (deviceType == 'desktop') {
+          return 6;
+        } else if (deviceType == 'widescreen') {
+          return 6;
+        } else {
+          return 6;
+        }
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
+        if (deviceType == 'mobile') {
+          return 3;
+        } else if (deviceType == 'tablet') {
+          return 4;
+        } else if (deviceType == 'desktop') {
+          return 5;
+        } else if (deviceType == 'widescreen') {
+          return 6;
+        } else {
+          return 6;
+        }
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
+        if (deviceType == 'mobile') {
+          return 2;
+        } else if (deviceType == 'tablet') {
+          return 3;
+        } else if (deviceType == 'desktop') {
+          return 4;
+        } else if (deviceType == 'widescreen') {
+          return 5;
+        } else {
+          return 5;
+        }
+      }
+    },
     onDragOver(ev) {
       ev.preventDefault();
       ev.dataTransfer.dropEffect = "move";
@@ -98,6 +161,28 @@ export default {
     },
   },
   computed: {
+    getItemSize() {
+      console.log("getItemSize")
+      if (this.pictobar) {
+        return;
+      }
+      return document.getElementById("pictoList")?.clientWidth/this.getRowCount(this.getDeviceType);
+    },
+    
+    getDeviceType() {
+      console.log("getDeviceType")
+      if (document.getElementById("pictoList")?.clientWidth < 768){
+        return 'mobile';
+      } else if (document.getElementById("pictoList")?.clientWidth < 1024){
+        return 'tablet';
+      } else if (document.getElementById("pictoList")?.clientWidth < 1216){
+        return 'desktop';
+      } else if (document.getElementById("pictoList")?.clientWidth < 1408){
+        return 'widescreen';
+      } else {
+        return 'fullhd';
+      }
+    },
     getFilteredPictoList() {
       return this.pictos.filter((picto) => picto?.meaning[this.getUserLang] || picto?.meaning == "");
     },
