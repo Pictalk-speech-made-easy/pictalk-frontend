@@ -9,7 +9,7 @@
             : 'is-12 column noMargins scrolling lessPadding'
         "
       >
-        <div v-if="pictos.length == 0 && !isPictoListPartial">
+        <div v-if="pictos.length == 0 && !isPictoListPartial && !initialization">
           <b-image
             style="aspect-ratio: 1/1"
             class="emptyCollection1"
@@ -31,8 +31,8 @@
             :srcset="require('@/assets/EmptyCollection3.png').srcSet"
           />
         </div>
-
         <pictoList
+          id="pictoList-main"
           data-cy="cypress-pictoList"
           :pictos="pictos"
           :sidebar="false"
@@ -75,31 +75,11 @@
           lessPadding
         "
       >
-        <b-image
-          style="aspect-ratio: 1/1"
-          v-if="sidebarPictos.length == 0 && !isSidebarPartial"
-          class="emptyCollection2"
-          lazy
-          alt="An empty cardboard box that represents an empty collection with no pictograms"
-          :srcset="require('@/assets/EmptyCollection3.png').srcSet"
-        />
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"
           v-if="!isSidebarPartial || isOnLine || !isSidebarEmpty"
         />
-        <div v-else>
-          <b-image
-            style="aspect-ratio: 1/1"
-            class="partialCollection"
-            lazy
-            alt="An astronaut wondering in space"
-            :srcset="require('@/assets/NoConnectionForCollection.png').srcSet"
-          />
-          <b-message>
-            {{ $t("CollectionNotExplored") }}
-          </b-message>
-        </div>
       </div>
     </div>
     <div class="contenant">
@@ -165,6 +145,7 @@ export default {
       return window.navigator.onLine;
     },
     isSidebarUsed() {
+      console.log("isSidebarUsed", this.sidebarPictos.length != 0)
       return this.sidebarPictos.length != 0;
     },
     isSidebarPartial() {
@@ -228,6 +209,7 @@ export default {
     }
   },
   async fetch() {
+    this.initialization = true;
     if (this.$route.params.fatherCollectionId) {
       await this.fetchCollection(
         parseInt(this.$route.params.fatherCollectionId, 10)
@@ -235,12 +217,12 @@ export default {
     }
 
     this.pictos = await this.loadedPictos();
-
+    console.log("this.pictos fetched")
     if (this.$store.getters.getSidebarId ) {
       await this.fetchCollection(this.$store.getters.getSidebarId);
     }
     this.sidebarPictos = await this.loadedSidebarPictos();
-    
+    console.log("this.sidebarPictos fetched")
     const user = this.$store.getters.getUser;
     if (!user.username) {
       try {
@@ -249,6 +231,7 @@ export default {
         console.log("error ", error);
       }
     }
+    this.initialization = false;
   },
   data() {
     return {
@@ -256,6 +239,7 @@ export default {
       sidebarExpanded: false,
       sidebarPictos: [],
       pictos: [],
+      initialization: true,
     };
   },
   methods: {

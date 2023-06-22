@@ -6,7 +6,7 @@
       "
       style="padding-top: 9px"
     />
-    <div id="pictoList" class="even">
+    <div class="even">
       <RecycleScroller
     class="scroller"
     :items="getFilteredPictoList"
@@ -67,11 +67,12 @@ export default {
   },
   methods: {
     getItemSize() {
-      console.log("triggered");
+      console.log("getItemSize called")
+      console.log(document.getElementById("pictoList-main"))
       if (this.sidebar) {
-        return (document.getElementById("pictoList")?.clientWidth/3)/this.getRowCount(this.getDeviceType());
+        return (document.getElementById("pictoList-main")?.clientWidth/3)/this.getRowCount(this.getDeviceType());
       }
-      return document.getElementById("pictoList")?.clientWidth/this.getRowCount(this.getDeviceType());
+      return document.getElementById("pictoList-main")?.clientWidth/this.getRowCount(this.getDeviceType());
     },
     getRowCount(deviceType) {
       if (this.sidebar) {
@@ -134,7 +135,6 @@ export default {
       return rowNumber;
     },
     getDeviceType() {
-      console.log("getDeviceType")
       if (document.getElementById("pictoList")?.clientWidth < 768){
         return 'mobile';
       } else if (document.getElementById("pictoList")?.clientWidth < 1024){
@@ -190,6 +190,9 @@ export default {
     },
   },
   computed: {
+    pictoListRendered() {
+      return document.getElementById('pictoList-main');
+    },
     getFilteredPictoList() {
       return this.pictos.filter((picto) => picto?.meaning[this.getUserLang] || picto?.meaning == "");
     },
