@@ -146,7 +146,7 @@ export default {
     },
     isSidebarUsed() {
       console.log("isSidebarUsed", this.sidebarPictos.length != 0)
-      return this.sidebarPictos.length != 0;
+      return true;
     },
     isSidebarPartial() {
       return this.sidebarPictos?.partial;
@@ -209,29 +209,36 @@ export default {
     }
   },
   async fetch() {
+    const start = performance.now();
     this.initialization = true;
     if (this.$route.params.fatherCollectionId) {
       await this.fetchCollection(
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     }
+    console.log(`Execution time of fetchCollection: ${performance.now() - start} ms`)
 
     this.pictos = await this.loadedPictos();
-    console.log("this.pictos fetched")
+    console.log(`Execution time of loadedPictos: ${performance.now() - start} ms`)
     if (this.$store.getters.getSidebarId ) {
       await this.fetchCollection(this.$store.getters.getSidebarId);
     }
+    console.log(`Execution time of fetchCollection sidebar: ${performance.now() - start} ms`)
     this.sidebarPictos = await this.loadedSidebarPictos();
-    console.log("this.sidebarPictos fetched")
+    console.log(`Execution time of loadedSidebarPictos: ${performance.now() - start} ms`)
+
     const user = this.$store.getters.getUser;
     if (!user.username) {
       try {
         await this.$store.dispatch("getUser");
+        console.log(`Execution time of getUser: ${performance.now() - start} ms`)
       } catch (error) {
         console.log("error ", error);
       }
     }
     this.initialization = false;
+    const end = performance.now();
+    console.log(`Execution time of fetch: ${end - start} ms`);
   },
   data() {
     return {

@@ -6,7 +6,7 @@
       "
       style="padding-top: 9px"
     />
-    <div class="even">
+    <div class="even ">
       <RecycleScroller
     class="scroller"
     :items="getFilteredPictoList"
@@ -17,13 +17,6 @@
   >
   <template #default="{ item, index, active }">
       <picto
-        :class="
-          sidebar
-            ? 'column is-12-mobile is-6-tablet is-6-desktop is-4-widescreen is-3-fullhd'
-            : sidebarUsed
-            ? 'column is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-one-fifth-fullhd'
-            : customPictoSize
-        "
         :picto="item"
         :publicMode="publicMode"
         :sidebarMode="sidebar"
@@ -67,12 +60,16 @@ export default {
   },
   methods: {
     getItemSize() {
-      console.log("getItemSize called")
-      console.log(document.getElementById("pictoList-main"))
       if (this.sidebar) {
-        return (document.getElementById("pictoList-main")?.clientWidth/3)/this.getRowCount(this.getDeviceType());
+        const sidebarSize = this.getDeviceType() == 'mobile' ? window.innerWidth*0.2 : 200;
+        return (sidebarSize)/this.getRowCount(this.getDeviceType());
       }
-      return document.getElementById("pictoList-main")?.clientWidth/this.getRowCount(this.getDeviceType());
+      if (this.sidebarUsed) {
+        const sidebarSize = this.getDeviceType() == 'mobile' ? window.innerWidth*0.2 : 200;
+        return ((window.innerWidth-sidebarSize)/this.getRowCount(this.getDeviceType()))/2;
+      } else {
+        return window.innerWidth?.clientWidth/this.getRowCount(this.getDeviceType());
+      }
     },
     getRowCount(deviceType) {
       if (this.sidebar) {
@@ -135,13 +132,13 @@ export default {
       return rowNumber;
     },
     getDeviceType() {
-      if (document.getElementById("pictoList")?.clientWidth < 768){
+      if (window.innerWidth < 768){
         return 'mobile';
-      } else if (document.getElementById("pictoList")?.clientWidth < 1024){
+      } else if (window.innerWidth < 1024){
         return 'tablet';
-      } else if (document.getElementById("pictoList")?.clientWidth < 1216){
+      } else if (window.innerWidth < 1216){
         return 'desktop';
-      } else if (document.getElementById("pictoList")?.clientWidth < 1408){
+      } else if (window.innerWidth < 1408){
         return 'widescreen';
       } else {
         return 'fullhd';
