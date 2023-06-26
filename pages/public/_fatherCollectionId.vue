@@ -39,12 +39,9 @@ export default {
       return this.$store.getters.getSpeech;
     },
     collectionColor() {
-      const collection = this.getCollectionFromId(
-        parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-      if (collection) {
-        if (collection.color) {
-          return collection.color;
+      if (this.collection) {
+        if (this.collection.color) {
+          return this.collection.color;
         } else {
           return "#f5f5f5";
         }
@@ -59,7 +56,7 @@ export default {
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     }
-    this.pictos = this.loadedPictos();
+    this.pictos = await this.loadedPictos();
   },
   data() {
     return {
@@ -68,10 +65,9 @@ export default {
     };
   },
   methods: {
-    sorting(collections, pictos) {
-      let unsortedItems = collections.concat(pictos);
-      let sortedItems = unsortedItems.sort(function (itemA, itemB) {
-        return new Date(itemB.createdDate) - new Date(itemA.createdDate);
+    sorting(items) {
+      let sortedItems = items.sort(function (itemA, itemB) {
+        return new Date(itemA.createdDate) - new Date(itemB.createdDate);
       });
       return sortedItems;
     },
@@ -175,55 +171,41 @@ export default {
           console.log("error ", error);
         }
       }
+      return collection;
     },
     loadedPictos() {
       return this.loadPictos(
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     },
-    loadPictos(fatherCollectionId) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === fatherCollectionId
-      );
-      const collection = this.$store.getters.getCollections[index];
-      if (collection) {
-        const collectionList = collection.collections.map((col) => {
-          return this.getCollectionFromId(col.id);
+    async loadPictos(fatherCollectionId) {
+      const collectionList = this.$store.getters.getCollectionsFromFatherCollectionId(fatherCollectionId);
+      const pictos = this.$store.getters.getPictosFromFatherCollectionId(fatherCollectionId);
+      let items = await Promise.all([collectionList, pictos]);
+      items = items[0].concat(items[1]) // Merge both arrays
+      console.log(items)
+      if (items) {
+        let sortedItems = this.sorting(items);
+        sortedItems.map((picto) => {
+          if (picto?.starred === true) {
+            picto.priority = 1;
+          } else if (picto?.starred === false) {
+            picto.priority = 10;
+          }
         });
-        const pictos = collection.pictos.map((pict) => {
-          return this.getPictoFromId(pict.id);
-        });
-        if (pictos && collectionList) {
-          let sortedItems = [];
-          sortedItems = this.sorting(collectionList, pictos);
-          sortedItems.map((picto) => {
-            if (picto.starred === true) {
-              picto.priority = 1;
-            } else if (picto.starred === false) {
-              picto.priority = 10;
-            }
-          });
-          return sortedItems.sort((a, b) => a.priority - b.priority);
-        } else {
-          return [];
-        }
+        return sortedItems.sort((a, b) => a.priority - b.priority);
+      } else {
+        return [];
       }
-      return [];
     },
     removeSpeech() {
       this.$store.commit("removeSpeech");
     },
-    getCollectionFromId(id) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === id
-      );
-      return this.$store.getters.getCollections[index];
+    async getCollectionFromId(id) {
+      return this.$store.getters.getCollectionFromId(id);
     },
-    getPictoFromId(id) {
-      const index = this.$store.getters.getPictos.findIndex(
-        (picto) => picto.id === id
-      );
-      return this.$store.getters.getPictos[index];
+    async getPictoFromId(id) {
+      return this.$store.getters.getPictoFromId(id);
     },
   },
 };

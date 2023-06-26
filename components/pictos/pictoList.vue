@@ -191,6 +191,7 @@ export default {
       return document.getElementById('pictoList-main');
     },
     getFilteredPictoList() {
+      console.log(this.pictos)
       return this.pictos.filter((picto) => picto?.meaning[this.getUserLang] || picto?.meaning == "");
     },
     isDropZone() {

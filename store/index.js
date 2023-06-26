@@ -619,9 +619,9 @@ export const actions = {
     const publicCollections = (await axios
       .get(`/collection/public?search=${publicSearch.search}&page=${publicSearch?.page}&per_page=${publicSearch?.per_page}`)).data;
     vuexContext.commit('setPublicCollections', publicCollections.map((col) => col.id));
-    return publicCollections.map(collection =>
+    return Promise.all(publicCollections.map(collection =>
       parseAndUpdateEntireCollection(vuexContext, collection)
-    );
+    ));
   },
   async publish(vuexContext, collection) {
     let formData = new URLSearchParams();
