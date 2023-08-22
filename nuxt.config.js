@@ -191,8 +191,9 @@ export default {
   pwa: {
     icon: {
       src: "https://www.pictalk.org/icon.png",
-      sizes: [512],
+      sizes: [48, 72, 96, 120, 144, 152, 192, 384, 512],
       type: "image/png",
+      purpose: ['maskable'],
     },
     workbox: {
       /*
@@ -220,6 +221,7 @@ export default {
         src: "https://www.pictalk.org/icon.png",
         sizes: "512x512",
         type: "image/png",
+        purpose: "any"
       }],
       screenshots: [
         {
