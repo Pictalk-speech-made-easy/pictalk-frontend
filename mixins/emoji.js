@@ -30,6 +30,9 @@ export default {
         if (language.includes("ar") || language.includes("AR")) {
           return String.fromCodePoint(0x1F1F8, 0x1F1E6) + " " + "اللغة العربية";
         }
+        if (language.includes("sk") || language.includes("SK")) {
+          return String.fromCodePoint(0x1F1F8, 0x1F1F0) + " " + "Slovenský";
+        }
       }
       return language;
     },

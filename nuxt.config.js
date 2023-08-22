@@ -155,6 +155,12 @@ export default {
         iso: 'ar-SA',
         name: 'اللغة العربية',
         file: 'ar-SA.js'
+      },
+      {
+        code: 'sk',
+        iso: 'sk-SK',
+        name: 'Slovenský',
+        file: 'sk-SK.js'
       }
     ],
     lazy: true,
