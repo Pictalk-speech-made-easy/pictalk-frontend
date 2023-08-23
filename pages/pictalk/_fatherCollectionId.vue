@@ -5,9 +5,10 @@
         :class="
           !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
           isSidebarUsed
-            ? 'is-8-mobile is-three-fifths-tablet is-8-desktop is-three-fifths-widescreen is-7-fullhd column noMargins scrolling lessPadding'
+            ? 'is-8-mobile is-four-fifths-tablet is-10-desktop is-10-widescreen is-10-fullhd column noMargins scrolling lessPadding'
             : 'is-12 column noMargins scrolling lessPadding'
         "
+        id="pictoList-main"
       >
         <div v-if="pictos.length == 0 && !isPictoListPartial && !initialization">
           <b-image
@@ -32,7 +33,6 @@
           />
         </div>
         <pictoList
-          id="pictoList-main"
           data-cy="cypress-pictoList"
           :pictos="pictos"
           :sidebar="false"

@@ -6,12 +6,13 @@
       "
       style="padding-top: 9px"
     />
-    <div class="even ">
+    <div class="even">
       <RecycleScroller
+      v-if="isPictoListRendered"
     class="scroller"
     :items="getFilteredPictoList"
     :item-size="getItemSize()"
-    :grid-items="getRowCount()"
+    :grid-items="getRowCount(getDeviceType)"
     :item-secondary-size="getItemSize()"
     key-field="id"
   >
@@ -56,19 +57,25 @@ export default {
   data() {
     return {
       timer: 0,
+      isPictoListRendered: false
     };
   },
   methods: {
+    
     getItemSize() {
-      if (this.sidebar) {
-        const sidebarSize = this.getDeviceType() == 'mobile' ? window.innerWidth*0.2 : 200;
-        return (sidebarSize)/this.getRowCount(this.getDeviceType());
+      let mainContainerWidth = document.getElementById('pictoList-main')?.clientWidth;
+      if (!mainContainerWidth) {
+        return 50;
       }
-      if (this.sidebarUsed) {
-        const sidebarSize = this.getDeviceType() == 'mobile' ? window.innerWidth*0.2 : 200;
-        return ((window.innerWidth-sidebarSize)/this.getRowCount(this.getDeviceType()))/2;
+      if (this.sidebar) {
+        const sidebarSize = window.innerWidth - mainContainerWidth;
+        console.log("Sidebar size: ",(sidebarSize)/this.getRowCount(this.getDeviceType))
+        return (sidebarSize)/this.getRowCount(this.getDeviceType);
       } else {
-        return window.innerWidth?.clientWidth/this.getRowCount(this.getDeviceType());
+        console.log("Main container width is: ",mainContainerWidth)
+        console.log("Item size is: ",((mainContainerWidth)/this.getRowCount(this.getDeviceType)))
+        console.log("Item count is: ",this.getRowCount(this.getDeviceType))
+        return ((mainContainerWidth)/this.getRowCount(this.getDeviceType));
       }
     },
     getRowCount(deviceType) {
@@ -76,6 +83,7 @@ export default {
         return 1;
       }
       let rowNumber;
+      console.log("Pronunciation show size", this.$store.getters.getUser.settings?.pronounceShowSize)
       if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
         if (deviceType == 'mobile') {
           rowNumber = 3;
@@ -126,24 +134,11 @@ export default {
           rowNumber = 5;
         }
       }
-      if (this.sidebarUsed) {
-        // Minimize the number of rows in order to display correctly the sidebar
-      }
+      console.log("Device type is: ",deviceType)
+      console.log("Row number is: ",rowNumber)
       return rowNumber;
     },
-    getDeviceType() {
-      if (window.innerWidth < 768){
-        return 'mobile';
-      } else if (window.innerWidth < 1024){
-        return 'tablet';
-      } else if (window.innerWidth < 1216){
-        return 'desktop';
-      } else if (window.innerWidth < 1408){
-        return 'widescreen';
-      } else {
-        return 'fullhd';
-      }
-    },
+    
     onDragOver(ev) {
       ev.preventDefault();
       ev.dataTransfer.dropEffect = "move";
@@ -186,9 +181,23 @@ export default {
       default: () => true,
     },
   },
+  mounted(){
+    console.log("Picto list is mounted")
+    this.isPictoListRendered = true;
+  },
   computed: {
-    pictoListRendered() {
-      return document.getElementById('pictoList-main');
+    getDeviceType() {
+      if (window.innerWidth < 768){
+        return 'mobile';
+      } else if (window.innerWidth < 1024){
+        return 'tablet';
+      } else if (window.innerWidth < 1216){
+        return 'desktop';
+      } else if (window.innerWidth < 1408){
+        return 'widescreen';
+      } else {
+        return 'fullhd';
+      }
     },
     getFilteredPictoList() {
       console.log(this.pictos)
