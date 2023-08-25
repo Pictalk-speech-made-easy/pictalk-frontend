@@ -166,7 +166,7 @@ export default {
     lazy: true,
     langDir: 'lang/',
     defaultLocale: 'en',
-    strategy: 'no_prefix',
+    strategy: 'prefix_except_default',
     vueI18n: {
       fallbackLocale: 'en',
     },

@@ -133,6 +133,7 @@ import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 import lang from "@/mixins/lang";
 export default {
+  nuxtI18n: false,
   layout: "pictalk",
   mixins: [lang],
   data: {
