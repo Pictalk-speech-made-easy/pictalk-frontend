@@ -44,6 +44,7 @@
 import axios from "axios";
 import feedbackTable from "@/components/admin/feedbackTable";
 export default {
+  nuxtI18n: false,
   components: {
     feedbackTable,
   },

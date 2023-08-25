@@ -16,6 +16,7 @@
 import axios from "axios";
 import account from "@/components/auth/account";
 export default {
+  nuxtI18n: false,
   components: {
     account,
   },

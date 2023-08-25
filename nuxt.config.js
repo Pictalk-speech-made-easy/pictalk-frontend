@@ -95,11 +95,12 @@ export default {
   },
   i18n: {
     baseURL: 'https://www.pictalk.org',
+    defaultLocale: 'en',
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
+      alwaysRedirect: false,
       redirectOn: 'root',
-      alwaysRedirect: true
     },
     locales: [
       {
