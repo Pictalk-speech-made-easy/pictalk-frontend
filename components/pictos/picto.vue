@@ -271,7 +271,7 @@ export default {
       timer: 0,
       publishLoad: false,
       dragImage: undefined,
-      skeleton: true,
+      skeleton: false,
     };
   },
   props: {
