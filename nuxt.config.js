@@ -86,11 +86,17 @@ export default {
   sitemap: {
     hostname: 'https://www.pictalk.org',
     gzip: false,
+    i18n: true,
+    i18n: {
+      locales: ['en', 'es', 'fr', 'it', 'de', 'ro', 'pt', 'el', 'ar', 'sk'],
+      routesNameSeparator: '___'
+    },
     exclude: [
       '/changePassword',
       '/account',
       '/resetPassword/**',
-      '/_nuxt/**'
+      '/_nuxt/**',
+      '/administration'
     ],
   },
   i18n: {
@@ -179,10 +185,10 @@ export default {
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
-    '@nuxtjs/sitemap',
     '@nuxtjs/robots',
     '@nuxtjs/sentry',
     '@nuxtjs/i18n',
+    '@nuxtjs/sitemap',
     ['nuxt-matomo', { matomoUrl: '//matomo.home.asidiras.dev/', siteId: 1, cookies: false }]
   ],
   robots: {
@@ -191,7 +197,8 @@ export default {
       '/changepassword',
       '/account',
       '/resetPassword/**',
-      '/_nuxt/**'
+      '/_nuxt/**',
+      '/administration'
     ],
     Sitemap: 'https://www.pictalk.org/sitemap.xml'
   },
