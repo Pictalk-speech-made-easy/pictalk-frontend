@@ -815,7 +815,7 @@ export default {
               color: this.picto.color,
               share: 1,
               fatherCollectionId: parseInt(
-                this.$route.params.fatherCollectionId,
+                this.$route.query.fatherCollectionId,
                 10
               ),
               image: cfile,
@@ -842,7 +842,7 @@ export default {
               color: this.picto.color,
               share: 1,
               fatherCollectionId: parseInt(
-                this.$route.params.fatherCollectionId,
+                this.$route.query.fatherCollectionId,
                 10
               ),
               image: cfile,

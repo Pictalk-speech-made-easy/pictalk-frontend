@@ -15,7 +15,7 @@
         <b-button
           style="background-color: hsl(154, 100%, 70%)"
           :label="$t('PublicCollections')"
-          @click="goTo('/public/')"
+          @click="$router.push({ path: '/public' })"
           icon-left="web"
           class="fullWidth customButton"
         />
@@ -47,37 +47,28 @@ export default {
     GoToRoot() {
       if (this.$store.getters.getRootId) {
         this.$router.push({
-          path: "/pictalk/" + this.$store.getters.getRootId,
-          query: {
-            isAdmin: this.$route.query.isAdmin,
-          },
+          query: { ...this.$route.query, isAdmin: this.$route.query.isAdmin, fatherCollectionId: this.$store.getters.getRootId },
         });
       } else {
         this.$router.push({
-          path: "/pictalk",
-          query: {
-            isAdmin: this.$route.query.isAdmin,
-          },
+          query: { ...this.$route.query, isAdmin: this.$route.query.isAdmin },
         });
       }
       this.$parent.close();
     },
     goTo(link) {
       this.$router.push({
-        path: link,
+        query: { ...this.$route.query, isAdmin: this.$route.query.isAdmin, fatherCollectionId: link},
       });
       this.$parent.close();
     },
   },
   computed: {
-    admin() {
-      return this.$route.query.isAdmin ? "?isAdmin=true" : "";
-    },
     sharedLink() {
-      return "/pictalk/" + this.$store.getters.getSharedId + this.admin;
+      return this.$store.getters.getSharedId;
     },
     sidebarLink() {
-      return "/pictalk/" + this.$store.getters.getSidebarId + this.admin;
+      return this.$store.getters.getSidebarId;
     },
   },
   data() {

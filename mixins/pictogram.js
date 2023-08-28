@@ -8,12 +8,12 @@ export default {
     }
   },
   created() {
-    window.addEventListener('online', () => { this.isOnline = true; });
-    window.addEventListener('offline', () => { this.isOnline = false; });
+    //window.addEventListener('online', () => { this.isOnline = true; });
+    //window.addEventListener('offline', () => { this.isOnline = false; });
   },
   destroyed() {
-    window.removeEventListener("online");
-    window.removeEventListener("offline");
+    //window.removeEventListener("online");
+    //window.removeEventListener("offline");
   },
   methods: {
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
@@ -73,8 +73,7 @@ export default {
     sidebarClick() {
       if (this.picto.collection == true) {
         this.$router.push({
-          path: this.pictoLink,
-          query: { ...this.$route.query },
+          query: { ...this.$route.query, fatherCollectionId: this.picto.id },
         });
       } else {
         this.addToSpeech();
@@ -94,8 +93,7 @@ export default {
           });
         } else {
           this.$router.push({
-            path: this.pictoLink,
-            query: { ...this.$route.query },
+            query: { ...this.$route.query, fatherCollectionId: this.picto.id },
           });
         }
       }
@@ -205,7 +203,7 @@ export default {
   },
   computed: {
     canDelete() {
-      return this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))?.userId == this.$store.getters.getUser.id;
+      return this.getCollectionFromId(parseInt(this.$route.query.fatherCollectionId, 10))?.userId == this.$store.getters.getUser.id;
     },
     isToUser() {
       return this.$store.getters.getUser.id == this.picto.userId;

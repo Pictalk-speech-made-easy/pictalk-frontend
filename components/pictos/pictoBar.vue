@@ -211,7 +211,7 @@ export default {
     },
     triggerRemoveSpeechDrag() {
       if (
-        this.$route.params.fatherCollectionId != this.$store.getters.getRootId
+        this.$route.query.fatherCollectionId != this.$store.getters.getRootId
       ) {
         // Remove until previous pictalk collection
         const pictalkSpeech = this.$store.getters.getSpeech.filter(
@@ -269,12 +269,10 @@ export default {
             } else {
               if (this.$store.getters.getRootId) {
                 this.$router.push({
-                  path: "/pictalk/" + this.$store.getters.getRootId,
-                  query: { ...this.$route.query },
+                  query: { ...this.$route.query, fatherCollectionId: this.$store.getters.getRootId },
                 });
               } else {
                 this.$router.push({
-                  path: "/pictalk/",
                   query: { ...this.$route.query },
                 });
               }
@@ -304,16 +302,16 @@ export default {
         this.$store.commit("eraseSpeech");
         if (this.$store.getters.getRootId) {
           this.$router.push({
-            path: "/pictalk/" + this.$store.getters.getRootId,
             query: {
               isAdmin: this.$route.query.isAdmin,
+              fatherCollectionId: this.$store.getters.getRootId,
             },
           });
         } else {
           this.$router.push({
-            path: "/pictalk",
             query: {
               isAdmin: this.$route.query.isAdmin,
+              fatherCollectionId: undefined
             },
           });
         }

@@ -3,7 +3,7 @@
     <div class="columns is-mobile noscroll">
       <div
         :class="
-          !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
+          !($route.query.fatherCollectionId == $store.getters.getSidebarId) &&
           isSidebarUsed
             ? 'is-8-mobile is-four-fifths-tablet is-10-desktop is-10-widescreen is-10-fullhd column noMargins scrolling lessPadding'
             : 'is-12 column noMargins scrolling lessPadding'
@@ -38,7 +38,7 @@
           :sidebar="false"
           :sidebarUsed="
             isSidebarUsed &&
-            $route.params.fatherCollectionId != $store.getters.getSidebarId
+            $route.query.fatherCollectionId != $store.getters.getSidebarId
           "
           v-if="!isPictoListPartial || isOnLine || !isPictoListEmpty"
         />
@@ -59,7 +59,7 @@
 
       <div
         v-if="
-          !($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
+          !($route.query.fatherCollectionId == $store.getters.getSidebarId) &&
           isSidebarUsed
         "
         class="
@@ -78,7 +78,7 @@
         <pictoList
           :pictos="sidebarPictos"
           :sidebar="true"
-          v-if="!isSidebarPartial || isOnLine || !isSidebarEmpty"
+          v-if="isOnLine || !isSidebarEmpty"
         />
       </div>
     </div>
@@ -115,6 +115,13 @@ export default {
     pictoBar: pictoBar,
     sidebar: sidebar,
   },
+  watch: {
+    async $route(to, from) {
+          if (to.query.fatherCollectionId != from.query.fatherCollectionId) {
+            this.pictos = await this.loadedPictos();
+          }
+      }
+  },
   created() {
     window.addEventListener("online", this.refreshPictos);
     window.addEventListener("offline", this.lostConnectivityNotification);
@@ -148,13 +155,10 @@ export default {
       console.log("isSidebarUsed", this.sidebarPictos.length != 0)
       return true;
     },
-    isSidebarPartial() {
-      return this.sidebarPictos?.partial;
-    },
     isSidebarEmpty() {
+      console.log(this.sidebarPictos)
       return (
-        this.sidebarPictos?.pictos.length == 0 &&
-        this.sidebarPictos?.collections.length == 0
+        this.sidebarPictos?.length == 0
       );
     },
     isPictoListPartial() {
@@ -191,15 +195,15 @@ export default {
     let path;
     let query = { ...this.$route.query };
     if (
-      !this.$route.params.fatherCollectionId
+      !this.$route.query.fatherCollectionId
     ) {
-      if (!this.$route.params.fatherCollectionId) {
+      if (!this.$route.query.fatherCollectionId) {
         if (this.$store.getters.getRootId) {
-          path = "/pictalk/" + this.$store.getters.getRootId;
+          query.fatherCollectionId =  this.$store.getters.getRootId;
         } else {
           var res = await axios.get("/user/root/");
           this.$store.commit("setRootId", res.data.id);
-          path = "/pictalk/" + res.data.id;
+          query.fatherCollectionId = res.data.id;
         }
       }
       this.$router.push({
@@ -210,14 +214,15 @@ export default {
   },
   async fetch() {
     this.initialization = true;
-    if (this.$route.params.fatherCollectionId) {
+    if (this.$route.query.fatherCollectionId) {
       await this.fetchCollection(
-        parseInt(this.$route.params.fatherCollectionId, 10)
+        parseInt(this.$route.query.fatherCollectionId, 10)
       );
     }
 
     this.pictos = await this.loadedPictos();
-    if (this.$store.getters.getSidebarId ) {
+
+    if (this.$store.getters.getSidebarId) {
       await this.fetchCollection(this.$store.getters.getSidebarId);
     }
     this.sidebarPictos = await this.loadedSidebarPictos();
@@ -242,13 +247,13 @@ export default {
     };
   },
   methods: {
-    loadedPictos() {
-      return this.loadPictos(
-        parseInt(this.$route.params.fatherCollectionId, 10)
-      );
-    },
     loadedSidebarPictos() {
       return this.loadPictos(this.$store.getters.getSidebarId);
+    },
+    loadedPictos() {
+      return this.loadPictos(
+        parseInt(this.$route.query.fatherCollectionId, 10)
+      );
     },
     async loadPictos(fatherCollectionId) {
       const collectionList = this.$store.getters.getCollectionsFromFatherCollectionId(fatherCollectionId);

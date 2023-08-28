@@ -148,7 +148,7 @@ export default {
     },
     pictalkHome() {
       if (this.$store.getters.getRootId) {
-        return "/pictalk/" + this.$store.getters.getRootId;
+        return "/pictalk?fatherCollectionId=" + this.$store.getters.getRootId;
       } else {
         return "/pictalk";
       }

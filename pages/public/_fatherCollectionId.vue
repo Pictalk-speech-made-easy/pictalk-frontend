@@ -51,9 +51,9 @@ export default {
     },
   },
   async fetch() {
-    if (this.$route.params.fatherCollectionId) {
+    if (this.$route.query.fatherCollectionId) {
       await this.fetchCollection(
-        parseInt(this.$route.params.fatherCollectionId, 10)
+        parseInt(this.$route.query.fatherCollectionId, 10)
       );
     }
     this.pictos = await this.loadedPictos();
@@ -175,7 +175,7 @@ export default {
     },
     loadedPictos() {
       return this.loadPictos(
-        parseInt(this.$route.params.fatherCollectionId, 10)
+        parseInt(this.$route.query.fatherCollectionId, 10)
       );
     },
     async loadPictos(fatherCollectionId) {

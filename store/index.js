@@ -566,12 +566,18 @@ export const actions = {
     let collectionsToEdit = [];
     let pictosTocreate = [];
     let pictosToEdit = [];
+    toUpdate = await Promise.all(toUpdate);
+    console.log(toUpdate)
     for (let update of toUpdate) {
       collectionsToCreate = collectionsToCreate.concat(update.collectionsToCreate);
       collectionsToEdit = collectionsToEdit.concat(update.collectionsToEdit);
       pictosTocreate = pictosTocreate.concat(update.pictosTocreate);
       pictosToEdit = pictosToEdit.concat(update.pictosToEdit);
     }
+    console.log(collectionsToCreate);
+    console.log(collectionsToEdit);
+    console.log(pictosTocreate);
+    console.log(pictosToEdit);
     if (collectionsToCreate.length > 0) {
       vuexContext.commit("addCollection", collectionsToCreate);
     }
@@ -796,6 +802,10 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
       collection.pictos = [];
     }
 
+    // TODO Est-ce qu'on peut recuperer fatherCollectionId d'une autre facon ?
+    // SI la collection n'existe pas alors cela sera undefined...
+    collection.fatherCollectionId = localCollection.fatherCollectionId;
+
     if (!existsCollection) {
       collectionsToCreate.push(collection);
     }
@@ -861,7 +871,8 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
         col.collection = true;
 
         col.partial = true;
-
+        console.log("collection Id : " + collection.id);
+        console.log(col.fatherCollectionId)
         col.fatherCollectionId = collection.id;
         if (!existsCollections) {
           collectionsToCreate.push(col);

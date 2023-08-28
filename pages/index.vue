@@ -245,7 +245,7 @@ export default {
     if (this.$route.query.standalone) {
       if (this.$store.getters.getUser.username) {
         this.$router.push({
-          path: "/pictalk/" + this.$store.getters.getRootId,
+          query: { ...this.$route.query, fatherCollectionId: this.$store.getters.getRootId },
         });
       } else {
         this.$router.push({

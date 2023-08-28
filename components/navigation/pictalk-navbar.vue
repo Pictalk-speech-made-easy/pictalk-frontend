@@ -12,7 +12,7 @@
         style="margin-top: 3px"
       >
         <b-button
-            :disabled="parseInt($route.params.fatherCollectionId) == $store.getters.getUser.root"
+            :disabled="parseInt($route.query.fatherCollectionId) == $store.getters.getUser.root"
             class="customButton"
             style="background-color: hsl(210, 100%, 60%); min-width: 80px"
             @click="navigateToParentCollection()"
@@ -491,42 +491,41 @@ export default {
       return "/pictalk/" + this.$store.getters.getSidebarId + this.admin;
     },
     async isEditorFatherId() {
-      const collection = await this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))
+      const collection = await this.getCollectionFromId(parseInt(this.$route.query.fatherCollectionId, 10))
       return collection?.editors.find(
           (editor) => editor == this.$store.getters.getUser.username
         ) != undefined
     },
     async isToUserFatherId() {
-      const collection = await this.getCollectionFromId(parseInt(this.$route.params.fatherCollectionId, 10))
+      const collection = await this.getCollectionFromId(parseInt(this.$route.query.fatherCollectionId, 10))
       return collection?.userId == this.$store.getters.getUser.id
     }
   },
   methods: {
     navigateToParentCollection() {
       const speechCollectionArray = this.$store.getters.getSpeech.filter((picto) => !picto.sidebar && picto.collection);
-      const speechCollectionArrayBeforePosition = speechCollectionArray.slice(0, speechCollectionArray.findIndex((picto) => picto.id == parseInt(this.$route.params.fatherCollectionId)));
+      const speechCollectionArrayBeforePosition = speechCollectionArray.slice(0, speechCollectionArray.findIndex((picto) => picto.id == parseInt(this.$route.query.fatherCollectionId)));
       if (speechCollectionArrayBeforePosition.length < 1) {
         if (this.publicMode) {
-          this.$router.push("/public/346");
+          this.$router.push(
+            { path: "/public/",
+            query: { ...this.$route.query, fatherCollectionId: 346 },
+          });
         } else {
           if (this.$store.getters.getRootId) {
             this.$router.push({
-              path: "/pictalk/" + this.$store.getters.getRootId,
-              query: { ...this.$route.query },
+              query: { ...this.$route.query, isAdmin: this.$route.query.isAdmin, fatherCollectionId: this.$store.getters.getRootId },
             });
           } else {
             this.$router.push({
-              path: "/pictalk/",
-              query: { ...this.$route.query },
+              query: { ...this.$route.query, isAdmin: this.$route.query.isAdmin },
             });
           }
         }
       } else {
         this.$router.push({
-          path:
-            (this.publicMode ? "/public/" : "/pictalk/") +
-            speechCollectionArrayBeforePosition[speechCollectionArrayBeforePosition.length - 1]?.id,
-          query: { ...this.$route.query },
+          path: this.publicMode ? "/public" : "/pictalk",
+          query: { ...this.$route.query, fatherCollectionId: speechCollectionArrayBeforePosition[speechCollectionArrayBeforePosition.length - 1]?.id },
         });
       }
     },
@@ -623,7 +622,7 @@ export default {
           if (this.$store.getters.getCopyCollectionId.isPicto) {
             const copiedPicto = await this.$store.dispatch("copyPictoById", {
               pictoId: this.$store.getters.getCopyCollectionId.collectionId,
-              fatherCollectionId: this.$route.params.fatherCollectionId,
+              fatherCollectionId: this.$route.query.fatherCollectionId,
             });
             /*
             $nuxt.$emit("addPictogram", copiedPicto);
@@ -635,7 +634,7 @@ export default {
               {
                 collectionId:
                   this.$store.getters.getCopyCollectionId.collectionId,
-                fatherCollectionId: this.$route.params.fatherCollectionId,
+                fatherCollectionId: this.$route.query.fatherCollectionId,
               }
             );
             //$nuxt.$emit("addPictogram", copiedCollection);
@@ -663,7 +662,7 @@ export default {
           let collection = JSON.parse(
             JSON.stringify(
               this.getCollectionFromId(
-                parseInt(this.$route.params.fatherCollectionId, 10)
+                parseInt(this.$route.query.fatherCollectionId, 10)
               )
             )
           );
@@ -714,8 +713,7 @@ export default {
         return;
       } else {
         this.$router.push({
-          path: "/pictalk/" + notification.affected,
-          query: { ...this.$route.query },
+          query: { ...this.$route.query, fatherCollectionId: notification.affected },
         });
       }
     },

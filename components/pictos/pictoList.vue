@@ -8,7 +8,6 @@
     />
     <div class="even">
       <RecycleScroller
-      v-if="isPictoListRendered"
     class="scroller"
     :items="getFilteredPictoList"
     :item-size="getItemSize()"
@@ -56,8 +55,7 @@ export default {
   },
   data() {
     return {
-      timer: 0,
-      isPictoListRendered: false
+      timer: 0    
     };
   },
   methods: {
@@ -181,10 +179,6 @@ export default {
       default: () => true,
     },
   },
-  mounted(){
-    console.log("Picto list is mounted")
-    this.isPictoListRendered = true;
-  },
   computed: {
     getDeviceType() {
       if (window.innerWidth < 768){
@@ -214,7 +208,7 @@ export default {
     canReturn() {
       return (
         this.$store.getters.getRootId !=
-        parseInt(this.$route.params.fatherCollectionId)
+        parseInt(this.$route.query.fatherCollectionId)
       );
     },
     customPictoSize() {

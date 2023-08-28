@@ -41,31 +41,6 @@ export default {
       expanded: false,
     };
   },
-  methods: {
-    returnWithoutDelete() {
-      const pictoSpeech = this.$store.getters.getSpeech;
-        if (this.publicMode) {
-          this.$router.push("/public/");
-        } else {
-          if (this.$store.getters.getSidebarId) {
-            this.$router.push({
-              path: "/pictalk/" + this.$store.getters.getRootId,
-              query: {
-                isAdmin: this.$route.query.isAdmin,
-              },
-            });
-          } else {
-            this.$router.push({
-              path: "/pictalk",
-              query: {
-                isAdmin: this.$route.query.isAdmin,
-              },
-            });
-          }
-        }
-        return;
-    },
-  },
 };
 </script>
 <style scoped>

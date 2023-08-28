@@ -395,14 +395,14 @@ export default {
       if (
         this.$store.getters.getDragndrop &&
         this.$store.getters.getDragndrop.fatherCollectionId !=
-          parseInt(this.$route.params.fatherCollectionId)
+          parseInt(this.$route.query.fatherCollectionId)
       ) {
         const dragndrop = this.$store.getters.getDragndrop;
         if (this.$store.getters.getDragndrop) {
           this.$store.commit("setDragndrop", undefined);
         }
         await this.moveToCollection(
-          parseInt(this.$route.params.fatherCollectionId),
+          parseInt(this.$route.query.fatherCollectionId),
           dragndrop
         );
       }
@@ -416,7 +416,7 @@ export default {
       // Add different types of drag data
       this.$store.commit("setDragndrop", {
         draggedPictoId: this.picto.id,
-        fatherCollectionId: parseInt(this.$route.params.fatherCollectionId),
+        fatherCollectionId: parseInt(this.$route.query.fatherCollectionId),
         isCollection: this.picto.collection,
       });
       ev.dataTransfer.dropEffect = "move";
@@ -473,11 +473,6 @@ export default {
     },
     dragndropId() {
       return this.$store.getters.getDragndrop?.draggedPictoId;
-    },
-    pictoLink() {
-      return this.publicMode
-        ? String("/public/" + this.picto.id)
-        : String("/pictalk/" + this.picto.id);
     },
   },
 };

@@ -79,7 +79,7 @@ export default {
             const res = await this.$store.dispatch("removeCollection", {
               collectionId: this.object.id,
               fatherCollectionId: parseInt(
-                this.$route.params.fatherCollectionId,
+                this.$route.query.fatherCollectionId,
                 10
               ),
             });
@@ -87,7 +87,7 @@ export default {
             const res = await this.$store.dispatch("removePicto", {
               pictoId: this.object.id,
               fatherCollectionId: parseInt(
-                this.$route.params.fatherCollectionId,
+                this.$route.query.fatherCollectionId,
                 10
               ),
             });
