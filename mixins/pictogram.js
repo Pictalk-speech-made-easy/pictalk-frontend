@@ -93,6 +93,7 @@ export default {
           });
         } else {
           this.$router.push({
+            path: this.public ? '/public/pictalk' : this.$route.path,
             query: { ...this.$route.query, fatherCollectionId: this.picto.id },
           });
         }

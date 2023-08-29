@@ -90,7 +90,7 @@
               outlined
               v-if="!isLogged"
               tag="nuxt-link"
-              to="/public/346"
+              to="/public/pictalk?fatherCollectionId=346"
               type="is-primary"
               icon-right="arrow-right-box"
               >{{ $t("TryPictalk") }}</b-button

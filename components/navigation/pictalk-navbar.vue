@@ -508,7 +508,7 @@ export default {
       if (speechCollectionArrayBeforePosition.length < 1) {
         if (this.publicMode) {
           this.$router.push(
-            { path: "/public/",
+            { path: "/public/pictalk",
             query: { ...this.$route.query, fatherCollectionId: 346 },
           });
         } else {
@@ -524,7 +524,7 @@ export default {
         }
       } else {
         this.$router.push({
-          path: this.publicMode ? "/public" : "/pictalk",
+          path: this.publicMode ? "/public/pictalk" : "/pictalk",
           query: { ...this.$route.query, fatherCollectionId: speechCollectionArrayBeforePosition[speechCollectionArrayBeforePosition.length - 1]?.id },
         });
       }

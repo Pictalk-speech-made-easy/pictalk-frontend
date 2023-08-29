@@ -27,7 +27,7 @@ export default {
   middleware: ["check-auth", "auth", "axios"],
   layout: "pictalk",
   async fetch() {
-    const user = this.store.getters.getUser;
+    const user = this.$store.getters.getUser;
     const collections = this.store.getters.getCollections;
     if (user.username) {
       return;
