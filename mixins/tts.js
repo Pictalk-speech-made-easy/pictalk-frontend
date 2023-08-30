@@ -192,7 +192,7 @@ export default {
     searchForPreferredVoicesApple() {
       if (this.localeIso() == "fr-FR") {
         this.voiceURI = this.voices.filter(
-          (voice) => ((voice.lang == "fr-FR") || (voice.lang == "fr-CA")) && voice.voiceURI.includes("Amélie")
+          (voice) => ((voice.lang == "fr-FR") || (voice.lang == "fr-CA")) && voice.voiceURI.includes("Amelie")
         )[0]?.voiceURI;
       }
       if (this.localeIso() == "en-GB") {
@@ -202,7 +202,7 @@ export default {
       }
       if (this.localeIso() == "es-ES") {
         this.voiceURI = this.voices.filter(
-          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Jorge")
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Monica")
         )[0]?.voiceURI;
       }
     },
