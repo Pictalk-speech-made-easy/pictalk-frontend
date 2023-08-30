@@ -436,7 +436,7 @@ export default {
       this.animation = false;
       this.testBoundaryEventSupport();
     },
-    pictosWithoutSilent: async function () {
+    pictosWithoutSilent: async function (pictos) {
       const paths = pictos.map((picto) => picto.image);
       const text = this.getText(pictos);
       const b64 = await mergeImages(paths, {
@@ -445,6 +445,7 @@ export default {
         color: "white",
       });
       this.preGeneratedBlob = this.b64toBlob(b64);
+      console.log("this.preGeneratedBlob: ", this.preGeneratedBlob);
     }
   },
   data() {
