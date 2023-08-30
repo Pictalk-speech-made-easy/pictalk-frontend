@@ -164,44 +164,26 @@ export default {
         });
       }
     },
-    async copyPictosToClipboardBase(pictos) {
-      const canWriteToClipboard = await this.askWritePermission();
-      console.log("Permissions for clipboard: ", canWriteToClipboard)
-      if (canWriteToClipboard || this.detectBrowser() == "Safari") {
+    copyPictosToClipboardBase(pictos) {
+      if (this.writePermission || this.detectBrowser() == "Safari") {
         console.log("Force copy pictos for ios devices");
-        await this.copyPictosToClipboardV2(pictos);
+        this.copyPictosToClipboardV2(pictos);
       } else {
-        await this.copyPictosToClipboardLegacy(pictos);
+        this.copyPictosToClipboardLegacy(pictos);
       }
     },
-    async copyPictosToClipboardV2(pictos) {
-      const paths = pictos.map((picto) => picto.image);
-      const text = this.getText(pictos);
-      const b64 = await mergeImages(paths, {
-        crossOrigin: "Anonymous",
-        text: text,
-        color: "white",
-      });
+    copyPictosToClipboardV2(pictos) {
       try {
-        const blob = this.b64toBlob(b64);
-        if (this.detectBrowser() != "Safari") {
-          const data = [new ClipboardItem({ [blob.type]: blob })];
-          await navigator.clipboard.write(data);
-        } else {
-          console.log("Browser is Safari. Using imagePromise");
-          const imagePromise = async () => {
-            return await this.b64toBlob(b64);
-          }
-          await navigator.clipboard.write([new ClipboardItem({ [blob.type]: imagePromise() })])
-        }
-        const notif = this.$buefy.toast.open({
+          const data = [new ClipboardItem({ [this.preGeneratedBlob.type]: this.preGeneratedBlob })];
+          navigator.clipboard.write(data);
+          const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
         });
       } catch (e) {
         console.log(e);
         try {
-          await this.copyPictosToClipboardLegacy(pictos);
+          this.copyPictosToClipboardLegacy(pictos);
         } catch(e) {
           const notif = this.$buefy.toast.open({
           message: this.$t("CopyError"),
@@ -405,8 +387,9 @@ export default {
       }
     });
   },
-  created() {
+  async created() {
     this.$nuxt.$on("removeSpeechDrag", this.triggerRemoveSpeechDrag);
+    this.writePermission = await this.askWritePermission()
   },
   beforeDestroy() {
     this.$nuxt.$off("removeSpeechDrag");
@@ -453,6 +436,16 @@ export default {
       this.animation = false;
       this.testBoundaryEventSupport();
     },
+    pictosWithoutSilent: async function () {
+      const paths = pictos.map((picto) => picto.image);
+      const text = this.getText(pictos);
+      const b64 = await mergeImages(paths, {
+        crossOrigin: "Anonymous",
+        text: text,
+        color: "white",
+      });
+      this.preGeneratedBlob = this.b64toBlob(b64);
+    }
   },
   data() {
     return {
@@ -465,6 +458,8 @@ export default {
       voices: [],
       voiceURI: "",
       pictoLength: 0,
+      preGeneratedBlob: undefined,
+      writePermission: undefined,
     };
   },
 };
