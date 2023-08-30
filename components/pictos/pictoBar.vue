@@ -166,7 +166,9 @@ export default {
     },
     async copyPictosToClipboardBase(pictos) {
       const canWriteToClipboard = await this.askWritePermission();
-      if (canWriteToClipboard) {
+      console.log("Permissions for clipboard: ", canWriteToClipboard)
+      if (canWriteToClipboard || true) {
+        console.log("Force copy pictos for ios devices");
         await this.copyPictosToClipboardV2(pictos);
       } else {
         await this.copyPictosToClipboardLegacy(pictos);
@@ -190,11 +192,15 @@ export default {
         });
       } catch (e) {
         console.log(e);
-        await this.$copsyText(b64);
-        const notif = this.$buefy.toast.open({
+        try {
+          await this.copyPictosToClipboardLegacy(pictos);
+        } catch(e) {
+          const notif = this.$buefy.toast.open({
           message: this.$t("CopyError"),
           type: "is-danger",
         });
+        }
+        
       }
     },
     async pictalk(pictos) {
