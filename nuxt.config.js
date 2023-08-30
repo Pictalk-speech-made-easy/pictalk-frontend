@@ -87,6 +87,7 @@ export default {
     hostname: 'https://www.pictalk.org',
     gzip: false,
     i18n: true,
+    trailingSlash: true,
     i18n: {
       locales: ['en', 'es', 'fr', 'it', 'de', 'ro', 'pt', 'el', 'ar', 'sk'],
       routesNameSeparator: '___'
