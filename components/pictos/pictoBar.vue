@@ -184,6 +184,10 @@ export default {
         console.log(e);
         try {
           this.copyPictosToClipboardLegacy(pictos);
+          const notif = this.$buefy.toast.open({
+          message: this.$t("CopySucces"),
+          type: "is-success",
+          });
         } catch(e) {
           const notif = this.$buefy.toast.open({
           message: this.$t("CopyError"),
@@ -389,7 +393,7 @@ export default {
   },
   async created() {
     this.$nuxt.$on("removeSpeechDrag", this.triggerRemoveSpeechDrag);
-    this.writePermission = await this.askWritePermission()
+    this.writePermission = await this.askWritePermission();
   },
   beforeDestroy() {
     this.$nuxt.$off("removeSpeechDrag");
@@ -436,7 +440,7 @@ export default {
           let element = document.getElementById("bar");
           element.scrollLeft = element.scrollWidth;
         }, 125);
-        if ((this.$store.getters.getUser.settings?.pronounceClick|| this.publicMode) && value.length >= this.pictoLength ) {
+        if ((this.$store.getters.getUser.settings?.pronounceClick|| this.publicMode) && value.length >= this.pictoLength && value.length > 0 ) {
           this.pronounce(
             value[value.length -1].speech[this.getUserLang],
             this.getUserLang,

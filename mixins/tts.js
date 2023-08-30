@@ -82,14 +82,24 @@ export default {
         }
         );
         if (!this.voiceURI) {
+          console.log("No voice URI present in the user language and device info")
           this.voiceURI = this.voices.filter((voice) =>
             voice.lang.includes(this.getUserLang)
           )[0]?.voiceURI;
+          console.log("Voice selected by lang: ", this.voiceURI)
         }
       } else {
-        this.voiceURI = this.voices.filter(
-          (voice) => voice.lang == this.localeIso()
-        )[0]?.voiceURI;
+        console.log("No user language")
+        console.log("Selecting voice by locale: ", this.localeIso())
+
+        this.searchForPreferredVoices();
+
+        if (!this.voiceURI) {
+          this.voiceURI = this.voices.filter(
+            (voice) => voice.lang == this.localeIso()
+          )[0]?.voiceURI;
+        }
+        console.log("Voice selected by locale: ", this.voiceURI)
       }
     });
     allVoicesObtained.catch((err) => {
@@ -97,6 +107,105 @@ export default {
     })
   },
   methods: {
+    searchForPreferredVoices() {
+      if (navigator.userAgent.includes("Mac OS X")) {
+        this.searchForPreferredVoicesApple();
+        return;
+      }
+      if (navigator.userAgent.includes("SM-") && this.detectBrowser() != "Chrome") {
+        this.searchForPreferredVoicesAndroidSamsung();
+        return;
+      }
+      if (this.detectBrowser() == "Chrome") {
+        this.searchForPreferredVoicesAndroidChrome();
+        return;
+      }
+      if (navigator.userAgent.includes("Android")) {
+        this.searchForPreferredVoicesAndroidChrome();
+        return;
+      }
+    },
+    searchForPreferredVoicesAndroidChrome() {
+      if (this.localeIso() == "fr-FR") {
+        this.voiceURI = this.voices.filter(
+          (voice) => (voice.lang.includes("fr_FR"))
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "en-GB") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("en_GB")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "es-ES") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("es_ES")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "de-DE") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("de_DE")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "it-IT") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("it_IT")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "pt-PT") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("pt_PT")
+        )[0]?.voiceURI;
+      }
+    },
+    searchForPreferredVoicesAndroidSamsung() {
+      if (this.localeIso() == "fr-FR") {
+        this.voiceURI = this.voices.filter(
+          (voice) => ((voice.lang.includes("fra"))) && voice.voiceURI.includes("fra_FRA_default")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "en-GB") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("eng") && voice.voiceURI.includes("eng_GBR_default")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "es-ES") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("spa") && voice.voiceURI.includes("spa_ESP_default")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "de-DE") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("deu") && voice.voiceURI.includes("deu_DEU_default")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "it-IT") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("ita") && voice.voiceURI.includes("ita_ITA_default")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "pt-PT") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("por") && voice.voiceURI.includes("por_BRA_default")
+        )[0]?.voiceURI;
+      }
+    },
+    searchForPreferredVoicesApple() {
+      if (this.localeIso() == "fr-FR") {
+        this.voiceURI = this.voices.filter(
+          (voice) => ((voice.lang == "fr-FR") || (voice.lang == "fr-CA")) && voice.voiceURI.includes("Amélie")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "en-GB") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Daniel")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "es-ES") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Jorge")
+        )[0]?.voiceURI;
+      }
+    },
     detectBrowser() {
       // Get the user-agent string
       let userAgentString =
@@ -173,6 +282,7 @@ export default {
     },
     async pronounce(speech, lang, voiceURI, pitch, rate, synthesis) {
       if ("speechSynthesis" in window && window.speechSynthesis.getVoices().length > 1) {
+        console.log("Pronounce function: (speech, lang, voiceURI, pitch, rate, synthesis)", speech, lang, voiceURI, pitch, rate, synthesis)
         if (synthesis) {
           var msg = synthesis;
         } else {
@@ -186,22 +296,32 @@ export default {
         } else {
           msg.text = speech;
         }
+        console.log("Voices available in the device: ", this.voices)
         let voice = this.voices.filter(
           (voice) => voice.voiceURI == voiceURI
         );
+        console.log("Voice selected by URI: ", voice)
         if (voice.length == 0) {
+          console.log("Voice selected by lang: ", voice)
           voice = this.voices.filter((voice) =>
             voice.lang.includes(lang)
           );
         }
         if (voice.length !== 0) {
+          console.log("Voice selected by lang: ", voice)
           msg.voice = voice[0];
         }
         if (pitch) {
           msg.pitch = pitch;
+        } else {
+          msg.pitch = 1;
+          console.log("Using default pitch: ", msg.pitch)
         }
         if (rate) {
           msg.rate = rate;
+        } else {
+          msg.rate = 0.8;
+          console.log("Using default rate: ", msg.rate)
         }
         window.speechSynthesis.speak(msg);
       } else {
@@ -269,6 +389,9 @@ export default {
           );
         }
       }
+    },
+    getUserLang: function (newValue, oldValue) {
+      this.searchForPreferredVoices();
     },
   },
   data: function () {
