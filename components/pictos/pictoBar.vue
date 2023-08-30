@@ -415,7 +415,7 @@ export default {
   watch: {
     pictos: {
       deep: true,
-      handler (value) {
+      async handler (value) {
         setTimeout(() => {
           let element = document.getElementById("bar");
           element.scrollLeft = element.scrollWidth;
@@ -430,23 +430,28 @@ export default {
           );
         }
         this.pictoLength = value.length
+        
+        // Pre Generate the Blob
+        let silentPictos = this.pictosWithoutSilent
+        console.log("pictos watcher has been triggered");
+        console.log(silentPictos);
+        if (silentPictos.length > 0) {
+          const paths = silentPictos.map((picto) => picto.image);
+          const text = this.getText(silentPictos);
+          const b64 = await mergeImages(paths, {
+            crossOrigin: "Anonymous",
+            text: text,
+            color: "white",
+          });
+          this.preGeneratedBlob = this.b64toBlob(b64);
+          console.log("this.preGeneratedBlob: ", this.preGeneratedBlob);
+        }
       }
     },
     voiceURI: function () {
       this.animation = false;
       this.testBoundaryEventSupport();
     },
-    pictosWithoutSilent: async function (pictos) {
-      const paths = pictos.map((picto) => picto.image);
-      const text = this.getText(pictos);
-      const b64 = await mergeImages(paths, {
-        crossOrigin: "Anonymous",
-        text: text,
-        color: "white",
-      });
-      this.preGeneratedBlob = this.b64toBlob(b64);
-      console.log("this.preGeneratedBlob: ", this.preGeneratedBlob);
-    }
   },
   data() {
     return {
