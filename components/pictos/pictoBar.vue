@@ -164,37 +164,33 @@ export default {
         });
       }
     },
-    async copyPictosToClipboardBase(pictos) {
-      const canWriteToClipboard = await this.askWritePermission();
-      if (canWriteToClipboard) {
-        await this.copyPictosToClipboardV2(pictos);
+    copyPictosToClipboardBase(pictos) {
+      if (this.writePermission || this.detectBrowser() == "Safari") {
+        console.log("Force copy pictos for ios devices");
+        this.copyPictosToClipboardV2(pictos);
       } else {
-        await this.copyPictosToClipboardLegacy(pictos);
+        this.copyPictosToClipboardLegacy(pictos);
       }
     },
-    async copyPictosToClipboardV2(pictos) {
-      const paths = pictos.map((picto) => picto.image);
-      const text = this.getText(pictos);
-      const b64 = await mergeImages(paths, {
-        crossOrigin: "Anonymous",
-        text: text,
-        color: "white",
-      });
+    copyPictosToClipboardV2(pictos) {
       try {
-        const blob = this.b64toBlob(b64);
-        const data = [new ClipboardItem({ [blob.type]: blob })];
-        await navigator.clipboard.write(data);
-        const notif = this.$buefy.toast.open({
+          const data = [new ClipboardItem({ [this.preGeneratedBlob.type]: this.preGeneratedBlob })];
+          navigator.clipboard.write(data);
+          const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
         });
       } catch (e) {
         console.log(e);
-        await this.$copsyText(b64);
-        const notif = this.$buefy.toast.open({
+        try {
+          this.copyPictosToClipboardLegacy(pictos);
+        } catch(e) {
+          const notif = this.$buefy.toast.open({
           message: this.$t("CopyError"),
           type: "is-danger",
         });
+        }
+        
       }
     },
     async pictalk(pictos) {
@@ -391,8 +387,9 @@ export default {
       }
     });
   },
-  created() {
+  async created() {
     this.$nuxt.$on("removeSpeechDrag", this.triggerRemoveSpeechDrag);
+    this.writePermission = await this.askWritePermission()
   },
   beforeDestroy() {
     this.$nuxt.$off("removeSpeechDrag");
@@ -416,6 +413,22 @@ export default {
     },
   },
   watch: {
+    pictosWithoutSilent: {
+      async handler(value) {
+        // Pre Generate the Blob
+        if (value.length > 0) {
+          const paths = value.map((picto) => picto.image);
+          const text = this.getText(value);
+          const b64 = await mergeImages(paths, {
+            crossOrigin: "Anonymous",
+            text: text,
+            color: "white",
+          });
+          this.preGeneratedBlob = this.b64toBlob(b64);
+          console.log("this.preGeneratedBlob: ", this.preGeneratedBlob);
+        }
+      }
+    },
     pictos: {
       deep: true,
       handler (value) {
@@ -423,7 +436,7 @@ export default {
           let element = document.getElementById("bar");
           element.scrollLeft = element.scrollWidth;
         }, 125);
-        if (this.$store.getters.getUser.settings?.pronounceClick && value.length >= this.pictoLength) {
+        if ((this.$store.getters.getUser.settings?.pronounceClick|| this.publicMode) && value.length >= this.pictoLength ) {
           this.pronounce(
             value[value.length -1].speech[this.getUserLang],
             this.getUserLang,
@@ -451,6 +464,8 @@ export default {
       voices: [],
       voiceURI: "",
       pictoLength: 0,
+      preGeneratedBlob: undefined,
+      writePermission: undefined,
     };
   },
 };

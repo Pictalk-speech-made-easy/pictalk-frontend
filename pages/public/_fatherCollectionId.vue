@@ -13,8 +13,12 @@
     </div>
     <div class="contenant">
       <pictoBar
-        v-if="loadSpeech.length != 0"
-        class="pictobar"
+        :style="
+          loadSpeech.length != 0
+            ? 'bottom: 2px'
+            : 'transform: translateY(105%);'
+        "
+        class="pictobar sidebar slide-up"
         :publicMode="true"
         :pictos="loadSpeech"
         :collectionColor="collectionColor"
