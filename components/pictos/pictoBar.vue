@@ -413,14 +413,30 @@ export default {
     },
   },
   watch: {
+    pictosWithoutSilent: {
+      async handler(value) {
+        // Pre Generate the Blob
+        if (value.length > 0) {
+          const paths = value.map((picto) => picto.image);
+          const text = this.getText(value);
+          const b64 = await mergeImages(paths, {
+            crossOrigin: "Anonymous",
+            text: text,
+            color: "white",
+          });
+          this.preGeneratedBlob = this.b64toBlob(b64);
+          console.log("this.preGeneratedBlob: ", this.preGeneratedBlob);
+        }
+      }
+    },
     pictos: {
       deep: true,
-      async handler (value) {
+      handler (value) {
         setTimeout(() => {
           let element = document.getElementById("bar");
           element.scrollLeft = element.scrollWidth;
         }, 125);
-        if (this.$store.getters.getUser.settings?.pronounceClick && value.length >= this.pictoLength) {
+        if ((this.$store.getters.getUser.settings?.pronounceClick|| this.publicMode) && value.length >= this.pictoLength ) {
           this.pronounce(
             value[value.length -1].speech[this.getUserLang],
             this.getUserLang,
@@ -430,22 +446,6 @@ export default {
           );
         }
         this.pictoLength = value.length
-        
-        // Pre Generate the Blob
-        let silentPictos = this.pictosWithoutSilent
-        console.log("pictos watcher has been triggered");
-        console.log(silentPictos);
-        if (silentPictos.length > 0) {
-          const paths = silentPictos.map((picto) => picto.image);
-          const text = this.getText(silentPictos);
-          const b64 = await mergeImages(paths, {
-            crossOrigin: "Anonymous",
-            text: text,
-            color: "white",
-          });
-          this.preGeneratedBlob = this.b64toBlob(b64);
-          console.log("this.preGeneratedBlob: ", this.preGeneratedBlob);
-        }
       }
     },
     voiceURI: function () {
