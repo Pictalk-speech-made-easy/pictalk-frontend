@@ -167,7 +167,7 @@ export default {
     async copyPictosToClipboardBase(pictos) {
       const canWriteToClipboard = await this.askWritePermission();
       console.log("Permissions for clipboard: ", canWriteToClipboard)
-      if (canWriteToClipboard || true) {
+      if (canWriteToClipboard || this.detectBrowser() == "Safari") {
         console.log("Force copy pictos for ios devices");
         await this.copyPictosToClipboardV2(pictos);
       } else {
@@ -184,8 +184,16 @@ export default {
       });
       try {
         const blob = this.b64toBlob(b64);
-        const data = [new ClipboardItem({ [blob.type]: blob })];
-        await navigator.clipboard.write(data);
+        if (this.detectBrowser() != "Safari") {
+          const data = [new ClipboardItem({ [blob.type]: blob })];
+          await navigator.clipboard.write(data);
+        } else {
+          console.log("Browser is Safari. Using imagePromise");
+          const imagePromise = async () => {
+            return await this.b64toBlob(b64);
+          }
+          await navigator.clipboard.write([new ClipboardItem({ [blob.type]: imagePromise() })])
+        }
         const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
