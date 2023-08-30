@@ -370,7 +370,7 @@ export default {
     },
     pictosWithoutSilent() {
       return this.pictos.filter(
-        (picto) => picto.speech[this.getUserLang] != ""
+        (picto) => picto.speech[this.getUserLang] != "" && picto.image
       );
     },
   },
@@ -440,7 +440,7 @@ export default {
           let element = document.getElementById("bar");
           element.scrollLeft = element.scrollWidth;
         }, 125);
-        if ((this.$store.getters.getUser.settings?.pronounceClick|| this.publicMode) && value.length >= this.pictoLength && value.length > 0 ) {
+        if ((this.$store.getters.getUser.settings?.pronounceClick|| this.publicMode) && value.length >= this.pictoLength && value.length > 0 && value[value.length -1]?.speech != "" ) {
           this.pronounce(
             value[value.length -1].speech[this.getUserLang],
             this.getUserLang,
