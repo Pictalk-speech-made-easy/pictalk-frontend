@@ -63,11 +63,11 @@ export default {
           this.pitch =
             this.$store.getters.getUser.language[this.getUserLang][
               this.getDeviceInfo()
-            ]?.pitch;
+            ]?.pitch || 1;
           this.rate =
             this.$store.getters.getUser.language[this.getUserLang][
               this.getDeviceInfo()
-            ]?.rate;
+            ]?.rate || 1;
         }
         this.voiceURIs = Object.keys(this.$store.getters.getUser.languages).map((lang) => {
           let uri =
@@ -338,7 +338,7 @@ export default {
         if (rate) {
           msg.rate = rate;
         } else {
-          msg.rate = 0.8;
+          msg.rate = 1;
           console.debug("Using default rate: ", msg.rate)
         }
         window.speechSynthesis.speak(msg);

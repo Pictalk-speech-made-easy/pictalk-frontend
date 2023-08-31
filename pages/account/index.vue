@@ -29,7 +29,6 @@ export default {
   layout: "pictalk",
   async fetch() {
     const user = this.$store.getters.getUser;
-    const collections = this.store.getters.getCollections;
     if (user.username) {
       return;
     } else {
