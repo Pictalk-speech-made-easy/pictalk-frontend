@@ -176,6 +176,8 @@ export default {
       try {
           const data = [new ClipboardItem({ [this.preGeneratedBlob.type]: this.preGeneratedBlob })];
           navigator.clipboard.write(data);
+          let audio = new Audio(require("~/assets/sounds/copy.mp3").default);
+          audio.play();
           const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
@@ -184,11 +186,15 @@ export default {
         console.log(e);
         try {
           this.copyPictosToClipboardLegacy(pictos);
+          let audio = new Audio(require("~/assets/sounds/copy.mp3").default);
+          audio.play();
           const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
           });
         } catch(e) {
+          let audio = new Audio(require("~/assets/sounds/error.mp3").default);
+          audio.play();
           const notif = this.$buefy.toast.open({
           message: this.$t("CopyError"),
           type: "is-danger",
@@ -296,9 +302,18 @@ export default {
           return;
         }
       }
+      try {
+        let audio = new Audio(require("~/assets/sounds/pictobar-return.mp3").default);
+        audio.play();
+      } catch (e) {
+        console.log(e)
+      }
+      
       this.$store.commit("removeSpeech");
     },
     eraseSpeech() {
+      let audio = new Audio(require("~/assets/sounds/pictobar-erase.mp3").default);
+      audio.play();
       if (this.publicMode) {
         this.$router.push("/public/346");
         this.$store.commit("eraseSpeech");

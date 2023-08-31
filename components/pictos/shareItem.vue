@@ -353,6 +353,8 @@ export default {
             }
           }
         } else {
+          let audio = new Audio(require("~/assets/sounds/error.mp3").default);
+          audio.play();
           this.$buefy.toast.open({
             message: this.$t("NotShareYourself"),
             position: "is-top",
@@ -360,6 +362,8 @@ export default {
           });
         }
       } else {
+        let audio = new Audio(require("~/assets/sounds/error.mp3").default);
+          audio.play();
         this.$buefy.toast.open({
           message: this.$t("EmailPlease"),
           position: "is-top",

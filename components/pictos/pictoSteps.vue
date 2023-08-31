@@ -822,6 +822,8 @@ export default {
               pictohubId: this.pictohubId,
             }
           );
+          let audio = new Audio(require("~/assets/sounds/creation.mp3").default);
+          audio.play();
           this.$buefy.toast.open({
             message: isCollection
               ? this.$t("CreatedCollection")
@@ -849,6 +851,8 @@ export default {
               ...(this.pictohubId && { pictohubId: this.pictohubId }),
             }
           );
+          let audio = new Audio(require("~/assets/sounds/creation.mp3").default);
+          audio.play();
           this.$buefy.toast.open({
             message: isCollection
               ? this.$t("EditedCollection")
@@ -860,6 +864,8 @@ export default {
         }
       } catch (err) {
         console.log(err);
+        let audio = new Audio(require("~/assets/sounds/error.mp3").default);
+          audio.play();
         this.$buefy.toast.open({
           message: this.$t("PictoStepsCreationError"),
           type: "is-danger",

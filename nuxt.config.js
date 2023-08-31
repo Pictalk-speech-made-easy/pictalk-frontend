@@ -276,9 +276,16 @@ export default {
    ** Build configuration
    */
   build: {
-    extend(config) {
+    extend(config, ctx) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
       config.resolve.symlinks = false;
+      config.module.rules.push({
+        test: /\.(ogg|mp3|wav|mpe?g)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]'
+        }
+      })
     },
     transpile: ['merge-images-horizontally-with-text'],
   },
