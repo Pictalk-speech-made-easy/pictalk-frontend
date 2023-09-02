@@ -566,6 +566,7 @@ export const actions = {
     let collectionsToEdit = [];
     let pictosTocreate = [];
     let pictosToEdit = [];
+    let collectionsWithoutFatherCollectionId;
     toUpdate = await Promise.all(toUpdate);
     console.log(toUpdate)
     for (let update of toUpdate) {
@@ -573,11 +574,14 @@ export const actions = {
       collectionsToEdit = collectionsToEdit.concat(update.collectionsToEdit);
       pictosTocreate = pictosTocreate.concat(update.pictosTocreate);
       pictosToEdit = pictosToEdit.concat(update.pictosToEdit);
+      collectionsWithoutFatherCollectionId = update.collectionsWithoutFatherCollectionId;
     }
     console.log(collectionsToCreate);
     console.log(collectionsToEdit);
     console.log(pictosTocreate);
     console.log(pictosToEdit);
+    console.log(collectionsWithoutFatherCollectionId);
+
     if (collectionsToCreate.length > 0) {
       vuexContext.commit("addCollection", collectionsToCreate);
     }
@@ -770,6 +774,8 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
   let pictosTocreate = [];
   let collectionsToEdit = [];
   let collectionsToCreate = [];
+  // Map of the collections that don't have a fatherCollectionId
+  let collectionsWithoutFatherCollectionId = new Map(); // Collections that don't have a fatherCollectionId have to be merged with their duplicatas with a fatherCollectionId
   let localCollection = await getCollectionFromId(vuexContext, collection.id);
   let existsCollection = localCollection?.id == collection.id;
   let updateCollection = (localCollection?.updatedDate != collection.updatedDate) && existsCollection;
@@ -804,9 +810,13 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
 
     // TODO Est-ce qu'on peut recuperer fatherCollectionId d'une autre facon ?
     // SI la collection n'existe pas alors cela sera undefined...
-    collection.fatherCollectionId = localCollection.fatherCollectionId;
+    if (localCollection) {
+      collection.fatherCollectionId = localCollection.fatherCollectionId;
+    } else {
+      collectionsWithoutFatherCollectionId.set(collection.id, collection);
+    }
 
-    if (!existsCollection) {
+    if (!existsCollection && collection.fatherCollectionId) {
       collectionsToCreate.push(collection);
     }
     if (updateCollection || partialCollection) {
@@ -902,7 +912,7 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
       return collection;
     }
   }
-  return { collectionsToCreate, collectionsToEdit, pictosTocreate, pictosToEdit };
+  return { collectionsToCreate, collectionsToEdit, pictosTocreate, pictosToEdit, collectionsWithoutFatherCollectionId };
 }
 
 async function parseAndUpdatePictogram(vuexContext, picto) {
