@@ -828,7 +828,7 @@ export default {
               : this.$t("CreatedPictogram"),
             type: "is-success",
           });
-          $nuxt.$emit("resyncPictoList");
+          $nuxt.$emit("resyncPictoList", 200);
           this.$parent.close();
         } else {
           await this.$store.dispatch(

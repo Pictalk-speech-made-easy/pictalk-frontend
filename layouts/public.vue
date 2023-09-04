@@ -25,6 +25,7 @@ export default {
     };
   },
   created() {
+    if (process.client) {
     // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
     this.popupTimeout = setTimeout(() => {
       if (!Cookie.get('popup') && !this.$store.getters.isAuthenticated) {
@@ -52,6 +53,7 @@ export default {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
     }
+  }
   },
   destroyed() {
     clearTimeout(this.popupTimeout);

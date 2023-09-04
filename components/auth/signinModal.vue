@@ -68,9 +68,18 @@ export default {
         });
         if (res.status == 201) {
           await this.$store.dispatch("getUser");
-
+          
+          try {
+            if (process.client) {
+              const createDatabaseForUser = require("~/plugins/dexieDB").createDatabaseForUser;
+              createDatabaseForUser(this.$store.getters.getUser.username);
+            }
+          } catch(err) {
+            console.log(err);
+          }
           this.$parent.close();
           this.$router.push({
+            path: "/pictalk",
             query: { ...this.$route.query, fatherCollectionId: this.$store.getters.getRootId },
           });
           if (this.$store.getters.getUser.notifications.length != 0) {

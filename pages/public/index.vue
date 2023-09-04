@@ -1,5 +1,6 @@
 <template>
   <div>
+    <client-only>
     <b-field class="searchBar">
       <b-input
         v-model="search"
@@ -38,6 +39,7 @@
         {{ $t("MoreItems") }}
       </b-button>
     </div>
+  </client-only>
   </div>
 </template>
 <script >

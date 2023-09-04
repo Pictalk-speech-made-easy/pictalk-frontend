@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button @click="dispatchDownloadCollections()">DOWNLOAD COLLECTIONS</button>
     <div class="columns is-mobile noscroll">
       <div
         :class="
@@ -118,7 +119,14 @@ export default {
   watch: {
     async $route(to, from) {
           if (to.query.fatherCollectionId != from.query.fatherCollectionId) {
+            console.log("pictos",await this.loadedPictos());
+            if (this.$route.query.fatherCollectionId) {
+              await this.fetchCollection(
+                parseInt(this.$route.query.fatherCollectionId, 10)
+              );
+            }
             this.pictos = await this.loadedPictos();
+            console.log("pictos", this.pictos)
           }
       }
   },
@@ -135,6 +143,7 @@ export default {
           this.pictos = await this.loadedPictos();
         }, delay);
       } else {
+        console.log("resyncPictoList");
         this.pictos = await this.loadedPictos();
       }
     });
@@ -192,7 +201,6 @@ export default {
     },
   },
   async mounted() {
-    let path;
     let query = { ...this.$route.query };
     if (
       !this.$route.query.fatherCollectionId
@@ -207,7 +215,6 @@ export default {
         }
       }
       this.$router.push({
-        path: path,
         query: query,
       });
     }
@@ -219,9 +226,7 @@ export default {
         parseInt(this.$route.query.fatherCollectionId, 10)
       );
     }
-
     this.pictos = await this.loadedPictos();
-
     if (this.$store.getters.getSidebarId) {
       await this.fetchCollection(this.$store.getters.getSidebarId);
     }
@@ -247,6 +252,9 @@ export default {
     };
   },
   methods: {
+    async dispatchDownloadCollections(){
+      await this.$store.dispatch("downloadCollections");
+    },
     loadedSidebarPictos() {
       return this.loadPictos(this.$store.getters.getSidebarId);
     },
@@ -486,7 +494,6 @@ export default {
 }
 
 .sidebar {
-  padding-top: 2px;
   -webkit-box-shadow: -2px 2px 8px 1px #777; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: -2px 2px 8px 1px #777; /* Firefox 3.5 - 3.6 */
   box-shadow: -2px 2px 8px 1px #777;

@@ -1,18 +1,12 @@
 <template>
   <div class="margins">
-    <div
-      v-if="
-        sidebar
-      "
-      style="padding-top: 9px"
-    />
     <div class="even">
       <RecycleScroller
     class="scroller"
     :items="getFilteredPictoList"
-    :item-size="getItemSize()"
+    :item-size="getItemSizeX()"
     :grid-items="getRowCount(getDeviceType)"
-    :item-secondary-size="getItemSize()"
+    :item-secondary-size="getItemSizeY()"
     key-field="id"
   >
   <template #default="{ item, index, active }">
@@ -59,14 +53,31 @@ export default {
     };
   },
   methods: {
-    
-    getItemSize() {
+    getItemSizeX() {
       let mainContainerWidth = document.getElementById('pictoList-main')?.clientWidth;
       if (!mainContainerWidth) {
         return 50;
       }
       if (this.sidebar) {
-        const sidebarSize = window.innerWidth - mainContainerWidth;
+        const sidebarSize = window.innerWidth - mainContainerWidth - 7;
+
+        console.log("Sidebar size: ",(sidebarSize)/this.getRowCount(this.getDeviceType))
+        return (sidebarSize)/this.getRowCount(this.getDeviceType);
+      } else {
+        console.log("Main container width is: ",mainContainerWidth)
+        console.log("Item size is: ",((mainContainerWidth)/this.getRowCount(this.getDeviceType)))
+        console.log("Item count is: ",this.getRowCount(this.getDeviceType))
+        return ((mainContainerWidth)/this.getRowCount(this.getDeviceType)) - 7 - 10;
+      }
+    },
+    getItemSizeY() {
+      let mainContainerWidth = document.getElementById('pictoList-main')?.clientWidth;
+      if (!mainContainerWidth) {
+        return 50;
+      }
+      if (this.sidebar) {
+        const sidebarSize = window.innerWidth - mainContainerWidth - (0.7 * window.innerWidth/100) - 3;
+
         console.log("Sidebar size: ",(sidebarSize)/this.getRowCount(this.getDeviceType))
         return (sidebarSize)/this.getRowCount(this.getDeviceType);
       } else {

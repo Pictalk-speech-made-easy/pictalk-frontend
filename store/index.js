@@ -1,6 +1,10 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-import { db } from "~/plugins/dexieDB";
+let db;
+
+if (process.client) {
+  db = require('~/plugins/dexieDB').db;
+}
 export const strict = false;
 axios.interceptors.request.use((config) => {
   if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
@@ -561,12 +565,12 @@ export const actions = {
     } else {
       res = (await axios.get("/collection")).data;
     }
-    let toUpdate = res.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true));
+    let toUpdate = res.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true)); // We now have to add all the collections and merge them
     let collectionsToCreate = [];
     let collectionsToEdit = [];
     let pictosTocreate = [];
     let pictosToEdit = [];
-    let collectionsWithoutFatherCollectionId;
+    let collectionsWithoutFatherCollectionId = [];
     toUpdate = await Promise.all(toUpdate);
     console.log(toUpdate)
     for (let update of toUpdate) {
@@ -574,14 +578,30 @@ export const actions = {
       collectionsToEdit = collectionsToEdit.concat(update.collectionsToEdit);
       pictosTocreate = pictosTocreate.concat(update.pictosTocreate);
       pictosToEdit = pictosToEdit.concat(update.pictosToEdit);
-      collectionsWithoutFatherCollectionId = update.collectionsWithoutFatherCollectionId;
+      collectionsWithoutFatherCollectionId = collectionsWithoutFatherCollectionId.concat(update.collectionsWithoutFatherCollectionId);
     }
     console.log(collectionsToCreate);
     console.log(collectionsToEdit);
     console.log(pictosTocreate);
     console.log(pictosToEdit);
-    console.log(collectionsWithoutFatherCollectionId);
-
+    if (collectionsWithoutFatherCollectionId.length > 0) {
+      console.log("DownloadCollections, collectionsWithoutFatherCollectionId: ", collectionsWithoutFatherCollectionId);
+    }
+    // We can find the collectionsWithoutFatherCollectionId in the collectionsToCreate or to edit
+    for (let collection of collectionsWithoutFatherCollectionId) {
+      const index = collectionsToCreate.findIndex((col) => col.id == collection.id);
+      if (index != -1) {
+        collectionsToCreate[index].fatherCollectionId = collection.fatherCollectionId;
+        collectionsToCreate.splice(index, 1);
+        collectionsToCreate.push(collection);
+      }
+      const index2 = collectionsToEdit.findIndex((col) => col.id == collection.id);
+      if (index2 != -1) {
+        collectionsToEdit[index2].fatherCollectionId = collection.fatherCollectionId;
+        collectionsToEdit.splice(index2, 1);
+        collectionsToEdit.push(collection);
+      }
+    }
     if (collectionsToCreate.length > 0) {
       vuexContext.commit("addCollection", collectionsToCreate);
     }
@@ -685,7 +705,7 @@ export const actions = {
               var res = await axios.get("/collection/find/" + parseInt(notification.affected, 10));
               await parseAndUpdateEntireCollection(vuexContext, res.data);
             }
-            notification.image = (await getCollectionFromId(vuexContext, parseInt(notification.affected, 10))).image;
+            notification.image = (await getCollectionFromId(vuexContext, parseInt(notification.affected, 10)))?.image;
           }
           resolve();
         })
@@ -775,7 +795,7 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
   let collectionsToEdit = [];
   let collectionsToCreate = [];
   // Map of the collections that don't have a fatherCollectionId
-  let collectionsWithoutFatherCollectionId = new Map(); // Collections that don't have a fatherCollectionId have to be merged with their duplicatas with a fatherCollectionId
+  let collectionsWithoutFatherCollectionId = []; // Collections that don't have a fatherCollectionId have to be merged with their duplicatas with a fatherCollectionId
   let localCollection = await getCollectionFromId(vuexContext, collection.id);
   let existsCollection = localCollection?.id == collection.id;
   let updateCollection = (localCollection?.updatedDate != collection.updatedDate) && existsCollection;
@@ -813,7 +833,7 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
     if (localCollection) {
       collection.fatherCollectionId = localCollection.fatherCollectionId;
     } else {
-      collectionsWithoutFatherCollectionId.set(collection.id, collection);
+      collectionsWithoutFatherCollectionId.push(collection);
     }
 
     if (!existsCollection && collection.fatherCollectionId) {
@@ -853,7 +873,7 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
 
     });
   }
-  if (collection.collections && !collection.collections.length == 0 && !download) {
+  if (collection.collections && !collection.collections.length == 0) {
     collection.collections.map((col) => {
       let localCollections = getCollectionFromId(vuexContext, col.id);
       let existsCollections = localCollections?.id == col.id;
@@ -881,8 +901,7 @@ async function parseAndUpdateEntireCollection(vuexContext, collection, download 
         col.collection = true;
 
         col.partial = true;
-        console.log("collection Id : " + collection.id);
-        console.log(col.fatherCollectionId)
+
         col.fatherCollectionId = collection.id;
         if (!existsCollections) {
           collectionsToCreate.push(col);

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <clientOnly>
     <div
       class="is-widescreen"
       style="margin-right: 0.5rem; margin-left: 0.5rem"
@@ -21,6 +22,7 @@
       />
     </div>
     <div class="filler"></div>
+  </clientOnly>
   </div>
 </template>
 <script >
@@ -51,12 +53,14 @@ export default {
     },
   },
   async fetch() {
+    if (process.client) {
     if (this.$route.query.fatherCollectionId) {
       await this.fetchCollection(
         parseInt(this.$route.query.fatherCollectionId, 10)
       );
     }
     this.pictos = await this.loadedPictos();
+  }
   },
   data() {
     return {
