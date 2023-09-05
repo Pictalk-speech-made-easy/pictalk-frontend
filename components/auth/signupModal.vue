@@ -605,6 +605,8 @@ export default {
           } catch (error) {
             console.log("error ", error);
           }
+          let audio = new Audio(require("@/assets/sounds/account-creation.mp3"));
+          audio.play();
           this.$router.push({
             path: "/tutorials/",
           });
