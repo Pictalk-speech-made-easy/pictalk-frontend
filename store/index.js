@@ -1,10 +1,12 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-let db;
 
-if (process.client) {
-  db = require('~/plugins/dexieDB').db;
+function getDexieDB() {
+  if (process.client) {
+    return require('~/plugins/dexieDB').db;
+  }
 }
+
 export const strict = false;
 axios.interceptors.request.use((config) => {
   if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
@@ -66,19 +68,19 @@ export const mutations = {
       newCollections = new Array(newCollections);
     }
     // Dexie transition
-    db.collection.bulkPut(newCollections);
+    getDexieDB().collection.bulkPut(newCollections);
 
   },
   removeCollection(state, removedCollection) {
     // Dexie transition
-    db.collection.delete(removedCollection.id);
+    getDexieDB().collection.delete(removedCollection.id);
   },
   editCollection(state, editedCollections) {
     if (!Array.isArray(editedCollections)) {
       editedCollections = new Array(editedCollections);
     }
     // Dexie transition
-    db.collection.bulkPut(editedCollections);
+    getDexieDB().collection.bulkPut(editedCollections);
   },
   async addPicto(state, pictos) {
     if (!Array.isArray(pictos)) {
@@ -86,41 +88,41 @@ export const mutations = {
     }
     let collection;
     for (let picto of pictos) {
-      collection = await db.collection.get(picto.fatherCollectionId);
+      collection = await getDexieDB().collection.get(picto.fatherCollectionId);
       if (collection) {
         const pictoIndex = collection.pictos.findIndex(
           pct => pct.id === picto.id
         );
         if (collection && pictoIndex == -1) {
           collection.pictos.push(picto);
-          db.collection.put(collection);
+          getDexieDB().collection.put(collection);
         }
       }
     }
     // Dexie transition
-    db.pictogram.bulkPut(pictos);
+    getDexieDB().pictogram.bulkPut(pictos);
   },
   editPicto(state, editedPictos) {
     if (!Array.isArray(editedPictos)) {
       editedPictos = new Array(editedPictos);
     }
     // Dexie transition
-    db.pictogram.bulkPut(editedPictos);
+    getDexieDB().pictogram.bulkPut(editedPictos);
   },
   async removePicto(state, { pictoId, fatherCollectionId }) {
-    const collection = await db.collection.get(fatherCollectionId);
+    const collection = await getDexieDB().collection.get(fatherCollectionId);
     collection.pictos.splice(pictoIndex, 1);
-    db.collection.put(collection);
+    getDexieDB().collection.put(collection);
     // Dexie transition
-    db.pictogram.delete(pictoId);
+    getDexieDB().pictogram.delete(pictoId);
   },
   resetCollections(state) {
     // Dexie transition
-    db.collection.clear();
+    getDexieDB().collection.clear();
   },
   setCollections(state, collections) {
     // Dexie transition
-    db.collection.bulkPut(collections);
+    getDexieDB().collection.bulkPut(collections);
   },
   setToken(state, token) {
     state.token = token;
@@ -209,7 +211,7 @@ export const actions = {
     vuexContext.commit("resetCollections");
 
     // Dexie transition
-    db.collection.clear();
+    getDexieDB().collection.clear();
   },
   async getPublicBundles(vuexContext) {
     try {
@@ -588,20 +590,29 @@ export const actions = {
       console.log("DownloadCollections, collectionsWithoutFatherCollectionId: ", collectionsWithoutFatherCollectionId);
     }
     // We can find the collectionsWithoutFatherCollectionId in the collectionsToCreate or to edit
+    let count = 0;
     for (let collection of collectionsWithoutFatherCollectionId) {
       const index = collectionsToCreate.findIndex((col) => col.id == collection.id);
       if (index != -1) {
+        console.log("Merging collection with id: ", collection.id);
         collectionsToCreate[index].fatherCollectionId = collection.fatherCollectionId;
         collectionsToCreate.splice(index, 1);
         collectionsToCreate.push(collection);
+        count += 1;
       }
-      const index2 = collectionsToEdit.findIndex((col) => col.id == collection.id);
-      if (index2 != -1) {
-        collectionsToEdit[index2].fatherCollectionId = collection.fatherCollectionId;
-        collectionsToEdit.splice(index2, 1);
-        collectionsToEdit.push(collection);
+      if (index == -1) {
+        const index2 = collectionsToEdit.findIndex((col) => col.id == collection.id);
+        if (index2 != -1) {
+          console.log("Merging collection with id: ", collection.id);
+          collectionsToEdit[index2].fatherCollectionId = collection.fatherCollectionId;
+          collectionsToEdit.splice(index2, 1);
+          collectionsToEdit.push(collection);
+          count += 1;
+        }
       }
     }
+    console.log("Merged collections: ", count);
+
     if (collectionsToCreate.length > 0) {
       vuexContext.commit("addCollection", collectionsToCreate);
     }
@@ -725,13 +736,13 @@ export const actions = {
 }
 export const getters = {
   getCollections(state) {
-    return db.collection.toArray();
+    return getDexieDB().collection.toArray();
   },
   getCollectionFromId: (state) => (id) => {
-    return db.collection.get(id);
+    return getDexieDB().collection.get(id);
   },
   getCollectionsFromFatherCollectionId: (state) => (fatherCollectionId) => {
-    return db.collection.where({ fatherCollectionId: fatherCollectionId }).toArray();
+    return getDexieDB().collection.where({ fatherCollectionId: fatherCollectionId }).toArray();
   },
   isAuthenticated(state) {
     return state.token != null;
@@ -761,13 +772,13 @@ export const getters = {
     return state.shortcutCollectionId;
   },
   async getPictos(state) {
-    return db.pictogram.toArray();
+    return getDexieDB().pictogram.toArray();
   },
   getPictoFromId: (state) => (id) => {
-    return db.pictogram.get(id);
+    return getDexieDB().pictogram.get(id);
   },
   getPictosFromFatherCollectionId: (state) => (fatherCollectionId) => {
-    return db.pictogram.where({ fatherCollectionId: fatherCollectionId }).toArray();
+    return getDexieDB().pictogram.where({ fatherCollectionId: fatherCollectionId }).toArray();
   },
   getPublicCollections(state) {
     return state.public;
@@ -957,9 +968,9 @@ async function parseAndUpdatePictogram(vuexContext, picto) {
 
 function getCollectionFromId(vuexContext, id) {
   // Dexie transition 
-  return db.collection.get(id);
+  return getDexieDB().collection.get(id);
 }
 function getPictoFromId(vuexContext, id) {
   // Dexie transition
-  return db.pictogram.get(id);
+  return getDexieDB().pictogram.get(id);
 }
