@@ -59,7 +59,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }],
+  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }, { src: '@/plugins/matomo', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -190,7 +190,6 @@ export default {
     '@nuxtjs/sentry',
     '@nuxtjs/i18n',
     '@nuxtjs/sitemap',
-    ['nuxt-matomo', { matomoUrl: '//matomo.home.asidiras.dev/', siteId: 1, cookies: false }]
   ],
   robots: {
     Disallow: [

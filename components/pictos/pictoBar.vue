@@ -44,6 +44,7 @@
       >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
       <b-button
       v-else
+        id="pictobar-speak"
         style="background-color: hsl(154, 70%, 55%)"
         icon-right="volume-high"
         class="customButton getsBigger"
@@ -56,6 +57,7 @@
         icon-right="content-copy"
         class="customButton getsBigger"
         @click="copyPictosToClipboardBase(pictosWithoutSilent)"
+        id="pictobar-copy"
       />
     </div>
     <div v-if="vocalize" class="onTop">

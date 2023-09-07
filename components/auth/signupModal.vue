@@ -250,6 +250,7 @@
 						</div>
 						<div class="column is-half">
 						<b-button v-if="notSignedUp"
+            id="signupmodal-signup"
 					class="is-primary fullWidth"
           :loading="signupLoading"
 					:disabled="!(username && password && majority && terms && passwordConfirmation && notSignedUp)"
@@ -264,6 +265,7 @@
 					"
 					>{{ $t("SignUp") }}</b-button
 				><b-button v-else
+          id="signupmodal-verify"
 					class="is-success fullWidth"
 					:disabled="(notSignedUp) || (verificationToken.length!=40)"
 					@click="

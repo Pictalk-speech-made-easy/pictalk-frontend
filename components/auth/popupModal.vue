@@ -16,7 +16,7 @@
       <div class="subtitle">
         {{ $t("PopupCreateAccountText2")}}
       </div>
-      <b-button class="button is-primary" @click="openSignUpModal()">
+      <b-button id="popupmodal-signup" class="button is-primary" @click="openSignUpModal()">
         {{ $t("SignUp") }}
       </b-button>
     </section>
