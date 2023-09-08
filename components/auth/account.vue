@@ -6,17 +6,17 @@
         <b-tab-item icon="tune">
           <br />
           <b-field>
-            <b-switch v-model="user.settings.pronounceClick">{{
+            <b-switch id="account-pronounce-on-click" v-model="user.settings.pronounceClick">{{
               $t("PronouncePictoOnClick")
             }}</b-switch>
           </b-field>
           <b-field>
-            <b-switch v-model="user.settings.securityMode">{{
+            <b-switch id="account-enforced-security-mode" v-model="user.settings.securityMode">{{
               $t("EnforcedSecurityMode")
             }}</b-switch>
           </b-field>
           <b-field :label="$t('PronounceShowDelay')">
-            <b-slider lazy v-model="user.settings.pronounceShowDelay" :min="0" :max="10" ticks>
+            <b-slider id="account-pronounce-show-delay" lazy v-model="user.settings.pronounceShowDelay" :min="0" :max="10" ticks>
               <b-slider-tick :value="0">+0s</b-slider-tick>
               <template v-for="i in 10">
                     <b-slider-tick :value="i" :key="'slider'+i">+{{ i }}s</b-slider-tick>
@@ -25,7 +25,7 @@
           </b-field>
           <br>
           <b-field :label="$t('PronounceShowSize')">
-            <b-slider lazy v-model="user.settings.pronounceShowSize" :min="0" :max="2" :tooltip="false" ticks>
+            <b-slider id="account-pictogram-show-size" lazy v-model="user.settings.pronounceShowSize" :min="0" :max="2" :tooltip="false" ticks>
               <b-slider-tick :value="0"><b-icon style="transform: scale(1)" icon="image" ></b-icon></b-slider-tick>
               <b-slider-tick :value="1"><b-icon style="transform: scale(1.4)" icon="image"></b-icon></b-slider-tick>
               <b-slider-tick :value="2"><b-icon style="transform: scale(2)" icon="image"></b-icon></b-slider-tick>
@@ -39,6 +39,7 @@
           <br />
           <b-field :label="$t('ChangePassword')">
             <b-input
+              id="account-change-password"
               v-model="user.password"
               placeholder="S0meExample!"
               type="password"
@@ -85,6 +86,7 @@
           <br />
           <b-field :label="$t('DisplayedLanguage')">
             <b-select
+              id="account-displayed-language"
               collapsible
               expanded
               :label="getEmoji(localeIso())"
@@ -103,7 +105,7 @@
           <b-field :label="$t('Voice')">
             
             <b-select
-              
+              id="account-change-voice"
               v-model="voiceURI"
               placeholder="Select language"
               required
@@ -138,6 +140,7 @@
           </b-field>
           <b-field :label="$t('Pitch')">
             <b-slider
+              id="account-change-pitch"
               v-model="pitch"
               :min="0"
               :max="2"
@@ -147,6 +150,7 @@
           </b-field>
           <b-field :label="$t('Rate')">
             <b-slider
+              id="account-change-rate"
               v-model="rate"
               :min="0.4"
               :max="1.6"
@@ -203,6 +207,7 @@
               maxlength="64"
             ></b-input>
             <b-button
+              id="account-add-supervisor"
               type="is-success"
               icon-right="plus"
               @click="pushToSharers()"
@@ -219,6 +224,7 @@
           </b-table>
           <br />
           <b-button
+            id="account-remove-supervisor"
             v-if="directSharers.indexOf(selected.username) !== -1"
             style="
               margin-top: -15px;
@@ -292,6 +298,7 @@
                       "
                     >
                       <b-button
+                        id="account-delete-group"
                         type="is-danger"
                         expanded
                         style="width: 50px"
@@ -315,6 +322,7 @@
           </b-field>
           <br />
           <b-button
+            id="account-add-group"
             style="margin-bottom: 45px"
             type="is-success"
             class="actionButtons"
@@ -330,6 +338,7 @@
         $t("Cancel")
       }}</b-button>
       <b-button
+        id="account-save"
         class="menuButtons"
         type="is-info"
         icon-left="content-save"
@@ -420,6 +429,10 @@ export default {
     };
   },
   watch: {
+    userSettingsPronounceOnClickChanged: function(value) {
+      console.log("Account Setting Pronounce On Click")
+      this.$matomo.trackEvent("Account Setting Pronounce On Click", "Account Setting Pronounce On Click", "");
+    },
     getMailingList: function (value) {
       this.mailingList = JSON.parse(
         JSON.stringify(this.$store.getters.getUser.mailingList)

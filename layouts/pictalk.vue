@@ -24,7 +24,14 @@ export default {
   },
   async created() {
     if (process.client) {
-      if ('BroadcastChannel' in window) {
+    
+      // Matomo tag manager
+    var _mtm = window._mtm = window._mtm || [];
+    _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src='https://matomo.home.asidiras.dev/js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g,s);
+      
+    if ('BroadcastChannel' in window) {
         const bc2 = new BroadcastChannel("sync");
         bc2.onmessage = (event) => {
         if (event.isTrusted) {

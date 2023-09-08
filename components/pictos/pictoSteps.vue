@@ -457,6 +457,7 @@
             </div>
             <div class="column is-half">
               <b-button
+              :id="this.create ? 'pictosteps-create-pictogram' : 'pictosteps-edit-pictogram'"
                 data-cy="picto-steps-create-edit-pictogram-button"
                 expanded
                 v-if="isPicto"
@@ -474,6 +475,7 @@
               >
               </b-button>
               <b-button
+                :id="this.create ? 'pictosteps-create-collection' : 'pictosteps-edit-collection'"
                 data-cy="picto-steps-create-edit-collection-button"
                 expanded
                 v-if="!isPicto"

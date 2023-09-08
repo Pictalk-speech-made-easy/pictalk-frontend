@@ -30,6 +30,7 @@
               <option value="viewer">👁️</option>
             </b-select>
             <b-button
+              id="sharemodal-add"
               type="is-success"
               icon-right="plus"
               @click="pushToCollaborators()"
@@ -55,6 +56,7 @@
           </b-table>
           <div class="selectedOptions" v-if="selected.length > 0">
             <b-button
+              id="sharemodal-remove"
               class="roundedbtn"
               type="is-danger"
               icon-left="delete"
@@ -128,6 +130,7 @@
                   </div>
                   <div v-if="!groupStatus(group).full" class="addmissing">
                     <b-button
+                      id="sharemodal-add-group"
                       type="is-success"
                       :loading="loading === index"
                       class="roundedbtn"
@@ -150,6 +153,7 @@
           </b-field>
 
           <b-button
+            id="sharemodal-add-group"
             type="is-success"
             class="actionButtons roundedbtn"
             icon-left="plus"

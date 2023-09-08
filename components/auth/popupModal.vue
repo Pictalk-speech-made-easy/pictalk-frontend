@@ -17,7 +17,7 @@
 						alt="A boy and a girl speaking different languages"
             style="max-width: 300px;"
         ></b-image>
-        <b-button class="button is-primary center" @click="openSignUpModal()">
+        <b-button id="popupmodal-signup" class="button is-primary center" @click="openSignUpModal()">
         {{ $t("SignUp") }}
       </b-button>
       <br>
