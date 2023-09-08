@@ -378,8 +378,7 @@
     "TutorialsCreationText": "V tomto návode sa dozviete, ako vytvárať, upravovať a odstraňovať piktogramy a kolekcie. Na konci videa budete vedieť, ako vytvoriť novú kolekciu a ako do nej pridať piktogramy. Uvidíte tiež, ako upraviť obrázok v rámci aplikácie Pictalk.",
     "TutorialsOrganizing": "Organizácia piktogramov a zbierok",
     "TutorialsOrganizingText": "V tomto návode sa dozviete, ako organizovať piktogramy a zbierky. Na konci videa si ľahko osvojíte najvýkonnejšie nástroje na organizovanie Pictalk, ako je napríklad ťahanie a púšťanie.",
-    "PopupCreateAccountText1": "Budete si môcť vytvárať vlastné kolekcie a prispôsobovať si hlas! Môžete začať s rovnakými zbierkami, aké sú verejné, a potom ich upravovať.",
-    "PopupCreateAccountText2": "Všetko zadarmo 🥳",
+    "PopupCreateAccountText2": "Zmena hlasu, výšky a rýchlosti 🗣️",
     "ValidationMessageEmail": "Zadajte prosím platný e-mail",
     "ValidationMessagePassword": "Vyžaduje sa heslo obsahujúce aspoň jedno veľké písmeno a jednu číslicu.",
     "ValidationMessagePasswordConfirmation": "Heslá sa nezhodujú",
@@ -397,5 +396,11 @@
     "GandiSponsoring": "Gandi.net nám pomáha s bezplatným prístupom k výkonným serverom",
     "TheyUsePictalk": "Používajú Pictalk",
     "TitleCompleteKeywords": "Rozprávanie s piktogramami pre autizmus a ďalšie",
-    "DescriptionSEO": "Pictalk pomáha ľuďom s telesným alebo duševným postihnutím komunikovať pomocou piktogramov a obrázkov. Môže to byť: Autizmus, Downov syndróm, apraxia, mŕtvica a iné."
+    "DescriptionSEO": "Pictalk pomáha ľuďom s telesným alebo duševným postihnutím komunikovať pomocou piktogramov a obrázkov. Môže to byť: Autizmus, Downov syndróm, apraxia, mŕtvica a iné.",
+    "PopupCreateAccount1": "Vytvorte si konto 😉",
+    "PopupCreateAccountText11": "Vytvorte si vlastné kolekcie 🧑‍🎨",
+    "PopupCreateAccountText3": "Prístup k vašim zbierkam odkiaľkoľvek 📱",
+    "PopupCreateAccountText4": "Import vlastných fotografií a piktogramov 📷",
+    "PopupCreateAccountText5": "Zdieľajte svoje zbierky 🤝",
+    "PopupCreateAccountText6": "Bez obmedzenia priestoru alebo piktogramu 💾"
 }
