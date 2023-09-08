@@ -380,7 +380,7 @@
     "PictoActions": "Acțiuni cu pictograme",
     "PictoActionsOffline": "Trebuie să fiți online pentru a utiliza aceste funcții",
     "FeedbackSurvey": "Am dori să știm cum folosiți Pictalk. Vă rugăm să acordați 5 minute pentru a completa acest sondaj. Acesta ne va ajuta să îmbunătățim Pictalk.",
-    "PopupCreateAccountText2": "Totul gratuit 🥳",
+    "PopupCreateAccountText2": "Schimbă-ți vocea, tonul și ritmul 🗣️",
     "ValidationMessagePassword": "Este necesară o parolă cu cel puțin o literă majusculă și un număr.",
     "ValidationMessageEmail": "Vă rugăm să introduceți un e-mail valid",
     "ValidationMessagePasswordConfirmation": "Parolele nu se potrivesc",
@@ -398,5 +398,11 @@
     "GandiSponsoring": "Gandi.net ne ajută cu un acces gratuit la servere puternice",
     "TheyUsePictalk": "Ei folosesc Pictalk",
     "TitleCompleteKeywords": "Discuție cu pictograme pentru autism și nu numai",
-    "DescriptionSEO": "Pictalk ajută persoanele cu afecțiuni fizice sau mentale să comunice cu ajutorul pictogramelor și imaginilor. Acesta poate fi: autism, sindromul Down, apraxie, accident vascular cerebral și altele."
+    "DescriptionSEO": "Pictalk ajută persoanele cu afecțiuni fizice sau mentale să comunice cu ajutorul pictogramelor și imaginilor. Acesta poate fi: autism, sindromul Down, apraxie, accident vascular cerebral și altele.",
+    "PopupCreateAccount1": "Creați-vă un cont 😉",
+    "PopupCreateAccountText11": "Creați-vă propriile colecții 🧑‍🎨",
+    "PopupCreateAccountText3": "Accesați-vă colecțiile de oriunde 📱",
+    "PopupCreateAccountText4": "Importați-vă propriile fotografii și pictograme 📷",
+    "PopupCreateAccountText5": "Împărtășește-ți colecțiile 🤝",
+    "PopupCreateAccountText6": "Fără limită de spațiu sau de pictograme 💾"
 }
