@@ -379,10 +379,7 @@
     "PictoActionsOffline": "Tem de estar online para utilizar estas funcionalidades",
     "Menu": "Menu",
     "TutorialsBasics": "O básico",
-    "PopupCreateAccountText2": "Tudo de graça 🥳",
     "FeedbackSurvey": "Gostaríamos de saber como se utiliza o Pictalk. Por favor, demore 5 minutos a preencher este inquérito. Ajudar-nos-á a melhorar o Pictalk.",
-    "PopupCreateAccount": "Porque não começar a criar a sua própria conta ?",
-    "PopupCreateAccountText1": "Poderá criar as suas próprias colecções e personalizar a sua voz ! Poderá começar com as mesmas colecções que as do público e depois editá-las.",
     "UseOfData3": "✅ Não utilizamos cookies",
     "ValidationMessageEmail": "Por favor introduza um e-mail válido",
     "ValidationMessagePassword": "É necessária uma senha com pelo menos uma letra maiúscula e um número",
@@ -400,5 +397,12 @@
     "GandiSponsoring": "Gandi.net ajuda-nos com um acesso gratuito a servidores potentes",
     "TheyUsePictalk": "Utilizam o Pictalk",
     "TitleCompleteKeywords": "Conversa com pictogramas para autismo e mais",
-    "DescriptionSEO": "O Pictalk ajuda as pessoas com problemas físicos ou mentais a comunicar com a ajuda de pictogramas e imagens. Pode ser: Autismo, Síndrome de Down, apraxia, AVC e outros"
+    "DescriptionSEO": "O Pictalk ajuda as pessoas com problemas físicos ou mentais a comunicar com a ajuda de pictogramas e imagens. Pode ser: Autismo, Síndrome de Down, apraxia, AVC e outros",
+    "PopupCreateAccount1": "Criar a sua conta 😉",
+    "PopupCreateAccountText11": "Criar as suas próprias colecções 🧑‍🎨",
+    "PopupCreateAccountText3": "Aceder às suas colecções a partir de qualquer lugar 📱",
+    "PopupCreateAccountText4": "Importar as suas próprias fotografias e pictogramas 📷",
+    "PopupCreateAccountText5": "Partilhe as suas colecções 🤝",
+    "PopupCreateAccountText6": "Sem limite de espaço ou pictograma 💾",
+    "PopupCreateAccountText21": "Altere a sua voz, tom e ritmo 🗣️"
 }

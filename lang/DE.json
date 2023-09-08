@@ -379,11 +379,8 @@
     "TutorialsCreationText": "In diesem Lernprogramm lernen Sie, wie Sie Piktogramme und Sammlungen erstellen, bearbeiten und entfernen können. Am Ende des Videos werden Sie wissen, wie Sie eine neue Sammlung erstellen und ihr Piktogramme hinzufügen können. Sie werden auch sehen, wie Sie ein Bild in Pictalk bearbeiten können.",
     "TutorialsOrganizing": "Organisation von Piktogrammen und Sammlungen",
     "Priority": "Rangfolge der Piktogramme",
-    "PopupCreateAccountText2": "Alles umsonst 🥳",
     "FeedbackSurvey": "Wir würden gerne wissen, wie Sie Pictalk nutzen. Bitte nehmen Sie sich 5 Minuten Zeit, um diese Umfrage auszufüllen. Sie wird uns helfen, Pictalk zu verbessern.",
     "ValidationMessageEmail": "Bitte geben Sie eine gültige E-Mail ein",
-    "PopupCreateAccountText1": "Sie können Ihre eigenen Sammlungen erstellen und Ihre Stimme anpassen! Sie können mit denselben Sammlungen wie die öffentlichen beginnen und sie dann bearbeiten.",
-    "PopupCreateAccount": "Warum erstellen Sie nicht Ihr eigenes Konto?",
     "ValidationMessagePassword": "Ein Passwort mit mindestens einem Großbuchstaben und einer Zahl ist erforderlich",
     "ValidationMessagePasswordConfirmation": "Die Kennwörter stimmen nicht überein",
     "UseOfData1": "✅ Die einzigen Daten, die wir aufbewahren, sind die von Ihnen erstellten Piktogramme; Sie können sie jederzeit löschen.",
@@ -400,5 +397,12 @@
     "GandiSponsoring": "Gandi.net hilft uns mit einem kostenlosen Zugang zu leistungsstarken Servern",
     "TheyUsePictalk": "Sie verwenden Pictalk",
     "TitleCompleteKeywords": "Gespräche mit Piktogrammen für Autismus und mehr",
-    "DescriptionSEO": "Pictalk hilft Menschen mit körperlichen oder geistigen Einschränkungen, mit Hilfe von Piktogrammen und Bildern zu kommunizieren. Das kann sein: Autismus, Down-Syndrom, Apraxie, Schlaganfall und andere"
+    "DescriptionSEO": "Pictalk hilft Menschen mit körperlichen oder geistigen Einschränkungen, mit Hilfe von Piktogrammen und Bildern zu kommunizieren. Das kann sein: Autismus, Down-Syndrom, Apraxie, Schlaganfall und andere",
+    "PopupCreateAccount1": "Erstellen Sie Ihr Konto 😉",
+    "PopupCreateAccountText11": "Erstellen Sie Ihre eigenen Sammlungen 🧑‍🎨",
+    "PopupCreateAccountText3": "Zugriff auf Ihre Sammlungen von überall 📱.",
+    "PopupCreateAccountText4": "Importieren Sie Ihre eigenen Fotos und Piktogramme 📷.",
+    "PopupCreateAccountText5": "Teilen Sie Ihre Sammlungen 🤝.",
+    "PopupCreateAccountText6": "Keine Leerzeichen- oder Piktogrammgrenze 💾.",
+    "PopupCreateAccountText21": "Ändern Sie Ihre Stimme, Tonhöhe und Geschwindigkeit 🗣️"
 }

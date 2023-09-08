@@ -383,9 +383,6 @@
     "UseOfData4": "È possibile cancellare il proprio account in qualsiasi momento.",
     "ValidationMessageEmail": "Inserire un'e-mail valida",
     "FeedbackSurvey": "Vorremmo sapere come utilizzate Pictalk. Vi preghiamo di dedicare 5 minuti per compilare questo sondaggio. Ci aiuterà a migliorare Pictalk.",
-    "PopupCreateAccount": "Perché non iniziare a creare il proprio account?",
-    "PopupCreateAccountText2": "Tutto gratis 🥳",
-    "PopupCreateAccountText1": "Potrete creare le vostre collezioni e personalizzare la vostra voce! È possibile iniziare con le stesse raccolte di quelle pubbliche e poi modificarle.",
     "ValidationMessagePassword": "È richiesta una password con almeno una lettera maiuscola e un numero.",
     "ValidationMessagePasswordConfirmation": "Le password non corrispondono",
     "UseOfData1": "Gli unici dati che conserviamo sono i pittogrammi creati dall'utente, che può cancellarli in qualsiasi momento.",
@@ -400,5 +397,12 @@
     "GandiSponsoring": "Gandi.net ci aiuta con un accesso gratuito a potenti server",
     "TheyUsePictalk": "Utilizzano Pictalk",
     "TitleCompleteKeywords": "Parlare con i pittogrammi per l'autismo e altro ancora",
-    "DescriptionSEO": "Pictalk aiuta le persone con condizioni fisiche o mentali a comunicare con l'aiuto di pittogrammi e immagini. Può trattarsi di: Autismo, sindrome di Down, aprassia, ictus e altro."
+    "DescriptionSEO": "Pictalk aiuta le persone con condizioni fisiche o mentali a comunicare con l'aiuto di pittogrammi e immagini. Può trattarsi di: Autismo, sindrome di Down, aprassia, ictus e altro.",
+    "PopupCreateAccount1": "Crea il tuo account 😉",
+    "PopupCreateAccountText11": "Create le vostre collezioni 🧑‍🎨",
+    "PopupCreateAccountText3": "Accedete alle vostre collezioni da qualsiasi luogo 📱",
+    "PopupCreateAccountText4": "Importazione di foto e pittogrammi personali 📷",
+    "PopupCreateAccountText5": "Condividete le vostre collezioni 🤝",
+    "PopupCreateAccountText6": "Nessun limite di spazio o di pittogrammi 💾",
+    "PopupCreateAccountText21": "Modificate la voce, l'intonazione e la velocità 🗣️"
 }
