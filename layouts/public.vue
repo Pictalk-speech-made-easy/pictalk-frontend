@@ -29,7 +29,7 @@ export default {
       var _mtm = window._mtm = window._mtm || [];
       _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src='https://matomo.home.asidiras.dev/js/container_V1sL8eXl_dev_7b5563be904c981b7c678148.js'; s.parentNode.insertBefore(g,s);
+      g.async=true; g.src='https://matomo.home.asidiras.dev/js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g,s);
     }
     // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
     this.popupTimeout = setTimeout(() => {
