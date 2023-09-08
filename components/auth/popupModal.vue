@@ -7,19 +7,35 @@
         icon-left="close"
         @click="$parent.close()"
       />
-      <p align="center" class="modal-card-title">{{ $t("PopupCreateAccount") }}</p>
+      <p align="center" class="modal-card-title">{{ $t("PopupCreateAccount1") }}</p>
     </header>
     <section class="modal-card-body">
-      <div class="subtitle">
-        {{ $t("PopupCreateAccountText1")}}
-      </div>
-      <div class="subtitle">
-        {{ $t("PopupCreateAccountText2")}}
-      </div>
-      <b-button class="button is-primary" @click="openSignUpModal()">
+      <b-image
+					class="center"
+            lazy
+						:srcset="require('@/assets/create_account_popup.png').srcSet"
+						alt="A boy and a girl speaking different languages"
+            style="max-width: 300px;"
+        ></b-image>
+        <b-button class="button is-primary center" @click="openSignUpModal()">
         {{ $t("SignUp") }}
       </b-button>
+      <br>
+        <p class="is-size-5 notification">
+						<ol style="list-style-type: inherit;margin-left: 5%;">
+              <li>{{ $t('PopupCreateAccountText11')}}</li>
+              <li>{{ $t('PopupCreateAccountText21')}}</li>
+              <li>{{ $t('PopupCreateAccountText3')}}</li>
+              <li>{{ $t('PopupCreateAccountText4')}}</li>
+              <li>{{ $t('PopupCreateAccountText5')}}</li>
+              <li>{{ $t('PopupCreateAccountText6')}}</li>
+						</ol>
+					</p>
     </section>
+    <footer class="modal-card-foot">
+      <div class="container">
+      </div>
+    </footer>
   </div>
 </template>
 <script>
@@ -40,3 +56,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
