@@ -342,6 +342,9 @@ export default {
           console.debug("Using default rate: ", msg.rate)
         }
         window.speechSynthesis.speak(msg);
+        if (msg.text != 'a' && this.$store.getters.getUser.settings?.analytics) {
+          window._paq.push(["trackEvent", "Sentences", "Pronounce", JSON.stringify({ "text": msg.text, "lang": msg.lang, "voiceURI": msg.voiceURI, "pitch": msg.pitch, "rate": msg.rate })]);
+        }
       } else {
         if (this.detectBrowser() != "Chrome" && this.detectBrowser() != "Firefox" && this.detectBrowser() != "Safari") {
           this.openInstallOtherBrowserModal();

@@ -37,6 +37,7 @@
             }}</b-switch>
           </b-field> -->
           <br />
+          <hr />
           <b-field :label="$t('ChangePassword')">
             <b-input
               id="account-change-password"
@@ -63,6 +64,7 @@
           à
           (petit)
            -->
+           <hr />
           <b-progress
             :type="isOfflineReady ? 'is-success' : 'is-info'"
             :value="offlineImagesSavedRatio"
@@ -81,6 +83,11 @@
             {{ $t("StorageUsage") }} <b>{{ storage }}</b>
           </p>
           <hr />
+          <b-field :label="$t('Analytics')">
+            <b-switch id="account-enhanced-analytics" v-model="user.settings.analytics">{{
+              $t("AnalyticsText")
+            }}</b-switch>
+          </b-field>
         </b-tab-item>
         <b-tab-item icon="translate">
           <br />
