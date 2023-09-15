@@ -342,7 +342,7 @@ export default {
           console.debug("Using default rate: ", msg.rate)
         }
         window.speechSynthesis.speak(msg);
-        if (msg.text != 'a' && this.$store.getters.getUser.settings?.analytics) {
+        if (msg.text != 'a' && this.$store.getters.getUser.settings?.analytics != false) {
           window._paq.push(["trackEvent", "Sentences", "Pronounce", JSON.stringify({ "text": msg.text, "voice": msg.voice.lang, "voiceURI": msg.voiceURI, "pitch": msg.pitch, "rate": msg.rate })]);
         }
       } else {
