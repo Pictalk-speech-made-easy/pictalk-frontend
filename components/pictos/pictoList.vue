@@ -103,7 +103,7 @@ export default {
     },
     isDropZone() {
       return (
-        this.dragndropId && (this.isEditor || this.isToUser) && this.isOnline
+        this.dragndropId && (this.isEditor || this.isToUser) && window.navigator.onLine
       );
     },
     dragndropId() {

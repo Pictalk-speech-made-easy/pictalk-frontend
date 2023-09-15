@@ -7,14 +7,6 @@ export default {
       publishLoad: false,
     }
   },
-  created() {
-    window.addEventListener('online', () => { this.isOnline = true; });
-    window.addEventListener('offline', () => { this.isOnline = false; });
-  },
-  destroyed() {
-    window.removeEventListener("online");
-    window.removeEventListener("offline");
-  },
   methods: {
     async setShortcutCollectionIdDirectlyToRoot(collectionId, isPicto) {
       let collection = JSON.parse(
