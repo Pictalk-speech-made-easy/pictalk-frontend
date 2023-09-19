@@ -1,6 +1,7 @@
 describe('Edits a collection', () => {
   it('Edits a collection', function () {
     cy.login();
+    cy.checkVoicesPopup();
     cy.createCollection().then((createdCollection) => {
       if (window && window.innerWidth < 1216) {
         cy.get('[class="navbar-burger burger"]').click();
