@@ -60,15 +60,8 @@ Cypress.Commands.add(
     cy.window().then(async window => {
       cy.log('checkVoicesPopup')
       cy.log(window.speechSynthesis.getVoices().length);
-      if (!('speechSynthesis' in window) || window.speechSynthesis.getVoices().length <= 1) {
-        cy.get('body').then($body => {
-          if ($body.find('[data-cy=cypress-installVoiceModal-close]').length > 0) {
-            cy.log('install voice modal detected');
-            $body.get('[data-cy=cypress-installVoiceModal-close]').click();
-          } else {
-            cy.log('install voice modal not detected');
-          }
-        })
+      if (!('speechSynthesis' in window) || window.speechSynthesis.getVoices().length < 1) {
+        cy.get('[data-cy=cypress-installVoiceModal-close]').click({ multiple: true });
       }
     });
   })
