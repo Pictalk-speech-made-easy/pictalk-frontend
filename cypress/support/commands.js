@@ -57,19 +57,18 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'checkVoicesPopup',
   () => {
-    let i = 0;
-    let voices = [];
-    while (i < 10 && voices.length < 1) {
-      voices = window.speechSynthesis.getVoices();
-      i++;
-      cy.wait(500)
-    }
-    if (!('speechSynthesis' in window) || voices <= 1) {
-      cy.log(window.speechSynthesis.getVoices());
-      cy.get('[data-cy=cypress-installVoiceModal-close]').click();
-    }
-  }
-)
+    cy.window().then(async window => {
+      cy.log('checkVoicesPopup')
+      cy.log(window.speechSynthesis.getVoices().length);
+      if (!('speechSynthesis' in window) || window.speechSynthesis.getVoices().length <= 1) {
+        cy.get('body').then($body => {
+          if ($body.find('[data-cy=cypress-installVoiceModal-close]').length) {
+            $body.get('[data-cy=cypress-installVoiceModal-close]').click();
+          }
+        })
+      }
+    });
+  })
 
 Cypress.Commands.add(
   'createCollection',
