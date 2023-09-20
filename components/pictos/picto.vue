@@ -700,7 +700,7 @@ export default {
   background-color: #ffffff00;
 }
 .notification {
-  padding: 0.6rem;
+  /* padding: 0rem; */
   padding-bottom: 0.1rem;
 }
 .smallMargin {
