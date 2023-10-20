@@ -1,6 +1,7 @@
 <template>
 <div class="container">
   <div class="title">{{$t('Tutorials')}}</div>
+  <support></support>
   <div class="columns is-multiline">
   <div class="card column is-one-third">
     <div class="card-image">
@@ -131,6 +132,14 @@
   </div>
   </div>
 </template>
+<script>
+import support from "@/components/auth/support";
+export default {
+  components: {
+    support,
+  },
+};
+</script>
 <style scoped>
 .subcard-img {
   border-radius: 12px;

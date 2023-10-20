@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container" style="max-width: 100%">
+      <support></support>
       <p class="version">v{{ $config.clientVersion }}</p>
       <b-tabs expanded v-model="tabStep" type="is-toggle">
         <b-tab-item icon="tune">
@@ -88,6 +89,8 @@
               $t("AnalyticsText")
             }}</b-switch>
           </b-field>
+          <br>
+          <br>
         </b-tab-item>
         <b-tab-item icon="translate">
           <br />
@@ -366,6 +369,7 @@ import lang from "@/mixins/lang";
 import sharers from "@/mixins/sharers";
 import navbar from "@/mixins/navbar";
 import Security from "@/components/auth/securityModal";
+import support from "@/components/auth/support";
 import { convertToSimpleLanguage, isObject, mergeDeep } from "@/utils/utils";
 export default {
   mixins: [deviceInfos, emoji, tts, lang, sharers, navbar],
@@ -373,6 +377,7 @@ export default {
     installVoice,
     addGroupModal,
     Security,
+    support
   },
   computed: {
     isOfflineReady() {
