@@ -564,7 +564,7 @@ export default {
   bottom: 2px;
   margin: 0 auto;
   width: 99vw;
-  max-height: 20%;
+  max-height: 30%;
   position: fixed;
   max-width: 767px;
   z-index: 4;

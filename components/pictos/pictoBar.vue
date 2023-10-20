@@ -4,7 +4,7 @@
       <b-button
         style="background-color: hsl(0, 100%, 100%); color: #ff5757"
         icon-right="delete"
-        class="customButton  getsBigger"
+        :class="'customButton ' + buttonsShowSize"
           @click="eraseSpeech()"
       />
     </div>
@@ -12,7 +12,7 @@
       <b-button
         style="background-color: hsl(0, 100%, 100%); color: #ff5757"
         icon-right="backspace"
-        class="customButton  getsBigger"
+        :class="'customButton ' + buttonsShowSize"
           @click="removeSpeech(true)"
       />
     </div>
@@ -29,7 +29,7 @@
     <div class="column is-narrow nopadding">
       <b-button
         v-if="$store.getters.getTemporaryLanguage"
-        class="getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         type="is-success"
         icon-right="volume-high"
         @click="pictalk(pictos)"
@@ -39,7 +39,7 @@
       v-if="$store.getters.getTemporaryLanguage"
         style="background-color: hsl(154, 70%, 55%)"
         icon-right="volume-high"
-        class="customButton getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         @click="pictalk(pictos)"
       >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
       <b-button
@@ -47,7 +47,7 @@
         id="pictobar-speak"
         style="background-color: hsl(154, 70%, 55%)"
         icon-right="volume-high"
-        class="customButton getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         @click="pictalk(pictos)"
       />
     </div>
@@ -55,7 +55,7 @@
       <b-button
         style="background-color: hsl(210, 100%, 65%)"
         icon-right="content-copy"
-        class="customButton getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         @click="copyPictosToClipboardBase(pictosWithoutSilent)"
         id="pictobar-copy"
       />
@@ -377,6 +377,19 @@ export default {
         return "topImage column is-6-mobile is-4-tablet is-4-desktop is-4-widescreen is-4-fullhd";
       }
     },
+    buttonsShowSize() {
+      console.log(this.$store.getters.getUser.settings?.pronounceShowSize)
+      if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
+        return "getsBigger";
+      }
+      if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
+        return "getsBiggerMin";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
+        return "getsBigger";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
+        return "getsBiggerMax";
+      }
+    },
     cssVars() {
       return {
         "--bg-color":
@@ -561,7 +574,7 @@ export default {
   border-color: #f14668;
   border-width: 1px;
 }
-.getsBigger {
+.getsBiggerMin {
   width: 7vmin;
   height: 7vmin;
   min-height: 40px;
@@ -569,6 +582,59 @@ export default {
   min-width: 40px;
   max-width: 60px;
 }
+
+@media screen and (min-width: 768px) {
+  .getsBiggerMin {
+    width: 8vmin;
+    height: 8vmin;
+    min-height: 60px;
+    max-height: 70px;
+    min-width: 60px;
+    max-width: 70px;
+  }
+}
+
+.getsBigger {
+  width: 8vmin;
+  height: 8vmin;
+  min-height: 50px;
+  max-height: 80px;
+  min-width: 50px;
+  max-width: 80px;
+}
+
+@media screen and (min-width: 768px) {
+  .getsBigger {
+    width: 8vmin;
+    height: 8vmin;
+    min-height: 80px;
+    max-height: 100px;
+    min-width: 80px;
+    max-width: 100px;
+  }
+}
+
+
+.getsBiggerMax {
+  width: 10vmin;
+  height: 10vmin;
+  min-height: 60px;
+  max-height: 100px;
+  min-width: 60px;
+  max-width: 100px;
+}
+@media screen and (min-width: 768px) {
+  .getsBiggerMax {
+    width: 10vmin;
+    height: 10vmin;
+    min-height: 100px;
+    max-height: 120px;
+    min-width: 100px;
+    max-width: 120px;
+  }
+}
+
+
 @keyframes lightup {
   from {
     filter: brightness(0.6);
