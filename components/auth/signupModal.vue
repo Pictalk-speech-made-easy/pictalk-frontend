@@ -168,6 +168,7 @@
 						style="width: 40%; aspect-ratio: 1/1"
           ></b-image>
 				  </div>
+          <support></support>
           <b-notification :closable="false">
             <p class="is-size-6">{{$t('UseOfData1')}}</p>
             <p class="is-size-6">{{$t('UseOfData2')}}</p>
@@ -298,10 +299,12 @@ import sharers from "@/mixins/sharers";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
+import support from "@/components/auth/support";
 import { convertToSimpleLanguage } from "@/utils/utils";
 export default {
   components: {
     installVoice,
+    support
   },
   watch: {
     step1Parameters: function () {
