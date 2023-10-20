@@ -56,6 +56,6 @@ export default {
   margin-top: 0;
   max-height: 5.5rem;
   min-height: 2.9rem;
-  height: 7vh;
+  height: auto;
 }
 </style>
