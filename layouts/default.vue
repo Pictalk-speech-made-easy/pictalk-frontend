@@ -66,7 +66,7 @@ export default {
       return this.$i18n.getLocaleCookie();
     },
   },
-  middleware: ["axios"],
+  middleware: ["axios","check-auth"],
   created() {
     if (process.client){
       // Matomo tag manager

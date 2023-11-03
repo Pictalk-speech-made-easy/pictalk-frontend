@@ -66,6 +66,8 @@ export default {
           password: this.password,
           isLogin: true,
         });
+        console.log(res);
+        return;
         if (res.status == 201) {
           await this.$store.dispatch("getUser");
 

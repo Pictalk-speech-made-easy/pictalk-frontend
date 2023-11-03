@@ -13,6 +13,7 @@ import navbar from "@/components/navigation/navbar";
 import popupModal from "@/components/auth/popupModal";
 import Cookie from "js-cookie";
 export default {
+  middleware: ["check-auth", "axios"],
   components: {
     navbar,
   },

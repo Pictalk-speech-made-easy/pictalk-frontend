@@ -1,6 +1,21 @@
 import axios from "axios";
 import Cookie from "js-cookie";
+import Keycloak from 'keycloak-js';
 export const strict = false;
+
+const keycloakOptions = {
+  url: 'https://auth.picmind.org',
+  realm: 'master',
+  clientId: 'pictalk',
+  checkLoginIframe: true,
+}
+
+const keycloakInitOptions = {
+  flow: 'implicit',
+  onLoad: 'check-sso',
+  silentCheckSsoRedirectUri: `http://localhost:3000/silent-check-sso.html`,
+};
+
 export const state = () => ({
   collections: [],
   pictos: [],
@@ -33,6 +48,7 @@ export const mutations = {
     state.publicBundles = null;
     state.dragndrop = null;
     state.token = null;
+    state.keycloak = null;
   },
   async setPublicBundles(state, bundles) {
     state.publicBundles = bundles;
@@ -455,18 +471,15 @@ export const actions = {
     return res;
   },
   async authenticateUser(vuexContext, authData) {
-    const res = await axios
-      .post("/auth/signin", {
-        username: authData.username,
-        password: authData.password
-      });
-    const expDate = new Date().getTime() + Number.parseInt(res.data.expiresIn) * 1000;
-    vuexContext.commit("setToken", res.data.accessToken);
-    localStorage.setItem("token", res.data.accessToken);
-    localStorage.setItem("tokenExpiration", expDate);
-    Cookie.set("jwt", res.data.accessToken, { sameSite: 'none', secure: true, expires: 7 });
-    Cookie.set("expirationDate", expDate, { sameSite: 'none', secure: true, expires: 7 });
+    console.log(vuexContext.keycloak)
+    try {
+      await vuexContext.dispatch('initAuth', vuexContext)
+      console.log("Logging in")
+      await vuexContext.keycloak.login({ username: authData.username, password: authData.password });
+    } catch (err) {
+      console.log(err)
 
+    }
     axios.interceptors.request.use((config) => {
       if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
         let token = localStorage.getItem('token');
@@ -482,48 +495,20 @@ export const actions = {
 
     return res;
   },
-  initAuth(vuexContext, req) {
-    let token;
-    let expirationDate;
-    if (req) {
-      if (!req.headers.cookie) {
+  async initAuth(vuexContext, req) {
+    console.log("Initializing authentication")
+    try {
+      if (vuexContext.keycloak) {
         return;
-      } else {
-        const jwtCookie = req.headers.cookie
-          .split(";")
-          .find(c => c.trim().startsWith("jwt="));
-        if (!jwtCookie) {
-          return;
-        }
-        token = jwtCookie.split("=")[1];
-
-        const jwtExpirationDate = req.headers.cookie
-          .split(";")
-          .find(c => c.trim().startsWith("expirationDate="));
-        if (!jwtExpirationDate) {
-          return;
-        }
-        expirationDate = jwtExpirationDate.split("=")[1];
       }
-    } else if (process.client) {
-      token = localStorage.getItem("token");
-      expirationDate = localStorage.getItem("tokenExpiration");
-    } else {
-      token = null;
-      expirationDate = null;
-    }
-    if (new Date().getTime() > +expirationDate || !token) {
-      vuexContext.dispatch("logout");
-      return;
-    }
-    if (token != vuexContext.getters.getToken) {
-      vuexContext.commit("setToken", token);
-    }
-    if (!Cookie.get('jwt') && token) {
-      Cookie.set("jwt", token, { sameSite: 'none', secure: true, expires: 7 });
-    }
-    if (!Cookie.get('expirationDate') && expirationDate) {
-      Cookie.set("expirationDate", expirationDate, { sameSite: 'none', secure: true, expires: 7 });
+      vuexContext.keycloak = new Keycloak(keycloakOptions);
+      const authenticated = await vuexContext.keycloak.init(keycloakInitOptions);
+      console.log(`User is ${authenticated ? 'authenticated' : 'not authenticated'}`);
+      if (!authenticated) {
+        vuexContext.dispatch("logout");
+      }
+    } catch (error) {
+      console.error('Failed to initialize adapter:', error);
     }
   },
   logout(vuexContext) {
@@ -712,7 +697,7 @@ export const getters = {
     return state.collections;
   },
   isAuthenticated(state) {
-    return state.token != null;
+    return state.keycloak?.authenticated;
   },
   getSpeech(state) {
     return state.pictoSpeech;
