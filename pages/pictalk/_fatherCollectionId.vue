@@ -434,12 +434,6 @@ export default {
             res.data.image =
               this.$config.apiURL + "/image/pictalk/" + res.data.image;
           }
-          if (res.data.meaning) {
-            res.data.meaning = JSON.parse(res.data.meaning);
-          }
-          if (res.data.speech) {
-            res.data.speech = JSON.parse(res.data.speech);
-          }
           res.data.collection = true;
 
           res.data.partial = false;
@@ -449,12 +443,6 @@ export default {
               if (collection.image) {
                 collection.image =
                   this.$config.apiURL + "/image/pictalk/" + collection.image;
-              }
-              if (collection.meaning) {
-                collection.meaning = JSON.parse(collection.meaning);
-              }
-              if (collection.speech) {
-                collection.speech = JSON.parse(collection.speech);
               }
               collection.collection = true;
               collection.fatherCollectionId = res.data.id;
@@ -479,12 +467,7 @@ export default {
                 picto.image =
                   this.$config.apiURL + "/image/pictalk/" + picto.image;
               }
-              if (picto.meaning) {
-                picto.meaning = JSON.parse(picto.meaning);
-              }
-              if (picto.speech) {
-                picto.speech = JSON.parse(picto.speech);
-              }
+              
               picto.fatherCollectionId = res.data.id;
               if (!this.getPictoFromId(picto.id)) {
                 pictosTocreate.push(picto);
