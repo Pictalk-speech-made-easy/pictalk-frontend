@@ -433,8 +433,8 @@ export const actions = {
 
     vuexContext.commit("editCollection", {
       ...editedCollection,
-      ...(editedCollection.meaning && { meaning: JSON.parse(editedCollection.meaning) }),
-      ...(editedCollection.speech && { speech: JSON.parse(editedCollection.speech) }),
+      ...(editedCollection.meaning && { meaning: editedCollection.meaning }),
+      ...(editedCollection.speech && { speech: editedCollection.speech }),
       ...(editedCollection.priority && { priority: JSON.parse(editedCollection.priority) }),
       image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
       createdDate: editedCollection.createdDate,
@@ -777,12 +777,6 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
         "/image/pictalk/" +
         collection.image;
     }
-    if (collection.meaning) {
-      collection.meaning = JSON.parse(collection.meaning);
-    }
-    if (collection.speech) {
-      collection.speech = JSON.parse(collection.speech);
-    }
     collection.collection = true;
 
     if (collection.collections && collection.pictos) {
@@ -818,12 +812,6 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
             "/image/pictalk/" +
             picto.image;
         }
-        if (picto.meaning) {
-          picto.meaning = JSON.parse(picto.meaning);
-        }
-        if (picto.speech) {
-          picto.speech = JSON.parse(picto.speech);
-        }
         picto.fatherCollectionId = collection.id;
         if (!existsPicto) {
           pictosTocreate.push(picto);
@@ -847,12 +835,6 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
             axios.defaults.baseURL +
             "/image/pictalk/" +
             col.image;
-        }
-        if (col.meaning) {
-          col.meaning = JSON.parse(col.meaning);
-        }
-        if (col.speech) {
-          col.speech = JSON.parse(col.speech);
         }
         if (!col.pictos) {
           col.pictos = [];
@@ -902,12 +884,6 @@ function parseAndUpdatePictogram(vuexContext, picto) {
       axios.defaults.baseURL +
       "/image/pictalk/" +
       picto.image;
-  }
-  if (picto.meaning) {
-    picto.meaning = JSON.parse(picto.meaning);
-  }
-  if (picto.speech) {
-    picto.speech = JSON.parse(picto.speech);
   }
   if (!getPictoFromId(vuexContext, picto.id)) {
     vuexContext.commit("addPicto", picto);
