@@ -238,8 +238,8 @@ export const actions = {
   },
   async addPicto(vuexContext, picto) {
     let formData = new FormData();
-    formData.append("speech", picto.speech);
-    formData.append("meaning", picto.meaning);
+    formData.append("speech", JSON.stringify(picto.speech));
+    formData.append("meaning", JSON.stringify(picto.meaning));
 
     if (picto.color != 0) {
       formData.append("color", picto.color);
@@ -278,8 +278,8 @@ export const actions = {
   },
   async editPicto(vuexContext, picto) {
     let formData = new FormData();
-    formData.append("speech", picto.speech);
-    formData.append("meaning", picto.meaning);
+    formData.append("speech", JSON.stringify(picto.speech));
+    formData.append("meaning", JSON.stringify(picto.meaning));
     formData.append("color", picto.color);
     formData.append("share", picto.shared);
     formData.append("priority", picto.priority);
@@ -353,8 +353,8 @@ export const actions = {
   },
   async addCollection(vuexContext, collection) {
     let formData = new FormData();
-    formData.append("speech", collection.speech);
-    formData.append("meaning", collection.meaning);
+    formData.append("speech", JSON.stringify(collection.speech));
+    formData.append("meaning", JSON.stringify(collection.meaning));
     formData.append("color", collection.color);
     formData.append("fatherCollectionId", collection.fatherCollectionId);
     //formData.append("collectionIds", collection.collectionIds);
@@ -396,7 +396,7 @@ export const actions = {
   async editCollection(vuexContext, collection) {
     let formData = new FormData();
     if (collection.speech) {
-      formData.append("speech", collection.speech);
+      formData.append("speech", JSON.stringify(collection.speech));
     }
 
     if (collection.pictohubId) {
@@ -404,7 +404,7 @@ export const actions = {
     }
 
     if (collection.meaning) {
-      formData.append("meaning", collection.meaning);
+      formData.append("meaning", JSON.stringify(collection.meaning));
     }
     if (collection.color) {
       formData.append("color", collection.color);
