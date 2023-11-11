@@ -549,7 +549,11 @@ export const actions = {
     }
     user.notifications.forEach((notification) => {
       if (notification.meaning != "") {
-        notification.meaning = JSON.parse(notification.meaning)
+        try {
+          notification.meaning = JSON.parse(notification.meaning)
+        } catch (err) {
+          notification.meaning = notification.meaning
+        }
       }
     });
     vuexContext.commit("editUser", user);
