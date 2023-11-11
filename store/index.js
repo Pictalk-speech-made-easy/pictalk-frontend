@@ -689,7 +689,11 @@ export const actions = {
       }
       notifications?.forEach(async (notification) => {
         if (notification.meaning) {
-          notification.meaning = JSON.parse(notification?.meaning);
+          try {
+            notification.meaning = JSON.parse(notification?.meaning)
+          } catch (err) {
+            notification.meaning = notification?.meaning
+          }
         }
         if (notification.affected) {
           if (!getCollectionFromId(vuexContext, parseInt(notification.affected, 10))) {
