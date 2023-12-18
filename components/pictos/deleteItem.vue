@@ -55,6 +55,7 @@
   </div>
 </template>
 <script >
+import { SoundHelper } from "@/utils/sounds";
 import lang from "@/mixins/lang";
 export default {
   mixins: [lang],
@@ -96,23 +97,20 @@ export default {
             message: this.$t("DeletedSuccess"),
             type: "is-success",
           });
-          let audio = new Audio(require("~/assets/sounds/delete.mp3").default);
-          audio.play();
+          SoundHelper.playPictogramDelete();
           $nuxt.$emit("resyncPictoList");
           this.$parent.close();
           return;
         } catch (ex) {
           console.log(ex);
-          let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+          SoundHelper.playError();
           this.$buefy.toast.open({
             message: this.$t("SomeThingBadHappened"),
             type: "is-danger",
           });
         }
       } else {
-        let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+        SoundHelper.playError();
         this.$buefy.toast.open({
           message: this.$t("DeleteNotCorrespond"),
           type: "is-danger",

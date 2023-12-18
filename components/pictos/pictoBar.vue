@@ -86,6 +86,7 @@ import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";
 import lang from "@/mixins/lang";
+import { SoundHelper } from "@/utils/sounds";
 export default {
   mixins: [emoji, tts, deviceInfos, lang],
   methods: {
@@ -178,8 +179,7 @@ export default {
       try {
           const data = [new ClipboardItem({ [this.preGeneratedBlob.type]: this.preGeneratedBlob })];
           navigator.clipboard.write(data);
-          let audio = new Audio(require("~/assets/sounds/copy.mp3").default);
-          audio.play();
+          SoundHelper.playSentenceCopy();
           const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
@@ -188,15 +188,13 @@ export default {
         console.log(e);
         try {
           this.copyPictosToClipboardLegacy(pictos);
-          let audio = new Audio(require("~/assets/sounds/copy.mp3").default);
-          audio.play();
+          SoundHelper.playSentenceCopy();
           const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
           });
         } catch(e) {
-          let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+          SoundHelper.playError()
           const notif = this.$buefy.toast.open({
           message: this.$t("CopyError"),
           type: "is-danger",
@@ -305,8 +303,7 @@ export default {
         }
       }
       try {
-        let audio = new Audio(require("~/assets/sounds/pictobar-return.mp3").default);
-        audio.play();
+        SoundHelper.playSentenceReturn();
       } catch (e) {
         console.log(e)
       }
@@ -314,8 +311,7 @@ export default {
       this.$store.commit("removeSpeech");
     },
     eraseSpeech() {
-      let audio = new Audio(require("~/assets/sounds/pictobar-erase.mp3").default);
-      audio.play();
+      SoundHelper.playSentenceErase();
       if (this.publicMode) {
         this.$router.push("/public/346");
         this.$store.commit("eraseSpeech");

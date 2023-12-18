@@ -48,6 +48,7 @@
 </template>
 <script >
 import signup from "@/components/auth/signupModal";
+import { SoundHelper } from "@/utils/sounds";
 export default {
   data() {
     return {
@@ -77,15 +78,13 @@ export default {
             },
           });
           if (this.$store.getters.getUser.notifications.length != 0) {
-            let audio = new Audio(require("~/assets/sounds/notification.mp3").default);
-            audio.play();
+            SoundHelper.playNotification();
             this.$buefy.notification.open({
               message: this.$t("UnreadNotifications"),
               type: "is-info",
             });
           } else {
-            let audio = new Audio(require("~/assets/sounds/account-creation.mp3").default);
-            audio.play();
+            SoundHelper.playAccountCreation();
           }
         }
       } catch (error) {
