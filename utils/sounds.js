@@ -1,11 +1,10 @@
 export class SoundHelper {
-  static isIpadOS() {
-    console.log(navigator.userAgent)
-    return navigator.userAgent.includes('iPad');
+  static isAppleDevice() {
+    return /Mac|iPad|iPhone/i.test(navigator.userAgent);
   }
 
   static playSound(soundFilePath) {
-    if (this.isIpadOS()) return;
+    if (this.isAppleDevice()) return;
     let audio = new Audio(require(`~/assets/sounds/${soundFilePath}`).default);
     audio.play();
   }
