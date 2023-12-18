@@ -301,6 +301,7 @@ import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
 import support from "@/components/auth/support";
 import { convertToSimpleLanguage } from "@/utils/utils";
+import { SoundHelper } from "@/utils/sounds";
 export default {
   components: {
     installVoice,
@@ -610,8 +611,7 @@ export default {
           } catch (error) {
             console.log("error ", error);
           }
-          let audio = new Audio(require("@/assets/sounds/account-creation.mp3"));
-          audio.play();
+          SoundHelper.playAccountCreation();
           this.$router.push({
             path: "/tutorials/",
           });

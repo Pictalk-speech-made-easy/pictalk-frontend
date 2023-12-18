@@ -173,6 +173,7 @@
 <script >
 import sharers from "@/mixins/sharers";
 import addGroupModal from "@/components/auth/addGroupModal";
+import { SoundHelper } from "@/utils/sounds";
 export default {
   mixins: [sharers],
   props: {
@@ -357,8 +358,7 @@ export default {
             }
           }
         } else {
-          let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+          SoundHelper.playError();
           this.$buefy.toast.open({
             message: this.$t("NotShareYourself"),
             position: "is-top",
@@ -366,8 +366,7 @@ export default {
           });
         }
       } else {
-        let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+        SoundHelper.playError();
         this.$buefy.toast.open({
           message: this.$t("EmailPlease"),
           position: "is-top",

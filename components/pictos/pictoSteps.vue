@@ -513,7 +513,7 @@ import lang from "@/mixins/lang";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
-
+import { SoundHelper } from "@/utils/sounds";
 export default {
   mixins: [emoji, lang, tts, deviceInfos],
   name: "PictoSteps",
@@ -824,8 +824,7 @@ export default {
               pictohubId: this.pictohubId,
             }
           );
-          let audio = new Audio(require("~/assets/sounds/creation.mp3").default);
-          audio.play();
+          SoundHelper.playPictogramCreate()
           this.$buefy.toast.open({
             message: isCollection
               ? this.$t("CreatedCollection")
@@ -853,8 +852,7 @@ export default {
               ...(this.pictohubId && { pictohubId: this.pictohubId }),
             }
           );
-          let audio = new Audio(require("~/assets/sounds/creation.mp3").default);
-          audio.play();
+          SoundHelper.playPictogramCreate()
           this.$buefy.toast.open({
             message: isCollection
               ? this.$t("EditedCollection")
@@ -866,8 +864,7 @@ export default {
         }
       } catch (err) {
         console.log(err);
-        let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+        SoundHelper.playError()
         this.$buefy.toast.open({
           message: this.$t("PictoStepsCreationError"),
           type: "is-danger",
