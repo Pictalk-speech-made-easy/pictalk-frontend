@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script >
+<script>
 import navbar from "@/components/navigation/navbar";
 import footerPictalk from "@/components/navigation/footer";
 export default {
@@ -22,7 +22,7 @@ export default {
       body: this.$t("DescriptionSEO"),
       title: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`,
       meta: [
-      ...i18nHead.meta,
+        ...i18nHead.meta,
         {
           hid: "description",
           name: "description",
@@ -33,14 +33,14 @@ export default {
           name: "title",
           content: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`
         },
-        { 
-          hid: 'og-title', 
-          property: 'og:title', 
+        {
+          hid: 'og-title',
+          property: 'og:title',
           content: `Pictalk AAC: ${this.$t("TitleCompleteKeywords")}`
         },
-        { 
-          hid: 'og-desc', 
-          property: 'og:description', 
+        {
+          hid: 'og-desc',
+          property: 'og:description',
           content: this.$t("DescriptionSEO")
         },
         {
@@ -53,7 +53,7 @@ export default {
           property: 'twitter:description',
           content: this.$t("DescriptionSEO")
         }
-        
+
       ],
     };
   },
@@ -68,12 +68,12 @@ export default {
   },
   middleware: ["axios"],
   created() {
-    if (process.client){
+    if (process.client) {
       // Matomo tag manager
       var _mtm = window._mtm = window._mtm || [];
-      _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src='https://matomo.home.asidiras.dev/js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g,s);
+      _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.async = true; g.src = 'https://analytics.picmind.org//js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g, s);
       if (
         this.$store.getters.isAuthenticated &&
         this.$store.getters.getUser &&
@@ -89,6 +89,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .wrapper {
   overflow-x: hidden;
@@ -97,4 +98,3 @@ export default {
   height: calc(100vh - 32px);
 }
 </style>
-
