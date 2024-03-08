@@ -409,5 +409,7 @@
   "AnalyticsText": "Help us understand how you use Pictalk. Information remains anonymous and is not shared with anyone 🕵️‍♀️",
   "AdhesionText": "Feel free to join our organization and support the project ❤️",
   "Adhesion": "Support us",
-  "Question": "Question mark"
+  "Question": "Question mark",
+  "DeleteAccount": "Delete account",
+  "DeleteAccountText": "Permanent deletion of your account and all of its content"
 }

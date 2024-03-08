@@ -8,26 +8,28 @@
           <br />
           <b-field>
             <b-switch id="account-pronounce-on-click" v-model="user.settings.pronounceClick">{{
-              $t("PronouncePictoOnClick")
-            }}</b-switch>
+        $t("PronouncePictoOnClick")
+      }}</b-switch>
           </b-field>
           <b-field>
             <b-switch id="account-enforced-security-mode" v-model="user.settings.securityMode">{{
-              $t("EnforcedSecurityMode")
-            }}</b-switch>
+        $t("EnforcedSecurityMode")
+      }}</b-switch>
           </b-field>
           <b-field :label="$t('PronounceShowDelay')">
-            <b-slider id="account-pronounce-show-delay" lazy v-model="user.settings.pronounceShowDelay" :min="0" :max="10" ticks>
+            <b-slider id="account-pronounce-show-delay" lazy v-model="user.settings.pronounceShowDelay" :min="0"
+              :max="10" ticks>
               <b-slider-tick :value="0">+0s</b-slider-tick>
               <template v-for="i in 10">
-                    <b-slider-tick :value="i" :key="'slider'+i">+{{ i }}s</b-slider-tick>
-                </template>
+                <b-slider-tick :value="i" :key="'slider' + i">+{{ i }}s</b-slider-tick>
+              </template>
             </b-slider>
           </b-field>
           <br>
           <b-field :label="$t('PronounceShowSize')">
-            <b-slider id="account-pictogram-show-size" lazy v-model="user.settings.pronounceShowSize" :min="0" :max="2" :tooltip="false" ticks>
-              <b-slider-tick :value="0"><b-icon style="transform: scale(1)" icon="image" ></b-icon></b-slider-tick>
+            <b-slider id="account-pictogram-show-size" lazy v-model="user.settings.pronounceShowSize" :min="0" :max="2"
+              :tooltip="false" ticks>
+              <b-slider-tick :value="0"><b-icon style="transform: scale(1)" icon="image"></b-icon></b-slider-tick>
               <b-slider-tick :value="1"><b-icon style="transform: scale(1.4)" icon="image"></b-icon></b-slider-tick>
               <b-slider-tick :value="2"><b-icon style="transform: scale(2)" icon="image"></b-icon></b-slider-tick>
             </b-slider>
@@ -39,16 +41,6 @@
           </b-field> -->
           <br />
           <hr />
-          <b-field :label="$t('ChangePassword')">
-            <b-input
-              id="account-change-password"
-              v-model="user.password"
-              placeholder="S0meExample!"
-              type="password"
-              maxlength="32"
-              password-reveal
-            ></b-input>
-          </b-field>
           <b-icon icon="cloud-download"></b-icon>
           <!-- Si
           breakpoint
@@ -65,12 +57,8 @@
           à
           (petit)
            -->
-           <hr />
-          <b-progress
-            :type="isOfflineReady ? 'is-success' : 'is-info'"
-            :value="offlineImagesSavedRatio"
-            show-value
-          ></b-progress>
+          <b-progress :type="isOfflineReady ? 'is-success' : 'is-info'" :value="offlineImagesSavedRatio"
+            show-value></b-progress>
           <p v-if="offlineImagesSavedRatio == 100">
             {{ $t("ReadyOffline") }} ✈️
           </p>
@@ -86,92 +74,65 @@
           <hr />
           <b-field :label="$t('Analytics')">
             <b-switch id="account-enhanced-analytics" v-model="user.settings.analytics">{{
-              $t("AnalyticsText")
-            }}</b-switch>
+        $t("AnalyticsText")
+      }}</b-switch>
           </b-field>
           <br>
+          <hr />
+          <b-field :label="$t('ChangePassword')">
+            <b-input id="account-change-password" v-model="user.password" placeholder="S0meExample!" type="password"
+              maxlength="32" password-reveal></b-input>
+          </b-field>
+          <b-field :label="$t('DeleteAccount')">
+            <b-button id="account-delete-account" type="is-danger" icon-right="delete" @click="deleteAccount()"> {{
+        $t("DeleteAccountText") }}</b-button>
+          </b-field>
           <br>
         </b-tab-item>
         <b-tab-item icon="translate">
           <br />
           <b-field :label="$t('DisplayedLanguage')">
-            <b-select
-              id="account-displayed-language"
-              collapsible
-              expanded
-              :label="getEmoji(localeIso())"
-              v-model="displayedLanguage"
-            >
-              <option
-                v-for="locale in $i18n.locales"
-                :key="locale.code + locale.iso + Math.random()"
-                :value="locale.code"
-              >
+            <b-select id="account-displayed-language" collapsible expanded :label="getEmoji(localeIso())"
+              v-model="displayedLanguage">
+              <option v-for="locale in $i18n.locales" :key="locale.code + locale.iso + Math.random()"
+                :value="locale.code">
                 {{ getEmoji(locale.iso) }}
               </option>
             </b-select>
           </b-field>
           <div v-if="loadedVoices && loadedVoices.length > 1">
-          <b-field :label="$t('Voice')">
-            
-            <b-select
-              id="account-change-voice"
-              v-model="voiceURI"
-              placeholder="Select language"
-              required
-              :loading="loadingVoices"
-              expanded
-            >
-              <option
-                v-for="voice in loadedVoicesWithFilter"
-                :value="voice.voiceURI"
-                :key="voice.voiceURI + voice.name + Math.random()"
-              >
-                {{ getEmoji(voice.lang) }} {{ voice.name }}
-              </option>
-            </b-select>
-            <!--
+            <b-field :label="$t('Voice')">
+
+              <b-select id="account-change-voice" v-model="voiceURI" placeholder="Select language" required
+                :loading="loadingVoices" expanded>
+                <option v-for="voice in loadedVoicesWithFilter" :value="voice.voiceURI"
+                  :key="voice.voiceURI + voice.name + Math.random()">
+                  {{ getEmoji(voice.lang) }} {{ voice.name }}
+                </option>
+              </b-select>
+              <!--
             <b-button
               type="is-ghost"
               @click="loadedVoicesFilterState = !loadedVoicesFilterState"
             >
               {{ loadedVoicesFilterState ? $t("ShowMore") : $t("ShowLess") }}
             </b-button> -->
-            <b-button
-              class="speakButton"
-              type="is-success"
-              icon-right="volume-high"
-              @click="
-                playSentenceInLanguage(getUserLang, voiceURI, pitch, rate)
-              "
-            ></b-button>
-            
-            
-          </b-field>
-          <b-field :label="$t('Pitch')">
-            <b-slider
-              id="account-change-pitch"
-              v-model="pitch"
-              :min="0"
-              :max="2"
-              :step="0.1"
-              ticks
-            ></b-slider>
-          </b-field>
-          <b-field :label="$t('Rate')">
-            <b-slider
-              id="account-change-rate"
-              v-model="rate"
-              :min="0.4"
-              :max="1.6"
-              :step="0.05"
-              ticks
-            ></b-slider>
-          </b-field>
+              <b-button class="speakButton" type="is-success" icon-right="volume-high" @click="
+        playSentenceInLanguage(getUserLang, voiceURI, pitch, rate)
+        "></b-button>
+
+
+            </b-field>
+            <b-field :label="$t('Pitch')">
+              <b-slider id="account-change-pitch" v-model="pitch" :min="0" :max="2" :step="0.1" ticks></b-slider>
+            </b-field>
+            <b-field :label="$t('Rate')">
+              <b-slider id="account-change-rate" v-model="rate" :min="0.4" :max="1.6" :step="0.05" ticks></b-slider>
+            </b-field>
           </div>
           <div v-else>
-              <div class="notification">
-                <installVoice></installVoice>
+            <div class="notification">
+              <installVoice></installVoice>
             </div>
           </div>
           <!--
@@ -209,61 +170,35 @@
             {{ $t("AccountSupervisorAdd") }}
           </p>
           <b-field>
-            <b-input
-              v-model="addDirectSharer"
-              expanded
-              :placeholder="$t('PlaceHolderEmail')"
-              type="email"
-              maxlength="64"
-            ></b-input>
-            <b-button
-              id="account-add-supervisor"
-              type="is-success"
-              icon-right="plus"
-              @click="pushToSharers()"
-            />
+            <b-input v-model="addDirectSharer" expanded :placeholder="$t('PlaceHolderEmail')" type="email"
+              maxlength="64"></b-input>
+            <b-button id="account-add-supervisor" type="is-success" icon-right="plus" @click="pushToSharers()" />
           </b-field>
-          <b-table
-            v-if="directSharers.length > 0"
-            :focusable="true"
-            :data="directSharersObj"
-            :columns="columns"
-            :selected.sync="selected"
-            :mobile-cards="false"
-          >
+          <b-table v-if="directSharers.length > 0" :focusable="true" :data="directSharersObj" :columns="columns"
+            :selected.sync="selected" :mobile-cards="false">
           </b-table>
           <br />
-          <b-button
-            id="account-remove-supervisor"
-            v-if="directSharers.indexOf(selected.username) !== -1"
-            style="
+          <b-button id="account-remove-supervisor" v-if="directSharers.indexOf(selected.username) !== -1" style="
               margin-top: -15px;
               border: solid;
               border-width: 1px;
               border-color: #f14668;
-            "
-            class="actionButtons"
-            inverted
-            type="is-danger"
-            icon-left="delete"
-            @click="removeFromSharers()"
-          />
+            " class="actionButtons" inverted type="is-danger" icon-left="delete" @click="removeFromSharers()" />
           <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("AccountSupervisor") }}</p>
           <p class="subtitle is-6">{{ $t("AccountSupervisorText") }}</p>
           <br />
           <div class="box">
             <b>{{
-              "https://www.pictalk.org?directsharer=" +
-              $store.getters.getUser.username
-            }}</b>
+        "https://www.pictalk.org?directsharer=" +
+        $store.getters.getUser.username
+      }}</b>
           </div>
           <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("Groups") }}</p>
           <b-field style="margin-bottom: 0.15rem">
             <div class="columns is-multiline is-mobile">
-              <div
-                class="
+              <div class="
                   card
                   column
                   is-6-mobile
@@ -271,16 +206,10 @@
                   is-4-desktop
                   is-4-widescreen
                   is-4-fullhd
-                "
-                v-for="(group, index) in mailingList"
-              >
+                " v-for="(group, index) in mailingList">
                 <div class="card-content lessPadding">
                   <div class="media" style="margin-bottom: 0.25rem">
-                    <div
-                      class="media-left"
-                      v-if="group.icon"
-                      style="max-width: 16px; margin-right: 12px"
-                    >
+                    <div class="media-left" v-if="group.icon" style="max-width: 16px; margin-right: 12px">
                       <b-icon :icon="group.icon" />
                     </div>
                     <div class="media-content" style="overflow-y: hidden">
@@ -290,40 +219,23 @@
                     </div>
                   </div>
                   <div class="groupUsers" style="margin-bottom: 15px">
-                    <div
-                      style="overflow-x: hidden"
-                      v-for="username in group.users"
-                    >
+                    <div style="overflow-x: hidden" v-for="username in group.users">
                       {{ username }}
                     </div>
                   </div>
                   <div class="columns is-mobile is-centered">
-                    <div
-                      class="column"
-                      style="
+                    <div class="column" style="
                         padding: 0.2rem;
                         margin-left: 0.4rem;
                         margin-right: 0.8rem;
                         flex-grow: 0;
-                      "
-                    >
-                      <b-button
-                        id="account-delete-group"
-                        type="is-danger"
-                        expanded
-                        style="width: 50px"
-                        icon-right="delete"
-                        @click="deleteGroup(mailingList, index)"
-                      />
+                      ">
+                      <b-button id="account-delete-group" type="is-danger" expanded style="width: 50px"
+                        icon-right="delete" @click="deleteGroup(mailingList, index)" />
                     </div>
                     <div class="column" style="padding: 0.2rem">
-                      <b-button
-                        type="is-info"
-                        expanded
-                        style="width: 50px"
-                        icon-right="pencil"
-                        @click="openAddGroupModal(group, index)"
-                      />
+                      <b-button type="is-info" expanded style="width: 50px" icon-right="pencil"
+                        @click="openAddGroupModal(group, index)" />
                     </div>
                   </div>
                 </div>
@@ -331,14 +243,8 @@
             </div>
           </b-field>
           <br />
-          <b-button
-            id="account-add-group"
-            style="margin-bottom: 45px"
-            type="is-success"
-            class="actionButtons"
-            icon-left="plus"
-            @click="openAddGroupModal()"
-          />
+          <b-button id="account-add-group" style="margin-bottom: 45px" type="is-success" class="actionButtons"
+            icon-left="plus" @click="openAddGroupModal()" />
           <hr />
         </b-tab-item>
       </b-tabs>
@@ -347,19 +253,12 @@
       <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
         $t("Cancel")
       }}</b-button>
-      <b-button
-        id="account-save"
-        class="menuButtons"
-        type="is-info"
-        icon-left="content-save"
-        :loading="loadingSave"
-        @click="onSave(user.username, user.password, user.language)"
-        >{{ $t("Save") }}</b-button
-      >
+      <b-button id="account-save" class="menuButtons" type="is-info" icon-left="content-save" :loading="loadingSave"
+        @click="onSave(user.username, user.password, user.language)">{{ $t("Save") }}</b-button>
     </div>
   </div>
 </template>
-<script >
+<script>
 import installVoice from "@/components/pictos/installVoice";
 import addGroupModal from "@/components/auth/addGroupModal";
 import deviceInfos from "@/mixins/deviceInfos";
@@ -370,6 +269,7 @@ import sharers from "@/mixins/sharers";
 import navbar from "@/mixins/navbar";
 import Security from "@/components/auth/securityModal";
 import support from "@/components/auth/support";
+import deleteAccountModal from "@/components/auth/deleteAccountModal.vue";
 import { convertToSimpleLanguage, isObject, mergeDeep } from "@/utils/utils";
 export default {
   mixins: [deviceInfos, emoji, tts, lang, sharers, navbar],
@@ -377,7 +277,8 @@ export default {
     installVoice,
     addGroupModal,
     Security,
-    support
+    support,
+    deleteAccountModal,
   },
   computed: {
     isOfflineReady() {
@@ -441,7 +342,7 @@ export default {
     };
   },
   watch: {
-    userSettingsPronounceOnClickChanged: function(value) {
+    userSettingsPronounceOnClickChanged: function (value) {
       console.log("Account Setting Pronounce On Click")
       this.$matomo.trackEvent("Account Setting Pronounce On Click", "Account Setting Pronounce On Click", "");
     },
@@ -516,6 +417,16 @@ export default {
     }
   },
   methods: {
+    deleteAccount() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: deleteAccountModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+    },
     deleteGroup(mailingList, index) {
       let cb = function () {
         mailingList.splice(index, 1);
@@ -641,9 +552,11 @@ export default {
   padding: 0.5rem;
   height: 80%;
 }
+
 .speakButton {
   margin-left: 0.5rem;
 }
+
 .footer {
   display: flex;
   position: fixed;
@@ -653,6 +566,7 @@ export default {
   width: 100%;
   background-color: #ffffff;
 }
+
 .actionButtons {
   width: 40vw;
   min-width: 200px;
@@ -661,6 +575,7 @@ export default {
   margin-right: auto;
   margin-left: auto;
 }
+
 .menuButtons {
   margin-left: 1vmin;
   margin-right: 1vmin;
@@ -670,14 +585,19 @@ export default {
   width: 45vw;
   max-width: 450px;
   border-radius: 7px;
-  -webkit-box-shadow: 2px 2px 1px 1px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow: 2px 2px 1px 1px #ccc; /* Firefox 3.5 - 3.6 */
-  box-shadow: 2px 2px 1px 1px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  -webkit-box-shadow: 2px 2px 1px 1px #ccc;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 2px 2px 1px 1px #ccc;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 2px 2px 1px 1px #ccc;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
+
 .groupUsers {
   height: 100px;
   overflow-y: scroll;
 }
+
 ::-webkit-scrollbar {
   width: 0.7vw;
   max-width: 10px;
