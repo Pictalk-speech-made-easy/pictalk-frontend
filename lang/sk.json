@@ -407,5 +407,7 @@
     "AnalyticsText": "Pomôžte nám pochopiť, ako používate Pictalk. Informácie zostávajú anonymné a nie sú nikomu poskytované 🕵️‍♀️",
     "AdhesionText": "Neváhajte sa pridať k našej organizácii a podporiť projekt ❤️",
     "Adhesion": "Podporte nás",
-    "Question": "Otáznik"
+    "Question": "Otáznik",
+    "DeleteAccount": "Odstránenie účtu",
+    "DeleteAccountText": "trvalé vymazanie vášho konta a všetkého jeho obsahu."
 }
