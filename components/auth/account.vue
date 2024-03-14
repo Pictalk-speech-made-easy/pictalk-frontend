@@ -131,33 +131,6 @@
               <installVoice></installVoice>
             </div>
           </div>
-          <!--
-          <b-button
-            v-if="!displayVoicesOrMultiLingual"
-            @click="displayVoices = !displayVoices"
-            type="is-ghost"
-            >{{ $t("SpeakMoreLanguage") }}</b-button
-          >
-
-          <b-field v-if="displayVoicesOrMultiLingual" :label="$t('Voices')">
-            <b-select
-              v-model="voiceURIs"
-              placeholder="Select language"
-              required
-              multiple
-              expanded
-              native-size="8"
-              :loading="loadingVoices"
-            >
-              <option
-                v-for="voice in loadedVoices"
-                :value="voice.voiceURI"
-                :key="voice.voiceURI"
-              >
-                {{ getEmoji(voice.lang) }} {{ voice.name }}
-              </option>
-            </b-select>
-          </b-field>  -->
           <hr />
         </b-tab-item>
         <b-tab-item style="width: 100%" icon="account-group">

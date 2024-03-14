@@ -17,9 +17,6 @@ export default {
       clientId: process.env.KEYCLOAK_CLIENT_ID || "pictalk"
     }
   },
-  generate: {
-    fallback: true
-  },
   meta: {
     ogTitle: false,
     ogDescription: false,

@@ -27,8 +27,6 @@
               <b-button class="bolder" v-if="!isLogged" @click="openSignUpModal()" type="is-success" outlined>{{
           $t("SignUp") }}</b-button>
               <b-button v-else type="is-light" icon-right="logout" @click="onLogout" />
-              <b-button class="bolder" outlined v-if="!isLogged" tag="nuxt-link" to="/346" type="is-primary"
-                icon-right="arrow-right-box">{{ $t("TryPictalk") }}</b-button>
             </div>
           </b-navbar-item>
         </client-only>
@@ -79,8 +77,8 @@ export default {
       );
     },
     pictalkHome() {
-      if (this.$store.getters.getRootId) {
-        return "/pictalk/" + this.$store.getters.getRootId;
+      if (this.$store.getters.getRootId && this.$store.getters.getSidebarId) {
+        return `/pictalk/${this.$store.getters.getRootId}?sidebarPictoId=${this.$store.getters.getSidebarId}`;
       } else {
         return "/pictalk";
       }

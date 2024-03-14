@@ -8,5 +8,5 @@ export default async ({ app, $config }, inject) => {
   })
   inject('keycloak', keycloak)
   console.log('keycloak', keycloak)
-  await keycloak.init({ flow: 'implicit', onLoad: 'check-sso' })
+  await keycloak.init({ flow: 'implicit', onLoad: 'check-sso', enableLogging: true, /* silentCheckSsoRedirectUri: `${location.origin}/kc_auth/silent-check-sso.html` */ })
 }
