@@ -1,3 +1,5 @@
 export default function (context) {
-  context.store.dispatch("initAuth", context.$keycloak);
+  if (!context.$keycloak.authenticated && context.route.path.includes("/pictalk")) {
+    context.redirect("/");
+  }
 }

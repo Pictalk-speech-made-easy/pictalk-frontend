@@ -8,12 +8,12 @@
       $route.query.isAdmin &&
       false,
   }" v-on="picto.collection &&
-      !publicMode &&
-      !sidebarMode &&
-      $route.query.isAdmin &&
-      isDropZone
-      ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
-      : {}
+    !publicMode &&
+    !sidebarMode &&
+    $route.query.isAdmin &&
+    isDropZone
+    ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
+    : {}
     ">
     <div :id="picto.id" :collection="picto.collection" :class="{
     'has-background': picto.collection,
@@ -27,16 +27,16 @@
             <b-icon icon="web-cancel" />
           </div>
           <div v-if="isOnline" class="head-actions" @click.self="addToSpeech()" v-on="picto.collection &&
-      !publicMode &&
-      !sidebarMode &&
-      $route.query.isAdmin &&
-      isDropZone
-      ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
-      : {}
+    !publicMode &&
+    !sidebarMode &&
+    $route.query.isAdmin &&
+    isDropZone
+    ? { dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }
+    : {}
     ">
             <div v-if="!publicMode && !sidebarMode && $route.query.isAdmin" :draggable="!publicMode && !sidebarMode && $route.query.isAdmin
-      ? true
-      : false
+    ? true
+    : false
     " @dragstart="onDragStart" @dragend="onDragEnd">
               <b-tooltip :label="$t('DragAndDrop')" :delay="500" position="is-bottom">
                 <b-icon class="large-icon icon" icon="drag"></b-icon>
@@ -55,48 +55,48 @@
     ">
               <b-tooltip :label="$t('Edit')" :delay="500" position="is-bottom">
                 <b-icon class="medium-icon icon" v-bind:style="(isEditor || isToUser) && isOnline
-      ? 'justify-self: end; color: hsl(210, 100%, 75%)'
-      : 'justify-self: end; color: hsl(210, 100%, 75%); opacity: 0.5'
+    ? 'justify-self: end; color: hsl(210, 100%, 75%)'
+    : 'justify-self: end; color: hsl(210, 100%, 75%); opacity: 0.5'
     " icon="pencil" />
               </b-tooltip>
             </div>
             <div v-if="picto.collection" v-on="picto.collection && isOnline
-      ? {
-        click: () =>
-          setCopyCollectionId(picto.id, !picto.collection),
-      }
-      : {}
+    ? {
+      click: () =>
+        setCopyCollectionId(picto.id, !picto.collection),
+    }
+    : {}
     ">
               <b-tooltip :label="$t('CopyPicto')" :delay="500" position="is-bottom">
                 <b-icon class="medium-icon icon" v-bind:style="picto.collection && isOnline
-      ? 'justify-self: end; color: hsl(45, 100%, 75%)'
-      : 'justify-self: end; color: hsl(45, 100%, 75%); opacity: 0.5'
+    ? 'justify-self: end; color: hsl(45, 100%, 75%)'
+    : 'justify-self: end; color: hsl(45, 100%, 75%); opacity: 0.5'
     " icon="vector-arrange-below" />
               </b-tooltip>
             </div>
             <div v-if="picto.collection" v-on="(isEditor || isToUser || isViewer) &&
-      picto.collection &&
-      isOnline
-      ? {
-        click: () =>
-          setShortcutCollectionId(picto.id, !picto.collection),
-      }
-      : {}
+    picto.collection &&
+    isOnline
+    ? {
+      click: () =>
+        setShortcutCollectionId(picto.id, !picto.collection),
+    }
+    : {}
     ">
               <b-tooltip :label="$t('LinkPicto')" :delay="500" position="is-bottom">
                 <b-icon class="medium-icon icon" v-bind:style="(isEditor || isToUser || isViewer) &&
-      picto.collection &&
-      isOnline
-      ? 'justify-self: start; color: hsl(140, 100%, 75%)'
-      : 'justify-self: start; color: hsl(140, 100%, 75%); opacity: 0.5'
+    picto.collection &&
+    isOnline
+    ? 'justify-self: start; color: hsl(140, 100%, 75%)'
+    : 'justify-self: start; color: hsl(140, 100%, 75%); opacity: 0.5'
     " icon="vector-link" />
               </b-tooltip>
             </div>
             <div v-on="isOnline && canDelete ? { click: deletePicto } : {}">
               <b-tooltip :label="$t('DeletePicto')" :delay="500" position="is-bottom">
                 <b-icon class="medium-icon icon" v-bind:style="isOnline && canDelete
-      ? 'justify-self: start; color: hsl(0, 100%, 75%)'
-      : 'justify-self: start; color: hsl(0, 100%, 75%); opacity: 0.5'
+    ? 'justify-self: start; color: hsl(0, 100%, 75%)'
+    : 'justify-self: start; color: hsl(0, 100%, 75%); opacity: 0.5'
     " icon="delete" />
               </b-tooltip>
             </div>
@@ -114,8 +114,8 @@
         <img draggable="false" :class="{ image: true, nopointerevents: $route.query.isAdmin }"
           :srcset="pictoOrUndefinedImage" :alt="picto.meaning[getUserLang]" @click.self="addToSpeech()" width="100%"
           crossorigin="anonymous" v-bind:style="this.picto.color != '#ffffff00'
-      ? `border: solid; border-color: ${this.picto.color}; border-width: 10px;`
-      : ''
+    ? `border: solid; border-color: ${this.picto.color}; border-width: 10px;`
+    : ''
     " />
         <b-skeleton class="skeleton-wrapper" height="100%" :active="skeleton" />
       </div>
@@ -123,7 +123,7 @@
     ">
         {{ picto.meaning[getUserLang] }}
       </div>
-      <div v-if="publicMode && $store.getters.getUser && $store.getters.isAuthenticated
+      <div v-if="publicMode && $store.getters.getUser && $keycloak.authenticated
     " class="adminMenu adminoption columns smallMargin">
         <div class="column noMargin is-mobile">
           <b-button :disabled="!isOnline" type="is-success" icon-right="plus" @click="

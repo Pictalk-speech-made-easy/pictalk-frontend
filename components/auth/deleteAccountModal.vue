@@ -36,7 +36,7 @@ export default {
     async deleteAccount() {
       await axios.delete(`/user/${this.$store.getters.getUser.id}`);
       this.$parent.close();
-      this.$store.dispatch("logout");
+      this.$store.dispatch("logout", this.$keycloak);
       this.$router.push("/");
     }
   }

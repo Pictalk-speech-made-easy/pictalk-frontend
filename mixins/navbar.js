@@ -12,12 +12,12 @@ export default {
   methods: {
     onLogout() {
       if (this.admin) {
-        this.$store.dispatch("logout");
+        this.$store.dispatch("logout", this.$keycloak);
         this.$router.push("/");
       } else {
         if (this.$store.getters.getUser.settings.securityMode) {
           let postFunction = function (t) {
-            t.$store.dispatch("logout");
+            t.$store.dispatch("logout", this.$keycloak);
             t.$router.push("/");
           };
           this.$buefy.modal.open({
@@ -32,7 +32,7 @@ export default {
             canCancel: ["escape", "x"],
           });
         } else {
-          this.$store.dispatch("logout");
+          this.$store.dispatch("logout", this.$keycloak);
           this.$router.push("/");
         }
       }

@@ -472,26 +472,8 @@ export const actions = {
     }
     return res;
   },
-  async initAuth(vuexContext, keycloak) {
-    console.log("Initializing authentication")
-    console.log(keycloak)
-    try {
-      console.log(`User is ${keycloak.authenticated ? 'authenticated' : 'not authenticated'}`);
-      if (!keycloak.authenticated) {
-        vuexContext.dispatch("logout");
-      }
-    } catch (error) {
-      console.error('Failed to initialize adapter:', error);
-    }
-  },
-  logout(vuexContext) {
-    vuexContext.commit("clearToken");
-    Cookie.remove("jwt");
-    Cookie.remove("expirationDate");
-    if (process.client) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("tokenExpiration");
-    }
+  logout(vuexContext, keycloak) {
+    keycloak.logout();
     vuexContext.commit("resetStore");
   },
   async getUser(vuexContext) {

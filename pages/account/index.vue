@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container is-max-desktop" style="padding: 1rem">
+
       <body>
         <section class="section" style="padding: 0%">
           <h1 class="title is-size-3-mobile">
@@ -12,7 +13,7 @@
     </div>
   </div>
 </template>
-<script >
+<script>
 import axios from "axios";
 import account from "@/components/auth/account";
 export default {
@@ -29,7 +30,7 @@ export default {
       return user;
     },
   },
-  middleware: ["check-auth", "auth", "axios"],
+  middleware: ["check-auth", "axios"],
   layout: "pictalk",
   async fetch() {
     const user = this.$store.getters.getUser;

@@ -63,6 +63,7 @@ export default {
       this.$store.commit("resetCopyCollectionId");
     },
     async addToSpeech() {
+      console.log("Adding to speech")
       this.$store.commit("addSpeech", {
         ...this.picto,
         sidebar: this.sidebarMode,
@@ -76,6 +77,8 @@ export default {
             },
           });
         } else {
+          console.log("Router push")
+          console.log(this.pictoLink)
           this.$router.push({
             path: this.pictoLink,
             query: { ...this.$route.query },

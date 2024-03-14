@@ -35,7 +35,7 @@ export default {
     }
     // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
     this.popupTimeout = setTimeout(() => {
-      if (!Cookie.get('popup') && !this.$store.getters.isAuthenticated) {
+      if (!Cookie.get('popup') && !this.$keycloak.authenticated) {
         this.$buefy.modal.open({
           parent: this,
           component: popupModal,
@@ -50,7 +50,7 @@ export default {
       }
     }, 30000);
     if (
-      this.$store.getters.isAuthenticated &&
+      this.$keycloak.authenticated &&
       this.$store.getters.getUser &&
       this.$store.getters.getUser.displayLanguage.match(/[a-z]{2}/g)
     ) {

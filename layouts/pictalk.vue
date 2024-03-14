@@ -14,7 +14,7 @@
 <script>
 import pictalkNavbar from "@/components/navigation/pictalk-navbar";
 export default {
-  middleware: ["axios", "check-auth", "auth"],
+  middleware: ["axios", "check-auth"],
   components: {
     pictalkNavbar,
   },
@@ -49,7 +49,7 @@ export default {
         }
       }
       if (
-        this.$store.getters.isAuthenticated &&
+        this.$keycloak.authenticated &&
         this.$store.getters.getUser &&
         this.$store.getters.getUser.displayLanguage.match(/[a-z]{2}/g)
       ) {
