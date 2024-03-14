@@ -4,7 +4,7 @@ import VueMatomo from 'vue-matomo'
 export default ({ app }) => {
   Vue.use(VueMatomo, {
     router: app.router,
-    host: 'https://matomo.home.asidiras.dev/',
+    host: 'https://analytics.picmind.org//',
     siteId: 1,
     trackInitialView: true,
     requireConsent: false,

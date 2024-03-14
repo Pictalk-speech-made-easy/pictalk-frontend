@@ -356,7 +356,7 @@
   "ARASAACSponsoring": "The ARASAAC non-profit organization provides us free and open source pictograms",
   "PronounceShowDelay": "Additional showing sentence time",
   "PronounceShowDelay0": "Sentence time",
-  "PronounceShowSize": "Size of pictograms",
+  "PronounceShowSize": "Size of pictograms and the interface",
   "PictoStepsErrorTraduction": "Error while translating the pictogram",
   "PictoStepsCreationError": "Error while trying to create the collection or pictogram",
   "NoVoiceAvailable": "No voice available in your device",
@@ -404,5 +404,12 @@
   "GandiSponsoring": "Gandi.net helps us with a free access to powerful servers",
   "TheyUsePictalk": "They use Pictalk",
   "TitleCompleteKeywords": "Talk with pictograms for autism and more",
-  "DescriptionSEO": "Pictalk helps people with physical or mental condition communicate with the help of pictograms and pictures. It can be: Autism, Down Syndrome, apraxia, stroke and others"
+  "DescriptionSEO": "Pictalk helps people with physical or mental condition communicate with the help of pictograms and pictures. It can be: Autism, Down Syndrome, apraxia, stroke and others",
+  "Analytics": "Analytics 🚀",
+  "AnalyticsText": "Help us understand how you use Pictalk. Information remains anonymous and is not shared with anyone 🕵️‍♀️",
+  "AdhesionText": "Feel free to join our organization and support the project ❤️",
+  "Adhesion": "Support us",
+  "Question": "Question mark",
+  "DeleteAccount": "Delete account",
+  "DeleteAccountText": "Permanent deletion of your account and all of its content"
 }

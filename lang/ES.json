@@ -352,7 +352,7 @@
     "ARASAACSponsoring": "La organización sin ánimo de lucro ARASAAC nos proporciona pictogramas gratuitos y de código abierto",
     "PronounceShowDelay": "Tiempo adicional de visualización de la frase",
     "PronounceShowDelay0": "Tiempo de la pronunciación de la frase",
-    "PronounceShowSize": "Tamaño de los pictogramas durante la visualización de la frase",
+    "PronounceShowSize": "Tamaño de los pictogramas y de la interfaz",
     "PictoStepsErrorTraduction": "Error al traducir el pictograma",
     "PictoStepsCreationError": "Error al intentar crear la colección o pictograma",
     "VerifiedEmail": "Correo electrónico correctamente verificado",
@@ -404,5 +404,10 @@
     "PopupCreateAccountText4": "Importa tus propias fotos y pictogramas 📷",
     "PopupCreateAccountText5": "Comparte tus colecciones 🤝",
     "PopupCreateAccountText6": "Sin límite de espacio ni de pictogramas 💾",
-    "PopupCreateAccountText21": "Cambia la voz, el tono y el ritmo 🗣️"
+    "PopupCreateAccountText21": "Cambia la voz, el tono y el ritmo 🗣️",
+    "Analytics": "Analítica 🚀",
+    "AnalyticsText": "Ayúdanos a entender cómo utilizas Pictalk. La información permanece anónima y no se comparte con nadie 🕵️‍♀️",
+    "AdhesionText": "No dude en unirse a nuestra organización y apoyar el proyecto ❤️",
+    "Adhesion": "Apóyanos",
+    "Question": "Signo de interrogación"
 }

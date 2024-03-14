@@ -1,6 +1,7 @@
 describe('Creates a collection', () => {
   it('Creates a collection', function () {
     cy.login()
+    cy.checkVoicesPopup();
     // thus the visit will not start until the promise returned
     // by the application code inside the custom command "login" resolves
     cy.intercept('POST', '/collection').as('addCollection');

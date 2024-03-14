@@ -350,7 +350,7 @@
     "DigitalOceanSponsoring": "L'hoster del nostro server, Digital Ocean, ci ha supportato con 250€.",
     "Adapei69Sponsoring": "Adapei69 ci aiuta a migliorare e testare Pictalk. Beneficiamo dei loro preziosi consigli e delle loro conoscenze",
     "ARASAACSponsoring": "L'organizzazione no-profit ARASAAC ci fornisce pittogrammi gratuiti e open source",
-    "PronounceShowSize": "Dimensione dei pittogrammi durante il tempo di parola",
+    "PronounceShowSize": "Dimensione dei pittogrammi e dell'interfaccia",
     "PronounceShowDelay": "Tempo aggiuntivo di dimostrazione della pena",
     "PronounceShowDelay0": "Tempo di condanna",
     "PictoStepsErrorTraduction": "Errore durante la traduzione del pittogramma",
@@ -404,5 +404,10 @@
     "PopupCreateAccountText4": "Importazione di foto e pittogrammi personali 📷",
     "PopupCreateAccountText5": "Condividete le vostre collezioni 🤝",
     "PopupCreateAccountText6": "Nessun limite di spazio o di pittogrammi 💾",
-    "PopupCreateAccountText21": "Modificate la voce, l'intonazione e la velocità 🗣️"
+    "PopupCreateAccountText21": "Modificate la voce, l'intonazione e la velocità 🗣️",
+    "Analytics": "Analitica 🚀",
+    "AnalyticsText": "Aiutateci a capire come utilizzate Pictalk. Le informazioni rimangono anonime e non vengono condivise con nessuno 🕵️‍♀️",
+    "AdhesionText": "Sentitevi liberi di unirvi alla nostra organizzazione e di sostenere il progetto ❤️.",
+    "Adhesion": "Sosteneteci",
+    "Question": "Punto interrogativo"
 }

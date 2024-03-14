@@ -350,7 +350,7 @@
     "DigitalOceanSponsoring": "Hosteri de serverul nostru, Digital Ocean ne-a sprijinit cu 250 €.",
     "Adapei69Sponsoring": "Adapei69 ne ajută la îmbunătățirea și testarea Pictalk. Beneficiem de sfaturile și cunoștințele lor prețioase",
     "ARASAACSponsoring": "Organizația non-profit ARASAAC ne pune la dispoziție pictograme gratuite și open source",
-    "PronounceShowSize": "Dimensiunea pictogramelor în timpul vorbirii",
+    "PronounceShowSize": "Dimensiunea pictogramelor și a interfeței",
     "PronounceShowDelay": "Timp suplimentar de afișare a pedepsei",
     "PronounceShowDelay0": "Durata pedepsei",
     "PictoStepsErrorTraduction": "Eroare la traducerea pictogramei",
@@ -404,5 +404,10 @@
     "PopupCreateAccountText4": "Importați-vă propriile fotografii și pictograme 📷",
     "PopupCreateAccountText5": "Împărtășește-ți colecțiile 🤝",
     "PopupCreateAccountText6": "Fără limită de spațiu sau de pictograme 💾",
-    "PopupCreateAccountText21": "Schimbă-ți vocea, tonul și ritmul 🗣️"
+    "PopupCreateAccountText21": "Schimbă-ți vocea, tonul și ritmul 🗣️",
+    "Analytics": "Analiză 🚀",
+    "AnalyticsText": "Ajutați-ne să înțelegem cum utilizați Pictalk. Informațiile rămân anonime și nu sunt împărtășite cu nimeni 🕵️‍♀️",
+    "AdhesionText": "Nu ezitați să vă alăturați organizației noastre și să susțineți proiectul ❤️",
+    "Adhesion": "Sprijină-ne",
+    "Question": "Semn de întrebare"
 }

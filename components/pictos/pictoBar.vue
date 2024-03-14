@@ -4,7 +4,7 @@
       <b-button
         style="background-color: hsl(0, 100%, 100%); color: #ff5757"
         icon-right="delete"
-        class="customButton  getsBigger"
+        :class="'customButton ' + buttonsShowSize"
           @click="eraseSpeech()"
       />
     </div>
@@ -12,7 +12,7 @@
       <b-button
         style="background-color: hsl(0, 100%, 100%); color: #ff5757"
         icon-right="backspace"
-        class="customButton  getsBigger"
+        :class="'customButton ' + buttonsShowSize"
           @click="removeSpeech(true)"
       />
     </div>
@@ -29,7 +29,7 @@
     <div class="column is-narrow nopadding">
       <b-button
         v-if="$store.getters.getTemporaryLanguage"
-        class="getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         type="is-success"
         icon-right="volume-high"
         @click="pictalk(pictos)"
@@ -39,7 +39,7 @@
       v-if="$store.getters.getTemporaryLanguage"
         style="background-color: hsl(154, 70%, 55%)"
         icon-right="volume-high"
-        class="customButton getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         @click="pictalk(pictos)"
       >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
       <b-button
@@ -47,7 +47,7 @@
         id="pictobar-speak"
         style="background-color: hsl(154, 70%, 55%)"
         icon-right="volume-high"
-        class="customButton getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         @click="pictalk(pictos)"
       />
     </div>
@@ -55,7 +55,7 @@
       <b-button
         style="background-color: hsl(210, 100%, 65%)"
         icon-right="content-copy"
-        class="customButton getsBigger"
+        :class="'customButton ' + buttonsShowSize"
         @click="copyPictosToClipboardBase(pictosWithoutSilent)"
         id="pictobar-copy"
       />
@@ -86,6 +86,7 @@ import deviceInfos from "@/mixins/deviceInfos";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";
 import lang from "@/mixins/lang";
+import { SoundHelper } from "@/utils/sounds";
 export default {
   mixins: [emoji, tts, deviceInfos, lang],
   methods: {
@@ -178,8 +179,7 @@ export default {
       try {
           const data = [new ClipboardItem({ [this.preGeneratedBlob.type]: this.preGeneratedBlob })];
           navigator.clipboard.write(data);
-          let audio = new Audio(require("~/assets/sounds/copy.mp3").default);
-          audio.play();
+          SoundHelper.playSentenceCopy();
           const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
@@ -188,15 +188,13 @@ export default {
         console.log(e);
         try {
           this.copyPictosToClipboardLegacy(pictos);
-          let audio = new Audio(require("~/assets/sounds/copy.mp3").default);
-          audio.play();
+          SoundHelper.playSentenceCopy();
           const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
           });
         } catch(e) {
-          let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+          SoundHelper.playError()
           const notif = this.$buefy.toast.open({
           message: this.$t("CopyError"),
           type: "is-danger",
@@ -305,8 +303,7 @@ export default {
         }
       }
       try {
-        let audio = new Audio(require("~/assets/sounds/pictobar-return.mp3").default);
-        audio.play();
+        SoundHelper.playSentenceReturn();
       } catch (e) {
         console.log(e)
       }
@@ -314,8 +311,7 @@ export default {
       this.$store.commit("removeSpeech");
     },
     eraseSpeech() {
-      let audio = new Audio(require("~/assets/sounds/pictobar-erase.mp3").default);
-      audio.play();
+      SoundHelper.playSentenceErase();
       if (this.publicMode) {
         this.$router.push("/public/346");
         this.$store.commit("eraseSpeech");
@@ -375,6 +371,19 @@ export default {
         return "topImage column is-4-mobile is-3-tablet is-3-desktop is-3-widescreen is-3-fullhd";
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
         return "topImage column is-6-mobile is-4-tablet is-4-desktop is-4-widescreen is-4-fullhd";
+      }
+    },
+    buttonsShowSize() {
+      console.log(this.$store.getters.getUser.settings?.pronounceShowSize)
+      if (!this.$store.getters.getUser.settings?.pronounceShowSize && this.$store.getters.getUser.settings?.pronounceShowSize != 0) {
+        return "getsBigger";
+      }
+      if (this.$store.getters.getUser.settings?.pronounceShowSize == 0) {
+        return "getsBiggerMin";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 1) {
+        return "getsBigger";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
+        return "getsBiggerMax";
       }
     },
     cssVars() {
@@ -561,7 +570,7 @@ export default {
   border-color: #f14668;
   border-width: 1px;
 }
-.getsBigger {
+.getsBiggerMin {
   width: 7vmin;
   height: 7vmin;
   min-height: 40px;
@@ -569,6 +578,59 @@ export default {
   min-width: 40px;
   max-width: 60px;
 }
+
+@media screen and (min-width: 768px) {
+  .getsBiggerMin {
+    width: 8vmin;
+    height: 8vmin;
+    min-height: 60px;
+    max-height: 70px;
+    min-width: 60px;
+    max-width: 70px;
+  }
+}
+
+.getsBigger {
+  width: 8vmin;
+  height: 8vmin;
+  min-height: 50px;
+  max-height: 80px;
+  min-width: 50px;
+  max-width: 80px;
+}
+
+@media screen and (min-width: 768px) {
+  .getsBigger {
+    width: 8vmin;
+    height: 8vmin;
+    min-height: 80px;
+    max-height: 100px;
+    min-width: 80px;
+    max-width: 100px;
+  }
+}
+
+
+.getsBiggerMax {
+  width: 10vmin;
+  height: 10vmin;
+  min-height: 60px;
+  max-height: 100px;
+  min-width: 60px;
+  max-width: 100px;
+}
+@media screen and (min-width: 768px) {
+  .getsBiggerMax {
+    width: 10vmin;
+    height: 10vmin;
+    min-height: 100px;
+    max-height: 120px;
+    min-width: 100px;
+    max-width: 120px;
+  }
+}
+
+
 @keyframes lightup {
   from {
     filter: brightness(0.6);

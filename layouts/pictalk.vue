@@ -1,19 +1,20 @@
 <template>
   <div>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <client-only>
       <div class="wrapper">
         <pictalkNavbar />
         <hr class="margins" />
         <nuxt />
       </div>
-  </client-only>
-</div>
+    </client-only>
+  </div>
 </template>
-<script >
+
+<script>
 import pictalkNavbar from "@/components/navigation/pictalk-navbar";
 export default {
-  middleware: ["axios","check-auth", "auth"],
+  middleware: ["axios", "check-auth", "auth"],
   components: {
     pictalkNavbar,
   },
@@ -24,20 +25,20 @@ export default {
   },
   async created() {
     if (process.client) {
-    
+
       // Matomo tag manager
-    var _mtm = window._mtm = window._mtm || [];
-    _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.async=true; g.src='https://matomo.home.asidiras.dev/js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g,s);
-      
-    if ('BroadcastChannel' in window) {
+      var _mtm = window._mtm = window._mtm || [];
+      _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.async = true; g.src = 'https://analytics.picmind.org//js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g, s);
+
+      if ('BroadcastChannel' in window) {
         const bc2 = new BroadcastChannel("sync");
         bc2.onmessage = (event) => {
-        if (event.isTrusted) {
-          this.$store.dispatch("downloadCollections", event.data.collections);
-        }
-      };
+          if (event.isTrusted) {
+            this.$store.dispatch("downloadCollections", event.data.collections);
+          }
+        };
       }
       if (!this.$store.getters.getUser.username) {
         try {
@@ -64,15 +65,15 @@ export default {
           // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
           if (event.isUpdate) {
             const notif = this.$buefy.notification.open({
-                duration: 4500,
-                message: this.$t("NewVersionAvailable"),
-                position: "is-top-right",
-                type: "is-success",
-                hasIcon: true,
-                iconSize: "is-small",
-                iconSize: "medium",
-                icon: "gift",
-              });
+              duration: 4500,
+              message: this.$t("NewVersionAvailable"),
+              position: "is-top-right",
+              type: "is-success",
+              hasIcon: true,
+              iconSize: "is-small",
+              iconSize: "medium",
+              icon: "gift",
+            });
             setTimeout(() => {
               window.location.reload(true)
             }, 4500);
@@ -98,6 +99,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .wrapper {
   overflow-x: hidden;
@@ -110,4 +112,3 @@ export default {
   margin: 10px;
 }
 </style>
-

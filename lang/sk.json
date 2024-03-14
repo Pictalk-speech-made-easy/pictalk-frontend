@@ -364,7 +364,7 @@
     "ARASAACSponsoring": "Nezisková organizácia ARASAAC nám poskytuje bezplatné piktogramy s otvoreným zdrojovým kódom",
     "PronounceShowDelay": "Dodatočné zobrazenie času trestu",
     "PronounceShowDelay0": "Čas trestu",
-    "PronounceShowSize": "Veľkosť piktogramov",
+    "PronounceShowSize": "Veľkosť piktogramov a rozhrania",
     "PictoStepsErrorTraduction": "Chyba pri preklade piktogramu",
     "PictoStepsCreationError": "Chyba pri pokuse o vytvorenie kolekcie alebo piktogramu",
     "NoVoiceAvailable": "V zariadení nie je k dispozícii žiadny hlas",
@@ -402,5 +402,10 @@
     "PopupCreateAccountText4": "Import vlastných fotografií a piktogramov 📷",
     "PopupCreateAccountText5": "Zdieľajte svoje zbierky 🤝",
     "PopupCreateAccountText6": "Bez obmedzenia priestoru alebo piktogramu 💾",
-    "PopupCreateAccountText21": "Zmena hlasu, výšky a rýchlosti 🗣️"
+    "PopupCreateAccountText21": "Zmena hlasu, výšky a rýchlosti 🗣️",
+    "Analytics": "Analytika 🚀",
+    "AnalyticsText": "Pomôžte nám pochopiť, ako používate Pictalk. Informácie zostávajú anonymné a nie sú nikomu poskytované 🕵️‍♀️",
+    "AdhesionText": "Neváhajte sa pridať k našej organizácii a podporiť projekt ❤️",
+    "Adhesion": "Podporte nás",
+    "Question": "Otáznik"
 }

@@ -352,7 +352,7 @@
     "CharlineInfos": "Je souhaite donner un nouveau visage à Pictalk afin de mieux communiquer sa mission au public.",
     "PronounceShowDelay": "Durée additionnelle de l'affichage de la phrase",
     "PronounceShowDelay0": "Durée de la phrase",
-    "PronounceShowSize": "Taille des pictogrammes",
+    "PronounceShowSize": "Taille des pictogrammes et de l'interface",
     "PictoStepsErrorTraduction": "Erreur lors de la traduction du pictogramme",
     "PictoStepsCreationError": "Erreur lors de la création de la collection ou du pictogramme",
     "VerifiedEmail": "Courriel correctement vérifié",
@@ -404,5 +404,10 @@
     "PopupCreateAccountText3": "Accédez à vos collections où que vous soyez 📱",
     "PopupCreateAccountText5": "Partagez vos collections 🤝",
     "PopupCreateAccountText6": "Pas de limite d'espace ou de pictogramme 💾",
-    "PopupCreateAccountText21": "Modifiez votre voix, votre ton et votre débit 🗣️"
+    "PopupCreateAccountText21": "Modifiez votre voix, votre ton et votre débit 🗣️",
+    "Analytics": "Analyse 🚀",
+    "AnalyticsText": "Aidez-nous à comprendre comment vous utilisez Pictalk. Les informations restent anonymes et ne sont partagées avec personne 🕵️‍♀️",
+    "Adhesion": "Soutenez-nous",
+    "AdhesionText": "N'hésitez pas à rejoindre notre organisation et à soutenir le projet ❤️",
+    "Question": "Point d'interrogation"
 }

@@ -260,6 +260,12 @@
                 class="optionSwitch"
                 >{{ $t("Plural") }}</b-switch
               >
+              <b-switch
+                v-model="options.question.enabled"
+                type="is-success"
+                class="optionSwitch"
+                >{{ $t("Question") }}</b-switch
+              >
             </b-field>
             <b-field>
               <b-button
@@ -439,6 +445,52 @@
                   ></b-slider>
                 </b-field>
               </div>
+              <div
+                v-if="options.question.enabled"
+                class="column is-full-mobile optionSection"
+              >
+                <p align="center" class="modal-card-title">
+                  {{ $t("Question") }}
+                </p>
+                <b-field :label="$t('Size')">
+                  <b-slider
+                    v-model="options.question.scale"
+                    :min="20"
+                    :max="200"
+                    :step="10"
+                    ticks
+                    :custom-formatter="(val) => val + '%'"
+                  ></b-slider>
+                </b-field>
+                <b-field :label="$t('BorderColor')">
+                  <b-input
+                    lazy
+                    type="color"
+                    v-model="options.question.color"
+                    :placeholder="$t('ColorNotice')"
+                    required
+                    style="width: 45%; margin-right: 5%"
+                  ></b-input>
+                </b-field>
+                <b-field :label="$t('Offsets')">
+                  <b-slider
+                    v-model="options.question.Xoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%; margin-right: 5%"
+                  ></b-slider>
+                  <b-slider
+                    v-model="options.question.Yoffset"
+                    :custom-formatter="(val) => val + '%'"
+                    rounded
+                    :step="5"
+                    ticks
+                    style="width: 45%"
+                  ></b-slider>
+                </b-field>
+              </div>
             </div>
           </b-step-item>
         </b-steps>
@@ -513,7 +565,7 @@ import lang from "@/mixins/lang";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
-
+import { SoundHelper } from "@/utils/sounds";
 export default {
   mixins: [emoji, lang, tts, deviceInfos],
   name: "PictoSteps",
@@ -604,6 +656,14 @@ export default {
           enabled: false,
           scale: 100,
           shift: 1,
+          Xoffset: 0,
+          Yoffset: 0,
+          color: "#000000",
+          border: "#ffffff",
+        },
+        question: {
+          enabled: false,
+          scale: 100,
           Xoffset: 0,
           Yoffset: 0,
           color: "#000000",
@@ -824,8 +884,7 @@ export default {
               pictohubId: this.pictohubId,
             }
           );
-          let audio = new Audio(require("~/assets/sounds/creation.mp3").default);
-          audio.play();
+          SoundHelper.playPictogramCreate()
           this.$buefy.toast.open({
             message: isCollection
               ? this.$t("CreatedCollection")
@@ -853,8 +912,7 @@ export default {
               ...(this.pictohubId && { pictohubId: this.pictohubId }),
             }
           );
-          let audio = new Audio(require("~/assets/sounds/creation.mp3").default);
-          audio.play();
+          SoundHelper.playPictogramCreate()
           this.$buefy.toast.open({
             message: isCollection
               ? this.$t("EditedCollection")
@@ -866,8 +924,7 @@ export default {
         }
       } catch (err) {
         console.log(err);
-        let audio = new Audio(require("~/assets/sounds/error.mp3").default);
-          audio.play();
+        SoundHelper.playError()
         this.$buefy.toast.open({
           message: this.$t("PictoStepsCreationError"),
           type: "is-danger",
@@ -1182,6 +1239,37 @@ export default {
           this.options.cross.color
         );
       }
+      if (this.options.question.enabled) {
+        this.drawQuestionMark(
+          ctx,
+          size,
+          this.options.question.scale,
+          this.options.question.Xoffset,
+          -this.options.question.Yoffset + 100,
+          this.options.question.color,
+          this.options.question.border
+        );
+      }
+    },
+    drawQuestionMark(ctx, size, scale, Xoffset, Yoffset, color="#000000", borderColor = "#ffffff") {
+      // Define the path for the question mark
+      let path = new Path2D('M159.148,0c-52.696,0-95.544,39.326-95.544,87.662h47.736c0-22.007,21.438-39.927,47.808-39.927c26.367,0,47.804,17.92,47.804,39.927v6.929c0,23.39-10.292,34.31-25.915,50.813c-20.371,21.531-45.744,48.365-45.744,105.899h47.745c0-38.524,15.144-54.568,32.692-73.12c17.368-18.347,38.96-41.192,38.96-83.592v-6.929C254.689,39.326,211.845,0,159.148,0z');
+      
+      // Apply scale and offsets
+      ctx.save();
+      ctx.translate(Xoffset, Yoffset);
+      ctx.scale(scale/100, scale/100);
+
+      // Set color and draw the question mark
+      ctx.strokeStyle = borderColor;
+      ctx.fillStyle = color;
+      ctx.lineWidth = 3;
+      ctx.fill(path);
+      let dotPath = ctx.rect(134.475, 277.996, 49.968, 40.297)
+      ctx.fill(dotPath);
+
+      // Restore context
+      ctx.restore();
     },
 
     cross(ctx, size, scale = 100, Xoffset = 0, Yoffset = 0, color = "#FF0000") {

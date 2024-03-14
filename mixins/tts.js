@@ -341,7 +341,11 @@ export default {
           msg.rate = 1;
           console.debug("Using default rate: ", msg.rate)
         }
+        window.speechSynthesis.cancel();
         window.speechSynthesis.speak(msg);
+        if (msg.text != 'a' && msg.text != '' && this.$store.getters.getUser.settings?.analytics != false) {
+          window._paq.push(["trackEvent", "Sentences", "Pronounce", JSON.stringify({ "text": msg.text, "voice": msg.voice.lang, "voiceURI": msg.voiceURI, "pitch": msg.pitch, "rate": msg.rate })]);
+        }
       } else {
         if (this.detectBrowser() != "Chrome" && this.detectBrowser() != "Firefox" && this.detectBrowser() != "Safari") {
           this.openInstallOtherBrowserModal();
