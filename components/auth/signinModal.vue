@@ -1,52 +1,33 @@
 <template>
   <client-only>
-  <form action @keyup.enter="onSubmit()">
-    <div class="modal-card" style="min-height: 30vh">
-      <header class="modal-card-head">
-        <b-button
-          class="button"
-          type="is-danger"
-          icon-left="close"
-          @click="$parent.close()"
-        />
-        <p align="center" class="modal-card-title">{{ $t("LogIn") }}</p>
-      </header>
-      <section class="modal-card-body">
-        <b-field :label="$t('Email')">
-          <b-input
-            data-cy="signin-email"
-            type="email"
-            lazy
-            maxlength="64"
-            v-model="username"
-            :placeholder="$t('PlaceHolderEmail')"
-            required
-          ></b-input>
-        </b-field>
+    <form action @keyup.enter="onSubmit()">
+      <div class="modal-card" style="min-height: 30vh">
+        <header class="modal-card-head">
+          <b-button class="button" type="is-danger" icon-left="close" @click="$parent.close()" />
+          <p align="center" class="modal-card-title">{{ $t("LogIn") }}</p>
+        </header>
+        <section class="modal-card-body">
+          <b-field :label="$t('Email')">
+            <b-input data-cy="signin-email" type="email" lazy maxlength="64" v-model="username"
+              :placeholder="$t('PlaceHolderEmail')" required></b-input>
+          </b-field>
 
-        <b-field :label="$t('Password')">
-          <b-input
-            data-cy="signin-password"
-            type="password"
-            lazy
-            v-model="password"
-            password-reveal
-            :placeholder="$t('PlaceHolderPassword')"
-            required
-          ></b-input>
-        </b-field>
-        <a href="/changePassword">{{ $t("ForgotPswd") }}</a>
-      </section>
-      <footer class="modal-card-foot">
-        <b-button data-cy="signin-signin" class="is-primary" :loading="loading" @click="onSubmit">{{
-          $t("LogIn")
-        }}</b-button>
-      </footer>
-    </div>
-  </form>
-</client-only>
+          <b-field :label="$t('Password')">
+            <b-input data-cy="signin-password" type="password" lazy v-model="password" password-reveal
+              :placeholder="$t('PlaceHolderPassword')" required></b-input>
+          </b-field>
+          <a href="/changePassword">{{ $t("ForgotPswd") }}</a>
+        </section>
+        <footer class="modal-card-foot">
+          <b-button data-cy="signin-signin" class="is-primary" :loading="loading" @click="onSubmit">{{
+      $t("LogIn")
+            }}</b-button>
+        </footer>
+      </div>
+    </form>
+  </client-only>
 </template>
-<script >
+<script>
 import signup from "@/components/auth/signupModal";
 export default {
   data() {
@@ -65,6 +46,7 @@ export default {
           username: this.username,
           password: this.password,
           isLogin: true,
+          keycloak: this.$keycloak,
         });
         console.log(res);
         return;

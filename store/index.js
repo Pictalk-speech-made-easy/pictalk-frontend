@@ -1,14 +1,6 @@
 import axios from "axios";
 import Cookie from "js-cookie";
-import Keycloak from 'keycloak-js';
 export const strict = false;
-
-const keycloakOptions = {
-  url: 'https://auth.picmind.org',
-  realm: 'master',
-  clientId: 'pictalk',
-  checkLoginIframe: true,
-}
 
 const keycloakInitOptions = {
   flow: 'implicit',
@@ -48,7 +40,6 @@ export const mutations = {
     state.publicBundles = null;
     state.dragndrop = null;
     state.token = null;
-    state.keycloak = null;
   },
   async setPublicBundles(state, bundles) {
     state.publicBundles = bundles;
@@ -471,40 +462,22 @@ export const actions = {
     return res;
   },
   async authenticateUser(vuexContext, authData) {
-    console.log(vuexContext.keycloak)
     try {
-      await vuexContext.dispatch('initAuth', vuexContext)
+      await vuexContext.dispatch('initAuth', authData.keycloak);
       console.log("Logging in")
-      await vuexContext.keycloak.login({ username: authData.username, password: authData.password });
+      console.log(window.location.origin + "/pictalk")
+      await authData.keycloak.login({ redirectUri: window.location.origin + "/pictalk" });
     } catch (err) {
       console.log(err)
-
     }
-    axios.interceptors.request.use((config) => {
-      if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
-        let token = localStorage.getItem('token');
-        if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
-        }
-      }
-      return config;
-    },
-      (error) => {
-        return Promise.reject(error);
-      });
-
     return res;
   },
-  async initAuth(vuexContext, req) {
+  async initAuth(vuexContext, keycloak) {
     console.log("Initializing authentication")
+    console.log(keycloak)
     try {
-      if (vuexContext.keycloak) {
-        return;
-      }
-      vuexContext.keycloak = new Keycloak(keycloakOptions);
-      const authenticated = await vuexContext.keycloak.init(keycloakInitOptions);
-      console.log(`User is ${authenticated ? 'authenticated' : 'not authenticated'}`);
-      if (!authenticated) {
+      console.log(`User is ${keycloak.authenticated ? 'authenticated' : 'not authenticated'}`);
+      if (!keycloak.authenticated) {
         vuexContext.dispatch("logout");
       }
     } catch (error) {
@@ -695,9 +668,6 @@ export const actions = {
 export const getters = {
   getCollections(state) {
     return state.collections;
-  },
-  isAuthenticated(state) {
-    return state.keycloak?.authenticated;
   },
   getSpeech(state) {
     return state.pictoSpeech;

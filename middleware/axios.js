@@ -3,10 +3,9 @@ export default function (context) {
   axios.interceptors.request.use(async (config) => {
     console.log("Intercepting axios request")
     if (!config.url.includes('api.arasaac.org') && !config.url.includes('flickr.com') && !config.url.includes('staticflickr.com')) {
-      await context.store.dispatch("initAuth", context.req);
       console.log("Getting token from keycloak");
-      console.log(context.store.keycloak?.token)
-      let token = context.store.keycloak?.token;
+      console.log(context.$keycloak?.token)
+      let token = context.$keycloak?.token;
       if (token) {
         console.log("Setting token in axios interceptor")
         config.headers['Authorization'] = `Bearer ${token}`;

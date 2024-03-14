@@ -44,7 +44,7 @@ Cypress.Commands.add(
           }
         })
       }).as('getRoot');
-      window.$nuxt.$store.dispatch('authenticateUser', { username, password });
+      window.$nuxt.$store.dispatch('authenticateUser', { username, password }, this.$keycloak);
       cy.wait('@signin').its('response.statusCode').should('eq', 201);
       cy.visit('/pictalk');
       cy.wait(['@getNotifications', '@getRoot']);

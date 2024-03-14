@@ -1,6 +1,6 @@
 import pkg from './package.json'
 export default {
-  ssr: true,
+  ssr: false,
   target: 'static',
   server: {
     host: '0.0.0.0', // default: localhost,
@@ -11,6 +11,11 @@ export default {
   publicRuntimeConfig: {
     apiURL: process.env.API_URL || "http://localhost:3001",
     clientVersion: pkg.version,
+    keycloak: {
+      url: process.env.KEYCLOAK_URL || 'https://auth.picmind.org',
+      realm: process.env.KEYCLOAK_REALM || "master",
+      clientId: process.env.KEYCLOAK_CLIENT_ID || "pictalk"
+    }
   },
   generate: {
     fallback: true
@@ -59,7 +64,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }, { src: '@/plugins/matomo', mode: 'client' }],
+  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }, { src: '@/plugins/matomo', mode: 'client' }, { src: '@/plugins/keycloak', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */
