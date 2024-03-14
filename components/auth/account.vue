@@ -79,10 +79,6 @@
           </b-field>
           <br>
           <hr />
-          <b-field :label="$t('ChangePassword')">
-            <b-input id="account-change-password" v-model="user.password" placeholder="S0meExample!" type="password"
-              maxlength="32" password-reveal></b-input>
-          </b-field>
           <b-field :label="$t('DeleteAccount')">
             <b-button id="account-delete-account" type="is-danger" icon-right="delete" @click="deleteAccount()"> {{
         $t("DeleteAccountText") }}</b-button>
@@ -252,9 +248,9 @@
     <div class="footer container is-max-desktop">
       <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
         $t("Cancel")
-      }}</b-button>
+        }}</b-button>
       <b-button id="account-save" class="menuButtons" type="is-info" icon-left="content-save" :loading="loadingSave"
-        @click="onSave(user.username, user.password, user.language)">{{ $t("Save") }}</b-button>
+        @click="onSave()">{{ $t("Save") }}</b-button>
     </div>
   </div>
 </template>
@@ -525,8 +521,6 @@ export default {
       try {
         const res = await this.$store.dispatch("editUser", {
           username: this.user.username,
-          password: this.user.password,
-          password: this.user.password,
           language: editedLanguage ? editedLanguage : this.user.language,
           languages: editedLanguages ? editedLanguages : this.user.languages,
           settings: this.user.settings,

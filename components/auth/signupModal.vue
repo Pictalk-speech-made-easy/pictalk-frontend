@@ -10,42 +10,6 @@
           <div class="container">
             <b-steps v-model="activeStep" rounded animated :has-navigation="false" mobile-mode="compact"
               label-position="bottom">
-              <b-step-item clickable :label="$t('Account')" icon="account-key">
-                <div class="contenant">
-                  <b-image class="center" lazy :srcset="require('@/assets/credentials.png').srcSet"
-                    alt="drawing of a key openning a locked chest" style="width: 40%; aspect-ratio: 1/1"></b-image>
-                </div>
-                <b-field :label="$t('Email')">
-                  <b-input ref="email" type="email" maxlength="64" v-model="username"
-                    :placeholder="$t('PlaceHolderEmail')" required
-                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                    :validation-message="$t('ValidationMessageEmail')"></b-input>
-                </b-field>
-                <b-field :label="$t('Password')">
-                  <b-input ref="password" type="password" v-model="password" password-reveal
-                    :placeholder="$t('PlaceHolderPassword')" required minlength="8"
-                    pattern="((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-                    :validation-message="$t('ValidationMessagePassword')"></b-input>
-                </b-field>
-                <b-field :label="$t('ConfirmPassword')">
-                  <b-input type="password" password-reveal :placeholder="$t('PlaceHolderPassword')" required
-                    minlength="8" :pattern="password.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')"
-                    v-model="passwordConfirmation"
-                    :validation-message="$t('ValidationMessagePasswordConfirmation')"></b-input>
-                </b-field>
-                <div v-if="directSharerUrlEncoded" class="box">
-                  <h2 class="subtitle" align="center">{{ $t("SignupSupervisor") }}</h2>
-                  {{ $t('SignupSupervisorText') }}
-                  <div v-if="isArraydirectSharerUrlEncoded">
-                    <div v-for="directsharer in directSharerUrlEncoded">
-                      <b>{{ directsharer }}</b>
-                    </div>
-                  </div>
-                  <div v-else><b>{{ directSharerUrlEncoded }}</b></div>
-                  <b-button class="is-danger" icon-left="delete" @click="removeDirectSharer()">{{
-            $t('SignupSupervisorRemove') }}</b-button>
-                </div>
-              </b-step-item>
               <b-step-item clickable :label="$t('Language')" icon="translate">
                 <div class="contenant">
                   <b-image class="center" lazy :srcset="require('@/assets/signup_languages.png').srcSet"
@@ -169,15 +133,10 @@
               </div>
               <div class="column is-half">
                 <b-button v-if="notSignedUp" id="signupmodal-signup" class="is-primary fullWidth"
-                  :loading="signupLoading"
-                  :disabled="!(username && password && majority && terms && passwordConfirmation && notSignedUp)"
-                  @click="
+                  :loading="signupLoading" :disabled="!(majority && terms && notSignedUp)" @click="
             onSubmit(
-              username,
-              password,
               majority,
               terms,
-              passwordConfirmation
             )
             ">{{ $t("SignUp") }}</b-button><b-button v-else id="signupmodal-verify" class="is-success fullWidth"
                   :disabled="(notSignedUp) || (verificationToken.length != 40)" @click="
@@ -272,10 +231,7 @@ export default {
   },
   computed: {
     isFormValid() {
-      if (this.activeStep == 0) {
-        return this.passwordConfirmation == this.password && this.password.length >= 8 && this.username && this.$refs.email.checkHtml5Validity() && this.$refs.password.checkHtml5Validity()
-      }
-      else if (this.activeStep == 1) {
+      if (this.activeStep == 1) {
         return this.voiceURI
       } else if (this.activeStep == 2) {
         return true;
@@ -306,13 +262,6 @@ export default {
     },
   },
   async created() {
-    if (this.recoverCode) {
-      this.notSignedUp = false;
-      this.maxStep = 4;
-      this.activeStep = 4;
-      this.username = this.credentials.username;
-      this.password = this.credentials.password;
-    }
     await this.$store.dispatch("getPublicBundles");
     this.selectedBundle = this.$store.getters.getPublicBundles
       ? this.$store.getters.getPublicBundles[0].id
@@ -349,9 +298,6 @@ export default {
     },
     async onSubmit() {
       if (
-        this.username == "" ||
-        this.password == "" ||
-        this.passwordConfirmation == "" ||
         this.major == false ||
         this.terms == false ||
         this.voiceURI == "" ||
@@ -365,18 +311,6 @@ export default {
           hasIcon: true,
           iconSize: "is-small",
           icon: "account",
-        });
-        return;
-      }
-      if (this.passwordConfirmation != this.password) {
-        const notif = this.$buefy.notification.open({
-          duration: 4500,
-          message: this.$t("PasswordNotCorrespond"),
-          position: "is-top-right",
-          type: "is-warning",
-          hasIcon: true,
-          iconSize: "is-small",
-          icon: "key",
         });
         return;
       }
@@ -417,7 +351,6 @@ export default {
         this.signupLoading = true;
         const res = await axios.post("/auth/signup", {
           username: this.username,
-          password: this.password,
           language: JSON.stringify(language),
           languages: JSON.stringify(languages),
           directSharers: this.directSharers,
@@ -489,84 +422,6 @@ export default {
           });
         }
         this.signupLoading = false;
-      }
-    },
-    async onVerify() {
-      this.verificationLoading = true;
-      let validationUrl = `/auth/validation/${this.verificationToken}`;
-      try {
-        const res = await axios.get(validationUrl);
-        if (res.status == 200) {
-          this.verificationLoading = false;
-          const notif = this.$buefy.notification.open({
-            duration: 4500,
-            message: this.$t("VerificationSuccess"),
-            position: "is-top-right",
-            type: "is-success",
-          });
-          this.$parent.close();
-
-          try {
-            await this.$store.dispatch("authenticateUser", {
-              username: this.username,
-              password: this.password,
-              isLogin: true,
-              keycloak: this.$keycloak,
-            });
-            await this.$store.dispatch("getUser");
-          } catch (error) {
-            console.log("error ", error);
-          }
-          SoundHelper.playAccountCreation();
-          this.$router.push({
-            path: "/tutorials/",
-          });
-        }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 401) {
-            const notif = this.$buefy.notification.open({
-              duration: 4500,
-              message: this.$t("VerificationToken"),
-              position: "is-top-right",
-              type: "is-danger",
-              hasIcon: true,
-              iconSize: "is-small",
-              icon: "key",
-            });
-          }
-          this.verificationLoading = false;
-        }
-      }
-    },
-    async sendAnotherMail() {
-      let validationUrl = `/auth/validation/${this.username}`;
-      try {
-        this.mailLoading = true;
-        const res = await axios.post(validationUrl);
-        if (res.status == 201) {
-          const notif = this.$buefy.notification.open({
-            duration: 4500,
-            message: this.$t("VerificationMoreMailSuccess"),
-            position: "is-top-right",
-            type: "is-info",
-            hasIcon: true,
-            iconSize: "is-small",
-            icon: "email-check-outline",
-          });
-        }
-        this.mailLoading = false;
-      } catch (error) {
-        const notif = this.$buefy.notification.open({
-          duration: 4500,
-          message: this.$t("VerificationMoreMailFail"),
-          position: "is-top-right",
-          type: "is-danger",
-          hasIcon: true,
-          iconSize: "is-small",
-          icon: "email-remove-outline",
-        });
-        this.mailLoading = false;
       }
     },
   },

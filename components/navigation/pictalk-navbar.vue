@@ -43,9 +43,7 @@
       </div>
     </template>
     <template slot="start">
-      <b-navbar-dropdown data-cy="pictalk-navbar-dropdown" :label="$t('Menu')">
-        <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
-      </b-navbar-dropdown>
+      <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
     </template>
     <template slot="end">
       <b-navbar-item tag="div">

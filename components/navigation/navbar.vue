@@ -41,7 +41,6 @@
 import lang from "@/mixins/lang";
 import navbar from "@/mixins/navbar";
 import emoji from "@/mixins/emoji";
-import signin from "@/components/auth/signinModal";
 import signup from "@/components/auth/signupModal";
 import Security from "@/components/auth/securityModal";
 export default {
@@ -66,7 +65,6 @@ export default {
     },
   },
   components: {
-    signin,
     signup,
     Security,
   },
@@ -91,7 +89,7 @@ export default {
       return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
     },
     isLogged() {
-      return this.$store.getters.isAuthenticated;
+      return this.$keycloak.authenticated;
     },
   },
   methods: {
