@@ -66,7 +66,6 @@ export default {
     signup,
     Security,
   },
-
   mounted() {
     this.navtabs[this.$route.name] = "focus";
   },
@@ -87,7 +86,7 @@ export default {
       return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
     },
     isLogged() {
-      return this.$keycloak.authenticated;
+      return this.$keycloak.authenticated && this.$store.getters.getUser.username;
     },
   },
   methods: {

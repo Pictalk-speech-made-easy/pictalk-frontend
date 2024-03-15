@@ -123,7 +123,7 @@
     ">
         {{ picto.meaning[getUserLang] }}
       </div>
-      <div v-if="publicMode && $store.getters.getUser && $keycloak.authenticated
+      <div v-if="publicMode && $store.getters.getUser.username && $keycloak.authenticated
     " class="adminMenu adminoption columns smallMargin">
         <div class="column noMargin is-mobile">
           <b-button :disabled="!isOnline" type="is-success" icon-right="plus" @click="
