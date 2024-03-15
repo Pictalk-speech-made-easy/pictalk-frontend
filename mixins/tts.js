@@ -368,7 +368,13 @@ export default {
   },
   computed: {
     loadedVoices() {
-      return this.voices.sort((x, y) => {
+      let uniqueVoices = [];
+      this.voices.forEach((voice) => {
+        if (!uniqueVoices.some((v) => v.voiceURI === voice.voiceURI)) {
+          uniqueVoices.push(voice);
+        }
+      });
+      return uniqueVoices.sort((x, y) => {
         let a = x.lang.toUpperCase(),
           b = y.lang.toUpperCase();
         return a == b ? 0 : a > b ? 1 : -1;

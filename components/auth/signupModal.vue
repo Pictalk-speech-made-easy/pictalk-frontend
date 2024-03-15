@@ -103,23 +103,6 @@
                   </p>
                 </div>
               </b-step-item>
-              <b-step-item :clickable="!notSignedUp" :label="$t('VerifyAccount')" icon="chart-box">
-                <div class="contenant">
-                  <b-image class="center" lazy :srcset="require('@/static/20_Pictalk_Mail.gif')"
-                    alt="A letter with a message from Pictalk inside of it"
-                    style="width: 55%; aspect-ratio: 1/1"></b-image>
-                </div>
-                <b-field>
-                  <b-input :placeholder="$t('VerifyAccountVerificationCode')" v-model="verificationToken" expanded
-                    size="is-medium" required :loading="verificationLoading" maxlength="40" icon-right="key"></b-input>
-                </b-field>
-                <p class="is-size-5 notification" align="justify">
-                  {{ $t('VerifyAccountText') }}
-                </p>
-
-                <b-button type="is-text" :loading="mailLoading" @click="sendAnotherMail()">{{ $t("VerificationMoreMail")
-                  }}</b-button>
-              </b-step-item>
             </b-steps>
           </div>
           <br />
@@ -171,16 +154,6 @@ export default {
     installVoice,
     support
   },
-  watch: {
-    step1Parameters: function () {
-      if (!this.$refs.email.checkHtml5Validity() || !this.$refs.password.checkHtml5Validity()) {
-        return
-      }
-      if (this.passwordConfirmation == this.password && this.password.length >= 8 && this.username && this.activeStep == 0) {
-        this.nextStep()
-      }
-    },
-  },
   mixins: [deviceInfos, emoji, tts, lang, sharers],
   props: {
     recoverCode: {
@@ -231,16 +204,13 @@ export default {
   },
   computed: {
     isFormValid() {
-      if (this.activeStep == 1) {
+      if (this.activeStep == 0) {
         return this.voiceURI
-      } else if (this.activeStep == 2) {
+      } else if (this.activeStep == 1) {
         return true;
       } else {
         return false;
       }
-    },
-    step1Parameters() {
-      return `${this.username}|${this.password}|${this.passwordConfirmation}`;
     },
     publicBundles() {
       const publicBundles = this.$store.getters.getPublicBundles;
@@ -269,6 +239,10 @@ export default {
     this.initialization = false;
     if (!this.$store.getters.getPublicBundles) {
       await this.$store.dispatch("getPublicBundles");
+    }
+    if (!this.$keycloak.authenticated) {
+      // Keycloak sign up
+      await this.$keycloak.login({ action: "register" }, { redirectUri: window.location.origin + "?signupmodal=true" });
     }
   },
   async updated() { },
@@ -373,6 +347,8 @@ export default {
           });
         }
         this.signupLoading = false;
+        this.$parent.close();
+        this.$router.push({ path: "/pictalk" });
       } catch (error) {
         if (error.response) {
           if (error.response.status == 400 || error.response.status == 401) {

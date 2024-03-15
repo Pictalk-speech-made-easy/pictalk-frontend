@@ -13,10 +13,13 @@
 import navbar from "@/components/navigation/navbar";
 import popupModal from "@/components/auth/popupModal";
 import Cookie from "js-cookie";
+import axios from "axios";
+import signupModal from "../components/auth/signupModal.vue";
 export default {
   middleware: ["check-auth", "axios"],
   components: {
     navbar,
+    popupModal
   },
   destroyed() {
     clearTimeout(this.showPopupTimeout);
@@ -26,13 +29,34 @@ export default {
       popupTimeout: null,
     };
   },
-  created() {
+  async created() {
     if (process.client) {
       var _mtm = window._mtm = window._mtm || [];
       _mtm.push({ 'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start' });
       var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
       g.async = true; g.src = 'https://analytics.picmind.org//js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g, s);
     }
+
+    // Check if the user is authenticated with Keycloak and has an account in Pictalk
+    try {
+      await axios.get("/user/details/");
+    } catch (err) {
+      if (err?.response?.status === 403) {
+        // Open the signup modal if the user isn't authenticated
+        this.$buefy.modal.open({
+          parent: this,
+          component: signupModal,
+          hasModalCard: true,
+          trapFocus: true,
+          canCancel: false,
+          onCancel: () => {
+            this.$buefy.modal.close();
+          },
+        });
+      }
+    }
+
+
     // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
     this.popupTimeout = setTimeout(() => {
       if (!Cookie.get('popup') && !this.$keycloak.authenticated) {
@@ -52,7 +76,7 @@ export default {
     if (
       this.$keycloak.authenticated &&
       this.$store.getters.getUser &&
-      this.$store.getters.getUser.displayLanguage.match(/[a-z]{2}/g)
+      this.$store.getters.getUser?.displayLanguage?.match(/[a-z]{2}/g)
     ) {
       if (
         this.$i18n.locale.code != this.$store.getters.getUser.displayLanguage
