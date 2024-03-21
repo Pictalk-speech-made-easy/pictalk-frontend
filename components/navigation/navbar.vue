@@ -19,14 +19,21 @@
           </b-navbar-dropdown>
           <b-navbar-item tag="div">
             <div class="buttons bottomOffset">
-              <b-button data-cy="navbar-signin-button" class="bolder" v-if="!isLogged" @click="openSignInModal()"
-                type="is-primary">{{ $t("LogIn") }}</b-button>
-              <b-button v-else class="bolder" tag="nuxt-link" :to="pictalkHome" type="is-primary"
-                icon-right="home"></b-button>
-
-              <b-button class="bolder" v-if="!isLogged" @click="openSignUpModal()" type="is-success" outlined>{{
+              <div v-if="!isUserToBeInitialized">
+                <b-button data-cy="navbar-signin-button" class="bolder" v-if="!isLogged" @click="openSignInModal()"
+                  type="is-primary">{{ $t("LogIn") }}</b-button>
+                <b-button v-else class="bolder" tag="nuxt-link" :to="pictalkHome" type="is-primary"
+                  icon-right="home"></b-button>
+                <b-button class="bolder" v-if="!isLogged" @click="openSignUpModal()" type="is-success" outlined>{{
           $t("SignUp") }}</b-button>
-              <b-button v-else type="is-light" icon-right="logout" @click="onLogout" />
+                <b-button v-else type="is-light" icon-right="logout" @click="onLogout" />
+              </div>
+              <div v-else>
+                <b-button class="bolder" v-if="isUserToBeInitialized" @click="openSignUpModal()" type="is-success"
+                  outlined>
+                  {{ $t('InitializeSpace') }}</b-button>
+              </div>
+
             </div>
           </b-navbar-item>
         </client-only>
@@ -70,6 +77,9 @@ export default {
     this.navtabs[this.$route.name] = "focus";
   },
   computed: {
+    isUserToBeInitialized() {
+      return this.$keycloak.authenticated && !this.$store.getters.getIsUserInitialized;
+    },
     getFilteredPictoList() {
       return this.pictos.filter((picto) =>
         picto.meaning[this.getUserLang]?.includes(this.search)

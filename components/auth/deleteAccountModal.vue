@@ -28,7 +28,7 @@ export default {
     };
   },
   watch: {
-    password: function () {
+    email: function () {
       this.isCorrespond = this.$store.getters.getUser.username === this.email;
     }
   },

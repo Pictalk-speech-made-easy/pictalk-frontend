@@ -23,6 +23,7 @@ export const state = () => ({
   temporaryLanguage: null,
   publicBundles: null,
   dragndrop: null,
+  isUserInitalized: false,
 });
 
 export const mutations = {
@@ -40,6 +41,10 @@ export const mutations = {
     state.publicBundles = null;
     state.dragndrop = null;
     state.token = null;
+    state.isUserInitialized = false;
+  },
+  setUserInitialized(state, isUserInitialized) {
+    state.isUserInitialized = isUserInitialized;
   },
   async setPublicBundles(state, bundles) {
     state.publicBundles = bundles;
@@ -656,6 +661,9 @@ export const actions = {
   }
 }
 export const getters = {
+  getIsUserInitialized(state) {
+    return state.isUserInitialized;
+  },
   getCollections(state) {
     return state.collections;
   },

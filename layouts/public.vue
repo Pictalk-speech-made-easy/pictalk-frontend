@@ -40,8 +40,10 @@ export default {
     // Check if the user is authenticated with Keycloak and has an account in Pictalk
     try {
       await axios.get("/user/details/");
+      this.$store.commit('setUserInitialized', true);
     } catch (err) {
       if (err?.response?.status === 403) {
+        this.$store.commit('setUserInitialized', false);
         // Open the signup modal if the user isn't authenticated
         this.$buefy.modal.open({
           parent: this,

@@ -12,13 +12,13 @@ export default {
   methods: {
     onLogout() {
       if (this.admin) {
-        this.$store.dispatch("logout", this.$keycloak);
         this.$router.push("/");
+        this.$store.dispatch("logout", this.$keycloak);
       } else {
         if (this.$store.getters.getUser.settings.securityMode) {
           let postFunction = function (t) {
-            t.$store.dispatch("logout", this.$keycloak);
             t.$router.push("/");
+            t.$store.dispatch("logout", this.$keycloak);
           };
           this.$buefy.modal.open({
             parent: this,
@@ -32,8 +32,8 @@ export default {
             canCancel: ["escape", "x"],
           });
         } else {
-          this.$store.dispatch("logout", this.$keycloak);
           this.$router.push("/");
+          this.$store.dispatch("logout", this.$keycloak);
         }
       }
     },
