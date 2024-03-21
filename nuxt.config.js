@@ -9,10 +9,10 @@ export default {
    ** Headers of the page
    */
   publicRuntimeConfig: {
-    apiURL: process.env.API_URL || "http://localhost:3001",
+    apiURL: process.env.API_URL || "https://api-pictalk-dev.home.asidiras.dev",
     clientVersion: pkg.version,
     keycloak: {
-      url: process.env.KEYCLOAK_URL || 'https://auth.picmind.org',
+      url: process.env.KEYCLOAK_URL || 'https://keycloak-dev.home.asidiras.dev/',
       realm: process.env.KEYCLOAK_REALM || "master",
       clientId: process.env.KEYCLOAK_CLIENT_ID || "pictalk"
     }
