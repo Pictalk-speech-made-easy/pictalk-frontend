@@ -1,12 +1,5 @@
 import axios from "axios";
-import Cookie from "js-cookie";
 export const strict = false;
-
-const keycloakInitOptions = {
-  flow: 'implicit',
-  onLoad: 'check-sso',
-  silentCheckSsoRedirectUri: `http://localhost:3000/silent-check-sso.html`,
-};
 
 export const state = () => ({
   collections: [],
@@ -468,9 +461,6 @@ export const actions = {
   },
   async authenticateUser(vuexContext, authData) {
     try {
-      await vuexContext.dispatch('initAuth', authData.keycloak);
-      console.log("Logging in")
-      console.log(window.location.origin + "/pictalk")
       await authData.keycloak.login({ redirectUri: window.location.origin + "/pictalk" });
     } catch (err) {
       console.log(err)

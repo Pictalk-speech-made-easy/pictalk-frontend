@@ -31,7 +31,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.2.0",
     "jpegasus": "^1.16.1",
-    "js-cookie": "^3.0.1",
     "merge-images-horizontally-with-text": "^1.0.2",
     "node-sass": "^6.0.1",
     "nuxt": "^2.15.8",
@@ -42,9 +41,7 @@
     "prettier": "^2.5.1",
     "responsive-loader": "^2.3.0",
     "sass-loader": "^10.1.1",
-    "secure-ls": "^1.2.6",
     "sharp": "^0.29.3",
-    "vue-directive-long-press": "^1.1.0",
     "vuex-persistedstate": "^4.1.0"
   },
   "dependencies": {
