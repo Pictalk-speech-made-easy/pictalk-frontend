@@ -1,8 +1,14 @@
-FROM node:16-bullseye as dev
+FROM node:16-bullseye as build
 WORKDIR /app
 COPY ./package*.json ./
 RUN npm install
-RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
 COPY ./ ./
+RUN npm run build
+
+FROM node:16-bullseye as production
+WORKDIR /app
+COPY --from=build /app/dist ./dist
+COPY ./package*.json ./
+RUN npm install --only=production
 EXPOSE 3000
-ENTRYPOINT ["npm", "run", "dev"] 
+CMD ["npm", "run", "start"]
