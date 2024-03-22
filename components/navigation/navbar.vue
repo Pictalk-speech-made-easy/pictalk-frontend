@@ -19,21 +19,23 @@
           </b-navbar-dropdown>
           <b-navbar-item tag="div">
             <div class="buttons bottomOffset">
-              <div v-if="!isUserToBeInitialized">
-                <b-button data-cy="navbar-signin-button" class="bolder" v-if="!isLogged" @click="openSignInModal()"
-                  type="is-primary">{{ $t("LogIn") }}</b-button>
-                <b-button v-else class="bolder" tag="nuxt-link" :to="pictalkHome" type="is-primary"
-                  icon-right="home"></b-button>
-                <b-button class="bolder" v-if="!isLogged" @click="openSignUpModal()" type="is-success" outlined>{{
+              <div v-if="!isUserInitialized && !isUserAuthenticated">
+                <b-button data-cy="navbar-signin-button" class="bolder" @click="openSignInModal()" type="is-primary">{{
+          $t("LogIn") }}</b-button>
+
+                <b-button class="bolder" @click="openSignUpModal()" type="is-success" outlined>{{
           $t("SignUp") }}</b-button>
-                <b-button v-else type="is-light" icon-right="logout" @click="onLogout" />
+
               </div>
-              <div v-else>
-                <b-button class="bolder" v-if="isUserToBeInitialized" @click="openSignUpModal()" type="is-success"
-                  outlined>
+              <div v-if="!isUserInitialized && isUserAuthenticated">
+                <b-button class="bolder" @click="openSignUpModal()" type="is-success" outlined>
                   {{ $t('InitializeSpace') }}</b-button>
               </div>
-
+              <div v-if="isUserInitialized && isUserAuthenticated">
+                <b-button class="bolder" tag="nuxt-link" :to="pictalkHome" type="is-primary"
+                  icon-right="home"></b-button>
+                <b-button type="is-light" icon-right="logout" @click="onLogout" />
+              </div>
             </div>
           </b-navbar-item>
         </client-only>
@@ -77,8 +79,13 @@ export default {
     this.navtabs[this.$route.name] = "focus";
   },
   computed: {
-    isUserToBeInitialized() {
-      return this.$keycloak.authenticated && !this.$store.getters.getIsUserInitialized;
+    isUserAuthenticated() {
+      console.log("isUserAuthenticated")
+      console.log(this.$keycloak.authenticated);
+      return this.$keycloak.authenticated;
+    },
+    isUserInitialized() {
+      return this.$store.getters.getIsUserInitialized;
     },
     getFilteredPictoList() {
       return this.pictos.filter((picto) =>
@@ -94,9 +101,6 @@ export default {
     },
     availableLocales() {
       return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale);
-    },
-    isLogged() {
-      return this.$keycloak.authenticated && this.$store.getters.getUser.username;
     },
   },
   methods: {
