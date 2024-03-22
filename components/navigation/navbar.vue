@@ -80,8 +80,6 @@ export default {
   },
   computed: {
     isUserAuthenticated() {
-      console.log("isUserAuthenticated")
-      console.log(this.$keycloak.authenticated);
       return this.$keycloak.authenticated;
     },
     isUserInitialized() {
@@ -104,6 +102,30 @@ export default {
     },
   },
   methods: {
+    async checkIsUserInitialized() {
+      // Check if the user is authenticated with Keycloak and has an account in Pictalk
+      try {
+        if (this.$keycloak.authenticated) {
+          await axios.get("/user/details/");
+          this.$store.commit('setUserInitialized', true);
+        }
+      } catch (err) {
+        if (err?.response?.status === 403) {
+          this.$store.commit('setUserInitialized', false);
+          // Open the signup modal if the user isn't authenticated
+          this.$buefy.modal.open({
+            parent: this,
+            component: signupModal,
+            hasModalCard: true,
+            trapFocus: true,
+            canCancel: false,
+            onCancel: () => {
+              this.$buefy.modal.close();
+            },
+          });
+        }
+      }
+    },
     searchPicto() {
       this.$router.push({
         path: `/`,
@@ -112,10 +134,10 @@ export default {
     },
     async openSignInModal() {
       this.loading = true;
-      const res = await this.$store.dispatch("authenticateUser", {
+      await this.$store.dispatch("authenticateUser", {
         keycloak: this.$keycloak,
+        isUserInitialized: this.isUserInitialized,
       });
-      console.log(res);
       return;
     },
     openSignUpModal() {

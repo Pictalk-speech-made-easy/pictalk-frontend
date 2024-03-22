@@ -88,12 +88,7 @@ export default {
   sitemap: {
     hostname: 'https://www.pictalk.org',
     gzip: false,
-    i18n: true,
     trailingSlash: true,
-    i18n: {
-      locales: ['en', 'es', 'fr', 'it', 'de', 'ro', 'pt', 'el', 'ar', 'sk'],
-      routesNameSeparator: '___'
-    },
     exclude: [
       '/changePassword',
       '/account',
@@ -176,7 +171,7 @@ export default {
     lazy: true,
     langDir: 'lang/',
     defaultLocale: 'en',
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     vueI18n: {
       fallbackLocale: 'en',
     },

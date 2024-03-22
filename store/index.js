@@ -16,7 +16,7 @@ export const state = () => ({
   temporaryLanguage: null,
   publicBundles: null,
   dragndrop: null,
-  isUserInitalized: false,
+  isUserInitialized: false,
 });
 
 export const mutations = {
@@ -461,7 +461,12 @@ export const actions = {
   },
   async authenticateUser(vuexContext, authData) {
     try {
-      await authData.keycloak.login({ redirectUri: window.location.origin + "/pictalk" });
+      if (authData.isUserInitialized) {
+        await authData.keycloak.login({ redirectUri: window.location.origin + "/pictalk" });
+      } else {
+        await authData.keycloak.login({ redirectUri: window.location.origin + "?enterpictalk=true" });
+      }
+
     } catch (err) {
       console.log(err)
     }

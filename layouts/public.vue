@@ -21,6 +21,32 @@ export default {
     navbar,
     popupModal
   },
+  methods: {
+    async checkIsUserInitialized() {
+      // Check if the user is authenticated with Keycloak and has an account in Pictalk
+      try {
+        if (this.$keycloak.authenticated) {
+          await axios.get("/user/details/");
+          this.$store.commit('setUserInitialized', true);
+        }
+      } catch (err) {
+        if (err?.response?.status === 403) {
+          this.$store.commit('setUserInitialized', false);
+          // Open the signup modal if the user isn't authenticated
+          this.$buefy.modal.open({
+            parent: this,
+            component: signupModal,
+            hasModalCard: true,
+            trapFocus: true,
+            canCancel: false,
+            onCancel: () => {
+              this.$buefy.modal.close();
+            },
+          });
+        }
+      }
+    }
+  },
   destroyed() {
     clearTimeout(this.showPopupTimeout);
   },
@@ -37,31 +63,16 @@ export default {
       g.async = true; g.src = 'https://analytics.picmind.org//js/container_V1sL8eXl.js'; s.parentNode.insertBefore(g, s);
     }
 
-    // Check if the user is authenticated with Keycloak and has an account in Pictalk
-    try {
-      await axios.get("/user/details/");
-      this.$store.commit('setUserInitialized', true);
-    } catch (err) {
-      if (err?.response?.status === 403) {
-        this.$store.commit('setUserInitialized', false);
-        // Open the signup modal if the user isn't authenticated
-        this.$buefy.modal.open({
-          parent: this,
-          component: signupModal,
-          hasModalCard: true,
-          trapFocus: true,
-          canCancel: false,
-          onCancel: () => {
-            this.$buefy.modal.close();
-          },
-        });
+    this.checkIsUserInitialized().then(() => {
+      if (this.$route.query.enterpictalk === "true" && this.$store.getters.getIsUserInitialized === true) {
+        this.$router.push({ path: '/pictalk', query: { ...this.$route.query, enterpictalk: undefined } });
       }
-    }
+    });
 
 
     // If the user isn't authenticated and the popup cookie isn't set or hasn't expired, show the popup
     this.popupTimeout = setTimeout(() => {
-      if (!Cookie.get('popup') && !this.$store.getters.getUser?.username) {
+      if (!Cookie.get('popup') && !this.$store.getters.getUser?.username && !this.$keycloak.authenticated) {
         this.$buefy.modal.open({
           parent: this,
           component: popupModal,
@@ -86,9 +97,6 @@ export default {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
     }
-  },
-  destroyed() {
-    clearTimeout(this.popupTimeout);
   },
 };
 </script>
