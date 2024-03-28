@@ -1,5 +1,5 @@
-const apiUrl = 'https://api.pictalk.org'
-//const apiUrl = 'http://localhost:3001'
+//const apiUrl = 'https://api.pictalk.org'
+const apiUrl = 'http://localhost:3001'
 let pictogramList = [];
 
 const bc = new BroadcastChannel('offline-ready');

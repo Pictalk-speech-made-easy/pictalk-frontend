@@ -430,7 +430,6 @@ export const actions = {
           "Content-Type": "multipart/form-data"
         }
       })).data;
-
     vuexContext.commit("editCollection", {
       ...editedCollection,
       ...(editedCollection.meaning && { meaning: editedCollection.meaning }),
@@ -800,6 +799,12 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
       collection.pictos = [];
     }
 
+    // Merge localCollection with collection
+    if (localCollection) {
+      Object.assign(localCollection, collection);
+      collection = localCollection;
+    }
+
     if (!existsCollection) {
       collectionsToCreate.push(collection);
     }
@@ -807,7 +812,6 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
       collectionsToEdit.push(collection);
     }
   }
-
   if (collection.pictos && !collection.pictos.length == 0) {
     collection.pictos.map((picto) => {
       let localPicto = getPictoFromId(vuexContext, picto.id);

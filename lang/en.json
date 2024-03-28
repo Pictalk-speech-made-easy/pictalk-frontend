@@ -411,5 +411,7 @@
   "Adhesion": "Support us",
   "Question": "Question mark",
   "DeleteAccount": "Delete account",
-  "DeleteAccountText": "Permanent deletion of your account and all of its content"
+  "DeleteAccountText": "Permanent deletion of your account and all of its content",
+  "AddToSidebar": "Add to sidebar",
+  "RemoveFromSidebar": "Remove from sidebar"
 }

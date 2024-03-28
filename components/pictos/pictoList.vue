@@ -1,45 +1,29 @@
 <template>
   <div class="margins">
-    <div
-      v-if="
-        sidebar && !($route.query.sidebarPictoId != $store.getters.getSidebarId)
-      "
-      style="padding-top: 9px"
-    />
+    <div v-if="sidebar
+      " style="padding-top: 9px" />
     <div class="columns is-multiline is-mobile even">
-      <picto
-        :class="
-          sidebar
-            ? 'column is-12-mobile is-6-tablet is-6-desktop is-4-widescreen is-3-fullhd'
-            : sidebarUsed
-            ? 'column is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-one-fifth-fullhd'
-            : customPictoSize
-        "
-        v-for="(picto, index) in getFilteredPictoList"
-        :key="index"
-        :picto="picto"
-        :publicMode="publicMode"
-        :sidebarMode="sidebar"
-        :ref="picto.collection ? 'dragCollection' : 'dragPictogram'"
-      />
-      <div
-        data-cy="cypress-empty-column"
-        class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd"
-      ></div>
+      <picto :class="sidebar
+      ? 'column is-12'
+      : sidebarUsed
+        ? 'column is-6-mobile is-4-tablet is-3-desktop is-3-widescreen is-one-fifth-fullhd'
+        : customPictoSize
+      " v-for="(picto, index) in getFilteredPictoList" :key="index" :picto="picto" :publicMode="publicMode"
+        :sidebarMode="sidebar" :ref="picto.collection ? 'dragCollection' : 'dragPictogram'" />
+      <div data-cy="cypress-empty-column"
+        class="column is-one-third-mobile is-one-quarter-tablet is-one-quarter-desktop is-one-quarter-widescreen is-one-fifth-fullhd">
+      </div>
     </div>
 
-    <div
-      v-if="canReturn && dragndropId"
-      class="drag-return"
-      v-on="{ dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }"
-    ></div>
+    <div v-if="canReturn && dragndropId" class="drag-return"
+      v-on="{ dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }"></div>
     <div id="return" class="return">
       <b-icon icon="chevron-left" class="return-icon" />
     </div>
     <div class="filler"></div>
   </div>
 </template>
-<script >
+<script>
 import picto from "@/components/pictos/picto";
 import lang from "@/mixins/lang";
 import links from "@/mixins/links";
@@ -74,7 +58,7 @@ export default {
       goBack.style.transform = "scale(0)";
       goBack.style.left = "10px";
     },
-    onDrop(ev) {},
+    onDrop(ev) { },
   },
   props: {
     pictos: {
@@ -134,13 +118,16 @@ export default {
 .even {
   justify-content: space-between;
 }
+
 .margins {
   margin-left: 7px;
   margin-right: 7px;
 }
+
 .filler {
   padding-bottom: 30vh;
 }
+
 .drag-return {
   position: fixed;
   width: 35px;
@@ -154,6 +141,7 @@ export default {
   border-color: #00000020;
   border-width: 2px;
 }
+
 .return {
   position: fixed;
   width: 5vmax;
@@ -169,6 +157,7 @@ export default {
   transform: scale(0);
   box-shadow: 2px 2px 7px #00000090;
 }
+
 .return-icon {
   color: white;
   font-size: xxx-large;
