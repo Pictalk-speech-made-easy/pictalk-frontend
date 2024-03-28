@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="columns is-mobile noscroll">
-      <div :class="!($route.params.fatherCollectionId == $store.getters.getSidebarId)
-        ? 'is-10 column noMargins scrolling lessPadding'
+      <div :class="!($route.params.fatherCollectionId == $store.getters.getSidebarId) && isSidebarUsed
+        ? 'is-8-mobile is-9-tablet is-10-desktop is-10-widescreen is-10-fullhd column noMargins scrolling lessPadding'
         : 'is-12 column noMargins scrolling lessPadding'
         ">
         <div v-if="pictos.length == 0 && !isPictoListPartial">
@@ -19,7 +19,7 @@
             :srcset="require('@/assets/EmptyCollection3.png').srcSet" />
         </div>
 
-        <pictoList data-cy="cypress-pictoList" :pictos="pictos" :sidebar="false" :sidebarUsed="$route.params.fatherCollectionId != $store.getters.getSidebarId
+        <pictoList data-cy="cypress-pictoList" :pictos="pictos" :sidebar="false" :sidebarUsed="isSidebarUsed && $route.params.fatherCollectionId != $store.getters.getSidebarId
         " v-if="!isPictoListPartial || isOnLine || !isPictoListEmpty" />
         <div v-else>
           <b-image data-cy="cypress-noConnection" style="aspect-ratio: 1/1" class="partialCollection" lazy
@@ -31,8 +31,12 @@
         </div>
       </div>
 
-      <div class="
-          is-2
+      <div v-if="!($route.params.fatherCollectionId == $store.getters.getSidebarId) && isSidebarUsed" class="
+          is-4-mobile
+          is-3-tablet
+          is-2-desktop
+          is-2-widescreen
+          is-2-fullhd
           column
           noMargins
           scrolling
@@ -42,7 +46,6 @@
         <b-image style="aspect-ratio: 1/1" v-if="sidebarPictos.length == 0" class="emptyCollection2" lazy
           alt="An empty cardboard box that represents an empty collection with no pictograms"
           :srcset="require('@/assets/EmptyCollection3.png').srcSet" />
-        {{ $t("EmptySidebar") }}
         <pictoList :pictos="sidebarPictos" :sidebar="true" v-if="isOnLine" />
       </div>
     </div>
@@ -100,6 +103,11 @@ export default {
     this.$nuxt.$off("resyncPictoList");
   },
   computed: {
+    isSidebarUsed() {
+      console.log("isSidebarUsed")
+      console.log(this.sidebarPictos.length != 0)
+      return this.sidebarPictos.length != 0;
+    },
     homeLink() {
       return this.$route.path;
     },

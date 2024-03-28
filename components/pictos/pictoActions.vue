@@ -38,7 +38,7 @@
           class="fullWidth modeButton" />
       </div>
       <div v-else class="option">
-        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="plus"
+        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="delete"
           :label="$t('RemoveFromSidebar')" @click="removeShortcutToSidebar(picto.id, !picto.collection)"
           class="fullWidth modeButton" />
       </div>
