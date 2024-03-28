@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="columns is-mobile noscroll">
-      <div :class="!($route.params.fatherCollectionId == $store.getters.getSidebarId) &&
-        isSidebarUsed
+      <div :class="!($route.params.fatherCollectionId == $store.getters.getSidebarId)
         ? 'is-10 column noMargins scrolling lessPadding'
         : 'is-12 column noMargins scrolling lessPadding'
         ">
@@ -20,8 +19,7 @@
             :srcset="require('@/assets/EmptyCollection3.png').srcSet" />
         </div>
 
-        <pictoList data-cy="cypress-pictoList" :pictos="pictos" :sidebar="false" :sidebarUsed="isSidebarUsed &&
-        $route.params.fatherCollectionId != $store.getters.getSidebarId
+        <pictoList data-cy="cypress-pictoList" :pictos="pictos" :sidebar="false" :sidebarUsed="$route.params.fatherCollectionId != $store.getters.getSidebarId
         " v-if="!isPictoListPartial || isOnLine || !isPictoListEmpty" />
         <div v-else>
           <b-image data-cy="cypress-noConnection" style="aspect-ratio: 1/1" class="partialCollection" lazy
@@ -33,7 +31,7 @@
         </div>
       </div>
 
-      <div v-if="isSidebarUsed" class="
+      <div class="
           is-2
           column
           noMargins
@@ -44,7 +42,7 @@
         <b-image style="aspect-ratio: 1/1" v-if="sidebarPictos.length == 0" class="emptyCollection2" lazy
           alt="An empty cardboard box that represents an empty collection with no pictograms"
           :srcset="require('@/assets/EmptyCollection3.png').srcSet" />
-        <pictoList :pictos="sidebarPictos" :sidebar="true" v-if="isOnLine || !isSidebarEmpty" />
+        <pictoList :pictos="sidebarPictos" :sidebar="true" v-if="isOnLine" />
       </div>
     </div>
     <div class="contenant">
@@ -74,14 +72,6 @@ export default {
     pictoList: pictoList,
     pictoBar: pictoBar,
     sidebar: sidebar,
-  },
-  watch: {
-    async sidebarPictoId(sidebarId, previousId) {
-      if (sidebarId && sidebarId != previousId) {
-        await this.fetchCollection(sidebarId);
-        this.sidebarPictos = this.loadedSidebarPictos();
-      }
-    },
   },
   created() {
     window.addEventListener("online", this.refreshPictos);
@@ -115,19 +105,6 @@ export default {
     isOnLine() {
       return window.navigator.onLine;
     },
-    isSidebarUsed() {
-      return this.loadPictos(this.$store.getters.getSidebarId).length != 0;
-    },
-    isSidebarEmpty() {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) =>
-          collection.id === this.$store.getters.getSidebarId
-      );
-      return (
-        this.$store.getters.getCollections[index]?.pictos.length == 0 &&
-        this.$store.getters.getCollections[index]?.collections.length == 0
-      );
-    },
     isPictoListPartial() {
       const index = this.$store.getters.getCollections.findIndex(
         (collection) =>
@@ -140,7 +117,6 @@ export default {
         (collection) =>
           collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
       );
-      console.log();
       return (
         this.$store.getters.getCollections[index]?.pictos.length == 0 &&
         this.$store.getters.getCollections[index]?.collections.length == 0
@@ -218,7 +194,6 @@ export default {
       );
     }
     this.sidebarPictos = this.loadedSidebarPictos();
-    console.log(this.sidebarPictos);
     const user = this.$store.getters.getUser;
     if (!user.username) {
       try {
@@ -237,13 +212,6 @@ export default {
     };
   },
   methods: {
-    toSidebarHome() {
-      this.$router.push({
-        query: {
-          ...this.$route.query,
-        },
-      });
-    },
     loadedPictos() {
       return this.loadPictos(
         parseInt(this.$route.params.fatherCollectionId, 10)

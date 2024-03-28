@@ -87,18 +87,11 @@ export default {
         this.getCollectionFromId(
           parseInt(this.$store.getters.getSidebarId, 10)
         )
-      console.log("isInSidebar")
       if (this.picto.collection) {
-        console.log(sidebar.collections.findIndex(
-          (collection) => collection.id === this.picto.id
-        ) !== -1)
         return sidebar.collections.findIndex(
           (collection) => collection.id === this.picto.id
         ) !== -1
       } else {
-        console.log(sidebar.pictos.findIndex(
-          (picto) => picto.id === this.picto.id
-        ) !== -1)
         return sidebar.pictos.findIndex(
           (picto) => picto.id === this.picto.id
         ) !== -1
