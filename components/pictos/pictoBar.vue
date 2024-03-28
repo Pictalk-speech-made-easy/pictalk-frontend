@@ -1,84 +1,46 @@
 <template>
   <div class="notification columns is-mobile nopadding" :style="cssVars">
     <div class="column is-narrow nopadding">
-      <b-button
-        style="background-color: hsl(0, 100%, 100%); color: #ff5757"
-        icon-right="delete"
-        :class="'customButton ' + buttonsShowSize"
-          @click="eraseSpeech()"
-      />
+      <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="delete"
+        :class="'customButton ' + buttonsShowSize" @click="eraseSpeech()" />
     </div>
     <div class="column is-narrow nopadding">
-      <b-button
-        style="background-color: hsl(0, 100%, 100%); color: #ff5757"
-        icon-right="backspace"
-        :class="'customButton ' + buttonsShowSize"
-          @click="removeSpeech(true)"
-      />
+      <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="backspace"
+        :class="'customButton ' + buttonsShowSize" @click="removeSpeech(true)" />
     </div>
     <div class="column" style="padding: 0%">
       <div id="bar" class="scrolling">
-        <miniPicto
-          v-for="(picto, index) in pictosWithoutSilent"
-          :key="index"
-          :image="picto.image"
-          :pictoCount="picto.count"
-        />
+        <miniPicto v-for="(picto, index) in pictosWithoutSilent" :key="index" :image="picto.image"
+          :pictoCount="picto.count" />
       </div>
     </div>
     <div class="column is-narrow nopadding">
-      <b-button
-        v-if="$store.getters.getTemporaryLanguage"
-        :class="'customButton ' + buttonsShowSize"
-        type="is-success"
-        icon-right="volume-high"
-        @click="pictalk(pictos)"
-        >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button
-      >
-      <b-button
-      v-if="$store.getters.getTemporaryLanguage"
-        style="background-color: hsl(154, 70%, 55%)"
-        icon-right="volume-high"
-        :class="'customButton ' + buttonsShowSize"
-        @click="pictalk(pictos)"
-      >{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
-      <b-button
-      v-else
-        id="pictobar-speak"
-        style="background-color: hsl(154, 70%, 55%)"
-        icon-right="volume-high"
-        :class="'customButton ' + buttonsShowSize"
-        @click="pictalk(pictos)"
-      />
+      <b-button v-if="$store.getters.getTemporaryLanguage" :class="'customButton ' + buttonsShowSize" type="is-success"
+        icon-right="volume-high" @click="pictalk(pictos)">{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
+      <b-button v-if="$store.getters.getTemporaryLanguage" style="background-color: hsl(154, 70%, 55%)"
+        icon-right="volume-high" :class="'customButton ' + buttonsShowSize" @click="pictalk(pictos)">{{
+    getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
+      <b-button v-else id="pictobar-speak" style="background-color: hsl(154, 70%, 55%)" icon-right="volume-high"
+        :class="'customButton ' + buttonsShowSize" @click="pictalk(pictos)" />
     </div>
     <div class="column is-narrow nopadding">
-      <b-button
-        style="background-color: hsl(210, 100%, 65%)"
-        icon-right="content-copy"
-        :class="'customButton ' + buttonsShowSize"
-        @click="copyPictosToClipboardBase(pictosWithoutSilent)"
-        id="pictobar-copy"
-      />
+      <b-button style="background-color: hsl(210, 100%, 65%)" icon-right="content-copy"
+        :class="'customButton ' + buttonsShowSize" @click="copyPictosToClipboardBase(pictosWithoutSilent)"
+        id="pictobar-copy" />
     </div>
     <div v-if="vocalize" class="onTop">
-      <b-button
-        icon-left="close"
-        @click="vocalize = false"
+      <b-button icon-left="close" @click="vocalize = false"
         style="margin-left: 2vmax; margin-top: 2vmax; background-color: hsl(0, 100%, 65%); color: white"
-        class="customButton"
-      />
-      
+        class="customButton" />
+
       <div class="columns is-multiline is-mobile topColumns">
-        <img
-          v-for="(picto, index) in pictosWithoutSilent"
-          :key="index"
-          :src="picto.image"
-          :class="(animation? (wordIndex >= index? pronounceShowSize+' animations': pronounceShowSize+' lowBrightness') : pronounceShowSize)"></img>
+        <img v-for="(picto, index) in pictosWithoutSilent" :key="index" :src="picto.image"
+          :class="(animation ? (wordIndex >= index ? pronounceShowSize + ' animations' : pronounceShowSize + ' lowBrightness') : pronounceShowSize)"></img>
       </div>
     </div>
   </div>
 </template>
-<script >
+<script>
 import miniPicto from "@/components/pictos/miniPicto";
 import mergeImages from "merge-images-horizontally-with-text";
 import tradLanguageListVue from "@/components/pictos/tradLanguageList.vue";
@@ -177,10 +139,10 @@ export default {
     },
     copyPictosToClipboardV2(pictos) {
       try {
-          const data = [new ClipboardItem({ [this.preGeneratedBlob.type]: this.preGeneratedBlob })];
-          navigator.clipboard.write(data);
-          SoundHelper.playSentenceCopy();
-          const notif = this.$buefy.toast.open({
+        const data = [new ClipboardItem({ [this.preGeneratedBlob.type]: this.preGeneratedBlob })];
+        navigator.clipboard.write(data);
+        SoundHelper.playSentenceCopy();
+        const notif = this.$buefy.toast.open({
           message: this.$t("CopySucces"),
           type: "is-success",
         });
@@ -190,17 +152,17 @@ export default {
           this.copyPictosToClipboardLegacy(pictos);
           SoundHelper.playSentenceCopy();
           const notif = this.$buefy.toast.open({
-          message: this.$t("CopySucces"),
-          type: "is-success",
+            message: this.$t("CopySucces"),
+            type: "is-success",
           });
-        } catch(e) {
+        } catch (e) {
           SoundHelper.playError()
           const notif = this.$buefy.toast.open({
-          message: this.$t("CopyError"),
-          type: "is-danger",
-        });
+            message: this.$t("CopyError"),
+            type: "is-danger",
+          });
         }
-        
+
       }
     },
     async pictalk(pictos) {
@@ -247,26 +209,16 @@ export default {
             if (this.publicMode) {
               //this.$router.push("/public/");
             } else {
-              if (this.$store.getters.getSidebarId) {
-                this.$router.push({
-                  query: {
-                    isAdmin: this.$route.query.isAdmin,
-                    sidebarPictoId: this.$store.getters.getSidebarId,
-                  },
-                });
-              } else {
-                this.$router.push({
-                  query: {
-                    isAdmin: this.$route.query.isAdmin,
-                  },
-                });
-              }
+              this.$router.push({
+                query: {
+                  isAdmin: this.$route.query.isAdmin,
+                },
+              });
             }
           } else {
             this.$router.push({
               query: {
                 ...this.$route.query,
-                sidebarPictoId: sidebarSpeech[sidebarSpeech.length - 2]?.id,
               },
             });
           }
@@ -307,7 +259,7 @@ export default {
       } catch (e) {
         console.log(e)
       }
-      
+
       this.$store.commit("removeSpeech");
     },
     eraseSpeech() {
@@ -322,7 +274,6 @@ export default {
             path: "/pictalk/" + this.$store.getters.getRootId,
             query: {
               isAdmin: this.$route.query.isAdmin,
-              sidebarPictoId: this.$store.getters.getSidebarId,
             },
           });
         } else {
@@ -330,7 +281,6 @@ export default {
             path: "/pictalk",
             query: {
               isAdmin: this.$route.query.isAdmin,
-              sidebarPictoId: this.$store.getters.getSidebarId,
             },
           });
         }
@@ -461,14 +411,14 @@ export default {
     },
     pictos: {
       deep: true,
-      handler (value) {
+      handler(value) {
         setTimeout(() => {
           let element = document.getElementById("bar");
           element.scrollLeft = element.scrollWidth;
         }, 125);
-        if ((this.$store.getters.getUser.settings?.pronounceClick|| this.publicMode) && value.length >= this.pictoLength && value.length > 0 && value[value.length -1]?.speech != "" ) {
+        if ((this.$store.getters.getUser.settings?.pronounceClick || this.publicMode) && value.length >= this.pictoLength && value.length > 0 && value[value.length - 1]?.speech != "") {
           this.pronounce(
-            value[value.length -1].speech[this.getUserLang],
+            value[value.length - 1].speech[this.getUserLang],
             this.getUserLang,
             this.voiceURI,
             this.pitch,
@@ -508,14 +458,17 @@ export default {
   border: 2px solid #666;
   transition: all 0.05s;
 }
+
 .customButton:hover {
   box-shadow: 0px 0px 12px #00000090;
 }
+
 .content {
   display: flex;
   align-items: flex-start;
   justify-content: space-evenly;
 }
+
 .onTop {
   position: fixed;
   top: 52px;
@@ -525,6 +478,7 @@ export default {
   background-color: #000000df;
   z-index: 2;
 }
+
 .topColumns {
   margin-left: auto;
   width: 96vw;
@@ -537,12 +491,14 @@ export default {
   max-height: 70vh;
   overflow-y: auto;
 }
+
 .topImage {
   margin-bottom: 1vh;
   padding: 2px;
   aspect-ratio: 1/1;
   object-fit: contain;
 }
+
 .notification {
   background-color: var(--bg-color);
   position: relative;
@@ -551,11 +507,13 @@ export default {
   border-color: #4c4329;
   border-width: 2px;
 }
+
 .nopadding {
   padding: 0.25rem;
   padding-left: 0.1rem;
   padding-right: 0.1rem;
 }
+
 .scrolling {
   display: flex;
   flex-direction: row;
@@ -565,11 +523,13 @@ export default {
   scroll-behavior: smooth;
   overflow-y: hidden;
 }
+
 .buttonBorder {
   border: solid;
   border-color: #f14668;
   border-width: 1px;
 }
+
 .getsBiggerMin {
   width: 7vmin;
   height: 7vmin;
@@ -619,6 +579,7 @@ export default {
   min-width: 60px;
   max-width: 100px;
 }
+
 @media screen and (min-width: 768px) {
   .getsBiggerMax {
     width: 10vmin;
@@ -637,6 +598,7 @@ export default {
     -webkit-filter: brightness(0.6);
     transform: scale(0.9);
   }
+
   to {
     filter: brightness(1);
     -webkit-filter: brightness(1);
@@ -649,6 +611,7 @@ export default {
   animation-duration: 195ms;
   animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
 .lowBrightness {
   transform: scale(0.9);
   filter: brightness(0.6);

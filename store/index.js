@@ -78,6 +78,8 @@ export const mutations = {
     state.collections.splice(collectionIndex, 1);
   },
   editCollection(state, editedCollections) {
+    console.log("editCollection");
+    console.log(editedCollections);
     if (!Array.isArray(editedCollections)) {
       editedCollections = new Array(editedCollections);
     }
@@ -430,7 +432,8 @@ export const actions = {
           "Content-Type": "multipart/form-data"
         }
       })).data;
-
+    console.log("editedCollection");
+    console.log(editedCollection);
     vuexContext.commit("editCollection", {
       ...editedCollection,
       ...(editedCollection.meaning && { meaning: editedCollection.meaning }),
@@ -774,7 +777,9 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
   let pictosTocreate = [];
   let collectionsToEdit = [];
   let collectionsToCreate = [];
+  console.log("parseAndUpdateEntireCollection");
   let localCollection = getCollectionFromId(vuexContext, collection.id);
+  console.log(localCollection);
   let existsCollection = localCollection?.id == collection.id;
   let updateCollection = (localCollection?.updatedDate != collection.updatedDate) && existsCollection;
   const partialCollection = localCollection?.partial;
@@ -800,6 +805,12 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
       collection.pictos = [];
     }
 
+    // Merge localCollection with collection
+    if (localCollection) {
+      Object.assign(localCollection, collection);
+      collection = localCollection;
+    }
+
     if (!existsCollection) {
       collectionsToCreate.push(collection);
     }
@@ -807,12 +818,17 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
       collectionsToEdit.push(collection);
     }
   }
-
+  console.log(collection.pictos);
   if (collection.pictos && !collection.pictos.length == 0) {
     collection.pictos.map((picto) => {
+      console.log("picto")
+      console.log(picto);
       let localPicto = getPictoFromId(vuexContext, picto.id);
       let existsPicto = localPicto?.id == picto.id;
       let updatePicto = (localPicto?.updatedDate != picto.updatedDate) && existsPicto;
+      console.log(localPicto);
+      console.log(existsPicto);
+      console.log(updatePicto);
       if (!existsPicto || updatePicto) {
         if (picto.image) {
           picto.image =
@@ -831,12 +847,20 @@ function parseAndUpdateEntireCollection(vuexContext, collection, download = fals
 
     });
   }
+  console.log("collections")
+  console.log(collection.collections)
   if (collection.collections && !collection.collections.length == 0 && !download) {
     collection.collections.map((col) => {
+      console.log("collection")
+      console.log(col);
       let localCollections = getCollectionFromId(vuexContext, col.id);
       let existsCollections = localCollections?.id == col.id;
       let updateCollection = (localCollections?.updatedDate != col.updatedDate) && existsCollections;
       const partialCollection = localCollections?.partial;
+      console.log(localCollections)
+      console.log(existsCollections)
+      console.log(updateCollection)
+      console.log(partialCollection)
       if (!existsCollections || updateCollection || partialCollection) {
         if (col.image) {
           col.image =

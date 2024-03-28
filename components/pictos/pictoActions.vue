@@ -4,122 +4,64 @@
       <p class="modal-card-title centered">{{ $t("PictoActions") }}</p>
       <p v-if="!isOnline" class="subtitle">❗{{ $t("PictoActionsOffline") }}</p>
       <div class="option">
-        <b-button
-          data-cy="picto-action-dropdown-edit"
-          :disabled="!(isEditor || isToUser) || !isOnline"
-          style="background-color: hsl(210, 100%, 75%)"
-          icon-left="pencil"
-          :label="$t('EditPicto')"
-          @click="editPicto()"
-          class="fullWidth modeButton"
-        />
+        <b-button data-cy="picto-action-dropdown-edit" :disabled="!(isEditor || isToUser) || !isOnline"
+          style="background-color: hsl(210, 100%, 75%)" icon-left="pencil" :label="$t('EditPicto')" @click="editPicto()"
+          class="fullWidth modeButton" />
       </div>
       <div class="option">
-        <b-button
-          data-cy="picto-action-dropdown-delete"
-          :disabled="!canDelete || !isOnline"
-          style="background-color: hsl(0, 100%, 75%)"
-          icon-left="delete"
-          :label="$t('DeletePicto')"
-          @click="deletePicto()"
-          class="fullWidth modeButton"
-        />
+        <b-button data-cy="picto-action-dropdown-delete" :disabled="!canDelete || !isOnline"
+          style="background-color: hsl(0, 100%, 75%)" icon-left="delete" :label="$t('DeletePicto')"
+          @click="deletePicto()" class="fullWidth modeButton" />
       </div>
-      <div
-        v-if="!(isEditor || isToUser || isViewer) && picto.collection"
-        class="option"
-      >
-        <b-button
-          :disabled="!isOnline"
-          style="background-color: hsl(210, 100%, 75%)"
-          icon-left="plus"
-          :label="$t('CopyPicto')"
-          @click="setCopyCollectionId(picto.id, !picto.collection)"
-          class="fullWidth modeButton"
-        />
+      <div v-if="!(isEditor || isToUser || isViewer) && picto.collection" class="option">
+        <b-button :disabled="!isOnline" style="background-color: hsl(210, 100%, 75%)" icon-left="plus"
+          :label="$t('CopyPicto')" @click="setCopyCollectionId(picto.id, !picto.collection)"
+          class="fullWidth modeButton" />
       </div>
-      <div
-        v-if="(isEditor || isToUser || isViewer) && picto.collection"
-        class="option"
-      >
-        <b-button
-          :disabled="!isOnline"
-          style="background-color: hsl(45, 100%, 75%)"
-          icon-left="vector-arrange-below"
-          :label="$t('CopyPicto')"
-          @click="setCopyCollectionId(picto.id, !picto.collection)"
-          class="fullWidth modeButton"
-        />
+      <div v-if="(isEditor || isToUser || isViewer) && picto.collection" class="option">
+        <b-button :disabled="!isOnline" style="background-color: hsl(45, 100%, 75%)" icon-left="vector-arrange-below"
+          :label="$t('CopyPicto')" @click="setCopyCollectionId(picto.id, !picto.collection)"
+          class="fullWidth modeButton" />
       </div>
-      <div
-        v-if="(isEditor || isToUser || isViewer) && picto.collection"
-        class="option"
-      >
-        <b-button
-          :disabled="!isOnline"
-          style="background-color: hsl(140, 100%, 75%)"
-          icon-left="vector-link"
-          :label="$t('LinkPicto')"
-          @click="setShortcutCollectionId(picto.id, !picto.collection)"
-          class="fullWidth modeButton"
-        />
+      <div v-if="(isEditor || isToUser || isViewer) && picto.collection" class="option">
+        <b-button :disabled="!isOnline" style="background-color: hsl(140, 100%, 75%)" icon-left="vector-link"
+          :label="$t('LinkPicto')" @click="setShortcutCollectionId(picto.id, !picto.collection)"
+          class="fullWidth modeButton" />
       </div>
-      <div
-        v-if="(isEditor || isToUser || isViewer) && picto.collection"
-        class="option"
-      >
-        <b-button
-          :disabled="!isOnline"
-          style="background-color: hsl(270, 100%, 75%)"
-          icon-left="share-variant"
-          :label="$t('SharePicto')"
-          @click="sharePicto()"
-          class="fullWidth modeButton"
-        />
+      <div v-if="(isEditor || isToUser || isViewer) && picto.collection" class="option">
+        <b-button :disabled="!isOnline" style="background-color: hsl(270, 100%, 75%)" icon-left="share-variant"
+          :label="$t('SharePicto')" @click="sharePicto()" class="fullWidth modeButton" />
       </div>
-      <div
-        v-if="picto.collection && this.$store.getters.getUser.admin"
-        class="option"
-      >
-        <b-button
-          :disabled="!isOnline"
-          :loading="publishLoad"
-          :style="
-            picto.public
-              ? 'background-color: hsl(120, 100%, 75%)'
-              : 'background-color: hsl(120, 0%, 96%)'
-          "
-          icon-left="web"
-          :label="picto.public ? $t('Unpublish') : $t('Publish')"
-          @click="publishPicto()"
-          class="fullWidth modeButton"
-        />
+      <div v-if="!isInSidebar" class="option">
+        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="share-variant"
+          :label="$t('AddToSidebar')" @click="pushShortcutToSidebar(picto.id, !picto.collection)"
+          class="fullWidth modeButton" />
       </div>
-      <div
-        :class="{ option: true, 'priority-wrapper': true, offline: !isOnline }"
-      >
-        <b-button
-          :disabled="!isOnline"
-          :style="colorPriority"
-          @click="alternateStar(false)"
-          class="priority-button priority-label"
-          label="-"
-        />
+      <div v-else class="option">
+        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="share-variant"
+          :label="$t('RemoveFromSidebar')" @click="removeShortcutToSidebar(picto.id, !picto.collection)"
+          class="fullWidth modeButton" />
+      </div>
+      <div v-if="picto.collection && this.$store.getters.getUser.admin" class="option">
+        <b-button :disabled="!isOnline" :loading="publishLoad" :style="picto.public
+        ? 'background-color: hsl(120, 100%, 75%)'
+        : 'background-color: hsl(120, 0%, 96%)'
+        " icon-left="web" :label="picto.public ? $t('Unpublish') : $t('Publish')" @click="publishPicto()"
+          class="fullWidth modeButton" />
+      </div>
+      <div :class="{ option: true, 'priority-wrapper': true, offline: !isOnline }">
+        <b-button :disabled="!isOnline" :style="colorPriority" @click="alternateStar(false)"
+          class="priority-button priority-label" label="-" />
         <b class="priority-label" :style="colorPriority">{{
-          showPriorityOrStarred
-        }}</b>
-        <b-button
-          :disabled="!isOnline"
-          :style="colorPriority"
-          @click="alternateStar()"
-          class="priority-button priority-label"
-          label="+"
-        />
+        showPriorityOrStarred
+      }}</b>
+        <b-button :disabled="!isOnline" :style="colorPriority" @click="alternateStar()"
+          class="priority-button priority-label" label="+" />
       </div>
     </section>
   </div>
 </template>
-<script >
+<script>
 import pictogram from "../../mixins/pictogram";
 export default {
   mixins: [pictogram],
@@ -139,23 +81,51 @@ export default {
       default: () => false,
     },
   },
+  computed: {
+    isInSidebar() {
+      let sidebar =
+        this.getCollectionFromId(
+          parseInt(this.$store.getters.getSidebarId, 10)
+        )
+      console.log("isInSidebar")
+      if (this.picto.collection) {
+        console.log(sidebar.collections.findIndex(
+          (collection) => collection.id === this.picto.id
+        ) !== -1)
+        return sidebar.collections.findIndex(
+          (collection) => collection.id === this.picto.id
+        ) !== -1
+      } else {
+        console.log(sidebar.pictos.findIndex(
+          (picto) => picto.id === this.picto.id
+        ) !== -1)
+        return sidebar.pictos.findIndex(
+          (picto) => picto.id === this.picto.id
+        ) !== -1
+      }
+    }
+  }
 };
 </script>
 <style scoped>
 .offline {
   filter: opacity(0.5);
 }
+
 .priority-button {
   border: none;
   border-radius: 0%;
 }
+
 .button:focus:not(:active),
 .button.is-focused:not(:active) {
   box-shadow: none !important;
 }
+
 .priority-wrapper:hover {
   box-shadow: 0px 0px 12px #00000090;
 }
+
 .priority-label {
   align-items: center !important;
   justify-content: center !important;
@@ -168,6 +138,7 @@ export default {
   font-weight: 900 !important;
   -webkit-text-stroke: 1.5px black !important;
 }
+
 .priority-wrapper {
   background-color: #edf1f5;
   padding: 0px !important;
@@ -176,16 +147,19 @@ export default {
   border: 2px solid #666;
   transition: all 0.05s;
 }
+
 .buttonBorder {
   border: solid;
   border-width: 1px;
   border-color: #48c78e;
 }
+
 .option {
   display: flex;
   align-items: center;
   padding: 0.3em 0;
 }
+
 .small-card {
   position: fixed;
   left: 50%;
@@ -197,14 +171,17 @@ export default {
   min-height: 200px;
   border-radius: 12px;
 }
+
 .centered {
   text-align: center;
   margin-bottom: 0.5em;
 }
+
 .fullWidth {
   width: 100%;
   justify-content: left;
 }
+
 .modeButton {
   font-size: 1.2em;
   font-weight: 600;
@@ -212,6 +189,7 @@ export default {
   border: 2px solid #666;
   transition: all 0.05s;
 }
+
 .modeButton:hover {
   box-shadow: 0px 0px 12px #00000090;
 }
