@@ -78,8 +78,6 @@ export const mutations = {
     state.collections.splice(collectionIndex, 1);
   },
   editCollection(state, editedCollections) {
-    console.log("editCollection");
-    console.log(editedCollections);
     if (!Array.isArray(editedCollections)) {
       editedCollections = new Array(editedCollections);
     }
@@ -432,8 +430,6 @@ export const actions = {
           "Content-Type": "multipart/form-data"
         }
       })).data;
-    console.log("editedCollection");
-    console.log(editedCollection);
     vuexContext.commit("editCollection", {
       ...editedCollection,
       ...(editedCollection.meaning && { meaning: editedCollection.meaning }),
