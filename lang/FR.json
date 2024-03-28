@@ -411,5 +411,7 @@
     "AdhesionText": "N'hésitez pas à rejoindre notre organisation et à soutenir le projet ❤️",
     "Question": "Point d'interrogation",
     "DeleteAccount": "Supprimer le compte",
-    "DeleteAccountText": "la suppression définitive de votre compte et de tout son contenu"
+    "DeleteAccountText": "la suppression définitive de votre compte et de tout son contenu",
+    "AddToSidebar": "Ajouter à la barre latérale",
+    "RemoveFromSidebar": "Supprimer de la barre latérale"
 }
