@@ -33,12 +33,12 @@
           :label="$t('SharePicto')" @click="sharePicto()" class="fullWidth modeButton" />
       </div>
       <div v-if="!isInSidebar" class="option">
-        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="share-variant"
+        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="plus"
           :label="$t('AddToSidebar')" @click="pushShortcutToSidebar(picto.id, !picto.collection)"
           class="fullWidth modeButton" />
       </div>
       <div v-else class="option">
-        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="share-variant"
+        <b-button :disabled="!isOnline" style="background-color: hsl(70, 100%, 75%)" icon-left="plus"
           :label="$t('RemoveFromSidebar')" @click="removeShortcutToSidebar(picto.id, !picto.collection)"
           class="fullWidth modeButton" />
       </div>

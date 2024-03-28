@@ -42,6 +42,7 @@
         <b-image style="aspect-ratio: 1/1" v-if="sidebarPictos.length == 0" class="emptyCollection2" lazy
           alt="An empty cardboard box that represents an empty collection with no pictograms"
           :srcset="require('@/assets/EmptyCollection3.png').srcSet" />
+        {{ $t("EmptySidebar") }}
         <pictoList :pictos="sidebarPictos" :sidebar="true" v-if="isOnLine" />
       </div>
     </div>
