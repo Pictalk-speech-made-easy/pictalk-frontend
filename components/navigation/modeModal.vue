@@ -7,6 +7,10 @@
           @click="GoToRoot()" icon-left="home" />
       </div>
       <div class="option">
+        <b-button style="background-color: hsl(210, 100%, 70%)" :label="$t('MyShared')" @click="goTo(sharedLink)"
+          icon-left="folder-account" class="fullWidth customButton" />
+      </div>
+      <div class="option">
         <b-button style="background-color: hsl(154, 100%, 70%)" :label="$t('PublicCollections')"
           @click="goTo('/public/')" icon-left="web" class="fullWidth customButton" />
       </div>
