@@ -75,6 +75,15 @@ export default {
   /*
    ** Nuxt.js modules
    */
+  oneSignal: {
+    init: {
+      appId: 'ee256bd6-7c9b-4811-afbd-c428ac6fc83e',
+      allowLocalhostAsSecureOrigin: true,
+      welcomeNotification: {
+        disable: true
+      }
+    }
+  },
   responsiveLoader: {
     adapter: require('responsive-loader/sharp'),
     name: 'img/[name]-[width].[ext]',
@@ -183,6 +192,7 @@ export default {
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons3.min.css", css: false }],
+    "@nuxtjs/onesignal",
     "@nuxtjs/pwa",
     "nuxt-clipboard2",
     'nuxt-responsive-loader',
