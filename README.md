@@ -8,7 +8,7 @@
 ## Overview
 
 Pictalk is an open-source application designed to assist individuals with speech impediments communicate effectively using pictograms and pictures. This Nuxt.js project aims to make communication accessible and inclusive for everyone.
-You can use the application for free at [www.pictalk.org](https://www.pictalk.org)
+You can use the application for free at [application.pictalk.org](https://application.pictalk.org)
 
 ## Features
 

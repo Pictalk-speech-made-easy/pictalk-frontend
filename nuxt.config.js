@@ -31,19 +31,19 @@ export default {
     link: [{
       rel: "icon",
       type: "image/x-icon",
-      href: "https://www.pictalk.org/favicon.ico"
+      href: "https://application.pictalk.org/favicon.ico"
     }, {
       rel: 'canonical',
-      href: 'https://www.pictalk.org'
+      href: 'https://application.pictalk.org'
     }],
     meta: [
       { hid: 'keywords', name: 'keywords', content: 'AAC,autism,pictograms,speech,text-to-speech,communication,online,translate,sentences,free,open-source' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'url', name: 'url', content: 'https://www.pictalk.org' },
-      { hid: 'image', name: 'image', content: 'https://www.pictalk.org/icon.png' },
+      { hid: 'url', name: 'url', content: 'https://application.pictalk.org' },
+      { hid: 'image', name: 'image', content: 'https://application.pictalk.org/icon.png' },
       { hid: 'og-type', property: 'og:type', content: 'website' },
-      { hid: 'og-url', property: 'og:url', content: 'https://www.pictalk.org' },
-      { hid: 'og-image', property: 'og:image', content: 'https://www.pictalk.org/icon.png' },
+      { hid: 'og-url', property: 'og:url', content: 'https://application.pictalk.org' },
+      { hid: 'og-image', property: 'og:image', content: 'https://application.pictalk.org/icon.png' },
     ]
   },
   /*
@@ -84,7 +84,7 @@ export default {
     format: 'webp',
   },
   sitemap: {
-    hostname: 'https://www.pictalk.org',
+    hostname: 'https://application.pictalk.org',
     gzip: false,
     i18n: true,
     trailingSlash: true,
@@ -101,7 +101,7 @@ export default {
     ],
   },
   i18n: {
-    baseURL: 'https://www.pictalk.org',
+    baseURL: 'https://application.pictalk.org',
     defaultLocale: 'en',
     detectBrowserLanguage: {
       useCookie: true,
@@ -200,11 +200,11 @@ export default {
       '/_nuxt/**',
       '/administration'
     ],
-    Sitemap: 'https://www.pictalk.org/sitemap.xml'
+    Sitemap: 'https://application.pictalk.org/sitemap.xml'
   },
   pwa: {
     icon: {
-      src: "https://www.pictalk.org/icon.png",
+      src: "https://application.pictalk.org/icon.png",
       sizes: [48, 72, 96, 120, 144, 152, 192, 384, 512],
       type: "image/png",
       purpose: ['maskable'],
@@ -232,39 +232,39 @@ export default {
       background_color: "#ffffff",
       display: 'standalone',
       icons: [{
-        src: "https://www.pictalk.org/icon.png",
+        src: "https://application.pictalk.org/icon.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "any"
       }],
       screenshots: [
         {
-          src: "https://www.pictalk.org/screenshots/sentence.webp",
+          src: "https://application.pictalk.org/screenshots/sentence.webp",
           sizes: "488x1055",
           type: "image/webp"
         },
         {
-          src: "https://www.pictalk.org/screenshots/speak.webp",
+          src: "https://application.pictalk.org/screenshots/speak.webp",
           sizes: "488x1055",
           type: "image/webp"
         },
         {
-          src: "https://www.pictalk.org/screenshots/search.webp",
+          src: "https://application.pictalk.org/screenshots/search.webp",
           sizes: "488x1055",
           type: "image/webp"
         },
         {
-          src: "https://www.pictalk.org/screenshots/edition.webp",
+          src: "https://application.pictalk.org/screenshots/edition.webp",
           sizes: "488x1055",
           type: "image/webp"
         },
         {
-          src: "https://www.pictalk.org/screenshots/tutorial.webp",
+          src: "https://application.pictalk.org/screenshots/tutorial.webp",
           sizes: "488x1055",
           type: "image/webp"
         },
         {
-          src: "https://www.pictalk.org/_nuxt/img/whatsapp-320.webp",
+          src: "https://application.pictalk.org/_nuxt/img/whatsapp-320.webp",
           sizes: "320x698",
           type: "image/webp"
         },
