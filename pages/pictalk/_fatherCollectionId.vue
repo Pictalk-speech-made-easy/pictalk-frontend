@@ -20,7 +20,7 @@
         </div>
 
         <pictoList data-cy="cypress-pictoList" :pictos="pictos" :sidebar="false" :sidebarUsed="isSidebarUsed && $route.params.fatherCollectionId != $store.getters.getSidebarId
-        " v-if="!isPictoListPartial || isOnLine || !isPictoListEmpty" />
+          " v-if="!isPictoListPartial || isOnLine || !isPictoListEmpty" />
         <div v-else>
           <b-image data-cy="cypress-noConnection" style="aspect-ratio: 1/1" class="partialCollection" lazy
             alt="No internet connection. To view the collection, please reconnect"
@@ -80,7 +80,7 @@ export default {
   created() {
     window.addEventListener("online", this.refreshPictos);
     window.addEventListener("offline", this.lostConnectivityNotification);
-    this.$nuxt.$on("resyncPictoList", (delay) => {
+    this.$nuxt.$on("resyncPictoList", async (delay) => {
       console.log("resyncPictoList")
       if (delay) {
         if (this.priority_timer != 0) {
@@ -88,12 +88,12 @@ export default {
           this.priority_timer = 0;
         }
         this.priority_timer = setTimeout(async () => {
-          this.pictos = this.loadedPictos();
-          this.sidebarPictos = this.loadedSidebarPictos();
+          this.pictos = await this.loadedPictos();
+          this.sidebarPictos = await this.loadedSidebarPictos();
         }, delay);
       } else {
-        this.pictos = this.loadedPictos();
-        this.sidebarPictos = this.loadedSidebarPictos();
+        this.pictos = await this.loadedPictos();
+        this.sidebarPictos = await this.loadedSidebarPictos();
       }
     });
   },
@@ -113,11 +113,10 @@ export default {
       return window.navigator.onLine;
     },
     isPictoListPartial() {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) =>
-          collection.id === parseInt(this.$route.params.fatherCollectionId, 10)
+      const collection = this.$store.dispatch('getCollectionFromId',
+        parseInt(this.$route.params.fatherCollectionId, 10)
       );
-      return this.$store.getters.getCollections[index]?.partial;
+      return collection?.partial;
     },
     isPictoListEmpty() {
       const index = this.$store.getters.getCollections.findIndex(
@@ -147,8 +146,8 @@ export default {
     sidebarPictoId() {
       return this.$store.getters.getSidebarId;
     },
-    collectionColor() {
-      const collection = this.getCollectionFromId(
+    async collectionColor() {
+      const collection = await this.$store.dispatch('getCollectionFromId',
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
       if (collection) {
@@ -193,7 +192,7 @@ export default {
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     }
-    this.pictos = this.loadedPictos();
+    this.pictos = await this.loadedPictos();
 
     if (this.$store.getters.getSidebarId) {
       await this.fetchCollection(
@@ -219,22 +218,19 @@ export default {
     };
   },
   methods: {
-    loadedPictos() {
+    async loadedPictos() {
       return this.loadPictos(
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     },
-    loadedSidebarPictos() {
+    async loadedSidebarPictos() {
       return this.loadPictos(this.$store.getters.getSidebarId);
     },
-    loadPictos(fatherCollectionId) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === fatherCollectionId
-      );
-      const collection = this.$store.getters.getCollections[index];
+    async loadPictos(fatherCollectionId) {
+      const collection = await this.$store.dispatch('getCollectionFromId', fatherCollectionId);
       if (collection) {
         const collectionList = collection.collections.map((col) => {
-          return this.getCollectionFromId(col.id);
+          return this.$store.dispatch('getCollectionFromId', col.id);
         });
         const pictos = collection.pictos.map((pict) => {
           return this.getPictoFromId(pict.id);
@@ -266,18 +262,6 @@ export default {
     removeSpeech() {
       this.$store.commit("removeSpeech");
     },
-    getCollectionFromId(id) {
-      const index = this.$store.getters.getCollections.findIndex(
-        (collection) => collection.id === parseInt(id)
-      );
-      return this.$store.getters.getCollections[index];
-    },
-    getPictoFromId(id) {
-      const index = this.$store.getters.getPictos.findIndex(
-        (picto) => picto.id === id
-      );
-      return this.$store.getters.getPictos[index];
-    },
     lostConnectivityNotification() {
       const notif = this.$buefy.notification.open({
         duration: 4500,
@@ -296,7 +280,7 @@ export default {
       }
     },
     async fetchCollection(collectionId) {
-      const collection = this.getCollectionFromId(collectionId);
+      const collection = await this.$store.dispatch('getCollectionFromId', collectionId);
       // TODO Traiter differement !collection et !collection.pictos || !collection.collections
       if (
         (!collection ||
@@ -319,7 +303,7 @@ export default {
           res.data.partial = false;
 
           if (res.data.collections && !res.data.collections.length == 0) {
-            res.data.collections.map((collection) => {
+            res.data.collections.map(async (collection) => {
               if (collection.image) {
                 collection.image =
                   this.$config.apiURL + "/image/pictalk/" + collection.image;
@@ -334,7 +318,7 @@ export default {
               }
               collection.partial = true;
               // collectionIndex
-              if (!this.getCollectionFromId(collection.id)) {
+              if (!await this.$store.dispatch('getCollectionFromId', collection.id)) {
                 collectionsToCreate.push(collection);
               } else {
                 collectionsToEdit.push(collection);
@@ -356,7 +340,7 @@ export default {
             });
           }
 
-          if (!this.getCollectionFromId(res.data.id)) {
+          if (!await this.$store.dispatch('getCollectionFromId', res.data.id)) {
             collectionsToCreate.push(JSON.parse(JSON.stringify(res.data)));
           } else {
             collectionsToEdit.push(JSON.parse(JSON.stringify(res.data)));
@@ -390,8 +374,8 @@ export default {
           icon: "refresh",
         });
         await this.$store.dispatch("downloadCollections");
-        this.pictos = this.loadedPictos();
-        this.sidebarPictos = this.loadedSidebarPictos();
+        this.pictos = await this.loadedPictos();
+        this.sidebarPictos = await this.loadedSidebarPictos();
         //TODO : refresh pictoList so that it displays new pictos and maybe count number of eddited and added in notification
         const notif = this.$buefy.notification.open({
           duration: 4500,

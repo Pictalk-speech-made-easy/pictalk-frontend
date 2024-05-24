@@ -1,33 +1,19 @@
 <template>
   <div>
-    <div
-      class="is-widescreen"
-      style="margin-right: 0.5rem; margin-left: 0.5rem"
-    >
-      <pictoList
-        :publicMode="true"
-        :pictos="pictos"
-        :sidebar="false"
-        :sidebarUsed="false"
-      />
+    <div class="is-widescreen" style="margin-right: 0.5rem; margin-left: 0.5rem">
+      <pictoList :publicMode="true" :pictos="pictos" :sidebar="false" :sidebarUsed="false" />
     </div>
     <div class="contenant">
-      <pictoBar
-        :style="
-          loadSpeech.length != 0
-            ? 'bottom: 2px'
-            : 'transform: translateY(105%);'
-        "
-        class="pictobar sidebar slide-up"
-        :publicMode="true"
-        :pictos="loadSpeech"
-        :collectionColor="collectionColor"
-      />
+      <pictoBar :style="loadSpeech.length != 0
+          ? 'bottom: 2px'
+          : 'transform: translateY(105%);'
+        " class="pictobar sidebar slide-up" :publicMode="true" :pictos="loadSpeech"
+        :collectionColor="collectionColor" />
     </div>
     <div class="filler"></div>
   </div>
 </template>
-<script >
+<script>
 import axios from "axios";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
@@ -64,7 +50,7 @@ export default {
         parseInt(this.$route.params.fatherCollectionId, 10)
       );
     }
-    this.pictos = this.loadedPictos();
+    this.pictos = await this.loadedPictos();
   },
   data() {
     return {
@@ -99,7 +85,7 @@ export default {
             res.data.image =
               this.$config.apiURL + "/image/pictalk/" + res.data.image;
           }
-          
+
           res.data.collection = true;
 
           res.data.partial = false;
@@ -110,7 +96,7 @@ export default {
                 collection.image =
                   this.$config.apiURL + "/image/pictalk/" + collection.image;
               }
-              
+
               collection.collection = true;
               collection.fatherCollectionId = res.data.id;
               if (!collection.pictos) {
@@ -134,7 +120,7 @@ export default {
                 picto.image =
                   this.$config.apiURL + "/image/pictalk/" + picto.image;
               }
-              
+
               picto.fatherCollectionId = res.data.id;
               if (!this.getPictoFromId(picto.id)) {
                 pictosTocreate.push(picto);
@@ -228,9 +214,11 @@ export default {
   max-width: 767px;
   z-index: 4;
 }
+
 .filler {
   padding-bottom: 20%;
 }
+
 .contenant {
   display: flex;
   justify-content: center;

@@ -1,46 +1,22 @@
 <template>
   <div>
     <b-field class="searchBar">
-      <b-input
-        v-model="search"
-        :placeholder="$t('SearchPictoPlaceholder')"
-        clearable
-        expanded
-        style="min-width: 70vw"
-        @keyup.native.enter="searchFirst()"
-      >
+      <b-input v-model="search" :placeholder="$t('SearchPictoPlaceholder')" clearable expanded style="min-width: 70vw"
+        @keyup.native.enter="searchFirst()">
       </b-input>
-      <b-button
-        type="is-info"
-        @click="searchFirst()"
-        icon-right="magnify"
-        :loading="loading"
-      />
+      <b-button type="is-info" @click="searchFirst()" icon-right="magnify" :loading="loading" />
     </b-field>
 
-    <pictoList
-      class="publicList"
-      :pictos="pictos"
-      :publicMode="true"
-      :sidebar="false"
-      :sidebarUsed="false"
-    />
+    <pictoList class="publicList" :pictos="pictos" :publicMode="true" :sidebar="false" :sidebarUsed="false" />
     <div class="searchBottom">
-      <b-button
-        v-if="more"
-        class="searchButton"
-        type="is-info is-light is-text"
-        @click="searchMore()"
-        icon-right="magnify"
-        rounded
-        :loading="loading"
-      >
+      <b-button v-if="more" class="searchButton" type="is-info is-light is-text" @click="searchMore()"
+        icon-right="magnify" rounded :loading="loading">
         {{ $t("MoreItems") }}
       </b-button>
     </div>
   </div>
 </template>
-<script >
+<script>
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 export default {
@@ -148,14 +124,17 @@ export default {
   margin-right: auto;
   margin-left: auto;
 }
+
 .publicList {
   margin: 20px;
 }
+
 .searchBottom {
   width: 100vw;
   position: fixed;
   bottom: 2vh;
 }
+
 .searchButton {
   display: flex;
   margin-left: auto;
