@@ -13,7 +13,7 @@
         :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay">
         <b-carousel-item class="containing">
           <div class="slightly-rounded placeholder" :style="`aspect-ratio: 16/9; background-image: url(${require('@/assets/Usages2.png').placeholder
-            })`">
+          })`">
             <img class="slightly-rounded" loading="lazy" :srcset="require('@/assets/Usages2.png').srcSet"
               alt="screenshots of the Pictalk application running on different devices" />
           </div>
@@ -31,13 +31,11 @@
             <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{ $t('CommunicateDemo') }}</div>
           </section>
         </b-carousel-item>
-        <client-only>
-          <b-carousel-item v-show="this.getUserLang == 'fr'" class="containing">
-            <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 99.1%;"
-              alt="video of Alex talking about pictalk" :src="require('@/static/pictalk.mp4')" controls muted
-              :poster="require('@/assets/pictalk-video-poster.webp')" class="slightly-rounded"></video>
-          </b-carousel-item>
-        </client-only>
+        <b-carousel-item v-show="this.getUserLang == 'fr'" class="containing">
+          <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 99.1%;"
+            alt="video of Alex talking about pictalk" :src="require('@/static/pictalk.mp4')" controls muted
+            :poster="require('@/assets/pictalk-video-poster.webp')" class="slightly-rounded"></video>
+        </b-carousel-item>
         <b-carousel-item class="containing">
           <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
             :srcset="require('@/assets/Share.png').srcSet" :placeholder="require('@/assets/Share.png').placeholder"

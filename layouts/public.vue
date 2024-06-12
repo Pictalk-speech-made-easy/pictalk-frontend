@@ -1,11 +1,9 @@
 <template>
   <div class="wrapper">
-    <client-only>
-      <navbar />
-      <hr style="margin: 20px" />
-      <nuxt />
-      <br />
-    </client-only>
+    <navbar />
+    <hr style="margin: 20px" />
+    <nuxt />
+    <br />
   </div>
 </template>
 <script>

@@ -18,27 +18,25 @@
             class="bolder">{{ $t("Tutorial") }}</b> 🚀</b-navbar-item>
       </template>
       <template slot="end">
-        <client-only>
-          <b-navbar-dropdown tag="div" collapsible :label="getEmoji(localeIso())">
-            <b-navbar-item href="#" v-for="locale in availableLocales" :key="locale.code"
-              @click.prevent.stop="$i18n.setLocale(locale.code)">{{ getEmoji(locale.iso) }}</b-navbar-item>
-          </b-navbar-dropdown>
-          <b-navbar-item tag="div">
-            <div class="buttons bottomOffset">
-              <b-button data-cy="navbar-signin-button" class="bolder customButton" v-if="!isLogged"
-                @click="openSignInModal()" type="is-primary">{{ $t("LogIn") }}</b-button>
-              <b-button v-else class="bolder customButton" tag="nuxt-link" :to="pictalkHome" type="is-primary"
-                icon-right="home"></b-button>
+        <b-navbar-dropdown tag="div" collapsible :label="getEmoji(localeIso())">
+          <b-navbar-item href="#" v-for="locale in availableLocales" :key="locale.code"
+            @click.prevent.stop="$i18n.setLocale(locale.code)">{{ getEmoji(locale.iso) }}</b-navbar-item>
+        </b-navbar-dropdown>
+        <b-navbar-item tag="div">
+          <div class="buttons bottomOffset">
+            <b-button data-cy="navbar-signin-button" class="bolder customButton" v-if="!isLogged"
+              @click="openSignInModal()" type="is-primary">{{ $t("LogIn") }}</b-button>
+            <b-button v-else class="bolder customButton" tag="nuxt-link" :to="pictalkHome" type="is-primary"
+              icon-right="home"></b-button>
 
-              <b-button class="bolder customButton" v-if="!isLogged" @click="openSignUpModal()" type="is-success"
-                outlined>{{ $t("SignUp") }}</b-button>
-              <b-button v-else class="bolder customButton" type="is-light" icon-right="logout" @click="onLogout" />
-              <b-button class="bolder customButton" outlined v-if="!isLogged" tag="nuxt-link"
-                to="/public?fatherCollectionId=346" type="is-primary" icon-right="arrow-right-box">{{
-                  $t("TryPictalk") }}</b-button>
-            </div>
-          </b-navbar-item>
-        </client-only>
+            <b-button class="bolder customButton" v-if="!isLogged" @click="openSignUpModal()" type="is-success"
+              outlined>{{ $t("SignUp") }}</b-button>
+            <b-button v-else class="bolder customButton" type="is-light" icon-right="logout" @click="onLogout" />
+            <b-button class="bolder customButton" outlined v-if="!isLogged" tag="nuxt-link"
+              to="/public?fatherCollectionId=346" type="is-primary" icon-right="arrow-right-box">{{
+          $t("TryPictalk") }}</b-button>
+          </div>
+        </b-navbar-item>
       </template>
     </b-navbar>
   </div>

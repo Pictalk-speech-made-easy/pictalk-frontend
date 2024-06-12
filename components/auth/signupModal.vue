@@ -1,204 +1,198 @@
 <template>
-  <client-only>
-    <form action>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <b-button class="button" type="is-danger" icon-left="close" @click="$parent.close()" />
-          <p align="center" class="modal-card-title">{{ $t("SignUp") }}</p>
-        </header>
-        <section class="modal-card-body">
-          <div class="container">
-            <b-steps v-model="activeStep" rounded animated :has-navigation="false" mobile-mode="compact"
-              label-position="bottom">
-              <b-step-item clickable :label="$t('Account')" icon="account-key">
-                <div class="contenant">
-                  <b-image class="center" lazy :srcset="require('@/assets/credentials.png').srcSet"
-                    alt="drawing of a key openning a locked chest" style="width: 40%; aspect-ratio: 1/1"></b-image>
-                </div>
-                <b-field :label="$t('Email')">
-                  <b-input ref="email" type="email" maxlength="64" v-model="username"
-                    :placeholder="$t('PlaceHolderEmail')" required
-                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                    :validation-message="$t('ValidationMessageEmail')"></b-input>
-                </b-field>
-                <b-field :label="$t('Password')">
-                  <b-input ref="password" type="password" v-model="password" password-reveal
-                    :placeholder="$t('PlaceHolderPassword')" required minlength="8"
-                    pattern="((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-                    :validation-message="$t('ValidationMessagePassword')"></b-input>
-                </b-field>
-                <b-field :label="$t('ConfirmPassword')">
-                  <b-input type="password" password-reveal :placeholder="$t('PlaceHolderPassword')" required
-                    minlength="8" :pattern="password.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')"
-                    v-model="passwordConfirmation"
-                    :validation-message="$t('ValidationMessagePasswordConfirmation')"></b-input>
-                </b-field>
-                <div v-if="directSharerUrlEncoded" class="box">
-                  <h2 class="subtitle" align="center">{{ $t("SignupSupervisor") }}</h2>
-                  {{ $t('SignupSupervisorText') }}
-                  <div v-if="isArraydirectSharerUrlEncoded">
-                    <div v-for="directsharer in directSharerUrlEncoded">
-                      <b>{{ directsharer }}</b>
-                    </div>
-                  </div>
-                  <div v-else><b>{{ directSharerUrlEncoded }}</b></div>
-                  <b-button class="is-danger" icon-left="delete" @click="removeDirectSharer()">{{
-                    $t('SignupSupervisorRemove') }}</b-button>
-                </div>
-              </b-step-item>
-              <b-step-item clickable :label="$t('Language')" icon="translate">
-                <div class="contenant">
-                  <b-image class="center" lazy :srcset="require('@/assets/signup_languages.png').srcSet"
-                    alt="A boy and a girl speaking different languages" style="width: 40%; aspect-ratio: 1/1"></b-image>
-                </div>
-                <b-field class="column" :label="$t('PrincipalVoice')">
-                  <b-select v-if="loadedVoices && loadedVoices.length > 1" v-model="voiceURI"
-                    :placeholder="$t('SelectVoice')" required expanded :loading="loadingVoices" size="is-small">
-                    <option v-for="voice in loadedVoices" :value="voice.voiceURI"
-                      :key="voice.voiceURI + voice.name + Math.random()">
-                      {{ getEmoji(voice.lang) }} {{ voice.name }}
-                    </option>
-                  </b-select>
-                  <div v-else>
-                    <div class="notification">
-                      <installVoice></installVoice>
-                    </div>
-                  </div>
-                </b-field>
-                <b-button @click="showLanguages = !showLanguages" type="is-ghost">{{
-                  $t('SpeakMoreLanguage') }}</b-button>
-                <b-field v-if="showLanguages" class="column" :label="$t('Voices')">
-                  <b-select v-model="voiceURIs" :placeholder="$t('SelectVoice')" required multiple expanded
-                    native-size="6" size="is-small" :loading="loadingVoices">
-                    <option v-for="voice in loadedVoices" :value="voice.voiceURI"
-                      :key="voice.voiceURI + voice.name + Math.random()">
-                      {{ getEmoji(voice.lang) }} {{ voice.name }}
-                    </option>
-                  </b-select>
-                </b-field>
-              </b-step-item>
-              <b-step-item clickable :label="$t('StarterPack')" icon="web">
-                <div class="contenant columns is-mobile"
-                  style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
-                  <div v-for="bundle in publicBundles" class="column is-4" style="padding: 2px">
-                    <div @click="selectPublicBundle(bundle.id)">
-                      <b-image class="has-background"
-                        :style="bundle.id == selectedBundle ? 'opacity:100%;' : 'opacity:60%; filter: grayscale(60%);'"
-                        :src="bundle.image"></b-image>
-                    </div>
+  <form action>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <b-button class="button" type="is-danger" icon-left="close" @click="$parent.close()" />
+        <p align="center" class="modal-card-title">{{ $t("SignUp") }}</p>
+      </header>
+      <section class="modal-card-body">
+        <div class="container">
+          <b-steps v-model="activeStep" rounded animated :has-navigation="false" mobile-mode="compact"
+            label-position="bottom">
+            <b-step-item clickable :label="$t('Account')" icon="account-key">
+              <div class="contenant">
+                <b-image class="center" lazy :srcset="require('@/assets/credentials.png').srcSet"
+                  alt="drawing of a key openning a locked chest" style="width: 40%; aspect-ratio: 1/1"></b-image>
+              </div>
+              <b-field :label="$t('Email')">
+                <b-input ref="email" type="email" maxlength="64" v-model="username"
+                  :placeholder="$t('PlaceHolderEmail')" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                  :validation-message="$t('ValidationMessageEmail')"></b-input>
+              </b-field>
+              <b-field :label="$t('Password')">
+                <b-input ref="password" type="password" v-model="password" password-reveal
+                  :placeholder="$t('PlaceHolderPassword')" required minlength="8"
+                  pattern="((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                  :validation-message="$t('ValidationMessagePassword')"></b-input>
+              </b-field>
+              <b-field :label="$t('ConfirmPassword')">
+                <b-input type="password" password-reveal :placeholder="$t('PlaceHolderPassword')" required minlength="8"
+                  :pattern="password.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')" v-model="passwordConfirmation"
+                  :validation-message="$t('ValidationMessagePasswordConfirmation')"></b-input>
+              </b-field>
+              <div v-if="directSharerUrlEncoded" class="box">
+                <h2 class="subtitle" align="center">{{ $t("SignupSupervisor") }}</h2>
+                {{ $t('SignupSupervisorText') }}
+                <div v-if="isArraydirectSharerUrlEncoded">
+                  <div v-for="directsharer in directSharerUrlEncoded">
+                    <b>{{ directsharer }}</b>
                   </div>
                 </div>
-                <div v-if="!selectedBundle" class="notification">
-                  {{ $t('PublicBundleDescription') }}
-                </div>
-                <div class="notification" v-else>
-                  <div v-if="getBundleLevelById(selectedBundle) == 'levelA'">
-                    {{ $t('PublicBundleLevelADescription') }}
+                <div v-else><b>{{ directSharerUrlEncoded }}</b></div>
+                <b-button class="is-danger" icon-left="delete" @click="removeDirectSharer()">{{
+          $t('SignupSupervisorRemove') }}</b-button>
+              </div>
+            </b-step-item>
+            <b-step-item clickable :label="$t('Language')" icon="translate">
+              <div class="contenant">
+                <b-image class="center" lazy :srcset="require('@/assets/signup_languages.png').srcSet"
+                  alt="A boy and a girl speaking different languages" style="width: 40%; aspect-ratio: 1/1"></b-image>
+              </div>
+              <b-field class="column" :label="$t('PrincipalVoice')">
+                <b-select v-if="loadedVoices && loadedVoices.length > 1" v-model="voiceURI"
+                  :placeholder="$t('SelectVoice')" required expanded :loading="loadingVoices" size="is-small">
+                  <option v-for="voice in loadedVoices" :value="voice.voiceURI"
+                    :key="voice.voiceURI + voice.name + Math.random()">
+                    {{ getEmoji(voice.lang) }} {{ voice.name }}
+                  </option>
+                </b-select>
+                <div v-else>
+                  <div class="notification">
+                    <installVoice></installVoice>
                   </div>
-                  <div v-if="getBundleLevelById(selectedBundle) == 'levelB'">
-                    {{ $t('PublicBundleLevelBDescription') }}
+                </div>
+              </b-field>
+              <b-button @click="showLanguages = !showLanguages" type="is-ghost">{{
+          $t('SpeakMoreLanguage') }}</b-button>
+              <b-field v-if="showLanguages" class="column" :label="$t('Voices')">
+                <b-select v-model="voiceURIs" :placeholder="$t('SelectVoice')" required multiple expanded
+                  native-size="6" size="is-small" :loading="loadingVoices">
+                  <option v-for="voice in loadedVoices" :value="voice.voiceURI"
+                    :key="voice.voiceURI + voice.name + Math.random()">
+                    {{ getEmoji(voice.lang) }} {{ voice.name }}
+                  </option>
+                </b-select>
+              </b-field>
+            </b-step-item>
+            <b-step-item clickable :label="$t('StarterPack')" icon="web">
+              <div class="contenant columns is-mobile"
+                style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
+                <div v-for="bundle in publicBundles" class="column is-4" style="padding: 2px">
+                  <div @click="selectPublicBundle(bundle.id)">
+                    <b-image class="has-background"
+                      :style="bundle.id == selectedBundle ? 'opacity:100%;' : 'opacity:60%; filter: grayscale(60%);'"
+                      :src="bundle.image"></b-image>
                   </div>
-                  <div v-if="getBundleLevelById(selectedBundle) == 'levelC'">
-                    {{ $t('PublicBundleLevelCDescription') }}
-                  </div>
                 </div>
-              </b-step-item>
-              <b-step-item clickable :label="$t('TermsAndConditions')" icon="chart-box">
-                <div class="contenant">
-                  <b-image class="center" lazy :srcset="require('@/assets/terms_conditions.png').srcSet"
-                    alt="A paper and a pencil representing the terms and conditions"
-                    style="width: 40%; aspect-ratio: 1/1"></b-image>
+              </div>
+              <div v-if="!selectedBundle" class="notification">
+                {{ $t('PublicBundleDescription') }}
+              </div>
+              <div class="notification" v-else>
+                <div v-if="getBundleLevelById(selectedBundle) == 'levelA'">
+                  {{ $t('PublicBundleLevelADescription') }}
                 </div>
-                <support></support>
-                <b-notification :closable="false">
-                  <p class="is-size-6">{{ $t('UseOfData1') }}</p>
-                  <p class="is-size-6">{{ $t('UseOfData2') }}</p>
-                  <p class="is-size-6">{{ $t('UseOfData3') }}</p>
-                  <p class="is-size-6">{{ $t('UseOfData4') }}</p>
-                </b-notification>
-                <div style="display: flex; flex-dirrection : column; margin-bottom: 1em;">
-                  <b-checkbox-button v-model="majority" :native-value="true" type="is-success">
-                    <b-icon v-if="majority" icon="check"
-                      style="margin-left: auto; margin-right: auto; border: solid; border-width: 1px; border-color: #4c43293f"></b-icon>
-                  </b-checkbox-button>
-                  <p>
-                    {{ $t("Majority") }}
-                  </p>
+                <div v-if="getBundleLevelById(selectedBundle) == 'levelB'">
+                  {{ $t('PublicBundleLevelBDescription') }}
                 </div>
-                <div style="display: flex; flex-dirrection : column">
-                  <b-checkbox-button v-model="terms" :native-value="true" type="is-success">
-                    <b-icon v-if="terms" icon="check"
-                      style="margin-left: auto; margin-right: auto; border: solid; border-width: 1px; border-color: #4c43293f"></b-icon>
-                  </b-checkbox-button>
-                  <p>
-                    {{ $t("IHaveRead") }}
-                    <nuxt-link to="/legal-infos/terms-of-use/">{{
-                      $t("TermsOfUse")
-                    }} </nuxt-link>
-                    {{ $t("And") }}
-                    <nuxt-link to="/legal-infos/privacy-policy/">{{
-                      $t("PrivacyPolicy")
-                    }}</nuxt-link>.
-                  </p>
+                <div v-if="getBundleLevelById(selectedBundle) == 'levelC'">
+                  {{ $t('PublicBundleLevelCDescription') }}
                 </div>
-              </b-step-item>
-              <b-step-item :clickable="!notSignedUp" :label="$t('VerifyAccount')" icon="chart-box">
-                <div class="contenant">
-                  <b-image class="center" lazy :srcset="require('@/static/20_Pictalk_Mail.gif')"
-                    alt="A letter with a message from Pictalk inside of it"
-                    style="width: 55%; aspect-ratio: 1/1"></b-image>
-                </div>
-                <b-field>
-                  <b-input :placeholder="$t('VerifyAccountVerificationCode')" v-model="verificationToken" expanded
-                    size="is-medium" required :loading="verificationLoading" maxlength="40" icon-right="key"></b-input>
-                </b-field>
-                <p class="is-size-5 notification" align="justify">
-                  {{ $t('VerifyAccountText') }}
+              </div>
+            </b-step-item>
+            <b-step-item clickable :label="$t('TermsAndConditions')" icon="chart-box">
+              <div class="contenant">
+                <b-image class="center" lazy :srcset="require('@/assets/terms_conditions.png').srcSet"
+                  alt="A paper and a pencil representing the terms and conditions"
+                  style="width: 40%; aspect-ratio: 1/1"></b-image>
+              </div>
+              <support></support>
+              <b-notification :closable="false">
+                <p class="is-size-6">{{ $t('UseOfData1') }}</p>
+                <p class="is-size-6">{{ $t('UseOfData2') }}</p>
+                <p class="is-size-6">{{ $t('UseOfData3') }}</p>
+                <p class="is-size-6">{{ $t('UseOfData4') }}</p>
+              </b-notification>
+              <div style="display: flex; flex-dirrection : column; margin-bottom: 1em;">
+                <b-checkbox-button v-model="majority" :native-value="true" type="is-success">
+                  <b-icon v-if="majority" icon="check"
+                    style="margin-left: auto; margin-right: auto; border: solid; border-width: 1px; border-color: #4c43293f"></b-icon>
+                </b-checkbox-button>
+                <p>
+                  {{ $t("Majority") }}
                 </p>
-
-                <b-button type="is-text" :loading="mailLoading" @click="sendAnotherMail()">{{ $t("VerificationMoreMail")
-                  }}</b-button>
-              </b-step-item>
-            </b-steps>
-          </div>
-
-          <br />
-
-        </section>
-        <footer class="modal-card-foot">
-          <div class="container">
-            <div class="columns is-mobile is-full">
-              <div class="column is-one-quarter">
-                <b-button @click="previousStep()" :disabled="activeStep == 0" class="button center"
-                  icon-right="chevron-left" />
               </div>
-              <div class="column is-half">
-                <b-button v-if="notSignedUp" id="signupmodal-signup" class="is-primary fullWidth"
-                  :loading="signupLoading"
-                  :disabled="!(username && password && majority && terms && passwordConfirmation && notSignedUp)"
-                  @click="
-                    onSubmit(
-                      username,
-                      password,
-                      majority,
-                      terms,
-                      passwordConfirmation
-                    )
-                    ">{{ $t("SignUp") }}</b-button><b-button v-else id="signupmodal-verify"
-                  class="is-success fullWidth" :disabled="(notSignedUp) || (verificationToken.length != 40)" @click="
-                    onVerify()
-                    ">{{ $t("VerifyAccountOK") }}</b-button>
+              <div style="display: flex; flex-dirrection : column">
+                <b-checkbox-button v-model="terms" :native-value="true" type="is-success">
+                  <b-icon v-if="terms" icon="check"
+                    style="margin-left: auto; margin-right: auto; border: solid; border-width: 1px; border-color: #4c43293f"></b-icon>
+                </b-checkbox-button>
+                <p>
+                  {{ $t("IHaveRead") }}
+                  <nuxt-link to="/legal-infos/terms-of-use/">{{
+          $t("TermsOfUse")
+        }} </nuxt-link>
+                  {{ $t("And") }}
+                  <nuxt-link to="/legal-infos/privacy-policy/">{{
+          $t("PrivacyPolicy")
+        }}</nuxt-link>.
+                </p>
               </div>
-              <div class="column is-one-quarter">
-                <b-button :class="isFormValid ? 'center glow' : 'center'"
-                  :disabled="activeStep == maxStep || !isFormValid" @click="nextStep()" icon-right="chevron-right" />
+            </b-step-item>
+            <b-step-item :clickable="!notSignedUp" :label="$t('VerifyAccount')" icon="chart-box">
+              <div class="contenant">
+                <b-image class="center" lazy :srcset="require('@/static/20_Pictalk_Mail.gif')"
+                  alt="A letter with a message from Pictalk inside of it"
+                  style="width: 55%; aspect-ratio: 1/1"></b-image>
               </div>
+              <b-field>
+                <b-input :placeholder="$t('VerifyAccountVerificationCode')" v-model="verificationToken" expanded
+                  size="is-medium" required :loading="verificationLoading" maxlength="40" icon-right="key"></b-input>
+              </b-field>
+              <p class="is-size-5 notification" align="justify">
+                {{ $t('VerifyAccountText') }}
+              </p>
+
+              <b-button type="is-text" :loading="mailLoading" @click="sendAnotherMail()">{{ $t("VerificationMoreMail")
+                }}</b-button>
+            </b-step-item>
+          </b-steps>
+        </div>
+
+        <br />
+
+      </section>
+      <footer class="modal-card-foot">
+        <div class="container">
+          <div class="columns is-mobile is-full">
+            <div class="column is-one-quarter">
+              <b-button @click="previousStep()" :disabled="activeStep == 0" class="button center"
+                icon-right="chevron-left" />
+            </div>
+            <div class="column is-half">
+              <b-button v-if="notSignedUp" id="signupmodal-signup" class="is-primary fullWidth" :loading="signupLoading"
+                :disabled="!(username && password && majority && terms && passwordConfirmation && notSignedUp)" @click="
+          onSubmit(
+            username,
+            password,
+            majority,
+            terms,
+            passwordConfirmation
+          )
+          ">{{ $t("SignUp") }}</b-button><b-button v-else id="signupmodal-verify" class="is-success fullWidth"
+                :disabled="(notSignedUp) || (verificationToken.length != 40)" @click="
+          onVerify()
+          ">{{ $t("VerifyAccountOK") }}</b-button>
+            </div>
+            <div class="column is-one-quarter">
+              <b-button :class="isFormValid ? 'center glow' : 'center'"
+                :disabled="activeStep == maxStep || !isFormValid" @click="nextStep()" icon-right="chevron-right" />
             </div>
           </div>
-        </footer>
-      </div>
-    </form>
-  </client-only>
+        </div>
+      </footer>
+    </div>
+  </form>
 </template>
 
 <script>
