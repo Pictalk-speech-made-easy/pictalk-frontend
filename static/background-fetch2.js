@@ -55,7 +55,7 @@ async function checkAuthenticated(self) {
     fetchFromList();
     setTimeout(function () {
       checkAuthenticated(self);
-    }, 60000);
+    }, 180000);
   } else {
     console.log("Not authenticated")
     authenticated = false;

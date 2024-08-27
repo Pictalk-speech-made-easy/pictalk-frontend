@@ -86,16 +86,16 @@
                       <div class="media-content noPadding centered">
                         <p class="title is-6 notifTitle">
                           <a :href="'mailto:' + notification.username" class="subtitle is-6 mailto">{{
-        notification.username
-          .split("@")[0]
-          .replace(".", " ")
-      }}</a>
+                            notification.username
+                              .split("@")[0]
+                            .replace(".", " ")
+                            }}</a>
                           {{ notificationText(notification) }}
                         </p>
                         <figure class="image is-64x64">
                           <img @click="
-        notificationGoToCollectionOrReturn(notification)
-        " :src="notification.image" alt="Placeholder image" />
+                            notificationGoToCollectionOrReturn(notification)
+                            " :src="notification.image" alt="Placeholder image" />
                         </figure>
                         <p class="title is-6 notifTitle greyback">
                           <!--<b-icon
@@ -211,7 +211,7 @@ export default {
           return [];
         }
       }
-    }, 60000);
+    }, 180000);
 
   },
   async fetch() {
