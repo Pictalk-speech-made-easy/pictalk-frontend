@@ -8,8 +8,8 @@
         {{ $t('DescriptionSEO') }}
       </h2>
     </div>
-    <div class="container is-max-widescreen" style="padding-top: 4rem; padding-bottom: 4rem; max-width: 768px;">
-      <a :href="`https://www.pictalk.org/${getUserLang}`">
+    <div class="container is-max-widescreen" style="padding-top: 2rem; padding-bottom: 2rem; max-width: 768px;">
+      <a style="color: #363636;" :href="`https://www.pictalk.org/${getUserLang}`">
         <h2 style="font-size: 3.5rem; line-height: 0.95; font-weight: 500; padding: 0.5rem; margin-bottom: 1rem;">{{
           $t('PictalkAAC') }}
         </h2>
@@ -46,9 +46,9 @@
               <img class="slightly-rounded" loading="lazy" :srcset="require('@/assets/agenda_pictalk.png').srcSet"
                 alt="screenshots of the Pictalk application running on different devices" /></a>
           </div>
-          <section class="centeredBottomText">
+          <section style="max-width: 80%;" class="centeredBottomText">
             <div class="has-text-centered">
-              <div class="title is-3 isPictalkColor">{{ $t('AgendaCAA') }}</div>
+              <div class="title is-1 isPictalkColor">{{ $t('AgendaCAA') }}</div>
             </div>
           </section>
         </b-carousel-item>
@@ -68,28 +68,28 @@
         </div>
         <div class="column">
           <b-button class="is-large is-fullwidth">
-            <div class="columns is-vcentered" v-show="true">
-              <p class="column">
-                {{ $t('DownloadApp') }}
-              </p>
-              <div class="column">
-                <a href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
+            <a v-if="isAndroidDevice" href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
+              <div class="columns is-vcentered is-mobile">
+                <p class="column">
+                  {{ $t('DownloadApp') }}
+                </p>
+                <div class="column is-one-quarter" style="align-items: center;">
                   <b-image class="center" lazy :srcset="require('@/assets/PlayStoreLogo.png').srcSet"
-                    alt="Logo of the Play store" style="width: 40%; max-width: 220px; aspect-ratio: 1/1"></b-image>
-                </a>
+                    alt="Logo of the Apple store" style="aspect-ratio: 1/1; max-height: 2rem;"></b-image>
+                </div>
               </div>
-            </div>
-            <div class="columns is-vcentered" v-if="false">
-              <p class="column">
-                {{ $t('DownloadApp') }}
-              </p>
-              <div v-show="isAppleDevice" class="column">
-                <a href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
+            </a>
+            <a v-if="isAppleDevice" href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
+              <div class="columns is-vcentered is-mobile">
+                <p class="column">
+                  {{ $t('DownloadApp') }}
+                </p>
+                <div class="column is-one-quarter" style="align-items: center;">
                   <b-image class="center" lazy :srcset="require('@/assets/AppleStoreLogo.png').srcSet"
-                    alt="Logo of the Apple store" style="width: 30%; max-width: 200px; aspect-ratio: 1/1"></b-image>
-                </a>
+                    alt="Logo of the Apple store" style="aspect-ratio: 1/1; max-height: 2rem;"></b-image>
+                </div>
               </div>
-            </div>
+            </a>
           </b-button>
         </div>
 
@@ -297,13 +297,6 @@ export default {
   }
 }
 
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-
 .containing {
   position: relative;
   text-align: center;
@@ -311,21 +304,21 @@ export default {
 
 .centeredBottomText {
   position: absolute;
-  top: 90%;
+  bottom: 0%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .centeredBottomLeftText {
   position: absolute;
-  top: 90%;
+  bottom: 0%;
   left: 15%;
   transform: translate(-50%, -50%);
 }
 
 .centeredBottomRightText {
   position: absolute;
-  top: 90%;
+  bottom: 0%;
   left: 85%;
   transform: translate(-50%, -50%);
 }
@@ -339,7 +332,7 @@ export default {
 
 .isPictalkColor {
   color: #ff5757;
-  font-size: 2em;
+  font-size: 1.5em;
   background-color: #f5f5f5;
   border-radius: 6px;
   padding: 0.15em;
