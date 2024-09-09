@@ -8,52 +8,19 @@
         {{ $t('DescriptionSEO') }}
       </h2>
     </div>
-    <div class="container is-max-widescreen" style="padding-top: 4rem; padding-bottom: 8rem; max-width: 768px;">
-      <h2 style="font-size: 2.75rem; line-height: 0.95; font-weight: 500; padding: 0.5rem; margin-bottom: 1rem;">{{
-          $t('pictalkMoving') }} <a :href="`https://www.pictalk.org/${getUserLang}`">{{
-          $t('pictalkMovingLink') }}</a></h2>
-      <h3 style="font-size: 1.75rem; line-height: 1.05; font-weight: 500; padding: 0.5rem;">{{
-          $t('pictalkMovingDisclamer') }}</h3>
-      <img class="slightly-rounded" style="padding: 1rem;" :srcset="require('@/assets/moving2.webp').srcSet"
-        alt="Pictalk is moving to a new website" />
-
-      <h3 style="font-size: 1.75rem; line-height: 0.95; font-weight: 500; padding: 0.5rem;">{{ $t('pictalkMovingWhy') }}
-      </h3>
-      <p class="notification"
-        style="font-size: 1.25rem; line-height: 1.15; font-weight: 400; padding: 1rem; margin: 1rem;">{{
-          $t('pictalkMovingWhyText') }}</p>
-      <div style="width: 100%; display: flex;">
-        <b-button type="is-primary" style="font-size: 1.25rem; margin: 0 auto;"><a
-            style="height: 100%; width: 100%; color: white;" :href="`https://www.pictalk.org/${getUserLang}`">{{
-          $t('pictalkMovingCTA')
-        }}</a></b-button>
-      </div>
-
+    <div class="container is-max-widescreen" style="padding-top: 4rem; padding-bottom: 4rem; max-width: 768px;">
+      <a :href="`https://www.pictalk.org/${getUserLang}`">
+        <h2 style="font-size: 3.5rem; line-height: 0.95; font-weight: 500; padding: 0.5rem; margin-bottom: 1rem;">{{
+          $t('PictalkAAC') }}
+        </h2>
+      </a>
     </div>
-    <div class="container is-max-widescreen" style="padding-top: 4rem; max-width: 768px;">
-      <div class="slightly-rounded placeholder" :style="`aspect-ratio: 16/9; background-image: url(${require('@/assets/Usages2.png').placeholder
-          })`">
-        <img class="slightly-rounded" loading="lazy" :srcset="require('@/assets/Usages2.png').srcSet"
-          alt="screenshots of the Pictalk application running on different devices" />
-        <section class="centeredBottomLeftText">
-          <div class="has-text-centered">
-            <div class="title is-3 isPictalkColor">{{ $t('CreateDemo') }}</div>
-          </div>
-        </section>
-        <section class="centeredBottomText">
-          <div class="has-text-centered">
-            <div class="title is-3 isPictalkColor">{{ $t('TalkDemo') }}</div>
-          </div>
-        </section>
-        <section class="centeredBottomRightText">
-          <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{ $t('CommunicateDemo') }}</div>
-        </section>
-      </div>
-      <!-- <b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top"
+    <div class="container is-max-widescreen" style="max-width: 768px; padding-bottom: 4rem;">
+      <b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top"
         :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay">
         <b-carousel-item class="containing">
           <div class="slightly-rounded placeholder" :style="`aspect-ratio: 16/9; background-image: url(${require('@/assets/Usages2.png').placeholder
-          })`">
+            })`">
             <img class="slightly-rounded" loading="lazy" :srcset="require('@/assets/Usages2.png').srcSet"
               alt="screenshots of the Pictalk application running on different devices" />
           </div>
@@ -71,82 +38,66 @@
             <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{ $t('CommunicateDemo') }}</div>
           </section>
         </b-carousel-item>
+
+        <b-carousel-item class="containing">
+          <div class="slightly-rounded placeholder" :style="`aspect-ratio: 16/9; background-image: url(${require('@/assets/agenda_pictalk.png').placeholder
+            })`">
+            <a :href="`https://www.pictalk.org/${getUserLang}/agenda`">
+              <img class="slightly-rounded" loading="lazy" :srcset="require('@/assets/agenda_pictalk.png').srcSet"
+                alt="screenshots of the Pictalk application running on different devices" /></a>
+          </div>
+          <section class="centeredBottomText">
+            <div class="has-text-centered">
+              <div class="title is-3 isPictalkColor">{{ $t('AgendaCAA') }}</div>
+            </div>
+          </section>
+        </b-carousel-item>
         <b-carousel-item v-show="this.getUserLang == 'fr'" class="containing">
           <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 99.1%;"
             alt="video of Alex talking about pictalk" :src="require('@/static/pictalk.mp4')" controls muted
             :poster="require('@/assets/pictalk-video-poster.webp')" class="slightly-rounded"></video>
         </b-carousel-item>
-        <b-carousel-item class="containing">
-          <b-image style="aspect-ratio: 16/9;" alt="A device running Pictalk sharing pictograms with another device"
-            :srcset="require('@/assets/Share.png').srcSet" :placeholder="require('@/assets/Share.png').placeholder"
-            :lazy="true" custom-class="slightly-rounded"></b-image>
-          <section class="centeredBottomLeftTextAndBitRight">
-            <div class="has-text-centered">
-              <div class="title is-2 isPictalkColor">{{ $t('ShareDemo') }}</div>
-            </div>
-          </section>
-        </b-carousel-item>
-      </b-carousel> -->
+      </b-carousel>
     </div>
-    <!-- <section class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns is-mobile is-multiline bg-icons bg-dotted">
-            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon" style="color: #7aa0ff"><b-icon icon="image" size="is-large" /></div>
-              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature21') }}</h2>
-            </div>
-            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon" style="color: #9884f0">
-                <b-icon icon="account-voice" size="is-large"></b-icon>
-              </div>
-              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature22') }}</h2>
-
-            </div>
-            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon" style="color: #db488f">
-                <b-icon icon="account-group" size="is-large"></b-icon>
-              </div>
-              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature23') }}</h2>
-            </div>
-
-            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon" style="color: #ff7b29">
-                <b-icon icon="cloud-refresh" size="is-large"></b-icon>
-              </div>
-              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature24') }}</h2>
-            </div>
-            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon" style="color: #ffbb29">
-                <b-icon icon="tablet-cellphone" size="is-large"></b-icon>
-              </div>
-              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature25') }}</h2>
-            </div>
-            <div class="column is-one-third-mobile is-one-third-tablet is-2-desktop">
-              <div class="centerIcon" style="color: #88d143">
-                <b-icon icon="currency-usd-off" size="is-large"></b-icon>
-              </div>
-              <h2 class="subtitle is-6 feature-text">{{ $t('HomeFeature26') }}</h2>
-            </div>
-          </div> -->
-    <!-- <div class="subtitle usage-text">{{ $t('TheyUsePictalk') }} 😎</div>
-          <div class="tile is-ancestor">
-            <div class="tile is-parent">
-              <div class="tile is-child">
-                <b-image class="subcard-img center" alt="Logo of ADAPEI 69"
-                  :srcset="require('@/assets/ADAPEI.png').srcSet"
-                  :placeholder="require('@/assets/ADAPEI.png').placeholder" :lazy="true"></b-image>
-
-              </div>
-            </div>
-          </div> 
+    <div style="max-width: 768px;" class="container is-max-widescreen">
+      <div class="columns is-vcentered">
+        <div class="column">
+          <b-button @click="openSignUpModal" class="is-primary is-large is-fullwidth">
+            {{ $t('SignUp') }}
+          </b-button>
         </div>
-      </div>
-    </section>-->
-    <section class="hero">
-      <div class="hero-body">
-        <div class="container" style="padding-top: 4rem; margin-bottom: 8rem; max-width: 768px;">
+        <div class="column">
+          <b-button class="is-large is-fullwidth">
+            <div class="columns is-vcentered" v-show="true">
+              <p class="column">
+                {{ $t('DownloadApp') }}
+              </p>
+              <div class="column">
+                <a href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
+                  <b-image class="center" lazy :srcset="require('@/assets/PlayStoreLogo.png').srcSet"
+                    alt="Logo of the Play store" style="width: 40%; max-width: 220px; aspect-ratio: 1/1"></b-image>
+                </a>
+              </div>
+            </div>
+            <div class="columns is-vcentered" v-if="false">
+              <p class="column">
+                {{ $t('DownloadApp') }}
+              </p>
+              <div v-show="isAppleDevice" class="column">
+                <a href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
+                  <b-image class="center" lazy :srcset="require('@/assets/AppleStoreLogo.png').srcSet"
+                    alt="Logo of the Apple store" style="width: 30%; max-width: 200px; aspect-ratio: 1/1"></b-image>
+                </a>
+              </div>
+            </div>
+          </b-button>
+        </div>
 
+      </div>
+    </div>
+    <section>
+      <div style="max-width: 768px;" class="container">
+        <div class=" columns is-centered" style="padding-top: 4rem; margin-bottom: 8rem;">
           <div class="column">
             <div class="is-size-5 notification" align="justify">
               <b-image style="aspect-ratio: 16/9" lazy
@@ -163,52 +114,10 @@
               {{ $t('Communicate_Messages') }}
             </div>
           </div>
-
         </div>
       </div>
     </section>
-    <div v-show="isAndroidDevice" class="container">
-      <a href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
-        <b-image class="center" lazy :srcset="require('@/assets/PlayStoreLogo.png').srcSet" alt="Logo of the Play store"
-          style="width: 40%; max-width: 220px; aspect-ratio: 1/1"></b-image>
-      </a>
-    </div>
-    <div v-show="isAppleDevice" class="container">
-      <a href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
-        <b-image class="center" lazy :srcset="require('@/assets/AppleStoreLogo.png').srcSet"
-          alt="Logo of the Apple store" style="width: 30%; max-width: 200px; aspect-ratio: 1/1"></b-image>
-      </a>
-    </div>
-    <!-- <section class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <h2 class="title">{{ $t('HomeTitle1') }}</h2>
-          <p class="is-size-5 notification spacing" align="justify">
-            {{ $t('HomeText1') }}
-          </p>
-          <h2 class="title">{{ $t('HomeTitle2') }}</h2>
-          <p class="is-size-5 notification spacing" align="justify">
-            {{ $t('HomeText2') }}
-          </p>
-          <h2 class="title">{{ $t('HomeTitle3') }}</h2>
-          <p class="is-size-5 notification" align="justify">
-            {{ $t('HomeText3') }}
-          </p>
-        </div>
-      </div>
-    </section> -->
-    <!-- <section class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <h2 class="title">{{ $t('OpenSourceAndFree') }}</h2>
-          <p class="is-size-5 notification" align="justify">
-            {{ $t('OpenSourceAndFreeText1') }}
-            <a href="https://github.com/Pictalk-speech-made-easy">Github</a>
-            {{ $t('OpenSourceAndFreeText2') }}
-          </p>
-        </div>
-      </div>
-    </section> -->
+
   </div>
 </template>
 <script>

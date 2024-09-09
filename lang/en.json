@@ -428,5 +428,9 @@
   "pictalkMovingDisclamer": "No panic, the application stays online and you'll soon have a new home page",
   "pictalkMovingWhy": "Why this change ?",
   "pictalkMovingWhyText": "We are expanding our suite of applications and we want to have a new site to bring them all together. On this new site, you will be able to find our various blog articles, tutorials, updates on the applications and everything related to the project! Moreover, you can now use our new time organization application: Agenda CAA. ",
-  "pictalkMovingCTA": "Discover the new website"
+  "pictalkMovingCTA": "Discover the new website",
+  "AgendaCAA": "The app for autonomy and much more",
+  "PictalkAAC": "The universal app for communication",
+  "pictalkMovingLink2": "Click here for more details",
+  "DownloadApp": "Download the app"
 }
