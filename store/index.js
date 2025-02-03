@@ -504,6 +504,66 @@ export const actions = {
       ...(collection.pictohubId && { pictohubId: Number(collection.pictohubId) }),
     });
   },
+  async editCollectionV2(vuexContext, { collection, collectionsAdded, pictosAdded, collectionsRemoved, pictosRemoved }) {
+    let formData = new FormData();
+    if (collection.speech) {
+      formData.append("speech", JSON.stringify(collection.speech));
+    }
+
+    if (collection.pictohubId) {
+      formData.append("pictohubId", collection.pictohubId);
+    }
+
+    if (collection.meaning) {
+      formData.append("meaning", JSON.stringify(collection.meaning));
+    }
+    if (collection.color) {
+      formData.append("color", collection.color);
+    }
+    if (collectionsAdded) {
+      collectionsAdded.map((id, index) => formData.append('collectionsAdded[' + index + ']', id));
+    }
+    if (pictosAdded) {
+      pictosAdded.map((id, index) => formData.append('pictosAdded[' + index + ']', id));
+    }
+    if (collectionsRemoved) {
+      collectionsRemoved.map((id, index) => formData.append('collectionsRemoved[' + index + ']', id));
+    }
+    if (pictosRemoved) {
+      pictosRemoved.map((id, index) => formData.append('pictosRemoved[' + index + ']', id));
+    }
+    if (collection.share) {
+      formData.append("share", collection.share);
+    }
+    if (collection.priority) {
+      formData.append("priority", collection.priority);
+    }
+    if (collection.image) {
+      formData.append("image", collection.image);
+    }
+    console.log(formData)
+    const editedCollection = (await axios
+      .put("/collection/V2/" + collection.id, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })).data;
+    const nestedCollections = await Promise.all(editedCollection.collections.map((colle) => parseAndUpdateEntireCollection(vuexContext, colle)));
+    const nestedPictos = await Promise.all(editedCollection.pictos.map((pict) => parseAndUpdatePictogram(vuexContext, pict)));
+    await vuexContext.dispatch("dbEditCollection", {
+      ...editedCollection,
+      ...(editedCollection.meaning && { meaning: editedCollection.meaning }),
+      ...(editedCollection.speech && { speech: editedCollection.speech }),
+      ...(editedCollection.priority && { priority: JSON.parse(editedCollection.priority) }),
+      image: axios.defaults.baseURL + "/image/pictalk/" + editedCollection.image,
+      createdDate: editedCollection.createdDate,
+      updatedDate: editedCollection.updatedDate,
+      collections: nestedCollections,
+      pictos: nestedPictos,
+      collection: true,
+      ...(collection.pictohubId && { pictohubId: Number(collection.pictohubId) }),
+    });
+  },
   async removeCollection(vuexContext, { collectionId, fatherCollectionId }) {
     const res = await axios.delete("/collection/", { params: { collectionId: collectionId, fatherId: fatherCollectionId } });
     const parentCollection = await vuexContext.dispatch("getCollectionFromId", fatherCollectionId);

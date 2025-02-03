@@ -88,8 +88,8 @@
                           <a :href="'mailto:' + notification.username" class="subtitle is-6 mailto">{{
                             notification.username
                               .split("@")[0]
-                            .replace(".", " ")
-                            }}</a>
+                              .replace(".", " ")
+                          }}</a>
                           {{ notificationText(notification) }}
                         </p>
                         <figure class="image is-64x64">
@@ -519,19 +519,27 @@ export default {
               id: this.$store.getters.getShortcutCollectionId.collectionId,
             });
 
-            await this.$store.dispatch("editCollection", {
-              id: collection.id,
-              pictos: collection.pictos,
-            });
+            await this.$store.dispatch("editCollectionV2", {
+              collection: { id: collection.id },
+              collectionsAdded: [],
+              pictosAdded: [this.$store.getters.getShortcutCollectionId.collectionId],
+              collectionsRemoved: [],
+              pictosRemoved: []
+            },
+            );
             $nuxt.$emit("resyncPictoList");
           } else {
             collection.collections.push({
               id: this.$store.getters.getShortcutCollectionId.collectionId,
             });
-            await this.$store.dispatch("editCollection", {
-              id: collection.id,
-              collections: collection.collections,
-            });
+            await this.$store.dispatch("editCollectionV2",
+              {
+                collection: { id: collection.id },
+                collectionsAdded: [this.$store.getters.getShortcutCollectionId.collectionId],
+                pictosAdded: [],
+                collectionsRemoved: [],
+                pictosRemoved: []
+              });
             $nuxt.$emit("resyncPictoList");
           }
 

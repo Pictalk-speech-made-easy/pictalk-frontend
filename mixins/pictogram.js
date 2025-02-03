@@ -15,9 +15,12 @@ export default {
       if (isPicto) {
         collection.pictos.push(item);
         try {
-          await this.$store.dispatch("editCollection", {
-            id: collection.id,
-            pictos: collection.pictos,
+          await this.$store.dispatch("editCollectionV2", {
+            collection: { id: collection.id },
+            collectionsAdded: [],
+            pictosAdded: [item.id],
+            collectionsRemoved: [],
+            pictosRemoved: [],
           });
           const notif = this.$buefy.toast.open({
             message: this.$t("PublicCopy"),
@@ -32,10 +35,15 @@ export default {
       } else {
         collection.collections.push(item);
         try {
-          await this.$store.dispatch("editCollection", {
-            id: collection.id,
-            collections: collection.collections,
-          });
+          await this.$store.dispatch("editCollectionV2",
+            {
+              collection: { id: collection.id },
+              collectionsAdded: [item.id],
+              pictosAdded: [],
+              collectionsRemoved: [],
+              pictosRemoved: [],
+            },
+          );
           const notif = this.$buefy.toast.open({
             message: this.$t("PublicCopy"),
             type: "is-success",
@@ -117,36 +125,34 @@ export default {
         let sidebar = await this.getCollectionFromId(parseInt(sidebarId, 10));
 
         let currentCollection = await this.getCollectionFromId(parseInt(this.$route.query.fatherCollectionId, 10))
-        console.log(sidebar, currentCollection);
         if (isPicto) {
-          sidebar.pictos.push({
-            id: collectionId,
-          });
-          // Remove the picto from the current collection
-          currentCollection.pictos = currentCollection.pictos.filter((picto) => picto.id != collectionId);
-
-          await this.$store.dispatch("editCollection", {
-            id: sidebar.id,
-            pictos: sidebar.pictos,
-          });
-          await this.$store.dispatch("editCollection", {
-            id: currentCollection.id,
-            collections: currentCollection.pictos,
+          await this.$store.dispatch("editCollectionV2",
+            {
+              collection: { id: sidebar.id },
+              collectionsAdded: [],
+              pictosAdded: [collectionId],
+              collectionsRemoved: [],
+              pictosRemoved: [],
+            },
+          );
+          await this.$store.dispatch("removePicto", {
+            pictoId: collectionId,
+            fatherCollectionId: currentCollection.id
           });
         } else {
-          sidebar.collections.push({
-            id: collectionId,
-          });
           currentCollection.collections = currentCollection.collections.filter((picto) => picto.id != collectionId);
-          await this.$store.dispatch("editCollection", {
-            id: sidebar.id,
-            collections: sidebar.collections,
+          await this.$store.dispatch("editCollectionV2",
+            {
+              collection: { id: sidebar.id },
+              collectionsAdded: [collectionId],
+              pictosAdded: [],
+              collectionsRemoved: [],
+              pictosRemoved: [],
+            });
+          await this.$store.dispatch("removeCollection", {
+            collectionId: collectionId,
+            fatherCollectionId: currentCollection.id,
           });
-          await this.$store.dispatch("editCollection", {
-            id: currentCollection.id,
-            collections: currentCollection.collections,
-          });
-
         }
         $nuxt.$emit("resyncPictoList");
       } catch (error) {
@@ -184,26 +190,30 @@ export default {
           )
         );
         if (!isPicto) {
-          currentCollection.collections.push({
-            id: collectionId,
-          });
-          await this.$store.dispatch("editCollection", {
-            id: currentCollection.id,
-            collections: currentCollection.collections,
-          });
+          await this.$store.dispatch("editCollectionV2",
+            {
+              collection: { id: currentCollection.id },
+              collectionsAdded: [collectionId],
+              pictosAdded: [],
+              collectionsRemoved: [],
+              pictosRemoved: [],
+            }
+          );
           await this.$store.dispatch("removeCollection", {
             collectionId: collectionId,
             fatherCollectionId: this.$store.getters.getSidebarId,
           });
 
         } else {
-          currentCollection.pictos.push({
-            id: collectionId,
-          });
-          await this.$store.dispatch("editCollection", {
-            id: currentCollection.id,
-            pictos: currentCollection.pictos,
-          });
+          await this.$store.dispatch("editCollectionV2",
+            {
+              collection: { id: currentCollection.id },
+              collectionsAdded: [],
+              pictosAdded: [collectionId],
+              collectionsRemoved: [],
+              pictosRemoved: [],
+            }
+          );
           await this.$store.dispatch("removePicto", {
             pictoId: collectionId,
             fatherCollectionId: this.$store.getters.getSidebarId
