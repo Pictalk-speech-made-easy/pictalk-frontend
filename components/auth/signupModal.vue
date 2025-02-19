@@ -131,11 +131,11 @@
                   {{ $t("IHaveRead") }}
                   <nuxt-link to="/legal-infos/terms-of-use/">{{
                     $t("TermsOfUse")
-                    }} </nuxt-link>
+                  }} </nuxt-link>
                   {{ $t("And") }}
                   <nuxt-link to="/legal-infos/privacy-policy/">{{
                     $t("PrivacyPolicy")
-                    }}</nuxt-link>.
+                  }}</nuxt-link>.
                 </p>
               </div>
             </b-step-item>
@@ -154,7 +154,7 @@
               </p>
 
               <b-button type="is-text" :loading="mailLoading" @click="sendAnotherMail()">{{ $t("VerificationMoreMail")
-                }}</b-button>
+              }}</b-button>
             </b-step-item>
           </b-steps>
         </div>
@@ -434,9 +434,6 @@ export default {
           }),
         });
         if (res.status == 201) {
-          this.notSignedUp = false;
-          this.maxStep = 4;
-          this.activeStep = 4;
           const notif = this.$buefy.notification.open({
             duration: 4500,
             message: this.$t("AccountCreated"),
@@ -445,6 +442,25 @@ export default {
             hasIcon: true,
             iconSize: "is-small",
           });
+          if (this.username.includes('adapei') || this.username.includes('ladapt') || this.username.includes('apei') || this.username.includes('papillon')) {
+            this.$parent.close();
+            try {
+              await this.$store.dispatch("authenticateUser", {
+                username: this.username,
+                password: this.password,
+                isLogin: true,
+              });
+              await this.$store.dispatch("getUser");
+            } catch (error) {
+              console.log("error ", error);
+            }
+            this.$router.push({
+              path: "/tutorials/",
+            });
+          }
+          this.notSignedUp = false;
+          this.maxStep = 4;
+          this.activeStep = 4;
         }
         this.signupLoading = false;
       } catch (error) {
