@@ -131,11 +131,11 @@
                   {{ $t("IHaveRead") }}
                   <nuxt-link to="/legal-infos/terms-of-use/">{{
                     $t("TermsOfUse")
-                  }} </nuxt-link>
+                    }} </nuxt-link>
                   {{ $t("And") }}
                   <nuxt-link to="/legal-infos/privacy-policy/">{{
                     $t("PrivacyPolicy")
-                  }}</nuxt-link>.
+                    }}</nuxt-link>.
                 </p>
               </div>
             </b-step-item>
@@ -154,7 +154,7 @@
               </p>
 
               <b-button type="is-text" :loading="mailLoading" @click="sendAnotherMail()">{{ $t("VerificationMoreMail")
-              }}</b-button>
+                }}</b-button>
             </b-step-item>
           </b-steps>
         </div>
@@ -342,6 +342,18 @@ export default {
       )[0]?.level;
     },
     selectPublicBundle(id) {
+      if (id === 284083 && this.localeCode() !== 'fr' && this.localeCode() !== 'en' && this.localeCode() !== 'es') {
+        const notif = this.$buefy.notification.open({
+          duration: 4500,
+          message: this.$t("PublicBundleNotAvailable"),
+          position: "is-top-right",
+          type: "is-info",
+          hasIcon: true,
+          iconSize: "is-small",
+          icon: "account",
+        });
+        return;
+      }
       if (this.selectedBundle == id) {
         this.selectedBundle = null;
       } else {

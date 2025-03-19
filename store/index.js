@@ -956,9 +956,6 @@ export const getters = {
 };
 
 async function parseAndUpdateEntireCollection(vuexContext, collection, download = false) {
-  if (collection.id == 346) {
-    console.log(collection);
-  }
   let pictosToEdit = [];
   let pictosTocreate = [];
   let collectionsToEdit = [];
