@@ -695,10 +695,11 @@ export const actions = {
     return newUser;
   },
   async getOrphanedCollections(vuexContext) {
-    const orphanedCollections = (await axios.get("/collection/orphaned")).data;
-    return orphanedCollections.map(collection =>
+    const response = (await axios.get("/collection/orphaned")).data;
+    const orphanedCollections = Promise.all(response.map(collection =>
       parseAndUpdateEntireCollection(vuexContext, collection)
-    );
+    ));
+    return orphanedCollections;
   },
   async downloadCollections(vuexContext, alreadyFetchedCollections = null) {
     let res;
