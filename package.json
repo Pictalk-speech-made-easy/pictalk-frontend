@@ -1,6 +1,6 @@
 {
   "name": "Pictalk AAC",
-  "version": "2.9.5",
+  "version": "2.9.6",
   "description": "Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ",
   "author": "Alexandros SIDIRAS GALANTE",
   "private": true,
@@ -18,8 +18,9 @@
     "@nuxtjs/i18n": "^7.2.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/robots": "^2.5.0",
-    "@nuxtjs/sentry": "^5.1.7",
+    "@nuxtjs/sentry": "^8.0.8",
     "@nuxtjs/sitemap": "^2.4.0",
+    "@vue/runtime-dom": "^3.5.13",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "cypress": "^12.3.0",
@@ -37,18 +38,15 @@
     "node-sass": "^6.0.1",
     "nuxt": "^2.15.8",
     "nuxt-buefy": "^0.4.29",
-    "nuxt-clipboard2": "^0.2.1",
     "nuxt-compress": "^5.0.0",
     "nuxt-responsive-loader": "^2.0.1",
     "prettier": "^2.5.1",
     "responsive-loader": "^2.3.0",
     "sass-loader": "^10.1.1",
-    "secure-ls": "^1.2.6",
-    "sharp": "^0.29.3",
-    "vue-directive-long-press": "^1.1.0"
+    "sharp": "^0.29.3"
   },
   "dependencies": {
-    "vuex-persistedstate": "^4.1.0",
-    "vue-matomo": "^4.2.0"
+    "vue-matomo": "^4.2.0",
+    "vuex-persistedstate": "^4.1.0"
   }
 }

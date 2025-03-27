@@ -7,14 +7,19 @@
         <b-tab-item icon="tune">
           <br />
           <b-field>
+            <b-switch id="account-pronounce-on-click" v-model="user.settings.newNavigation">{{
+              $t("NewNavigation")
+            }}</b-switch>
+          </b-field>
+          <b-field>
             <b-switch id="account-pronounce-on-click" v-model="user.settings.pronounceClick">{{
               $t("PronouncePictoOnClick")
-              }}</b-switch>
+            }}</b-switch>
           </b-field>
           <b-field>
             <b-switch id="account-enforced-security-mode" v-model="user.settings.securityMode">{{
               $t("EnforcedSecurityMode")
-              }}</b-switch>
+            }}</b-switch>
           </b-field>
           <b-field :label="$t('PronounceShowDelay')">
             <b-slider id="account-pronounce-show-delay" lazy v-model="user.settings.pronounceShowDelay" :min="0"
@@ -27,11 +32,12 @@
           </b-field>
           <br>
           <b-field :label="$t('PronounceShowSize')">
-            <b-slider id="account-pictogram-show-size" lazy v-model="user.settings.pronounceShowSize" :min="0" :max="2"
+            <b-slider id="account-pictogram-show-size" lazy v-model="user.settings.pronounceShowSize" :min="0" :max="3"
               :tooltip="false" ticks>
               <b-slider-tick :value="0"><b-icon style="transform: scale(1)" icon="image"></b-icon></b-slider-tick>
               <b-slider-tick :value="1"><b-icon style="transform: scale(1.4)" icon="image"></b-icon></b-slider-tick>
               <b-slider-tick :value="2"><b-icon style="transform: scale(2)" icon="image"></b-icon></b-slider-tick>
+              <b-slider-tick :value="3"><b-icon style="transform: scale(2.5)" icon="image"></b-icon></b-slider-tick>
             </b-slider>
           </b-field>
           <!-- <b-field>
@@ -75,7 +81,7 @@
           <b-field :label="$t('Analytics')">
             <b-switch id="account-enhanced-analytics" v-model="user.settings.analytics">{{
               $t("AnalyticsText")
-              }}</b-switch>
+            }}</b-switch>
           </b-field>
           <br>
           <hr />
@@ -165,7 +171,7 @@
             <b>{{
               "https://application.pictalk.org?directsharer=" +
               $store.getters.getUser.username
-              }}</b>
+            }}</b>
           </div>
           <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("Groups") }}</p>
@@ -225,7 +231,7 @@
     <div class="footer container is-max-desktop">
       <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
         $t("Cancel")
-        }}</b-button>
+      }}</b-button>
       <b-button id="account-save" class="menuButtons" type="is-info" icon-left="content-save" :loading="loadingSave"
         @click="onSave(user.username, user.password, user.language)">{{ $t("Save") }}</b-button>
     </div>

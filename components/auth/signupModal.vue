@@ -77,6 +77,13 @@
             <b-step-item clickable :label="$t('StarterPack')" icon="web">
               <div class="contenant columns is-mobile"
                 style="width: 100%; aspect-ratio: 3/1; margin-left: 0%; margin-right: 0%">
+                <div class="column is-4" style="padding: 2px">
+                  <div @click="selectPublicBundle(0)">
+                    <b-image class="has-background"
+                      :style="selectedBundle == null ? 'opacity:100%;' : 'opacity:60%; filter: grayscale(60%);'"
+                      :srcset="require('@/assets/empty.png').srcSet"></b-image>
+                  </div>
+                </div>
                 <div v-for="bundle in publicBundles" class="column is-4" style="padding: 2px">
                   <div @click="selectPublicBundle(bundle.id)">
                     <b-image class="has-background"
@@ -131,11 +138,11 @@
                   {{ $t("IHaveRead") }}
                   <nuxt-link to="/legal-infos/terms-of-use/">{{
                     $t("TermsOfUse")
-                    }} </nuxt-link>
+                  }} </nuxt-link>
                   {{ $t("And") }}
                   <nuxt-link to="/legal-infos/privacy-policy/">{{
                     $t("PrivacyPolicy")
-                    }}</nuxt-link>.
+                  }}</nuxt-link>.
                 </p>
               </div>
             </b-step-item>
@@ -154,7 +161,7 @@
               </p>
 
               <b-button type="is-text" :loading="mailLoading" @click="sendAnotherMail()">{{ $t("VerificationMoreMail")
-                }}</b-button>
+              }}</b-button>
             </b-step-item>
           </b-steps>
         </div>
@@ -215,8 +222,12 @@ export default {
       if (!this.$refs.email.checkHtml5Validity() || !this.$refs.password.checkHtml5Validity()) {
         return
       }
+      if (this.hasNextedPage1) {
+        return
+      }
       if (this.passwordConfirmation == this.password && this.password.length >= 8 && this.username && this.activeStep == 0) {
-        this.nextStep()
+        this.nextStep();
+        this.hasNextedPage1 = true;
       }
     },
   },
@@ -234,6 +245,7 @@ export default {
   },
   data() {
     return {
+      hasNextedPage1: false,
       publicBundles: [],
       selectedBundle: null,
       username: "",
@@ -342,19 +354,7 @@ export default {
       )[0]?.level;
     },
     selectPublicBundle(id) {
-      if (id === 284083 && this.localeCode() !== 'fr' && this.localeCode() !== 'en' && this.localeCode() !== 'es') {
-        const notif = this.$buefy.notification.open({
-          duration: 4500,
-          message: this.$t("PublicBundleNotAvailable"),
-          position: "is-top-right",
-          type: "is-info",
-          hasIcon: true,
-          iconSize: "is-small",
-          icon: "account",
-        });
-        return;
-      }
-      if (this.selectedBundle == id) {
+      if (this.selectedBundle == id || id == 0) {
         this.selectedBundle = null;
       } else {
         this.selectedBundle = id;

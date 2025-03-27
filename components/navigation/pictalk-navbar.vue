@@ -2,18 +2,15 @@
   <b-navbar fixed-top>
     <template slot="brand">
       <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipReturn')"
-        :delay="1000" :triggers="['hover']" style="margin-top: 3px">
+        :delay="1000" :triggers="['hover']" style="margin-top: 0.3rem">
         <b-button :disabled="parseInt($route.query.fatherCollectionId) == $store.getters.getUser.root"
-          class="customButton" style="background-color: hsl(210, 100%, 60%); min-width: 80px"
+          class="customButton" style="background-color: hsl(210, 100%, 60%); min-width: 80px;"
           @click="navigateToParentCollection()" icon-right="arrow-left" />
       </b-tooltip>
-      <b-navbar-item v-if="!$route.query.isAdmin" class="logo" tag="nuxt-link"
-        v-bind:to="$route.query.isAdmin ? '/' : ''" style="padding: 0%; padding-right: 1px; padding-left: 1vw;">
-        <img v-if="fits" src="~/assets/logo_compressed.png" alt="Logo of a web app that help speach-disabled people"
-          height="44px" style="aspect-ratio: 411 / 130; margin-right: 0.5em" />
-        <img style="aspect-ratio: 1 / 1; margin-right: 0.5em" height="44px" v-if="!fits" src="~/assets/small_logo.png"
-          alt="Logo of a web app that help speach-disabled people" />
-      </b-navbar-item>
+      <b-button v-if="isNewNavigationStyle"
+        :disabled="parseInt($route.query.fatherCollectionId) == $store.getters.getUser.root" class="customButton"
+        style="background-color: #ff4a4a; color: white; min-width: 80px; margin-top: 0.3rem; margin-left: 0.5rem"
+        @click="navigateToHomeCollection()" icon-right="home" />
       <div :style="this.$route.path.includes('pictalk') ? '' : 'display:none'" class="columns is-mobile margins">
         <div v-if="$route.query.isAdmin && !checkCopyCollectionId && this.$route.path.includes('pictalk')"
           class="column noPadding dropdown">
@@ -44,12 +41,9 @@
       </div>
     </template>
     <template slot="start">
+      <b-navbar-item><img src="~/assets/logo_compressed.png" alt="Logo of a web app that help speach-disabled people"
+          height="44px" style="aspect-ratio: 411 / 130;" /></b-navbar-item>
       <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
-      <!-- <b-navbar-dropdown data-cy="pictalk-navbar-dropdown" :label="$t('Menu')">
-        <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/news">{{ $t("News") }} &#127881;</b-navbar-item>
-        <b-navbar-item tag="nuxt-link" to="/informations">{{ $t("Informations") }} 👐</b-navbar-item>
-      </b-navbar-dropdown> -->
       <b-navbar-item tag="nuxt-link" to="/tutorials">{{ $t("Tutorial") }} 🚀</b-navbar-item>
     </template>
     <template slot="end">
@@ -258,9 +252,10 @@ export default {
     "$route.query.fatherCollectionId": function (newVal, oldVal) {
       if (newVal != oldVal) {
         if (!newVal) return;
-        console.log("navigation changed")
         this.$store.commit("pushNavigation", newVal);
-        console.log(this.$store.getters.getNavigation)
+      }
+      if (newVal == this.$store.getters.getUser.root) {
+        this.$store.commit("resetNavigation");
       }
     },
     $route(to, from) {
@@ -283,6 +278,9 @@ export default {
     },
   },
   computed: {
+    isNewNavigationStyle() {
+      return this.$store.getters.getUser.settings?.newNavigation != undefined && this.$store.getters.getUser.settings.newNavigation === true;
+    },
     publicMode() {
       return this.$route.path.includes("public");
     },
@@ -300,7 +298,9 @@ export default {
         100
       );
     },
-
+    isNewNavigationStyle() {
+      return this.$store.getters.getUser.settings?.newNavigation != undefined && this.$store.getters.getUser.settings.newNavigation === true;
+    },
     iconIsAdmin() {
       return this.$route.query.isAdmin ? "lock-open-variant" : "lock";
     },
@@ -338,19 +338,6 @@ export default {
     }
   },
   methods: {
-    getUserNotifications() {
-      return this.$store.getters.getUser.notifications;
-    },
-    showRestoreItemModal() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: RestoreItemModal,
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2",
-        trapFocus: true,
-        canCancel: ["escape", "x"],
-      });
-    },
     navigateToParentCollection() {
       const navigation = this.$store.getters.getNavigation
       if (navigation.length < 2) {
@@ -380,6 +367,39 @@ export default {
           query: { ...this.$route.query, fatherCollectionId: navigation[navigation.length - 1] },
         });
       }
+    },
+    navigateToHomeCollection() {
+      if (this.publicMode) {
+        this.$router.push("/public?fatherCollectionId=346");
+      } else {
+        if (this.$store.getters.getRootId) {
+          this.$router.push({
+            query: {
+              isAdmin: this.$route.query.isAdmin,
+              fatherCollectionId: this.$store.getters.getRootId,
+            },
+          });
+        } else {
+          this.$router.push({
+            query: {
+              isAdmin: this.$route.query.isAdmin,
+            },
+          });
+        }
+      }
+    },
+    getUserNotifications() {
+      return this.$store.getters.getUser.notifications;
+    },
+    showRestoreItemModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: RestoreItemModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
     },
     isAdministrator() {
       return this.$store.getters.getUser.admin;

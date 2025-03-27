@@ -1,41 +1,48 @@
 <template>
-  <div class="notification columns is-mobile nopadding" :style="cssVars">
-    <div class="column is-narrow nopadding">
-      <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="delete"
-        :class="'customButton ' + buttonsShowSize" @click="eraseSpeech()" />
-    </div>
-    <div class="column is-narrow nopadding">
-      <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="backspace"
-        :class="'customButton ' + buttonsShowSize" @click="removeSpeech(true)" />
-    </div>
-    <div class="column" style="padding: 0%">
-      <div id="bar" class="scrolling">
-        <miniPicto v-for="(picto, index) in pictosWithoutSilent" :key="index" :image="picto.image"
-          :pictoCount="picto.count" />
-      </div>
-    </div>
-    <div class="column is-narrow nopadding">
-      <b-button v-if="$store.getters.getTemporaryLanguage" :class="'customButton ' + buttonsShowSize" type="is-success"
-        icon-right="volume-high" @click="pictalk(pictos)">{{ getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
-      <b-button v-if="$store.getters.getTemporaryLanguage" style="background-color: hsl(154, 70%, 55%)"
-        icon-right="volume-high" :class="'customButton ' + buttonsShowSize" @click="pictalk(pictos)">{{
-          getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
-      <b-button v-else id="pictobar-speak" style="background-color: hsl(154, 70%, 55%)" icon-right="volume-high"
-        :class="'customButton ' + buttonsShowSize" @click="pictalk(pictos)" />
-    </div>
-    <div class="column is-narrow nopadding">
-      <b-button style="background-color: hsl(210, 100%, 65%)" icon-right="content-copy"
-        :class="'customButton ' + buttonsShowSize" @click="copyPictosToClipboardBase(pictosWithoutSilent)"
-        id="pictobar-copy" />
-    </div>
-    <div v-if="vocalize" class="onTop">
-      <b-button icon-left="close" @click="vocalize = false"
-        style="margin-left: 2vmax; margin-top: 2vmax; background-color: hsl(0, 100%, 65%); color: white"
-        class="customButton" />
+  <div>
+    <div v-show="parseInt($route.query.fatherCollectionId) !== $store.getters.getUser.root"
+      style="display: flex; justify-content: space-between; padding: 0.5rem 0.25rem;">
 
-      <div class="columns is-multiline is-mobile topColumns">
-        <img v-for="(picto, index) in pictosWithoutSilent" :key="index" :src="picto.image"
-          :class="($store.getters.getTtsBoundarySupport ? (wordIndex >= index ? pronounceShowSize + ' animations' : pronounceShowSize + ' lowBrightness') : pronounceShowSize)"></img>
+    </div>
+    <div class="notification is-mobile nopadding" style="display: flex;" :style="cssVars">
+      <div class="nopadding">
+        <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="delete"
+          :class="'customButton ' + buttonsShowSize" @click="eraseSpeech()" />
+      </div>
+      <div class="nopadding">
+        <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="backspace"
+          :class="'customButton ' + buttonsShowSize" @click="removeSpeech(true)" />
+      </div>
+      <div class="" style="padding: 0%; margin: auto;">
+        <div id="bar" class="scrolling">
+          <miniPicto v-for="(picto, index) in pictosWithoutSilent" :key="index" :image="picto.image" :pictoCount="0" />
+        </div>
+      </div>
+      <div class="nopadding">
+        <b-button v-if="$store.getters.getTemporaryLanguage" :class="'customButton ' + buttonsShowSize"
+          type="is-success" icon-right="volume-high" @click="pictalk(pictos)">{{
+            getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
+        <b-button v-if="$store.getters.getTemporaryLanguage" style="background-color: hsl(154, 70%, 55%)"
+          icon-right="volume-high" :class="'customButton ' + buttonsShowSize" @click="pictalk(pictos)">{{
+            getEmoji($store.getters.getTemporaryLanguage) }}</b-button>
+        <b-button v-else id="pictobar-speak" style="background-color: hsl(154, 70%, 55%)" icon-right="volume-high"
+          :class="'customButton ' + buttonsShowSize" @click="pictalk(pictos)" />
+      </div>
+      <div class="nopadding">
+        <b-button style="background-color: hsl(210, 100%, 65%)" icon-right="content-copy"
+          :class="'customButton ' + buttonsShowSize" @click="copyPictosToClipboardBase(pictosWithoutSilent)"
+          id="pictobar-copy" />
+      </div>
+      <div v-if="vocalize" class="onTop">
+        <b-button icon-left="close" @click="vocalize = false"
+          style="margin-left: 2vmax; margin-top: 2vmax; background-color: hsl(0, 100%, 65%); color: white"
+          class="customButton" />
+
+        <div class="columns is-multiline is-mobile topColumns">
+          <img style="background-color: white;" v-for="(picto, index) in pictosWithoutSilent" :key="index"
+            :src="picto.image"
+            :class="($store.getters.getTtsBoundarySupport ? (wordIndex >= index ? pronounceShowSize + ' animations' : pronounceShowSize + ' lowBrightness') : pronounceShowSize)"></img>
+        </div>
       </div>
     </div>
   </div>
@@ -51,52 +58,27 @@ import lang from "@/mixins/lang";
 export default {
   mixins: [emoji, tts, deviceInfos, lang],
   methods: {
-    openTravelerMode(e) {
-      if (this.$store.getters.getUser.settings.travelMode) {
-        if (!this.$store.getters.getTemporaryLanguage) {
-          this.$buefy.modal.open({
-            parent: this,
-            component: tradLanguageListVue,
-            hasModalCard: true,
-            customClass: "custom-class custom-class-2",
-            trapFocus: true,
-            canCancel: ["escape", "x"],
-          });
-        } else {
-          this.$store.commit("setTemporaryLanguage", null);
-        }
-      }
-    },
     getText(pictos) {
       if (!pictos || pictos.length == 0) {
         return "";
       }
       let speech = "";
       for (let index = 0; index < pictos.length - 1; index++) {
-        speech =
-          speech +
-          (pictos[index].count > 1 ? pictos[index].count : "") +
-          pictos[index].speech[this.getUserLang] +
-          " ";
+        if (pictos[index].speech[this.getUserLang] && pictos[index].speech[this.getUserLang].length > 0)
+          speech = speech + pictos[index].speech[this.getUserLang] + " ";
       }
-      speech =
-        speech +
-        (pictos[pictos.length - 1].count > 1
-          ? pictos[pictos.length - 1].count
-          : "") +
-        pictos[pictos.length - 1].speech[this.getUserLang];
+      speech = speech + pictos[pictos.length - 1].speech[this.getUserLang];
       return speech;
     },
     getChars(pictos) {
       let chars = [];
       let speechLength = 0;
       for (let index = 0; index < pictos.length; index++) {
-        if (pictos[index].speech[this.getUserLang].length > 0) {
+        if (pictos[index].speech[this.getUserLang] && pictos[index].speech[this.getUserLang].length > 0) {
           speechLength =
             pictos[index].speech[this.getUserLang].length +
             1 +
-            speechLength +
-            (pictos[index].count > 1 ? 1 : 0);
+            speechLength;
           chars.push(speechLength);
         }
       }
@@ -195,6 +177,16 @@ export default {
       }
     },
     removeSpeech(erase) {
+      if (this.$store.getters.getUser.settings?.newNavigation != undefined && this.$store.getters.getUser.settings.newNavigation === true) {
+        for (let index = this.$store.getters.getSpeech.length - 1; index >= 0; index--) {
+          if (this.$store.getters.getSpeech[index].speech[this.getUserLang] === "") {
+            this.$store.commit("removeSpeech", index);
+            break;
+          }
+        }
+        this.$store.commit("removeSpeech");
+        return;
+      }
       const pictoSpeech = this.$store.getters.getSpeech;
       const pictalkSpeech = this.$store.getters.getSpeech.filter(
         (picto) => !picto.sidebar && picto.collection
@@ -254,6 +246,10 @@ export default {
       this.$store.commit("removeSpeech");
     },
     eraseSpeech() {
+      if (this.$store.getters.getUser.settings?.newNavigation != undefined && this.$store.getters.getUser.settings.newNavigation === true) {
+        this.$store.commit("eraseSpeech");
+        return;
+      }
       this.$store.commit("resetNavigation");
       if (this.publicMode) {
         this.$router.push("/public?fatherCollectionId=346");
@@ -311,6 +307,8 @@ export default {
         return "topImage column is-4-mobile is-3-tablet is-3-desktop is-3-widescreen is-3-fullhd";
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
         return "topImage column is-6-mobile is-4-tablet is-4-desktop is-4-widescreen is-4-fullhd";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 3) {
+        return "topImage column is-8-mobile is-6-tablet is-6-desktop is-6-widescreen is-6-fullhd";
       }
     },
     buttonsShowSize() {
@@ -324,6 +322,8 @@ export default {
         return "getsBigger";
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
         return "getsBiggerMax";
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 3) {
+        return "getsBiggerUltra";
       }
     },
     cssVars() {
@@ -335,8 +335,11 @@ export default {
       };
     },
     pictosWithoutSilent() {
+      console.log(this.pictos.filter(
+        (picto) => picto.speech[this.getUserLang] && picto.speech[this.getUserLang] != "" && picto.image
+      ))
       return this.pictos.filter(
-        (picto) => picto.speech[this.getUserLang] != "" && picto.image
+        (picto) => picto.speech[this.getUserLang] && picto.speech[this.getUserLang] != "" && picto.image
       );
     },
   },
@@ -464,7 +467,7 @@ export default {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  background-color: #000000df;
+  background-color: rgba(0, 0, 0, 0.999);
   z-index: 2;
 }
 
@@ -567,6 +570,15 @@ export default {
   max-height: 100px;
   min-width: 60px;
   max-width: 100px;
+}
+
+.getsBiggerUltra {
+  width: 15vmin;
+  height: 15vmin;
+  min-height: 80px;
+  max-height: 120px;
+  min-width: 80px;
+  max-width: 120px;
 }
 
 @media screen and (min-width: 768px) {

@@ -110,6 +110,8 @@ export default {
         return 'column is-one-third-mobile is-one-quarter-tablet is-one-fifth-desktop is-2-widescreen is-1-fullhd';
       } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 2) {
         return 'column is-half-mobile is-one-third-tablet is-one-fourth-desktop is-one-fifth-widescreen is-2-fullhd';
+      } else if (this.$store.getters.getUser.settings?.pronounceShowSize == 3) {
+        return "topImage column is-full-mobile is-6-tablet is-6-desktop is-one-third-widescreen is-one-fourth-fullhd";
       }
     }
   },

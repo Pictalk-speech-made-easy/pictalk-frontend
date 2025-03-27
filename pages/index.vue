@@ -9,11 +9,9 @@
       </h2>
     </div>
     <div class="container is-max-widescreen" style="padding-top: 2rem; padding-bottom: 2rem; max-width: 768px;">
-      <a style="color: #363636;" :href="`https://www.pictalk.org/${getUserLang}`">
-        <h2 style="font-size: 3.5rem; line-height: 0.95; font-weight: 500; padding: 0.5rem; margin-bottom: 1rem;">{{
-          $t('PictalkAAC') }}
-        </h2>
-      </a>
+      <h2 style="font-size: 3.5rem; line-height: 0.95; font-weight: 500; padding: 0.5rem; margin-bottom: 1rem;">{{
+        $t('PictalkAAC') }}
+      </h2>
     </div>
     <div class="container is-max-widescreen" style="max-width: 768px; padding-bottom: 4rem;">
       <b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top"

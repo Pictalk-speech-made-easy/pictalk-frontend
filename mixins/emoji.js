@@ -33,6 +33,21 @@ export default {
         if (language.includes("sk") || language.includes("SK")) {
           return String.fromCodePoint(0x1F1F8, 0x1F1F0) + " " + "Slovenský";
         }
+        if (language.includes("nl") || language.includes("NL")) {
+          return String.fromCodePoint(0x1F1F3, 0x1F1F1) + " " + "Nederlands";
+        }
+        if (language.includes("dk") || language.includes("DK")) {
+          return String.fromCodePoint(0x1F1E9, 0x1F1F0) + " " + "Dansk";
+        }
+        if (language.includes("fi") || language.includes("FI")) {
+          return String.fromCodePoint(0x1F1EB, 0x1F1EE) + " " + "Suomi";
+        }
+        if (language.includes("no") || language.includes("NO")) {
+          return String.fromCodePoint(0x1F1F3, 0x1F1F4) + " " + "Norsk";
+        }
+        if (language.includes("sv") || language.includes("SE")) {
+          return String.fromCodePoint(0x1F1F8, 0x1F1EA) + " " + "Svenska";
+        }
       }
       return language;
     },

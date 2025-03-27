@@ -160,6 +160,44 @@ export default {
           (voice) => voice.lang.includes("pt_PT")
         )[0]?.voiceURI;
       }
+      if (this.localeIso() == "el-GR") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("el_GR")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "ar-SA") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("ar_SA")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "sk-SK") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("sk_SK")
+        )[0]?.voiceURI;
+      }
+      if (this.localeIso() == "ro-RO") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("ro_RO")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "nl-NL") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("nl_NL")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "fi-FI") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("fi_FI")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "sv-SE") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("sv")
+        )[0]?.voiceURI;
+      }
     },
     searchForPreferredVoicesAndroidSamsung() {
       if (this.localeIso() == "fr-FR") {
@@ -192,6 +230,48 @@ export default {
           (voice) => voice.lang.includes("por") && voice.voiceURI.includes("por_BRA_default")
         )[0]?.voiceURI;
       }
+
+      if (this.localeIso() == "el-GR") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("ell") && voice.voiceURI.includes("ell_GRC_default")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "ar-SA") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("ara") && voice.voiceURI.includes("ara_SAU_default")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "sk-SK") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("slk") && voice.voiceURI.includes("slk_SVK_default")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "ro-RO") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("ron") && voice.voiceURI.includes("ron_ROU_default")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "nl-NL") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("nld") && voice.voiceURI.includes("nld_NLD_default")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "fi-FI") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("fin") && voice.voiceURI.includes("fin_FIN_default")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "sv-SE") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang.includes("swe") && voice.voiceURI.includes("swe_SWE_default")
+        )[0]?.voiceURI;
+      }
     },
     searchForPreferredVoicesApple() {
       if (this.localeIso() == "fr-FR") {
@@ -222,6 +302,48 @@ export default {
       if (this.localeIso() == "pt-PT") {
         this.voiceURI = this.voices.filter(
           (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Joana")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "el-GR") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Melina")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "ar-SA") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Maged")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "sk-SK") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Laura")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "ro-RO") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Ioana")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "nl-NL") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Xander")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "fi-FI") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Satu")
+        )[0]?.voiceURI;
+      }
+
+      if (this.localeIso() == "sv-SE") {
+        this.voiceURI = this.voices.filter(
+          (voice) => voice.lang == this.localeIso() && voice.voiceURI.includes("Alva")
         )[0]?.voiceURI;
       }
     },
@@ -307,6 +429,7 @@ export default {
         } else {
           var msg = new SpeechSynthesisUtterance();
         }
+        if (!speech || speech === "") return;
         if (this.$store.getters.getTemporaryLanguage) {
           msg.text = await this.getTranslatedText(speech);
           voice = this.voices.filter((voice) =>
@@ -315,6 +438,7 @@ export default {
         } else {
           msg.text = speech;
         }
+        if (msg.text === "") return;
         let voice = this.voices.filter(
           (voice) => voice.voiceURI == voiceURI
         );

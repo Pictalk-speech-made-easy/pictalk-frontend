@@ -166,6 +166,24 @@ export default {
         iso: 'sk-SK',
         name: 'Slovenský',
         file: 'sk-SK.js'
+      },
+      {
+        code: 'nl',
+        iso: 'nl-NL',
+        name: 'Nederlands',
+        file: 'nl-NL.js'
+      },
+      {
+        code: 'fi',
+        iso: 'fi-FI',
+        name: 'Suomi',
+        file: 'fi-FI.js'
+      },
+      {
+        code: 'sv',
+        iso: 'sv-SE',
+        name: 'Svenska',
+        file: 'sv-SE.js'
       }
     ],
     lazy: true,
@@ -181,7 +199,6 @@ export default {
     // Doc: https://buefy.github.io/#/documentation
     ["nuxt-buefy", { materialDesignIcons: true, materialDesignIconsHRef: "/materialdesignicons3.min.css", css: false }],
     "@nuxtjs/pwa",
-    "nuxt-clipboard2",
     'nuxt-responsive-loader',
     '@nuxtjs/robots',
     '@nuxtjs/sentry',

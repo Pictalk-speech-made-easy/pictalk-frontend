@@ -481,24 +481,16 @@ export default {
             });
             return;
           }
-          if (
-            this.file?.url?.includes("arasaac") ||
-            this.file?.url?.includes("tawasol")
-          ) {
-            cfile = this.file;
-          } else {
-            const myNewFile = new File(
-              [this.file],
-              this.file.name.substr(0, this.file.name.lastIndexOf(".")) +
-              ".jpg",
-              { type: this.file.type }
-            );
-            cfile = await jpegasus.compress(myNewFile, {
-              maxHeight: 300,
-              maxWidth: 300,
-              quality: 0.15,
-            });
-          }
+          const myNewFile = new File(
+            [this.file],
+            this.file.name.substr(0, this.file.name.lastIndexOf(".")) + ".jpg",
+            { type: this.file.type }
+          );
+          cfile = await jpegasus.compress(myNewFile, {
+            maxHeight: 300,
+            maxWidth: 300,
+            quality: 0.15,
+          });
         }
         this.getAllUserLanguages
           .map((languages) => languages.replace(/[^a-z]/g, ""))

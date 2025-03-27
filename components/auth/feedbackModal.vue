@@ -51,65 +51,8 @@
       <b-field :label="$t('FeedbackTitle')">
         <b-input v-model="title" required></b-input>
       </b-field>
-      <b-field :label="$t('FeedbackType')">
-        <div class="columns is-multiline is-mobile">
-          <b-select class="column" style="flex-grow: 0; padding-bottom: 0.25rem" v-model="action" required>
-            <optgroup :label="$t('FeedbackActionSelectPictos')">
-              <option value="creation">
-                {{ $t("FeedbackActionSelectPictosValuesCreation") }}
-              </option>
-              <option value="modification">
-                {{ $t("FeedbackActionSelectPictosValuesModification") }}
-              </option>
-              <option value="copy">
-                {{ $t("FeedbackActionSelectPictosValuesCopy") }}
-              </option>
-              <option value="print">
-                {{ $t("FeedbackActionSelectPictosValuesPrint") }}
-              </option>
-            </optgroup>
-
-            <optgroup :label="$t('FeedbackActionSelectInscription')">
-              <option value="inscription">
-                {{ $t("FeedbackActionSelectInscriptionValuesInscription") }}
-              </option>
-              <option value="tutorial">
-                {{ $t("FeedbackActionSelectInscriptionValuesTutorial") }}
-              </option>
-            </optgroup>
-
-            <optgroup :label="$t('FeedbackActionSelectVoices')">
-              <option value="voice">
-                {{ $t("FeedbackActionSelectVoicesValuesVoice") }}
-              </option>
-              <option value="language">
-                {{ $t("FeedbackActionSelectVoicesValuesLanguage") }}
-              </option>
-            </optgroup>
-            <optgroup :label="$t('FeedbackActionSelectOther')">
-              <option value="other">
-                {{ $t("FeedbackActionSelectOtherValuesOther") }}
-              </option>
-            </optgroup>
-          </b-select>
-          <div class="column" style="
-              flex-grow: 0;
-              display: flex;
-              align-self: end;
-              padding-top: 0.25rem;
-            ">
-            <p style="padding-right: 0.25rem; min-width: 165px">
-              {{ $t("FeedbackBlocking") }}
-            </p>
-            <b-checkbox v-model="blocking" required></b-checkbox>
-          </div>
-        </div>
-      </b-field>
       <b-field :label="$t('FeedbackDescription')">
         <b-input type="textarea" v-model="description" lazy required></b-input>
-      </b-field>
-      <b-field :label="$t('FeedbackEvolution')">
-        <b-input type="textarea" v-model="evolution"></b-input>
       </b-field>
       <b-button class="is-text" @click="toggleDebugInfos()">{{
         $t("FeedbackToggle")
@@ -142,7 +85,8 @@
             display: flex;
             margin-right: auto;
             margin-left: auto;
-          " class="is-info" icon-right="check" :loading="loadingSave" @click="save()">{{ $t("Send") }}</b-button>
+          " class="is-info" icon-right="check" :loading="loadingSave" @click="save()">{{
+            $t("Send") }}</b-button>
       </div>
     </footer>
   </div>
@@ -150,7 +94,7 @@
 <script>
 import deviceInfos from "@/mixins/deviceInfos";
 import tts from "@/mixins/tts";
-import axios from "axios";
+import { captureUserFeedback } from '@sentry/vue';
 export default {
   mixins: [deviceInfos, tts],
   created() {
@@ -172,9 +116,7 @@ export default {
       );
     },
     getFilteredLocalStorage() {
-      const vuex = JSON.parse(window.localStorage.getItem("vuex"));
-      delete vuex.collections;
-      delete vuex.pictos;
+      const vuex = JSON.parse(window.localStorage.getItem("pictalk-data"));
       return vuex;
     },
   },
@@ -185,24 +127,16 @@ export default {
     async save() {
       if (
         this.title != "" ||
-        this.contact != "" ||
-        this.description != "" ||
-        this.action != "" ||
-        this.blocking != ""
+        this.contact != ""
       ) {
         try {
           this.loadingSave = true;
-          const res = await axios.post("/feedback", {
-            title: this.title,
-            description: this.description,
-            contact: this.contact,
-            blocking: JSON.stringify(this.blocking),
-            evolution: this.evolution,
-            action: this.action,
-            vuex: JSON.stringify(this.getFilteredLocalStorage),
-            voices: JSON.stringify(this.getVoices),
-            deviceInfos: this.getDeviceInfo(),
-          });
+          const userFeedback = {
+            name: this.email,
+            email: this.email,
+            comments: this.title + "\n" + this.description + "\n" + JSON.stringify(this.getFilteredLocalStorage),
+          };
+          captureUserFeedback(userFeedback);
           this.loadingSave = false;
           this.$parent.close();
           this.$buefy.toast.open({
@@ -234,9 +168,6 @@ export default {
       title: "",
       description: "",
       contact: "",
-      action: "other",
-      blocking: false,
-      evolution: "",
     };
   },
 };

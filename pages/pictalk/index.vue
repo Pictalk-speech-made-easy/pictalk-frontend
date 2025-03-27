@@ -136,7 +136,13 @@ export default {
       return window.innerWidth;
     },
     loadSpeech() {
-      return this.$store.getters.getSpeech;
+      if (this.$store.getters.getUser.settings?.newNavigation != undefined && this.$store.getters.getUser.settings.newNavigation === true) {
+        return this.$store.getters.getSpeech.filter(
+          (picto) => picto.speech[this.getUserLang] && picto.speech[this.getUserLang] != "" && picto.image
+        );
+      } else {
+        return this.$store.getters.getSpeech;
+      }
     },
     sidebarPictoId() {
       return this.$store.getters.getSidebarId;
@@ -371,15 +377,11 @@ export default {
 
 .sidebar {
   padding-top: 2px;
-  -webkit-box-shadow: -2px 2px 8px 1px #777;
-  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  /* -webkit-box-shadow: -2px 2px 8px 1px #777;
   -moz-box-shadow: -2px 2px 8px 1px #777;
-  /* Firefox 3.5 - 3.6 */
   -webkit-box-shadow: -2px 2px 8px 1px #777;
-  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: -2px 2px 8px 1px #777;
-  /* Firefox 3.5 - 3.6 */
-  box-shadow: -2px 2px 8px 1px #777;
+  box-shadow: -2px 2px 8px 1px #777; */
 }
 
 .scrolling {
@@ -405,9 +407,7 @@ export default {
 .has-background {
   border-radius: 7px;
   -webkit-box-shadow: 2px 2px 1px 1px #ccc;
-  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
   -moz-box-shadow: 2px 2px 1px 1px #ccc;
-  /* Firefox 3.5 - 3.6 */
   box-shadow: 2px 2px 1px 1px #ccc;
   /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
