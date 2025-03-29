@@ -178,11 +178,10 @@ export default {
     },
     removeSpeech(erase) {
       if (this.$store.getters.getUser.settings?.newNavigation != undefined && this.$store.getters.getUser.settings.newNavigation === true) {
-        for (let index = this.$store.getters.getSpeech.length - 1; index >= 0; index--) {
-          if (this.$store.getters.getSpeech[index].speech[this.getUserLang] === "") {
-            this.$store.commit("removeSpeech", index);
-            break;
-          }
+        let index = this.$store.getters.getSpeech.length - 1;
+        while (index >= 0 && this.$store.getters.getSpeech[index].speech[this.getUserLang] && this.$store.getters.getSpeech[index].speech[this.getUserLang] === "") {
+          this.$store.commit("removeSpeech", index);
+          index--;
         }
         this.$store.commit("removeSpeech");
         return;
