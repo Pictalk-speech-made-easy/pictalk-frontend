@@ -278,5 +278,6 @@
   "NewNavigation": "Navigationsmethode für fortgeschrittene Nutzung (ganze Sätze). Löschen- und Papierkorb-Buttons beeinflussen die Navigation nicht mehr.",
   "ErrorTitle": "Ein Fehler ist aufgetreten",
   "ErrorButton": "Versuchen Sie, den Fehler zu beheben",
-  "ErrorSubtitle": "Manchmal läuft nicht alles wie geplant und Fehler treten auf, besonders nach Updates. Beachten Sie, dass uns Fehler automatisch gemeldet werden. Wenn das Problem weiterhin besteht, schreiben Sie uns oder besuchen Sie uns auf Facebook oder Instagram. Klicken Sie auf den Button unten, um den Fehler zu beheben."
+  "ErrorSubtitle": "Manchmal läuft nicht alles wie geplant und Fehler treten auf, besonders nach Updates. Beachten Sie, dass uns Fehler automatisch gemeldet werden. Wenn das Problem weiterhin besteht, schreiben Sie uns oder besuchen Sie uns auf Facebook oder Instagram. Klicken Sie auf den Button unten, um den Fehler zu beheben.",
+  "ErrorClearCache": "App-Cache löschen"
 }

@@ -278,5 +278,6 @@
   "NewNavigation": "Metodo di navigazione per uso avanzato (frasi complete). I pulsanti elimina e cestino non influenzano più la navigazione.",
   "ErrorTitle": "Si è verificato un errore",
   "ErrorButton": "Prova a correggere l'errore",
-  "ErrorSubtitle": "A volte le cose non vanno come previsto e si verificano errori, specialmente dopo gli aggiornamenti. Nota che i bug ci vengono segnalati automaticamente. Se il problema persiste, scrivici o unisciti a noi su Facebook o Instagram. Clicca sul pulsante qui sotto per provare a risolvere l'errore."
+  "ErrorSubtitle": "A volte le cose non vanno come previsto e si verificano errori, specialmente dopo gli aggiornamenti. Nota che i bug ci vengono segnalati automaticamente. Se il problema persiste, scrivici o unisciti a noi su Facebook o Instagram. Clicca sul pulsante qui sotto per provare a risolvere l'errore.",
+  "ErrorClearCache": "Cancella cache dell'app"
 }

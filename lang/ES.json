@@ -278,5 +278,6 @@
   "NewNavigation": "Método de navegación para uso avanzado (frases completas). Los botones eliminar y papelera ya no afectan la navegación.",
   "ErrorTitle": "Se ha producido un error",
   "ErrorButton": "Intente corregir el error",
-  "ErrorSubtitle": "A veces las cosas no salen como se espera y ocurren errores, especialmente tras las actualizaciones. Tenga en cuenta que los fallos se nos informan automáticamente. Si el problema persiste, envíenos un correo o únase a nosotros en Facebook o Instagram. Haga clic en el botón abajo para intentar corregir el error."
+  "ErrorSubtitle": "A veces las cosas no salen como se espera y ocurren errores, especialmente tras las actualizaciones. Tenga en cuenta que los fallos se nos informan automáticamente. Si el problema persiste, envíenos un correo o únase a nosotros en Facebook o Instagram. Haga clic en el botón abajo para intentar corregir el error.",
+  "ErrorClearCache": "Borrar caché de la aplicación"
 }

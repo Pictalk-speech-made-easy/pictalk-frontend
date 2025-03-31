@@ -278,5 +278,6 @@
   "NewNavigation": "Navigointitapa edistyneeseen käyttöön (kokonaiset lauseet). Poisto- ja roskakori-painikkeet eivät enää vaikuta navigointiin.",
   "ErrorTitle": "Virhe tapahtui",
   "ErrorButton": "Yritä korjata virhe",
-  "ErrorSubtitle": "Joskus asiat eivät mene suunnitellusti ja virheitä tapahtuu, erityisesti päivitysten jälkeen. Huomaa, että virheilmoitukset lähetetään meille automaattisesti. Jos ongelma jatkuu, lähetä meille sähköpostia tai liity seuraamme Facebookissa tai Instagramissa. Klikkaa alla olevaa painiketta yrittääksesi korjata virheen."
+  "ErrorSubtitle": "Joskus asiat eivät mene suunnitellusti ja virheitä tapahtuu, erityisesti päivitysten jälkeen. Huomaa, että virheilmoitukset lähetetään meille automaattisesti. Jos ongelma jatkuu, lähetä meille sähköpostia tai liity seuraamme Facebookissa tai Instagramissa. Klikkaa alla olevaa painiketta yrittääksesi korjata virheen.",
+  "ErrorClearCache": "Tyhjennä sovelluksen välimuisti"
 }

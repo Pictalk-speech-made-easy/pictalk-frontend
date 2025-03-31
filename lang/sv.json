@@ -278,5 +278,6 @@
   "NewNavigation": "Navigeringsmetod för avancerad användning (fullständiga meningar). Radera- och papperskorgsknapparna påverkar inte längre navigeringen.",
   "ErrorTitle": "Ett fel har inträffat",
   "ErrorButton": "Försök att åtgärda felet",
-  "ErrorSubtitle": "Ibland går saker inte som planerat och fel kan uppstå, särskilt efter uppdateringar. Observera att fel rapporteras till oss automatiskt. Om problemet kvarstår, mejla oss eller följ oss på Facebook eller Instagram. Klicka på knappen nedan för att försöka lösa felet."
+  "ErrorSubtitle": "Ibland går saker inte som planerat och fel kan uppstå, särskilt efter uppdateringar. Observera att fel rapporteras till oss automatiskt. Om problemet kvarstår, mejla oss eller följ oss på Facebook eller Instagram. Klicka på knappen nedan för att försöka lösa felet.",
+  "ErrorClearCache": "Rensa appens cache"
 }

@@ -77,6 +77,8 @@
         </div>
         <br />
       </div>
+      <br>
+      <b-button class="is-primary" @click="emptyCache">{{ $t("ErrorClearCache") }}</b-button>
     </section>
     <footer class="modal-card-foot">
       <div class="container">
@@ -123,6 +125,18 @@ export default {
   methods: {
     toggleDebugInfos() {
       this.showDebugInfos = !this.showDebugInfos;
+    },
+    async emptyCache() {
+      if ('caches' in window) {
+        const names = await window.caches.keys();
+        await Promise.all(names.map(name => window.caches.delete(name)));
+      }
+      if ('localStorage' in window) {
+        window.localStorage.clear();
+      }
+      const dbNames = await window.indexedDB.databases();
+      await Promise.all(dbNames.map(db => window.indexedDB.deleteDatabase(db.name ?? '')));
+      window.location.href = '/';
     },
     async save() {
       if (

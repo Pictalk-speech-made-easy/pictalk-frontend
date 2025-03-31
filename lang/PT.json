@@ -278,5 +278,6 @@
   "NewNavigation": "Método de navegação para uso avançado (frases completas). Os botões excluir e lixeira não afetam mais a navegação.",
   "ErrorTitle": "Ocorreu um erro",
   "ErrorButton": "Tente corrigir o erro",
-  "ErrorSubtitle": "Às vezes, as coisas não saem como o esperado e erros acontecem, especialmente após atualizações. Observe que os erros são relatados automaticamente. Se o problema continuar, envie-nos um e-mail ou junte-se a nós no Facebook ou Instagram. Clique no botão abaixo para tentar corrigir o erro."
+  "ErrorSubtitle": "Às vezes, as coisas não saem como o esperado e erros acontecem, especialmente após atualizações. Observe que os erros são relatados automaticamente. Se o problema continuar, envie-nos um e-mail ou junte-se a nós no Facebook ou Instagram. Clique no botão abaixo para tentar corrigir o erro.",
+  "ErrorClearCache": "Limpar cache do app"
 }

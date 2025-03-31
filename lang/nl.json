@@ -278,5 +278,6 @@
   "NewNavigation": "Navigatiemethode voor gevorderd gebruik (volledige zinnen). De knoppen voor verwijderen en prullenbak hebben geen effect meer op de navigatie.",
   "ErrorTitle": "Er is een fout opgetreden",
   "ErrorButton": "Probeer de fout te herstellen",
-  "ErrorSubtitle": "Soms loopt alles niet zoals gepland en treden er fouten op, vooral na updates. Fouten worden automatisch aan ons gemeld. Als het probleem aanhoudt, stuur ons een e-mail of volg ons op Facebook of Instagram. Klik op de knop hieronder om de fout te proberen herstellen."
+  "ErrorSubtitle": "Soms loopt alles niet zoals gepland en treden er fouten op, vooral na updates. Fouten worden automatisch aan ons gemeld. Als het probleem aanhoudt, stuur ons een e-mail of volg ons op Facebook of Instagram. Klik op de knop hieronder om de fout te proberen herstellen.",
+  "ErrorClearCache": "App-cache wissen"
 }

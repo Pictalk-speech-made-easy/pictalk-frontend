@@ -278,5 +278,6 @@
   "NewNavigation": "Navigation method for advanced use (full sentences). Delete and trash buttons no longer affect navigation.",
   "ErrorTitle": "An error occurred",
   "ErrorButton": "Try to fix the error",
-  "ErrorSubtitle": "Sometimes things don't go as planned and errors happen, especially after updates. Please note that bugs are automatically reported to us. If the issue continues, email us or join us on Facebook or Instagram. Click the button below to try fixing the error."
+  "ErrorSubtitle": "Sometimes things don't go as planned and errors happen, especially after updates. Please note that bugs are automatically reported to us. If the issue continues, email us or join us on Facebook or Instagram. Click the button below to try fixing the error.",
+  "ErrorClearCache": "Clear app cache"
 }

@@ -278,5 +278,6 @@
   "NewNavigation": "Methode de navigation pour usage avancé (phrase complètes). Le bouton supprimer et poubelle n'ont plus d'effet sur la navigation.",
   "ErrorTitle": "Une erreur s'est produite",
   "ErrorButton": "Essayez de corriger l'erreur",
-  "ErrorSubtitle": "Il arrive que les choses ne se passent pas comme prévu et que des erreurs se produisent, en particulier après les mises à jour. Veuillez noter que les bogues nous sont automatiquement signalés. Si le problème persiste, envoyez-nous un courriel ou rejoignez-nous sur Facebook ou Instagram. Cliquez sur le bouton ci-dessous pour essayer de corriger l'erreur."
+  "ErrorSubtitle": "Il arrive que les choses ne se passent pas comme prévu et que des erreurs se produisent, en particulier après les mises à jour. Veuillez noter que les bogues nous sont automatiquement signalés. Si le problème persiste, envoyez-nous un courriel ou rejoignez-nous sur Facebook ou Instagram. Cliquez sur le bouton ci-dessous pour essayer de corriger l'erreur.",
+  "ErrorClearCache": "Effacer le cache de l'application"
 }
