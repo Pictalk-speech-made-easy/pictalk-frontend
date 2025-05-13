@@ -5,6 +5,7 @@ export default {
   server: {
     host: '0.0.0.0', // default: localhost,
   },
+  modern: 'client',
   /*
    ** Headers of the page
    */
@@ -286,10 +287,33 @@ export default {
       ]
     },
   },
-  /*
-   ** Build configuration
-   */
   build: {
+    babel: {
+      presets({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            {
+              useBuiltIns: 'usage',
+              corejs: { version: 3 },
+              targets: {
+                browsers: [
+                  '> 1%',
+                  'last 2 versions',
+                  'not dead',
+                  'not ie 11'
+                ]
+              }
+            }
+          ]
+        ]
+      },
+      plugins: [
+        '@babel/plugin-transform-optional-chaining',
+        '@babel/plugin-proposal-nullish-coalescing-operator',
+        '@babel/plugin-proposal-object-rest-spread'
+      ]
+    },
     extend(config, ctx) {
       config.resolve.alias["vue"] = "vue/dist/vue.common";
       config.resolve.symlinks = false;
