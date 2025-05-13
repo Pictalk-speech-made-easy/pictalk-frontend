@@ -105,6 +105,7 @@ export default {
       cookieKey: 'i18n_redirected',
       alwaysRedirect: false,
       redirectOn: 'root',
+      cookieCrossOrigin: true
     },
     locales: [
       {
