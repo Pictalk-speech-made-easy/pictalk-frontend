@@ -529,9 +529,19 @@ export default {
     async onVerify() {
       this.verificationLoading = true;
       let validationUrl = `/auth/validation/${this.verificationToken}`;
+      let res;
       try {
-        const res = await axios.get(validationUrl);
-        if (res.status == 200) {
+        res = await axios.get(validationUrl);
+      } catch (error) {
+        let verifyByUsername = `/auth/validation-by-username/${this.username}`;
+        try {
+          res = await axios.get(verifyByUsername);
+        } catch (err) {
+          console.log("error ", err);
+        }
+      } finally {
+        this.verificationLoading = false;
+        if (res && res.status == 200) {
           this.verificationLoading = false;
           const notif = this.$buefy.notification.open({
             duration: 4500,
@@ -540,7 +550,6 @@ export default {
             type: "is-success",
           });
           this.$parent.close();
-
           try {
             await this.$store.dispatch("authenticateUser", {
               username: this.username,
@@ -554,22 +563,19 @@ export default {
           this.$router.push({
             path: "/tutorials/",
           });
+        } else {
+          const notif = this.$buefy.notification.open({
+            duration: 4500,
+            message: this.$t("VerificationToken"),
+            position: "is-top-right",
+            type: "is-danger",
+            hasIcon: true,
+            iconSize: "is-small",
+            icon: "key",
+          });
         }
-      } catch (error) {
-        if (error.response) {
-          if (error.response.status == 401) {
-            const notif = this.$buefy.notification.open({
-              duration: 4500,
-              message: this.$t("VerificationToken"),
-              position: "is-top-right",
-              type: "is-danger",
-              hasIcon: true,
-              iconSize: "is-small",
-              icon: "key",
-            });
-          }
-          this.verificationLoading = false;
-        }
+        this.verificationLoading = false;
+
       }
     },
     async sendAnotherMail() {
