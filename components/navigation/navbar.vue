@@ -34,7 +34,7 @@
             <b-button v-else class="bolder customButton" type="is-light" icon-right="logout" @click="onLogout" />
             <b-button class="bolder customButton" outlined v-if="!isLogged" tag="nuxt-link"
               to="/public?fatherCollectionId=346" type="is-primary" icon-right="arrow-right-box">{{
-          $t("TryPictalk") }}</b-button>
+                $t("TryPictalk") }}</b-button>
           </div>
         </b-navbar-item>
       </template>
@@ -87,9 +87,9 @@ export default {
     },
     pictalkHome() {
       if (this.$store.getters.getRootId) {
-        return "/pictalk?fatherCollectionId=" + this.$store.getters.getRootId;
+        return "/pictalk/?fatherCollectionId=" + this.$store.getters.getRootId;
       } else {
-        return "/pictalk";
+        return "/pictalk/";
       }
     },
     availableLocales() {
