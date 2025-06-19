@@ -138,11 +138,11 @@
                   {{ $t("IHaveRead") }}
                   <nuxt-link to="/legal-infos/terms-of-use/">{{
                     $t("TermsOfUse")
-                  }} </nuxt-link>
+                    }} </nuxt-link>
                   {{ $t("And") }}
                   <nuxt-link to="/legal-infos/privacy-policy/">{{
                     $t("PrivacyPolicy")
-                  }}</nuxt-link>.
+                    }}</nuxt-link>.
                 </p>
               </div>
             </b-step-item>
@@ -154,14 +154,14 @@
               </div>
               <b-field>
                 <b-input :placeholder="$t('VerifyAccountVerificationCode')" v-model="verificationToken" expanded
-                  size="is-medium" required :loading="verificationLoading" maxlength="40" icon-right="key"></b-input>
+                  size="is-medium" required :loading="verificationLoading" icon-right="key"></b-input>
               </b-field>
               <p class="is-size-5 notification" align="justify">
                 {{ $t('VerifyAccountText') }}
               </p>
 
               <b-button type="is-text" :loading="mailLoading" @click="sendAnotherMail()">{{ $t("VerificationMoreMail")
-              }}</b-button>
+                }}</b-button>
             </b-step-item>
           </b-steps>
         </div>
@@ -187,7 +187,7 @@
                     passwordConfirmation
                   )
                   ">{{ $t("SignUp") }}</b-button><b-button v-else id="signupmodal-verify" class="is-success fullWidth"
-                :disabled="(notSignedUp) || (verificationToken.length != 40)" @click="
+                :disabled="(notSignedUp) || verificationToken.length < 4" @click="
                   onVerify()
                   ">{{ $t("VerifyAccountOK") }}</b-button>
             </div>
