@@ -259,12 +259,17 @@ export default {
     async onDrop(ev) {
       ev.preventDefault();
       ev.stopPropagation();
-      const targetId = ev.target.offsetParent.id;
+      let element = ev.target;
+      while (element && !element.hasAttribute("collection") && !element.classList.contains("pictogram")) {
+        element = element.parentElement;
+      }
+      const targetId = element?.id;
       // Call the store action
       if (this.$store.getters.getDragndrop) {
         const dragndrop = this.$store.getters.getDragndrop;
         this.$store.commit("setDragndrop", undefined);
         this.timer = clearTimeout(this.timer);
+        console.debug("[DEBUG] Dropped on ", targetId, dragndrop);
         await this.moveToCollection(targetId, dragndrop);
         this.timer = clearTimeout(this.timer);
       }
@@ -273,6 +278,7 @@ export default {
       document.querySelectorAll("div.head-actions").forEach((element) => {
         element.style.display = "flex";
       });
+      console.debug("[DEBUG] Drag end", this.$store.getters.getDragndrop, parseInt(this.$route.query.fatherCollectionId), this.$store.getters.getDragndrop?.fatherCollectionId);
       if (
         this.$store.getters.getDragndrop &&
         this.$store.getters.getDragndrop.fatherCollectionId !=
@@ -282,6 +288,7 @@ export default {
         if (this.$store.getters.getDragndrop) {
           this.$store.commit("setDragndrop", undefined);
         }
+        console.debug("[DEBUG] Drag end on ", parseInt(this.$route.query.fatherCollectionId), dragndrop);
         await this.moveToCollection(
           parseInt(this.$route.query.fatherCollectionId),
           dragndrop
