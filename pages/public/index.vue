@@ -94,6 +94,9 @@ export default {
       per_page_options: [15, 30, 50],
     };
   },
+  mounted() {
+    this.searchFirst();
+  },
   methods: {
     async searchPublic() {
       this.loading = true;
