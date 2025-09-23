@@ -258,7 +258,6 @@ export default {
     },
     async onDrop(ev) {
       ev.preventDefault();
-      ev.stopPropagation();
       let element = ev.target;
       while (element && !element.hasAttribute("collection") && !element.classList.contains("pictogram")) {
         element = element.parentElement;
@@ -275,10 +274,11 @@ export default {
       }
     },
     async onDragEnd(ev) {
+      console.debug("[DEBUG] Drag end", ev);
+      console.debug("[DEBUG] Drag end", this.$store.getters.getDragndrop, parseInt(this.$route.query.fatherCollectionId), this.$store.getters.getDragndrop?.fatherCollectionId);
       document.querySelectorAll("div.head-actions").forEach((element) => {
         element.style.display = "flex";
       });
-      console.debug("[DEBUG] Drag end", this.$store.getters.getDragndrop, parseInt(this.$route.query.fatherCollectionId), this.$store.getters.getDragndrop?.fatherCollectionId);
       if (
         this.$store.getters.getDragndrop &&
         this.$store.getters.getDragndrop.fatherCollectionId !=

@@ -3,7 +3,7 @@
     <div v-if="sidebar
     " style="padding-top: 9px" />
     <transition name="fade" mode="out-in">
-      <div :key="getFilteredPictoList.length" class="columns is-multiline is-mobile even">
+      <div :key="getFilteredPictoList.length" class="columns is-multiline is-mobile even picto-container">
         <picto :class="sidebar
           ? 'column is-12'
           : sidebarUsed
@@ -16,11 +16,6 @@
         </div>
       </div>
     </transition>
-    <div v-if="canReturn && dragndropId" class="drag-return"
-      v-on="{ dragover: onDragOver, dragleave: onDragLeave, drop: onDrop }"></div>
-    <div id="return" class="return">
-      <b-icon icon="chevron-left" class="return-icon" />
-    </div>
     <div class="filler"></div>
   </div>
 </template>
@@ -33,33 +28,6 @@ export default {
   mixins: [lang, links],
   components: {
     picto
-  },
-  data() {
-    return {
-      timer: 0
-    };
-  },
-  methods: {
-    onDragOver(ev) {
-      ev.preventDefault();
-      ev.dataTransfer.dropEffect = "move";
-      const goBack = document.getElementById("return");
-      goBack.style.transform = "scale(1.5)";
-      goBack.style.left = "100px";
-      if (!this.timer) {
-        this.timer = setTimeout(() => {
-          this.$nuxt.$emit("removeSpeechDrag");
-        }, 600);
-      }
-    },
-    onDragLeave(ev) {
-      ev.preventDefault();
-      this.timer = clearTimeout(this.timer);
-      const goBack = document.getElementById("return");
-      goBack.style.transform = "scale(0)";
-      goBack.style.left = "10px";
-    },
-    onDrop(ev) { },
   },
   props: {
     pictos: {
@@ -89,15 +57,6 @@ export default {
     isDropZone() {
       return (
         this.dragndropId && (this.isEditor || this.isToUser) && window.navigator.onLine
-      );
-    },
-    dragndropId() {
-      return this.$store.getters.getDragndrop?.draggedPictoId;
-    },
-    canReturn() {
-      return (
-        this.$store.getters.getRootId !=
-        parseInt(this.$route.query.fatherCollectionId)
       );
     },
     customPictoSize() {
@@ -139,40 +98,5 @@ export default {
 
 .filler {
   padding-bottom: 30vh;
-}
-
-.drag-return {
-  position: fixed;
-  width: 35px;
-  height: calc(100vh - 64px);
-  left: 0px;
-  top: 58px;
-  background: #00000020;
-  border-radius: 0px 24px 24px 0px;
-  z-index: 2 !important;
-  border: solid;
-  border-color: #00000020;
-  border-width: 2px;
-}
-
-.return {
-  position: fixed;
-  width: 5vmax;
-  height: 5vmax;
-  top: 50vh;
-  left: 10px;
-  background-color: #ff5757;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 500ms ease;
-  transform: scale(0);
-  box-shadow: 2px 2px 7px #00000090;
-}
-
-.return-icon {
-  color: white;
-  font-size: xxx-large;
 }
 </style>
