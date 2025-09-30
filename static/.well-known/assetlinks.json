@@ -1,5 +1,15 @@
-[{
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target" : { "namespace": "android_app", "package_name": "org.pictalk.www.twa",
-                 "sha256_cert_fingerprints": ["FF:CD:C2:C6:59:C5:61:53:63:F2:64:7C:34:E6:D8:3E:C2:DE:0E:2C:A4:9C:46:4B:DE:79:71:5C:6B:A3:9B:CD"] }
-  }]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.pictalk.www.twa",
+      "sha256_cert_fingerprints": [
+        "FF:CD:C2:C6:59:C5:61:53:63:F2:64:7C:34:E6:D8:3E:C2:DE:0E:2C:A4:9C:46:4B:DE:79:71:5C:6B:A3:9B:CD",
+        "70:B3:A3:87:24:DF:AB:0D:FD:D9:A7:68:22:6B:37:06:5E:7E:35:69:01:1B:02:CB:26:A8:B8:5B:8B:35:FB:28"
+      ]
+    }
+  }
+]
