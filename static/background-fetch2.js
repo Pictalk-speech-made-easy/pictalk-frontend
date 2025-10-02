@@ -9,11 +9,7 @@ bc3.postMessage("authenticated");
 let token;
 let tokenExp;
 bc3.onmessage = (event) => {
-  console.log("Received message from navbar: " + event.data)
   if (event.isTrusted) {
-    console.log("Received authenticated message from navbar: " + event.data);
-    console.log("Token: " + event.data.jwt);
-    console.log("TokenExp: " + event.data.expDate);
     token = event.data.jwt;
     tokenExp = event.data.expDate;
   }
@@ -43,10 +39,7 @@ async function checkAuthenticated(self) {
       tokenExp = cookies.filter((c) => c.name == 'expirationDate')[0]?.value;
     }
   }
-  console.log("Token: " + token)
-  console.log("TokenExp: " + tokenExp)
   if (new Date().getTime() < +tokenExp && token) {
-    console.log("Authenticated")
     authenticated = true;
     broadcastProgressInterval = setInterval(function () {
       broadcastProgress();
@@ -55,9 +48,8 @@ async function checkAuthenticated(self) {
     fetchFromList();
     setTimeout(function () {
       checkAuthenticated(self);
-    }, 180000);
+    }, 600000);
   } else {
-    console.log("Not authenticated")
     authenticated = false;
     clearInterval(broadcastProgressInterval);
     setTimeout(function () {
@@ -67,7 +59,6 @@ async function checkAuthenticated(self) {
 }
 
 async function checkMissingPictos(self, token) {
-  console.log("checkMissingPictos");
   let collections = await self.fetch(apiUrl + '/collection', {
     method: 'GET',
     headers: {
