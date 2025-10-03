@@ -5,6 +5,7 @@
 </template>
 <script>
 export default {
+  layout: "pictalk",
   mounted() {
     this.$router.push("/pictalk");
   }

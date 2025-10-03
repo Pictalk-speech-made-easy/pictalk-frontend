@@ -767,7 +767,7 @@ export const actions = {
     if (alreadyFetchedCollections) {
       res = alreadyFetchedCollections;
     } else {
-      res = (await axios.get("/collection")).data;
+      res = (await axios.get("/collection/all")).data;
     }
 
     let toUpdate = res.map(collection => parseAndUpdateEntireCollection(vuexContext, collection, true));

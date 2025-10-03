@@ -82,15 +82,11 @@ export default {
         }
         );
         if (!this.voiceURI) {
-          console.debug("No voice URI present in the user language and device info")
           this.voiceURI = this.voices.filter((voice) =>
             voice.lang.includes(this.getUserLang)
           )[0]?.voiceURI;
-          console.debug("Voice selected by lang: ", this.voiceURI)
         }
       } else {
-        console.debug("No user language")
-        console.debug("Selecting voice by locale: ", this.localeIso())
 
         this.searchForPreferredVoices();
 
@@ -99,7 +95,6 @@ export default {
             (voice) => voice.lang == this.localeIso()
           )[0]?.voiceURI;
         }
-        console.debug("Voice selected by locale: ", this.voiceURI)
       }
     });
     allVoicesObtained.catch((err) => {
