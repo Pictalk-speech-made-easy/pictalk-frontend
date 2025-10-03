@@ -127,7 +127,7 @@
       " class="adminMenu adminoption columns smallMargin">
         <div class="column noMargin is-mobile">
           <b-button :disabled="!isOnline" type="is-success" icon-right="plus" @click="
-            setShortcutCollectionIdDirectlyToRoot(picto, !picto.collection)
+            copyPublicToRoot(picto, !picto.collection)
             " />
         </div>
       </div>

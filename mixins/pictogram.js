@@ -8,6 +8,30 @@ export default {
     }
   },
   methods: {
+    async copyPublicToRoot(item, isPicto) {
+      try {
+        if (isPicto) {
+          const copiedPicto = await this.$store.dispatch("copyPictoById", {
+            pictoId: item.id,
+            fatherCollectionId: this.$store.getters.getRootId,
+          });
+        } else {
+          await this.$store.dispatch(
+            "copyCollectionById",
+            {
+              collectionId: item.id,
+              fatherCollectionId: this.$store.getters.getRootId,
+            }
+          );
+        }
+        const notif = this.$buefy.toast.open({
+          message: this.$t("PublicCopy"),
+          type: "is-success",
+        });
+      } catch {
+
+      }
+    },
     async setShortcutCollectionIdDirectlyToRoot(item, isPicto) {
       let collection = JSON.parse(
         JSON.stringify(await this.getCollectionFromId(this.$store.getters.getRootId))
