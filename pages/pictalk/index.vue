@@ -67,6 +67,7 @@ import axios from "axios";
 import sidebar from "@/components/pictos/sidebar";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
+import DondationModal from "@/components/auth/donationModal.vue";
 import lang from "@/mixins/lang";
 export default {
   nuxtI18n: false,
@@ -96,6 +97,22 @@ export default {
         }
         this.sidebarPictos = await this.loadedSidebarPictos();
       }
+    },
+    async isAdmin(isAdmin, previousIsAdmin) {
+      if (!isAdmin) return;
+      const probability = Math.random();
+      console.log("Admin detected, probability: ", probability);
+      if (probability > 0.2) return;
+      setTimeout(() => {
+        this.$buefy.modal.open({
+          parent: this,
+          component: DondationModal,
+          hasModalCard: true,
+          customClass: "custom-class custom-class-2",
+          trapFocus: true,
+          canCancel: ["escape", "x"],
+        });
+      }, 500);
     },
   },
   created() {
@@ -172,6 +189,9 @@ export default {
     fatherCollectionId() {
       return this.$route.query.fatherCollectionId;
     },
+    isAdmin() {
+      return this.$route.query.isAdmin;
+    },
     collectionColor() {
       if (this.collection) {
         if (this.collection.color) {
@@ -209,7 +229,6 @@ export default {
     this.initialization = true;
     if (this.$route.query.fatherCollectionId) {
       const isCollectionInStore = await this.getCollectionFromId(parseInt(this.$route.query.fatherCollectionId, 10));
-      console.log("Fetch isCollectionInStore", parseInt(this.$route.query.fatherCollectionId, 10), isCollectionInStore);
       if (!isCollectionInStore) {
         await this.fetchCollection(parseInt(this.$route.query.fatherCollectionId, 10));
       }
