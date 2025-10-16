@@ -216,7 +216,7 @@ export default {
           if (pictalkSpeech.length <= 1) {
             this.$store.commit("resetNavigation");
             if (this.publicMode) {
-              this.$router.push("/public?fatherCollectionId=346");
+              this.$router.push("/public?fatherCollectionId=284083");
             } else {
               if (this.$store.getters.getRootId) {
                 this.$router.push({
@@ -251,7 +251,7 @@ export default {
       }
       this.$store.commit("resetNavigation");
       if (this.publicMode) {
-        this.$router.push("/public?fatherCollectionId=346");
+        this.$router.push("/public?fatherCollectionId=284083");
         this.$store.commit("eraseSpeech");
       } else {
         this.$store.commit("eraseSpeech");

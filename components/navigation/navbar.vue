@@ -33,7 +33,7 @@
               outlined>{{ $t("SignUp") }}</b-button>
             <b-button v-else class="bolder customButton" type="is-light" icon-right="logout" @click="onLogout" />
             <b-button class="bolder customButton" outlined v-if="!isLogged" tag="nuxt-link"
-              to="/public?fatherCollectionId=346" type="is-primary" icon-right="arrow-right-box">{{
+              to="/public?fatherCollectionId=284083" type="is-primary" icon-right="arrow-right-box">{{
                 $t("TryPictalk") }}</b-button>
           </div>
         </b-navbar-item>

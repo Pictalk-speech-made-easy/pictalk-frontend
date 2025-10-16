@@ -368,7 +368,7 @@ export default {
     },
     navigateToHomeCollection() {
       if (this.publicMode) {
-        this.$router.push("/public?fatherCollectionId=346");
+        this.$router.push("/public?fatherCollectionId=284083");
       } else {
         if (this.$store.getters.getRootId) {
           this.$router.push({

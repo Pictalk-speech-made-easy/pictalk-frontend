@@ -171,7 +171,7 @@ export default {
         });
       } else {
         this.$router.push({
-          path: "/public?fatherCollectionId=346"
+          path: "/public?fatherCollectionId=284083"
         });
       }
     }
