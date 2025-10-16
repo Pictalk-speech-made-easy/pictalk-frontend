@@ -43,12 +43,12 @@
         <a class="morecontrast" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU</a>.
         {{ $t("TakeALook") }}
         <a href="https://www.pictalk.org/fr/terms-of-service/" class="morecontrast">{{
-              $t("TermsOfUse")
-            }}</a>
+          $t("TermsOfUse")
+        }}</a>
         {{ $t("And") }}
         <a href="https://www.pictalk.org/fr/privacy-policy/" class="morecontrast">{{
-              $t("PrivacyPolicy")
-            }}</a>. <b>PicTalk</b> {{ $t("ProjectBackedBy") }}
+          $t("PrivacyPolicy")
+        }}</a>. <b>PicTalk</b> {{ $t("ProjectBackedBy") }}
       </p>
     </div>
     <br />

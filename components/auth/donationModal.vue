@@ -25,7 +25,7 @@ export default {
   name: "donationModal",
   methods: {
     openDonationPage() {
-      window.open("https://www.helloasso.com/associations/pictalk-speech-made-easy", "_blank");
+      window.open("https://www.helloasso.com/associations/pictalk-speech-made-easy/formulaires/1", "_blank");
     }
   }
 };
