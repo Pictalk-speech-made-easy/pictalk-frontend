@@ -101,8 +101,7 @@ export default {
     async isAdmin(isAdmin, previousIsAdmin) {
       if (!isAdmin) return;
       const probability = Math.random();
-      console.log("Admin detected, probability: ", probability);
-      if (probability > 0.2) return;
+      if (probability > 0.4) return;
       setTimeout(() => {
         this.$buefy.modal.open({
           parent: this,
@@ -518,14 +517,6 @@ export default {
   padding-right: 0vw;
   padding-left: 0vw;
   margin: 0%;
-  /* Firefox */
-  height: -moz-calc(100vh - 54px);
-  /* WebKit */
-  height: -webkit-calc(100vh - 54px);
-  /* Opera */
-  height: -o-calc(100vh - 54px);
-  /* Standard */
-  height: calc(100vh - 54px);
   width: 100vw;
 }
 

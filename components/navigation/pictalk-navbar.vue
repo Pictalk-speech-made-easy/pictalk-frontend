@@ -1,124 +1,126 @@
 <template>
-  <b-navbar fixed-top>
-    <template slot="brand">
-      <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipReturn')"
-        :delay="1000" :triggers="['hover']" style="margin-top: 0.3rem">
-        <b-button :disabled="parseInt($route.query.fatherCollectionId) == $store.getters.getUser.root"
-          class="customButton" style="background-color: hsl(210, 100%, 60%); min-width: 80px;"
-          @click="navigateToParentCollection()" icon-right="arrow-left" />
-      </b-tooltip>
-      <b-button v-if="isNewNavigationStyle"
-        :disabled="parseInt($route.query.fatherCollectionId) == $store.getters.getUser.root" class="customButton"
-        style="background-color: #ff4a4a; color: white; min-width: 80px; margin-top: 0.3rem; margin-left: 0.5rem"
-        @click="navigateToHomeCollection()" icon-right="home" />
-      <div :style="this.$route.path.includes('pictalk') ? '' : 'display:none'" class="columns is-mobile margins">
-        <div v-if="$route.query.isAdmin && !checkCopyCollectionId && this.$route.path.includes('pictalk')"
-          class="column noPadding dropdown">
-          <b-dropdown :disabled="!isEditorFatherId && !isToUserFatherId" id="nav-create" class="column"
-            :mobile-modal="false" trap-focus :triggers="['click', 'hover']" aria-role="list">
-            <template #trigger>
-              <b-button :disabled="!isEditorFatherId && !isToUserFatherId" style="background-color: hsl(154, 100%, 65%)"
-                data-cy="pictalk-navbar-create-button" icon-right="plus" :label="$t('Create')" class="customButton" />
-            </template>
-            <b-dropdown-item class="verticalPadding" @click="addPicto(true)" aria-role="listitem"
-              data-cy="pictalk-navbar-create-pictogram-button"><b>{{ $t("Pictogram") }}</b> <b-icon icon="image" />
-            </b-dropdown-item>
-            <b-dropdown-item class="verticalPadding" @click="addPicto(false)" aria-role="listitem"
-              data-cy="pictalk-navbar-create-collection-button"><b>{{ $t("Collection") }}</b> <b-icon
-                icon="folder-table" />
-            </b-dropdown-item>
-          </b-dropdown>
-        </div>
-
-        <div v-if="checkCopyCollectionId && $route.query.isAdmin" class="column noPadding">
-          <b-button class="customButton" style="background-color: hsl(210, 100%, 60%); min-width: 80px"
-            @click="copyCollection()" icon-right="content-paste" />
-        </div>
-        <div v-if="checkCopyCollectionId && $route.query.isAdmin" class="column noPadding">
-          <b-button class="customButton" style="background-color: hsl(0, 0%, 96%); min-width: 80px"
-            @click="cancelCopy()" icon-right="close" />
-        </div>
-      </div>
-    </template>
-    <template slot="start">
-      <b-navbar-item><img src="~/assets/logo_compressed.png" alt="Logo of a web app that help speach-disabled people"
-          height="44px" style="aspect-ratio: 411 / 130;" /></b-navbar-item>
-      <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
-      <b-navbar-item tag="nuxt-link" to="/tutorials">{{ $t("Tutorial") }} 🚀</b-navbar-item>
-    </template>
-    <template slot="end">
-      <b-navbar-item tag="div">
-        <div class="buttons b-tooltips">
-          <b-button v-if="isAdministrator()" type="is-success is-light" icon-right="poll" tag="nuxt-link"
-            to="/administration/" />
-          <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipAdmin')"
-            :delay="1000" :triggers="['hover']">
-            <div v-if="!checkCopyCollectionId || !$route.query.isAdmin" class="column noPadding">
-              <b-button style="background-color: hsl(44, 100%, 65%)" data-cy="pictalk-navbar-admin-button"
-                :icon-left="iconIsAdmin" :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
-                @click="adminModeChoose()" class="fullWidth customButton rotateArrow" />
-            </div>
-          </b-tooltip>
-          <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipHome')"
-            :delay="1000" :triggers="['hover']">
-            <b-button @click="openModeModal()" style="color: white" icon-right="menu-down" :icon-left="icon"
-              :class="'customButton ' + colorClass" />
-          </b-tooltip>
-
-          <b-tooltip v-if="notifications && notifications.length != 0" position="is-bottom" multilined size="is-small"
-            type="is-primary" :label="$t('TooltipNotifications')" :delay="1000" :triggers="['hover']">
-            <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus append-to-body
-              class="notificationsdrop"><template #trigger>
-                <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="bell-alert"
-                  class="customButton" />
+  <div style="position: sticky; top: 0px; display: flex; flex-direction: column; width: 100%; z-index: 30;">
+    <b-navbar>
+      <template slot="brand">
+        <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipReturn')"
+          :delay="1000" :triggers="['hover']" style="margin-top: 0.3rem">
+          <b-button :disabled="parseInt($route.query.fatherCollectionId) == $store.getters.getUser.root"
+            class="customButton" style="background-color: hsl(210, 100%, 60%); min-width: 80px;"
+            @click="navigateToParentCollection()" icon-right="arrow-left" />
+        </b-tooltip>
+        <b-button v-if="isNewNavigationStyle"
+          :disabled="parseInt($route.query.fatherCollectionId) == $store.getters.getUser.root" class="customButton"
+          style="background-color: #ff4a4a; color: white; min-width: 80px; margin-top: 0.3rem; margin-left: 0.5rem"
+          @click="navigateToHomeCollection()" icon-right="home" />
+        <div :style="this.$route.path.includes('pictalk') ? '' : 'display:none'" class="columns is-mobile margins">
+          <div v-if="$route.query.isAdmin && !checkCopyCollectionId && this.$route.path.includes('pictalk')"
+            class="column noPadding dropdown">
+            <b-dropdown :disabled="!isEditorFatherId && !isToUserFatherId" id="nav-create" class="column"
+              :mobile-modal="false" trap-focus :triggers="['click', 'hover']" aria-role="list">
+              <template #trigger>
+                <b-button :disabled="!isEditorFatherId && !isToUserFatherId"
+                  style="background-color: hsl(154, 100%, 65%)" data-cy="pictalk-navbar-create-button" icon-right="plus"
+                  :label="$t('Create')" class="customButton" />
               </template>
-              <b-dropdown-item aria-role="menu-item" :focusable="false" custom class="lessPadding limitHeight">
-                <div v-for="notification in notifications" :key="notification.operation + Math.random()"
-                  class="card lessPadding notification">
-                  <div class="card-content noPadding">
-                    <div class="media">
-                      <div class="media-content noPadding centered">
-                        <p class="title is-6 notifTitle">
-                          <a :href="'mailto:' + notification.username" class="subtitle is-6 mailto">{{
-                            notification.username
-                              .split("@")[0]
-                              .replace(".", " ")
-                          }}</a>
-                          {{ notificationText(notification) }}
-                        </p>
-                        <figure class="image is-64x64">
-                          <img @click="
-                            notificationGoToCollectionOrReturn(notification)
-                            " :src="notification.image" alt="Placeholder image" />
-                        </figure>
-                        <p class="title is-6 notifTitle greyback">
-                          <!--<b-icon
+              <b-dropdown-item class="verticalPadding" @click="addPicto(true)" aria-role="listitem"
+                data-cy="pictalk-navbar-create-pictogram-button"><b>{{ $t("Pictogram") }}</b> <b-icon icon="image" />
+              </b-dropdown-item>
+              <b-dropdown-item class="verticalPadding" @click="addPicto(false)" aria-role="listitem"
+                data-cy="pictalk-navbar-create-collection-button"><b>{{ $t("Collection") }}</b> <b-icon
+                  icon="folder-table" />
+              </b-dropdown-item>
+            </b-dropdown>
+          </div>
+
+          <div v-if="checkCopyCollectionId && $route.query.isAdmin" class="column noPadding">
+            <b-button class="customButton" style="background-color: hsl(210, 100%, 60%); min-width: 80px"
+              @click="copyCollection()" icon-right="content-paste" />
+          </div>
+          <div v-if="checkCopyCollectionId && $route.query.isAdmin" class="column noPadding">
+            <b-button class="customButton" style="background-color: hsl(0, 0%, 96%); min-width: 80px"
+              @click="cancelCopy()" icon-right="close" />
+          </div>
+        </div>
+      </template>
+      <template slot="start">
+        <b-navbar-item><img src="~/assets/logo_compressed.png" alt="Logo of a web app that help speach-disabled people"
+            height="44px" style="aspect-ratio: 411 / 130;" /></b-navbar-item>
+        <b-navbar-item tag="nuxt-link" to="/"> {{ $t("Home") }}</b-navbar-item>
+        <b-navbar-item tag="nuxt-link" to="/tutorials">{{ $t("Tutorial") }} 🚀</b-navbar-item>
+      </template>
+      <template slot="end">
+        <b-navbar-item tag="div">
+          <div class="buttons b-tooltips">
+            <b-button v-if="isAdministrator()" type="is-success is-light" icon-right="poll" tag="nuxt-link"
+              to="/administration/" />
+            <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipAdmin')"
+              :delay="1000" :triggers="['hover']">
+              <div v-if="!checkCopyCollectionId || !$route.query.isAdmin" class="column noPadding">
+                <b-button style="background-color: hsl(44, 100%, 65%)" data-cy="pictalk-navbar-admin-button"
+                  :icon-left="iconIsAdmin" :label="$route.query.isAdmin ? $t('Viewer') : $t('Editor')"
+                  @click="adminModeChoose()" class="fullWidth customButton rotateArrow" />
+              </div>
+            </b-tooltip>
+            <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipHome')"
+              :delay="1000" :triggers="['hover']">
+              <b-button @click="openModeModal()" style="color: white" icon-right="menu-down" :icon-left="icon"
+                :class="'customButton ' + colorClass" />
+            </b-tooltip>
+
+            <b-tooltip v-if="notifications && notifications.length != 0" position="is-bottom" multilined size="is-small"
+              type="is-primary" :label="$t('TooltipNotifications')" :delay="1000" :triggers="['hover']">
+              <b-dropdown position="is-bottom-left" aria-role="menu" trap-focus append-to-body
+                class="notificationsdrop"><template #trigger>
+                  <b-button style="background-color: hsl(0, 100%, 100%); color: #ff5757" icon-right="bell-alert"
+                    class="customButton" />
+                </template>
+                <b-dropdown-item aria-role="menu-item" :focusable="false" custom class="lessPadding limitHeight">
+                  <div v-for="notification in notifications" :key="notification.operation + Math.random()"
+                    class="card lessPadding notification">
+                    <div class="card-content noPadding">
+                      <div class="media">
+                        <div class="media-content noPadding centered">
+                          <p class="title is-6 notifTitle">
+                            <a :href="'mailto:' + notification.username" class="subtitle is-6 mailto">{{
+                              notification.username
+                                .split("@")[0]
+                                .replace(".", " ")
+                            }}</a>
+                            {{ notificationText(notification) }}
+                          </p>
+                          <figure class="image is-64x64">
+                            <img @click="
+                              notificationGoToCollectionOrReturn(notification)
+                              " :src="notification.image" alt="Placeholder image" />
+                          </figure>
+                          <p class="title is-6 notifTitle greyback">
+                            <!--<b-icon
                             :icon="notificationIcon(notification)"
                             size="is-big"
                             :type="notificationType(notification)"
                           />-->
-                          {{ getNotificationMeaning(notification) }}
-                        </p>
+                            {{ getNotificationMeaning(notification) }}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <b-button class="is-danger center" icon-left="delete" expanded @click="deleteUserNotifications()" />
-              </b-dropdown-item>
-            </b-dropdown>
-          </b-tooltip>
+                  <b-button class="is-danger center" icon-left="delete" expanded @click="deleteUserNotifications()" />
+                </b-dropdown-item>
+              </b-dropdown>
+            </b-tooltip>
 
-          <b-tooltip v-if="this.$route.path.includes('pictalk')" position="is-bottom" multilined size="is-small"
-            type="is-primary" :label="$t('TooltipAcount')" :delay="1000" :triggers="['hover']">
-            <b-button style="background-color: hsl(207, 100%, 65%)" @click="goToAccount()" icon-right="cog"
-              class="customButton" />
-          </b-tooltip>
-          <b-tooltip v-if="this.$route.path.includes('pictalk')" position="is-bottom" multilined size="is-small"
-            type="is-primary" :label="$t('TooltipTrash')" :delay="1000" :triggers="['hover']">
-            <b-button style="background-color: hsl(45, 100%, 65%)" @click="showRestoreItemModal()" icon-right="delete"
-              class="customButton" />
-          </b-tooltip>
-          <!--
+            <b-tooltip v-if="this.$route.path.includes('pictalk')" position="is-bottom" multilined size="is-small"
+              type="is-primary" :label="$t('TooltipAcount')" :delay="1000" :triggers="['hover']">
+              <b-button style="background-color: hsl(207, 100%, 65%)" @click="goToAccount()" icon-right="cog"
+                class="customButton" />
+            </b-tooltip>
+            <b-tooltip v-if="this.$route.path.includes('pictalk')" position="is-bottom" multilined size="is-small"
+              type="is-primary" :label="$t('TooltipTrash')" :delay="1000" :triggers="['hover']">
+              <b-button style="background-color: hsl(45, 100%, 65%)" @click="showRestoreItemModal()" icon-right="delete"
+                class="customButton" />
+            </b-tooltip>
+            <!--
           <b-tooltip
             position="is-bottom"
             multilined
@@ -136,20 +138,42 @@
             />
           </b-tooltip>
           -->
-          <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipFeedback')"
-            :delay="1000" :triggers="['hover']">
-            <b-button style="background-color: hsl(34, 100%, 55%)" icon-right="bug" class="customButton"
-              @click="openFeedbackModal()" />
-          </b-tooltip>
-          <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipLogout')"
-            :delay="1000" :triggers="['hover']">
-            <b-button style="background-color: hsl(0, 100%, 100%)" icon-right="logout" class="customButton"
-              @click="onLogout" />
-          </b-tooltip>
-        </div>
-      </b-navbar-item>
-    </template>
-  </b-navbar>
+            <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipFeedback')"
+              :delay="1000" :triggers="['hover']">
+              <b-button style="background-color: hsl(34, 100%, 55%)" icon-right="bug" class="customButton"
+                @click="openFeedbackModal()" />
+            </b-tooltip>
+            <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipLogout')"
+              :delay="1000" :triggers="['hover']">
+              <b-button style="background-color: hsl(0, 100%, 100%)" icon-right="logout" class="customButton"
+                @click="onLogout" />
+            </b-tooltip>
+          </div>
+        </b-navbar-item>
+      </template>
+    </b-navbar>
+    <div v-if="$route.query.isAdmin"
+      style="display: flex; gap: 1rem; justify-content: center; width: 100%; background-color: #f9fafb; color:#272727; padding: 0.75rem 1rem; box-shadow: 0px 0px 9px #00000050;">
+      <p style="text-align: center; font-weight: 500; color: #373737;">
+        {{ $t(`Banner${Math.floor(Math.random() * 4) + 1}`) }}
+      </p>
+      <a :href="`https://www.pictalk.org/${$i18n.locale}/agenda/`"
+        style="display: flex; text-decoration: underline; align-items: center; gap: 0.5rem; font-weight: 500; color: #171717; padding: 0rem 1rem; cursor: pointer; border: none; background-color: transparent;">
+        {{ $t("BannerCta") }}
+        <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;"
+          viewBox="0 0 24 24"><!-- Icon from Material Line Icons by Vjacheslav Trushkin - https://github.com/cyberalien/line-md/blob/master/license.txt -->
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path stroke-dasharray="20" stroke-dashoffset="20" d="M3 12h17.5">
+              <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="20;0" />
+            </path>
+            <path stroke-dasharray="12" stroke-dashoffset="12" d="M21 12l-7 7M21 12l-7 -7">
+              <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.2s" values="12;0" />
+            </path>
+          </g>
+        </svg>
+      </a>
+    </div>
+  </div>
 </template>
 <script>
 import lang from "@/mixins/lang";
@@ -683,6 +707,11 @@ export default {
 
 .notifTitle {
   margin-bottom: 0.5em;
+}
+
+.navbar {
+  box-shadow: none !important;
+  border-color: #ccc !important;
 }
 
 .greyback {

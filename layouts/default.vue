@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
     <navbar />
-
     <nuxt />
     <hr style="margin: 1.2rem 0" />
     <footerPictalk />

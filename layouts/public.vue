@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
     <navbar />
-    <hr style="margin: 20px" />
     <nuxt />
     <br />
   </div>
@@ -64,10 +63,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  overflow-x: hidden;
-  position: relative;
-  width: 100%;
-  bottom: 0%;
-  height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
 }
 </style>

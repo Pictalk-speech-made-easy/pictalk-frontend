@@ -3,7 +3,6 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <div class="wrapper">
       <pictalkNavbar />
-      <hr class="margins" />
       <nuxt />
     </div>
   </div>
@@ -86,10 +85,8 @@ export default {
 
 <style scoped>
 .wrapper {
-  overflow-x: hidden;
-  position: relative;
-  width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .margins {

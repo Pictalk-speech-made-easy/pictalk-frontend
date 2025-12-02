@@ -42,11 +42,11 @@
     <div
       style="display: flex; gap: 1rem; justify-content: center; width: 100%; background-color: #f9fafb; color:#272727; padding: 0.75rem 1rem; box-shadow: 0px 0px 9px #00000050;">
       <p style="text-align: center; font-weight: 500; color: #373737;">
-        500+ familles utilisent Pictalk Buddy pour structurer le quotidien et réduire l'anxiété
+        {{ $t(`Banner${Math.floor(Math.random() * 4) + 1}`) }}
       </p>
-      <a
+      <a :href="`https://www.pictalk.org/${$i18n.locale}/agenda/`"
         style="display: flex; text-decoration: underline; align-items: center; gap: 0.5rem; font-weight: 500; color: #171717; padding: 0rem 1rem; cursor: pointer; border: none; background-color: transparent;">
-        Découvrir
+        {{ $t("BannerCta") }}
         <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;"
           viewBox="0 0 24 24"><!-- Icon from Material Line Icons by Vjacheslav Trushkin - https://github.com/cyberalien/line-md/blob/master/license.txt -->
           <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

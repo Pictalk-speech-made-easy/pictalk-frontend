@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top: 2rem;">
     <clientOnly>
       <b-field v-if="!$route.query.fatherCollectionId" class="searchBar">
         <b-input v-model="search" :placeholder="$t('SearchPictoPlaceholder')" clearable expanded style="min-width: 70vw"
