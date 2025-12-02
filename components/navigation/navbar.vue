@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-navbar fixed-top>
+  <div style="position: sticky; top: 0px; display: flex; flex-direction: column; width: 100%; z-index: 30;">
+    <b-navbar>
       <template slot="brand">
         <b-navbar-item tag="nuxt-link" :to="localePath('/')" style="padding: 0%; padding-right: 1vw; padding-left: 1vw">
           <img src="~/assets/logo_compressed.png" alt="Logo of a web app that help speach-disabled people" height="48px"
@@ -39,6 +39,27 @@
         </b-navbar-item>
       </template>
     </b-navbar>
+    <div
+      style="display: flex; gap: 1rem; justify-content: center; width: 100%; background-color: #f9fafb; color:#272727; padding: 0.75rem 1rem; box-shadow: 0px 0px 9px #00000050;">
+      <p style="text-align: center; font-weight: 500; color: #373737;">
+        500+ familles utilisent Pictalk Buddy pour structurer le quotidien et réduire l'anxiété
+      </p>
+      <a
+        style="display: flex; text-decoration: underline; align-items: center; gap: 0.5rem; font-weight: 500; color: #171717; padding: 0rem 1rem; cursor: pointer; border: none; background-color: transparent;">
+        Découvrir
+        <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;"
+          viewBox="0 0 24 24"><!-- Icon from Material Line Icons by Vjacheslav Trushkin - https://github.com/cyberalien/line-md/blob/master/license.txt -->
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path stroke-dasharray="20" stroke-dashoffset="20" d="M3 12h17.5">
+              <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="20;0" />
+            </path>
+            <path stroke-dasharray="12" stroke-dashoffset="12" d="M21 12l-7 7M21 12l-7 -7">
+              <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.2s" values="12;0" />
+            </path>
+          </g>
+        </svg>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -133,6 +154,11 @@ export default {
 .searchSection {
   min-width: 100px;
   max-width: 156px;
+}
+
+.navbar {
+  box-shadow: none !important;
+  border-color: #ccc !important;
 }
 
 .noPadding {
