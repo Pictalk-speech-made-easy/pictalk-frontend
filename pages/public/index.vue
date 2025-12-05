@@ -1,7 +1,7 @@
 <template>
-  <div style="margin-top: 2rem;">
+  <div class="scrolling">
     <clientOnly>
-      <b-field v-if="!$route.query.fatherCollectionId" class="searchBar">
+      <b-field v-if="!$route.query.fatherCollectionId" class="searchBar" style="margin: 1.25rem;">
         <b-input v-model="search" :placeholder="$t('SearchPictoPlaceholder')" clearable expanded style="min-width: 70vw"
           @keyup.native.enter="searchFirst()">
         </b-input>
@@ -198,5 +198,10 @@ export default {
 .contenant {
   display: flex;
   justify-content: center;
+}
+
+.scrolling {
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 </style>

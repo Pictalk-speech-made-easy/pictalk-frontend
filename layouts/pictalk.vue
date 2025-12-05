@@ -87,6 +87,8 @@ export default {
 .wrapper {
   display: flex;
   flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 .margins {

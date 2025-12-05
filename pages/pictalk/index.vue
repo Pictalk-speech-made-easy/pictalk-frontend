@@ -3,8 +3,8 @@
     <b-loading :is-full-page="false" v-model="initialization" :can-cancel="true"></b-loading>
     <div class="columns is-mobile noscroll">
       <div :class="!($route.query.fatherCollectionId == $store.getters.getSidebarId) && isSidebarUsed
-        ? 'is-8-mobile is-9-tablet is-10-desktop is-10-widescreen is-10-fullhd column noMargins scrolling lessPadding'
-        : 'is-12 column noMargins scrolling lessPadding'
+        ? 'is-8-mobile is-9-tablet is-10-desktop is-10-widescreen is-10-fullhd column noMargins scrolling padding'
+        : 'is-12 column noMargins scrolling padding'
         " v-on="{ dragover: onDragOverContainer, dragleave: onDragLeaveContainer, drop: onDropContainer }">
         <div v-if="pictos.length == 0 && !isPictoListPartial">
           <b-image style="aspect-ratio: 1/1" class="emptyCollection1" lazy
@@ -518,7 +518,19 @@ export default {
   padding-left: 0vw;
   margin: 0%;
   width: 100vw;
+  height: calc(100dvh - 3.25rem);
 }
+
+.nopadding {
+  padding: 0.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .nopadding {
+    padding: 1rem;
+  }
+}
+
 
 .has-background {
   border-radius: 7px;

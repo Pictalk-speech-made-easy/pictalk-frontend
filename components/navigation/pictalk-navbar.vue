@@ -1,5 +1,5 @@
 <template>
-  <div style="position: sticky; top: 0px; display: flex; flex-direction: column; width: 100%; z-index: 30;">
+  <div style="display: flex; flex-direction: column; width: 100%;">
     <b-navbar>
       <template slot="brand">
         <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipReturn')"

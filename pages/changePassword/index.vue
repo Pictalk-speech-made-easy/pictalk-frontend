@@ -9,13 +9,8 @@
         </div>
       </section>
       <b-field :label="$t('Email')">
-        <b-input
-          type="email"
-          maxlength="64"
-          v-model="username"
-          :placeholder="$t('PlaceHolderEmail')"
-          required
-        ></b-input>
+        <b-input type="email" maxlength="64" v-model="username" :placeholder="$t('PlaceHolderEmail')"
+          required></b-input>
       </b-field>
       <b-message type="is-danger" has-icon>
         {{ $t("CheckSpam") }}
@@ -27,7 +22,7 @@
   </div>
 </template>
 
-<script >
+<script>
 import axios from "axios";
 export default {
   data() {
@@ -83,4 +78,3 @@ export default {
   },
 };
 </script>
-

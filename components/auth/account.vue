@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="max-height: 100%; overflow-y: auto; overflow-x: hidden;">
     <div class="container" style="max-width: 100%">
       <support></support>
       <p class="version">v{{ $config.clientVersion }}</p>

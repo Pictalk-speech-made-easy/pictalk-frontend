@@ -52,7 +52,7 @@
   "CopySucces": "Pictograms copied successfully!",
   "CopyError": "Unable to copy pictograms",
   "ResetPassword": "Reset password",
-  "CheckSpam": "Check your SPAM folder! If you do not receive an email, please contact me at: <b>alex@pictalk.org",
+  "CheckSpam": "Check your SPAM folder! If you do not receive an email, please contact me at: alex@pictalk.org",
   "EmailPlease": "Please enter an email address",
   "ChangePasswordDemand": "The password reset request has been successfully submitted, please check your emails.",
   "NewPassword": "New password",

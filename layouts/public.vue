@@ -2,7 +2,6 @@
   <div class="wrapper">
     <navbar />
     <nuxt />
-    <br />
   </div>
 </template>
 <script>
@@ -65,5 +64,7 @@ export default {
 .wrapper {
   display: flex;
   flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
 }
 </style>

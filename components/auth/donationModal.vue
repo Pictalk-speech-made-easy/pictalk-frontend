@@ -4,6 +4,7 @@
     <section class="modal-card-body" style="flex-grow: 0; padding: 1rem 2rem;">
       <div class="subtitle">
         <p v-html="$t('DonationText' + textAlt)"></p>
+        <img :srcset="require('@/assets/pictalk-brothers.webp').srcSet" style="margin: 1rem 0rem;" />
         <br>
         <div class="button-container">
           <b-button class="button customButton" type="is-success" @click="openDonationPage()">

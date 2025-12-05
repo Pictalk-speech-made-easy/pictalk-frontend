@@ -1,6 +1,6 @@
 <template>
-  <div class="container" style="margin-top: 2rem;">
-    <div class="title">{{ $t('Tutorials') }}</div>
+  <div class="container" style="padding-bottom: 4rem;">
+    <div class="title" style="margin-top: 2rem;">{{ $t('Tutorials') }}</div>
     <support></support>
     <div class="columns is-multiline">
       <div class="card column is-one-third">
@@ -22,7 +22,7 @@
 
               </figure>
             </div>
-            <div class="media-content">
+            <div class="media-content" style="overflow: hidden;">
               <p class="title is-4">{{ $t('TutorialsBasics') }}</p>
             </div>
           </div>
@@ -49,7 +49,7 @@
                   :placeholder="require('@/assets/small_logo.png').placeholder" />
               </figure>
             </div>
-            <div class="media-content">
+            <div class="media-content" style="overflow: hidden;">
               <p class="title is-4">{{ $t('TutorialsCreation') }}</p>
             </div>
           </div>
@@ -76,7 +76,7 @@
                   :placeholder="require('@/assets/small_logo.png').placeholder" />
               </figure>
             </div>
-            <div class="media-content">
+            <div class="media-content" style="overflow: hidden;">
               <p class="title is-4">{{ $t('TutorialsOrganizing') }}</p>
             </div>
           </div>
@@ -103,7 +103,7 @@
                   :placeholder="require('@/assets/small_logo.png').placeholder" />
               </figure>
             </div>
-            <div class="media-content">
+            <div class="media-content" style="overflow: hidden;">
               <p class="title is-4">{{ $t('TutorialsSharing') }}</p>
             </div>
           </div>
@@ -124,6 +124,10 @@ export default {
 };
 </script>
 <style scoped>
+.container {
+  padding: 0px 0.5rem;
+}
+
 .subcard-img {
   border-radius: 12px;
 }
