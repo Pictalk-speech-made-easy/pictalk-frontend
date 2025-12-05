@@ -52,7 +52,7 @@
   "CopySucces": "Pictogrammen succesvol gekopieerd!",
   "CopyError": "Het is niet gelukt om de pictogrammen te kopiëren",
   "ResetPassword": "Reset wachtwoord",
-  "CheckSpam": "Controleer je spamfolder! Als je geen e-mail ontvangt, neem dan contact met mij op via: <b>alex@pictalk.org</b>",
+  "CheckSpam": "Controleer je spamfolder! Als je geen e-mail ontvangt, neem dan contact met mij op via: alex@pictalk.org</b>",
   "EmailPlease": "Voer een e-mailadres in",
   "ChangePasswordDemand": "Het verzoek om het wachtwoord opnieuw in te stellen is succesvol verzonden, controleer je e-mail.",
   "NewPassword": "Nieuw wachtwoord",

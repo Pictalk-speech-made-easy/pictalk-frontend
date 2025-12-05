@@ -52,7 +52,7 @@
   "CopySucces": "Piktogram kopierades framgångsrikt!",
   "CopyError": "Kunde inte kopiera piktogrammen",
   "ResetPassword": "Återställ lösenord",
-  "CheckSpam": "Kontrollera din skräppost! Om du inte får något e-post, vänligen kontakta mig på: <b>alex@pictalk.org",
+  "CheckSpam": "Kontrollera din skräppost! Om du inte får något e-post, vänligen kontakta mig på: alex@pictalk.org",
   "EmailPlease": "Vänligen ange en e-postadress",
   "ChangePasswordDemand": "Begäran om återställning av lösenord har skickats, vänligen kolla dina e-postmeddelanden.",
   "NewPassword": "Nytt lösenord",

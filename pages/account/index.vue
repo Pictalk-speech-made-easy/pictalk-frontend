@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="container is-max-desktop" style="padding: 1rem">
+  <div style="max-height: 100%; overflow-y: auto; overflow-x: hidden;">
+    <div class="container is-max-desktop" style="padding: 1rem 1rem 3rem 1rem">
 
       <body>
         <section class="section" style="padding: 0%">

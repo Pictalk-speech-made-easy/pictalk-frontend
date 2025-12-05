@@ -1,5 +1,5 @@
 <template>
-  <div style="position: sticky; top: 0px; display: flex; flex-direction: column; width: 100%; z-index: 30;">
+  <div style="display: flex; flex-direction: column; width: 100%; z-index: 30; position: sticky; top: 0px;">
     <b-navbar>
       <template slot="brand">
         <b-navbar-item tag="nuxt-link" :to="localePath('/')" style="padding: 0%; padding-right: 1vw; padding-left: 1vw">
