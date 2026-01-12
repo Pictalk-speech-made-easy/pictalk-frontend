@@ -1,6 +1,5 @@
 <template>
   <div>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <div class="wrapper">
       <pictalkNavbar />
       <nuxt />
@@ -14,6 +13,16 @@ export default {
   middleware: ["axios", "check-auth", "auth"],
   components: {
     pictalkNavbar,
+  },
+  head() {
+    return {
+      link: [
+        {
+          rel: "preconnect",
+          href: "https://cdn.jsdelivr.net",
+        },
+      ],
+    };
   },
   data() {
     return {

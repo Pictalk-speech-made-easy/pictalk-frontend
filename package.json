@@ -1,6 +1,6 @@
 {
   "name": "Pictalk AAC",
-  "version": "2.9.12",
+  "version": "2.9.13",
   "description": "Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ",
   "author": "Alexandros SIDIRAS GALANTE",
   "private": true,
@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "nuxt -H 0.0.0.0",
-    "build": "nuxt build",
+    "build": "API_URL=https://api.pictalk.org nuxt build",
     "start": "nuxt start",
     "start:cypress": "npm run start & cypress run",
     "generate:start": "API_URL=https://api.pictalk.org npm run generate && npm run start",
