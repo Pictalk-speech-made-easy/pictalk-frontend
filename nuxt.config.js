@@ -84,12 +84,8 @@ export default {
   sitemap: {
     hostname: 'https://application.pictalk.org',
     gzip: false,
-    i18n: true,
+    i18n: false,
     trailingSlash: true,
-    i18n: {
-      locales: ['en', 'es', 'fr', 'it', 'de', 'ro', 'pt', 'el', 'ar', 'sk'],
-      routesNameSeparator: '___'
-    },
     exclude: [
       '/changePassword',
       '/account',
@@ -99,6 +95,7 @@ export default {
     ],
   },
   i18n: {
+    strategy: 'no_prefix',
     baseURL: 'https://application.pictalk.org',
     defaultLocale: 'en',
     detectBrowserLanguage: {
@@ -108,6 +105,12 @@ export default {
       redirectOn: 'root',
       cookieCrossOrigin: true
     },
+    lazy: true,
+    langDir: 'lang/',
+    vueI18n: {
+      fallbackLocale: 'en',
+    },
+    vueI18nLoader: true,
     locales: [
       {
         code: 'en',
@@ -188,14 +191,6 @@ export default {
         file: 'sv-SE.js'
       }
     ],
-    lazy: true,
-    langDir: 'lang/',
-    defaultLocale: 'en',
-    strategy: 'prefix_except_default',
-    vueI18n: {
-      fallbackLocale: 'en',
-    },
-    vueI18nLoader: true,
   },
   modules: [
     // Doc: https://buefy.github.io/#/documentation
