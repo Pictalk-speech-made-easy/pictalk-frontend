@@ -135,13 +135,13 @@
             <img v-if="!rendered" :src="dynamicSrc" class="optionImage" />
             <b-field style="padding-top: 0.8rem">
               <b-switch v-model="options.cross.enabled" type="is-success" class="optionSwitch">{{ $t("Negation")
-                }}</b-switch>
+              }}</b-switch>
               <b-switch v-model="options.arrow.enabled" type="is-success" class="optionSwitch">{{ $t("Time")
-                }}</b-switch>
+              }}</b-switch>
               <b-switch v-model="options.plus.enabled" type="is-success" class="optionSwitch">{{ $t("Plural")
-                }}</b-switch>
+              }}</b-switch>
               <b-switch v-model="options.question.enabled" type="is-success" class="optionSwitch">{{ $t("Question")
-                }}</b-switch>
+              }}</b-switch>
             </b-field>
             <b-field>
               <b-button icon-left="refresh" :label="$t('Rotation')" @click="rotateImg()"></b-button>
@@ -537,7 +537,7 @@ export default {
                         )?.data.translation;
                         resolve();
                       } catch (error) {
-                        reject(error);
+                        resolve(); // silently fail
                       }
                     } else {
                       if (this.picto.meaning[this.getUserLang]) {
@@ -550,7 +550,7 @@ export default {
                             })
                           )?.data.translation;
                         } catch (error) {
-                          reject(error);
+                          resolve();  // silently fail
                         }
                       } else {
                         this.picto.meaning[language] = "";
@@ -565,7 +565,7 @@ export default {
                             })
                           )?.data.translation;
                         } catch (error) {
-                          reject(error);
+                          resolve();  // silently fail
                         }
                       } else {
                         this.picto.speech[language] = "";
