@@ -60,12 +60,12 @@
     <div style="max-width: 768px;" class="container is-max-widescreen">
       <div class="columns is-vcentered">
         <div class="column">
-          <b-button @click="openSignUpModal" class="is-primary is-large is-fullwidth">
+          <b-button @click="openSignUpModal" class="is-success is-large is-fullwidth">
             {{ $t('SignUp') }}
           </b-button>
         </div>
         <div class="column">
-          <b-button class="is-large is-fullwidth">
+          <b-button v-if="isAndroidDevice || isAppleDevice" class="is-large is-fullwidth">
             <a v-if="isAndroidDevice" href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
               <div class="columns is-vcentered is-mobile">
                 <p class="column">
@@ -77,7 +77,7 @@
                 </div>
               </div>
             </a>
-            <a v-if="isAppleDevice" href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
+            <a v-else href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
               <div class="columns is-vcentered is-mobile">
                 <p class="column">
                   {{ $t('DownloadApp') }}
@@ -88,6 +88,9 @@
                 </div>
               </div>
             </a>
+          </b-button>
+          <b-button v-else @click="openSignInModal()" class="is-primary is-large is-fullwidth">
+            {{ $t("LogIn") }}
           </b-button>
         </div>
 
@@ -119,6 +122,7 @@
   </div>
 </template>
 <script>
+import signin from "@/components/auth/signinModal";
 import axios from "axios";
 import signup from "@/components/auth/signupModal";
 import deviceInfos from "@/mixins/deviceInfos";
@@ -211,6 +215,16 @@ export default {
     }
   },
   methods: {
+    openSignInModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: signin,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        canCancel: ["escape", "x"],
+      });
+    },
     openSignUpModal() {
       this.$buefy.modal.open({
         parent: this,
