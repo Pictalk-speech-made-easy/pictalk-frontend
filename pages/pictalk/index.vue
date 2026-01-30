@@ -99,9 +99,10 @@ export default {
       }
     },
     async isAdmin(isAdmin, previousIsAdmin) {
-      if (!isAdmin) return;
+      if (!isAdmin || this.isDonator) return;
       const probability = Math.random();
-      if (probability > 0.4) return;
+
+      //if (probability > 0.4) return;
       setTimeout(() => {
         this.$buefy.modal.open({
           parent: this,
@@ -250,10 +251,12 @@ export default {
         console.log("error ", error);
       }
     }
+    this.isDonator = await this.checkIfDonator();
     this.initialization = false;
   },
   data() {
     return {
+      isDonator: false,
       priority_timer: 0,
       isPicto: true,
       sidebarExpanded: false,
@@ -264,6 +267,18 @@ export default {
     };
   },
   methods: {
+    async checkIfDonator() {
+      try {
+        var res = await axios.get(`https://donations-api.pictalk.org/subscriptions/${this.$store.getters.getUser.username}`);
+        if (res.data.length > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        return false;
+      }
+    },
     onDragOverContainer(ev) {
       ev.preventDefault();
       ev.dataTransfer.dropEffect = "move";
