@@ -4,20 +4,48 @@
     <section class="modal-card-body" style="flex-grow: 0; padding: 1rem 2rem;">
       <div class="subtitle">
         <p v-html="$t('DonationText' + textAlt)"></p>
-        <img :srcset="require('@/assets/pictalk-brothers.webp').srcSet" style="margin: 1rem 0rem;" />
+        <img :srcset="require('@/assets/pictalk-brothers.webp').srcSet" style="margin: 1rem 0rem; max-width: 100px;" />
+        <br>
+
+        <div class="donation-selector">
+          <div class="frequency-toggle">
+            <button :class="['toggle-btn', { active: isMonthly }]" @click="isMonthly = true">
+              Mensuel
+            </button>
+            <button :class="['toggle-btn', { active: !isMonthly }]" @click="isMonthly = false">
+              Unique
+            </button>
+          </div>
+
+          <div class="amount-grid">
+            <button v-for="(amount, index) in donationArray.amounts" :key="index"
+              :class="['amount-btn', { selected: selectedAmount === amount }]" @click="selectedAmount = amount">
+              <div class="amount-value">{{ amount }}{{ donationArray.symbol }}</div>
+              <div class="amount-label">{{ getAmountLabel(index) }}</div>
+            </button>
+          </div>
+
+          <div class="custom-amount">
+            <input type="number" v-model.number="customAmount" :placeholder="`Autre montant (${donationArray.symbol})`"
+              @focus="selectedAmount = null" class="custom-amount-input" />
+          </div>
+        </div>
+
         <br>
         <div class="button-container">
-          <b-button class="button customButton" type="is-success" @click="createSubscription()">
-            {{ $t("DonationTextCta" + textAlt) }}
-          </b-button>
-          <b-button v-if="textAlt == 1 || textAlt == 3" class="button customButton" type="is-info"
-            @click="createSubscription()">
-            {{ $t("DonationTextOther") }}
-          </b-button>
-          <b-button class="button customButton" type="is-danger" @click="$parent.close()">
-            {{ $t("DonationTextDecline" + textAlt) }}
+          <p style="font-weight: bold" v-if="selectedAmount != null"> {{ selectedAmount }} {{ donationArray.symbol }}
+          </p>
+          <p style="font-weight: bold" v-else-if="customAmount != null"> {{ customAmount }} {{ donationArray.symbol }}
+          </p>
+          <b-button class="button customButton" type="is-success"
+            @click="isMonthly ? createSubscription() : createUniqueDonation()">
+            <p v-if="isMonthly">Soutenir</p>
+            <p v-else>Aide ponctuelle</p>
           </b-button>
         </div>
+        <b-button class="button" type="is-text" @click="$parent.close()">
+          Je n'ai pas les moyens
+        </b-button>
         <br>
       </div>
     </section>
@@ -34,21 +62,59 @@ export default {
       name: "",
       currency: "eur",
       textAlt: Math.floor(Math.random() * 4) + 1,
-      donationArray: {}
+      donationArray: {
+        countryCode: "FR",
+        currency: "EUR",
+        amounts: [2, 5, 10, 20, 50, 100],
+        symbol: "€",
+        symbolFirst: false
+      },
+      isMonthly: true,
+      selectedAmount: 10,
+      customAmount: null,
+      amountLabels: ["Soutien", "Basique", "Populaire", "Généreux", "Impact", "Mécène"]
     };
   },
   async mounted() {
-    this.donationArray = await this.getCountryByIP();
+    const fetchedData = await this.getCountryByIP();
+    if (fetchedData) {
+      this.donationArray = fetchedData;
+    }
   },
   methods: {
-    async createSubscription() {
+    getAmountLabel(index) {
+      return this.amountLabels[index] || "";
+    },
+    getFinalAmount() {
+      if (this.customAmount && this.customAmount > 0) return this.customAmount * 100;
+      return this.selectedAmount * 100;
+    },
+    async createUniqueDonation() {
       try {
-        var res = await axios.post(`https://donations-api.pictalk.org/v1/subscriptions`, {
-          email: this.$store.getters.getUser.email,
+        const finalAmount = this.getFinalAmount();
+        const res = await axios.post(`https://donations-api.pictalk.org/v1/donations`, {
+          email: this.$store.getters.getUser.username,
           name: "Alex",
           locale: this.$i18n.locale,
           currency: this.currency,
-          amount: 500,
+          amount: finalAmount,
+        });
+        const sessionId = res.data.sessionId;
+        if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
+      } catch (error) {
+        console.log("error ", error);
+        return false;
+      }
+    },
+    async createSubscription() {
+      try {
+        const finalAmount = this.getFinalAmount();
+        const res = await axios.post(`https://donations-api.pictalk.org/v1/subscriptions`, {
+          email: this.$store.getters.getUser.username,
+          name: "Alex",
+          locale: this.$i18n.locale,
+          currency: this.currency,
+          amount: finalAmount,
         });
         const sessionId = res.data.sessionId;
         if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
@@ -59,7 +125,7 @@ export default {
     },
     async getIPAdress() {
       try {
-        var res = await axios.get(`https://api.ipify.org?format=json`);
+        const res = await axios.get(`https://api.ipify.org?format=json`);
         if (res.data.ip) {
           return res.data.ip;
         } else {
@@ -72,12 +138,10 @@ export default {
     },
     async getCountryByIP() {
       try {
-        var ip = await this.getIPAdress();
-        var res = await axios.post(`https://donations-api.pictalk.org/v1/donation-amount-panel`, {
-          ip: ip
-        });
+        const ip = await this.getIPAdress();
+        const res = await axios.post(`https://donations-api.pictalk.org/v1/donation-amount-panel`, { ip: ip });
         this.currency = res.data.currency.toLowerCase();
-        console.log("res ", res);
+        return res.data;
       } catch (error) {
         console.log("error ", error);
         return false;
@@ -86,6 +150,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .button-container {
   flex-wrap: wrap;
@@ -141,5 +206,128 @@ div.media-content {
 
 .customButton:hover {
   box-shadow: 0px 0px 12px #00000090;
+}
+
+.donation-selector {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.frequency-toggle {
+  display: flex;
+  background: #E8E8E8;
+  border-radius: 50px;
+  padding: 4px;
+  margin-bottom: 1rem;
+  gap: 4px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+}
+
+.toggle-btn.active {
+  background: #E86C4F;
+  color: white;
+}
+
+.amount-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.amount-btn {
+  padding: 1.25rem 1rem;
+  border: 2px solid #E0E0E0;
+  border-radius: 16px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.amount-btn:hover {
+  border-color: #E86C4F;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 108, 79, 0.15);
+}
+
+.amount-btn.selected {
+  background: #E86C4F;
+  border-color: #E86C4F;
+  color: white;
+}
+
+.amount-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.amount-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.amount-btn.selected .amount-label,
+.amount-btn.popular .amount-label {
+  opacity: 1;
+}
+
+.custom-amount {
+  margin-top: 0.5rem;
+}
+
+.custom-amount-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #E0E0E0;
+  border-radius: 16px;
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  background: #F8F8F8;
+  color: #999;
+}
+
+.custom-amount-input:focus {
+  outline: none;
+  border-color: #E86C4F;
+  background: white;
+  color: #333;
+}
+
+.custom-amount-input::placeholder {
+  color: #999;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .amount-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .amount-value {
+    font-size: 1.25rem;
+  }
+
+  .amount-label {
+    font-size: 0.75rem;
+  }
 }
 </style>
