@@ -3,10 +3,9 @@
     <header class="modal-card-head"></header>
     <section class="modal-card-body" style="flex-grow: 0; padding: 1rem 2rem;">
       <div class="subtitle">
-        <p v-html="$t('DonationText' + textAlt)"></p>
-        <img :srcset="require('@/assets/pictalk-brothers.webp').srcSet" style="margin: 1rem 0rem; max-width: 100px;" />
+        <h1>{{ $t('DonationTitle') }}</h1>
+        <p v-html="$t('DonationSubtitle')"></p>
         <br>
-
         <div class="donation-selector">
           <div class="frequency-toggle">
             <button :class="['toggle-btn', { active: isMonthly }]" @click="isMonthly = true">
@@ -16,7 +15,6 @@
               Unique
             </button>
           </div>
-
           <div class="amount-grid">
             <button v-for="(amount, index) in donationArray.amounts" :key="index"
               :class="['amount-btn', { selected: selectedAmount === amount }]" @click="selectedAmount = amount">
@@ -24,13 +22,11 @@
               <div class="amount-label">{{ getAmountLabel(index) }}</div>
             </button>
           </div>
-
           <div class="custom-amount">
-            <input type="number" v-model.number="customAmount" :placeholder="`Autre montant (${donationArray.symbol})`"
+            <input type="number" v-model.number="customAmount" :placeholder="`Prix libre (${donationArray.symbol})`"
               @focus="selectedAmount = null" class="custom-amount-input" />
           </div>
         </div>
-
         <br>
         <div class="button-container">
           <p style="font-weight: bold" v-if="selectedAmount != null"> {{ selectedAmount }} {{ donationArray.symbol }}
@@ -98,8 +94,10 @@ export default {
           locale: this.$i18n.locale,
           currency: this.currency,
           amount: finalAmount,
+          app: "pictalk",
+          successUrl: `${window.location.origin}/donation-success`,
+          cancelUrl: `${window.location.origin}/donation-cancel`
         });
-        const sessionId = res.data.sessionId;
         if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
       } catch (error) {
         console.log("error ", error);
@@ -115,6 +113,9 @@ export default {
           locale: this.$i18n.locale,
           currency: this.currency,
           amount: finalAmount,
+          app: "pictalk",
+          successUrl: `${window.location.origin}/donation-success`,
+          cancelUrl: `${window.location.origin}/donation-cancel`
         });
         const sessionId = res.data.sessionId;
         if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
@@ -152,6 +153,22 @@ export default {
 </script>
 
 <style scoped>
+.subtitle h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.25rem;
+  font-weight: 700;
+  color: #171717;
+  text-align: center;
+}
+
+.subtitle p {
+  font-size: 1rem;
+  margin: 0 0 1rem;
+  color: #444;
+  text-align: center;
+  line-height: 1.4;
+}
+
 .button-container {
   flex-wrap: wrap;
   display: flex;

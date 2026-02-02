@@ -274,7 +274,7 @@ export default {
   methods: {
     async checkIfDonator() {
       try {
-        var res = await axios.get(`https://donations-api.pictalk.org/subscriptions/${this.$store.getters.getUser.username}`);
+        var res = await axios.get(`https://donations-api.pictalk.org/v1/subscriptions/${this.$store.getters.getUser.username}`);
         if (res.data.length > 0) {
           return true;
         } else {
