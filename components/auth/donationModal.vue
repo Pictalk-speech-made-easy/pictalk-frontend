@@ -3,8 +3,21 @@
     <header class="modal-card-head"></header>
     <section class="modal-card-body" style="flex-grow: 0; padding: 1rem 2rem;">
       <div class="subtitle">
-        <h1>{{ $t('DonationTitle') }}</h1>
-        <p v-html="$t('DonationSubtitle')"></p>
+        <h1 v-if="this.$posthog.getFeatureFlag('ab_test_donation_modal') === 'test'">{{ $t('DonationTitleTest') }}</h1>
+        <h1 v-else>{{ $t('DonationTitleControl') }}</h1>
+        <p v-if="this.$posthog.getFeatureFlag('ab_test_donation_modal') === 'test'" v-html="$t('DonationSubtitleTest')">
+        </p>
+        <p v-else v-html="$t('DonationSubtitleControl')"></p>
+        <br>
+        <div v-if="campaign.currentTarget > 0" class="campaign-progress">
+          <div class="progress-header">
+            <span class="progress-current">{{ campaign.donationCount }} ({{ campaign.progressPercent }}%)</span>
+            <span class="progress-target">{{ campaign.currentTarget }}</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
+          </div>
+        </div>
         <br>
         <div class="donation-selector">
           <div class="frequency-toggle">
@@ -65,6 +78,15 @@ export default {
         symbol: "€",
         symbolFirst: false
       },
+      campaign: {
+        donationCount: 0,
+        currentLevel: 0,
+        currentTarget: 0,
+        nextLevel: 0,
+        nextTarget: 0,
+        progressPercent: 0,
+        levels: []
+      },
       isMonthly: true,
       selectedAmount: 10,
       customAmount: null,
@@ -72,10 +94,8 @@ export default {
     };
   },
   async mounted() {
-    const fetchedData = await this.getCountryByIP();
-    if (fetchedData) {
-      this.donationArray = fetchedData;
-    }
+    this.$posthog.capture(`donation_shown`);
+    await Promise.all([this.getCountryByIP(), this.getCampaign()]);
   },
   methods: {
     getAmountLabel(index) {
@@ -84,6 +104,16 @@ export default {
     getFinalAmount() {
       if (this.customAmount && this.customAmount > 0) return this.customAmount * 100;
       return this.selectedAmount * 100;
+    },
+    async getCampaign() {
+      try {
+        const res = await axios.get(`https://donations-api.pictalk.org/v1/campaign/goals`);
+        this.campaign = res.data;
+        return;
+      } catch (error) {
+        console.log("error ", error);
+        return false;
+      }
     },
     async createUniqueDonation() {
       try {
@@ -142,7 +172,8 @@ export default {
         const ip = await this.getIPAdress();
         const res = await axios.post(`https://donations-api.pictalk.org/v1/donation-amount-panel`, { ip: ip });
         this.currency = res.data.currency.toLowerCase();
-        return res.data;
+        this.donationArray = res.data;
+        return;
       } catch (error) {
         console.log("error ", error);
         return false;
@@ -167,6 +198,46 @@ export default {
   color: #444;
   text-align: center;
   line-height: 1.4;
+}
+
+.campaign-progress {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #171717;
+}
+
+.progress-current {
+  color: #171717;
+}
+
+.progress-target {
+  color: #171717;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 32px;
+  background: #E8E8E8;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #E86C4F 0%, #E86C4F 50%, #E86C4F 100%);
+  border-radius: 16px;
+  transition: width 0.5s ease;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }
 
 .button-container {
