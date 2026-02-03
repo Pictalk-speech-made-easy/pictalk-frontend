@@ -20,7 +20,7 @@ export default {
     this.donationInterval = setInterval(async () => {
       const session = await this.getSessionStatus();
       if (session.status === "complete") {
-        this.$posthog.capture(`${session.donationType}_donation_completed`);
+        this.$posthog.capture(`${session.donationType}-donation-completed`);
         clearInterval(this.donationInterval);
         this.donationInterval = null;
       }

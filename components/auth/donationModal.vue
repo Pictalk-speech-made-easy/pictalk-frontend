@@ -94,7 +94,7 @@ export default {
     };
   },
   async mounted() {
-    this.$posthog.capture(`donation_shown`);
+    this.$posthog.capture(`donation-shown`);
     await Promise.all([this.getCountryByIP(), this.getCampaign(), this.donationPromptShown()]);
   },
   methods: {
@@ -117,6 +117,7 @@ export default {
     },
     async createUniqueDonation() {
       try {
+        this.$posthog.capture(`create-unique-donation`);
         const finalAmount = this.getFinalAmount();
         const res = await axios.post(`https://donations-api.pictalk.org/v1/donations`, {
           email: this.$store.getters.getUser.username,
@@ -136,6 +137,7 @@ export default {
     },
     async createSubscription() {
       try {
+        this.$posthog.capture(`create-monthly-donation`);
         const finalAmount = this.getFinalAmount();
         const res = await axios.post(`https://donations-api.pictalk.org/v1/subscriptions`, {
           email: this.$store.getters.getUser.username,
