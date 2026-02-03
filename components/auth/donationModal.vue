@@ -72,8 +72,8 @@ export default {
       currency: "eur",
       textAlt: Math.floor(Math.random() * 4) + 1,
       donationArray: {
-        countryCode: "FR",
-        currency: "EUR",
+        countryCode: "fr",
+        currency: "eur",
         amounts: [2, 5, 10, 20, 50, 100],
         symbol: "€",
         symbolFirst: false
@@ -95,7 +95,7 @@ export default {
   },
   async mounted() {
     this.$posthog.capture(`donation_shown`);
-    await Promise.all([this.getCountryByIP(), this.getCampaign()]);
+    await Promise.all([this.getCountryByIP(), this.getCampaign(), this.donationPromptShown()]);
   },
   methods: {
     getAmountLabel(index) {
@@ -179,6 +179,15 @@ export default {
         return false;
       }
     },
+    async donationPromptShown() {
+      try {
+        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`);
+        return;
+      } catch (error) {
+        console.log("error ", error);
+        return false;
+      }
+    }
   }
 };
 </script>

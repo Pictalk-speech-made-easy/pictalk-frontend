@@ -99,7 +99,7 @@ export default {
       }
     },
     async isAdmin(isAdmin, previousIsAdmin) {
-      if (!isAdmin || this.isDonator) return;
+      if (!isAdmin || !this.suggestedPrompts.prompts.donator) return;
       const probability = Math.random();
 
       //if (probability > 0.4) return;
@@ -261,7 +261,14 @@ export default {
   },
   data() {
     return {
-      isDonator: false,
+      suggestedPrompts: {
+        prompts: { impact: false, donator: false },
+        segment: 'new_user',
+        lastDonationAmount: 0,
+        count: 0,
+        recurring: false,
+        suggested: 0
+      },
       priority_timer: 0,
       isPicto: true,
       sidebarExpanded: false,
@@ -272,14 +279,11 @@ export default {
     };
   },
   methods: {
-    async checkIfDonator() {
+    async fetchPrompts() {
       try {
-        var res = await axios.get(`https://donations-api.pictalk.org/v1/subscriptions/${this.$store.getters.getUser.username}`);
-        if (res.data.length > 0) {
-          return true;
-        } else {
-          return false;
-        }
+        var res = await axios.get(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/prompts`);
+        this.suggestedPrompts = res.data;
+        return;
       } catch (error) {
         return false;
       }
