@@ -281,7 +281,9 @@ export default {
   methods: {
     async fetchPrompts() {
       try {
-        var res = await axios.get(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/prompts`);
+        var res = await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/prompts`, {
+          created_at: this.$store.getters.getUser.createdDate,
+        });
         this.suggestedPrompts = res.data;
         return;
       } catch (error) {
