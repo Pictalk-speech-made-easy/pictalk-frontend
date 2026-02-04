@@ -9,22 +9,13 @@ export default {
   nuxtI18n: false,
   layout: "pictalk",
   mixins: [lang],
-  data() {
-    return {
-      donationInterval: null,
-    };
-  },
-  mounted() {
+  async mounted() {
     const sessionId = this.$route.query.session_id;
     if (!sessionId) return;
-    this.donationInterval = setInterval(async () => {
-      const session = await this.getSessionStatus();
-      if (session.status === "complete") {
-        this.$posthog.capture(`${session.donationType}-donation-completed`);
-        clearInterval(this.donationInterval);
-        this.donationInterval = null;
-      }
-    }, 10000);
+    const session = await this.getSessionStatus();
+    if (session.status === "complete") {
+      this.$posthog.capture(`${session.donationType}-donation-completed`);
+    }
   },
   methods: {
     async getSessionStatus() {

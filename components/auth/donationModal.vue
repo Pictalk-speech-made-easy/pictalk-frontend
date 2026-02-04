@@ -141,7 +141,6 @@ export default {
         const finalAmount = this.getFinalAmount();
         const res = await axios.post(`https://donations-api.pictalk.org/v1/subscriptions`, {
           email: this.$store.getters.getUser.username,
-          name: "Alex",
           locale: this.$i18n.locale,
           currency: this.currency,
           amount: finalAmount,
@@ -149,7 +148,6 @@ export default {
           successUrl: `${window.location.origin}/donation-success`,
           cancelUrl: `${window.location.origin}/donation-cancel`
         });
-        const sessionId = res.data.sessionId;
         if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
       } catch (error) {
         console.log("error ", error);
