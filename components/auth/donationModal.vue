@@ -26,16 +26,16 @@
             style="display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 24rem; margin: auto auto 0px auto;">
             <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
               @click="goToStep2A()">
-              Je soutiens
+              {{ $t('i-support') }}
             </b-button>
             <b-button class="button step-button" style="border: solid 2px; border-color: gray;" outlined
               @click="handleAlreadyGive()">
-              Je soutiens déjà
+              {{ $t('i-already-support') }}
             </b-button>
           </div>
           <div class="bottom-link">
             <b-button class="button" style="font-size: 1rem;" type="is-text" @click="goToStep2B()">
-              Je ne soutiens pas
+              {{ $t('i-dont-support') }}
             </b-button>
           </div>
         </div>
@@ -43,18 +43,10 @@
         <!-- Step 2.A: Donation Selector -->
         <div v-else-if="currentStep === 2" style="height: 100%; width: 100%; display: flex; flex-direction: column;">
           <div style="margin-top: 2rem;">
-            <div class="frequency-toggle">
-              <button :class="['toggle-btn', { active: isMonthly }]" @click="isMonthly = true">
-                Mensuel
-              </button>
-              <button :class="['toggle-btn', { active: !isMonthly }]" @click="isMonthly = false">
-                Unique
-              </button>
-            </div>
             <div class="amount-grid">
               <button v-for="(amount, index) in donationArray.amounts" :key="index"
                 :class="['amount-btn', { selected: selectedAmount === amount }]" @click="selectedAmount = amount">
-                <div class="amount-value">{{ amount }}{{ donationArray.symbol }}</div>
+                <div class="amount-value">{{ formatAmount(amount) }}</div>
                 <div class="amount-label">{{ getAmountLabel(index) }}</div>
               </button>
             </div>
@@ -65,25 +57,27 @@
           </div>
           <br>
           <div style="display: flex; flex-direction: column; margin-top: auto; gap: 0px;">
-            <p style="font-size: 1.25rem; font-weight: bold; margin: 0px;" v-if="selectedAmount != null"> {{
-              selectedAmount }} {{
-                donationArray.symbol }}
+            <p style="font-size: 1.5rem; font-weight: normal; color: #1f2937; margin: 0px;"
+              v-if="selectedAmount != null">
+              {{ formatAmount(selectedAmount) }}/mois
             </p>
-            <p style="font-size: 1.25rem; font-weight: bold; margin: 0px;" v-else-if="customAmount != null"> {{
-              customAmount }} {{
-                donationArray.symbol
-              }}</p>
-            <p style="font-size: 1.75rem; font-weight: bold; margin: 0px;">soit 3.40€/mois</p>
-            <p style="font-size: 0.75rem; margin: 0px;">après réduction fiscale</p>
+            <p style="font-size: 1.5rem; font-weight: normal; color: #1f2937; margin: 0px;"
+              v-else-if="customAmount != null">
+              {{ formatAmount(customAmount) }}/mois
+            </p>
+            <p style="font-size: 2rem; font-weight:900; color: black; margin: 0px;" v-if="amountAfterTax">
+              Soit {{ formatAmount(amountAfterTax) }}<span v-if="isMonthly">/mois</span>
+            </p>
+            <p style="font-size: 1rem; margin: 0px; color: #ff5757;">{{ $t('after-reduction') }}</p>
             <b-button class="button customButton" style="margin-top: 2rem;" :loading="loading" type="is-success"
               @click="isMonthly ? createSubscription() : createUniqueDonation()">
-              <p style="margin: 0px;" v-if="isMonthly">Soutenir</p>
-              <p style="margin: 0px;" v-else>Aide ponctuelle</p>
+              <p style="margin: 0px;" v-if="isMonthly">{{ $t('support') }}</p>
+              <p style="margin: 0px;" v-else>{{ $t('short-help') }}</p>
             </b-button>
           </div>
           <div style="display: flex; flex-direction: column;">
             <b-button class="button" type="is-text" @click="currentStep = 1">
-              Retour
+              {{ $t('return') }}
             </b-button>
           </div>
         </div>
@@ -91,26 +85,27 @@
         <!-- Step 2.B: Reasons for Not Supporting -->
         <div v-else-if="currentStep === 3">
           <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
-            Pourquoi ne souhaitez-vous pas soutenir ?</h1>
+            {{ $t('why-not-support') }}
+          </h1>
           <br>
           <div class="reason-buttons">
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
               @click="handleReason('too-expensive')">
-              1€/mois c'est trop cher
+              {{ $t('too-expensive') }}
             </b-button>
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
               @click="handleReason('dont-want')">
-              Je préfère un don unique
+              {{ $t('prefers-unique') }}
             </b-button>
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
               @click="handleReason('not-happy')">
-              Je n'utilise pas l'application
+              {{ $t('i-dont-use-app') }}
             </b-button>
           </div>
           <br>
           <div class="bottom-link">
             <b-button class="button" style="font-size: 1rem;" type="is-text" @click="currentStep = 1">
-              Retour
+              {{ $t('return') }}
             </b-button>
           </div>
         </div>
@@ -151,6 +146,14 @@ export default {
     };
   },
   computed: {
+    amountAfterTax() {
+      const amount = this.customAmount && this.customAmount > 0
+        ? this.customAmount
+        : this.selectedAmount;
+      if (!amount) return null;
+      const afterTax = (amount * 0.34).toFixed(2).replace('.00', '');
+      return afterTax;
+    },
     userType() {
       const user = this.$store.getters.getUser;
       if (!user || !user.settings || !user.settings.userType) return 'parent';
@@ -178,7 +181,7 @@ export default {
         remaining: Math.max(0, this.campaign.currentTarget - this.campaign.donationCount),
         minAmount: minAmount,
         minAmountAfterTax: (minAmount * 0.34).toFixed(2).replace('.00', ''),
-        symbol: this.donationArray.symbol
+        symbol: this.donationArray.symbol,
       };
     },
     donationTitle() {
@@ -219,6 +222,13 @@ export default {
     console.log("Suggested prompts: ", this.suggestedPrompts);
   },
   methods: {
+    formatAmount(amount) {
+      if (amount === null || amount === undefined) return '';
+      if (this.donationArray.symbolFirst) {
+        return `${this.donationArray.symbol}${amount}`;
+      }
+      return `${amount}${this.donationArray.symbol}`;
+    },
     goToStep2A() {
       this.$posthog.capture('donation-step-support-clicked');
       this.currentStep = 2;
