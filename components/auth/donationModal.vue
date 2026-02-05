@@ -1,16 +1,19 @@
 <template>
-  <div class="modal-card">
+  <div class="modal-card" style="max-width: none !important;">
     <section class="modal-card-body">
-      <div class="subtitle">
+      <div class="subtitle" style="height: 100%; display: flex; flex-direction: column;">
         <!-- Step 1: Initial Screen -->
-        <div v-if="currentStep === 1">
-          <h1>{{ donationTitle }}</h1>
-          <p v-html="donationSubtitle"></p>
+        <div v-if="currentStep === 1"
+          style="max-width: 32rem; margin: 1rem auto; height: 100%; display: flex; flex-direction: column;">
+          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
+            {{
+              donationTitle }}</h1>
+          <p style="text-align: left;" v-html="donationSubtitle"></p>
           <br>
           <div class="campaign-progress">
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+              }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
@@ -19,24 +22,27 @@
             <div class="reward-text">{{ currentLevelReward }}</div>
           </div>
           <br>
-          <div class="initial-buttons">
-            <b-button class="button step-button" outlined @click="handleAlreadyGive()">
-              Je soutiens déjà
-            </b-button>
-            <b-button class="button step-button" type="is-primary" @click="goToStep2A()">
+          <div
+            style="display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 24rem; margin: auto auto 0px auto;">
+            <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+              @click="goToStep2A()">
               Je soutiens
+            </b-button>
+            <b-button class="button step-button" style="border: solid 2px; border-color: gray;" outlined
+              @click="handleAlreadyGive()">
+              Je soutiens déjà
             </b-button>
           </div>
           <div class="bottom-link">
-            <b-button class="button" type="is-text" @click="goToStep2B()">
-              <u>Je ne soutiens pas</u>
+            <b-button class="button" style="font-size: 1rem;" type="is-text" @click="goToStep2B()">
+              Je ne soutiens pas
             </b-button>
           </div>
         </div>
 
         <!-- Step 2.A: Donation Selector -->
-        <div v-else-if="currentStep === 2">
-          <div class="donation-selector">
+        <div v-else-if="currentStep === 2" style="height: 100%; width: 100%; display: flex; flex-direction: column;">
+          <div style="margin-top: 2rem;">
             <div class="frequency-toggle">
               <button :class="['toggle-btn', { active: isMonthly }]" @click="isMonthly = true">
                 Mensuel
@@ -58,18 +64,24 @@
             </div>
           </div>
           <br>
-          <div class="button-container">
-            <p style="font-weight: bold" v-if="selectedAmount != null"> {{ selectedAmount }} {{ donationArray.symbol }}
+          <div style="display: flex; flex-direction: column; margin-top: auto; gap: 0px;">
+            <p style="font-size: 1.25rem; font-weight: bold; margin: 0px;" v-if="selectedAmount != null"> {{
+              selectedAmount }} {{
+                donationArray.symbol }}
             </p>
-            <p style="font-weight: bold" v-else-if="customAmount != null"> {{ customAmount }} {{ donationArray.symbol }}
-            </p>
-            <b-button class="button customButton" :loading="loading" type="is-success"
+            <p style="font-size: 1.25rem; font-weight: bold; margin: 0px;" v-else-if="customAmount != null"> {{
+              customAmount }} {{
+                donationArray.symbol
+              }}</p>
+            <p style="font-size: 1.75rem; font-weight: bold; margin: 0px;">soit 3.40€/mois</p>
+            <p style="font-size: 0.75rem; margin: 0px;">après réduction fiscale</p>
+            <b-button class="button customButton" style="margin-top: 2rem;" :loading="loading" type="is-success"
               @click="isMonthly ? createSubscription() : createUniqueDonation()">
-              <p v-if="isMonthly">Soutenir</p>
-              <p v-else>Aide ponctuelle</p>
+              <p style="margin: 0px;" v-if="isMonthly">Soutenir</p>
+              <p style="margin: 0px;" v-else>Aide ponctuelle</p>
             </b-button>
           </div>
-          <div class="bottom-link">
+          <div style="display: flex; flex-direction: column;">
             <b-button class="button" type="is-text" @click="currentStep = 1">
               Retour
             </b-button>
@@ -78,22 +90,26 @@
 
         <!-- Step 2.B: Reasons for Not Supporting -->
         <div v-else-if="currentStep === 3">
-          <h1>Pourquoi ne souhaitez-vous pas soutenir ?</h1>
+          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
+            Pourquoi ne souhaitez-vous pas soutenir ?</h1>
           <br>
           <div class="reason-buttons">
-            <b-button class="button reason-button" @click="handleReason('too-expensive')">
+            <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
+              @click="handleReason('too-expensive')">
               1€/mois c'est trop cher
             </b-button>
-            <b-button class="button reason-button" @click="handleReason('dont-want')">
-              Je ne veux pas soutenir
+            <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
+              @click="handleReason('dont-want')">
+              Je préfère un don unique
             </b-button>
-            <b-button class="button reason-button" @click="handleReason('not-happy')">
-              Je ne suis pas satisfait de l'application
+            <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
+              @click="handleReason('not-happy')">
+              Je n'utilise pas l'application
             </b-button>
           </div>
           <br>
           <div class="bottom-link">
-            <b-button class="button" type="is-text" @click="currentStep = 1">
+            <b-button class="button" style="font-size: 1rem;" type="is-text" @click="currentStep = 1">
               Retour
             </b-button>
           </div>
