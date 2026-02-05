@@ -10,12 +10,13 @@
           <div class="campaign-progress">
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-              }}%)</span>
+                }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
               <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
             </div>
+            <div class="reward-text">{{ currentLevelReward }}</div>
           </div>
           <br>
           <div class="initial-buttons">
@@ -179,6 +180,19 @@ export default {
         subtitle = subtitle.replace(new RegExp(`{${param}}`, 'g'), this.translationParams[param]);
       });
       return subtitle;
+    },
+    currentLevelReward() {
+      const levels = [
+        { target: 150, key: 'DonationRewardLevel1' },
+        { target: 450, key: 'DonationRewardLevel2' },
+        { target: 625, key: 'DonationRewardLevel3' },
+        { target: 1000, key: 'DonationRewardLevel4' },
+        { target: 1500, key: 'DonationRewardLevel5' },
+        { target: 2000, key: 'DonationRewardLevel6' },
+        { target: 2500, key: 'DonationRewardLevel7' }
+      ];
+      const currentLevel = levels.find(level => level.target === this.campaign.currentTarget) || levels[0];
+      return this.$t(currentLevel.key);
     }
   },
   async mounted() {
@@ -333,6 +347,14 @@ export default {
   border-radius: 16px;
   transition: width 0.5s ease;
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.reward-text {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  font-weight: 500;
 }
 
 .initial-buttons {
