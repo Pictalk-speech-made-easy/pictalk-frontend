@@ -1,103 +1,210 @@
 <template>
   <div class="modal-card">
-    <header class="modal-card-head"></header>
-    <section class="modal-card-body" style="flex-grow: 0; padding: 1rem 2rem;">
+    <section class="modal-card-body">
       <div class="subtitle">
-        <h1 v-if="this.$posthog.getFeatureFlag('ab_test_donation_modal') === 'test'">{{ $t('DonationTitleTest') }}</h1>
-        <h1 v-else>{{ $t('DonationTitleControl') }}</h1>
-        <p v-if="this.$posthog.getFeatureFlag('ab_test_donation_modal') === 'test'" v-html="$t('DonationSubtitleTest')">
-        </p>
-        <p v-else v-html="$t('DonationSubtitleControl')"></p>
-        <br>
-        <div v-if="campaign.currentTarget > 0" class="campaign-progress">
-          <div class="progress-header">
-            <span class="progress-current">{{ campaign.donationCount }} ({{ campaign.progressPercent }}%)</span>
-            <span class="progress-target">{{ campaign.currentTarget }}</span>
+        <!-- Step 1: Initial Screen -->
+        <div v-if="currentStep === 1">
+          <h1>{{ donationTitle }}</h1>
+          <p v-html="donationSubtitle"></p>
+          <br>
+          <div class="campaign-progress">
+            <div class="progress-header">
+              <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
+              }}%)</span>
+              <span class="progress-target">{{ campaign.currentTarget }}</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
+            </div>
           </div>
-          <div class="progress-bar-container">
-            <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
+          <br>
+          <div class="initial-buttons">
+            <b-button class="button step-button" outlined @click="handleAlreadyGive()">
+              Je soutiens déjà
+            </b-button>
+            <b-button class="button step-button" type="is-primary" @click="goToStep2A()">
+              Je soutiens
+            </b-button>
           </div>
-        </div>
-        <br>
-        <div class="donation-selector">
-          <div class="frequency-toggle">
-            <button :class="['toggle-btn', { active: isMonthly }]" @click="isMonthly = true">
-              Mensuel
-            </button>
-            <button :class="['toggle-btn', { active: !isMonthly }]" @click="isMonthly = false">
-              Unique
-            </button>
-          </div>
-          <div class="amount-grid">
-            <button v-for="(amount, index) in donationArray.amounts" :key="index"
-              :class="['amount-btn', { selected: selectedAmount === amount }]" @click="selectedAmount = amount">
-              <div class="amount-value">{{ amount }}{{ donationArray.symbol }}</div>
-              <div class="amount-label">{{ getAmountLabel(index) }}</div>
-            </button>
-          </div>
-          <div class="custom-amount">
-            <input type="number" v-model.number="customAmount" :placeholder="`Prix libre (${donationArray.symbol})`"
-              @focus="selectedAmount = null" class="custom-amount-input" />
+          <div class="bottom-link">
+            <b-button class="button" type="is-text" @click="goToStep2B()">
+              <u>Je ne soutiens pas</u>
+            </b-button>
           </div>
         </div>
-        <br>
-        <div class="button-container">
-          <p style="font-weight: bold" v-if="selectedAmount != null"> {{ selectedAmount }} {{ donationArray.symbol }}
-          </p>
-          <p style="font-weight: bold" v-else-if="customAmount != null"> {{ customAmount }} {{ donationArray.symbol }}
-          </p>
-          <b-button class="button customButton" type="is-success"
-            @click="isMonthly ? createSubscription() : createUniqueDonation()">
-            <p v-if="isMonthly">Soutenir</p>
-            <p v-else>Aide ponctuelle</p>
-          </b-button>
+
+        <!-- Step 2.A: Donation Selector -->
+        <div v-else-if="currentStep === 2">
+          <div class="donation-selector">
+            <div class="frequency-toggle">
+              <button :class="['toggle-btn', { active: isMonthly }]" @click="isMonthly = true">
+                Mensuel
+              </button>
+              <button :class="['toggle-btn', { active: !isMonthly }]" @click="isMonthly = false">
+                Unique
+              </button>
+            </div>
+            <div class="amount-grid">
+              <button v-for="(amount, index) in donationArray.amounts" :key="index"
+                :class="['amount-btn', { selected: selectedAmount === amount }]" @click="selectedAmount = amount">
+                <div class="amount-value">{{ amount }}{{ donationArray.symbol }}</div>
+                <div class="amount-label">{{ getAmountLabel(index) }}</div>
+              </button>
+            </div>
+            <div class="custom-amount">
+              <input type="number" v-model.number="customAmount" :placeholder="`Prix libre (${donationArray.symbol})`"
+                @focus="selectedAmount = null" class="custom-amount-input" />
+            </div>
+          </div>
+          <br>
+          <div class="button-container">
+            <p style="font-weight: bold" v-if="selectedAmount != null"> {{ selectedAmount }} {{ donationArray.symbol }}
+            </p>
+            <p style="font-weight: bold" v-else-if="customAmount != null"> {{ customAmount }} {{ donationArray.symbol }}
+            </p>
+            <b-button class="button customButton" :loading="loading" type="is-success"
+              @click="isMonthly ? createSubscription() : createUniqueDonation()">
+              <p v-if="isMonthly">Soutenir</p>
+              <p v-else>Aide ponctuelle</p>
+            </b-button>
+          </div>
+          <div class="bottom-link">
+            <b-button class="button" type="is-text" @click="currentStep = 1">
+              Retour
+            </b-button>
+          </div>
         </div>
-        <b-button class="button" type="is-text" @click="$parent.close()">
-          Je n'ai pas les moyens
-        </b-button>
-        <br>
+
+        <!-- Step 2.B: Reasons for Not Supporting -->
+        <div v-else-if="currentStep === 3">
+          <h1>Pourquoi ne souhaitez-vous pas soutenir ?</h1>
+          <br>
+          <div class="reason-buttons">
+            <b-button class="button reason-button" @click="handleReason('too-expensive')">
+              1€/mois c'est trop cher
+            </b-button>
+            <b-button class="button reason-button" @click="handleReason('dont-want')">
+              Je ne veux pas soutenir
+            </b-button>
+            <b-button class="button reason-button" @click="handleReason('not-happy')">
+              Je ne suis pas satisfait de l'application
+            </b-button>
+          </div>
+          <br>
+          <div class="bottom-link">
+            <b-button class="button" type="is-text" @click="currentStep = 1">
+              Retour
+            </b-button>
+          </div>
+        </div>
       </div>
     </section>
-    <footer class="modal-card-foot"></footer>
   </div>
 </template>
 <script>
 import axios from "axios";
 export default {
   name: "donationModal",
+  props: {
+    campaign: {
+      type: Object,
+      required: true
+    },
+    donationArray: {
+      type: Object,
+      required: true
+    },
+    suggestedPrompts: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
+      currentStep: 1,
       amount: 10000,
       name: "",
       currency: "eur",
       textAlt: Math.floor(Math.random() * 4) + 1,
-      donationArray: {
-        countryCode: "fr",
-        currency: "eur",
-        amounts: [2, 5, 10, 20, 50, 100],
-        symbol: "€",
-        symbolFirst: false
-      },
-      campaign: {
-        donationCount: 0,
-        currentLevel: 0,
-        currentTarget: 0,
-        nextLevel: 0,
-        nextTarget: 0,
-        progressPercent: 0,
-        levels: []
-      },
       isMonthly: true,
       selectedAmount: 10,
       customAmount: null,
+      loading: false,
       amountLabels: ["Soutien", "Basique", "Populaire", "Généreux", "Impact", "Mécène"]
     };
   },
+  computed: {
+    userType() {
+      const user = this.$store.getters.getUser;
+      if (!user || !user.settings || !user.settings.userType) return 'parent';
+      if (user.settings.userType === 'parent') return 'parent';
+      return 'professional';
+    },
+    donationStatus() {
+      const user = this.$store.getters.getUser;
+      if (!user || !user.donationStatus) return 'active';
+      if (user.donationStatus === 'never_donated') return 'never';
+      if (user.donationStatus === 'one_time_donor') return 'onetime';
+      return 'active';
+    },
+    abcVariant() {
+      const variant = this.$posthog.getFeatureFlag('ab_test_donation_modal_v2');
+      if (variant === 'B') return 'B';
+      if (variant === 'C') return 'C';
+      return 'A';
+    },
+    translationParams() {
+      const minAmount = this.donationArray.amounts[0] || 2;
+      return {
+        donationCount: this.campaign.donationCount,
+        currentTarget: this.campaign.currentTarget,
+        remaining: Math.max(0, this.campaign.currentTarget - this.campaign.donationCount),
+        minAmount: minAmount,
+        minAmountAfterTax: (minAmount * 0.34).toFixed(2).replace('.00', ''),
+        symbol: this.donationArray.symbol
+      };
+    },
+    donationTitle() {
+      const key = `DonationTitle_${this.userType}_${this.donationStatus}_${this.abcVariant}`;
+      let title = this.$t(key);
+      Object.keys(this.translationParams).forEach(param => {
+        title = title.replace(new RegExp(`{${param}}`, 'g'), this.translationParams[param]);
+      });
+      return title;
+    },
+    donationSubtitle() {
+      const key = `DonationSubtitle_${this.userType}_${this.donationStatus}_${this.abcVariant}`;
+      let subtitle = this.$t(key);
+      Object.keys(this.translationParams).forEach(param => {
+        subtitle = subtitle.replace(new RegExp(`{${param}}`, 'g'), this.translationParams[param]);
+      });
+      return subtitle;
+    }
+  },
   async mounted() {
     this.$posthog.capture(`donation-shown`);
-    await Promise.all([this.getCountryByIP(), this.getCampaign(), this.donationPromptShown()]);
+    this.donationPromptShown();
+    console.log("Campaign data: ", this.campaign);
+    console.log("Donation array: ", this.donationArray);
+    console.log("Suggested prompts: ", this.suggestedPrompts);
   },
   methods: {
+    goToStep2A() {
+      this.$posthog.capture('donation-step-support-clicked');
+      this.currentStep = 2;
+    },
+    goToStep2B() {
+      this.$posthog.capture('donation-step-no-support-clicked');
+      this.currentStep = 3;
+    },
+    handleAlreadyGive() {
+      this.$posthog.capture('donation-already-give-clicked');
+      this.$parent.close();
+    },
+    handleReason(reason) {
+      this.$posthog.capture('donation-no-support-reason', { reason });
+      this.$parent.close();
+    },
     getAmountLabel(index) {
       return this.amountLabels[index] || "";
     },
@@ -105,18 +212,10 @@ export default {
       if (this.customAmount && this.customAmount > 0) return this.customAmount * 100;
       return this.selectedAmount * 100;
     },
-    async getCampaign() {
-      try {
-        const res = await axios.get(`https://donations-api.pictalk.org/v1/campaign/goals`);
-        this.campaign = res.data;
-        return;
-      } catch (error) {
-        console.log("error ", error);
-        return false;
-      }
-    },
+
     async createUniqueDonation() {
       try {
+        this.loading = true;
         this.$posthog.capture(`create-unique-donation`);
         const finalAmount = this.getFinalAmount();
         const res = await axios.post(`https://donations-api.pictalk.org/v1/donations`, {
@@ -129,14 +228,17 @@ export default {
           successUrl: `${window.location.origin}/donation-success`,
           cancelUrl: `${window.location.origin}/donation-cancel`
         });
+        this.loading = false;
         if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
       } catch (error) {
         console.log("error ", error);
+        this.loading = false;
         return false;
       }
     },
     async createSubscription() {
       try {
+        this.loading = true;
         this.$posthog.capture(`create-monthly-donation`);
         const finalAmount = this.getFinalAmount();
         const res = await axios.post(`https://donations-api.pictalk.org/v1/subscriptions`, {
@@ -148,34 +250,11 @@ export default {
           successUrl: `${window.location.origin}/donation-success`,
           cancelUrl: `${window.location.origin}/donation-cancel`
         });
+        this.loading = false;
         if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
       } catch (error) {
         console.log("error ", error);
-        return false;
-      }
-    },
-    async getIPAdress() {
-      try {
-        const res = await axios.get(`https://api.ipify.org?format=json`);
-        if (res.data.ip) {
-          return res.data.ip;
-        } else {
-          return false;
-        }
-      } catch (error) {
-        console.log("error ", error);
-        return false;
-      }
-    },
-    async getCountryByIP() {
-      try {
-        const ip = await this.getIPAdress();
-        const res = await axios.post(`https://donations-api.pictalk.org/v1/donation-amount-panel`, { ip: ip });
-        this.currency = res.data.currency.toLowerCase();
-        this.donationArray = res.data;
-        return;
-      } catch (error) {
-        console.log("error ", error);
+        this.loading = false;
         return false;
       }
     },
@@ -193,6 +272,13 @@ export default {
 </script>
 
 <style scoped>
+.modal-card-body {
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+}
+
 .subtitle h1 {
   font-size: 1.5rem;
   margin: 0 0 0.25rem;
@@ -247,6 +333,58 @@ export default {
   border-radius: 16px;
   transition: width 0.5s ease;
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.initial-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.step-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.bottom-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.bottom-link .button {
+  color: #666;
+  text-decoration: underline;
+  font-size: 0.9rem;
+}
+
+.reason-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.reason-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 12px;
+  border: 2px solid #E0E0E0;
+  transition: all 0.2s ease;
+}
+
+.reason-button:hover {
+  border-color: #E86C4F;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 108, 79, 0.15);
 }
 
 .button-container {
@@ -415,6 +553,28 @@ div.media-content {
 }
 
 @media (max-width: 600px) {
+  .modal-card-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+  }
+
+  .subtitle>div[v-if] {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+  }
+
+  .subtitle h1 {
+    margin-top: 10vh;
+  }
+
+  .initial-buttons {
+    margin-top: auto;
+    margin-bottom: 2rem;
+    flex-direction: column;
+  }
+
   .amount-grid {
     grid-template-columns: repeat(2, 1fr);
   }

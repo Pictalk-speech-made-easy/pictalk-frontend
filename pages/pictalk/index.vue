@@ -67,8 +67,9 @@ import axios from "axios";
 import sidebar from "@/components/pictos/sidebar";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
-import DondationModal from "@/components/auth/donationModal.vue";
+import DonationModal from "@/components/auth/donationModal.vue";
 import lang from "@/mixins/lang";
+import UserTypeModal from "../../components/auth/userTypeModal.vue";
 export default {
   nuxtI18n: false,
   layout: "pictalk",
@@ -99,18 +100,33 @@ export default {
       }
     },
     async isAdmin(isAdmin, previousIsAdmin) {
-      if (!isAdmin || !this.suggestedPrompts.prompts.donator) return;
-      const probability = Math.random();
-
-      //if (probability > 0.4) return;
+      if (this.$store.getters.getUser && !this.$store.getters.getUser.settings?.userType) {
+        setTimeout(() => {
+          this.$buefy.modal.open({
+            parent: this,
+            component: UserTypeModal,
+            hasModalCard: true,
+            customClass: "custom-class custom-class-2",
+            trapFocus: true,
+            canCancel: [],
+          });
+        }, 500);
+      }
+      //if (!isAdmin || !this.suggestedPrompts.prompts.donator) return;
       setTimeout(() => {
         this.$buefy.modal.open({
           parent: this,
-          component: DondationModal,
+          props: {
+            campaign: this.campaign,
+            donationArray: this.donationArray,
+            suggestedPrompts: this.suggestedPrompts
+          },
+          component: DonationModal,
           hasModalCard: true,
           customClass: "custom-class custom-class-2",
           trapFocus: true,
-          canCancel: ["escape", "x"],
+          fullScreen: true,
+          canCancel: []
         });
       }, 500);
     },
@@ -251,13 +267,14 @@ export default {
         console.log("error ", error);
       }
     }
-    this.isDonator = await this.checkIfDonator();
     this.$posthog.identify(this.$store.getters.getUser.id || 'anonymous_user', {
       email: this.$store.getters.getUser.username,
       locale: this.$i18n.locale,
       isDonator: this.isDonator,
     });
     this.initialization = false;
+    await this.fetchPrompts();
+    await Promise.all([this.getCountryByIP(), this.getCampaign()]);
   },
   data() {
     return {
@@ -269,6 +286,22 @@ export default {
         recurring: false,
         suggested: 0
       },
+      donationArray: {
+        countryCode: "fr",
+        currency: "eur",
+        amounts: [2, 5, 10, 20, 50, 100],
+        symbol: "€",
+        symbolFirst: false
+      },
+      campaign: {
+        donationCount: 0,
+        currentLevel: 0,
+        currentTarget: 0,
+        nextLevel: 0,
+        nextTarget: 0,
+        progressPercent: 0,
+        levels: []
+      },
       priority_timer: 0,
       isPicto: true,
       sidebarExpanded: false,
@@ -279,6 +312,41 @@ export default {
     };
   },
   methods: {
+    async getIPAdress() {
+      try {
+        const res = await axios.get(`https://api.ipify.org?format=json`);
+        if (res.data.ip) {
+          return res.data.ip;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        console.log("error ", error);
+        return false;
+      }
+    },
+    async getCountryByIP() {
+      try {
+        const ip = await this.getIPAdress();
+        const res = await axios.post(`https://donations-api.pictalk.org/v1/donation-amount-panel`, { ip: ip });
+        this.currency = res.data.currency.toLowerCase();
+        this.donationArray = res.data;
+        return;
+      } catch (error) {
+        console.log("error ", error);
+        return false;
+      }
+    },
+    async getCampaign() {
+      try {
+        const res = await axios.get(`https://donations-api.pictalk.org/v1/campaign/goals`);
+        this.campaign = res.data;
+        return;
+      } catch (error) {
+        console.log("error ", error);
+        return false;
+      }
+    },
     async fetchPrompts() {
       try {
         var res = await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/prompts`, {
