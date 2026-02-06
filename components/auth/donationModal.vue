@@ -22,13 +22,16 @@
           </div>
           <br>
           <div
-            style="display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 24rem; margin: auto auto 0px auto;">
+            style="display: flex; flex-direction: column; width: 100%; max-width: 24rem; margin: auto auto 0px auto;">
             <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
               @click="goToStep2A()">
               {{ $t('i-support') }}
             </b-button>
-            <b-button class="button step-button" style="border: solid 2px; border-color: gray;" outlined
-              @click="handleAlreadyGive()">
+            <p style="text-align: center; margin-top: 0.25rem;">
+              <span style="font-weight: 400; color: black;">{{ $t('donate-from-x') }}</span>
+            </p>
+            <b-button class="button step-button" style="border: solid 2px; border-color: gray; margin-top: 0.5rem;"
+              outlined @click="handleAlreadyGive()">
               {{ $t('i-already-support') }}
             </b-button>
           </div>
@@ -51,8 +54,10 @@
               <input type="number" v-model.number="customAmount" :placeholder="`Prix libre (${donationArray.symbol})`"
                 @focus="selectedAmount = null" class="custom-amount-input" />
             </div>
-            <p style="margin-top: 1.5rem; text-align: left;">Les dons mensuels permettent d'assurer notre stabilité et
-              de lancer de nouveaux développement. à partir de 1€ par mois, réalisable à tout moment.</p>
+            <p style="margin-top: 1.5rem; text-align: left;">
+              <span>{{ $t('donation-why-monthly') }}</span>
+              <span style="font-weight: 600;">{{ $t('donate-from-x') }}</span>
+            </p>
           </div>
           <br>
           <div style="display: flex; flex-direction: column; margin-top: auto; gap: 0px;">

@@ -337,7 +337,7 @@
   "Banner3": "Pictalk AAC + Pictalk Buddy = Communication et autonomie complètes pour votre enfant",
   "Banner4": "Notre deuxième application vous aide à structurer les journées avec des pictogrammes",
   "BannerCta": "Découvrir",
-  "i-support": "Je soutiens mensuellement",
+  "i-support": "Je soutiens",
   "i-already-support": "Je soutiens déjà",
   "i-dont-support": "Je ne soutiens pas",
   "return": "Retour",
@@ -348,5 +348,7 @@
   "after-reduction": "après réduction fiscale",
   "short-help": "Aide ponctuelle",
   "support": "Soutenir",
-  "per-month": "/mois"
+  "per-month": "/mois",
+  "donation-why-monthly": "Les dons mensuels permettent d'assurer notre stabilité et de lancer de nouveaux développement.",
+  "donate-from-x": "à partir de 1€ par mois, réalisable à tout moment."
 }
