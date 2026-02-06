@@ -12,7 +12,7 @@
           <div class="campaign-progress">
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-              }}%)</span>
+                }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
@@ -62,20 +62,19 @@
           <br>
           <div style="display: flex; flex-direction: column; margin-top: auto; gap: 0px;">
             <p style="font-size: 1.5rem; font-weight: normal; color: #1f2937; margin: 0px;"
-              v-if="selectedAmount != null">
-              {{ formatAmount(selectedAmount) }} <span v-if="isMonthly">{{ $t('per-month') }}</span>
+              v-if="(selectedAmount != null || customAmount != null) && amountAfterTax != null">
+              {{ formatAmount(selectedAmount ?? customAmount) }} <span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
-            <p style="font-size: 1.5rem; font-weight: normal; color: #1f2937; margin: 0px;"
-              v-else-if="customAmount != null">
-              {{ formatAmount(customAmount) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
+            <p style="font-size: 2rem; font-weight:900; color: black; margin: 0px;" v-else-if="amountAfterTax == null">
+              {{ formatAmount(selectedAmount ?? customAmount) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
             <p style="font-size: 2rem; font-weight:900; color: black; margin: 0px;" v-if="amountAfterTax">
               Soit {{ formatAmount(amountAfterTax) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
-            <p style="font-size: 1rem; margin: 0px; color: #ff5757;">{{ $t('after-reduction') }}</p>
+            <p v-if="amountAfterTax" style="font-size: 1rem; margin: 0px; color: #ff5757;">{{ $t('after-reduction') }}
+            </p>
             <b-button class="button customButton" style="margin-top: 2rem; min-height: 4rem; border-radius: 12px;"
               :loading="loading" type="is-success" @click="isMonthly ? createSubscription() : createUniqueDonation()">
-
               <p style="margin: 0px; font-size: 1.5rem; font-weight: 800; color: black;">
                 <span v-if="isMonthly">{{ $t('support') }}</span>
                 <span v-else>{{ $t('short-help') }}</span>
