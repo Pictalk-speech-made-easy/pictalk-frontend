@@ -38,7 +38,6 @@
             </b-button>
           </div>
         </div>
-
         <div v-else-if="currentStep === 2" style="height: 100%; width: 100%; display: flex; flex-direction: column;">
           <div style="margin-top: 2rem;">
             <div class="amount-grid">
@@ -79,8 +78,6 @@
             </b-button>
           </div>
         </div>
-
-        <!-- Step 2.B: Reasons for Not Supporting -->
         <div v-else-if="currentStep === 3">
           <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
             {{ $t('why-not-support') }}
@@ -168,9 +165,10 @@ export default {
       return 'active';
     },
     abcVariant() {
-      const variant = this.$posthog.getFeatureFlag('ab_test_donation_modal_v2');
-      if (variant === 'B') return 'B';
-      if (variant === 'C') return 'C';
+      const variant = this.$posthog.getFeatureFlag('ab_test_donation_modal');
+      console.log("abcVariant ", variant);
+      if (variant === 'test') return 'B';
+      if (variant === 'experiment') return 'C';
       return 'A';
     },
     translationParams() {
@@ -240,7 +238,7 @@ export default {
       this.$parent.close();
     },
     handleReason(reason) {
-      this.$posthog.capture('donation-no-support-reason', { reason });
+      this.$posthog.capture(`donation-no-support-${reason}`);
       if (reason !== 'prefer-unique') {
         this.$parent.close();
         return;
@@ -264,7 +262,6 @@ export default {
         const finalAmount = this.getFinalAmount();
         const res = await axios.post(`https://donations-api.pictalk.org/v1/donations`, {
           email: this.$store.getters.getUser.username,
-          name: "Alex",
           locale: this.$i18n.locale,
           currency: this.currency,
           amount: finalAmount,
@@ -273,7 +270,7 @@ export default {
           cancelUrl: `${window.location.origin}/donation-cancel`
         });
         this.loading = false;
-        if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
+        if (res.data.checkoutUrl) window.open(res.data.checkoutUrl);
       } catch (error) {
         console.log("error ", error);
         this.loading = false;
@@ -295,7 +292,7 @@ export default {
           cancelUrl: `${window.location.origin}/donation-cancel`
         });
         this.loading = false;
-        if (res.data.checkoutUrl) window.open(res.data.checkoutUrl, "_blank");
+        if (res.data.checkoutUrl) window.open(res.data.checkoutUrl);
       } catch (error) {
         console.log("error ", error);
         this.loading = false;
