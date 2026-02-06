@@ -2,7 +2,6 @@
   <div class="modal-card" style="max-width: none !important;">
     <section class="modal-card-body">
       <div class="subtitle" style="height: 100%; display: flex; flex-direction: column;">
-        <!-- Step 1: Initial Screen -->
         <div v-if="currentStep === 1"
           style="max-width: 32rem; margin: 1rem auto; height: 100%; display: flex; flex-direction: column;">
           <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
@@ -40,7 +39,6 @@
           </div>
         </div>
 
-        <!-- Step 2.A: Donation Selector -->
         <div v-else-if="currentStep === 2" style="height: 100%; width: 100%; display: flex; flex-direction: column;">
           <div style="margin-top: 2rem;">
             <div class="amount-grid">
@@ -66,7 +64,7 @@
               {{ formatAmount(customAmount) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
             <p style="font-size: 2rem; font-weight:900; color: black; margin: 0px;" v-if="amountAfterTax">
-              Soit {{ formatAmount(amountAfterTax) }}<span v-if="isMonthly">/mois</span>
+              Soit {{ formatAmount(amountAfterTax) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
             <p style="font-size: 1rem; margin: 0px; color: #ff5757;">{{ $t('after-reduction') }}</p>
             <b-button class="button customButton" style="margin-top: 2rem;" :loading="loading" type="is-success"
@@ -142,7 +140,8 @@ export default {
       selectedAmount: 10,
       customAmount: null,
       loading: false,
-      amountLabels: ["Soutien", "Basique", "Populaire", "Généreux", "Impact", "Mécène"]
+      amountLabelsMonthly: ["Copain", "Bon copain", "Très bon copain", "Super copain", "Best friend", "Ami pour la vie"],
+      amountLabelsUnique: ["Coup de pouce", "Coup de main", "Renfort", "Gros renfort", "Coup de maître", "Ami pour la vie"]
     };
   },
   computed: {
@@ -229,6 +228,7 @@ export default {
     },
     goToStep2A() {
       this.$posthog.capture('donation-step-support-clicked');
+      this.isMonthly = true;
       this.currentStep = 2;
     },
     goToStep2B() {
@@ -249,7 +249,8 @@ export default {
       this.currentStep = 2;
     },
     getAmountLabel(index) {
-      return this.amountLabels[index] || "";
+      const labels = this.isMonthly ? this.amountLabelsMonthly : this.amountLabelsUnique;
+      return labels[index] || "";
     },
     getFinalAmount() {
       if (this.customAmount && this.customAmount > 0) return this.customAmount * 100;
