@@ -337,7 +337,7 @@
   "Banner3": "Pictalk AAC + Pictalk Buddy = Communication et autonomie complètes pour votre enfant",
   "Banner4": "Notre deuxième application vous aide à structurer les journées avec des pictogrammes",
   "BannerCta": "Découvrir",
-  "i-support": "Je soutiens",
+  "i-support": "Je soutiens mensuellement",
   "i-already-support": "Je soutiens déjà",
   "i-dont-support": "Je ne soutiens pas",
   "return": "Retour",
@@ -347,5 +347,6 @@
   "i-dont-use-app": "Je n'utilise pas l'application",
   "after-reduction": "après réduction fiscale",
   "short-help": "Aide ponctuelle",
-  "support": "Soutenir"
+  "support": "Soutenir",
+  "per-month": "/mois"
 }
