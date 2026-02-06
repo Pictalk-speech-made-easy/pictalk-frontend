@@ -54,6 +54,8 @@
               <input type="number" v-model.number="customAmount" :placeholder="`Prix libre (${donationArray.symbol})`"
                 @focus="selectedAmount = null" class="custom-amount-input" />
             </div>
+            <p style="margin-top: 1.5rem; text-align: left;">Les dons mensuels permettent d'assurer notre stabilité et
+              de lancer de nouveaux développement. à partir de 1€ par mois, réalisable à tout moment.</p>
           </div>
           <br>
           <div style="display: flex; flex-direction: column; margin-top: auto; gap: 0px;">
@@ -69,10 +71,19 @@
               Soit {{ formatAmount(amountAfterTax) }}<span v-if="isMonthly">/mois</span>
             </p>
             <p style="font-size: 1rem; margin: 0px; color: #ff5757;">{{ $t('after-reduction') }}</p>
-            <b-button class="button customButton" style="margin-top: 2rem;" :loading="loading" type="is-success"
-              @click="isMonthly ? createSubscription() : createUniqueDonation()">
-              <p style="margin: 0px;" v-if="isMonthly">{{ $t('support') }}</p>
-              <p style="margin: 0px;" v-else>{{ $t('short-help') }}</p>
+            <b-button class="button customButton" style="margin-top: 2rem; min-height: 4rem; border-radius: 12px;"
+              :loading="loading" type="is-success" @click="isMonthly ? createSubscription() : createUniqueDonation()">
+
+              <p style="margin: 0px; font-size: 1.5rem; font-weight: 800; color: black;">
+                <span v-if="isMonthly">{{ $t('support') }}</span>
+                <span v-else>{{ $t('short-help') }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  style="width: 1.5rem; height: 1.5rem; display: inline-block; margin-left: 0.5rem; transform: translateY(0.25rem);"
+                  viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                  <path fill="currentColor"
+                    d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z" />
+                </svg>
+              </p>
             </b-button>
           </div>
           <div style="display: flex; flex-direction: column;">
@@ -362,15 +373,15 @@ export default {
   width: 100%;
   height: 32px;
   background: #E8E8E8;
-  border-radius: 16px;
+  border-radius: 4px;
   overflow: hidden;
   position: relative;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #E86C4F 0%, #E86C4F 50%, #E86C4F 100%);
-  border-radius: 16px;
+  background: linear-gradient(90deg, #ff5757 0%, #ff5757 50%, #ff5757 100%);
+  border-radius: 4px;
   transition: width 0.5s ease;
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }
@@ -533,7 +544,7 @@ div.media-content {
 .amount-btn {
   padding: 1.25rem 1rem;
   border: 2px solid #E0E0E0;
-  border-radius: 16px;
+  border-radius: 8px;
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -544,14 +555,14 @@ div.media-content {
 }
 
 .amount-btn:hover {
-  border-color: #E86C4F;
+  border-color: #ff5757;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(232, 108, 79, 0.15);
 }
 
 .amount-btn.selected {
-  background: #E86C4F;
-  border-color: #E86C4F;
+  background: #ff5757;
+  border-color: #ff5757;
   color: white;
 }
 
@@ -582,10 +593,11 @@ div.media-content {
   border: 2px solid #E0E0E0;
   border-radius: 16px;
   font-size: 1rem;
+  min-height: 4rem;
   text-align: center;
   transition: all 0.2s ease;
   background: #F8F8F8;
-  color: #999;
+  color: #1f2937;
 }
 
 .custom-amount-input:focus {
