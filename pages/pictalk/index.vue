@@ -111,8 +111,9 @@ export default {
             canCancel: [],
           });
         }, 500);
+        return;
       }
-      //if (!isAdmin || !this.suggestedPrompts.prompts.donator) return;
+      if (!isAdmin || !this.suggestedPrompts.prompts.donator) return;
       setTimeout(() => {
         this.$buefy.modal.open({
           parent: this,
