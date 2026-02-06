@@ -59,11 +59,11 @@
           <div style="display: flex; flex-direction: column; margin-top: auto; gap: 0px;">
             <p style="font-size: 1.5rem; font-weight: normal; color: #1f2937; margin: 0px;"
               v-if="selectedAmount != null">
-              {{ formatAmount(selectedAmount) }}/mois
+              {{ formatAmount(selectedAmount) }} <span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
             <p style="font-size: 1.5rem; font-weight: normal; color: #1f2937; margin: 0px;"
               v-else-if="customAmount != null">
-              {{ formatAmount(customAmount) }}/mois
+              {{ formatAmount(customAmount) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
             <p style="font-size: 2rem; font-weight:900; color: black; margin: 0px;" v-if="amountAfterTax">
               Soit {{ formatAmount(amountAfterTax) }}<span v-if="isMonthly">/mois</span>
@@ -94,11 +94,11 @@
               {{ $t('too-expensive') }}
             </b-button>
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
-              @click="handleReason('dont-want')">
+              @click="handleReason('prefer-unique')">
               {{ $t('prefers-unique') }}
             </b-button>
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
-              @click="handleReason('not-happy')">
+              @click="handleReason('dont-use-app')">
               {{ $t('i-dont-use-app') }}
             </b-button>
           </div>
@@ -147,6 +147,7 @@ export default {
   },
   computed: {
     amountAfterTax() {
+      if (this.donationArray.countryCode !== "FR") return null;
       const amount = this.customAmount && this.customAmount > 0
         ? this.customAmount
         : this.selectedAmount;
@@ -217,9 +218,6 @@ export default {
   async mounted() {
     this.$posthog.capture(`donation-shown`);
     this.donationPromptShown();
-    console.log("Campaign data: ", this.campaign);
-    console.log("Donation array: ", this.donationArray);
-    console.log("Suggested prompts: ", this.suggestedPrompts);
   },
   methods: {
     formatAmount(amount) {
@@ -243,7 +241,12 @@ export default {
     },
     handleReason(reason) {
       this.$posthog.capture('donation-no-support-reason', { reason });
-      this.$parent.close();
+      if (reason !== 'prefer-unique') {
+        this.$parent.close();
+        return;
+      }
+      this.isMonthly = false;
+      this.currentStep = 2;
     },
     getAmountLabel(index) {
       return this.amountLabels[index] || "";
