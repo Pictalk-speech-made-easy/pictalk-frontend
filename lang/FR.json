@@ -342,7 +342,7 @@
   "i-dont-support": "Je ne soutiens pas",
   "return": "Retour",
   "why-not-support": "Pourquoi ne souhaitez-vous pas soutenir ?",
-  "too-expensive": "1€/mois c'est trop cher",
+  "too-expensive": "{minAmount}/mois c'est trop cher",
   "prefers-unique": "Je préfère un don unique",
   "i-dont-use-app": "Je n'utilise pas l'application",
   "after-reduction": "après réduction fiscale",
@@ -350,5 +350,5 @@
   "support": "Soutenir",
   "per-month": "/mois",
   "donation-why-monthly": "Les dons mensuels permettent d'assurer notre stabilité et de lancer de nouveaux développement.",
-  "donate-from-x": "à partir de 1€ par mois, réalisable à tout moment."
+  "donate-from-x": "à partir de {minAmount} par mois, réalisable à tout moment."
 }

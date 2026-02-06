@@ -28,7 +28,9 @@
               {{ $t('i-support') }}
             </b-button>
             <p style="text-align: center; margin-top: 0.25rem;">
-              <span style="font-weight: 400; color: black;">{{ $t('donate-from-x') }}</span>
+              <span style="font-weight: 400; color: black;">{{ $t('donate-from-x').replace('{minAmount}',
+                formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
+                  donationArray.symbol) }}</span>
             </p>
             <b-button class="button step-button" style="border: solid 2px; border-color: gray; margin-top: 0.5rem;"
               outlined @click="handleAlreadyGive()">
@@ -56,7 +58,9 @@
             </div>
             <p style="margin-top: 1.5rem; text-align: left;">
               <span>{{ $t('donation-why-monthly') }}</span>
-              <span style="font-weight: 600;">{{ $t('donate-from-x') }}</span>
+              <span style="font-weight: 600;">{{ $t('donate-from-x').replace('{minAmount}',
+                formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
+                  donationArray.symbol) }}</span>
             </p>
           </div>
           <br>
@@ -101,7 +105,9 @@
           <div class="reason-buttons">
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
               @click="handleReason('too-expensive')">
-              {{ $t('too-expensive') }}
+              {{ $t('too-expensive').replace('{minAmount}', formatAmount(donationArray.currency === "EUR" ? 1 :
+                donationArray.amounts[0])).replace('{symbol}',
+                  donationArray.symbol) }}
             </b-button>
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
               @click="handleReason('prefer-unique')">
