@@ -12,7 +12,7 @@
           <div class="campaign-progress">
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+              }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
@@ -181,7 +181,6 @@ export default {
     },
     abcVariant() {
       const variant = this.$posthog.getFeatureFlag('ab_test_donation_modal');
-      console.log("abcVariant ", variant);
       if (variant === 'test') return 'B';
       if (variant === 'experiment') return 'C';
       return 'A';
