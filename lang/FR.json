@@ -350,5 +350,15 @@
   "support": "Soutenir",
   "per-month": "/mois",
   "donation-why-monthly": "Les dons mensuels permettent d'assurer notre stabilité et de lancer de nouveaux développement.",
-  "donate-from-x": "à partir de {minAmount} par mois, résiliable à tout moment."
+  "donate-from-x": "à partir de {minAmount} par mois, résiliable à tout moment.",
+  "DonationThanks": "Merci !",
+  "DonationThanksDonor": "Merci pour votre contribution {name} !",
+  "DonationTransactionOk": "La transaction a bien été enregistrée",
+  "DonationAmount": "Montant du don",
+  "DonationEmail": "Email",
+  "DonationReference": "Référence",
+  "DonationAmountReduction": "Soit {amount}",
+  "DonationAmountReductionExplanation": "après réduction fiscale de 66%. Votre reçu fiscal sera envoyé chaque mois, puis un récapitulatif annuel en janvier de l'année suivante.",
+  "DonationImpact": "Votre soutien a de l'impact",
+  "DonationImpactExplanation": "Grâce à votre soutien Pictalk peut continuer d'exister. Ensemble nous faisons vivre un modèle solidaire."
 }

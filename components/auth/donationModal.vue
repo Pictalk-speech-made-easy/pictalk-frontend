@@ -12,7 +12,7 @@
           <div class="campaign-progress">
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-              }}%)</span>
+                }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
@@ -28,9 +28,10 @@
               {{ $t('i-support') }}
             </b-button>
             <p style="text-align: center; margin-top: 0.25rem;">
-              <span style="font-weight: 400; color: black;">{{ $t('donate-from-x').replace('{minAmount}',
-                formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
-                  donationArray.symbol) }}</span>
+              <span style="font-weight: 400; color: #1f2937; font-style: italic;">{{
+                $t('donate-from-x').replace('{minAmount}',
+                  formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
+                    donationArray.symbol) }}</span>
             </p>
           </div>
           <div class="bottom-link">
@@ -45,7 +46,6 @@
               <button v-for="(amount, index) in donationArray.amounts" :key="index"
                 :class="['amount-btn', { selected: selectedAmount === amount }]" @click="selectedAmount = amount">
                 <div class="amount-value">{{ formatAmount(amount) }}</div>
-                <div class="amount-label">{{ getAmountLabel(index) }}</div>
               </button>
             </div>
             <div class="custom-amount">
@@ -153,9 +153,7 @@ export default {
       isMonthly: true,
       selectedAmount: 10,
       customAmount: null,
-      loading: false,
-      amountLabelsMonthly: ["Copain", "Bon copain", "Très bon copain", "Super copain", "Best friend", "Ami pour la vie"],
-      amountLabelsUnique: ["Coup de pouce", "Coup de main", "Renfort", "Gros renfort", "Coup de maître", "Ami pour la vie"]
+      loading: false
     };
   },
   computed: {
@@ -262,10 +260,6 @@ export default {
       }
       this.isMonthly = false;
       this.currentStep = 2;
-    },
-    getAmountLabel(index) {
-      const labels = this.isMonthly ? this.amountLabelsMonthly : this.amountLabelsUnique;
-      return labels[index] || "";
     },
     getFinalAmount() {
       if (this.customAmount && this.customAmount > 0) return this.customAmount * 100;
