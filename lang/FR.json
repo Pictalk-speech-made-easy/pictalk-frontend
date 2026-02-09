@@ -52,7 +52,7 @@
   "CopySucces": "Copie des pictogrammes avec succès !",
   "CopyError": "Impossible de copier les pictogrammes",
   "ResetPassword": "Réinitialiser le mot de passe",
-  "CheckSpam": "Vérifiez votre dossier SPAM ! Si vous ne recevez pas d \"email, veuillez me contacter à : alex@pictalk.org",
+  "CheckSpam": "Vérifiez votre dossier SPAM ! Si vous ne recevez pas d'email, veuillez me contacter à : alex@pictalk.org",
   "EmailPlease": "Veuillez saisir une adresse électronique",
   "ChangePasswordDemand": "La demande de réinitialisation du mot de passe a été transmise avec succès, veuillez consulter vos emails.",
   "NewPassword": "Nouveau mot de passe",
@@ -62,13 +62,13 @@
   "ChangePasswordSuccess": "Demande de changement de mot de passe transmise avec succès",
   "PictosFetched": "Votre contenu a été récupéré correctement",
   "SupervisorModeQuestion": "Combien font",
-  "DeleteItem": "Etes vous sûr de vouloir supprimer :",
+  "DeleteItem": "Êtes vous sûr de vouloir supprimer :",
   "Delete": "Supprimer un élément",
   "PleaseType1": "Veuillez taper :",
   "PleaseType2": "afin de supprimer l'élément.",
   "DeleteNotCorrespond": "L'entrée ne correspond pas",
   "DeletedSuccess": "Supprimé avec succès",
-  "Communicate_IRL": "Pictalk est idéal pour les applications en temps réel : Il peut prononcer à voix haute une phrase composée de plusieurs pictogrammes.",
+  "Communicate_IRL": "Pictalk est idéal pour les applications en temps réel : il peut prononcer à voix haute une phrase composée de plusieurs pictogrammes.",
   "Communicate_Messages": "Parce que la messagerie devient aussi importante que la parole, Pictalk permet de copier les pictogrammes + la phrase et de les envoyer avec vos applications de messagerie préférées.  ",
   "SearchNotice": "Que cherchez-vous ?",
   "Search": "Recherche",
@@ -350,5 +350,5 @@
   "support": "Soutenir",
   "per-month": "/mois",
   "donation-why-monthly": "Les dons mensuels permettent d'assurer notre stabilité et de lancer de nouveaux développement.",
-  "donate-from-x": "à partir de {minAmount} par mois, réalisable à tout moment."
+  "donate-from-x": "à partir de {minAmount} par mois, résiliable à tout moment."
 }

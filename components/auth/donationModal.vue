@@ -12,7 +12,7 @@
           <div class="campaign-progress">
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+              }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
@@ -32,10 +32,6 @@
                 formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
                   donationArray.symbol) }}</span>
             </p>
-            <b-button class="button step-button" style="border: solid 2px; border-color: gray; margin-top: 0.5rem;"
-              outlined @click="handleAlreadyGive()">
-              {{ $t('i-already-support') }}
-            </b-button>
           </div>
           <div class="bottom-link">
             <b-button class="button" style="font-size: 1rem;" type="is-text" @click="goToStep2B()">

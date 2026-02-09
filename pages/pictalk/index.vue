@@ -100,7 +100,7 @@ export default {
       }
     },
     async isAdmin(isAdmin, previousIsAdmin) {
-      if (this.$store.getters.getUser && !this.$store.getters.getUser.settings?.userType) {
+      /* if (this.$store.getters.getUser && !this.$store.getters.getUser.settings?.userType) {
         setTimeout(() => {
           this.$buefy.modal.open({
             parent: this,
@@ -113,7 +113,7 @@ export default {
         }, 500);
         return;
       }
-      if (!isAdmin || !this.suggestedPrompts.prompts.donator) return;
+      if (!isAdmin || !this.suggestedPrompts.prompts.donator) return; */
       setTimeout(() => {
         this.$buefy.modal.open({
           parent: this,
