@@ -9,16 +9,87 @@
               donationTitle }}</h1>
           <p style="text-align: left;" v-html="donationSubtitle"></p>
           <br>
-          <div class="campaign-progress">
-            <div class="progress-header">
-              <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-              }}%)</span>
-              <span class="progress-target">{{ campaign.currentTarget }}</span>
+          <div class="campaign-progress card">
+            <div class="card-content">
+              <div
+                style="text-align: right; font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0.25rem;">
+                {{ daysLeft }}
+              </div>
+              <div class="progress-header">
+                <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
+                  }}%)</span>
+                <span class="progress-target">{{ campaign.currentTarget }}</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
+              </div>
+              <div v-if="!isExpanded">
+                <p class="reward-text">{{ currentLevelReward }}</p>
+                <div style="text-align: center; margin-top: 0.5rem; cursor: pointer; color: #666;"
+                  @click="isExpanded = true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                    viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                    <path fill="currentColor" d="m12 15.375l-6-6l1.4-1.4l4.6 4.6l4.6-4.6l1.4 1.4z" />
+                  </svg>
+                </div>
+              </div>
+              <div v-else>
+                <p class="reward-text" style="font-style: italic; margin-bottom: 1rem;">{{ daysLeft }}</p>
+                <div class="rewards-list">
+                  <div v-for="(reward, idx) in visibleRewards" :key="idx"
+                    style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                    <div style="margin-right: 0.75rem; display: flex; align-items: center;">
+                      <svg v-if="reward.status === 'past'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" style="fill: #4CAF50;">
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                      </svg>
+
+                      <svg v-else-if="reward.status === 'current'" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" viewBox="0 0 24 24" style="fill: #ff5757;">
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                        <circle cx="12" cy="12" r="5" />
+                      </svg>
+
+                      <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        style="fill: #9CA3AF;">
+                        <path
+                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                      </svg>
+                    </div>
+
+                    <span :style="{
+                      'text-align': 'left',
+                      'font-size': '0.95rem',
+                      'font-weight': '600',
+                      'color': reward.status === 'pending' ? '#9CA3AF' : '#171717'
+                    }">
+                      {{ $t(reward.key) }}
+                    </span>
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                  <a href="http://www.pictalk.org/fr/support-us" target="_blank">
+                    <b-button class="is-text">
+                      En savoir +
+                    </b-button>
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="progress-bar-container">
-              <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
+          </div>
+          <br>
+          <div class="comments-wall" ref="commentsWall">
+            <div class="comment-item" v-for="(comment, index) in comments" :key="index">
+              <div class="comment-header">
+                <span class="comment-author">{{ comment.customerName }}</span>
+                <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
+                  }}</span>
+              </div>
+              <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
-            <div class="reward-text">{{ currentLevelReward }}</div>
           </div>
           <br>
           <div
@@ -51,6 +122,12 @@
             <div class="custom-amount">
               <input type="number" v-model.number="customAmount" :placeholder="`Prix libre (${donationArray.symbol})`"
                 @focus="selectedAmount = null" class="custom-amount-input" />
+            </div>
+            <div v-if="currentMessage" class="selected-message"
+              style="margin-top: 1rem; padding: 1rem; background-color: #f3f4f6; border-radius: 12px; border: 1px solid #e5e7eb;">
+              <h3 v-if="currentMessage.title" style="font-weight: 700; margin-bottom: 0.25rem; color: #1f2937;">{{
+                currentMessage.title }}</h3>
+              <p style="margin: 0; color: #4b5563; font-size: 0.95rem; line-height: 1.4;">{{ currentMessage.body }}</p>
             </div>
             <p style="margin-top: 1.5rem; text-align: left;">
               <span>{{ $t('donation-why-monthly') }}</span>
@@ -145,6 +222,8 @@ export default {
   },
   data() {
     return {
+      comments: [],
+      autoScrollInterval: null,
       currentStep: 1,
       amount: 10000,
       name: "",
@@ -153,10 +232,19 @@ export default {
       isMonthly: true,
       selectedAmount: 10,
       customAmount: null,
-      loading: false
+      loading: false,
+      isExpanded: false
     };
   },
   computed: {
+    daysLeft() {
+      const today = new Date();
+      const endDate = new Date(this.campaign.levelDeadline);
+      const timeDiff = endDate - today;
+      if (timeDiff <= 0) return this.$t('campaign-ended');
+      const days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+      return this.$t('campaign-days-left').replace('{days}', days);
+    },
     amountAfterTax() {
       if (this.donationArray.countryCode !== "FR") return null;
       const amount = this.customAmount && this.customAmount > 0
@@ -213,7 +301,11 @@ export default {
       return subtitle;
     },
     currentLevelReward() {
-      const levels = [
+      const currentLevel = this.levels.find(level => level.target === this.campaign.currentTarget) || this.levels[0];
+      return this.$t(currentLevel.key);
+    },
+    levels() {
+      return [
         { target: 150, key: 'DonationRewardLevel1' },
         { target: 450, key: 'DonationRewardLevel2' },
         { target: 625, key: 'DonationRewardLevel3' },
@@ -222,15 +314,88 @@ export default {
         { target: 2000, key: 'DonationRewardLevel6' },
         { target: 2500, key: 'DonationRewardLevel7' }
       ];
-      const currentLevel = levels.find(level => level.target === this.campaign.currentTarget) || levels[0];
-      return this.$t(currentLevel.key);
+    },
+    visibleRewards() {
+      const currentTarget = this.campaign.currentTarget;
+      const currentLevelIndex = this.levels.findIndex(l => l.target === currentTarget);
+
+      const rewards = [];
+
+      for (let i = 0; i < currentLevelIndex; i++) {
+        rewards.push({ ...this.levels[i], status: 'past' });
+      }
+
+      if (currentLevelIndex !== -1) {
+        rewards.push({ ...this.levels[currentLevelIndex], status: 'current' });
+      }
+
+      const level5Index = this.levels.findIndex(l => l.key === 'DonationRewardLevel5');
+      if (level5Index !== -1 && currentLevelIndex < level5Index) {
+        rewards.push({ ...this.levels[level5Index], status: 'pending' });
+      }
+
+      return rewards;
+    },
+    selectedAmountIndex() {
+      if (!this.donationArray || !this.donationArray.amounts) return -1;
+      return this.donationArray.amounts.indexOf(this.selectedAmount) + 1;
+    },
+    currentMessage() {
+      const index = this.selectedAmountIndex;
+      if (index === -1) return null;
+
+      const titleKey = `DonationMessage_${index}_Title`;
+      const bodyKey = `DonationMessage_${index}_Body`;
+
+      const hasTitle = this.$te(titleKey);
+      const hasBody = this.$te(bodyKey);
+
+      if (!hasBody && !hasTitle) return null;
+
+      return {
+        title: hasTitle ? this.$t(titleKey) : '',
+        body: hasBody ? this.$t(bodyKey) : ''
+      };
     }
+  },
+  beforeDestroy() {
+    if (this.autoScrollInterval) clearInterval(this.autoScrollInterval);
   },
   async mounted() {
     this.$posthog.capture(`donation-shown`);
     this.donationPromptShown();
+    await this.getComments();
+    this.startAutoScroll();
   },
   methods: {
+    truncate(text) {
+      if (!text) return '';
+      if (text.length <= 300) return text;
+      return text.substring(0, 300) + '...';
+    },
+    startAutoScroll() {
+      if (this.autoScrollInterval) clearInterval(this.autoScrollInterval);
+      this.autoScrollInterval = setInterval(() => {
+        const container = this.$refs.commentsWall;
+        if (container) {
+          const itemHeight = container.querySelector('.comment-item')?.offsetHeight || 100;
+          if (container.scrollTop + container.clientHeight >= container.scrollHeight - 10) {
+            container.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            container.scrollBy({ top: itemHeight, behavior: 'smooth' });
+          }
+        }
+      }, 5000);
+    },
+    async getComments() {
+      try {
+        const res = await axios.get(`https://donations-api.pictalk.org/v1/donations/comments`);
+        return this.comments = res.data.comments;
+      } catch (error) {
+        console.log("error ", error);
+        return [];
+      }
+    },
     formatAmount(amount) {
       if (amount === null || amount === undefined) return '';
       if (this.donationArray.symbolFirst) {
@@ -251,9 +416,13 @@ export default {
       this.$posthog.capture('donation-already-give-clicked');
       this.$parent.close();
     },
-    handleReason(reason) {
+    async handleReason(reason, comment = null) {
       this.$posthog.capture(`donation-no-support-${reason}`);
       if (reason !== 'prefer-unique') {
+        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+          reason: reason,
+          comment: comment
+        });
         this.$parent.close();
         return;
       }
@@ -323,6 +492,64 @@ export default {
 </script>
 
 <style scoped>
+.comments-wall {
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  scrollbar-width: thin;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.comments-wall::-webkit-scrollbar {
+  width: 6px;
+}
+
+.comments-wall::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.comment-item {
+  scroll-snap-align: start;
+  margin-bottom: 0.75rem;
+  background: #f5f5f5;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.comment-author {
+  font-weight: 700;
+  color: #333;
+}
+
+.comment-amount {
+  background: #e6f4ea;
+  color: #1e7e34;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.comment-text {
+  color: #4b5563;
+  font-style: italic;
+  margin: 0;
+}
+
 .modal-card-body {
   padding: 1rem 2rem;
   display: flex;
@@ -389,7 +616,7 @@ export default {
 .reward-text {
   margin-top: 0.75rem;
   font-size: 0.9rem;
-  color: #666;
+  color: #333131;
   text-align: center;
   font-weight: 500;
 }

@@ -361,5 +361,11 @@
   "DonationTitle_professional_onetime_B": "Monthly support = a reliable tool",
   "DonationSubtitle_professional_onetime_B": "Your one-time donation helped us. A monthly support allows us to plan the improvements you need.",
   "DonationTitle_professional_onetime_C": "Join the {donationCount} monthly supporters",
-  "DonationSubtitle_professional_onetime_C": "You've already donated, thank you! To secure Pictalk in your professional practice, switch to monthly. Predictable for you, vital for us."
+  "DonationSubtitle_professional_onetime_C": "You've already donated, thank you! To secure Pictalk in your professional practice, switch to monthly. Predictable for you, vital for us.",
+  "LeaveAComment": "Leave a comment",
+  "YourComment": "Your comment...",
+  "Send": "Send",
+  "ThanksForComment": "Thank you for your message!",
+  "Sent": "Sent!",
+  "Error": "Error"
 }

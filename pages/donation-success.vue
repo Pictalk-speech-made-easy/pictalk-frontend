@@ -55,6 +55,19 @@
       <h2>{{ $t('DonationImpact') }}</h2>
       <p>{{ $t('DonationImpactExplanation') }}</p>
     </b-message>
+
+    <div class="message-box" v-if="!commentSent" style="margin-top: 1rem; margin-bottom: 1rem;">
+      <h2>{{ $t('LeaveAComment') || 'Leave a comment' }}</h2>
+      <b-field>
+        <b-input v-model="comment" type="textarea" :placeholder="$t('YourComment') || 'Your comment...'"></b-input>
+      </b-field>
+      <b-button type="is-primary" :loading="sending" @click="postComment" :disabled="!comment">{{ $t('Send') || 'Send'
+      }}</b-button>
+    </div>
+    <b-message v-else type="is-success" class="message-box">
+      {{ $t('ThanksForComment') || 'Thank you for your message!' }}
+    </b-message>
+
     <b-button type="is-primary" tag="nuxt-link" :to="pictalkHome">{{ $t('Home') }}</b-button>
   </div>
 </template>
@@ -66,7 +79,7 @@ export default {
   nuxtI18n: false,
   layout: "pictalk",
   mixins: [lang],
-  data() { return { session: null, loading: true, } },
+  data() { return { session: null, loading: true, comment: '', commentSent: false, sending: false } },
   computed: {
     pictalkHome() {
       if (this.$store.getters.getRootId) {
@@ -107,6 +120,29 @@ export default {
     this.loading = false;
   },
   methods: {
+    async postComment() {
+      if (!this.comment) return;
+      this.sending = true;
+      try {
+        await axios.post(`https://donations-api.pictalk.org/v1/donations/comments`, {
+          comment: this.comment,
+          sessionId: this.session.sessionId,
+        });
+        this.commentSent = true;
+        this.$buefy.toast.open({
+          message: this.$t('Sent') || 'Sent!',
+          type: 'is-success'
+        })
+      } catch (error) {
+        console.log("error ", error);
+        this.$buefy.toast.open({
+          message: this.$t('Error') || 'Error',
+          type: 'is-danger'
+        })
+      } finally {
+        this.sending = false;
+      }
+    },
     async getSessionStatus(sessionId) {
       try {
         if (!sessionId) return null;
