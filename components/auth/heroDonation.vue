@@ -2,6 +2,7 @@
   <div class="hero-donation" @click="openDonationModal">
     <div class="hero-content">
       <div class="campaign-progress">
+        <h2 class="reward-text">{{ currentLevelReward }}</h2>
         <div class="days-left">{{ daysLeft }}</div>
         <div class="progress-header">
           <span class="progress-target">{{ $t('MonthlySupport').replace('{count}', campaign.currentTarget) }}</span>
@@ -10,7 +11,6 @@
           <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
           <div class="progress-text">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent) }}%)</div>
         </div>
-        <p class="reward-text">{{ currentLevelReward }}</p>
       </div>
     </div>
   </div>
@@ -248,9 +248,9 @@ export default {
 
 .reward-text {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #333131;
-  text-align: center;
+  text-align: left;
   font-weight: 500;
 }
 
