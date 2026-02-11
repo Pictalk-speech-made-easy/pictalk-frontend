@@ -274,8 +274,6 @@ export default {
       isDonator: this.isDonator,
     });
     this.initialization = false;
-    await this.fetchPrompts();
-    await Promise.all([this.getCountryByIP(), this.getCampaign()]);
   },
   data() {
     return {

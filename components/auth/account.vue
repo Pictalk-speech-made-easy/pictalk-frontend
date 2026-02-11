@@ -1,7 +1,8 @@
 <template>
   <div style="max-height: 100%; overflow-y: auto; overflow-x: hidden;">
     <div class="container" style="max-width: 100%">
-      <support></support>
+      <HeroDonation :campaign="$store.getters.getCampaign" :donationArray="$store.getters.getDonationPanel"
+        :suggestedPrompts="$store.getters.getSuggestedPrompts" />
       <p class="version">v{{ $config.clientVersion }}</p>
       <b-tabs expanded v-model="tabStep" type="is-toggle">
         <b-tab-item icon="tune">
@@ -9,17 +10,17 @@
           <b-field>
             <b-switch id="account-pronounce-on-click" v-model="user.settings.newNavigation">{{
               $t("NewNavigation")
-            }}</b-switch>
+              }}</b-switch>
           </b-field>
           <b-field>
             <b-switch id="account-pronounce-on-click" v-model="user.settings.pronounceClick">{{
               $t("PronouncePictoOnClick")
-            }}</b-switch>
+              }}</b-switch>
           </b-field>
           <b-field>
             <b-switch id="account-enforced-security-mode" v-model="user.settings.securityMode">{{
               $t("EnforcedSecurityMode")
-            }}</b-switch>
+              }}</b-switch>
           </b-field>
           <b-field :label="$t('PronounceShowDelay')">
             <b-slider id="account-pronounce-show-delay" lazy v-model="user.settings.pronounceShowDelay" :min="0"
@@ -81,7 +82,7 @@
           <b-field :label="$t('Analytics')">
             <b-switch id="account-enhanced-analytics" v-model="user.settings.analytics">{{
               $t("AnalyticsText")
-            }}</b-switch>
+              }}</b-switch>
           </b-field>
           <br>
           <hr />
@@ -171,7 +172,7 @@
             <b>{{
               "https://application.pictalk.org?directsharer=" +
               $store.getters.getUser.username
-            }}</b>
+              }}</b>
           </div>
           <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("Groups") }}</p>
@@ -231,13 +232,14 @@
     <div class="footer container is-max-desktop">
       <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
         $t("Cancel")
-      }}</b-button>
+        }}</b-button>
       <b-button id="account-save" class="menuButtons" type="is-info" icon-left="content-save" :loading="loadingSave"
         @click="onSave(user.username, user.password, user.language)">{{ $t("Save") }}</b-button>
     </div>
   </div>
 </template>
 <script>
+import HeroDonation from "@/components/auth/heroDonation";
 import installVoice from "@/components/pictos/installVoice";
 import addGroupModal from "@/components/auth/addGroupModal";
 import deviceInfos from "@/mixins/deviceInfos";
@@ -258,6 +260,7 @@ export default {
     Security,
     support,
     deleteAccountModal,
+    HeroDonation
   },
   computed: {
     isOfflineReady() {
