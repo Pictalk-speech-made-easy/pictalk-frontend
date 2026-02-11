@@ -164,12 +164,6 @@
           <br>
           <div class="reason-buttons">
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
-              @click="handleReason('no_money')">
-              {{ $t('too-expensive').replace('{minAmount}', formatAmount(donationArray.currency === "EUR" ? 1 :
-                donationArray.amounts[0])).replace('{symbol}',
-                  donationArray.symbol) }}
-            </b-button>
-            <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
               @click="handleReason('prefer-unique')">
               {{ $t('prefers-unique') }}
             </b-button>
@@ -177,10 +171,119 @@
               @click="handleReason('not_using')">
               {{ $t('i-dont-use-app') }}
             </b-button>
+            <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
+              @click="handleReason('no_money')">
+              {{ $t('no-money-now') }}
+            </b-button>
+            <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
+              @click="handleReason('other')">
+              {{ $t('other-reason-specify') }}
+            </b-button>
           </div>
           <br>
           <div class="bottom-link">
             <b-button class="button" style="font-size: 1rem;" type="is-text" @click="currentStep = 1">
+              {{ $t('return') }}
+            </b-button>
+          </div>
+        </div>
+
+        <div v-else-if="currentStep === 4">
+          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
+            {{ $t('whats-wrong') }}
+          </h1>
+          <p style="font-size: 1rem; color: #666; margin-bottom: 1.5rem; text-align: left;">
+            {{ $t('your-feedback-helps') }}
+          </p>
+          <br>
+          <div class="reason-buttons">
+            <b-button class="button reason-button"
+              :style="selectedDontUseReasons.includes('missing-features') ? 'border: solid 2px; border-color: #E86C4F; background: rgba(232, 108, 79, 0.1);' : 'border: solid 2px; border-color: gray;'"
+              @click="selectedDontUseReasons.includes('missing-features') ? selectedDontUseReasons = selectedDontUseReasons.filter(r => r !== 'missing-features') : selectedDontUseReasons.push('missing-features')">
+              {{ $t('missing-important-features') }}
+            </b-button>
+            <b-button class="button reason-button"
+              :style="selectedDontUseReasons.includes('too-many-bugs') ? 'border: solid 2px; border-color: #E86C4F; background: rgba(232, 108, 79, 0.1);' : 'border: solid 2px; border-color: gray;'"
+              @click="selectedDontUseReasons.includes('too-many-bugs') ? selectedDontUseReasons = selectedDontUseReasons.filter(r => r !== 'too-many-bugs') : selectedDontUseReasons.push('too-many-bugs')">
+              {{ $t('too-many-bugs') }}
+            </b-button>
+            <b-button class="button reason-button"
+              :style="selectedDontUseReasons.includes('not-my-needs') ? 'border: solid 2px; border-color: #E86C4F; background: rgba(232, 108, 79, 0.1);' : 'border: solid 2px; border-color: gray;'"
+              @click="selectedDontUseReasons.includes('not-my-needs') ? selectedDontUseReasons = selectedDontUseReasons.filter(r => r !== 'not-my-needs') : selectedDontUseReasons.push('not-my-needs')">
+              {{ $t('not-my-needs') }}
+            </b-button>
+            <b-button class="button reason-button"
+              :style="selectedDontUseReasons.includes('other-dont-use') ? 'border: solid 2px; border-color: #E86C4F; background: rgba(232, 108, 79, 0.1);' : 'border: solid 2px; border-color: gray;'"
+              @click="selectedDontUseReasons.includes('other-dont-use') ? selectedDontUseReasons = selectedDontUseReasons.filter(r => r !== 'other-dont-use') : selectedDontUseReasons.push('other-dont-use')">
+              {{ $t('other-reason-specify') }}
+            </b-button>
+          </div>
+          <br>
+          <div v-if="selectedDontUseReasons.length > 0" style="margin-top: 1rem;">
+            <p style="font-size: 1rem; color: #333; margin-bottom: 0.5rem; text-align: left; font-weight: 600;">
+              {{ $t('what-should-we-change') }}
+            </p>
+            <b-field>
+              <b-input v-model="dontUseComment" type="textarea" :placeholder="$t('your-feedback-placeholder')" rows="4"
+                style="border-radius: 12px;">
+              </b-input>
+            </b-field>
+            <b-button class="button step-button" style="background: #E86C4F; color: white; margin-top: 1rem;"
+              @click="submitDontUseFeedback" :loading="loading">
+              {{ $t('Send') }}
+            </b-button>
+          </div>
+          <br>
+          <div class="bottom-link">
+            <b-button class="button" style="font-size: 1rem;" type="is-text" @click="currentStep = 3">
+              {{ $t('return') }}
+            </b-button>
+          </div>
+        </div>
+        <div v-else-if="currentStep === 5">
+          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: center;">
+            {{ $t('we-understand') }}
+          </h1>
+          <p style="font-size: 1.1rem; color: #444; margin: 2rem 0; text-align: center; line-height: 1.6;">
+            {{ $t('solidarity-model-message') }}
+          </p>
+          <br>
+          <div class="initial-buttons">
+            <b-button class="button step-button" style="background: #E86C4F; color: white;" @click="handleNoMoneyClose">
+              {{ $t('continue-using-pictalk') }}
+            </b-button>
+          </div>
+          <br>
+          <div class="bottom-link">
+            <b-button class="button" style="font-size: 1rem;" type="is-text" @click="currentStep = 3">
+              {{ $t('return') }}
+            </b-button>
+          </div>
+        </div>
+        <div v-else-if="currentStep === 6">
+          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
+            {{ $t('explain-to-us') }}
+          </h1>
+          <p style="font-size: 1rem; color: #666; margin-bottom: 1.5rem; text-align: left;">
+            {{ $t('what-prevents-contribution') }}
+          </p>
+          <br>
+          <b-field>
+            <b-input v-model="otherReasonComment" type="textarea" :placeholder="$t('your-feedback-placeholder')"
+              rows="5" style="border-radius: 12px;">
+            </b-input>
+          </b-field>
+          <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem; text-align: left;">
+            💡 {{ $t('feedback-helps-financing') }}
+          </p>
+          <br>
+          <b-button class="button step-button" style="background: #E86C4F; color: white; margin-top: 1rem;"
+            @click="submitOtherReasonFeedback" :loading="loading">
+            {{ $t('Send') }}
+          </b-button>
+          <br>
+          <div class="bottom-link">
+            <b-button class="button" style="font-size: 1rem;" type="is-text" @click="currentStep = 3">
               {{ $t('return') }}
             </b-button>
           </div>
@@ -220,7 +323,10 @@ export default {
       selectedAmount: 10,
       customAmount: null,
       loading: false,
-      isExpanded: false
+      isExpanded: false,
+      selectedDontUseReasons: [],
+      dontUseComment: "",
+      otherReasonComment: ""
     };
   },
   computed: {
@@ -339,9 +445,8 @@ export default {
     currentMessage() {
       const index = this.selectedAmountIndex;
       if (index === -1) return null;
-
-      const titleKey = `DonationMessage_${index}_Title`;
-      const bodyKey = `DonationMessage_${index}_Body`;
+      const titleKey = `${this.isMonthly ? '' : 'OneTime'}DonationMessage_${index}_Title`;
+      const bodyKey = `${this.isMonthly ? '' : 'OneTime'}DonationMessage_${index}_Body`;
 
       const hasTitle = this.$te(titleKey);
       const hasBody = this.$te(bodyKey);
@@ -408,22 +513,36 @@ export default {
       this.$posthog.capture('donation-step-no-support-clicked');
       this.currentStep = 3;
     },
-    handleAlreadyGive() {
-      this.$posthog.capture('donation-already-give-clicked');
-      this.$parent.close();
-    },
     async handleReason(reason, comment = null) {
       this.$posthog.capture(`donation-no-support-${reason}`);
-      if (reason !== 'prefer-unique') {
-        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
-          reason: reason,
-          comment: comment
-        });
-        this.$parent.close();
+
+      if (reason === 'prefer-unique') {
+        this.isMonthly = false;
+        this.currentStep = 2;
         return;
       }
-      this.isMonthly = false;
-      this.currentStep = 2;
+
+      if (reason === 'not_using') {
+        this.currentStep = 4;
+        return;
+      }
+
+      if (reason === 'no_money') {
+        this.currentStep = 5;
+        return;
+      }
+
+      if (reason === 'other') {
+        this.currentStep = 6;
+        return;
+      }
+
+      // Fallback for any other reason
+      await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+        reason: reason,
+        comment: comment
+      });
+      this.$parent.close();
     },
     getFinalAmount() {
       if (this.customAmount && this.customAmount > 0) return this.customAmount * 100;
@@ -481,6 +600,63 @@ export default {
       } catch (error) {
         console.log("error ", error);
         return false;
+      }
+    },
+    async submitDontUseFeedback() {
+      if (!this.selectedDontUseReasons || this.selectedDontUseReasons.length === 0) return;
+
+      try {
+        this.loading = true;
+        this.$posthog.capture(`donation-not-using-${this.selectedDontUseReasons.join(',')}`);
+
+        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+          reason: 'not_using',
+          metadata: {
+            locale: this.$i18n.locale,
+            issues: this.selectedDontUseReasons,
+          },
+          comment: this.dontUseComment
+        });
+
+        this.loading = false;
+        this.$parent.close();
+      } catch (error) {
+        console.log("error ", error);
+        this.loading = false;
+      }
+    },
+    async handleNoMoneyClose() {
+      try {
+        this.$posthog.capture('donation-no-money');
+        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+          reason: 'no_money'
+        });
+
+        this.$parent.close();
+      } catch (error) {
+        console.log("error ", error);
+        this.$parent.close();
+      }
+    },
+    async submitOtherReasonFeedback() {
+      if (!this.otherReasonComment || this.otherReasonComment.trim() === '') {
+        return;
+      }
+
+      try {
+        this.loading = true;
+        this.$posthog.capture('donation-other-reason');
+
+        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+          reason: 'other',
+          comment: this.otherReasonComment
+        });
+
+        this.loading = false;
+        this.$parent.close();
+      } catch (error) {
+        console.log("error ", error);
+        this.loading = false;
       }
     }
   }
