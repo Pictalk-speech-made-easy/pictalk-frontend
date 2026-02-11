@@ -17,7 +17,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -35,45 +35,32 @@
               </div>
               <div v-else>
                 <p class="reward-text" style="font-style: italic; margin-bottom: 1rem;">{{ daysLeft }}</p>
-                <div class="rewards-list">
-                  <div v-for="(reward, idx) in visibleRewards" :key="idx"
-                    style="display: flex; align-items: center; margin-bottom: 0.75rem;">
-                    <div style="margin-right: 0.75rem; display: flex; align-items: center;">
-                      <svg v-if="reward.status === 'past'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" style="fill: #4CAF50;">
-                        <path
-                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-
-                      <svg v-else-if="reward.status === 'current'" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" viewBox="0 0 24 24" style="fill: #ff5757;">
-                        <path
-                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                        <circle cx="12" cy="12" r="5" />
-                      </svg>
-
-                      <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                        style="fill: #9CA3AF;">
-                        <path
-                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                <ul class="timeline timeline-vertical">
+                  <li v-for="(reward, idx) in visibleRewards" :key="idx" :class="{
+                    'timeline-item-past': reward.status === 'past',
+                    'timeline-item-current': reward.status === 'current',
+                    'timeline-item-pending': reward.status === 'pending',
+                    'timeline-item-first': idx === 0,
+                    'timeline-item-last': idx === visibleRewards.length - 1
+                  }">
+                    <div class="timeline-middle"
+                      :style="{ color: reward.status === 'past' ? '#4CAF50' : reward.status === 'current' ? '#ff5757' : '#9CA3AF' }">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                          d="M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
                       </svg>
                     </div>
-
-                    <span :style="{
-                      'text-align': 'left',
-                      'font-size': '0.95rem',
-                      'font-weight': '600',
-                      'color': reward.status === 'pending' ? '#9CA3AF' : '#171717'
-                    }">
-                      {{ $t(reward.key) }}
-                    </span>
-                  </div>
-                </div>
+                    <div class="timeline-end timeline-box"
+                      :class="{ 'box-current': reward.status === 'current', 'box-pending': reward.status === 'pending' }">
+                      <span>{{ $t(reward.key) }}</span>
+                    </div>
+                  </li>
+                </ul>
 
                 <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
                   <a href="http://www.pictalk.org/fr/support-us" target="_blank">
                     <b-button class="is-text">
-                      En savoir +
+                      {{ $t('KnowMore') }}
                     </b-button>
                   </a>
                 </div>
@@ -86,7 +73,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                  }}</span>
+                }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -327,6 +314,10 @@ export default {
 
       if (currentLevelIndex !== -1) {
         rewards.push({ ...this.levels[currentLevelIndex], status: 'current' });
+      }
+
+      if (currentLevelIndex === 0) {
+        rewards.push({ ...this.levels[1], status: 'pending' });
       }
 
       const level5Index = this.levels.findIndex(l => l.key === 'DonationRewardLevel5');
@@ -837,6 +828,119 @@ div.media-content {
 .custom-amount-input::placeholder {
   color: #999;
   font-weight: 500;
+}
+
+/* Timeline styles (DaisyUI-inspired vertical timeline) */
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 0.5rem;
+}
+
+.timeline-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-vertical>li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  column-gap: 0.75rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.timeline-vertical>li:last-child {
+  padding-bottom: 0;
+}
+
+/* Continuous vertical line running through the dots */
+.timeline-vertical>li::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  /* center of the 20px column */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #d1d5db;
+}
+
+/* Hide line above first item */
+.timeline-vertical>li.timeline-item-first::before {
+  top: 50%;
+}
+
+/* Hide line below last item */
+.timeline-vertical>li.timeline-item-last::before {
+  bottom: 50%;
+}
+
+/* Only item: no line at all */
+.timeline-vertical>li.timeline-item-first.timeline-item-last::before {
+  display: none;
+}
+
+/* Color the line for past items */
+.timeline-vertical>li.timeline-item-past::before {
+  background-color: #4CAF50;
+}
+
+/* Color the line for current item: top half colored, bottom half gray */
+.timeline-vertical>li.timeline-item-current::before {
+  background: linear-gradient(to bottom, #ff5757 50%, #d1d5db 50%);
+}
+
+/* The dot in the middle */
+.timeline-middle {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-middle svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+  background: white;
+  border-radius: 50%;
+}
+
+/* The content box */
+.timeline-end {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+}
+
+.timeline-box {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-color: rgba(231, 91, 60, 0.05);
+  text-align: left;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #e75b3c;
+}
+
+.timeline-box.box-current {
+  border-color: #ff5757;
+  color: #ff5757;
+  background-color: rgba(255, 87, 87, 0.05);
+}
+
+.timeline-box.box-pending {
+  opacity: 0.5;
+  color: #9CA3AF;
 }
 
 @media (max-width: 600px) {
