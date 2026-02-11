@@ -118,9 +118,9 @@ export default {
         this.$buefy.modal.open({
           parent: this,
           props: {
-            campaign: this.campaign,
-            donationArray: this.donationArray,
-            suggestedPrompts: this.suggestedPrompts
+            campaign: this.$store.getters.getCampaign,
+            donationArray: this.$store.getters.getDonationPanel,
+            suggestedPrompts: this.$store.getters.getSuggestedPrompts
           },
           component: DonationModal,
           hasModalCard: true,
@@ -279,30 +279,6 @@ export default {
   },
   data() {
     return {
-      suggestedPrompts: {
-        prompts: { impact: false, donator: false },
-        segment: 'new_user',
-        lastDonationAmount: 0,
-        count: 0,
-        recurring: false,
-        suggested: 0
-      },
-      donationArray: {
-        countryCode: "fr",
-        currency: "eur",
-        amounts: [2, 5, 10, 20, 50, 100],
-        symbol: "€",
-        symbolFirst: false
-      },
-      campaign: {
-        donationCount: 0,
-        currentLevel: 0,
-        currentTarget: 0,
-        nextLevel: 0,
-        nextTarget: 0,
-        progressPercent: 0,
-        levels: []
-      },
       priority_timer: 0,
       isPicto: true,
       sidebarExpanded: false,
@@ -313,52 +289,6 @@ export default {
     };
   },
   methods: {
-    async getIPAdress() {
-      try {
-        const res = await axios.get(`https://api.ipify.org?format=json`);
-        if (res.data.ip) {
-          return res.data.ip;
-        } else {
-          return false;
-        }
-      } catch (error) {
-        console.log("error ", error);
-        return false;
-      }
-    },
-    async getCountryByIP() {
-      try {
-        const ip = await this.getIPAdress();
-        const res = await axios.post(`https://donations-api.pictalk.org/v1/donation-amount-panel`, { ip: ip });
-        this.currency = res.data.currency.toLowerCase();
-        this.donationArray = res.data;
-        return;
-      } catch (error) {
-        console.log("error ", error);
-        return false;
-      }
-    },
-    async getCampaign() {
-      try {
-        const res = await axios.get(`https://donations-api.pictalk.org/v1/campaign/goals`);
-        this.campaign = res.data;
-        return;
-      } catch (error) {
-        console.log("error ", error);
-        return false;
-      }
-    },
-    async fetchPrompts() {
-      try {
-        var res = await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/prompts`, {
-          created_at: this.$store.getters.getUser.createdDate,
-        });
-        this.suggestedPrompts = res.data;
-        return;
-      } catch (error) {
-        return false;
-      }
-    },
     onDragOverContainer(ev) {
       ev.preventDefault();
       ev.dataTransfer.dropEffect = "move";

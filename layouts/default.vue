@@ -1,14 +1,16 @@
 <template>
   <div class="wrapper">
     <navbar />
+    <HeroDonation :campaign="$store.getters.getCampaign" :donationArray="$store.getters.getDonationPanel"
+      :suggestedPrompts="$store.getters.getSuggestedPrompts" />
     <nuxt />
     <footerPictalk />
   </div>
 </template>
-
 <script>
 import navbar from "@/components/navigation/navbar";
 import footerPictalk from "@/components/navigation/footer";
+import HeroDonation from "@/components/auth/heroDonation";
 export default {
   head() {
     const i18nHead = this.$nuxtI18nHead({ addSeoAttributes: true });
@@ -58,6 +60,7 @@ export default {
   components: {
     navbar,
     footerPictalk,
+    HeroDonation,
   },
   computed: {
     retrieveLocale() {
@@ -82,6 +85,9 @@ export default {
         this.$i18n.setLocale(this.$store.getters.getUser.displayLanguage);
       }
     }
+    this.$store.dispatch("fetchCampaign");
+    this.$store.dispatch("fetchSuggestedPrompts");
+    this.$store.dispatch("fetchDonationPanel");
   },
 };
 </script>

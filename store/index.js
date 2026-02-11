@@ -33,6 +33,30 @@ export const state = () => ({
   publicBundles: null,
   dragndrop: null,
   ttsBoundarySupport: null,
+  suggestedPrompts: {
+    prompts: { impact: false, donator: false },
+    segment: 'new_user',
+    lastDonationAmount: 0,
+    count: 0,
+    recurring: false,
+    suggested: 0
+  },
+  donationPanel: {
+    countryCode: "fr",
+    currency: "eur",
+    amounts: [2, 5, 10, 20, 50, 100],
+    symbol: "€",
+    symbolFirst: false
+  },
+  campaign: {
+    donationCount: 0,
+    currentLevel: 0,
+    currentTarget: 0,
+    nextLevel: 0,
+    nextTarget: 0,
+    progressPercent: 0,
+    levels: []
+  },
 });
 
 export const mutations = {
@@ -49,14 +73,47 @@ export const mutations = {
     state.publicBundles = null;
     state.dragndrop = null;
     state.token = null;
+    state.campaign = {
+      donationCount: 0,
+      currentLevel: 0,
+      currentTarget: 0,
+      nextLevel: 0,
+      nextTarget: 0,
+      progressPercent: 0,
+      levels: []
+    };
+    state.donationPanel = {
+      countryCode: "fr",
+      currency: "eur",
+      amounts: [2, 5, 10, 20, 50, 100],
+      symbol: "€",
+      symbolFirst: false
+    };
+    state.suggestedPrompts = {
+      prompts: { impact: false, donator: false },
+      segment: 'new_user',
+      lastDonationAmount: 0,
+      count: 0,
+      recurring: false,
+      suggested: 0
+    };
   },
-  async setTtsBoundarySupport(state, ttsBoundarySupport) {
+  setCampaign(state, campaign) {
+    state.campaign = campaign;
+  },
+  setDonationPanel(state, donationPanel) {
+    state.donationPanel = donationPanel;
+  },
+  setSuggestedPrompts(state, suggestedPrompts) {
+    state.suggestedPrompts = suggestedPrompts;
+  },
+  setTtsBoundarySupport(state, ttsBoundarySupport) {
     state.ttsBoundarySupport = ttsBoundarySupport;
   },
-  async setPublicBundles(state, bundles) {
+  setPublicBundles(state, bundles) {
     state.publicBundles = bundles;
   },
-  async addSpeech(state, picto) {
+  addSpeech(state, picto) {
     if (state.pictoSpeech.length && state.pictoSpeech[state.pictoSpeech.length - 1].id == picto.id && !picto.collection) {
       state.pictoSpeech[state.pictoSpeech.length - 1].count += 1;
     } else {
@@ -131,6 +188,26 @@ export const mutations = {
   }
 };
 export const actions = {
+  async fetchCampaign(vuexContext) {
+    const campaign = await axios.get(`https://donations-api.pictalk.org/v1/campaign/goals`);
+    vuexContext.commit("setCampaign", campaign.data);
+  },
+  async fetchSuggestedPrompts(vuexContext) {
+    const suggestedPrompts = await axios.post(`https://donations-api.pictalk.org/v1/users/${vuexContext.getters.getUser.username}/prompts`, {
+      created_at: vuexContext.getters.getUser.createdDate
+    });
+    vuexContext.commit("setSuggestedPrompts", suggestedPrompts.data);
+  },
+  async fetchDonationPanel(vuexContext) {
+    try {
+      const res = await axios.get(`https://api.ipify.org?format=json`);
+      if (!res.data || !res.data.ip) return;
+      const panel = await axios.post(`https://donations-api.pictalk.org/v1/donation-amount-panel`, { ip: res.data.ip });
+      vuexContext.commit("setDonationPanel", panel.data);
+    } catch (err) {
+      console.log("Error fetching donation panel config: ", err);
+    }
+  },
   async dbAddCollection(state, newCollections) {
     if (!Array.isArray(newCollections)) {
       newCollections = [newCollections];
@@ -1014,6 +1091,15 @@ export const getters = {
   },
   getNavigation(state) {
     return state.navigation;
+  },
+  getCampaign(state) {
+    return state.campaign;
+  },
+  getSuggestedPrompts(state) {
+    return state.suggestedPrompts;
+  },
+  getDonationPanel(state) {
+    return state.donationPanel;
   }
 };
 

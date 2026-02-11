@@ -85,6 +85,9 @@ export default {
         }
       });
     }
+    this.$store.dispatch("fetchCampaign");
+    this.$store.dispatch("fetchSuggestedPrompts");
+    this.$store.dispatch("fetchDonationPanel");
   },
   destroyed() {
     clearInterval(this.intervalId);

@@ -379,5 +379,6 @@
   "ThanksForComment": "Merci pour votre message !",
   "Sent": "Envoyé !",
   "Error": "Erreur",
-  "KnowMore": "En savoir plus"
+  "KnowMore": "En savoir plus",
+  "MonthlySupport": "Objectif {count} soutiens mensuels"
 }
