@@ -56,7 +56,7 @@ export default {
           customClass: "custom-class custom-class-2",
           trapFocus: true,
           fullScreen: true,
-          canCancel: []
+          canCancel: ["escape", "x"]
         });
       }, 500);
     }
