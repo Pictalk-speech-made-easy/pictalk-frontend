@@ -17,7 +17,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -73,7 +73,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                  }}</span>
+                }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -101,7 +101,7 @@
         <div v-else-if="currentStep === 2" style="height: 100%; width: 100%; display: flex; flex-direction: column;">
           <div style="margin-top: 2rem;">
             <div class="amount-grid">
-              <button v-for="(amount, index) in donationArray.amounts" :key="index"
+              <button v-for="(amount, index) in displayedAmounts" :key="index"
                 :class="['amount-btn', { selected: selectedAmount === amount }]" @click="selectedAmount = amount">
                 <div class="amount-value">{{ formatAmount(amount) }}</div>
               </button>
@@ -119,7 +119,7 @@
             <p style="margin-top: 1.5rem; text-align: left;">
               <span>{{ $t('donation-why-monthly') }}</span>
               <span style="font-weight: 600;">{{ $t('donate-from-x').replace('{minAmount}',
-                formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
+                formatAmount(donationArray.currency === "EUR" ? 1 : displayedAmounts[0])).replace('{symbol}',
                   donationArray.symbol) }}</span>
             </p>
           </div>
@@ -224,6 +224,11 @@ export default {
     };
   },
   computed: {
+    displayedAmounts() {
+      if (this.isMonthly) return this.donationArray.amounts;
+      const amounts = [...this.donationArray.amounts];
+      return [...amounts.slice(1), amounts[amounts.length - 1] * 2];
+    },
     daysLeft() {
       const today = new Date();
       const endDate = new Date(this.campaign.levelDeadline);
@@ -328,8 +333,8 @@ export default {
       return rewards;
     },
     selectedAmountIndex() {
-      if (!this.donationArray || !this.donationArray.amounts) return -1;
-      return this.donationArray.amounts.indexOf(this.selectedAmount) + 1;
+      if (!this.displayedAmounts) return -1;
+      return this.displayedAmounts.indexOf(this.selectedAmount) + 1;
     },
     currentMessage() {
       const index = this.selectedAmountIndex;
