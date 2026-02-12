@@ -17,7 +17,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -73,7 +73,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                  }}</span>
+                }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -114,7 +114,8 @@
               style="margin-top: 1rem; padding: 1rem; background-color: #f3f4f6; border-radius: 12px; border: 1px solid #e5e7eb;">
               <h3 v-if="currentMessage.title" style="font-weight: 700; margin-bottom: 0.25rem; color: #1f2937;">{{
                 currentMessage.title }}</h3>
-              <p style="margin: 0; color: #4b5563; font-size: 0.95rem; line-height: 1.4;">{{ currentMessage.body }}</p>
+              <p style="text-align: left; margin: 0; color: #4b5563; font-size: 0.95rem; line-height: 1.4;">{{
+                currentMessage.body }}</p>
             </div>
             <p style="margin-top: 1.5rem; text-align: left;">
               <span>{{ $t('donation-why-monthly') }}</span>
@@ -159,7 +160,7 @@
           </div>
         </div>
         <div v-else-if="currentStep === 3">
-          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
+          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-top: 1rem; text-align: left;">
             {{ $t('why-not-support') }}
           </h1>
           <br>
