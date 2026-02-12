@@ -17,7 +17,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+                  }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -73,7 +73,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                }}</span>
+                  }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -133,7 +133,8 @@
               {{ formatAmount(selectedAmount ?? customAmount) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
             </p>
             <p style="font-size: 2rem; font-weight:900; color: black; margin: 0px;" v-if="amountAfterTax">
-              Soit {{ formatAmount(amountAfterTax) }}<span v-if="isMonthly">{{ $t('per-month') }}</span>
+              {{ $t('ThatIs').replace('{amount}', formatAmount(amountAfterTax)) }}<span v-if="isMonthly">{{
+                $t('per-month') }}</span>
             </p>
             <p v-if="amountAfterTax" style="font-size: 1rem; margin: 0px; color: #ff5757;">{{ $t('after-reduction') }}
             </p>
