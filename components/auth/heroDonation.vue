@@ -152,7 +152,7 @@ export default {
 <style scoped>
 .hero-donation {
   width: 100%;
-  background: linear-gradient(135deg, #fef3f2 0%, #fff5f5 100%);
+  background: white;
   border-radius: 16px;
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -188,10 +188,11 @@ export default {
 }
 
 .campaign-progress {
-  background: white;
+  background: #ff57570e;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: solid 2px #ff5757;
 }
 
 .days-left {

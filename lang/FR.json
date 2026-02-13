@@ -386,6 +386,8 @@
   "OneTimeDonationMessage_5_Body": "Votre générosité est extraordinaire ! Ce soutien ponctuel permet à trois personnes en situation précaire d'utiliser Pictalk pendant un an.",
   "OneTimeDonationMessage_6_Title": "💫 Incroyable ! Merci du fond du cœur.",
   "OneTimeDonationMessage_6_Body": "Votre contribution est exceptionnelle ! Vous financez l'accès à Pictalk pour sept utilisateurs défavorisés pendant un an. Vous changez des vies !",
+  "DonationTransactionFail_Title": "Oups",
+  "DonationTransactionFail_Description": "Nous n'avons pas pu traiter votre paiement. Vous n'avez pas été débité",
   "LeaveAComment": "Laissez un commentaire",
   "YourComment": "Votre commentaire...",
   "ThanksForComment": "Merci pour votre message !",

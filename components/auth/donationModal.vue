@@ -1,9 +1,10 @@
 <template>
   <div class="modal-card" style="max-width: none !important;">
     <section class="modal-card-body">
-      <div class="subtitle" style="height: 100%; display: flex; flex-direction: column;">
+      <div class="subtitle"
+        style="height: 100%; display: flex; flex-direction: column; max-width: 64rem !important; margin: 0px auto;">
         <div v-if="currentStep === 1"
-          style="max-width: 32rem; margin: 1rem auto; height: 100%; display: flex; flex-direction: column;">
+          style="width: 100%; margin: 1rem auto; height: 100%; display: flex; flex-direction: column;">
           <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
             {{
               donationTitle }}</h1>
@@ -839,6 +840,12 @@ export default {
   border-radius: 12px;
   border: 2px solid #E0E0E0;
   transition: all 0.2s ease;
+  white-space: normal;
+  /* allows text to wrap */
+  height: auto;
+  /* lets the button grow with the content */
+  word-break: break-word;
+  /* optional: handles very long single words */
 }
 
 .reason-button:hover {

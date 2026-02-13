@@ -1,6 +1,6 @@
 <template>
   <div v-if="loading">
-    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+    <svg xmlns="http://www.w3.org/2000/svg" style="width: 4rem; height: 4rem; flex-shrink: 0;"
       viewBox="0 0 24 24"><!-- Icon from Material Line Icons by Vjacheslav Trushkin - https://github.com/cyberalien/line-md/blob/master/license.txt -->
       <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
         <path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9">
@@ -16,24 +16,28 @@
     </svg>
   </div>
   <div class="subtitle" v-else>
-    <svg xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 1rem; color: #10b981; max-height: 10rem;" fill="none"
-      viewBox="0 0 24 24"><!-- Icon from Material Line Icons by Vjacheslav Trushkin - https://github.com/cyberalien/line-md/blob/master/license.txt -->
-      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-        <path stroke-dasharray="64" stroke-dashoffset="64"
-          d="M3 12c0 -4.97 4.03 -9 9 -9c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9Z">
-          <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0" />
-        </path>
-        <path stroke-dasharray="14" stroke-dashoffset="14" d="M8 12l3 3l5 -5">
-          <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="14;0" />
-        </path>
-      </g>
-    </svg>
+    <div style="width: 100%; display: flex; justify-content: center;">
+
+      <svg xmlns="http://www.w3.org/2000/svg"
+        style="margin-bottom: 1rem; color: #10b981; width: 8rem; height: 8rem; flex-shrink: 0;" fill="none"
+        viewBox="0 0 24 24"><!-- Icon from Material Line Icons by Vjacheslav Trushkin - https://github.com/cyberalien/line-md/blob/master/license.txt -->
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <path stroke-dasharray="64" stroke-dashoffset="64"
+            d="M3 12c0 -4.97 4.03 -9 9 -9c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9Z">
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0" />
+          </path>
+          <path stroke-dasharray="14" stroke-dashoffset="14" d="M8 12l3 3l5 -5">
+            <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="14;0" />
+          </path>
+        </g>
+      </svg>
+    </div>
     <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
       {{
         $t('DonationThanks') }}</h1>
     <p style="text-align: left;">{{ $t('DonationThanksDonor').replace('{name}', session.customerName) }}</p>
     <p style="margin-bottom: 0; font-style: italic">{{ $t('DonationTransactionOk') }}</p>
-    <div class="donation-details">
+    <div class="donation-details" style=" flex-shrink: 0;">
       <div class="detail-row">
         <span class="detail-label">{{ $t('DonationAmount') }}</span>
         <span class="detail-value">{{ displayedAmount }}</span>
@@ -161,7 +165,9 @@ export default {
   padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
-  min-height: 80vh;
+
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 .subtitle h1 {
@@ -185,6 +191,7 @@ export default {
   border-radius: 0.5rem;
   overflow: hidden;
   margin: 1.5rem 0;
+  min-height: 10rem;
 }
 
 .detail-row {
