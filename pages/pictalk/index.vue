@@ -68,6 +68,8 @@ import sidebar from "@/components/pictos/sidebar";
 import pictoList from "@/components/pictos/pictoList";
 import pictoBar from "@/components/pictos/pictoBar";
 import DonationModal from "@/components/auth/donationModal.vue";
+import MembershipModal from "@/components/auth/membershipModal.vue";
+import MembershipFollowupModal from "../../components/auth/membershipFollowupModal.vue";
 import lang from "@/mixins/lang";
 import UserTypeModal from "../../components/auth/userTypeModal.vue";
 export default {
@@ -222,6 +224,37 @@ export default {
     },
   },
   async mounted() {
+    setTimeout(() => {
+      this.$buefy.modal.open({
+        parent: this,
+        props: {
+          campaign: this.$store.getters.getCampaign,
+
+        },
+        component: MembershipFollowupModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        fullScreen: true,
+        canCancel: []
+      });
+    }, 500);
+    setTimeout(() => {
+      this.$buefy.modal.open({
+        parent: this,
+        props: {
+          campaign: this.$store.getters.getCampaign,
+          donationArray: this.$store.getters.getDonationPanel,
+          suggestedPrompts: this.$store.getters.getSuggestedPrompts
+        },
+        component: DonationModal,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true,
+        fullScreen: true,
+        canCancel: []
+      });
+    }, 500);
     let query = { ...this.$route.query };
     if (
       !this.$route.query.fatherCollectionId

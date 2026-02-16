@@ -135,13 +135,13 @@
             <img v-if="!rendered" :src="dynamicSrc" class="optionImage" />
             <b-field style="padding-top: 0.8rem">
               <b-switch v-model="options.cross.enabled" type="is-success" class="optionSwitch">{{ $t("Negation")
-              }}</b-switch>
+                }}</b-switch>
               <b-switch v-model="options.arrow.enabled" type="is-success" class="optionSwitch">{{ $t("Time")
-              }}</b-switch>
+                }}</b-switch>
               <b-switch v-model="options.plus.enabled" type="is-success" class="optionSwitch">{{ $t("Plural")
-              }}</b-switch>
+                }}</b-switch>
               <b-switch v-model="options.question.enabled" type="is-success" class="optionSwitch">{{ $t("Question")
-              }}</b-switch>
+                }}</b-switch>
             </b-field>
             <b-field>
               <b-button icon-left="refresh" :label="$t('Rotation')" @click="rotateImg()"></b-button>
@@ -291,6 +291,7 @@ import lang from "@/mixins/lang";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";
 import deviceInfos from "@/mixins/deviceInfos";
+import MembershipModal from "../auth/membershipModal.vue";
 export default {
   mixins: [emoji, lang, tts, deviceInfos],
   name: "PictoSteps",
@@ -650,22 +651,39 @@ export default {
       this.$emit("close");
       console.log(this.$store.getters.getSuggestedPrompts.prompts.donation)
       if (this.$store.getters.getSuggestedPrompts.prompts.donation) {
-        setTimeout(() => {
-          this.$buefy.modal.open({
-            parent: this,
-            props: {
-              campaign: this.$store.getters.getCampaign,
-              donationArray: this.$store.getters.getDonationPanel,
-              suggestedPrompts: this.$store.getters.getSuggestedPrompts
-            },
-            component: DonationModal,
-            hasModalCard: true,
-            customClass: "custom-class custom-class-2",
-            trapFocus: true,
-            fullScreen: true,
-            canCancel: []
-          });
-        }, 1500);
+        if (this.$store.getters.getUser.user.settings.userType == "parent") {
+          setTimeout(() => {
+            this.$buefy.modal.open({
+              parent: this,
+              props: {
+                campaign: this.$store.getters.getCampaign,
+                donationArray: this.$store.getters.getDonationPanel,
+                suggestedPrompts: this.$store.getters.getSuggestedPrompts
+              },
+              component: DonationModal,
+              hasModalCard: true,
+              customClass: "custom-class custom-class-2",
+              trapFocus: true,
+              fullScreen: true,
+              canCancel: []
+            });
+          }, 1500);
+        } else {
+          setTimeout(() => {
+            this.$buefy.modal.open({
+              parent: this,
+              props: {
+                campaign: this.$store.getters.getCampaign,
+              },
+              component: MembershipModal,
+              hasModalCard: true,
+              customClass: "custom-class custom-class-2",
+              trapFocus: true,
+              fullScreen: true,
+              canCancel: []
+            });
+          }, 1500);
+        }
       }
     },
     async traductionNeeded() {
