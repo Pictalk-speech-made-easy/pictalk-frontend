@@ -2,13 +2,54 @@
   <div class="modal-card" style="max-width: none !important;">
     <section class="modal-card-body">
       <div class="subtitle"
-        style="height: 100%; display: flex; flex-direction: column; max-width: 64rem !important; margin: 0px auto;">
+        style="height: 100%; display: flex; flex-direction: column; max-width: 48rem !important; margin: 0px auto;">
         <div v-if="currentStep === 1"
           style="width: 100%; margin: 1rem auto; height: 100%; display: flex; flex-direction: column;">
-          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-bottom: 1rem; text-align: left;">
-            {{
-              donationTitle }}</h1>
-          <p style="text-align: left;" v-html="donationSubtitle"></p>
+
+          <div
+            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+            {{ $t('DonationFinanceSolidarity') }}
+          </div>
+          <h1
+            style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin: 0px; margin-bottom: 1rem; text-align: left;">
+            {{ $t('DonationWhyTitle', { count: since }) }}
+          </h1>
+          <p style="text-align: left; font-size: 1.25rem;">{{ donationWhyDescription }}</p>
+          <h1
+            style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin-top: 2rem; margin-bottom: 1rem; text-align: left;">
+            {{ donationHowTitle }}
+          </h1>
+          <p
+            style="text-align: left; font-size: 1.5rem; border-width: 0px 0px 0px 5px; border-style: solid; border-color: #999; background-color: #f3f4f6; padding-left: 4px;">
+            {{ $t('DonationHowDescription') }}</p>
+          <ul style="font-size: 1.25rem; margin-bottom: 2rem;">
+            <li>✓ {{ $t('Advantages_no-ads') }}</li>
+            <li>✓ {{ $t('Advantages_no-shareholders') }}</li>
+            <li>✓ {{ $t('Advantages_independent') }}</li>
+            <li>✓ {{ $t('Advantages_private-data') }}</li>
+            <li>✓ {{ $t('Advantages_accessible') }}</li>
+          </ul>
+          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+            @click="goToStep2A()">
+            {{ $t('DonationCTA') }}
+          </b-button>
+          <p style="text-align: center; margin-top: 0.25rem;">
+            <span style="font-weight: 400; color: #1f2937; font-style: italic;">{{
+              $t('donate-from-x').replace('{minAmount}',
+                formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
+                  donationArray.symbol) }}</span>
+          </p>
+          <div style=" margin: 3rem auto;">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width: 3rem; height: 3rem; color: #000;"
+              viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+              <path fill="currentColor"
+                d="m12 22l-7-7l1.4-1.425l4.6 4.6V11h2v7.175l4.6-4.575L19 15zM11 9V6h2v3zm0-5V2h2v2z" />
+            </svg>
+          </div>
+          <h1
+            style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin: 0px; margin-bottom: 1rem; text-align: left;">
+            {{ donationTitle }}</h1>
+          <p style="text-align: left; font-size: 1.25rem;" v-html="donationSubtitle"></p>
           <br>
           <div class="campaign-progress card">
             <div class="card-content">
@@ -80,21 +121,8 @@
             </div>
           </div>
           <br>
-          <div
-            style="display: flex; flex-direction: column; width: 100%; max-width: 24rem; margin: auto auto 0px auto;">
-            <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
-              @click="goToStep2A()">
-              {{ $t('i-support') }}
-            </b-button>
-            <p style="text-align: center; margin-top: 0.25rem;">
-              <span style="font-weight: 400; color: #1f2937; font-style: italic;">{{
-                $t('donate-from-x').replace('{minAmount}',
-                  formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
-                    donationArray.symbol) }}</span>
-            </p>
-          </div>
-          <div class="bottom-link">
-            <b-button class="button" style="font-size: 1rem;" type="is-text" @click="goToStep2B()">
+          <div style="padding-bottom: 2rem; width: 100%;">
+            <b-button class="button" style="font-size: 1.125rem; width: 100%;" @click="goToStep2B()">
               {{ $t('i-dont-support') }}
             </b-button>
           </div>
@@ -108,8 +136,9 @@
               </button>
             </div>
             <div class="custom-amount">
-              <input type="number" v-model.number="customAmount" :placeholder="`Prix libre (${donationArray.symbol})`"
-                @focus="selectedAmount = null" class="custom-amount-input" />
+              <input type="number" min="0" v-model.number="customAmount"
+                :placeholder="`Prix libre (${donationArray.symbol})`" @focus="selectedAmount = null"
+                class="custom-amount-input" />
             </div>
             <div v-if="currentMessage" class="selected-message"
               style="margin-top: 1rem; padding: 1rem; background-color: #f3f4f6; border-radius: 12px; border: 1px solid #e5e7eb;">
@@ -161,9 +190,11 @@
           </div>
         </div>
         <div v-else-if="currentStep === 3">
-          <h1 style="font-size: 2rem; color: #1f2937; line-height: 1.75rem; margin-top: 1rem; text-align: left;">
+          <h1
+            style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin: 0px; margin-bottom: 1rem; text-align: left;">
             {{ $t('why-not-support') }}
           </h1>
+          <p style="text-align: left; font-size: 1.25rem;">{{ $t('why-not-support-description', { count: since }) }}</p>
           <br>
           <div class="reason-buttons">
             <b-button class="button reason-button" style="border: solid 2px; border-color: gray;"
@@ -297,6 +328,7 @@
 </template>
 <script>
 import axios from "axios";
+import dayjs from "~/utils/dayjs";
 export default {
   name: "donationModal",
   props: {
@@ -333,6 +365,9 @@ export default {
     };
   },
   computed: {
+    since() {
+      return dayjs.duration(dayjs().diff(dayjs.unix(this.$store.getters.getUser.createdDate / 1000), 'days'), 'days').locale(this.$i18n.locale).humanize();
+    },
     displayedAmounts() {
       if (this.isMonthly) return this.donationArray.amounts;
       const amounts = [...this.donationArray.amounts];
@@ -377,6 +412,7 @@ export default {
     translationParams() {
       const minAmount = this.donationArray.amounts[0] || 2;
       return {
+        count: this.since,
         donationCount: this.campaign.donationCount,
         currentTarget: this.campaign.currentTarget,
         remaining: Math.max(0, this.campaign.currentTarget - this.campaign.donationCount),
@@ -384,6 +420,30 @@ export default {
         minAmountAfterTax: (minAmount * 0.34).toFixed(2).replace('.00', ''),
         symbol: this.donationArray.symbol,
       };
+    },
+    donationWhyTitle() {
+      const key = `DonationWhyTitle_${this.abcVariant}`;
+      let text = this.$t(key);
+      Object.keys(this.translationParams).forEach(param => {
+        text = text.replace(new RegExp(`{${param}}`, 'g'), this.translationParams[param]);
+      });
+      return text;
+    },
+    donationWhyDescription() {
+      const key = `DonationWhyDescription_${this.abcVariant}`;
+      let text = this.$t(key);
+      Object.keys(this.translationParams).forEach(param => {
+        text = text.replace(new RegExp(`{${param}}`, 'g'), this.translationParams[param]);
+      });
+      return text;
+    },
+    donationHowTitle() {
+      const key = `DonationHowTitle_${this.abcVariant}`;
+      let text = this.$t(key);
+      Object.keys(this.translationParams).forEach(param => {
+        text = text.replace(new RegExp(`{${param}}`, 'g'), this.translationParams[param]);
+      });
+      return text;
     },
     donationTitle() {
       const key = `DonationTitle_${this.userType}_${this.donationStatus}_${this.abcVariant}`;

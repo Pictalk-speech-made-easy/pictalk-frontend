@@ -286,6 +286,7 @@
 const jpegasus = require("jpegasus");
 import axios from "axios";
 import Webpicto from "@/components/pictos/webpicto";
+import DonationModal from "@/components/auth/donationModal.vue";
 import lang from "@/mixins/lang";
 import emoji from "@/mixins/emoji";
 import tts from "@/mixins/tts";
@@ -647,6 +648,25 @@ export default {
       }
       this.creationLoading = false;
       this.$emit("close");
+      console.log(this.$store.getters.getSuggestedPrompts.prompts.donation)
+      if (this.$store.getters.getSuggestedPrompts.prompts.donation) {
+        setTimeout(() => {
+          this.$buefy.modal.open({
+            parent: this,
+            props: {
+              campaign: this.$store.getters.getCampaign,
+              donationArray: this.$store.getters.getDonationPanel,
+              suggestedPrompts: this.$store.getters.getSuggestedPrompts
+            },
+            component: DonationModal,
+            hasModalCard: true,
+            customClass: "custom-class custom-class-2",
+            trapFocus: true,
+            fullScreen: true,
+            canCancel: []
+          });
+        }, 1500);
+      }
     },
     async traductionNeeded() {
       // Si meaning du language principal change

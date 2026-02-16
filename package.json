@@ -1,6 +1,6 @@
 {
   "name": "Pictalk AAC",
-  "version": "2.9.13",
+  "version": "2.9.14",
   "description": "Pictalk is an app which aims to make speech easier for non-verbal people. Pictalk builds sentences with pictograms you uploaded and pronounces them out loud. You can build virtually any sentence and speak any language ! ",
   "author": "Alexandros SIDIRAS GALANTE",
   "private": true,
@@ -52,6 +52,7 @@
     "sharp": "^0.29.3"
   },
   "dependencies": {
+    "dayjs": "^1.11.19",
     "posthog-js": "^1.336.4",
     "vue-matomo": "^4.2.0",
     "vuex-persistedstate": "^4.1.0"

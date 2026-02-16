@@ -100,7 +100,7 @@ export default {
       }
     },
     async isAdmin(isAdmin, previousIsAdmin) {
-      /* if (this.$store.getters.getUser && !this.$store.getters.getUser.settings?.userType) {
+      if (this.$store.getters.getUser && !this.$store.getters.getUser.settings?.userType) {
         setTimeout(() => {
           this.$buefy.modal.open({
             parent: this,
@@ -113,23 +113,23 @@ export default {
         }, 500);
         return;
       }
-      if (!isAdmin || !this.suggestedPrompts.prompts.donator) return; */
-      setTimeout(() => {
-        this.$buefy.modal.open({
-          parent: this,
-          props: {
-            campaign: this.$store.getters.getCampaign,
-            donationArray: this.$store.getters.getDonationPanel,
-            suggestedPrompts: this.$store.getters.getSuggestedPrompts
-          },
-          component: DonationModal,
-          hasModalCard: true,
-          customClass: "custom-class custom-class-2",
-          trapFocus: true,
-          fullScreen: true,
-          canCancel: []
-        });
-      }, 500);
+      // if (!isAdmin || !this.suggestedPrompts.prompts.donator) return;
+      // setTimeout(() => {
+      //   this.$buefy.modal.open({
+      //     parent: this,
+      //     props: {
+      //       campaign: this.$store.getters.getCampaign,
+      //       donationArray: this.$store.getters.getDonationPanel,
+      //       suggestedPrompts: this.$store.getters.getSuggestedPrompts
+      //     },
+      //     component: DonationModal,
+      //     hasModalCard: true,
+      //     customClass: "custom-class custom-class-2",
+      //     trapFocus: true,
+      //     fullScreen: true,
+      //     canCancel: []
+      //   });
+      // }, 500);
     },
   },
   created() {

@@ -160,6 +160,7 @@ export default {
           user.settings = {};
         }
         user.settings.userType = type;
+        user.notifications = [];
         await this.$store.dispatch('editUser', user);
         this.$parent.close();
       } catch (error) {
