@@ -59,7 +59,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+                  }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -115,7 +115,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                }}</span>
+                  }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -613,6 +613,7 @@ export default {
     },
 
     async createUniqueDonation() {
+      const newWindow = window.open('', '_blank');
       try {
         this.loading = true;
         this.$posthog.capture(`create-unique-donation`);
@@ -627,14 +628,20 @@ export default {
           cancelUrl: `${window.location.origin}/donation-cancel`
         });
         this.loading = false;
-        if (res.data.checkoutUrl) window.open(res.data.checkoutUrl);
+        if (res.data.checkoutUrl) {
+          newWindow.location.href = res.data.checkoutUrl;
+        } else {
+          newWindow.close();
+        }
       } catch (error) {
         console.log("error ", error);
         this.loading = false;
+        if (newWindow) newWindow.close();
         return false;
       }
     },
     async createSubscription() {
+      const newWindow = window.open('', '_blank');
       try {
         this.loading = true;
         this.$posthog.capture(`create-monthly-donation`);
@@ -649,10 +656,15 @@ export default {
           cancelUrl: `${window.location.origin}/donation-cancel`
         });
         this.loading = false;
-        if (res.data.checkoutUrl) window.open(res.data.checkoutUrl);
+        if (res.data.checkoutUrl) {
+          newWindow.location.href = res.data.checkoutUrl;
+        } else {
+          newWindow.close();
+        }
       } catch (error) {
         console.log("error ", error);
         this.loading = false;
+        if (newWindow) newWindow.close();
         return false;
       }
     },

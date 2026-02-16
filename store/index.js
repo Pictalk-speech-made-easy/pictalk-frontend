@@ -189,14 +189,24 @@ export const mutations = {
 };
 export const actions = {
   async fetchCampaign(vuexContext) {
-    const campaign = await axios.get(`https://donations-api.pictalk.org/v1/campaign/goals`);
-    vuexContext.commit("setCampaign", campaign.data);
+    try {
+      const campaign = await axios.get(`https://donations-api.pictalk.org/v1/campaign/goals`);
+      vuexContext.commit("setCampaign", campaign.data);
+    } catch (err) {
+      console.log("Error fetching campaign data: ", err);
+      return;
+    }
   },
   async fetchSuggestedPrompts(vuexContext) {
-    const suggestedPrompts = await axios.post(`https://donations-api.pictalk.org/v1/users/${vuexContext.getters.getUser.username}/prompts`, {
-      created_at: vuexContext.getters.getUser.createdDate
-    });
-    vuexContext.commit("setSuggestedPrompts", suggestedPrompts.data);
+    try {
+      const suggestedPrompts = await axios.post(`https://donations-api.pictalk.org/v1/users/${vuexContext.getters.getUser.username}/prompts`, {
+        created_at: vuexContext.getters.getUser.createdDate
+      });
+      vuexContext.commit("setSuggestedPrompts", suggestedPrompts.data);
+    } catch (err) {
+      console.log("Error fetching suggested prompts: ", err);
+      return;
+    }
   },
   async fetchDonationPanel(vuexContext) {
     try {
