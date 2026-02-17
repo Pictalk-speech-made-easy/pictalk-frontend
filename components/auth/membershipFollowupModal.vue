@@ -309,14 +309,29 @@ export default {
     this.$posthog?.capture("membership-followup-modal-shown");
   },
   methods: {
+    async donationPromptShown() {
+      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer"
+      // anwser: "not_yet" | "sent" | "responded" | "joined"
+      // response: "positive" | "hesitant" | "negative"
+      try {
+        await axios.post(
+          `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
+          , {
+            userType: this.$store.getters.getUser.settings.userType || "unknown",
+            action: "followup_answer",
+            // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+            ...this.followupAnswer && { answer: this.followupAnswer },
+            ...this.directionResponse && { response: this.directionResponse },
+          });
+      } catch (error) {
+        console.log("error", error);
+      }
+    },
     async submitFollowup() {
       if (!this.followupAnswer) return;
       try {
         this.$posthog?.capture(`membership-followup-${this.followupAnswer}`);
-        await axios.post(
-          `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`,
-          { reason: `followup-${this.followupAnswer}` }
-        );
+        await this.donationPromptShown();
       } catch (error) {
         console.log("error", error);
       }
@@ -326,10 +341,7 @@ export default {
       if (!this.directionResponse) return;
       try {
         this.$posthog?.capture(`membership-direction-response-${this.directionResponse}`);
-        await axios.post(
-          `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`,
-          { reason: `direction-${this.directionResponse}` }
-        );
+        await this.donationPromptShown();
       } catch (error) {
         console.log("error", error);
       }
@@ -339,10 +351,7 @@ export default {
       try {
         this.loading = true;
         this.$posthog?.capture("membership-direction-negative-feedback");
-        await axios.post(
-          `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`,
-          { reason: "direction-negative", comment: this.negativeComment }
-        );
+        await this.donationPromptShown();
       } catch (error) {
         console.log("error", error);
       } finally {

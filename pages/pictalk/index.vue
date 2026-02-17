@@ -224,21 +224,21 @@ export default {
     },
   },
   async mounted() {
-    setTimeout(() => {
+    /* setTimeout(() => {
       this.$buefy.modal.open({
         parent: this,
         props: {
           campaign: this.$store.getters.getCampaign,
 
         },
-        component: MembershipModal,
+        component: MembershipFollowupModal,
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
         fullScreen: true,
         canCancel: []
       });
-    }, 500);
+    }, 500); */
 
     /* setTimeout(() => {
       this.$buefy.modal.open({

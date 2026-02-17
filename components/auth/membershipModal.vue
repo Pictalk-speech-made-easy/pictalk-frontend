@@ -24,7 +24,7 @@
             {{ $t('membership-step1-quote') }}
             <br>
             <span style="font-size: 1rem; color: #999; font-style: normal;">{{ $t('membership-step1-quote-cite')
-            }}</span>
+              }}</span>
           </p>
           <div class="comments-wall" ref="commentsWall">
             <div class="comment-item" v-for="(comment, index) in comments" :key="index">
@@ -77,7 +77,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -308,7 +308,6 @@ export default {
   },
   async mounted() {
     this.$posthog?.capture("membership-modal-shown");
-    this.donationPromptShown();
     await this.getComments();
     this.startAutoScroll();
   },
@@ -340,11 +339,18 @@ export default {
         console.log("error", error);
       }
     },
-    async donationPromptShown() {
+    async donationPromptShown(action) {
+      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer"
+      // anwser: "not_yet" | "sent" | "responded" | "joined"
+      // response: "positive" | "hesitant" | "negative"
       try {
         await axios.post(
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
-        );
+          , {
+            userType: this.$store.getters.getUser.settings.userType || "unknown",
+            action: action,
+            // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+          });
       } catch (error) {
         console.log("error", error);
       }
@@ -358,6 +364,7 @@ export default {
     },
     async handleRemindLater() {
       this.$posthog?.capture("membership-modal-remind-later");
+      this.donationPromptShown("reschedule");
       this.$parent.close();
     },
     async handleReason(reason) {
@@ -377,6 +384,7 @@ export default {
       try {
         this.loading = true;
         this.$posthog?.capture(`membership-not-using-${this.selectedDontUseReasons.join(",")}`);
+        this.donationPromptShown("decline");
         await axios.post(
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`,
           {
@@ -397,6 +405,7 @@ export default {
       try {
         this.loading = true;
         this.$posthog?.capture("membership-other-reason");
+        this.donationPromptShown("decline");
         await axios.post(
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`,
           { reason: "other", comment: this.otherReasonComment }
@@ -410,11 +419,13 @@ export default {
     },
     downloadSlides() {
       this.$posthog?.capture("membership-slides-downloaded");
+      this.donationPromptShown("slides");
       window.open("https://www.canva.com/design/DAHA8Fp2l4o/t4vm3Wguktz-UcHTN18F7A/edit?utm_content=DAHA8Fp2l4o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton", "_blank");
       this.$parent.close();
     },
     openCalendly() {
       this.$posthog?.capture("membership-calendly-clicked");
+      this.donationPromptShown("meeting");
       window.open("https://calendly.com/pictalk/adhesion", "_blank");
       this.$parent.close();
     }

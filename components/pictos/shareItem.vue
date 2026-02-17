@@ -1,7 +1,7 @@
 <template>
   <div class="modal-card">
     <header class="modal-card-head">
-      <b-button class="button" type="is-danger" icon-left="close" @click="$parent.close()" />
+      <b-button class="button" type="is-danger" icon-left="close" @click="closeModal()" />
       <p align="center" class="modal-card-title">
         {{ $t("ShareCollection") }}
       </p>
@@ -58,8 +58,8 @@
                   is-6-fullhd
                 ">
                 <div :class="selectedGroups.indexOf(index) >= 0
-                    ? 'card has-background rounder'
-                    : 'card rounder'
+                  ? 'card has-background rounder'
+                  : 'card rounder'
                   ">
                   <div class="card-content smallerbottompadding" @click="GroupToSelected(index)">
                     <div class="media shrinked">
@@ -201,6 +201,42 @@ export default {
     },
   },
   methods: {
+    closeModal() {
+      this.$parent.close();
+      if (this.$store.getters.getSuggestedPrompts.prompts.donation) {
+        setTimeout(() => {
+          this.$buefy.modal.open({
+            parent: this,
+            props: {
+              campaign: this.$store.getters.getCampaign,
+              donationArray: this.$store.getters.getDonationPanel,
+              suggestedPrompts: this.$store.getters.getSuggestedPrompts
+            },
+            component: DonationModal,
+            hasModalCard: true,
+            customClass: "custom-class custom-class-2",
+            trapFocus: true,
+            fullScreen: true,
+            canCancel: []
+          });
+        }, 1500);
+      } else if (this.$store.getters.getSuggestedPrompts.prompts.membership) {
+        setTimeout(() => {
+          this.$buefy.modal.open({
+            parent: this,
+            props: {
+              campaign: this.$store.getters.getCampaign,
+            },
+            component: MembershipModal,
+            hasModalCard: true,
+            customClass: "custom-class custom-class-2",
+            trapFocus: true,
+            fullScreen: true,
+            canCancel: []
+          });
+        }, 1500);
+      }
+    },
     groupStatus(group) {
       let present = [],
         missing = [],
