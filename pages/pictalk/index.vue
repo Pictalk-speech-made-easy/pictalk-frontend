@@ -231,7 +231,7 @@ export default {
           campaign: this.$store.getters.getCampaign,
 
         },
-        component: MembershipFollowupModal,
+        component: MembershipModal,
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
@@ -239,7 +239,8 @@ export default {
         canCancel: []
       });
     }, 500);
-    setTimeout(() => {
+
+    /* setTimeout(() => {
       this.$buefy.modal.open({
         parent: this,
         props: {
@@ -254,7 +255,7 @@ export default {
         fullScreen: true,
         canCancel: []
       });
-    }, 500);
+    }, 500); */
     let query = { ...this.$route.query };
     if (
       !this.$route.query.fatherCollectionId
