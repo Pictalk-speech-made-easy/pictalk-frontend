@@ -117,7 +117,7 @@
           </p>
 
         </button>
-        <button @click="selectType('professional-adults')" class="user-type-button" outlined size="is-large"
+        <button @click="selectType('professional-adult')" class="user-type-button" outlined size="is-large"
           style="align-items: center; display: flex; flex-direction: row; padding: 0.5rem 1rem;">
 
           <svg xmlns="http://www.w3.org/2000/svg" style="width: 2rem; height: 2rem;"
