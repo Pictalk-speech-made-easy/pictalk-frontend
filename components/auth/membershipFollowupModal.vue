@@ -317,7 +317,7 @@ export default {
         await axios.post(
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
           , {
-            userType: this.$store.getters.getUser.settings.userType || "unknown",
+            type: this.$store.getters.getUser.settings.userType || "unknown",
             action: "followup_answer",
             // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
             ...this.followupAnswer && { answer: this.followupAnswer },

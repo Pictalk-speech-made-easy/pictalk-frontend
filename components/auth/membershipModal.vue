@@ -24,7 +24,7 @@
             {{ $t('membership-step1-quote') }}
             <br>
             <span style="font-size: 1rem; color: #999; font-style: normal;">{{ $t('membership-step1-quote-cite')
-              }}</span>
+            }}</span>
           </p>
           <div class="comments-wall" ref="commentsWall">
             <div class="comment-item" v-for="(comment, index) in comments" :key="index">
@@ -77,7 +77,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+                  }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -347,7 +347,7 @@ export default {
         await axios.post(
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
           , {
-            userType: this.$store.getters.getUser.settings.userType || "unknown",
+            type: this.$store.getters.getUser.settings.userType || "unknown",
             action: action,
             // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
           });
