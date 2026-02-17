@@ -6,7 +6,7 @@
         <div v-if="currentStep === 1"
           style="width: 100%; margin: 1rem auto; height: 100%; display: flex; flex-direction: column;">
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
-            <b-button type="is-text" style="color: #666;" @click="$parent.close()">✕</b-button>
+            <b-button type="is-text" style="color: #666;" @click="submitReschedule()">✕</b-button>
           </div>
           <div
             style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
@@ -36,7 +36,7 @@
             {{ $t('followup-continue') }}
           </b-button>
           <b-button class="button" style="font-size: 1rem; margin-top: 0.75rem;" type="is-text"
-            @click="$parent.close()">
+            @click="submitReschedule()">
             {{ $t('followup-not-now') }}
           </b-button>
         </div>
@@ -78,7 +78,7 @@
             {{ $t('followup-redownload') }}
           </b-button>
           <b-button class="button" style="font-size: 1rem; margin-top: 0.75rem;" type="is-text"
-            @click="$parent.close()">
+            @click="submitReschedule()">
             {{ $t('followup-do-it-later') }}
           </b-button>
         </div>
@@ -111,7 +111,7 @@
             {{ $t('followup-book-call') }}
           </b-button>
           <b-button class="button" style="font-size: 1rem; margin-top: 0.75rem;" type="is-text"
-            @click="$parent.close()">
+            @click="submitReschedule()">
             {{ $t('followup-wait-response') }}
           </b-button>
         </div>
@@ -145,7 +145,7 @@
             {{ $t('followup-continue') }}
           </b-button>
           <b-button class="button" style="font-size: 1rem; margin-top: 0.75rem;" type="is-text"
-            @click="$parent.close()">
+            @click="submitReschedule()">
             {{ $t('followup-not-now') }}
           </b-button>
         </div>
@@ -197,7 +197,7 @@
             {{ $t('followup-book-call-direction') }}
           </b-button>
           <b-button class="button" style="font-size: 1rem; margin-top: 0.75rem;" type="is-text"
-            @click="$parent.close()">
+            @click="submitReschedule()">
             {{ $t('followup-handle-myself') }}
           </b-button>
         </div>
@@ -309,8 +309,8 @@ export default {
     this.$posthog?.capture("membership-followup-modal-shown");
   },
   methods: {
-    async donationPromptShown() {
-      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer"
+    async donationPromptShown(action) {
+      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer" | "followup_reschedule"
       // anwser: "not_yet" | "sent" | "responded" | "joined"
       // response: "positive" | "hesitant" | "negative"
       try {
@@ -318,7 +318,7 @@ export default {
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
           , {
             type: this.$store.getters.getUser.settings.userType || "unknown",
-            action: "followup_answer",
+            action: action,
             // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
             ...this.followupAnswer && { answer: this.followupAnswer },
             ...this.directionResponse && { response: this.directionResponse },
@@ -331,11 +331,20 @@ export default {
         console.log("error", error);
       }
     },
+    async submitReschedule() {
+      try {
+        this.$posthog?.capture("membership-followup-reschedule-clicked");
+        await this.donationPromptShown("followup_reschedule");
+      } catch (error) {
+        console.log("error", error);
+      }
+      this.$parent.close();
+    },
     async submitFollowup() {
       if (!this.followupAnswer) return;
       try {
         this.$posthog?.capture(`membership-followup-${this.followupAnswer}`);
-        await this.donationPromptShown();
+        await this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
       }
@@ -345,7 +354,7 @@ export default {
       if (!this.directionResponse) return;
       try {
         this.$posthog?.capture(`membership-direction-response-${this.directionResponse}`);
-        await this.donationPromptShown();
+        await this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
       }
@@ -355,7 +364,7 @@ export default {
       try {
         this.loading = true;
         this.$posthog?.capture("membership-direction-negative-feedback");
-        await this.donationPromptShown();
+        await this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
       } finally {
