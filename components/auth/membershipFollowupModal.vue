@@ -310,6 +310,7 @@ export default {
   },
   methods: {
     async donationPromptShown(action) {
+      if (action == "followup_answer" && this.followupAnswer == "responded" && !this.directionResponse) return;
       // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer" | "followup_reschedule"
       // anwser: "not_yet" | "sent" | "responded" | "joined"
       // response: "positive" | "hesitant" | "negative"
@@ -344,11 +345,15 @@ export default {
       if (!this.followupAnswer) return;
       try {
         this.$posthog?.capture(`membership-followup-${this.followupAnswer}`);
+        if (this.followupAnswer === "responded" && !this.directionResponse) {
+          this.currentStep = 2;
+          return;
+        }
         await this.donationPromptShown("followup_answer");
+        this.currentStep = 2;
       } catch (error) {
         console.log("error", error);
       }
-      this.currentStep = 2;
     },
     async submitDirectionResponse() {
       if (!this.directionResponse) return;
