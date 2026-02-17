@@ -59,7 +59,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -115,7 +115,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                  }}</span>
+                }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -671,6 +671,10 @@ export default {
     async donationPromptShown() {
       try {
         await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`);
+        const prompts = this.$store.getters.getSuggestedPrompts;
+        prompts.donation = false;
+        this.$store.commit("setSuggestedPrompts", prompts);
+        await this.$store.dispatch("fetchSuggestedPrompts");
         return;
       } catch (error) {
         console.log("error ", error);

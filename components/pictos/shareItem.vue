@@ -100,13 +100,15 @@
     <footer class="modal-card-foot">
       <b-button class="button" type="button" @click="$parent.close()">{{
         $t("Close")
-        }}</b-button>
+      }}</b-button>
     </footer>
   </div>
 </template>
 <script>
 import sharers from "@/mixins/sharers";
 import addGroupModal from "@/components/auth/addGroupModal";
+import MembershipModal from "@/components/auth/membershipModal.vue";
+import MembershipFollowupModal from "@/components/auth/membershipFollowupModal.vue";
 export default {
   mixins: [sharers],
   props: {
@@ -228,6 +230,21 @@ export default {
               campaign: this.$store.getters.getCampaign,
             },
             component: MembershipModal,
+            hasModalCard: true,
+            customClass: "custom-class custom-class-2",
+            trapFocus: true,
+            fullScreen: true,
+            canCancel: []
+          });
+        }, 1500);
+      } else if (this.$store.getters.getSuggestedPrompts.prompts.followupMembership) {
+        setTimeout(() => {
+          this.$buefy.modal.open({
+            parent: this,
+            props: {
+              campaign: this.$store.getters.getCampaign,
+            },
+            component: MembershipFollowupModal,
             hasModalCard: true,
             customClass: "custom-class custom-class-2",
             trapFocus: true,

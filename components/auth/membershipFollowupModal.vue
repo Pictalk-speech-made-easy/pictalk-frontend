@@ -323,6 +323,10 @@ export default {
             ...this.followupAnswer && { answer: this.followupAnswer },
             ...this.directionResponse && { response: this.directionResponse },
           });
+        const prompts = this.$store.getters.getSuggestedPrompts;
+        prompts.followupMembership = false;
+        this.$store.commit("setSuggestedPrompts", prompts);
+        this.$store.dispatch("fetchSuggestedPrompts");
       } catch (error) {
         console.log("error", error);
       }
