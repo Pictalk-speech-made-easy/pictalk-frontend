@@ -224,6 +224,19 @@ export default {
     },
   },
   async mounted() {
+    this.$buefy.modal.open({
+      parent: this,
+      props: {
+        campaign: this.$store.getters.getCampaign,
+
+      },
+      component: MembershipModal,
+      hasModalCard: true,
+      customClass: "custom-class custom-class-2",
+      trapFocus: true,
+      fullScreen: true,
+      canCancel: []
+    });
     /* setTimeout(() => {
       this.$buefy.modal.open({
         parent: this,

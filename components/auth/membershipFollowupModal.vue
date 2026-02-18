@@ -8,8 +8,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="submitReschedule()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('followup-badge') }}
           </div>
           <h1
@@ -25,13 +24,15 @@
               @click="followupAnswer = option.value">
               <span style="font-size: 1.25rem; flex-shrink: 0; margin-top: 1px;">{{ option.icon }}</span>
               <div style="display: flex; flex-direction: column; gap: 2px; text-align: left;">
-                <strong style="font-size: 0.95rem; font-weight: 700; color: #1f2937;">{{ $t(option.titleKey) }}</strong>
-                <span style="font-size: 0.85rem; color: #666;">{{ $t(option.bodyKey) }}</span>
+                <strong style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">{{ $t(option.titleKey)
+                }}</strong>
+                <span style="font-size: 1rem; color: #666;">{{ $t(option.bodyKey) }}</span>
               </div>
             </div>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px;height: auto; max-height: none; border-color: gray;" type="is-primary"
             :disabled="!followupAnswer" @click="submitFollowup()">
             {{ $t('followup-continue') }}
           </b-button>
@@ -45,8 +46,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="$parent.close()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('followup-not-yet-badge') }}
           </div>
           <h1
@@ -56,7 +56,7 @@
           <p style="text-align: left; font-size: 1.25rem; margin-bottom: 1.5rem;">
             {{ $t('followup-not-yet-body') }}
           </p>
-          <div class="card" style="margin-bottom: 1.5rem;">
+          <div class="card" style="margin-bottom: 1.5rem; background-color: #f9f9f9;">
             <div class="card-content">
               <p
                 style="font-size: 0.85rem; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem;">
@@ -64,16 +64,17 @@
               </p>
               <div v-for="(feat, idx) in folderFeatures" :key="idx"
                 :style="idx < folderFeatures.length - 1 ? 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f3f4f6;' : 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;'">
-                <span style="font-size: 0.9rem; color: #444;">{{ $t(feat.labelKey) }}</span>
+                <span style="font-size: 1.075rem; color: #1f2937;">{{ $t(feat.labelKey) }}</span>
                 <span
-                  :style="feat.soon ? 'font-size: 0.8rem; font-weight: 700; color: #ff5757;' : 'font-size: 0.8rem; font-weight: 700; color: #22c55e;'">
+                  :style="feat.soon ? 'font-size: 0.9rem; font-weight: 700; color: #ff5757;' : 'font-size: 0.8rem; font-weight: 700; color: #22c55e;'">
                   {{ feat.soon ? $t('followup-feat-soon') : '✓' }}
                 </span>
               </div>
             </div>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px;height: auto; max-height: none; border-color: gray;" type="is-primary"
             @click="downloadSlides()">
             {{ $t('followup-redownload') }}
           </b-button>
@@ -88,8 +89,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="$parent.close()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('followup-sent-badge') }}
           </div>
           <h1
@@ -106,7 +106,8 @@
             <span style="font-size: 1rem; color: #999; font-style: normal;">{{ $t('followup-sent-quote-cite') }}</span>
           </p>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px; height: auto; max-height: none; border-color: gray;" type="is-primary"
             @click="openCalendly()">
             {{ $t('followup-book-call') }}
           </b-button>
@@ -120,8 +121,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="$parent.close()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('followup-responded-badge') }}
           </div>
           <h1
@@ -140,7 +140,8 @@
             </div>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px;height: auto; max-height: none; border-color: gray;" type="is-primary"
             :disabled="!directionResponse" @click="submitDirectionResponse()">
             {{ $t('followup-continue') }}
           </b-button>
@@ -154,8 +155,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="$parent.close()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('followup-positive-badge') }}
           </div>
           <h1
@@ -165,8 +165,53 @@
           <p style="text-align: left; font-size: 1.25rem; margin-bottom: 1.5rem;">
             {{ $t('followup-positive-body') }}
           </p>
+          <div
+            style="font-family: 'Pictalk', system-ui, sans-serif; font-size: 1.125rem; line-height: 1.75rem; display: flex; flex-direction: column; margin-top: 1rem; margin-bottom: 1rem; padding: 1rem; border: 1px solid rgba(128, 128, 128, 0.5); border-radius: 0.5rem; font-weight: 500;">
+            <h2
+              style="font-size: 1.25rem; line-height: 1.75rem; color: #9ca3af; margin-bottom: 0.5rem; font-weight: 400;">
+              {{ $t('followup-positive-call_contents.title') }}</h2>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <p style="margin: 0;">{{ $t('followup-positive-call_contents.item_1') }}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.5rem; height: 1.5rem; color: #10b981;"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>
+            </div>
+
+            <div style="height: 1px; background-color: rgba(128, 128, 128, 0.2); margin: 0.5rem 0;"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <p style="margin: 0;">{{ $t('followup-positive-call_contents.item_2') }}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.5rem; height: 1.5rem; color: #10b981;"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>
+            </div>
+
+            <div style="height: 1px; background-color: rgba(128, 128, 128, 0.2); margin: 0.5rem 0;"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <p style="margin: 0;">{{ $t('followup-positive-call_contents.item_3') }}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.5rem; height: 1.5rem; color: #10b981;"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>
+            </div>
+
+            <div style="height: 1px; background-color: rgba(128, 128, 128, 0.2); margin: 0.5rem 0;"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <p style="margin: 0;">{{ $t('followup-positive-call_contents.item_4') }}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" style="width: 1.5rem; height: 1.5rem; color: #10b981;"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>
+            </div>
+          </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px;height: auto; max-height: none; border-color: gray;" type="is-primary"
             @click="openCalendly()">
             {{ $t('followup-book-call') }}
           </b-button>
@@ -180,8 +225,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="$parent.close()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('followup-hesitant-badge') }}
           </div>
           <h1
@@ -192,7 +236,8 @@
             {{ $t('followup-hesitant-body') }}
           </p>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px;height: auto; max-height: none; border-color: gray;" type="is-primary"
             @click="openCalendly()">
             {{ $t('followup-book-call-direction') }}
           </b-button>
@@ -206,8 +251,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="$parent.close()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('followup-negative-badge') }}
           </div>
           <h1
@@ -229,7 +273,8 @@
             </b-field>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px;height: auto; max-height: none; border-color: gray;" type="is-primary"
             :loading="loading" @click="submitNegativeFeedback()">
             {{ $t('followup-send-and-close') }}
           </b-button>
@@ -245,14 +290,13 @@
           </div>
           <div style="text-align: center; padding: 2rem 0 1.5rem;">
             <div style="font-size: 52px; margin-bottom: 1rem;">🎉</div>
-            <div
-              style="border: solid 2px #ff5757; border-radius: 24px; margin: 0 auto 0.5rem; padding: 0.25rem 0.5rem; display: inline-block;">
+            <div style="color: #ff5757; margin: 0 auto 0.5rem; padding: 0.25rem 0.5rem; display: inline-block;">
               {{ $t('followup-joined-badge') }}
             </div>
-            <h1 style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin: 1rem 0; text-align: center;">
+            <h1 style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin: 1rem 0; text-align: left;">
               {{ $t('followup-joined-title') }}
             </h1>
-            <p style="text-align: center; font-size: 1.25rem; color: #444;">
+            <p style="text-align: left; font-size: 1.25rem; color: #444;">
               {{ $t('followup-joined-body') }}
             </p>
           </div>
@@ -265,7 +309,8 @@
             <span style="font-size: 0.9rem; color: #666; margin-left: 10px;">{{ $t('followup-joined-count') }}</span>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px;height: auto; max-height: none; border-color: gray;" type="is-primary"
             @click="$parent.close()">
             {{ $t('followup-joined-cta') }}
           </b-button>
@@ -287,10 +332,10 @@ export default {
       directionResponse: null,
       negativeComment: "",
       followupOptions: [
-        { value: 'not_yet', icon: '⏳', titleKey: 'followup-option-not-yet-title', bodyKey: 'followup-option-not-yet-body' },
-        { value: 'sent', icon: '📨', titleKey: 'followup-option-sent-title', bodyKey: 'followup-option-sent-body' },
-        { value: 'responded', icon: '💬', titleKey: 'followup-option-responded-title', bodyKey: 'followup-option-responded-body' },
-        { value: 'joined', icon: '🎉', titleKey: 'followup-option-joined-title', bodyKey: 'followup-option-joined-body' },
+        { value: 'not_yet', icon: '', titleKey: 'followup-option-not-yet-title', bodyKey: 'followup-option-not-yet-body' },
+        { value: 'sent', icon: '', titleKey: 'followup-option-sent-title', bodyKey: 'followup-option-sent-body' },
+        { value: 'responded', icon: '', titleKey: 'followup-option-responded-title', bodyKey: 'followup-option-responded-body' },
+        { value: 'joined', icon: '', titleKey: 'followup-option-joined-title', bodyKey: 'followup-option-joined-body' },
       ],
       directionOptions: [
         { value: 'positive', icon: '👍', titleKey: 'followup-direction-positive-title', bodyKey: 'followup-direction-positive-body' },

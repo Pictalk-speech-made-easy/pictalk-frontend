@@ -8,8 +8,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="goToDecline()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('membership-pro-badge') }}
           </div>
           <h1
@@ -24,7 +23,7 @@
             {{ $t('membership-step1-quote') }}
             <br>
             <span style="font-size: 1rem; color: #999; font-style: normal;">{{ $t('membership-step1-quote-cite')
-              }}</span>
+            }}</span>
           </p>
           <div class="comments-wall" ref="commentsWall">
             <div class="comment-item" v-for="(comment, index) in comments" :key="index">
@@ -43,7 +42,12 @@
             <span style="font-size: 0.9rem; color: #666; margin-left: 10px;">{{ $t('membership-pros-count') }}</span>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <h1
+            style="font-size: 2rem; color: #1f2937; line-height: 1.95rem; margin: 0px; margin-bottom: 1rem; text-align: left;">
+            {{ $t('membership-step1-transition') }}
+          </h1>
+          <b-button class="button step-button"
+            style="border: solid 2px; border-color: gray;height: auto; max-height: none;" type="is-primary"
             @click="currentStep = 2">
             {{ $t('membership-step1-cta') }}
           </b-button>
@@ -58,8 +62,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="goToDecline()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('membership-risk-badge') }}
           </div>
           <h1
@@ -100,7 +103,8 @@
             </ul>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px; border-color: gray;height: auto; max-height: none;" type="is-primary"
             @click="currentStep = 3">
             {{ $t('membership-step2-cta') }}
           </b-button>
@@ -114,8 +118,7 @@
           <div style="display: flex; justify-content: flex-end; margin-bottom: 0.5rem;">
             <b-button type="is-text" style="color: #666;" @click="goToDecline()">✕</b-button>
           </div>
-          <div
-            style="border: solid 2px #ff5757; border-radius: 24px; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
+          <div style="color: #ff5757; margin-right: auto; margin-bottom: 0.5rem; padding: 0.25rem 0.5rem;">
             {{ $t('membership-action-badge') }}
           </div>
           <h1
@@ -140,7 +143,8 @@
             </div>
           </div>
           <div style="flex: 1;"></div>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button"
+            style="border: solid 2px; border-color: gray;height: auto; max-height: none;" type="is-primary"
             @click="downloadSlides()">
             {{ $t('membership-download-slides') }}
           </b-button>
