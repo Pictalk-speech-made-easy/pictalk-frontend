@@ -16,18 +16,37 @@
           </h1>
           <p style="text-align: left; font-size: 1.25rem;">{{ donationWhyDescription }}</p>
           <h1
-            style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin-top: 2rem; margin-bottom: 1rem; text-align: left;">
+            style="font-size: 3rem; color: #1f2937; line-height: 2.5rem; margin-top: 2rem; margin-bottom: 1rem; text-align: left; background-color: #ff9696; padding: 0.25rem;">
             {{ donationHowTitle }}
           </h1>
-          <p
-            style="text-align: left; font-size: 1.5rem; border-width: 0px 0px 0px 5px; border-style: solid; border-color: #999; background-color: #f3f4f6; padding-left: 4px;">
-            {{ $t('DonationHowDescription') }}</p>
+          <p style="text-align: left; font-size: 1.25rem;">{{ $t('DonationHowDescription') }}</p>
+
           <ul style="font-size: 1.25rem; margin-bottom: 2rem;">
-            <li>✓ {{ $t('Advantages_no-ads') }}</li>
-            <li>✓ {{ $t('Advantages_no-shareholders') }}</li>
-            <li>✓ {{ $t('Advantages_independent') }}</li>
-            <li>✓ {{ $t('Advantages_private-data') }}</li>
-            <li>✓ {{ $t('Advantages_accessible') }}</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>{{ $t('Advantages_no-ads') }}</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>{{ $t('Advantages_no-shareholders') }}</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>{{ $t('Advantages_independent') }}</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>{{ $t('Advantages_private-data') }}</li>
+            <li><svg xmlns="http://www.w3.org/2000/svg"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
+              </svg>{{ $t('Advantages_accessible') }}</li>
           </ul>
           <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
             @click="goToStep2A()">
@@ -59,7 +78,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+                  }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -115,14 +134,14 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                }}</span>
+                  }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
           </div>
           <br>
           <div style="padding-bottom: 2rem; width: 100%;">
-            <b-button class="button" style="font-size: 1.125rem; width: 100%;" @click="goToStep2B()">
+            <b-button class="button step-button" style="font-size: 1.125rem; width: 100%;" @click="goToStep2B()">
               {{ $t('i-dont-support') }}
             </b-button>
           </div>
