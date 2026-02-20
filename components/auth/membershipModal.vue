@@ -23,7 +23,7 @@
             {{ $t('membership-step1-quote') }}
             <br>
             <span style="font-size: 1rem; color: #999; font-style: normal;">{{ $t('membership-step1-quote-cite')
-            }}</span>
+              }}</span>
           </p>
           <div class="comments-wall" ref="commentsWall">
             <div class="comment-item" v-for="(comment, index) in comments" :key="index">
@@ -80,7 +80,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+                  }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -298,6 +298,9 @@ export default {
     };
   },
   computed: {
+    fileUrl() {
+      return `https://www.pictalk.org/${this.$i18n.locale}/pictalk/pros?print`
+    },
     daysLeft() {
       const today = new Date();
       const endDate = new Date(this.campaign.levelDeadline);
@@ -428,13 +431,13 @@ export default {
     downloadSlides() {
       this.$posthog?.capture("membership-slides-downloaded");
       this.donationPromptShown("slides");
-      window.open("https://www.canva.com/design/DAHA8Fp2l4o/t4vm3Wguktz-UcHTN18F7A/edit?utm_content=DAHA8Fp2l4o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton", "_blank");
+      window.open(this.fileUrl, "_blank");
       this.$parent.close();
     },
     openCalendly() {
       this.$posthog?.capture("membership-calendly-clicked");
       this.donationPromptShown("meeting");
-      window.open("https://calendly.com/pictalk/adhesion", "_blank");
+      window.open("https://calendar.app.google/3XpRac9XBXTXZxtv9", "_blank");
       this.$parent.close();
     }
   }

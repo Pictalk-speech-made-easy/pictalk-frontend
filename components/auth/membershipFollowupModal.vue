@@ -25,7 +25,7 @@
               <span style="font-size: 1.25rem; flex-shrink: 0; margin-top: 1px;">{{ option.icon }}</span>
               <div style="display: flex; flex-direction: column; gap: 2px; text-align: left;">
                 <strong style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">{{ $t(option.titleKey)
-                }}</strong>
+                  }}</strong>
                 <span style="font-size: 1rem; color: #666;">{{ $t(option.bodyKey) }}</span>
               </div>
             </div>
@@ -353,6 +353,11 @@ export default {
   mounted() {
     this.$posthog?.capture("membership-followup-modal-shown");
   },
+  computed: {
+    fileUrl() {
+      return `https://www.pictalk.org/${this.$i18n.locale}/pictalk/pros?print`
+    },
+  },
   methods: {
     async donationPromptShown(action) {
       if (action == "followup_answer" && this.followupAnswer == "responded" && !this.directionResponse) return;
@@ -424,12 +429,12 @@ export default {
     },
     downloadSlides() {
       this.$posthog?.capture("membership-followup-slides-downloaded");
-      window.open("https://www.canva.com/design/DAHA8Fp2l4o/t4vm3Wguktz-UcHTN18F7A/edit?utm_content=DAHA8Fp2l4o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton", "_blank");
+      window.open(this.fileUrl, "_blank");
       this.$parent.close();
     },
     openCalendly() {
       this.$posthog?.capture("membership-followup-calendly-clicked");
-      window.open("https://calendly.com/pictalk/adhesion", "_blank");
+      window.open("https://calendar.app.google/3XpRac9XBXTXZxtv9", "_blank");
       this.$parent.close();
     }
   }
