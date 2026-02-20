@@ -23,27 +23,27 @@
 
           <ul style="font-size: 1.25rem; margin-bottom: 2rem;">
             <li><svg xmlns="http://www.w3.org/2000/svg"
-                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem; transform: translateY(0.25rem);"
                 viewBox="0 0 24 24">
                 <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
               </svg>{{ $t('Advantages_no-ads') }}</li>
             <li><svg xmlns="http://www.w3.org/2000/svg"
-                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem; transform: translateY(0.25rem);"
                 viewBox="0 0 24 24">
                 <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
               </svg>{{ $t('Advantages_no-shareholders') }}</li>
             <li><svg xmlns="http://www.w3.org/2000/svg"
-                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem; transform: translateY(0.25rem);"
                 viewBox="0 0 24 24">
                 <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
               </svg>{{ $t('Advantages_independent') }}</li>
             <li><svg xmlns="http://www.w3.org/2000/svg"
-                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem; transform: translateY(0.25rem);"
                 viewBox="0 0 24 24">
                 <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
               </svg>{{ $t('Advantages_private-data') }}</li>
             <li><svg xmlns="http://www.w3.org/2000/svg"
-                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem"
+                style="height: 1.5rem; width: 1.5rem; color: oklch(72.3% 0.219 149.579); margin-right: 0.25rem; transform: translateY(0.25rem);"
                 viewBox="0 0 24 24">
                 <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
               </svg>{{ $t('Advantages_accessible') }}</li>
@@ -72,20 +72,20 @@
           <br>
           <div class="campaign-progress card">
             <div class="card-content">
+              <h2 v-if="!isExpanded" class="reward-header-text">{{ currentLevelReward }}</h2>
               <div
                 style="text-align: right; font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0.25rem;">
                 {{ daysLeft }}
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
                 <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
               </div>
               <div v-if="!isExpanded">
-                <p class="reward-text">{{ currentLevelReward }}</p>
                 <div style="text-align: center; margin-top: 0.5rem; cursor: pointer; color: #666;"
                   @click="isExpanded = true">
                   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
@@ -134,7 +134,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                  }}</span>
+                }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -844,8 +844,19 @@ export default {
 }
 
 .campaign-progress {
-  max-width: 500px;
-  margin: 0 auto;
+  background: #ff57570e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: solid 2px #ff5757;
+}
+
+.reward-header-text {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333131;
+  text-align: left;
+  font-weight: 500;
 }
 
 .progress-header {
@@ -868,17 +879,18 @@ export default {
 
 .progress-bar-container {
   width: 100%;
-  height: 32px;
+  height: 40px;
   background: #E8E8E8;
-  border-radius: 4px;
+  border-radius: 20px;
   overflow: hidden;
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #ff5757 0%, #ff5757 50%, #ff5757 100%);
-  border-radius: 4px;
+  border-radius: 20px;
   transition: width 0.5s ease;
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }
