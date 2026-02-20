@@ -199,9 +199,10 @@ export const actions = {
   },
   async fetchSuggestedPrompts(vuexContext) {
     try {
+      if (!vuexContext.getters.getUser || !vuexContext.getters.getUser.username) return;
       const suggestedPrompts = await axios.post(`https://donations-api.pictalk.org/v1/users/${vuexContext.getters.getUser.username}/prompts`, {
         created_at: vuexContext.getters.getUser.createdDate,
-        ...vuexContext.getters.getUser.settings.userType && { type: vuexContext.getters.getUser.settings.userType },
+        ...(vuexContext.getters.getUser.settings && vuexContext.getters.getUser.settings.userType) && { type: vuexContext.getters.getUser.settings.userType },
       });
       vuexContext.commit("setSuggestedPrompts", suggestedPrompts.data);
     } catch (err) {

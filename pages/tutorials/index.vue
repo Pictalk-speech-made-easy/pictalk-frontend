@@ -1,7 +1,6 @@
 <template>
   <div class="container" style="padding-bottom: 4rem;">
     <div class="title" style="margin-top: 2rem;">{{ $t('Tutorials') }}</div>
-    <support></support>
     <div class="columns is-multiline">
       <div class="card column is-one-third">
         <div class="card-image">
@@ -116,12 +115,6 @@
   </div>
 </template>
 <script>
-import support from "@/components/auth/support";
-export default {
-  components: {
-    support,
-  },
-};
 </script>
 <style scoped>
 .container {
