@@ -66,7 +66,7 @@
         <b-input v-model="comment" type="textarea" :placeholder="$t('YourComment') || 'Your comment...'"></b-input>
       </b-field>
       <b-button type="is-primary" :loading="sending" @click="postComment" :disabled="!comment">{{ $t('Send') || 'Send'
-      }}</b-button>
+        }}</b-button>
     </div>
     <b-message v-else type="is-success" class="message-box">
       {{ $t('ThanksForComment') || 'Thank you for your message!' }}
@@ -95,7 +95,7 @@ export default {
     displayedAmount() {
       if (!this.session) return ''; const amountVal = this.session.amountTotal / 100; const
         amount = this.session.symboleFirst ? `${this.session.symbol}${amountVal}` : `${amountVal}${this.session.symbol}`;
-      return this.session.donationType === 'monthly' ? `${amount}/mois` : amount;
+      return this.session.donationType === 'recurring' ? `${amount}/${this.$t('per-month')}` : amount;
     }, reducedAmount() {
       if
         (!this.session) return ''; const calculatedAmount = (this.session.amountTotal * 0.34) / 100; const
@@ -105,7 +105,7 @@ export default {
         ? `${this.session.symbol}${roundedAmount}`
         : `${roundedAmount}${this.session.symbol}`;
 
-      return this.session.donationType === 'monthly' ? `${formattedAmount}/mois` : formattedAmount;
+      return this.session.donationType === 'recurring' ? `${formattedAmount}/${this.$t('per-month')}` : formattedAmount;
     }
   },
   async mounted() {
