@@ -224,7 +224,7 @@ export default {
     },
   },
   async mounted() {
-    this.$buefy.modal.open({
+    /* this.$buefy.modal.open({
       parent: this,
       props: {
         campaign: this.$store.getters.getCampaign,
@@ -236,7 +236,7 @@ export default {
       trapFocus: true,
       fullScreen: true,
       canCancel: []
-    });
+    }); */
     let query = { ...this.$route.query };
     if (
       !this.$route.query.fatherCollectionId
