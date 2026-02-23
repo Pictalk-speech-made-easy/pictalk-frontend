@@ -25,7 +25,7 @@
               <span style="font-size: 1.25rem; flex-shrink: 0; margin-top: 1px;">{{ option.icon }}</span>
               <div style="display: flex; flex-direction: column; gap: 2px; text-align: left;">
                 <strong style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">{{ $t(option.titleKey)
-                  }}</strong>
+                }}</strong>
                 <span style="font-size: 1rem; color: #666;">{{ $t(option.bodyKey) }}</span>
               </div>
             </div>
@@ -355,7 +355,7 @@ export default {
   },
   computed: {
     fileUrl() {
-      return `https://www.pictalk.org/${this.$i18n.locale}/pictalk/pros?print`
+      return `https://www.pictalk.org/${this.$i18n.locale}/pictalk/pros`
     },
   },
   methods: {

@@ -23,7 +23,7 @@
             {{ $t('membership-step1-quote') }}
             <br>
             <span style="font-size: 1rem; color: #999; font-style: normal;">{{ $t('membership-step1-quote-cite')
-              }}</span>
+            }}</span>
           </p>
           <div class="comments-wall" ref="commentsWall">
             <div class="comment-item" v-for="(comment, index) in comments" :key="index">
@@ -78,7 +78,7 @@
             </div>
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-              }}%)</span>
+                }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
@@ -296,7 +296,7 @@ export default {
   },
   computed: {
     fileUrl() {
-      return `https://www.pictalk.org/${this.$i18n.locale}/pictalk/pros?print`
+      return `https://www.pictalk.org/${this.$i18n.locale}/pictalk/pros`
     },
     daysLeft() {
       const today = new Date();
