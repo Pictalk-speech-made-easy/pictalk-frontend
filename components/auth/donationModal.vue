@@ -48,7 +48,7 @@
                 <path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z" />
               </svg>{{ $t('Advantages_accessible') }}</li>
           </ul>
-          <b-button class="button step-button" style="border: solid 2px; border-color: gray;" type="is-primary"
+          <b-button class="button step-button" style="border: solid 2px; border-color: gray; background-color: #4CFFB2"
             @click="goToStep2A()">
             {{ $t('DonationCTA') }}
           </b-button>
@@ -58,6 +58,9 @@
                 formatAmount(donationArray.currency === "EUR" ? 1 : donationArray.amounts[0])).replace('{symbol}',
                   donationArray.symbol) }}</span>
           </p>
+          <b-button class="button step-button" style="font-size: 1.125rem; width: 100%;" @click="goToStep2B()">
+            {{ $t('i-dont-support') }}
+          </b-button>
           <div style=" margin: 3rem auto;">
             <svg xmlns="http://www.w3.org/2000/svg" style="width: 3rem; height: 3rem; color: #000;"
               viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
@@ -79,7 +82,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+                  }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -134,16 +137,10 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                }}</span>
+                  }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
-          </div>
-          <br>
-          <div style="padding-bottom: 2rem; width: 100%;">
-            <b-button class="button step-button" style="font-size: 1.125rem; width: 100%;" @click="goToStep2B()">
-              {{ $t('i-dont-support') }}
-            </b-button>
           </div>
         </div>
         <div v-else-if="currentStep === 2" style="height: 100%; width: 100%; display: flex; flex-direction: column;">

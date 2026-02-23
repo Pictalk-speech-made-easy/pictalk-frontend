@@ -72,24 +72,21 @@
           <p style="text-align: left; font-size: 1.25rem; margin-bottom: 1.25rem;">
             {{ $t('membership-step2-body') }}
           </p>
-          <div class="campaign-progress card" style="margin-bottom: 1.25rem;">
-            <div class="card-content">
-              <div
-                style="text-align: right; font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0.25rem;">
-                {{ daysLeft }}
-              </div>
-              <div class="progress-header">
-                <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
-                <span class="progress-target">{{ campaign.currentTarget }}</span>
-              </div>
-              <div class="progress-bar-container">
-                <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
-              </div>
-              <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem; font-style: italic;">
-                {{ $t('membership-campaign-label') }}
-              </p>
+          <div class="card-content">
+            <div style="text-align: right; font-size: 0.9rem; color: #666; font-style: italic; margin-bottom: 0.25rem;">
+              {{ daysLeft }}
             </div>
+            <div class="progress-header">
+              <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
+              }}%)</span>
+              <span class="progress-target">{{ campaign.currentTarget }}</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" :style="{ width: campaign.progressPercent + '%' }"></div>
+            </div>
+            <p style="font-size: 0.85rem; color: #666; text-align: center; margin-top: 0.5rem; font-style: italic;">
+              {{ $t('membership-campaign-label') }}
+            </p>
           </div>
           <div
             style="border: 1.5px solid #ffd5d3; background: #fff9f9; border-radius: 14px; padding: 1rem; margin-bottom: 1.5rem;">
@@ -560,16 +557,18 @@ export default {
 
 .progress-bar-container {
   width: 100%;
-  height: 32px;
+  height: 40px;
   background: #E8E8E8;
-  border-radius: 4px;
+  border-radius: 20px;
   overflow: hidden;
+  position: relative;
+  margin-bottom: 1rem;
 }
 
 .progress-bar-fill {
   height: 100%;
-  background: #ff5757;
-  border-radius: 4px;
+  background: linear-gradient(90deg, #ff5757 0%, #ff5757 50%, #ff5757 100%);
+  border-radius: 20px;
   transition: width 0.5s ease;
   box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }

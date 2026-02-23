@@ -249,7 +249,6 @@ import lang from "@/mixins/lang";
 import sharers from "@/mixins/sharers";
 import navbar from "@/mixins/navbar";
 import Security from "@/components/auth/securityModal";
-import support from "@/components/auth/support";
 import deleteAccountModal from "@/components/auth/deleteAccountModal.vue";
 import { convertToSimpleLanguage, isObject, mergeDeep } from "@/utils/utils";
 export default {
@@ -258,7 +257,6 @@ export default {
     installVoice,
     addGroupModal,
     Security,
-    support,
     deleteAccountModal,
     HeroDonation
   },
