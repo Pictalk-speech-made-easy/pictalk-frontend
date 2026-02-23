@@ -629,7 +629,6 @@ export default {
     },
 
     async createUniqueDonation() {
-      const newWindow = window.open('', '_blank');
       try {
         this.loading = true;
         this.$posthog.capture(`create-unique-donation`);
@@ -645,19 +644,15 @@ export default {
         });
         this.loading = false;
         if (res.data.checkoutUrl) {
-          newWindow.location.href = res.data.checkoutUrl;
-        } else {
-          newWindow.close();
+          window.location.href = res.data.checkoutUrl;
         }
       } catch (error) {
         console.log("error ", error);
         this.loading = false;
-        if (newWindow) newWindow.close();
         return false;
       }
     },
     async createSubscription() {
-      const newWindow = window.open('', '_blank');
       try {
         this.loading = true;
         this.$posthog.capture(`create-monthly-donation`);
@@ -673,14 +668,11 @@ export default {
         });
         this.loading = false;
         if (res.data.checkoutUrl) {
-          newWindow.location.href = res.data.checkoutUrl;
-        } else {
-          newWindow.close();
+          window.location.href = res.data.checkoutUrl;
         }
       } catch (error) {
         console.log("error ", error);
         this.loading = false;
-        if (newWindow) newWindow.close();
         return false;
       }
     },
