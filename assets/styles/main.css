@@ -8,6 +8,10 @@
   opacity: 0;
 }
 
+.modal .modal-close {
+  background-color: #666 !important;
+}
+
 .layout-enter-active,
 .layout-leave-active {
   transition: opacity .5s
