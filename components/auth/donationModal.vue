@@ -382,7 +382,7 @@ export default {
   },
   computed: {
     since() {
-      return dayjs.duration(dayjs().diff(dayjs.unix(this.$store.getters.getUser.createdDate / 1000), 'days'), 'days').locale(this.$i18n.locale).humanize();
+      return dayjs.duration(dayjs().diff(dayjs(this.$store.getters.getUser.createdDate), 'days'), 'days').locale(this.$i18n.locale).humanize();
     },
     displayedAmounts() {
       if (this.isMonthly) return this.donationArray.amounts;
