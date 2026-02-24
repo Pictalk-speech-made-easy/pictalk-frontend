@@ -39,7 +39,7 @@
         </b-navbar-item>
       </template>
     </b-navbar>
-    <div
+    <div v-if="!$route.path.includes('public')"
       style="display: flex; gap: 1rem; justify-content: center; width: 100%; background-color: #f9fafb; color:#272727; padding: 0.75rem 1rem; box-shadow: 0px 0px 9px #00000050;">
       <p style="text-align: center; font-weight: 500; color: #373737;">
         {{ $t(`Banner${Math.floor(Math.random() * 4) + 1}`) }}

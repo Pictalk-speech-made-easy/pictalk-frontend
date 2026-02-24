@@ -82,7 +82,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -137,7 +137,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                  }}</span>
+                }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -382,7 +382,8 @@ export default {
   },
   computed: {
     since() {
-      return dayjs.duration(dayjs().diff(dayjs(this.$store.getters.getUser.createdDate), 'days'), 'days').locale(this.$i18n.locale).humanize();
+      if (!this.$store.getters.getUser || !this.$store.getters.getUser.createdDate) return dayjs.duration(1, 'days').locale(this.$i18n.locale).humanize();
+      else return dayjs.duration(dayjs().diff(dayjs(this.$store.getters.getUser.createdDate), 'days'), 'days').locale(this.$i18n.locale).humanize();
     },
     displayedAmounts() {
       if (this.isMonthly) return this.donationArray.amounts;
