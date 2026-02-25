@@ -537,5 +537,6 @@
   "DonationWhyDescription_B": "Ei mainoksia, ei osakkeenomistajia. Pictalkin pitävät hengissä {donationCount} kaltaistasi ihmistä. Heidän ansiostaan sinulta ei ole koskaan evätty yhtäkään ominaisuutta.",
   "DonationHowTitle_B": "Liity joukkoomme.",
   "DonationWhyDescription_C": "Näiden {count} aikana Pictalk on toiminut ilman mainoksia ja osakkeenomistajia. Pysyäksemme pystyssä tarvitsemme {currentTarget} tukijaa. Meillä on tällä hetkellä {donationCount}.",
-  "DonationHowTitle_C": "Jokainen tuki on tärkeä."
+  "DonationHowTitle_C": "Jokainen tuki on tärkeä.",
+  "confirm": "Vahvista"
 }

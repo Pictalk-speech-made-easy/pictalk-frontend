@@ -537,5 +537,6 @@
   "DonationWhyDescription_B": "Keine Werbung, keine Aktionäre. Es sind {donationCount} Personen wie Sie, die Pictalk am Leben erhalten. Dank ihnen wurde Ihnen nie eine Funktion verweigert.",
   "DonationHowTitle_B": "Schließen Sie sich uns an.",
   "DonationWhyDescription_C": "In diesen {count} hat Pictalk ohne Werbung und Aktionäre funktioniert. Um weiterzumachen, benötigen wir {currentTarget} Unterstützer. Wir haben derzeit {donationCount}.",
-  "DonationHowTitle_C": "Jede Unterstützung zählt."
+  "DonationHowTitle_C": "Jede Unterstützung zählt.",
+  "confirm": "Bestätigen"
 }

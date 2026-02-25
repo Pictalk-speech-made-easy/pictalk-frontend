@@ -598,5 +598,6 @@
   "DonationWhyDescription_B": "Fără reclame, fără acționari. Sunt {donationCount} persoane ca dumneavoastră care mențin Pictalk în viață. Nicio funcționalitate nu v-a fost vreodată refuzată datorită lor.",
   "DonationHowTitle_B": "Alăturați-vă nouă.",
   "DonationWhyDescription_C": "În acești {count} ani, Pictalk a funcționat fără reclame și acționari. Pentru a rezista, avem nevoie de {currentTarget} susținători. Suntem la {donationCount}.",
-  "DonationHowTitle_C": "Fiecare susținere contează."
+  "DonationHowTitle_C": "Fiecare susținere contează.",
+  "confirm": "Confirmă"
 }

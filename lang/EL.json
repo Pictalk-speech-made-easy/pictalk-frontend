@@ -597,5 +597,6 @@
   "DonationWhyDescription_B": "Χωρίς διαφημίσεις, χωρίς μετόχους. Είναι {donationCount} άτομα σαν εσάς που κρατούν το Pictalk ζωντανό. Καμία λειτουργία δεν σας έχει ποτέ αρνηθεί χάρη σε αυτούς.",
   "DonationHowTitle_B": "Ελάτε μαζί μας.",
   "DonationWhyDescription_C": "Κατά τη διάρκεια αυτών των {count}, το Pictalk λειτουργεί χωρίς διαφημίσεις και μετόχους. Για να συνεχίσουμε, χρειαζόμαστε {currentTarget} υποστηρικτές. Έχουμε φτάσει τους {donationCount}.",
-  "DonationHowTitle_C": "Κάθε υποστήριξη μετράει."
+  "DonationHowTitle_C": "Κάθε υποστήριξη μετράει.",
+  "confirm": "Επιβεβαίωση"
 }

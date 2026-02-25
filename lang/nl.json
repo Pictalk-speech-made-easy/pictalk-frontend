@@ -537,5 +537,6 @@
   "DonationWhyDescription_B": "Geen advertenties, geen aandeelhouders. Het zijn {donationCount} mensen zoals jij die Pictalk in leven houden. Geen enkele functie is je ooit geweigerd dankzij hen.",
   "DonationHowTitle_B": "Doe met ons mee.",
   "DonationWhyDescription_C": "Gedurende deze {count} heeft Pictalk zonder advertenties of aandeelhouders gefunctioneerd. Om te blijven bestaan, hebben we {currentTarget} ondersteuners nodig. We hebben er {donationCount}.",
-  "DonationHowTitle_C": "Elke steun telt."
+  "DonationHowTitle_C": "Elke steun telt.",
+  "confirm": "Bevestigen"
 }

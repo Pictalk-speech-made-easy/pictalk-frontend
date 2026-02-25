@@ -537,5 +537,6 @@
   "DonationWhyDescription_B": "Sin anuncios, sin accionistas. Son {donationCount} personas como tú las que mantienen Pictalk vivo. Ninguna funcionalidad te ha sido negada gracias a ellas.",
   "DonationHowTitle_B": "Únete a nosotros.",
   "DonationWhyDescription_C": "Durante estos {count}, Pictalk ha funcionado sin anuncios ni accionistas. Para continuar, necesitamos {currentTarget} apoyos. Actualmente tenemos {donationCount}.",
-  "DonationHowTitle_C": "Cada apoyo cuenta."
+  "DonationHowTitle_C": "Cada apoyo cuenta.",
+  "confirm": "Confirmar"
 }

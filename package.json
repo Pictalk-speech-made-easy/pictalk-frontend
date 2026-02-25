@@ -18,7 +18,8 @@
     "generate:start": "API_URL=https://api.pictalk.org npm run generate && npm run start",
     "generate": "nuxt generate",
     "analyze": "nuxt build --analyze",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "translate": "node scripts/translate_gpt.js"
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^7.3.1",
@@ -53,6 +54,7 @@
   },
   "dependencies": {
     "dayjs": "^1.11.19",
+    "dotenv": "^17.3.1",
     "posthog-js": "^1.336.4",
     "vue-matomo": "^4.2.0",
     "vuex-persistedstate": "^4.1.0"

@@ -109,6 +109,7 @@ import sharers from "@/mixins/sharers";
 import addGroupModal from "@/components/auth/addGroupModal";
 import MembershipModal from "@/components/auth/membershipModal.vue";
 import MembershipFollowupModal from "@/components/auth/membershipFollowupModal.vue";
+import { user_type_modal } from "../../store";
 export default {
   mixins: [sharers],
   props: {
@@ -205,7 +206,7 @@ export default {
   methods: {
     closeModal() {
       this.$parent.close();
-      if (this.$store.getters.getSuggestedPrompts.prompts.donation) {
+      if (this.$store.getters.getSuggestedPrompts.prompts.donation && user_type_modal.seen === false) {
         setTimeout(() => {
           this.$buefy.modal.open({
             parent: this,

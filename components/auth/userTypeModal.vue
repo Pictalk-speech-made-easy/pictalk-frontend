@@ -1,12 +1,12 @@
 <template>
-  <div class="modal-card">
+  <div class="modal-card" style="max-width: none !important;">
     <header class="modal-card-head">
-      <b-button class="button" type="is-danger" icon-left="close" @click="$parent.close()" />
       <p align="center" class="modal-card-title">{{ $t("GetUserType") }}</p>
     </header>
-    <section class="modal-card-body modal-body-centered">
+    <section class="modal-card-body modal-body-centered" style="min-height: 80vh;">
       <div class="buttons-column">
-        <button @click="selectType('parent')" class="user-type-button" outlined size="is-large"
+        <button @click="selectType('parent')" class="user-type-button"
+          :class="{ 'is-selected': selectedType === 'parent' }"
           style="align-items: center; display: flex; flex-direction: row; padding: 0.5rem 1rem;">
           <svg xmlns="http://www.w3.org/2000/svg" style="width: 2rem; height: 2rem;"
             viewBox="0 0 128 128"><!-- Icon from Noto Emoji (v1) by Google Inc - https://github.com/googlefonts/noto-emoji/blob/main/svg/LICENSE -->
@@ -78,7 +78,8 @@
             </span>
           </p>
         </button>
-        <button @click="selectType('professional-children')" class="user-type-button" outlined size="is-large"
+        <button @click="selectType('professional-children')" class="user-type-button"
+          :class="{ 'is-selected': selectedType === 'professional-children' }"
           style="align-items: center; display: flex; flex-direction: row; padding: 0.5rem 1rem;">
 
           <svg xmlns="http://www.w3.org/2000/svg" style="width: 2rem; height: 2rem;"
@@ -117,7 +118,8 @@
           </p>
 
         </button>
-        <button @click="selectType('professional-adult')" class="user-type-button" outlined size="is-large"
+        <button @click="selectType('professional-adult')" class="user-type-button"
+          :class="{ 'is-selected': selectedType === 'professional-adult' }"
           style="align-items: center; display: flex; flex-direction: row; padding: 0.5rem 1rem;">
 
           <svg xmlns="http://www.w3.org/2000/svg" style="width: 2rem; height: 2rem;"
@@ -143,23 +145,37 @@
         </button>
       </div>
     </section>
-    <footer class="modal-card-foot">
-      <div class="container">
-      </div>
+    <footer class="modal-card-foot" style="justify-content: center;">
+      <b-button class="button is-success" :disabled="!selectedType" size="is-large"
+        style="width: 100%; max-width: 500px; font-size: 1.125rem; font-weight: 600; border-radius: 0.5rem;"
+        @click="confirmType()">
+        {{ $t('confirm') }}
+      </b-button>
     </footer>
   </div>
 </template>
 <script>
+import { user_type_modal } from '../../store';
+
 export default {
   name: "userTypeModal",
+  data() {
+    return {
+      selectedType: null,
+    };
+  },
   methods: {
-    async selectType(type) {
+    selectType(type) {
+      this.selectedType = type;
+    },
+    async confirmType() {
+      if (!this.selectedType) return;
       try {
         const user = this.$store.getters.getUser;
         if (!user.settings) {
           user.settings = {};
         }
-        user.settings.userType = type;
+        user.settings.userType = this.selectedType;
         user.notifications = [];
         await this.$store.dispatch('editUser', user);
         this.$parent.close();
@@ -172,13 +188,24 @@ export default {
       }
     },
   },
+  mounted() {
+    user_type_modal.seen = true;
+  },
+
 };
 </script>
 <style scoped>
+.user-type-button.is-selected {
+  border: 2px solid #49da9b;
+  background-color: rgba(76, 255, 178, 0.1);
+}
+
 .modal-body-centered {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
+  height: 100%;
 }
 
 .buttons-column {

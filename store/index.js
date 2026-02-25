@@ -6,6 +6,9 @@ async function getDexieDB() {
 }
 
 export const strict = false;
+export const user_type_modal = {
+  seen: false
+};
 
 // use the axios middleware
 axios.interceptors.request.use((config) => {

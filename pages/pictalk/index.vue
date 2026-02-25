@@ -224,19 +224,19 @@ export default {
     },
   },
   async mounted() {
-    /* this.$buefy.modal.open({
-      parent: this,
-      props: {
-        campaign: this.$store.getters.getCampaign,
+    // this.$buefy.modal.open({
+    //   parent: this,
+    //   props: {
+    //     campaign: this.$store.getters.getCampaign,
 
-      },
-      component: MembershipFollowupModal,
-      hasModalCard: true,
-      customClass: "custom-class custom-class-2",
-      trapFocus: true,
-      fullScreen: true,
-      canCancel: []
-    }); */
+    //   },
+    //   component: UserTypeModal,
+    //   hasModalCard: true,
+    //   customClass: "custom-class custom-class-2",
+    //   trapFocus: true,
+    //   fullScreen: true,
+    //   canCancel: []
+    // });
     let query = { ...this.$route.query };
     if (
       !this.$route.query.fatherCollectionId

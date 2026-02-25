@@ -597,5 +597,6 @@
   "DonationWhyDescription_B": "Žiadne reklamy, žiadni akcionári. Je to {donationCount} ľudí ako vy, ktorí udržujú Pictalk pri živote. Vďaka nim vám nikdy nebola odopretá žiadna funkcia.",
   "DonationHowTitle_B": "Pridajte sa k nám.",
   "DonationWhyDescription_C": "Počas týchto {count} Pictalk fungoval bez reklám a akcionárov. Na prežitie potrebujeme {currentTarget} podporovateľov. Momentálne ich máme {donationCount}.",
-  "DonationHowTitle_C": "Každá podpora sa počíta."
+  "DonationHowTitle_C": "Každá podpora sa počíta.",
+  "confirm": "Potvrdiť"
 }
