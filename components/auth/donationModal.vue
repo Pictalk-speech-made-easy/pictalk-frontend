@@ -696,7 +696,7 @@ export default {
         this.loading = true;
         this.$posthog.capture(`donation-not-using-${this.selectedDontUseReasons.join(',')}`);
 
-        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+        axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'not_using',
           metadata: {
             locale: this.$i18n.locale,
@@ -715,10 +715,9 @@ export default {
     async handleNoMoneyClose() {
       try {
         this.$posthog.capture('donation-no-money');
-        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+        axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'no_money'
         });
-
         this.$parent.close();
       } catch (error) {
         console.log("error ", error);
