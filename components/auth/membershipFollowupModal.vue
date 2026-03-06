@@ -25,7 +25,7 @@
               <span style="font-size: 1.25rem; flex-shrink: 0; margin-top: 1px;">{{ option.icon }}</span>
               <div style="display: flex; flex-direction: column; gap: 2px; text-align: left;">
                 <strong style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">{{ $t(option.titleKey)
-                }}</strong>
+                  }}</strong>
                 <span style="font-size: 1rem; color: #666;">{{ $t(option.bodyKey) }}</span>
               </div>
             </div>
@@ -385,11 +385,11 @@ export default {
     async submitReschedule() {
       try {
         this.$posthog?.capture("membership-followup-reschedule-clicked");
-        await this.donationPromptShown("followup_reschedule");
+        this.$parent.close();
+        this.donationPromptShown("followup_reschedule");
       } catch (error) {
         console.log("error", error);
       }
-      this.$parent.close();
     },
     async submitFollowup() {
       if (!this.followupAnswer) return;
@@ -399,7 +399,7 @@ export default {
           this.currentStep = 2;
           return;
         }
-        await this.donationPromptShown("followup_answer");
+        this.donationPromptShown("followup_answer");
         this.currentStep = 2;
       } catch (error) {
         console.log("error", error);
@@ -409,7 +409,7 @@ export default {
       if (!this.directionResponse) return;
       try {
         this.$posthog?.capture(`membership-direction-response-${this.directionResponse}`);
-        await this.donationPromptShown("followup_answer");
+        this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
       }
@@ -419,7 +419,7 @@ export default {
       try {
         this.loading = true;
         this.$posthog?.capture("membership-direction-negative-feedback");
-        await this.donationPromptShown("followup_answer");
+        this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
       } finally {
