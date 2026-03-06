@@ -617,8 +617,7 @@ export default {
         return;
       }
 
-      // Fallback for any other reason
-      await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+      axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
         reason: reason,
         comment: comment
       });
