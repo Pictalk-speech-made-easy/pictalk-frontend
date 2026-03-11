@@ -375,9 +375,11 @@ export default {
             ...this.directionResponse && { response: this.directionResponse },
           });
         const prompts = this.$store.getters.getSuggestedPrompts;
+        prompts.donation = false;
+        prompts.membership = false;
         prompts.followupMembership = false;
         this.$store.commit("setSuggestedPrompts", prompts);
-        this.$store.dispatch("fetchSuggestedPrompts");
+        setTimeout(() => { this.$store.dispatch("fetchSuggestedPrompts"); }, 30000);
       } catch (error) {
         console.log("error", error);
       }
