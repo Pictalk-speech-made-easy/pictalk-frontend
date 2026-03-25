@@ -359,30 +359,27 @@ export default {
     },
   },
   methods: {
-    async donationPromptShown(action) {
+    donationPromptShown(action) {
       if (action == "followup_answer" && this.followupAnswer == "responded" && !this.directionResponse) return;
-      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer" | "followup_reschedule"
+      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer" | "followup_reschedule"
       // anwser: "not_yet" | "sent" | "responded" | "joined"
       // response: "positive" | "hesitant" | "negative"
-      try {
-        await axios.post(
-          `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
-          , {
-            type: this.$store.getters.getUser.settings.userType || "unknown",
-            action: action,
-            // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
-            ...this.followupAnswer && { answer: this.followupAnswer },
-            ...this.directionResponse && { response: this.directionResponse },
-          });
-        const prompts = this.$store.getters.getSuggestedPrompts;
-        prompts.donation = false;
-        prompts.membership = false;
-        prompts.followupMembership = false;
-        this.$store.commit("setSuggestedPrompts", prompts);
-        setTimeout(() => { this.$store.dispatch("fetchSuggestedPrompts"); }, 30000);
-      } catch (error) {
-        console.log("error", error);
-      }
+      const prompts = this.$store.getters.getSuggestedPrompts;
+      prompts.donation = false;
+      prompts.membership = false;
+      prompts.followupMembership = false;
+      this.$store.commit("setSuggestedPrompts", prompts);
+      setTimeout(() => { this.$store.dispatch("fetchSuggestedPrompts"); }, 30000);
+      axios.post(
+        `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`,
+        {
+          type: this.$store.getters.getUser.settings.userType || "unknown",
+          action: action,
+          // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+          ...this.followupAnswer && { answer: this.followupAnswer },
+          ...this.directionResponse && { response: this.directionResponse },
+        }
+      ).catch(error => console.log("error", error));
     },
     async submitReschedule() {
       try {
