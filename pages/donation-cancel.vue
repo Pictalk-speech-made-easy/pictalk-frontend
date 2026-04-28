@@ -36,12 +36,18 @@ export default {
     if (!sessionId) return;
     this.donationInterval = setInterval(async () => {
       const session = await this.getSessionStatus();
-      if (session.status === "expired") {
+      if (session && session.status === "expired") {
         this.$posthog.capture(`${session.donationType}_donation_cancelled`);
         clearInterval(this.donationInterval);
         this.donationInterval = null;
       }
     }, 10000);
+  },
+  beforeDestroy() {
+    if (this.donationInterval) {
+      clearInterval(this.donationInterval);
+      this.donationInterval = null;
+    }
   },
   computed: {
     pictalkHome() {
