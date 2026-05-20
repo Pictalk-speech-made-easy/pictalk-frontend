@@ -854,6 +854,11 @@ export const actions = {
     ));
     return orphanedCollections;
   },
+  async exportobz(vuexContext) {
+    let res;
+    res = (await axios.get("/collection/export/obz", { responseType: 'blob' })).data;
+    return new Blob([res], { type: 'application/zip' });
+  },
   async downloadCollections(vuexContext, alreadyFetchedCollections = null) {
     let res;
     if (alreadyFetchedCollections) {

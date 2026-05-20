@@ -599,5 +599,7 @@
   "DonationHowTitle_B": "Alăturați-vă nouă.",
   "DonationWhyDescription_C": "În acești {count} ani, Pictalk a funcționat fără reclame și acționari. Pentru a rezista, avem nevoie de {currentTarget} susținători. Suntem la {donationCount}.",
   "DonationHowTitle_C": "Fiecare susținere contează.",
-  "confirm": "Confirmă"
+  "confirm": "Confirmă",
+  "ExportVocabulary": "Exportă datele",
+  "ExportVocabularyText": "Exportă datele mele în format OBF"
 }

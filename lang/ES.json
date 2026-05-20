@@ -538,5 +538,7 @@
   "DonationHowTitle_B": "Únete a nosotros.",
   "DonationWhyDescription_C": "Durante estos {count}, Pictalk ha funcionado sin anuncios ni accionistas. Para continuar, necesitamos {currentTarget} apoyos. Actualmente tenemos {donationCount}.",
   "DonationHowTitle_C": "Cada apoyo cuenta.",
-  "confirm": "Confirmar"
+  "confirm": "Confirmar",
+  "ExportVocabulary": "Exportar datos",
+  "ExportVocabularyText": "Exportar mis datos en formato OBF"
 }

@@ -598,5 +598,7 @@
   "DonationHowTitle_B": "Pridajte sa k nám.",
   "DonationWhyDescription_C": "Počas týchto {count} Pictalk fungoval bez reklám a akcionárov. Na prežitie potrebujeme {currentTarget} podporovateľov. Momentálne ich máme {donationCount}.",
   "DonationHowTitle_C": "Každá podpora sa počíta.",
-  "confirm": "Potvrdiť"
+  "confirm": "Potvrdiť",
+  "ExportVocabulary": "Exportovať údaje",
+  "ExportVocabularyText": "Exportovať moje údaje vo formáte OBF"
 }

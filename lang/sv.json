@@ -538,5 +538,7 @@
   "DonationHowTitle_B": "Gå med oss.",
   "DonationWhyDescription_C": "Under dessa {count} har Pictalk fungerat utan annonser och aktieägare. För att fortsätta behöver vi {currentTarget} stöd. Vi är nu {donationCount}.",
   "DonationHowTitle_C": "Varje stöd räknas.",
-  "confirm": "Bekräfta"
+  "confirm": "Bekräfta",
+  "ExportVocabulary": "Exportera data",
+  "ExportVocabularyText": "Exportera mina data i OBF-format"
 }

@@ -598,5 +598,7 @@
   "DonationHowTitle_B": "Ελάτε μαζί μας.",
   "DonationWhyDescription_C": "Κατά τη διάρκεια αυτών των {count}, το Pictalk λειτουργεί χωρίς διαφημίσεις και μετόχους. Για να συνεχίσουμε, χρειαζόμαστε {currentTarget} υποστηρικτές. Έχουμε φτάσει τους {donationCount}.",
   "DonationHowTitle_C": "Κάθε υποστήριξη μετράει.",
-  "confirm": "Επιβεβαίωση"
+  "confirm": "Επιβεβαίωση",
+  "ExportVocabulary": "Εξαγωγή δεδομένων",
+  "ExportVocabularyText": "Εξαγωγή των δεδομένων μου σε μορφή OBF"
 }

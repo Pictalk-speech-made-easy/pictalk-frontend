@@ -595,5 +595,7 @@
   "DonationHowTitle_B": "انضم إلينا.",
   "DonationWhyDescription_C": "خلال هذه {count}، عمل Pictalk بدون إعلانات أو مساهمين. للبقاء، نحتاج إلى {currentTarget} داعم. نحن الآن عند {donationCount}.",
   "DonationHowTitle_C": "كل دعم له قيمة.",
-  "confirm": "تأكيد"
+  "confirm": "تأكيد",
+  "ExportVocabulary": "تصدير البيانات",
+  "ExportVocabularyText": "تصدير بياناتي بتنسيق OBF"
 }

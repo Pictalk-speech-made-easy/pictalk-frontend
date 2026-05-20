@@ -10,17 +10,17 @@
           <b-field>
             <b-switch id="account-pronounce-on-click" v-model="user.settings.newNavigation">{{
               $t("NewNavigation")
-              }}</b-switch>
+            }}</b-switch>
           </b-field>
           <b-field>
             <b-switch id="account-pronounce-on-click" v-model="user.settings.pronounceClick">{{
               $t("PronouncePictoOnClick")
-              }}</b-switch>
+            }}</b-switch>
           </b-field>
           <b-field>
             <b-switch id="account-enforced-security-mode" v-model="user.settings.securityMode">{{
               $t("EnforcedSecurityMode")
-              }}</b-switch>
+            }}</b-switch>
           </b-field>
           <b-field :label="$t('PronounceShowDelay')">
             <b-slider id="account-pronounce-show-delay" lazy v-model="user.settings.pronounceShowDelay" :min="0"
@@ -82,7 +82,7 @@
           <b-field :label="$t('Analytics')">
             <b-switch id="account-enhanced-analytics" v-model="user.settings.analytics">{{
               $t("AnalyticsText")
-              }}</b-switch>
+            }}</b-switch>
           </b-field>
           <br>
           <hr />
@@ -93,6 +93,18 @@
           <b-field :label="$t('DeleteAccount')">
             <b-button id="account-delete-account" type="is-danger" icon-right="delete" @click="deleteAccount()"> {{
               $t("DeleteAccountText") }}</b-button>
+          </b-field>
+          <hr />
+          <b-field :label="$t('ExportVocabulary')">
+            <b-button id="account-export-account" style="background-color: #1f2937; color: #fff;" @click="export_obz()">
+              {{ $t("ExportVocabularyText") }}
+              <svg xmlns="http://www.w3.org/2000/svg"
+                style="width: 1.25rem; height: 1.25rem; transform: translateY(0.25rem);"
+                viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                <path fill="currentColor"
+                  d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+              </svg>
+            </b-button>
           </b-field>
           <br>
         </b-tab-item>
@@ -172,7 +184,7 @@
             <b>{{
               "https://application.pictalk.org?directsharer=" +
               $store.getters.getUser.username
-              }}</b>
+            }}</b>
           </div>
           <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("Groups") }}</p>
@@ -232,7 +244,7 @@
     <div class="footer container is-max-desktop">
       <b-button tag="nuxt-link" :to="'/pictalk' + admin" class="menuButtons">{{
         $t("Cancel")
-        }}</b-button>
+      }}</b-button>
       <b-button id="account-save" class="menuButtons" type="is-info" icon-left="content-save" :loading="loadingSave"
         @click="onSave(user.username, user.password, user.language)">{{ $t("Save") }}</b-button>
     </div>
@@ -397,6 +409,17 @@ export default {
     }
   },
   methods: {
+    async export_obz() {
+      const blob = await this.$store.dispatch('exportobz');
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'pictalk-export.obz';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },
     deleteAccount() {
       this.$buefy.modal.open({
         parent: this,

@@ -538,5 +538,7 @@
   "DonationHowTitle_B": "Doe met ons mee.",
   "DonationWhyDescription_C": "Gedurende deze {count} heeft Pictalk zonder advertenties of aandeelhouders gefunctioneerd. Om te blijven bestaan, hebben we {currentTarget} ondersteuners nodig. We hebben er {donationCount}.",
   "DonationHowTitle_C": "Elke steun telt.",
-  "confirm": "Bevestigen"
+  "confirm": "Bevestigen",
+  "ExportVocabulary": "Gegevens exporteren",
+  "ExportVocabularyText": "Mijn gegevens exporteren in OBF-formaat"
 }
