@@ -82,7 +82,7 @@
               </div>
               <div class="progress-header">
                 <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                  }}%)</span>
+                }}%)</span>
                 <span class="progress-target">{{ campaign.currentTarget }}</span>
               </div>
               <div class="progress-bar-container">
@@ -137,7 +137,7 @@
               <div class="comment-header">
                 <span class="comment-author">{{ comment.customerName }}</span>
                 <span class="comment-amount" v-if="comment.amount">{{ comment.amount / 100 }} {{ comment.currency
-                  }}</span>
+                }}</span>
               </div>
               <p class="comment-text">"{{ truncate(comment.comment) }}"</p>
             </div>
@@ -544,7 +544,6 @@ export default {
   },
   async mounted() {
     this.$posthog.capture(`donation-shown`);
-    this.donationPromptShown();
     await this.getComments();
     this.startAutoScroll();
   },
@@ -616,9 +615,8 @@ export default {
         this.currentStep = 6;
         return;
       }
-
-      // Fallback for any other reason
-      await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+      this.donationPromptShown()
+      axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
         reason: reason,
         comment: comment
       });
@@ -634,6 +632,7 @@ export default {
         this.loading = true;
         this.$posthog.capture(`create-unique-donation`);
         const finalAmount = this.getFinalAmount();
+        this.donationPromptShown()
         const res = await axios.post(`https://donations-api.pictalk.org/v1/donations`, {
           email: this.$store.getters.getUser.username,
           locale: this.$i18n.locale,
@@ -658,6 +657,7 @@ export default {
         this.loading = true;
         this.$posthog.capture(`create-monthly-donation`);
         const finalAmount = this.getFinalAmount();
+        this.donationPromptShown()
         const res = await axios.post(`https://donations-api.pictalk.org/v1/subscriptions`, {
           email: this.$store.getters.getUser.username,
           locale: this.$i18n.locale,
@@ -682,8 +682,10 @@ export default {
         await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`);
         const prompts = this.$store.getters.getSuggestedPrompts;
         prompts.donation = false;
+        prompts.membership = false;
+        prompts.followupMembership = false;
         this.$store.commit("setSuggestedPrompts", prompts);
-        await this.$store.dispatch("fetchSuggestedPrompts");
+        setTimeout(() => { this.$store.dispatch("fetchSuggestedPrompts"); }, 30000);
         return;
       } catch (error) {
         console.log("error ", error);
@@ -696,8 +698,8 @@ export default {
       try {
         this.loading = true;
         this.$posthog.capture(`donation-not-using-${this.selectedDontUseReasons.join(',')}`);
-
-        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+        this.donationPromptShown();
+        axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'not_using',
           metadata: {
             locale: this.$i18n.locale,
@@ -716,10 +718,10 @@ export default {
     async handleNoMoneyClose() {
       try {
         this.$posthog.capture('donation-no-money');
-        await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
+        this.donationPromptShown();
+        axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'no_money'
         });
-
         this.$parent.close();
       } catch (error) {
         console.log("error ", error);
@@ -734,7 +736,7 @@ export default {
       try {
         this.loading = true;
         this.$posthog.capture('donation-other-reason');
-
+        this.donationPromptShown();
         await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'other',
           comment: this.otherReasonComment

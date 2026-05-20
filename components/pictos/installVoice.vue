@@ -23,17 +23,17 @@ export default {
   computed: {
     getArticleUrl() {
       if (this.getLocaleCode() == 'fr') {
-        return "https://www.pictalk.org/fr/article/install-synthetic-voice"
+        return "https://www.pictalk.org/fr/article/installer-une-voix-de-synthese/"
       } else if (this.getLocaleCode() == 'es') {
-        return "https://www.pictalk.org/es/article/instalar-voces-sinteticas"
+        return "https://www.pictalk.org/es/article/instalar-una-voz-sintetica/"
       } else if (this.getLocaleCode() == 'it') {
-        return "https://www.pictalk.org/it/article/installare-voci-sintetiche"
+        return "https://www.pictalk.org/it/article/installare-una-voce-sintetica/"
       } else if (this.getLocaleCode() == 'pt') {
-        return "https://www.pictalk.org/pt/article/instalar-vozes-sinteticas"
+        return "https://www.pictalk.org/pt/article/instalar-uma-voz-sintetica/"
       } else if (this.getLocaleCode() == 'de') {
-        return "https://www.pictalk.org/de/article/installiere-synthetische-stimmen"
+        return "https://www.pictalk.org/de/article/installiere-eine-synthesestimme/"
       } else {
-        return "https://www.pictalk.org/en/article/install-synthetic-voices"
+        return "https://www.pictalk.org/en/article/install-a-synthesized-voice/"
       }
     }
   }

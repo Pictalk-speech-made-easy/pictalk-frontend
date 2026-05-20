@@ -25,7 +25,7 @@
               <span style="font-size: 1.25rem; flex-shrink: 0; margin-top: 1px;">{{ option.icon }}</span>
               <div style="display: flex; flex-direction: column; gap: 2px; text-align: left;">
                 <strong style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">{{ $t(option.titleKey)
-                }}</strong>
+                  }}</strong>
                 <span style="font-size: 1rem; color: #666;">{{ $t(option.bodyKey) }}</span>
               </div>
             </div>
@@ -359,37 +359,36 @@ export default {
     },
   },
   methods: {
-    async donationPromptShown(action) {
+    donationPromptShown(action) {
       if (action == "followup_answer" && this.followupAnswer == "responded" && !this.directionResponse) return;
-      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer" | "followup_reschedule"
+      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer" | "followup_reschedule"
       // anwser: "not_yet" | "sent" | "responded" | "joined"
       // response: "positive" | "hesitant" | "negative"
-      try {
-        await axios.post(
-          `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
-          , {
-            type: this.$store.getters.getUser.settings.userType || "unknown",
-            action: action,
-            // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
-            ...this.followupAnswer && { answer: this.followupAnswer },
-            ...this.directionResponse && { response: this.directionResponse },
-          });
-        const prompts = this.$store.getters.getSuggestedPrompts;
-        prompts.followupMembership = false;
-        this.$store.commit("setSuggestedPrompts", prompts);
-        this.$store.dispatch("fetchSuggestedPrompts");
-      } catch (error) {
-        console.log("error", error);
-      }
+      const prompts = this.$store.getters.getSuggestedPrompts;
+      prompts.donation = false;
+      prompts.membership = false;
+      prompts.followupMembership = false;
+      this.$store.commit("setSuggestedPrompts", prompts);
+      setTimeout(() => { this.$store.dispatch("fetchSuggestedPrompts"); }, 30000);
+      axios.post(
+        `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`,
+        {
+          type: this.$store.getters.getUser.settings.userType || "unknown",
+          action: action,
+          // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+          ...this.followupAnswer && { answer: this.followupAnswer },
+          ...this.directionResponse && { response: this.directionResponse },
+        }
+      ).catch(error => console.log("error", error));
     },
     async submitReschedule() {
       try {
         this.$posthog?.capture("membership-followup-reschedule-clicked");
-        await this.donationPromptShown("followup_reschedule");
+        this.$parent.close();
+        this.donationPromptShown("followup_reschedule");
       } catch (error) {
         console.log("error", error);
       }
-      this.$parent.close();
     },
     async submitFollowup() {
       if (!this.followupAnswer) return;
@@ -399,7 +398,7 @@ export default {
           this.currentStep = 2;
           return;
         }
-        await this.donationPromptShown("followup_answer");
+        this.donationPromptShown("followup_answer");
         this.currentStep = 2;
       } catch (error) {
         console.log("error", error);
@@ -409,7 +408,7 @@ export default {
       if (!this.directionResponse) return;
       try {
         this.$posthog?.capture(`membership-direction-response-${this.directionResponse}`);
-        await this.donationPromptShown("followup_answer");
+        this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
       }
@@ -419,7 +418,7 @@ export default {
       try {
         this.loading = true;
         this.$posthog?.capture("membership-direction-negative-feedback");
-        await this.donationPromptShown("followup_answer");
+        this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
       } finally {

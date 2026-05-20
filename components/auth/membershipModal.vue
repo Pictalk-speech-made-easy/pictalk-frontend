@@ -23,7 +23,7 @@
             {{ $t('membership-step1-quote') }}
             <br>
             <span style="font-size: 1rem; color: #999; font-style: normal;">{{ $t('membership-step1-quote-cite')
-            }}</span>
+              }}</span>
           </p>
           <div class="comments-wall" ref="commentsWall">
             <div class="comment-item" v-for="(comment, index) in comments" :key="index">
@@ -78,7 +78,7 @@
             </div>
             <div class="progress-header">
               <span class="progress-current">{{ campaign.donationCount }} ({{ Math.round(campaign.progressPercent)
-                }}%)</span>
+              }}%)</span>
               <span class="progress-target">{{ campaign.currentTarget }}</span>
             </div>
             <div class="progress-bar-container">
@@ -343,25 +343,24 @@ export default {
         console.log("error", error);
       }
     },
-    async donationPromptShown(action) {
-      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer"
+    donationPromptShown(action) {
+      // action: "email" | "slides" | "meeting" | "decline" | "reschedule" | "followup_answer"
       // anwser: "not_yet" | "sent" | "responded" | "joined"
       // response: "positive" | "hesitant" | "negative"
-      try {
-        await axios.post(
-          `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`
-          , {
-            type: this.$store.getters.getUser.settings.userType || "unknown",
-            action: action,
-            // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
-          });
-        const prompts = this.$store.getters.getSuggestedPrompts;
-        prompts.membership = false;
-        this.$store.commit("setSuggestedPrompts", prompts);
-        this.$store.dispatch("fetchSuggestedPrompts");
-      } catch (error) {
-        console.log("error", error);
-      }
+      const prompts = this.$store.getters.getSuggestedPrompts;
+      prompts.donation = false;
+      prompts.membership = false;
+      prompts.followupMembership = false;
+      this.$store.commit("setSuggestedPrompts", prompts);
+      setTimeout(() => { this.$store.dispatch("fetchSuggestedPrompts"); }, 30000);
+      axios.post(
+        `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/shown`,
+        {
+          type: this.$store.getters.getUser.settings.userType || "unknown",
+          action: action,
+          // rescheduleDate: ...CONDITION && { rescheduleDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+        }
+      ).catch(error => console.log("error", error));
     },
     goToDecline() {
       this.stepBeforeDecline = this.currentStep;
@@ -372,8 +371,8 @@ export default {
     },
     async handleRemindLater() {
       this.$posthog?.capture("membership-modal-remind-later");
-      this.donationPromptShown("reschedule");
       this.$parent.close();
+      this.donationPromptShown("reschedule");
     },
     async handleReason(reason) {
       this.$posthog?.capture(`membership-no-support-${reason}`);
