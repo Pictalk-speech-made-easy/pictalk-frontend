@@ -97,13 +97,28 @@
           <hr />
           <b-field :label="$t('ExportVocabulary')">
             <b-button id="account-export-account" style="background-color: #1f2937; color: #fff;" @click="export_obz()">
-              {{ $t("ExportVocabularyText") }}
-              <svg xmlns="http://www.w3.org/2000/svg"
-                style="width: 1.25rem; height: 1.25rem; transform: translateY(0.25rem);"
-                viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
-                <path fill="currentColor"
-                  d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
-              </svg>
+              <template v-if="loading_export">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  style="width: 1.25rem; height: 1.25rem; transform: translateY(0.25rem);"
+                  viewBox="0 0 24 24"><!-- Icon from SVG Spinners by Utkarsh Verma - https://github.com/n3r4zzurr0/svg-spinners/blob/main/LICENSE -->
+                  <path fill="currentColor"
+                    d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
+                  <path fill="currentColor"
+                    d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z">
+                    <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate"
+                      values="0 12 12;360 12 12" />
+                  </path>
+                </svg>
+              </template>
+              <template v-else>
+                {{ $t("ExportVocabularyText") }}
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  style="width: 1.25rem; height: 1.25rem; transform: translateY(0.25rem);"
+                  viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                  <path fill="currentColor"
+                    d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
+                </svg>
+              </template>
             </b-button>
           </b-field>
           <br>
@@ -331,6 +346,7 @@ export default {
           searchable: false,
         },
       ],
+      loading_export: false,
     };
   },
   watch: {
@@ -410,11 +426,13 @@ export default {
   },
   methods: {
     async export_obz() {
+      this.loading_export = true;
       const blob = await this.$store.dispatch('exportobz');
+      this.loading_export = false;
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'pictalk-export.obz';
+      a.download = `${this.user.username.split('@')[0] ?? this.user.username}.obz`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
