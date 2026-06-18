@@ -540,5 +540,6 @@
   "DonationHowTitle_C": "Cada apoio conta.",
   "confirm": "Confirmar",
   "ExportVocabulary": "Exportar dados",
-  "ExportVocabularyText": "Exportar meus dados no formato OBF"
+  "ExportVocabularyText": "Exportar meus dados no formato OBF",
+  "BannerNewVersion": "Uma nova versão aprimorada do Pictalk está disponível!"
 }

@@ -600,5 +600,6 @@
   "DonationHowTitle_C": "Κάθε υποστήριξη μετράει.",
   "confirm": "Επιβεβαίωση",
   "ExportVocabulary": "Εξαγωγή δεδομένων",
-  "ExportVocabularyText": "Εξαγωγή των δεδομένων μου σε μορφή OBF"
+  "ExportVocabularyText": "Εξαγωγή των δεδομένων μου σε μορφή OBF",
+  "BannerNewVersion": "Μια νέα βελτιωμένη έκδοση του Pictalk είναι διαθέσιμη!"
 }

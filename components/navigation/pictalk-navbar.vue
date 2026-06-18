@@ -153,11 +153,11 @@
       </template>
     </b-navbar>
     <div v-if="$route.query.isAdmin"
-      style="display: flex; gap: 1rem; justify-content: center; width: 100%; background-color: #0073E6; color:white; padding: 0.75rem 1rem; box-shadow: 0px 0px 9px #00000050;">
+      style="display: flex; gap: 1rem; justify-content: center; width: 100%; background-color: #e69d00; color:white; padding: 0.75rem 1rem; box-shadow: 0px 0px 9px #00000050;">
       <p style="text-align: center; font-weight: 700; color: white;">
-        {{ $t(`Banner${Math.floor(Math.random() * 4) + 1}`) }}
+        {{ $t(`BannerNewVersion`) }}
       </p>
-      <a :href="`https://www.pictalk.org/${$i18n.locale}/agenda/`"
+      <a :href="`https://www.pictalk.org/${$i18n.locale}/buddy/`"
         style="display: flex; text-decoration: underline; align-items: center; gap: 0.5rem; font-weight: 700; color: white; padding: 0rem 1rem; cursor: pointer; border: none; background-color: transparent;">
         {{ $t("BannerCta") }}
         <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;"

@@ -540,5 +540,6 @@
   "DonationHowTitle_C": "Varje stöd räknas.",
   "confirm": "Bekräfta",
   "ExportVocabulary": "Exportera data",
-  "ExportVocabularyText": "Exportera mina data i OBF-format"
+  "ExportVocabularyText": "Exportera mina data i OBF-format",
+  "BannerNewVersion": "En ny förbättrad version av Pictalk är tillgänglig!"
 }

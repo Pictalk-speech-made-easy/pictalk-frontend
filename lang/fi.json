@@ -540,5 +540,6 @@
   "DonationHowTitle_C": "Jokainen tuki on tärkeä.",
   "confirm": "Vahvista",
   "ExportVocabulary": "Vie sanasto",
-  "ExportVocabularyText": "Vie tietoni OBF-muodossa"
+  "ExportVocabularyText": "Vie tietoni OBF-muodossa",
+  "BannerNewVersion": "Uusi parannettu versio Pictalkista on saatavilla!"
 }
