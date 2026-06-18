@@ -100,7 +100,7 @@
     <footer class="modal-card-foot">
       <b-button class="button" type="button" @click="$parent.close()">{{
         $t("Close")
-      }}</b-button>
+        }}</b-button>
     </footer>
   </div>
 </template>
@@ -206,53 +206,61 @@ export default {
   methods: {
     closeModal() {
       this.$parent.close();
-      if (this.$store.getters.getSuggestedPrompts.prompts.donation && user_type_modal.seen === false) {
-        setTimeout(() => {
-          this.$buefy.modal.open({
-            parent: this,
-            props: {
-              campaign: this.$store.getters.getCampaign,
-              donationArray: this.$store.getters.getDonationPanel,
-              suggestedPrompts: this.$store.getters.getSuggestedPrompts
-            },
-            component: DonationModal,
-            hasModalCard: true,
-            customClass: "custom-class custom-class-2",
-            trapFocus: true,
-            fullScreen: true,
-            canCancel: []
-          });
-        }, 1500);
-      } else if (this.$store.getters.getSuggestedPrompts.prompts.membership) {
-        setTimeout(() => {
-          this.$buefy.modal.open({
-            parent: this,
-            props: {
-              campaign: this.$store.getters.getCampaign,
-            },
-            component: MembershipModal,
-            hasModalCard: true,
-            customClass: "custom-class custom-class-2",
-            trapFocus: true,
-            fullScreen: true,
-            canCancel: []
-          });
-        }, 1500);
-      } else if (this.$store.getters.getSuggestedPrompts.prompts.followupMembership) {
-        setTimeout(() => {
-          this.$buefy.modal.open({
-            parent: this,
-            props: {
-              campaign: this.$store.getters.getCampaign,
-            },
-            component: MembershipFollowupModal,
-            hasModalCard: true,
-            customClass: "custom-class custom-class-2",
-            trapFocus: true,
-            fullScreen: true,
-            canCancel: []
-          });
-        }, 1500);
+      const lastShown = this.$store.getters.getModalLastShownAt;
+      const oneMonth = 30 * 24 * 60 * 60 * 1000;
+      const canShowModal = !lastShown || (Date.now() - lastShown) > oneMonth;
+      if (canShowModal) {
+        if (this.$store.getters.getSuggestedPrompts.prompts.donation && user_type_modal.seen === false) {
+          this.$store.commit("setModalLastShownAt", Date.now());
+          setTimeout(() => {
+            this.$buefy.modal.open({
+              parent: this,
+              props: {
+                campaign: this.$store.getters.getCampaign,
+                donationArray: this.$store.getters.getDonationPanel,
+                suggestedPrompts: this.$store.getters.getSuggestedPrompts
+              },
+              component: DonationModal,
+              hasModalCard: true,
+              customClass: "custom-class custom-class-2",
+              trapFocus: true,
+              fullScreen: true,
+              canCancel: []
+            });
+          }, 1500);
+        } else if (this.$store.getters.getSuggestedPrompts.prompts.membership) {
+          this.$store.commit("setModalLastShownAt", Date.now());
+          setTimeout(() => {
+            this.$buefy.modal.open({
+              parent: this,
+              props: {
+                campaign: this.$store.getters.getCampaign,
+              },
+              component: MembershipModal,
+              hasModalCard: true,
+              customClass: "custom-class custom-class-2",
+              trapFocus: true,
+              fullScreen: true,
+              canCancel: []
+            });
+          }, 1500);
+        } else if (this.$store.getters.getSuggestedPrompts.prompts.followupMembership) {
+          this.$store.commit("setModalLastShownAt", Date.now());
+          setTimeout(() => {
+            this.$buefy.modal.open({
+              parent: this,
+              props: {
+                campaign: this.$store.getters.getCampaign,
+              },
+              component: MembershipFollowupModal,
+              hasModalCard: true,
+              customClass: "custom-class custom-class-2",
+              trapFocus: true,
+              fullScreen: true,
+              canCancel: []
+            });
+          }, 1500);
+        }
       }
     },
     groupStatus(group) {

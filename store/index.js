@@ -44,6 +44,7 @@ export const state = () => ({
     recurring: false,
     suggested: 0
   },
+  modalLastShownAt: null,
   donationPanel: {
     countryCode: "fr",
     currency: "eur",
@@ -100,6 +101,7 @@ export const mutations = {
       recurring: false,
       suggested: 0
     };
+    state.modalLastShownAt = null;
   },
   setCampaign(state, campaign) {
     state.campaign = campaign;
@@ -109,6 +111,9 @@ export const mutations = {
   },
   setSuggestedPrompts(state, suggestedPrompts) {
     state.suggestedPrompts = suggestedPrompts;
+  },
+  setModalLastShownAt(state, timestamp) {
+    state.modalLastShownAt = timestamp;
   },
   setTtsBoundarySupport(state, ttsBoundarySupport) {
     state.ttsBoundarySupport = ttsBoundarySupport;
@@ -1117,6 +1122,9 @@ export const getters = {
   },
   getSuggestedPrompts(state) {
     return state.suggestedPrompts;
+  },
+  getModalLastShownAt(state) {
+    return state.modalLastShownAt;
   },
   getDonationPanel(state) {
     return state.donationPanel;
