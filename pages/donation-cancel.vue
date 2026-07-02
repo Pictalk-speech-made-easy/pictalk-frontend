@@ -37,7 +37,6 @@ export default {
     this.donationInterval = setInterval(async () => {
       const session = await this.getSessionStatus();
       if (session && session.status === "expired") {
-        this.$posthog.capture(`${session.donationType}_donation_cancelled`);
         clearInterval(this.donationInterval);
         this.donationInterval = null;
       }

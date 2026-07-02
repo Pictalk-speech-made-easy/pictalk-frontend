@@ -350,9 +350,6 @@ export default {
       ]
     };
   },
-  mounted() {
-    this.$posthog?.capture("membership-followup-modal-shown");
-  },
   computed: {
     fileUrl() {
       return `https://www.pictalk.org/${this.$i18n.locale}/pictalk/pros`
@@ -383,7 +380,6 @@ export default {
     },
     async submitReschedule() {
       try {
-        this.$posthog?.capture("membership-followup-reschedule-clicked");
         this.$parent.close();
         this.donationPromptShown("followup_reschedule");
       } catch (error) {
@@ -393,7 +389,6 @@ export default {
     async submitFollowup() {
       if (!this.followupAnswer) return;
       try {
-        this.$posthog?.capture(`membership-followup-${this.followupAnswer}`);
         if (this.followupAnswer === "responded" && !this.directionResponse) {
           this.currentStep = 2;
           return;
@@ -407,7 +402,6 @@ export default {
     async submitDirectionResponse() {
       if (!this.directionResponse) return;
       try {
-        this.$posthog?.capture(`membership-direction-response-${this.directionResponse}`);
         this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
@@ -417,7 +411,6 @@ export default {
     async submitNegativeFeedback() {
       try {
         this.loading = true;
-        this.$posthog?.capture("membership-direction-negative-feedback");
         this.donationPromptShown("followup_answer");
       } catch (error) {
         console.log("error", error);
@@ -427,12 +420,10 @@ export default {
       }
     },
     downloadSlides() {
-      this.$posthog?.capture("membership-followup-slides-downloaded");
       window.open(this.fileUrl, "_blank");
       this.$parent.close();
     },
     openCalendly() {
-      this.$posthog?.capture("membership-followup-calendly-clicked");
       window.open("https://calendar.app.google/3XpRac9XBXTXZxtv9", "_blank");
       this.$parent.close();
     }

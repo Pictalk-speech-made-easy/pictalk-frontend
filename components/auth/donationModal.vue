@@ -421,9 +421,6 @@ export default {
       return 'active';
     },
     abcVariant() {
-      const variant = this.$posthog.getFeatureFlag('ab_test_donation_modal');
-      if (variant === 'test') return 'B';
-      if (variant === 'experiment') return 'C';
       return 'A';
     },
     translationParams() {
@@ -543,7 +540,6 @@ export default {
     if (this.autoScrollInterval) clearInterval(this.autoScrollInterval);
   },
   async mounted() {
-    this.$posthog.capture(`donation-shown`);
     await this.getComments();
     this.startAutoScroll();
   },
@@ -584,17 +580,13 @@ export default {
       return `${amount}${this.donationArray.symbol}`;
     },
     goToStep2A() {
-      this.$posthog.capture('donation-step-support-clicked');
       this.isMonthly = true;
       this.currentStep = 2;
     },
     goToStep2B() {
-      this.$posthog.capture('donation-step-no-support-clicked');
       this.currentStep = 3;
     },
     async handleReason(reason, comment = null) {
-      this.$posthog.capture(`donation-no-support-${reason}`);
-
       if (reason === 'prefer-unique') {
         this.isMonthly = false;
         this.currentStep = 2;
@@ -630,7 +622,6 @@ export default {
     async createUniqueDonation() {
       try {
         this.loading = true;
-        this.$posthog.capture(`create-unique-donation`);
         const finalAmount = this.getFinalAmount();
         this.donationPromptShown()
         const res = await axios.post(`https://donations-api.pictalk.org/v1/donations`, {
@@ -655,7 +646,6 @@ export default {
     async createSubscription() {
       try {
         this.loading = true;
-        this.$posthog.capture(`create-monthly-donation`);
         const finalAmount = this.getFinalAmount();
         this.donationPromptShown()
         const res = await axios.post(`https://donations-api.pictalk.org/v1/subscriptions`, {
@@ -697,7 +687,6 @@ export default {
 
       try {
         this.loading = true;
-        this.$posthog.capture(`donation-not-using-${this.selectedDontUseReasons.join(',')}`);
         this.donationPromptShown();
         axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'not_using',
@@ -717,7 +706,6 @@ export default {
     },
     async handleNoMoneyClose() {
       try {
-        this.$posthog.capture('donation-no-money');
         this.donationPromptShown();
         axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'no_money'
@@ -735,7 +723,6 @@ export default {
 
       try {
         this.loading = true;
-        this.$posthog.capture('donation-other-reason');
         this.donationPromptShown();
         await axios.post(`https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`, {
           reason: 'other',

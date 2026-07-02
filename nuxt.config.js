@@ -57,7 +57,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }, { src: '@/plugins/matomo', mode: 'client' }, { src: '@/plugins/dexieDB', mode: 'client' }, { src: './plugins/posthog', mode: 'client' }],
+  plugins: ["@/plugins/baseURL", { src: '@/plugins/vuex-persistedstate', mode: 'client' }, { src: '@/plugins/matomo', mode: 'client' }, { src: '@/plugins/dexieDB', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */

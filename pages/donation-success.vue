@@ -115,12 +115,6 @@ export default {
       return;
     }
     this.session = await this.getSessionStatus(sessionId);
-
-    if (this.session && this.session.status === "complete") {
-      if (this.$posthog) {
-        this.$posthog.capture(`${this.session.donationType}-donation-completed`);
-      }
-    }
     this.loading = false;
   },
   methods: {

@@ -76,9 +76,6 @@ export default {
       return 'active';
     },
     abcVariant() {
-      const variant = this.$posthog.getFeatureFlag('ab_test_donation_modal');
-      if (variant === 'test') return 'B';
-      if (variant === 'experiment') return 'C';
       return 'A';
     },
     donationTitle() {

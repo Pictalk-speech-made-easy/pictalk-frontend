@@ -283,11 +283,6 @@ export default {
         console.log("error ", error);
       }
     }
-    this.$posthog.identify(this.$store.getters.getUser.id || 'anonymous_user', {
-      email: this.$store.getters.getUser.username,
-      locale: this.$i18n.locale,
-      isDonator: this.isDonator,
-    });
     this.initialization = false;
   },
   data() {

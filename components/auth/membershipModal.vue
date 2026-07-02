@@ -311,7 +311,6 @@ export default {
     if (this.autoScrollInterval) clearInterval(this.autoScrollInterval);
   },
   async mounted() {
-    this.$posthog?.capture("membership-modal-shown");
     await this.getComments();
     this.startAutoScroll();
   },
@@ -370,12 +369,10 @@ export default {
       this.currentStep = 99;
     },
     async handleRemindLater() {
-      this.$posthog?.capture("membership-modal-remind-later");
       this.$parent.close();
       this.donationPromptShown("reschedule");
     },
     async handleReason(reason) {
-      this.$posthog?.capture(`membership-no-support-${reason}`);
       if (reason === "not_using") { this.currentStep = 100; return; }
       if (reason === "other") { this.currentStep = 101; return; }
     },
@@ -390,7 +387,6 @@ export default {
       if (!this.selectedDontUseReasons || this.selectedDontUseReasons.length === 0) return;
       try {
         this.loading = true;
-        this.$posthog?.capture(`membership-not-using-${this.selectedDontUseReasons.join(",")}`);
         this.donationPromptShown("decline");
         await axios.post(
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`,
@@ -411,7 +407,6 @@ export default {
       if (!this.otherReasonComment || this.otherReasonComment.trim() === "") return;
       try {
         this.loading = true;
-        this.$posthog?.capture("membership-other-reason");
         this.donationPromptShown("decline");
         await axios.post(
           `https://donations-api.pictalk.org/v1/users/${this.$store.getters.getUser.username}/donation-prompt/declined`,
@@ -425,13 +420,11 @@ export default {
       }
     },
     downloadSlides() {
-      this.$posthog?.capture("membership-slides-downloaded");
       this.donationPromptShown("slides");
       window.open(this.fileUrl, "_blank");
       this.$parent.close();
     },
     openCalendly() {
-      this.$posthog?.capture("membership-calendly-clicked");
       this.donationPromptShown("meeting");
       window.open("https://calendar.app.google/3XpRac9XBXTXZxtv9", "_blank");
       this.$parent.close();
