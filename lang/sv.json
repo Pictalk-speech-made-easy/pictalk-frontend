@@ -541,5 +541,14 @@
   "confirm": "Bekräfta",
   "ExportVocabulary": "Exportera data",
   "ExportVocabularyText": "Exportera mina data i OBF-format",
-  "BannerNewVersion": "En ny förbättrad version av Pictalk är tillgänglig!"
+  "BannerNewVersion": "En ny förbättrad version av Pictalk är tillgänglig!",
+  "BuddyPromoStep": "Ny version",
+  "BuddyPromoTitle": "Ny version tillgänglig",
+  "BuddyPromoFeature1": "📚 Färdiga ordförråd",
+  "BuddyPromoFeature2": "🗣️ Högkvalitativa röster",
+  "BuddyPromoFeature3": "✏️ Autokorrigering och ordförslag",
+  "BuddyPromoFeature4": "✨ Omdesignad ergonomi",
+  "BuddyPromoFeature5": "🖨️ Skriv ut dina tavlor",
+  "BuddyPromoDownload": "Ladda ner den nya versionen",
+  "BuddyPromoContinueOldVersion": "Jag vill fortsätta med den gamla versionen"
 }

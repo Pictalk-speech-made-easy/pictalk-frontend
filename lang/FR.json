@@ -530,5 +530,14 @@
   "followup-joined-body": "Grâce à vous, Pictalk continue — et des familles et professionnels pourront continuer à compter sur lui. Les fonctionnalités pro vous seront accessibles en avant-première.",
   "followup-joined-count": "Vous rejoignez 18 établissements",
   "followup-joined-cta": "Merci — retour à l'application",
-  "confirm": "Confirmer"
+  "confirm": "Confirmer",
+  "BuddyPromoStep": "Nouvelle version",
+  "BuddyPromoTitle": "Nouvelle version disponible",
+  "BuddyPromoFeature1": "📚 Vocabulaires prêts à l'emploi",
+  "BuddyPromoFeature2": "🗣️ Voix de haute qualité",
+  "BuddyPromoFeature3": "✏️ Auto-correction et suggestions de mots",
+  "BuddyPromoFeature4": "✨ Ergonomie repensée",
+  "BuddyPromoFeature5": "🖨️ Imprimez vos tableaux",
+  "BuddyPromoDownload": "Télécharger la nouvelle version",
+  "BuddyPromoContinueOldVersion": "Je souhaite continuer avec l'ancienne version"
 }

@@ -541,5 +541,14 @@
   "confirm": "Bevestigen",
   "ExportVocabulary": "Gegevens exporteren",
   "ExportVocabularyText": "Mijn gegevens exporteren in OBF-formaat",
-  "BannerNewVersion": "Een nieuwe verbeterde versie van Pictalk is beschikbaar!"
+  "BannerNewVersion": "Een nieuwe verbeterde versie van Pictalk is beschikbaar!",
+  "BuddyPromoStep": "Nieuwe versie",
+  "BuddyPromoTitle": "Nieuwe versie beschikbaar",
+  "BuddyPromoFeature1": "📚 Kant-en-klare woordenschat",
+  "BuddyPromoFeature2": "🗣️ Stemmen van hoge kwaliteit",
+  "BuddyPromoFeature3": "✏️ Autocorrectie en woordsuggesties",
+  "BuddyPromoFeature4": "✨ Vernieuwd ergonomisch ontwerp",
+  "BuddyPromoFeature5": "🖨️ Print uw borden",
+  "BuddyPromoDownload": "Download de nieuwe versie",
+  "BuddyPromoContinueOldVersion": "Ik wil toch doorgaan met de oude versie"
 }

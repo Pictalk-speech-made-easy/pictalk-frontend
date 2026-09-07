@@ -601,5 +601,14 @@
   "confirm": "Επιβεβαίωση",
   "ExportVocabulary": "Εξαγωγή δεδομένων",
   "ExportVocabularyText": "Εξαγωγή των δεδομένων μου σε μορφή OBF",
-  "BannerNewVersion": "Μια νέα βελτιωμένη έκδοση του Pictalk είναι διαθέσιμη!"
+  "BannerNewVersion": "Μια νέα βελτιωμένη έκδοση του Pictalk είναι διαθέσιμη!",
+  "BuddyPromoStep": "Νέα έκδοση",
+  "BuddyPromoTitle": "Νέα έκδοση διαθέσιμη",
+  "BuddyPromoFeature1": "📚 Έτοιμα λεξιλόγια",
+  "BuddyPromoFeature2": "🗣️ Υψηλής ποιότητας φωνές",
+  "BuddyPromoFeature3": "✏️ Αυτόματη διόρθωση & προτάσεις λέξεων",
+  "BuddyPromoFeature4": "✨ Ανανεωμένη εργονομία",
+  "BuddyPromoFeature5": "🖨️ Εκτυπώστε τους πίνακές σας",
+  "BuddyPromoDownload": "Κατεβάστε τη νέα έκδοση",
+  "BuddyPromoContinueOldVersion": "Θέλω να συνεχίσω με την παλιά έκδοση"
 }

@@ -598,5 +598,14 @@
   "confirm": "تأكيد",
   "ExportVocabulary": "تصدير البيانات",
   "ExportVocabularyText": "تصدير بياناتي بتنسيق OBF",
-  "BannerNewVersion": "نسخة جديدة محسنة من Pictalk متاحة!"
+  "BannerNewVersion": "نسخة جديدة محسنة من Pictalk متاحة!",
+  "BuddyPromoStep": "نسخة جديدة",
+  "BuddyPromoTitle": "نسخة جديدة متاحة",
+  "BuddyPromoFeature1": "📚 مفردات جاهزة للاستخدام",
+  "BuddyPromoFeature2": "🗣️ أصوات عالية الجودة",
+  "BuddyPromoFeature3": "✏️ تصحيح تلقائي واقتراحات كلمات",
+  "BuddyPromoFeature4": "✨ تصميم مريح محسّن",
+  "BuddyPromoFeature5": "🖨️ اطبع لوحاتك",
+  "BuddyPromoDownload": "تحميل النسخة الجديدة",
+  "BuddyPromoContinueOldVersion": "أفضل المتابعة مع النسخة القديمة"
 }

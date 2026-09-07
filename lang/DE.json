@@ -541,5 +541,14 @@
   "confirm": "Bestätigen",
   "ExportVocabulary": "Vokabular exportieren",
   "ExportVocabularyText": "Meine Daten im OBF-Format exportieren",
-  "BannerNewVersion": "Eine neue verbesserte Version von Pictalk ist verfügbar!"
+  "BannerNewVersion": "Eine neue verbesserte Version von Pictalk ist verfügbar!",
+  "BuddyPromoStep": "Neue Version",
+  "BuddyPromoTitle": "Neue Version verfügbar",
+  "BuddyPromoFeature1": "📚 Sofort einsatzbereite Vokabulare",
+  "BuddyPromoFeature2": "🗣️ Hochwertige Stimmen",
+  "BuddyPromoFeature3": "✏️ Autokorrektur & Wortvorschläge",
+  "BuddyPromoFeature4": "✨ Überarbeitete Ergonomie",
+  "BuddyPromoFeature5": "🖨️ Drucken Sie Ihre Tafeln",
+  "BuddyPromoDownload": "Neue Version herunterladen",
+  "BuddyPromoContinueOldVersion": "Ich möchte trotzdem mit der alten Version fortfahren"
 }

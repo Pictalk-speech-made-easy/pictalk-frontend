@@ -541,5 +541,14 @@
   "confirm": "Vahvista",
   "ExportVocabulary": "Vie sanasto",
   "ExportVocabularyText": "Vie tietoni OBF-muodossa",
-  "BannerNewVersion": "Uusi parannettu versio Pictalkista on saatavilla!"
+  "BannerNewVersion": "Uusi parannettu versio Pictalkista on saatavilla!",
+  "BuddyPromoStep": "Uusi versio",
+  "BuddyPromoTitle": "Uusi versio saatavilla",
+  "BuddyPromoFeature1": "📚 Valmiit sanastot",
+  "BuddyPromoFeature2": "🗣️ Korkealaatuiset äänet",
+  "BuddyPromoFeature3": "✏️ Automaattinen korjaus ja sanaehdotukset",
+  "BuddyPromoFeature4": "✨ Uudistettu ergonomia",
+  "BuddyPromoFeature5": "🖨️ Tulosta taulusi",
+  "BuddyPromoDownload": "Lataa uusi versio",
+  "BuddyPromoContinueOldVersion": "Haluan jatkaa vanhalla versiolla"
 }

@@ -601,5 +601,14 @@
   "confirm": "Potvrdiť",
   "ExportVocabulary": "Exportovať údaje",
   "ExportVocabularyText": "Exportovať moje údaje vo formáte OBF",
-  "BannerNewVersion": "Je k dispozícii nová vylepšená verzia Pictalk!"
+  "BannerNewVersion": "Je k dispozícii nová vylepšená verzia Pictalk!",
+  "BuddyPromoStep": "Nová verzia",
+  "BuddyPromoTitle": "Nová verzia k dispozícii",
+  "BuddyPromoFeature1": "📚 Pripravené slovníky",
+  "BuddyPromoFeature2": "🗣️ Vysokokvalitné hlasy",
+  "BuddyPromoFeature3": "✏️ Automatická oprava a návrhy slov",
+  "BuddyPromoFeature4": "✨ Prepracovaná ergonómia",
+  "BuddyPromoFeature5": "🖨️ Vytlačte si svoje tabule",
+  "BuddyPromoDownload": "Stiahnuť novú verziu",
+  "BuddyPromoContinueOldVersion": "Chcem pokračovať so starou verziou"
 }
