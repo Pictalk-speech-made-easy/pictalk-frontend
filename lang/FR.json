@@ -539,5 +539,16 @@
   "BuddyPromoFeature4": "✨ Ergonomie repensée",
   "BuddyPromoFeature5": "🖨️ Imprimez vos tableaux",
   "BuddyPromoDownload": "Télécharger la nouvelle version",
-  "BuddyPromoContinueOldVersion": "Je souhaite continuer avec l'ancienne version"
+  "BuddyPromoContinueOldVersion": "Je souhaite continuer avec l'ancienne version",
+  "BuddyMigrationTitle": "Pictalk Buddy remplace Pictalk AAC",
+  "BuddyMigrationIntro": "D'ici la fin de l'année, Pictalk Buddy remplacera Pictalk AAC. Tout votre contenu est déjà là-bas : connectez-vous simplement avec le même compte et le même mot de passe.",
+  "BuddyMigrationPricingFamily": "Le prix ne change pas : Pictalk Buddy reste à prix libre.",
+  "BuddyMigrationBenefit1": "⚡ Communiquez plus vite grâce aux suggestions de mots",
+  "BuddyMigrationBenefit2": "🗣️ Une voix plus naturelle, de haute qualité",
+  "BuddyMigrationBenefit3": "📚 Des vocabulaires prêts à l'emploi pour commencer tout de suite",
+  "BuddyMigrationBenefit4": "✨ Plus simple à prendre en main au quotidien",
+  "BuddyMigrationBenefitPro": "🤝 Travaillez en équipe : partagez les tableaux et suivez les progrès ensemble",
+  "BuddyMigrationCTA": "Passer à Pictalk Buddy",
+  "BuddyMigrationRemindLater": "Plus tard",
+  "BuddyMigrationReassurance": "Moins d'une minute : même identifiant, rien à configurer"
 }

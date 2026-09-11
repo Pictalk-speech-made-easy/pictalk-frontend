@@ -27,6 +27,7 @@
 </template>
 <script>
 import signup from "@/components/auth/signupModal";
+import BuddyMigrationModal from "@/components/auth/buddyMigrationModal";
 export default {
   data() {
     return {
@@ -66,6 +67,15 @@ export default {
               type: "is-info",
             });
           }
+          setTimeout(() => {
+            this.$buefy.modal.open({
+              parent: this.$root,
+              component: BuddyMigrationModal,
+              hasModalCard: true,
+              trapFocus: true,
+              canCancel: ["escape", "outside"],
+            });
+          }, 500);
         }
       } catch (error) {
         if (error.response) {

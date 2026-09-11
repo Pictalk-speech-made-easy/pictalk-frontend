@@ -550,5 +550,16 @@
   "BuddyPromoFeature4": "✨ Uudistettu ergonomia",
   "BuddyPromoFeature5": "🖨️ Tulosta taulusi",
   "BuddyPromoDownload": "Lataa uusi versio",
-  "BuddyPromoContinueOldVersion": "Haluan jatkaa vanhalla versiolla"
+  "BuddyPromoContinueOldVersion": "Haluan jatkaa vanhalla versiolla",
+  "BuddyMigrationTitle": "Pictalk Buddy korvaa Pictalk AAC:n",
+  "BuddyMigrationIntro": "Vuoden loppuun mennessä Pictalk Buddy korvaa Pictalk AAC:n. Kaikki sisältö on jo siellä — kirjaudu vain sisään samalla tilillä ja salasanalla.",
+  "BuddyMigrationPricingFamily": "Hinta ei muutu: Pictalk Buddy pysyy maksa-mitä-haluat-periaatteella.",
+  "BuddyMigrationBenefit1": "⚡ Kommunikoi nopeammin sanaehdotusten avulla",
+  "BuddyMigrationBenefit2": "🗣️ Luonnollisempi, korkealaatuinen ääni",
+  "BuddyMigrationBenefit3": "📚 Valmiit sanastot, joilla pääset heti alkuun",
+  "BuddyMigrationBenefit4": "✨ Helpompi oppia yksinkertaisemman käyttöliittymän ansiosta",
+  "BuddyMigrationBenefitPro": "🤝 Toimikaa tiiminä: jakakaa tauluja ja seuratkaa edistymistä yhdessä",
+  "BuddyMigrationCTA": "Siirry Pictalk Buddyyn",
+  "BuddyMigrationRemindLater": "Muistuta myöhemmin",
+  "BuddyMigrationReassurance": "Kestää alle minuutin: sama tili, ei mitään asetettavaa"
 }

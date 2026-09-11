@@ -610,5 +610,16 @@
   "BuddyPromoFeature4": "✨ Ανανεωμένη εργονομία",
   "BuddyPromoFeature5": "🖨️ Εκτυπώστε τους πίνακές σας",
   "BuddyPromoDownload": "Κατεβάστε τη νέα έκδοση",
-  "BuddyPromoContinueOldVersion": "Θέλω να συνεχίσω με την παλιά έκδοση"
+  "BuddyPromoContinueOldVersion": "Θέλω να συνεχίσω με την παλιά έκδοση",
+  "BuddyMigrationTitle": "Το Pictalk Buddy αντικαθιστά το Pictalk AAC",
+  "BuddyMigrationIntro": "Μέχρι το τέλος του χρόνου, το Pictalk Buddy θα αντικαταστήσει το Pictalk AAC. Όλο το περιεχόμενο βρίσκεται ήδη εκεί — απλώς συνδεθείτε με τον ίδιο λογαριασμό και κωδικό πρόσβασης.",
+  "BuddyMigrationPricingFamily": "Η τιμή δεν αλλάζει: το Pictalk Buddy παραμένει με ελεύθερη τιμή (πληρώνετε όσο θέλετε).",
+  "BuddyMigrationBenefit1": "⚡ Επικοινωνήστε πιο γρήγορα χάρη στις προτάσεις λέξεων",
+  "BuddyMigrationBenefit2": "🗣️ Μια πιο φυσική φωνή, υψηλής ποιότητας",
+  "BuddyMigrationBenefit3": "📚 Έτοιμα λεξιλόγια για να ξεκινήσετε αμέσως",
+  "BuddyMigrationBenefit4": "✨ Πιο εύκολο στην εκμάθηση, με πιο απλή διεπαφή",
+  "BuddyMigrationBenefitPro": "🤝 Δουλέψτε ομαδικά: μοιραστείτε πίνακες και παρακολουθήστε την πρόοδο μαζί",
+  "BuddyMigrationCTA": "Μετάβαση στο Pictalk Buddy",
+  "BuddyMigrationRemindLater": "Υπενθύμιση αργότερα",
+  "BuddyMigrationReassurance": "Διαρκεί λιγότερο από ένα λεπτό: ίδιος λογαριασμός, τίποτα να ρυθμίσετε"
 }

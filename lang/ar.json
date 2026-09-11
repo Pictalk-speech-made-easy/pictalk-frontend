@@ -607,5 +607,16 @@
   "BuddyPromoFeature4": "✨ تصميم مريح محسّن",
   "BuddyPromoFeature5": "🖨️ اطبع لوحاتك",
   "BuddyPromoDownload": "تحميل النسخة الجديدة",
-  "BuddyPromoContinueOldVersion": "أفضل المتابعة مع النسخة القديمة"
+  "BuddyPromoContinueOldVersion": "أفضل المتابعة مع النسخة القديمة",
+  "BuddyMigrationTitle": "تطبيق Pictalk Buddy يحل محل Pictalk AAC",
+  "BuddyMigrationIntro": "بحلول نهاية العام، سيحل تطبيق Pictalk Buddy محل Pictalk AAC. كل المحتوى موجود بالفعل هناك، ما عليك سوى تسجيل الدخول بنفس الحساب وكلمة المرور.",
+  "BuddyMigrationPricingFamily": "السعر لا يتغيّر: يبقى Pictalk Buddy بسعر حر (ادفع ما تشاء).",
+  "BuddyMigrationBenefit1": "⚡ تواصل بشكل أسرع بفضل اقتراحات الكلمات",
+  "BuddyMigrationBenefit2": "🗣️ صوت أكثر طبيعية وعالي الجودة",
+  "BuddyMigrationBenefit3": "📚 مفردات جاهزة للاستخدام فورًا",
+  "BuddyMigrationBenefit4": "✨ أسهل في التعلم بفضل واجهة أبسط",
+  "BuddyMigrationBenefitPro": "🤝 اعملوا كفريق: شاركوا اللوحات وتابعوا التقدم معًا",
+  "BuddyMigrationCTA": "الانتقال إلى Pictalk Buddy",
+  "BuddyMigrationRemindLater": "ذكّرني لاحقًا",
+  "BuddyMigrationReassurance": "أقل من دقيقة: نفس الحساب، لا شيء يتطلب الإعداد"
 }

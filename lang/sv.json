@@ -550,5 +550,16 @@
   "BuddyPromoFeature4": "✨ Omdesignad ergonomi",
   "BuddyPromoFeature5": "🖨️ Skriv ut dina tavlor",
   "BuddyPromoDownload": "Ladda ner den nya versionen",
-  "BuddyPromoContinueOldVersion": "Jag vill fortsätta med den gamla versionen"
+  "BuddyPromoContinueOldVersion": "Jag vill fortsätta med den gamla versionen",
+  "BuddyMigrationTitle": "Pictalk Buddy ersätter Pictalk AAC",
+  "BuddyMigrationIntro": "Innan årets slut kommer Pictalk Buddy att ersätta Pictalk AAC. Allt innehåll finns redan där — logga bara in med samma konto och lösenord.",
+  "BuddyMigrationPricingFamily": "Priset ändras inte: Pictalk Buddy fortsätter att vara betala-vad-du-vill.",
+  "BuddyMigrationBenefit1": "⚡ Kommunicera snabbare tack vare ordförslag",
+  "BuddyMigrationBenefit2": "🗣️ En mer naturlig röst av hög kvalitet",
+  "BuddyMigrationBenefit3": "📚 Färdiga ordförråd så att du kan börja direkt",
+  "BuddyMigrationBenefit4": "✨ Enklare att lära sig tack vare ett enklare gränssnitt",
+  "BuddyMigrationBenefitPro": "🤝 Arbeta som ett team: dela tavlor och följ framstegen tillsammans",
+  "BuddyMigrationCTA": "Byt till Pictalk Buddy",
+  "BuddyMigrationRemindLater": "Påminn mig senare",
+  "BuddyMigrationReassurance": "Tar mindre än en minut: samma konto, inget att ställa in"
 }
