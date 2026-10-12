@@ -39,12 +39,12 @@
         </b-navbar-item>
       </template>
     </b-navbar>
-    <div v-if="!$route.path.includes('public')"
+    <div v-if="!$route.path.includes('public') && $route.path !== '/'"
       style="display: flex; gap: 1rem; justify-content: center; width: 100%; background-color: #f9fafb; color:#272727; padding: 0.75rem 1rem; box-shadow: 0px 0px 9px #00000050;">
       <p style="text-align: center; font-weight: 500; color: #373737;">
-        {{ $t(`Banner${Math.floor(Math.random() * 4) + 1}`) }}
+        {{ $t('BannerLegacy', { date: deadlineText }) }}
       </p>
-      <a :href="`https://www.pictalk.org/${$i18n.locale}/agenda/`"
+      <a :href="buddyPageUrl"
         style="display: flex; text-decoration: underline; align-items: center; gap: 0.5rem; font-weight: 500; color: #171717; padding: 0rem 1rem; cursor: pointer; border: none; background-color: transparent;">
         {{ $t("BannerCta") }}
         <svg xmlns="http://www.w3.org/2000/svg" style="width: 1rem; height: 1rem;"
@@ -67,11 +67,12 @@
 import lang from "@/mixins/lang";
 import navbar from "@/mixins/navbar";
 import emoji from "@/mixins/emoji";
+import buddy from "@/mixins/buddy";
 import signin from "@/components/auth/signinModal";
-import signup from "@/components/auth/signupModal";
+import signup from "@/components/auth/buddyMigrationModal";
 import Security from "@/components/auth/securityModal";
 export default {
-  mixins: [lang, emoji, navbar],
+  mixins: [lang, emoji, navbar, buddy],
   data() {
     return {
       trueValue: true,
@@ -141,9 +142,10 @@ export default {
       this.$buefy.modal.open({
         parent: this,
         component: signup,
+        props: { isNewUser: true },
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
-        canCancel: ["escape", "x"],
+        canCancel: ["escape"],
         trapFocus: true,
       });
     },

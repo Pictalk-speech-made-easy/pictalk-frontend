@@ -1,8 +1,6 @@
 <template>
   <div style="max-height: 100%; overflow-y: auto; overflow-x: hidden;">
     <div class="container" style="max-width: 100%">
-      <HeroDonation :campaign="$store.getters.getCampaign" :donationArray="$store.getters.getDonationPanel"
-        :suggestedPrompts="$store.getters.getSuggestedPrompts" />
       <p class="version">v{{ $config.clientVersion }}</p>
       <b-tabs expanded v-model="tabStep" type="is-toggle">
         <b-tab-item icon="tune">
@@ -192,16 +190,6 @@
               border-color: #f14668;
             " class="actionButtons" inverted type="is-danger" icon-left="delete" @click="removeFromSharers()" />
           <hr style="margin-top: 8px; margin-bottom: 8px" />
-          <p class="title is-4">{{ $t("AccountSupervisor") }}</p>
-          <p class="subtitle is-6">{{ $t("AccountSupervisorText") }}</p>
-          <br />
-          <div class="box">
-            <b>{{
-              "https://application.pictalk.org?directsharer=" +
-              $store.getters.getUser.username
-            }}</b>
-          </div>
-          <hr style="margin-top: 8px; margin-bottom: 8px" />
           <p class="title is-4">{{ $t("Groups") }}</p>
           <b-field style="margin-bottom: 0.15rem">
             <div class="columns is-multiline is-mobile">
@@ -266,7 +254,6 @@
   </div>
 </template>
 <script>
-import HeroDonation from "@/components/auth/heroDonation";
 import installVoice from "@/components/pictos/installVoice";
 import addGroupModal from "@/components/auth/addGroupModal";
 import deviceInfos from "@/mixins/deviceInfos";
@@ -285,7 +272,6 @@ export default {
     addGroupModal,
     Security,
     deleteAccountModal,
-    HeroDonation
   },
   computed: {
     isOfflineReady() {

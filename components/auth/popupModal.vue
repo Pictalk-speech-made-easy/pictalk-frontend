@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import signup from "@/components/auth/signupModal";
+import signup from "@/components/auth/buddyMigrationModal";
 export default {
   name: "popupModal",
   methods: {
@@ -47,10 +47,11 @@ export default {
       this.$buefy.modal.open({
         parent: this,
         component: signup,
+        props: { isNewUser: true },
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
-        canCancel: ["escape", "x"],
+        canCancel: ["escape"],
       });
     },
   },

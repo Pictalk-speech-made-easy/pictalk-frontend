@@ -51,6 +51,13 @@
       <template slot="end">
         <b-navbar-item tag="div">
           <div class="buttons b-tooltips">
+            <b-tooltip position="is-bottom" size="is-small" type="is-primary" :label="$t('DownloadPictalkBuddy')"
+              :delay="500" :triggers="['hover']">
+              <b-button type="is-primary" icon-left="cloud-download" class="customButton buddyButton"
+                :aria-label="$t('DownloadPictalkBuddy')" @click="openBuddyModal()">
+                <span class="buddyLabel">{{ $t("DownloadPictalkBuddy") }}</span>
+              </b-button>
+            </b-tooltip>
             <b-button v-if="isAdministrator()" type="is-success is-light" icon-right="poll" tag="nuxt-link"
               to="/administration/" />
             <b-tooltip position="is-bottom" multilined size="is-small" type="is-primary" :label="$t('TooltipAdmin')"
@@ -183,6 +190,8 @@ import feedbackModal from "@/components/auth/feedbackModal";
 import Security from "@/components/auth/securityModal";
 import modeModal from "@/components/navigation/modeModal.vue";
 import RestoreItemModal from "@/components/pictos/restoreItem.vue";
+import BuddyMigrationModal from "@/components/auth/buddyMigrationModal";
+import { REMIND_ON_OPEN_FROM } from "@/mixins/buddy";
 export default {
   mixins: [lang, navbar],
   components: {
@@ -251,6 +260,7 @@ export default {
     window.removeEventListener("resize", this.fitsBigger);
   },
   mounted() {
+    if (Date.now() >= REMIND_ON_OPEN_FROM && BuddyMigrationModal.isReminderDue()) this.openBuddyModal();
     this.fitsBigger();
     window.addEventListener("resize", this.fitsBigger);
     if (this.$route.path.includes("pictalk")) {
@@ -271,6 +281,10 @@ export default {
     }
   },
   watch: {
+    // Remind on leaving editor mode (task done), not on entering it (mid-task).
+    "$route.query.isAdmin": function (isAdmin, wasAdmin) {
+      if (!isAdmin && wasAdmin && BuddyMigrationModal.isReminderDue()) this.openBuddyModal();
+    },
     "$route.query.fatherCollectionId": function (newVal, oldVal) {
       if (newVal != oldVal) {
         if (!newVal) return;
@@ -438,6 +452,15 @@ export default {
         customClass: "custom-class custom-class-2",
         trapFocus: true,
         canCancel: ["escape", "x"],
+      });
+    },
+    openBuddyModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: BuddyMigrationModal,
+        hasModalCard: true,
+        trapFocus: true,
+        canCancel: ["escape"],
       });
     },
     openModeModal() {
@@ -816,6 +839,21 @@ export default {
   border: 2px solid #666;
   transition: all 0.05s;
   margin: 0 2px;
+}
+
+.buddyButton {
+  color: white;
+}
+
+/* Desktop navbar does not wrap: keep the Buddy button icon-only until there is room for its label */
+@media (min-width: 1024px) and (max-width: 1599px) {
+  .buddyLabel {
+    display: none;
+  }
+}
+
+.b-tooltips>.button {
+  margin-bottom: 0.5em;
 }
 
 .customButton:hover {

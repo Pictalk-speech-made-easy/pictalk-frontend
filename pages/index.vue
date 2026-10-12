@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :dir="dir">
     <div class="hidden-content">
       <h1>
         {{ $t('TitleCompleteKeywords') }}
@@ -8,135 +8,36 @@
         {{ $t('DescriptionSEO') }}
       </h2>
     </div>
-    <div class="container is-max-widescreen" style="padding-top: 2rem; padding-bottom: 2rem; max-width: 768px;">
-      <h2 style="font-size: 3.5rem; line-height: 0.95; font-weight: 500; padding: 0.5rem; margin-bottom: 1rem;">{{
-        $t('PictalkAAC') }}
-      </h2>
-    </div>
-    <div class="container is-max-widescreen" style="max-width: 768px; padding-bottom: 4rem;">
-      <b-carousel :pause-info="false" :progress="false" :indicator="false" indicator-position="is-top"
-        :arrow-hover="false" animated="fade" :interval="15000" :autoplay="carouselAutoplay">
-        <b-carousel-item class="containing">
-          <div class="slightly-rounded placeholder" :style="`aspect-ratio: 16/9; background-image: url(${require('@/assets/Usages2.png').placeholder
-            })`">
-            <img class="slightly-rounded" loading="lazy" :srcset="require('@/assets/Usages2.png').srcSet"
-              alt="screenshots of the Pictalk application running on different devices" />
-          </div>
-          <section class="centeredBottomLeftText">
-            <div class="has-text-centered">
-              <div class="title is-3 isPictalkColor">{{ $t('CreateDemo') }}</div>
-            </div>
-          </section>
-          <section class="centeredBottomText">
-            <div class="has-text-centered">
-              <div class="title is-3 isPictalkColor">{{ $t('TalkDemo') }}</div>
-            </div>
-          </section>
-          <section class="centeredBottomRightText">
-            <div style="white-space: nowrap;" class="title is-4 isPictalkColor">{{ $t('CommunicateDemo') }}</div>
-          </section>
-        </b-carousel-item>
-
-        <b-carousel-item class="containing">
-          <div class="slightly-rounded placeholder" :style="`aspect-ratio: 16/9; background-image: url(${require('@/assets/agenda_pictalk.png').placeholder
-            })`">
-            <a :href="`https://www.pictalk.org/${getUserLang}/agenda`">
-              <img class="slightly-rounded" loading="lazy" :srcset="require('@/assets/agenda_pictalk.png').srcSet"
-                alt="screenshots of the Pictalk application running on different devices" /></a>
-          </div>
-          <section style="max-width: 80%;" class="centeredBottomText">
-            <div class="has-text-centered">
-              <div class="title is-1 isPictalkColor">{{ $t('AgendaCAA') }}</div>
-            </div>
-          </section>
-        </b-carousel-item>
-        <b-carousel-item v-show="this.getUserLang == 'fr'" class="containing">
-          <video id="pictalk-video" preload="none" style="aspect-ratio: 16/9; width: 100%; height: 99.1%;"
-            alt="video of Alex talking about pictalk" :src="require('@/static/pictalk.mp4')" controls muted
-            :poster="require('@/assets/pictalk-video-poster.webp')" class="slightly-rounded"></video>
-        </b-carousel-item>
-      </b-carousel>
-    </div>
-    <div style="max-width: 768px;" class="container is-max-widescreen">
-      <div class="columns is-vcentered">
-        <div class="column">
-          <b-button @click="openSignUpModal" class="is-success is-large is-fullwidth">
-            {{ $t('SignUp') }}
-          </b-button>
-        </div>
-        <div class="column">
-          <b-button v-if="isAndroidDevice || isAppleDevice" class="is-large is-fullwidth">
-            <a v-if="isAndroidDevice" href="https://play.google.com/store/apps/details?id=org.pictalk.www.twa">
-              <div class="columns is-vcentered is-mobile">
-                <p class="column">
-                  {{ $t('DownloadApp') }}
-                </p>
-                <div class="column is-one-quarter" style="align-items: center;">
-                  <b-image class="center" lazy :srcset="require('@/assets/PlayStoreLogo.png').srcSet"
-                    alt="Logo of the Apple store" style="aspect-ratio: 1/1; max-height: 2rem;"></b-image>
-                </div>
-              </div>
-            </a>
-            <a v-else href="https://apps.apple.com/us/app/pictalk-aac/id1617860868">
-              <div class="columns is-vcentered is-mobile">
-                <p class="column">
-                  {{ $t('DownloadApp') }}
-                </p>
-                <div class="column is-one-quarter" style="align-items: center;">
-                  <b-image class="center" lazy :srcset="require('@/assets/AppleStoreLogo.png').srcSet"
-                    alt="Logo of the Apple store" style="aspect-ratio: 1/1; max-height: 2rem;"></b-image>
-                </div>
-              </div>
-            </a>
-          </b-button>
-          <b-button v-else @click="openSignInModal()" class="is-primary is-large is-fullwidth">
-            {{ $t("LogIn") }}
-          </b-button>
-        </div>
-
-      </div>
-    </div>
-    <section>
-      <div style="max-width: 768px;" class="container">
-        <div class=" columns is-centered" style="padding-top: 4rem; margin-bottom: 8rem;">
-          <div class="column">
-            <div class="is-size-5 notification" align="justify">
-              <b-image style="aspect-ratio: 16/9" lazy
-                alt="Image showing two people talking. One with Pictalk, the other by talking"
-                :srcset="require('@/assets/IRL.png').srcSet" :placeholder="require('@/assets/IRL.png').placeholder" />
-              {{ $t('Communicate_IRL') }}
-            </div>
-          </div>
-          <div class="column">
-            <div class="is-size-5 notification" align="justify">
-              <b-image style="aspect-ratio: 10/12; width: 60%;" class="center" lazy
-                alt="Sample image of a copied sentence" :srcset="require('@/assets/whatsapp.png').srcSet"
-                :placeholder="require('@/assets/whatsapp.png').placeholder"></b-image>
-              {{ $t('Communicate_Messages') }}
-            </div>
-          </div>
-        </div>
-      </div>
+    <section class="container legacy-home" style="max-width: 768px;">
+      <h2 class="legacy-title">{{ $t('HomeLegacyTitle') }}</h2>
+      <p class="legacy-deadline">
+        {{ $t('BuddyStepAccountDesc') }}. <br>
+        {{ $t('BuddyDeadline', { date: deadlineText }) }}
+      </p>
+      <img class="legacy-image" :srcset="require('@/assets/pictalk_buddy.webp').srcSet"
+        sizes="(max-width: 768px) 100vw, 768px" alt="" />
+      <buddy-cta />
+      <ul class="legacy-points">
+        <li>{{ $t('BuddyStepAccountDesc') }}</li>
+        <li>{{ $t('HomeLegacyPoint3') }}</li>
+        <li>{{ $t('BuddyStepSignIn') }}</li>
+      </ul>
+      <nuxt-link v-if="$store.getters.isAuthenticated" class="legacy-continue" :to="pictalkHome">
+        {{ $t('HomeLegacyContinue', { date: deadlineText }) }}
+      </nuxt-link>
     </section>
-
   </div>
 </template>
 <script>
-import signin from "@/components/auth/signinModal";
 import axios from "axios";
-import signup from "@/components/auth/signupModal";
-import deviceInfos from "@/mixins/deviceInfos";
-import lang from "@/mixins/lang";
+import signup from "@/components/auth/buddyMigrationModal";
+import BuddyCta from "@/components/auth/buddyCta";
+import buddy from "@/mixins/buddy";
 export default {
-  mixins: [deviceInfos, lang],
+  mixins: [buddy],
   components: {
     signup,
-  },
-  data() {
-    return {
-      carouselAutoplay: true,
-      ended: false,
-    };
+    BuddyCta,
   },
   async created() {
     if (this.directSharerUrlEncoded) {
@@ -180,59 +81,16 @@ export default {
       }
     }
   },
-  mounted() {
-    if (this.getUserLang == "fr") {
-      const video = document.getElementById("pictalk-video");
-      if (video) {
-        video.addEventListener("ended", () => {
-          this.carouselAutoplay = true;
-          this.ended = true;
-        });
-        video.addEventListener("play", () => {
-          this.carouselAutoplay = false;
-        });
-        video.addEventListener("pause", () => {
-          this.carouselAutoplay = true;
-        });
-        let observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.intersectionRatio !== 1) {
-                video.pause();
-                this.carouselAutoplay = true;
-              } else {
-                if (this.ended == false) {
-                  video.play();
-                  this.carouselAutoplay = false;
-                }
-              }
-            });
-          },
-          { threshold: 0.2 }
-        );
-        observer.observe(video);
-      }
-    }
-  },
   methods: {
-    openSignInModal() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: signin,
-        hasModalCard: true,
-        customClass: "custom-class custom-class-2",
-        trapFocus: true,
-        canCancel: ["escape", "x"],
-      });
-    },
     openSignUpModal() {
       this.$buefy.modal.open({
         parent: this,
         component: signup,
+        props: { isNewUser: true },
         hasModalCard: true,
         customClass: "custom-class custom-class-2",
         trapFocus: true,
-        canCancel: ["escape", "x"],
+        canCancel: ["escape"],
       });
     },
   },
@@ -240,142 +98,82 @@ export default {
     directSharerUrlEncoded() {
       return this.$route.query.directsharer;
     },
+    pictalkHome() {
+      const rootId = this.$store.getters.getRootId;
+      return rootId ? "/pictalk/?fatherCollectionId=" + rootId : "/pictalk/";
+    },
     validationTokenUrlEncoded() {
       return this.$route.query.validate;
-    },
-    isAppleDevice() {
-      return (
-        this.getOSInfo() == "Mac/iOS" ||
-        this.getOSInfo() == "iPad" ||
-        this.getOSInfo() == "iPhone"
-      );
-    },
-    isAndroidDevice() {
-      return this.getOSInfo() == "Android" || this.getOSInfo() == "Linux";
     },
   },
 };
 </script>
 <style scoped>
-.subcard-img {
-  border-radius: 12px;
-  aspect-ratio: 83 / 27;
-  max-height: 20vh;
-  object-fit: cover;
-}
-
-.bg-dotted {
-  background-image: radial-gradient(#00000020 2px, transparent 0);
-  background-size: 60px 60px;
-  background-position: -20px -20px;
-}
-
-.signup-button {
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.soontobe {
-  background: repeating-linear-gradient(60deg,
-      white,
-      white 35px,
-      #ff5757 35px,
-      #ff5757 70px);
-  min-height: 100%;
-}
-
-.box {
-  padding: 0px;
-}
-
-.usage-text {
-  margin-top: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.feature-text {
-  padding: 3px;
-  text-align: center;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-@media screen and (min-width: 768px) {
-  .feature-text {
-    font-size: 1rem;
-  }
-}
-
-.containing {
-  position: relative;
-  text-align: center;
-}
-
-.centeredBottomText {
-  position: absolute;
-  bottom: 0%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.centeredBottomLeftText {
-  position: absolute;
-  bottom: 0%;
-  left: 15%;
-  transform: translate(-50%, -50%);
-}
-
-.centeredBottomRightText {
-  position: absolute;
-  bottom: 0%;
-  left: 85%;
-  transform: translate(-50%, -50%);
-}
-
-.centeredBottomLeftTextAndBitRight {
-  position: absolute;
-  top: 80%;
-  left: 22%;
-  transform: translate(-50%, -50%);
-}
-
-.isPictalkColor {
-  color: #ff5757;
-  font-size: 1.5em;
-  background-color: #f5f5f5;
-  border-radius: 6px;
-  padding: 0.15em;
-}
-
-.notification {
-  color: #4a4a4a;
-  background-color: #edf1f5;
-  border-radius: 12px;
-}
-
-.bg-icons {
-  background-color: #edf1f5;
-  border-radius: 12px;
-  padding: 0.3em;
-  border: solid 1px #00000020;
-}
-
-.centerIcon {
-  text-shadow: #00000070 2px 2px 3px;
-  -webkit-text-stroke: 1px #00000070;
-  text-align: center;
-  font-size: clamp(3.5rem, 10vw, 5rem);
-}
-
 .hidden-content {
   display: none;
 }
 
-.placeholder {
-  background-size: cover;
-  background-position: center;
+.legacy-home {
+  padding: 2rem 1rem 6rem;
+}
+
+.legacy-title {
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  line-height: 1.05;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+/* #c62828: brand red darkened for WCAG AA, same as the migration modal */
+.legacy-deadline {
+  font-style: italic;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #c62828;
+
+}
+
+.legacy-transferred {
+  color: #257a52;
+}
+
+.legacy-deadline svg {
+  vertical-align: -0.15em;
+  margin-inline-end: 0.25rem;
+}
+
+.legacy-image {
+  display: block;
+  max-height: 420px;
+  width: auto;
+  max-width: 100%;
+  margin: 1.5rem 0;
+}
+
+.legacy-points {
+  list-style: none;
+  margin: 2rem 0 0;
+  font-size: 1.1rem;
+}
+
+.legacy-points li {
+  position: relative;
+  padding-inline-start: 2rem;
+  margin-bottom: 0.6rem;
+}
+
+.legacy-points li::before {
+  content: "✓";
+  position: absolute;
+  inset-inline-start: 0;
+  color: #257a52;
+  font-weight: 700;
+}
+
+.legacy-continue {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #595959;
+  text-decoration: underline;
 }
 </style>

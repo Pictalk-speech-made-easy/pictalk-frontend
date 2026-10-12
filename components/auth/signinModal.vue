@@ -28,6 +28,7 @@
 <script>
 import signup from "@/components/auth/signupModal";
 import BuddyMigrationModal from "@/components/auth/buddyMigrationModal";
+import { REMIND_ON_OPEN_FROM } from "@/mixins/buddy";
 export default {
   data() {
     return {
@@ -67,13 +68,14 @@ export default {
               type: "is-info",
             });
           }
-          setTimeout(() => {
+          // From REMIND_ON_OPEN_FROM, the pictalk navbar opens it on mount instead (avoids a double popup).
+          if (Date.now() < REMIND_ON_OPEN_FROM) setTimeout(() => {
             this.$buefy.modal.open({
               parent: this.$root,
               component: BuddyMigrationModal,
               hasModalCard: true,
               trapFocus: true,
-              canCancel: ["escape", "outside"],
+              canCancel: ["escape"],
             });
           }, 500);
         }

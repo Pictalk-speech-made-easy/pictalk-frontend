@@ -9,28 +9,6 @@
         <div class="container">
           <b-steps v-model="activeStep" rounded animated :has-navigation="false" mobile-mode="compact"
             label-position="bottom">
-            <b-step-item clickable :label="$t('BuddyPromoStep')" icon="star">
-              <h2 class="title is-4 has-text-centered">{{ $t('BuddyPromoTitle') }}</h2>
-              <div class="buddy-content">
-                <a :href="buddyStoreUrl" target="_blank" rel="noopener noreferrer" class="buddy-screenshot">
-                  <img :src="require('@/assets/pictalk_buddy.webp')" alt="Pictalk Buddy screenshot" />
-                </a>
-                <p class="is-size-5 notification buddy-features-card">
-                <ol style="list-style-type: inherit; margin-left: 5%;">
-                  <li>{{ $t('BuddyPromoFeature1') }}</li>
-                  <li>{{ $t('BuddyPromoFeature2') }}</li>
-                  <li>{{ $t('BuddyPromoFeature3') }}</li>
-                  <li>{{ $t('BuddyPromoFeature4') }}</li>
-                  <li>{{ $t('BuddyPromoFeature5') }}</li>
-                </ol>
-                </p>
-              </div>
-              <a :href="buddyStoreUrl" target="_blank" rel="noopener noreferrer">
-                <b-button type="is-primary" class="fullWidth" icon-right="download">
-                  {{ $t('BuddyPromoDownload') }}
-                </b-button>
-              </a>
-            </b-step-item>
             <b-step-item clickable :label="$t('Account')" icon="account-key">
               <div class="contenant">
                 <b-image class="center" lazy :srcset="require('@/assets/credentials.png').srcSet"
@@ -244,7 +222,7 @@ export default {
       if (this.hasNextedPage1) {
         return
       }
-      if (this.passwordConfirmation == this.password && this.password.length >= 8 && this.username && this.activeStep == 1) {
+      if (this.passwordConfirmation == this.password && this.password.length >= 8 && this.username && this.activeStep == 0) {
         this.nextStep();
         this.hasNextedPage1 = true;
       }
@@ -280,7 +258,7 @@ export default {
       showLanguages: false,
       activeStep: 0,
       notSignedUp: true,
-      maxStep: 4,
+      maxStep: 3,
       verificationToken: "",
       verificationLoading: false,
       signupLoading: false,
@@ -303,13 +281,11 @@ export default {
   computed: {
     isFormValid() {
       if (this.activeStep == 0) {
-        return true;
-      } else if (this.activeStep == 1) {
         return this.passwordConfirmation == this.password && this.password.length >= 8 && this.username && this.$refs.email.checkHtml5Validity() && this.$refs.password.checkHtml5Validity()
       }
-      else if (this.activeStep == 2) {
+      else if (this.activeStep == 1) {
         return this.voiceURI
-      } else if (this.activeStep == 3) {
+      } else if (this.activeStep == 2) {
         return true;
       } else {
         return false;
@@ -325,19 +301,12 @@ export default {
       console.log(Array.isArray(this.$route.query.directsharer));
       return Array.isArray(this.$route.query.directsharer);
     },
-    buddyStoreUrl() {
-      const os = this.getOSInfo();
-      if (os == "Mac/iOS" || os == "iPad" || os == "iPhone") {
-        return "https://apps.apple.com/fr/app/agenda-caa/id6502835578";
-      }
-      return "https://play.google.com/store/apps/details?id=org.pictime.application.twa";
-    },
   },
   async created() {
     if (this.recoverCode) {
       this.notSignedUp = false;
-      this.maxStep = 5;
-      this.activeStep = 5;
+      this.maxStep = 4;
+      this.activeStep = 4;
       this.username = this.credentials.username;
       this.password = this.credentials.password;
     }
@@ -499,8 +468,8 @@ export default {
             });
           }
           this.notSignedUp = false;
-          this.maxStep = 5;
-          this.activeStep = 5;
+          this.maxStep = 4;
+          this.activeStep = 4;
         }
         this.signupLoading = false;
       } catch (error) {
@@ -669,45 +638,5 @@ export default {
   -webkit-box-shadow: 0px 0px 10px 3px #ff5757;
   -moz-box-shadow: 0px 0px 10px 3px #ff5757;
   box-shadow: 0px 0px 10px 3px #ff5757;
-}
-
-.buddy-content {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.buddy-screenshot {
-  flex: 0 0 45%;
-  max-width: 45%;
-}
-
-.buddy-screenshot img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.buddy-features-card {
-  flex: 1;
-  margin-bottom: 1rem !important;
-}
-
-.buddy-continue-old {
-  font-size: 0.85rem !important;
-  text-decoration: underline;
-  color: #888 !important;
-}
-
-@media screen and (max-width: 480px) {
-  .buddy-content {
-    flex-direction: column;
-  }
-
-  .buddy-screenshot {
-    flex: none;
-    max-width: 70%;
-    margin: 0 auto;
-  }
 }
 </style>
