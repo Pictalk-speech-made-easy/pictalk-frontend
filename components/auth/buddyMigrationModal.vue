@@ -18,6 +18,7 @@
       <div class="buddy-hero" :class="{ 'is-compact': !isNewUser }">
         <img class="buddy-screenshot" :srcset="require('@/assets/pictalk_buddy.webp').srcSet" sizes="200px" alt="" />
         <div class="buddy-hero-text">
+          <p v-if="editLocked || continueEditing" class="buddy-lead buddy-edit-gate">{{ $t(editLocked ? 'BuddyEditLocked' : 'BuddyEditSoon', { date: editLockedText }) }}</p>
           <p v-if="!isNewUser" class="buddy-lead">{{ $t('BuddyReadyIntro') }}</p>
           <div class="buddy-stats">
             <div>
@@ -65,8 +66,11 @@
       <a v-if="isNewUser" :href="buddyPageUrl" target="_blank"
         rel="noopener noreferrer">{{ $t('BannerCta') }}</a>
       <b-button v-else type="is-text" @click="openInfo">{{ $t('BuddyWhySwitch') }}</b-button>
-      <b-button type="is-text" @click="$parent.close()">
-        {{ $t(isNewUser ? 'Close' : 'BuddyMigrationRemindLater') }}
+      <b-button v-if="continueEditing" type="is-text" @click="$parent.close(); continueEditing()">
+        {{ $t('BuddyContinueEditing') }}
+      </b-button>
+      <b-button v-else type="is-text" @click="$parent.close()">
+        {{ $t(isNewUser || editLocked ? 'Close' : 'BuddyMigrationRemindLater') }}
       </b-button>
     </footer>
   </div>
@@ -91,6 +95,9 @@ export default {
   mixins: [buddy],
   props: {
     isNewUser: { type: Boolean, default: false },
+    // Opened from the Editor button: editLocked = hard gate; continueEditing = soft gate's way through.
+    editLocked: { type: Boolean, default: false },
+    continueEditing: { type: Function, default: null },
   },
   mounted() {
     if (this.isNewUser) return;
@@ -150,6 +157,10 @@ export default {
 .buddy-lead {
   font-size: 1.05rem;
   margin-bottom: 0.5rem;
+}
+
+.buddy-edit-gate {
+  font-weight: 600;
 }
 
 .buddy-deadline {

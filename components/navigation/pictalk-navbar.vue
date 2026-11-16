@@ -191,7 +191,7 @@ import Security from "@/components/auth/securityModal";
 import modeModal from "@/components/navigation/modeModal.vue";
 import RestoreItemModal from "@/components/pictos/restoreItem.vue";
 import BuddyMigrationModal from "@/components/auth/buddyMigrationModal";
-import { REMIND_ON_OPEN_FROM } from "@/mixins/buddy";
+import { REMIND_ON_OPEN_FROM, EDIT_LOCKED_FROM } from "@/mixins/buddy";
 export default {
   mixins: [lang, navbar],
   components: {
@@ -487,24 +487,22 @@ export default {
           query: { ...this.$route.query, isAdmin: undefined },
         });
       } else {
-        if (this.$store.getters.getUser.settings.securityMode) {
-          this.goToAdminWithEnforced({
-            path: this.$route.path,
-            query: {
-              ...this.$route.query,
-              isAdmin: true,
-            },
-          });
-        } else {
-          this.$router.push({
-            path: this.$route.path,
-            query: {
-              ...this.$route.query,
-              isAdmin: true,
-            },
-          });
-        }
+        // Edit gate: the Buddy modal first. Soft until EDIT_LOCKED_FROM ("continue editing here"), then hard.
+        const editLocked = Date.now() >= EDIT_LOCKED_FROM;
+        this.$buefy.modal.open({
+          parent: this,
+          component: BuddyMigrationModal,
+          hasModalCard: true,
+          trapFocus: true,
+          canCancel: ["escape"],
+          props: { editLocked, continueEditing: editLocked ? null : this.enterEditor },
+        });
       }
+    },
+    enterEditor() {
+      const path = { path: this.$route.path, query: { ...this.$route.query, isAdmin: true } };
+      if (this.$store.getters.getUser.settings.securityMode) this.goToAdminWithEnforced(path);
+      else this.$router.push(path);
     },
     goToAdminWithEnforced(path) {
       let cb = function (t) {

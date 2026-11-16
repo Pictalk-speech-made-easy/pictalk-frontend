@@ -4,6 +4,8 @@ import deviceInfos from "@/mixins/deviceInfos";
 export const DEADLINE = new Date(2026, 11, 31);
 // From this date the migration popup also shows on app open (subject to the reminder cadence).
 export const REMIND_ON_OPEN_FROM = new Date(2026, 10, 15);
+// From this date Editor mode is closed in Pictalk; the Editor button only points to Pictalk Buddy.
+export const EDIT_LOCKED_FROM = new Date(2026, 11, 1);
 // Locales that have a pictalk.org/{locale}/buddy/ page; the others fall back to English.
 const BUDDY_PAGE_LOCALES = ["en", "fr", "de", "es", "it", "pt", "fi", "nl"];
 
@@ -40,7 +42,15 @@ export default {
       return this.$i18n.locale === "ar" ? "rtl" : "ltr";
     },
     deadlineText() {
-      return DEADLINE.toLocaleDateString(this.$i18n.locale, { day: "numeric", month: "long", year: "numeric" }).replace(/ /g, " ");
+      return this.buddyDate(DEADLINE);
+    },
+    editLockedText() {
+      return this.buddyDate(EDIT_LOCKED_FROM);
+    },
+  },
+  methods: {
+    buddyDate(date) {
+      return date.toLocaleDateString(this.$i18n.locale, { day: "numeric", month: "long", year: "numeric" }).replace(/ /g, "\u00a0");
     },
   },
 };
